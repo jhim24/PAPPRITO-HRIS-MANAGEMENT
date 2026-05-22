@@ -673,6 +673,88 @@ loading.style.display =
 }
 
 /* =========================
+LOGIN
+========================= */
+
+window.login =
+async function(){
+
+let role =
+document.getElementById('role').value;
+
+let username =
+document.getElementById('email')
+.value
+.trim();
+
+let password =
+document.getElementById('password')
+.value
+.trim();
+
+if(
+role === '' ||
+username === '' ||
+password === ''
+){
+
+alert('Complete all fields');
+
+return;
+
+}
+
+loading.style.display = 'block';
+
+/* =========================
+ADMIN LOGIN
+========================= */
+
+if(role === 'admin'){
+
+try{
+
+await signInWithEmailAndPassword(
+
+auth,
+username,
+password
+
+);
+
+localStorage.setItem(
+'userRole',
+'admin'
+);
+
+localStorage.setItem(
+'loggedInUser',
+username
+);
+
+if(remember.checked){
+
+localStorage.setItem(
+'rememberUser',
+username
+);
+
+}
+
+window.location.href =
+'index.html';
+
+}catch(error){
+
+alert(error.message);
+
+loading.style.display = 'none';
+
+}
+
+}
+
+/* =========================
 EMPLOYEE LOGIN
 ========================= */
 
@@ -688,19 +770,21 @@ collection(db,'employees')
 
 let found = false;
 
-querySnapshot.forEach(doc=>{
+querySnapshot.forEach(docSnap=>{
 
-let user = doc.data();
+let emp = docSnap.data();
 
 if(
 
-(user.employeeid || '')
+(emp.employeeid || '')
+.toString()
 .toUpperCase()
 .trim()
 
 ===
 
 username
+.toString()
 .toUpperCase()
 .trim()
 
@@ -709,18 +793,19 @@ username
 found = true;
 
 localStorage.setItem(
-
-'loggedInUser',
-
-(user.employeeid || '')
-.toUpperCase()
-.trim()
-
+'userRole',
+'employee'
 );
 
 localStorage.setItem(
-'userRole',
-role
+
+'loggedInUser',
+
+(emp.employeeid || '')
+.toString()
+.toUpperCase()
+.trim()
+
 );
 
 if(remember.checked){
@@ -739,8 +824,7 @@ window.location.href =
 
 });
 
-loading.style.display =
-'none';
+loading.style.display = 'none';
 
 if(!found){
 
@@ -754,41 +838,7 @@ alert(
 
 console.log(error);
 
-loading.style.display =
-'none';
-
-alert(
-'Firebase Error'
-);
-
-}
-
-}
-
-window.location.href =
-'employeeportal.html';
-
-}
-
-});
-
-loading.style.display =
-'none';
-
-if(!found){
-
-alert(
-'Invalid Employee Login'
-);
-
-}
-
-}catch(error){
-
-console.log(error);
-
-loading.style.display =
-'none';
+loading.style.display = 'none';
 
 alert(
 'Firebase Error'
@@ -799,7 +849,6 @@ alert(
 }
 
 }
-
 /* =========================
 REMEMBER USER
 ========================= */
