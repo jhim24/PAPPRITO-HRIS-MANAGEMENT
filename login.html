@@ -765,28 +765,32 @@ try{
 let querySnapshot =
 
 await getDocs(
-collection(db,'employees')
+collection(db,'users')
 );
 
 let found = false;
 
-querySnapshot.forEach(docSnap=>{
+querySnapshot.forEach(doc=>{
 
-let emp = docSnap.data();
+let user = doc.data();
 
 if(
 
-(emp.employeeid || '')
-.toString()
+user.role === 'employee' &&
+
+(user.username || '')
 .toUpperCase()
 .trim()
 
 ===
 
 username
-.toString()
 .toUpperCase()
 .trim()
+
+&&
+
+user.password === password
 
 ){
 
@@ -801,7 +805,7 @@ localStorage.setItem(
 
 localStorage.setItem(
 'loggedInUser',
-emp.employeeid
+username
 );
 
 /* REMEMBER */
@@ -829,7 +833,7 @@ loading.style.display='none';
 if(!found){
 
 alert(
-'Invalid Employee ID'
+'Invalid Employee Login'
 );
 
 }
