@@ -1387,7 +1387,7 @@ if(
 .toUpperCase()
 .trim()
 
-)
+){
 
 found = true;
 
@@ -1395,6 +1395,77 @@ payslipArea.style.display='block';
 
 payEmpId.innerText =
 pay.empid || '';
+
+payEmp.innerText =
+pay.employee || '';
+
+payDate.innerText =
+pay.date || '';
+
+payDailyRate.innerText =
+Number(pay.dailyrate || 0)
+.toFixed(2);
+
+payTotalDays.innerText =
+Number(pay.totaldays || 0);
+
+payOvertime.innerText =
+Number(pay.overtime || 0)
+.toFixed(2);
+
+payHoliday.innerText =
+Number(pay.holiday || 0)
+.toFixed(2);
+
+paySick.innerText =
+Number(pay.sick || 0)
+.toFixed(2);
+
+payVacation.innerText =
+Number(pay.vacation || 0)
+.toFixed(2);
+
+payBirthday.innerText =
+Number(pay.birthday || 0)
+.toFixed(2);
+
+payAllowance.innerText =
+Number(pay.allowance || 0)
+.toFixed(2);
+
+payGross.innerText =
+Number(pay.gross || 0)
+.toFixed(2);
+
+paySSS.innerText =
+Number(pay.sss || 0)
+.toFixed(2);
+
+payPhilhealth.innerText =
+Number(pay.philhealth || 0)
+.toFixed(2);
+
+payPagibig.innerText =
+Number(pay.pagibig || 0)
+.toFixed(2);
+
+payHealth.innerText =
+Number(pay.health || 0)
+.toFixed(2);
+
+payOther.innerText =
+Number(pay.other || 0)
+.toFixed(2);
+
+payDeduction.innerText =
+Number(pay.deductions || 0)
+.toFixed(2);
+
+payNet.innerText =
+Number(pay.net || 0)
+.toFixed(2);
+
+}
 
 payEmp.innerText =
 pay.employee || '';
