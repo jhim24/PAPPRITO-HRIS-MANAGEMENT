@@ -5,9 +5,7 @@
 <title>HR SYSTEM LOGIN</title>
 
 <link rel="manifest" href="/manifest.json">
-
 <link rel="icon" href="/logo.png">
-
 <link rel="apple-touch-icon" href="/icon-192.png">
 
 <meta name="theme-color" content="#ffcc00">
@@ -51,8 +49,6 @@ background-repeat:no-repeat;
 
 overflow:hidden;
 }
-
-/* ADD THIS EXACTLY HERE */
 
 body::before{
 
@@ -99,6 +95,7 @@ color:white;
 
 animation:fadeIn 0.5s ease;
 }
+
 /* LOGO */
 
 .logo-box{
@@ -146,6 +143,7 @@ text-shadow:2px 2px 5px black;
 
 letter-spacing:2px;
 }
+
 /* TITLE */
 
 .title{
@@ -338,12 +336,10 @@ transform:translateY(0);
 @media(max-width:768px){
 
 .login-box{
-
 padding:20px;
 }
 
 .title{
-
 font-size:28px;
 }
 
@@ -422,9 +418,7 @@ type="checkbox"
 id="remember">
 
 <label for="remember">
-
 Remember Me
-
 </label>
 
 </div>
@@ -460,33 +454,24 @@ FIREBASE IMPORT
 ========================= */
 
 import {
-
 initializeApp
-
 }
-
 from
 "https://www.gstatic.com/firebasejs/12.13.0/firebase-app.js";
 
 import {
-
 getAuth,
 signInWithEmailAndPassword,
 onAuthStateChanged
-
 }
-
 from
 "https://www.gstatic.com/firebasejs/12.13.0/firebase-auth.js";
 
 import {
-
 getFirestore,
 collection,
 getDocs
-
 }
-
 from
 "https://www.gstatic.com/firebasejs/12.13.0/firebase-firestore.js";
 
@@ -581,101 +566,6 @@ pass.type = 'password';
 LOGIN
 ========================= */
 
-window.login =
-async function(){
-
-let role =
-
-document.getElementById(
-'role'
-).value;
-
-let username =
-
-document.getElementById(
-'email'
-).value.trim();
-
-let password =
-
-document.getElementById(
-'password'
-).value.trim();
-
-if(
-role === '' ||
-username === '' ||
-password === ''
-){
-
-alert(
-'Complete all fields'
-);
-
-return;
-
-}
-
-loading.style.display =
-'block';
-
-/* =========================
-ADMIN LOGIN
-========================= */
-
-if(role === 'admin'){
-
-try{
-
-await signInWithEmailAndPassword(
-
-auth,
-username,
-password
-
-);
-
-localStorage.setItem(
-'userRole',
-role
-);
-
-localStorage.setItem(
-'loggedInUser',
-username
-);
-
-if(
-remember.checked
-){
-
-localStorage.setItem(
-'rememberUser',
-username
-);
-
-}
-
-window.location.href =
-'index.html';
-
-}catch(error){
-
-alert(
-error.message
-);
-
-loading.style.display =
-'none';
-
-}
-
-}
-
-/* =========================
-LOGIN
-========================= */
-
 window.login = async function(){
 
 let role =
@@ -745,7 +635,7 @@ window.location.href =
 
 alert(error.message);
 
-loading.style.display = 'none';
+loading.style.display='none';
 
 }
 
@@ -787,7 +677,7 @@ username
 
 &&
 
-user.password === password
+(user.password || '') === password
 
 ){
 
@@ -819,7 +709,7 @@ window.location.href =
 
 });
 
-loading.style.display = 'none';
+loading.style.display='none';
 
 if(!found){
 
@@ -833,17 +723,16 @@ alert(
 
 console.log(error);
 
-loading.style.display = 'none';
+alert('Firebase Error');
 
-alert(
-'Firebase Error'
-);
+loading.style.display='none';
 
 }
 
 }
 
 }
+
 /* =========================
 REMEMBER USER
 ========================= */
