@@ -792,21 +792,19 @@ username
 
 found = true;
 
+/* SAVE LOGIN */
+
 localStorage.setItem(
 'userRole',
 'employee'
 );
 
 localStorage.setItem(
-
 'loggedInUser',
-
-(emp.employeeid || '')
-.toString()
-.toUpperCase()
-.trim()
-
+emp.employeeid
 );
+
+/* REMEMBER */
 
 if(remember.checked){
 
@@ -817,6 +815,8 @@ username
 
 }
 
+/* REDIRECT */
+
 window.location.href =
 'employeeportal.html';
 
@@ -824,7 +824,7 @@ window.location.href =
 
 });
 
-loading.style.display = 'none';
+loading.style.display='none';
 
 if(!found){
 
@@ -838,13 +838,11 @@ alert(
 
 console.log(error);
 
-loading.style.display = 'none';
+loading.style.display='none';
 
 alert(
 'Firebase Error'
 );
-
-}
 
 }
 
