@@ -938,40 +938,55 @@ localStorage.getItem(
 ) || '';
 
 let currentEmployee = null;
+  
+if(!currentUser){
 
+window.location.href =
+'login.html';
+
+}
 let editId = null;
 
 /* LOAD EMPLOYEE */
 
 async function loadEmployee(){
 
+try{
+
 let querySnapshot =
+
 await getDocs(
 collection(db,'employees')
 );
+
+currentUser =
+(currentUser || '')
+.toString()
+.toUpperCase()
+.trim();
 
 querySnapshot.forEach(docSnap=>{
 
 let emp = docSnap.data();
 
+let empId =
+
+(emp.employeeid || '')
+.toString()
+.toUpperCase()
+.trim();
+
 let fullname =
 
-(emp.firstname || '') + ' ' +
+(emp.firstname || '') +
+' ' +
 (emp.lastname || '');
 
-if(
-
-(emp.employeeid || '') === currentUser ||
-
-(emp.email || '') === currentUser ||
-
-(emp.username || '') === currentUser
-
-){
+if(empId === currentUser){
 
 currentEmployee = {
 
-id: emp.employeeid,
+id: emp.employeeid || '',
 name: fullname
 
 };
@@ -993,7 +1008,20 @@ loadRequests();
 }else{
 
 alert(
-'Employee account not found'
+'Employee account not found in masterlist'
+);
+
+window.location.href =
+'login.html';
+
+}
+
+}catch(error){
+
+console.log(error);
+
+alert(
+'Failed to load employee'
 );
 
 }
@@ -1205,7 +1233,21 @@ let req = docSnap.data();
 
 let id = docSnap.id;
 
-if(req.empid === currentEmployee.id){
+if(
+
+(req.empid || '')
+.toString()
+.toUpperCase()
+.trim()
+
+===
+
+(currentEmployee.id || '')
+.toString()
+.toUpperCase()
+.trim()
+
+){
 
 let statusClass =
 (req.status || '')
@@ -1332,9 +1374,20 @@ querySnapshot.forEach(docSnap=>{
 let pay = docSnap.data();
 
 if(
-pay.empid ===
-currentEmployee.id
-){
+
+(pay.empid || '')
+.toString()
+.toUpperCase()
+.trim()
+
+===
+
+(currentEmployee.id || '')
+.toString()
+.toUpperCase()
+.trim()
+
+)
 
 found = true;
 
