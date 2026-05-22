@@ -683,7 +683,7 @@ try{
 let querySnapshot =
 
 await getDocs(
-collection(db,'users')
+collection(db,'employees')
 );
 
 let found = false;
@@ -694,12 +694,19 @@ let user = doc.data();
 
 if(
 
-user.role === 'employee' &&
+if(
 
-user.username === username &&
+(user.employeeid || '')
+.toUpperCase()
+.trim()
 
-user.password === password
+===
 
+username
+.toUpperCase()
+.trim()
+
+)
 ){
 
 found = true;
