@@ -988,7 +988,15 @@ email:data[15] || '',
 currentaddress:data[16] || '',
 permanentaddress:data[17] || '',
 
-employeeid:data[18] || '',
+employeeid:
+(data[18] || '')
+.toUpperCase()
+.trim(),
+
+username:
+(data[18] || '')
+.toUpperCase()
+.trim(),
 position:data[19] || '',
 department:data[20] || '',
 employment:data[21] || '',
