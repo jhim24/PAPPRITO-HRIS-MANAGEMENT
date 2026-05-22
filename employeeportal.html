@@ -731,6 +731,36 @@ PRINT PAYSLIP
 
 </div>
 
+  <!-- ATTENDANCE REQUEST TABLE -->
+
+<div class="table-wrapper">
+
+<table>
+
+<thead>
+
+<tr>
+
+<th>EMPLOYEE ID</th>
+<th>EMPLOYEE</th>
+<th>ATTENDANCE REQUEST</th>
+<th>DATE</th>
+<th>TIME</th>
+<th>REASON</th>
+<th>STATUS</th>
+
+</tr>
+
+</thead>
+
+<tbody id="attendanceBody">
+
+</tbody>
+
+</table>
+
+</div>
+  
 <!-- PAYSLIP -->
 
 <div
@@ -1004,6 +1034,7 @@ empNameDisplay.innerText =
 currentEmployee.name;
 
 loadRequests();
+loadAttendanceRequests();
 
 }else{
 
@@ -1193,7 +1224,7 @@ Date.now()
 alert(
 'Attendance Request Submitted'
 );
-
+loadAttendanceRequests();
 /* CLEAR */
 
 attendanceType.value='';
@@ -1308,7 +1339,82 @@ DELETE
 });
 
 }
+/* LOAD ATTENDANCE REQUESTS */
 
+async function loadAttendanceRequests(){
+
+attendanceBody.innerHTML='';
+
+try{
+
+let querySnapshot =
+
+await getDocs(
+
+collection(db,'attendanceRequests')
+
+);
+
+querySnapshot.forEach(docSnap=>{
+
+let req = docSnap.data();
+
+if(
+
+(req.employeeid || '')
+.toString()
+.toUpperCase()
+.trim()
+
+===
+
+(currentEmployee.id || '')
+.toString()
+.toUpperCase()
+.trim()
+
+){
+
+let statusClass =
+
+(req.status || '')
+.toLowerCase();
+
+attendanceBody.innerHTML += `
+
+<tr>
+
+<td>${req.employeeid}</td>
+
+<td>${req.employee}</td>
+
+<td>${req.requesttype}</td>
+
+<td>${req.date}</td>
+
+<td>${req.time}</td>
+
+<td>${req.reason}</td>
+
+<td class="${statusClass}">
+${req.status}
+</td>
+
+</tr>
+
+`;
+
+}
+
+});
+
+}catch(error){
+
+console.log(error);
+
+}
+
+}
 /* EDIT */
 
 window.editRequest =
