@@ -1188,11 +1188,15 @@ alert(
 /* LOAD REQUESTS */
 
 async function loadRequests(){
+
 requestBody.innerHTML='';
 
 let querySnapshot =
+
 await getDocs(
-collection(db,'employees')
+
+collection(db,'employeeRequests')
+
 );
 
 querySnapshot.forEach(docSnap=>{
