@@ -694,8 +694,6 @@ let user = doc.data();
 
 if(
 
-if(
-
 (user.employeeid || '')
 .toUpperCase()
 .trim()
@@ -706,14 +704,18 @@ username
 .toUpperCase()
 .trim()
 
-)
 ){
 
 found = true;
 
 localStorage.setItem(
+
 'loggedInUser',
-username
+
+(user.employeeid || '')
+.toUpperCase()
+.trim()
+
 );
 
 localStorage.setItem(
@@ -721,14 +723,45 @@ localStorage.setItem(
 role
 );
 
-if(
-remember.checked
-){
+if(remember.checked){
 
 localStorage.setItem(
 'rememberUser',
 username
 );
+
+}
+
+window.location.href =
+'employeeportal.html';
+
+}
+
+});
+
+loading.style.display =
+'none';
+
+if(!found){
+
+alert(
+'Invalid Employee ID'
+);
+
+}
+
+}catch(error){
+
+console.log(error);
+
+loading.style.display =
+'none';
+
+alert(
+'Firebase Error'
+);
+
+}
 
 }
 
