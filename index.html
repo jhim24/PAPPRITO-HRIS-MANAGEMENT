@@ -693,6 +693,38 @@ DATE
 
 <script type="module">
 
+ /* =========================
+LOGIN PROTECTION
+========================= */
+
+const loggedInUser =
+localStorage.getItem(
+'loggedInUser'
+);
+
+const userRole =
+localStorage.getItem(
+'userRole'
+);
+
+/* WALANG LOGIN */
+
+if(!loggedInUser){
+
+window.location.href =
+'login.html';
+
+}
+
+/* HINDI ADMIN */
+
+if(userRole !== 'admin'){
+
+window.location.href =
+'login.html';
+
+} 
+
 /* =========================
 FIREBASE
 ========================= */
