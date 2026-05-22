@@ -748,7 +748,7 @@ PRINT PAYSLIP
 <th>TIME</th>
 <th>REASON</th>
 <th>STATUS</th>
-
+<th>ACTION</th>
 </tr>
 
 </thead>
@@ -976,7 +976,7 @@ window.location.href =
 
 }
 let editId = null;
-
+let attendanceEditId = null;
 /* LOAD EMPLOYEE */
 
 async function loadEmployee(){
@@ -1187,6 +1187,42 @@ return;
 
 try{
 
+if(attendanceEditId){
+
+await updateDoc(
+
+doc(
+db,
+'attendanceRequests',
+attendanceEditId
+),
+
+{
+
+requesttype:
+attendanceType.value,
+
+date:
+attendanceDate.value,
+
+time:
+attendanceTime.value,
+
+reason:
+attendanceReason.value
+
+}
+
+);
+
+alert(
+'Attendance Request Updated'
+);
+
+attendanceEditId = null;
+
+}else{
+
 await addDoc(
 
 collection(db,'attendanceRequests'),
@@ -1220,6 +1256,12 @@ Date.now()
 }
 
 );
+
+alert(
+'Attendance Request Submitted'
+);
+
+}
 
 alert(
 'Attendance Request Submitted'
@@ -1400,6 +1442,34 @@ attendanceBody.innerHTML += `
 ${req.status}
 </td>
 
+<td>
+
+<button
+class="btn edit-btn"
+onclick="editAttendanceRequest(
+'${docSnap.id}',
+'${req.requesttype}',
+'${req.date}',
+'${req.time}',
+'${req.reason}'
+)">
+
+EDIT
+
+</button>
+
+<button
+class="btn delete-btn"
+onclick="deleteAttendanceRequest(
+'${docSnap.id}'
+)">
+
+DELETE
+
+</button>
+
+</td>
+
 </tr>
 
 `;
@@ -1415,6 +1485,49 @@ console.log(error);
 }
 
 }
+ /* EDIT ATTENDANCE */
+
+window.editAttendanceRequest =
+function(id,type,date,time,reasonText){
+
+attendanceEditId = id;
+
+attendanceType.value = type;
+
+attendanceDate.value = date;
+
+attendanceTime.value = time;
+
+attendanceReason.value = reasonText;
+
+window.scrollTo({
+
+top:0,
+
+behavior:'smooth'
+
+});
+
+}
+
+/* DELETE ATTENDANCE */
+
+window.deleteAttendanceRequest =
+async function(id){
+
+if(confirm('Delete Attendance Request?')){
+
+await deleteDoc(
+
+doc(db,'attendanceRequests',id)
+
+);
+
+loadAttendanceRequests();
+
+}
+
+} 
 /* EDIT */
 
 window.editRequest =
