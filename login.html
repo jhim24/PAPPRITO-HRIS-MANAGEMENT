@@ -676,8 +676,7 @@ loading.style.display =
 LOGIN
 ========================= */
 
-window.login =
-async function(){
+window.login = async function(){
 
 let role =
 document.getElementById('role').value;
@@ -715,11 +714,9 @@ if(role === 'admin'){
 try{
 
 await signInWithEmailAndPassword(
-
 auth,
 username,
 password
-
 );
 
 localStorage.setItem(
@@ -770,9 +767,9 @@ collection(db,'users')
 
 let found = false;
 
-querySnapshot.forEach(doc=>{
+querySnapshot.forEach(docSnap=>{
 
-let user = doc.data();
+let user = docSnap.data();
 
 if(
 
@@ -796,8 +793,6 @@ user.password === password
 
 found = true;
 
-/* SAVE LOGIN */
-
 localStorage.setItem(
 'userRole',
 'employee'
@@ -808,8 +803,6 @@ localStorage.setItem(
 username
 );
 
-/* REMEMBER */
-
 if(remember.checked){
 
 localStorage.setItem(
@@ -819,8 +812,6 @@ username
 
 }
 
-/* REDIRECT */
-
 window.location.href =
 'employeeportal.html';
 
@@ -828,7 +819,7 @@ window.location.href =
 
 });
 
-loading.style.display='none';
+loading.style.display = 'none';
 
 if(!found){
 
@@ -842,11 +833,13 @@ alert(
 
 console.log(error);
 
-loading.style.display='none';
+loading.style.display = 'none';
 
 alert(
 'Firebase Error'
 );
+
+}
 
 }
 
