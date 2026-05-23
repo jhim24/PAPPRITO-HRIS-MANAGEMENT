@@ -56,7 +56,7 @@ color:#ffcc00;
 text-shadow:2px 2px 5px black;
 }
 
-/* BUTTONS */
+/* BUTTON */
 
 button{
 
@@ -89,6 +89,20 @@ transform:translateY(-2px);
 
 filter:brightness(1.1);
 
+}
+
+.edit-btn{
+
+background:#0099cc;
+
+color:white;
+}
+
+.delete-btn{
+
+background:#cc0000;
+
+color:white;
 }
 
 /* FORM */
@@ -161,7 +175,7 @@ width:100%;
 
 border-collapse:collapse;
 
-min-width:2000px;
+min-width:2200px;
 }
 
 th,
@@ -202,12 +216,10 @@ background:#3a3a3a;
 @media(max-width:768px){
 
 .grid{
-
 grid-template-columns:1fr;
 }
 
 h1{
-
 font-size:22px;
 }
 
@@ -333,18 +345,12 @@ readonly>
 
 <br>
 
-<button
-onclick="computePayroll()">
-
+<button onclick="computePayroll()">
 🧮 COMPUTE PAYROLL
-
 </button>
 
-<button
-onclick="savePayroll()">
-
+<button onclick="savePayroll()">
 💾 SAVE PAYROLL
-
 </button>
 
 </div>
@@ -374,6 +380,8 @@ onclick="savePayroll()">
 <th>HEALTH CARD</th>
 <th>OTHERS</th>
 <th>NET PAY</th>
+<th>DATE</th>
+<th>ACTION</th>
 
 </tr>
 
@@ -403,7 +411,10 @@ import {
 getFirestore,
 collection,
 getDocs,
-addDoc
+addDoc,
+deleteDoc,
+updateDoc,
+doc
 
 }
 
@@ -439,6 +450,8 @@ initializeApp(firebaseConfig);
 
 const db =
 getFirestore(app);
+
+let editId = null;
 
 /* LOAD EMPLOYEES */
 
@@ -502,19 +515,29 @@ window.computePayroll =
 function(){
 
 let rate =
-Number(salaryRate.value || 0);
+Number(
+salaryRate.value || 0
+);
 
 let hours =
-Number(totalHours.value || 0);
+Number(
+totalHours.value || 0
+);
 
 let overtime =
-Number(overtimeHours.value || 0);
+Number(
+overtimeHours.value || 0
+);
 
-let holidayHours =
-Number(holidayHours.value || 0);
+let holidayHoursValue =
+Number(
+holidayHours.value || 0
+);
 
-let nightHours =
-Number(nightHours.value || 0);
+let nightHoursValue =
+Number(
+nightHours.value || 0
+);
 
 /* BASIC */
 
@@ -533,21 +556,21 @@ let holidayPay = 0;
 if(holidayType.value === 'regular'){
 
 holidayPay =
-holidayHours * (rate * 2);
+holidayHoursValue * (rate * 2);
 
 }
 
 if(holidayType.value === 'special'){
 
 holidayPay =
-holidayHours * (rate * 1.30);
+holidayHoursValue * (rate * 1.30);
 
 }
 
 /* NIGHT DIFF */
 
 let nightPay =
-nightHours * (rate * 0.10);
+nightHoursValue * (rate * 0.10);
 
 /* GROSS */
 
@@ -574,7 +597,8 @@ Number(others.value || 0);
 
 /* NET */
 
-let net = gross - deductions;
+let net =
+gross - deductions;
 
 /* DISPLAY */
 
@@ -586,7 +610,7 @@ net.toFixed(2);
 
 }
 
-/* SAVE PAYROLL */
+/* SAVE */
 
 window.savePayroll =
 async function(){
@@ -601,11 +625,7 @@ return;
 
 try{
 
-await addDoc(
-
-collection(db,'payroll'),
-
-{
+let payrollData = {
 
 empid:
 employeeId.value,
@@ -649,33 +669,43 @@ healthcard.value,
 other:
 others.value,
 
-deductions:
-
-(
-Number(sss.value || 0) +
-
-Number(philhealth.value || 0) +
-
-Number(pagibig.value || 0) +
-
-Number(healthcard.value || 0) +
-
-Number(others.value || 0)
-
-).toFixed(2),
-
 net:
 netSalary.value,
 
 date:
-new Date()
-.toLocaleDateString()
+new Date().toLocaleDateString()
 
-}
+};
+
+if(editId){
+
+await updateDoc(
+
+doc(db,'payroll',editId),
+
+payrollData
+
+);
+
+alert('Payroll Updated');
+
+editId = null;
+
+}else{
+
+await addDoc(
+
+collection(db,'payroll'),
+
+payrollData
 
 );
 
 alert('Payroll Saved');
+
+}
+
+clearForm();
 
 loadPayroll();
 
@@ -699,7 +729,7 @@ document.querySelector(
 '#payrollTable tbody'
 );
 
-tbody.innerHTML = '';
+tbody.innerHTML='';
 
 let querySnapshot =
 
@@ -745,6 +775,45 @@ tbody.innerHTML += `
 
 <td>${pay.net || 0}</td>
 
+<td>${pay.date || ''}</td>
+
+<td>
+
+<button
+class="edit-btn"
+onclick="editPayroll(
+'${docSnap.id}',
+'${pay.empid}',
+'${pay.employee}',
+'${pay.dailyrate}',
+'${pay.totaldays}',
+'${pay.overtime}',
+'${pay.holidaytype}',
+'${pay.holiday}',
+'${pay.nightdiff}',
+'${pay.sss}',
+'${pay.philhealth}',
+'${pay.pagibig}',
+'${pay.health}',
+'${pay.other}'
+)">
+
+EDIT
+
+</button>
+
+<button
+class="delete-btn"
+onclick="deletePayroll(
+'${docSnap.id}'
+)">
+
+DELETE
+
+</button>
+
+</td>
+
 </tr>
 
 `;
@@ -754,6 +823,137 @@ tbody.innerHTML += `
 }
 
 loadPayroll();
+
+/* EDIT */
+
+window.editPayroll =
+function(
+
+id,
+empid,
+employee,
+rate,
+hours,
+ot,
+holiday,
+holidayhrs,
+night,
+sssval,
+phil,
+pagibigval,
+health,
+other
+
+){
+
+editId = id;
+
+employeeId.value = empid;
+
+employeeName.value = employee;
+
+salaryRate.value = rate;
+
+totalHours.value = hours;
+
+overtimeHours.value = ot;
+
+holidayType.value = holiday;
+
+holidayHours.value = holidayhrs;
+
+nightHours.value = night;
+
+sss.value = sssval;
+
+philhealth.value = phil;
+
+pagibig.value = pagibigval;
+
+healthcard.value = health;
+
+others.value = other;
+
+computePayroll();
+
+window.scrollTo({
+
+top:0,
+
+behavior:'smooth'
+
+});
+
+}
+
+/* DELETE */
+
+window.deletePayroll =
+async function(id){
+
+let confirmDelete =
+
+confirm('Delete Payroll?');
+
+if(!confirmDelete) return;
+
+try{
+
+await deleteDoc(
+
+doc(db,'payroll',id)
+
+);
+
+alert('Payroll Deleted');
+
+loadPayroll();
+
+}catch(error){
+
+console.log(error);
+
+alert('Delete Error');
+
+}
+
+}
+
+/* CLEAR */
+
+function clearForm(){
+
+employeeName.value='';
+
+employeeId.value='';
+
+salaryRate.value='';
+
+totalHours.value='';
+
+overtimeHours.value='';
+
+holidayType.value='none';
+
+holidayHours.value='';
+
+nightHours.value='';
+
+sss.value='';
+
+philhealth.value='';
+
+pagibig.value='';
+
+healthcard.value='';
+
+others.value='';
+
+grossSalary.value='';
+
+netSalary.value='';
+
+}
 
 </script>
 
