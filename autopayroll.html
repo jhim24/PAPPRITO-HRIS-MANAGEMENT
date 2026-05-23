@@ -1,12 +1,17 @@
 <!DOCTYPE html>
 <html>
 <head>
+
+<title>AUTO PAYROLL SYSTEM</title>
+
 <link rel="manifest" href="manifest.json">
 
 <meta name="theme-color" content="#ffcc00">
 
 <link rel="apple-touch-icon" href="icon-192.png">
-<title>Auto Payroll</title>
+
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0">
 
 <style>
 
@@ -150,30 +155,13 @@ overflow:auto;
 height:60vh;
 }
 
-.table-box::-webkit-scrollbar{
-
-height:12px;
-width:12px;
-}
-
-.table-box::-webkit-scrollbar-thumb{
-
-background:#ffcc00;
-border-radius:10px;
-}
-
-.table-box::-webkit-scrollbar-track{
-
-background:#333;
-}
-
 table{
 
 width:100%;
 
 border-collapse:collapse;
 
-min-width:1500px;
+min-width:2000px;
 }
 
 th,
@@ -184,6 +172,8 @@ border:1px solid #555;
 padding:8px;
 
 white-space:nowrap;
+
+text-align:center;
 }
 
 th{
@@ -207,6 +197,22 @@ tr:hover{
 background:#3a3a3a;
 }
 
+/* MOBILE */
+
+@media(max-width:768px){
+
+.grid{
+
+grid-template-columns:1fr;
+}
+
+h1{
+
+font-size:22px;
+}
+
+}
+
 </style>
 
 </head>
@@ -216,7 +222,7 @@ background:#3a3a3a;
 <div class="top-bar">
 
 <h1>
-🤖 Auto Payroll
+🤖 AUTO PAYROLL SYSTEM
 </h1>
 
 <button
@@ -243,6 +249,11 @@ Select Employee
 </select>
 
 <input
+id="employeeId"
+placeholder="Employee ID"
+readonly>
+
+<input
 id="salaryRate"
 type="number"
 placeholder="Hourly Rate">
@@ -250,12 +261,38 @@ placeholder="Hourly Rate">
 <input
 id="totalHours"
 type="number"
-placeholder="Total Hours">
+placeholder="Regular Hours">
 
 <input
 id="overtimeHours"
 type="number"
 placeholder="Overtime Hours">
+
+<select id="holidayType">
+
+<option value="none">
+No Holiday
+</option>
+
+<option value="regular">
+Regular Holiday
+</option>
+
+<option value="special">
+Special Holiday
+</option>
+
+</select>
+
+<input
+id="holidayHours"
+type="number"
+placeholder="Holiday Hours">
+
+<input
+id="nightHours"
+type="number"
+placeholder="Night Differential Hours">
 
 <input
 id="sss"
@@ -299,14 +336,14 @@ readonly>
 <button
 onclick="computePayroll()">
 
-🧮 Compute Payroll
+🧮 COMPUTE PAYROLL
 
 </button>
 
 <button
 onclick="savePayroll()">
 
-💾 Save Payroll
+💾 SAVE PAYROLL
 
 </button>
 
@@ -322,80 +359,147 @@ onclick="savePayroll()">
 
 <tr>
 
-<th>Employee</th>
-<th>Hours</th>
-<th>OT</th>
-<th>Rate</th>
-<th>Gross</th>
+<th>EMPLOYEE ID</th>
+<th>EMPLOYEE</th>
+<th>RATE</th>
+<th>REG HOURS</th>
+<th>OT HOURS</th>
+<th>HOLIDAY</th>
+<th>HOLIDAY HOURS</th>
+<th>NIGHT DIFF</th>
+<th>GROSS</th>
 <th>SSS</th>
-<th>PhilHealth</th>
-<th>Pag-IBIG</th>
-<th>Health Card</th>
-<th>Others</th>
-<th>Net Salary</th>
+<th>PHILHEALTH</th>
+<th>PAGIBIG</th>
+<th>HEALTH CARD</th>
+<th>OTHERS</th>
+<th>NET PAY</th>
 
 </tr>
 
 </thead>
 
-<tbody></tbody>
+<tbody>
+
+</tbody>
 
 </table>
 
 </div>
 
-<script>
+<script type="module">
 
-/* STORAGE */
+import {
 
-let payrolls =
+initializeApp
 
-JSON.parse(
-localStorage.getItem('autopayroll')
-) || [];
+}
+
+from
+"https://www.gstatic.com/firebasejs/12.13.0/firebase-app.js";
+
+import {
+
+getFirestore,
+collection,
+getDocs,
+addDoc
+
+}
+
+from
+"https://www.gstatic.com/firebasejs/12.13.0/firebase-firestore.js";
+
+/* FIREBASE */
+
+const firebaseConfig = {
+
+apiKey:
+"AIzaSyAehoq0teVYHiJ4bkKOgBqIgJZrQpce3k8",
+
+authDomain:
+"hr-system-38fc3.firebaseapp.com",
+
+projectId:
+"hr-system-38fc3",
+
+storageBucket:
+"hr-system-38fc3.firebasestorage.app",
+
+messagingSenderId:
+"615471610834",
+
+appId:
+"1:615471610834:web:a0d671d4e3f4c1b57b660b"
+
+};
+
+const app =
+initializeApp(firebaseConfig);
+
+const db =
+getFirestore(app);
 
 /* LOAD EMPLOYEES */
 
-function loadEmployees(){
+async function loadEmployees(){
 
-let employees =
+let querySnapshot =
 
-JSON.parse(
-localStorage.getItem('employees')
-) || [];
-
-let select =
-
-document.getElementById(
-'employeeName'
+await getDocs(
+collection(db,'employees')
 );
 
-employees.forEach(emp=>{
+querySnapshot.forEach(docSnap=>{
 
-let option =
-document.createElement('option');
+let emp = docSnap.data();
 
-option.value =
+let fullname =
 
-(emp[0] || '') +
+(emp.firstname || '') +
 ' ' +
-(emp[2] || '');
+(emp.lastname || '');
 
-option.textContent =
+employeeName.innerHTML += `
 
-(emp[0] || '') +
-' ' +
-(emp[2] || '');
+<option
+value="${fullname}"
+data-id="${emp.employeeid || ''}">
 
-select.appendChild(option);
+${emp.employeeid || ''} - ${fullname}
+
+</option>
+
+`;
 
 });
 
 }
 
+loadEmployees();
+
+/* AUTO EMPLOYEE ID */
+
+employeeName.addEventListener(
+'change',
+function(){
+
+let selected =
+
+this.options[
+this.selectedIndex
+];
+
+employeeId.value =
+selected.dataset.id || '';
+
+}
+);
+
 /* COMPUTE */
 
-function computePayroll(){
+window.computePayroll =
+function(){
 
 let rate =
 Number(salaryRate.value || 0);
@@ -406,38 +510,69 @@ Number(totalHours.value || 0);
 let overtime =
 Number(overtimeHours.value || 0);
 
-let sssDed =
-Number(sss.value || 0);
+let holidayHours =
+Number(holidayHours.value || 0);
 
-let philDed =
-Number(philhealth.value || 0);
+let nightHours =
+Number(nightHours.value || 0);
 
-let pagibigDed =
-Number(pagibig.value || 0);
+/* BASIC */
 
-let healthDed =
-Number(healthcard.value || 0);
+let basicPay =
+hours * rate;
 
-let otherDed =
-Number(others.value || 0);
-
-/* COMPUTE */
+/* OT */
 
 let overtimePay =
-overtime * rate;
+overtime * (rate * 1.25);
+
+/* HOLIDAY */
+
+let holidayPay = 0;
+
+if(holidayType.value === 'regular'){
+
+holidayPay =
+holidayHours * (rate * 2);
+
+}
+
+if(holidayType.value === 'special'){
+
+holidayPay =
+holidayHours * (rate * 1.30);
+
+}
+
+/* NIGHT DIFF */
+
+let nightPay =
+nightHours * (rate * 0.10);
+
+/* GROSS */
 
 let gross =
 
-(hours * rate) +
-overtimePay;
+basicPay +
+overtimePay +
+holidayPay +
+nightPay;
+
+/* DEDUCTIONS */
 
 let deductions =
 
-sssDed +
-philDed +
-pagibigDed +
-healthDed +
-otherDed;
+Number(sss.value || 0) +
+
+Number(philhealth.value || 0) +
+
+Number(pagibig.value || 0) +
+
+Number(healthcard.value || 0) +
+
+Number(others.value || 0);
+
+/* NET */
 
 let net = gross - deductions;
 
@@ -451,23 +586,50 @@ net.toFixed(2);
 
 }
 
-/* SAVE */
+/* SAVE PAYROLL */
 
-function savePayroll(){
+window.savePayroll =
+async function(){
 
-let payroll = {
+if(employeeName.value === ''){
+
+alert('Select Employee');
+
+return;
+
+}
+
+try{
+
+await addDoc(
+
+collection(db,'payroll'),
+
+{
+
+empid:
+employeeId.value,
 
 employee:
 employeeName.value,
 
-hours:
+dailyrate:
+salaryRate.value,
+
+totaldays:
 totalHours.value,
 
-ot:
+overtime:
 overtimeHours.value,
 
-rate:
-salaryRate.value,
+holidaytype:
+holidayType.value,
+
+holiday:
+holidayHours.value,
+
+nightdiff:
+nightHours.value,
 
 gross:
 grossSalary.value,
@@ -481,64 +643,107 @@ philhealth.value,
 pagibig:
 pagibig.value,
 
-healthcard:
+health:
 healthcard.value,
 
-others:
+other:
 others.value,
 
+deductions:
+
+(
+Number(sss.value || 0) +
+
+Number(philhealth.value || 0) +
+
+Number(pagibig.value || 0) +
+
+Number(healthcard.value || 0) +
+
+Number(others.value || 0)
+
+).toFixed(2),
+
 net:
-netSalary.value
+netSalary.value,
 
-};
-
-payrolls.push(payroll);
-
-localStorage.setItem(
-
-'autopayroll',
-
-JSON.stringify(payrolls)
-
-);
-
-renderPayroll();
-
-alert(
-'Payroll Saved'
-);
+date:
+new Date()
+.toLocaleDateString()
 
 }
 
-/* RENDER */
+);
 
-function renderPayroll(){
+alert('Payroll Saved');
 
-let table =
+loadPayroll();
+
+}catch(error){
+
+console.log(error);
+
+alert('Save Error');
+
+}
+
+}
+
+/* LOAD PAYROLL */
+
+async function loadPayroll(){
+
+let tbody =
 
 document.querySelector(
 '#payrollTable tbody'
 );
 
-table.innerHTML='';
+tbody.innerHTML = '';
 
-payrolls.forEach(pay=>{
+let querySnapshot =
 
-table.innerHTML += `
+await getDocs(
+collection(db,'payroll')
+);
+
+querySnapshot.forEach(docSnap=>{
+
+let pay = docSnap.data();
+
+tbody.innerHTML += `
 
 <tr>
 
-<td>${pay.employee}</td>
-<td>${pay.hours}</td>
-<td>${pay.ot}</td>
-<td>${pay.rate}</td>
-<td>${pay.gross}</td>
-<td>${pay.sss}</td>
-<td>${pay.philhealth}</td>
-<td>${pay.pagibig}</td>
-<td>${pay.healthcard}</td>
-<td>${pay.others}</td>
-<td>${pay.net}</td>
+<td>${pay.empid || ''}</td>
+
+<td>${pay.employee || ''}</td>
+
+<td>${pay.dailyrate || 0}</td>
+
+<td>${pay.totaldays || 0}</td>
+
+<td>${pay.overtime || 0}</td>
+
+<td>${pay.holidaytype || ''}</td>
+
+<td>${pay.holiday || 0}</td>
+
+<td>${pay.nightdiff || 0}</td>
+
+<td>${pay.gross || 0}</td>
+
+<td>${pay.sss || 0}</td>
+
+<td>${pay.philhealth || 0}</td>
+
+<td>${pay.pagibig || 0}</td>
+
+<td>${pay.health || 0}</td>
+
+<td>${pay.other || 0}</td>
+
+<td>${pay.net || 0}</td>
 
 </tr>
 
@@ -548,11 +753,7 @@ table.innerHTML += `
 
 }
 
-/* AUTO LOAD */
-
-loadEmployees();
-
-renderPayroll();
+loadPayroll();
 
 </script>
 
