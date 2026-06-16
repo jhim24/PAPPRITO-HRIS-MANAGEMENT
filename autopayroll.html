@@ -586,7 +586,8 @@ holidayPay =
 holidayHoursValue * (rate * 1.30);
 
 }
-
+window.lastHolidayPay =
+holidayPay;
 /* NIGHT DIFF */
 
 let nightPay =
@@ -668,6 +669,10 @@ holidayType.value,
 holiday:
 holidayHours.value,
 
+holidaypay:
+(window.lastHolidayPay || 0)
+.toFixed(2),
+
 nightdiff:
 nightHours.value,
 
@@ -688,6 +693,17 @@ healthcard.value,
 
 other:
 others.value,
+
+deductions:
+
+(
+Number(sss.value || 0) +
+Number(philhealth.value || 0) +
+Number(pagibig.value || 0) +
+Number(healthcard.value || 0) +
+Number(others.value || 0)
+
+).toFixed(2),
 
 net:
 netSalary.value,
