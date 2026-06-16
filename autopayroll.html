@@ -356,7 +356,27 @@ readonly>
 </div>
 
 <!-- TABLE -->
+  
+<br>
 
+<input
+type="date"
+id="filterDate">
+
+<button
+onclick="filterPayroll()">
+
+🔍 FILTER DATE
+
+</button>
+
+<button
+onclick="loadPayroll()">
+
+📋 SHOW ALL
+
+</button>
+  
 <div class="table-box">
 
 <table id="payrollTable">
@@ -673,7 +693,9 @@ net:
 netSalary.value,
 
 date:
-new Date().toLocaleDateString()
+new Date()
+.toISOString()
+.split('T')[0]
 
 };
 
@@ -954,7 +976,166 @@ grossSalary.value='';
 netSalary.value='';
 
 }
+/* FILTER PAYROLL */
 
+window.filterPayroll =
+async function(){
+
+let selectedDate =
+
+document.getElementById(
+'filterDate'
+).value;
+
+if(selectedDate === ''){
+
+alert(
+'Select Date First'
+);
+
+return;
+
+}
+
+let tbody =
+
+document.querySelector(
+'#payrollTable tbody'
+);
+
+tbody.innerHTML = '';
+
+try{
+
+let querySnapshot =
+
+await getDocs(
+collection(db,'payroll')
+);
+
+let found = false;
+
+querySnapshot.forEach(docSnap=>{
+
+let pay = docSnap.data();
+
+/* DATE MATCH */
+
+if(pay.date === selectedDate){
+
+found = true;
+
+tbody.innerHTML += `
+
+<tr>
+
+<td>${pay.empid || ''}</td>
+
+<td>${pay.employee || ''}</td>
+
+<td>${pay.dailyrate || 0}</td>
+
+<td>${pay.totaldays || 0}</td>
+
+<td>${pay.overtime || 0}</td>
+
+<td>${pay.holidaytype || ''}</td>
+
+<td>${pay.holiday || 0}</td>
+
+<td>${pay.nightdiff || 0}</td>
+
+<td>${pay.gross || 0}</td>
+
+<td>${pay.sss || 0}</td>
+
+<td>${pay.philhealth || 0}</td>
+
+<td>${pay.pagibig || 0}</td>
+
+<td>${pay.health || 0}</td>
+
+<td>${pay.other || 0}</td>
+
+<td>${pay.net || 0}</td>
+
+<td>${pay.date || ''}</td>
+
+<td>
+
+<button
+class="edit-btn"
+onclick="editPayroll(
+'${docSnap.id}',
+'${pay.empid}',
+'${pay.employee}',
+'${pay.dailyrate}',
+'${pay.totaldays}',
+'${pay.overtime}',
+'${pay.holidaytype}',
+'${pay.holiday}',
+'${pay.nightdiff}',
+'${pay.sss}',
+'${pay.philhealth}',
+'${pay.pagibig}',
+'${pay.health}',
+'${pay.other}'
+)">
+
+EDIT
+
+</button>
+
+<button
+class="delete-btn"
+onclick="deletePayroll(
+'${docSnap.id}'
+)">
+
+DELETE
+
+</button>
+
+</td>
+
+</tr>
+
+`;
+
+}
+
+});
+
+if(!found){
+
+tbody.innerHTML = `
+
+<tr>
+
+<td colspan="17">
+
+NO PAYROLL FOUND
+
+</td>
+
+</tr>
+
+`;
+
+}
+
+}catch(error){
+
+console.log(error);
+
+alert(
+'Filter Error'
+);
+
+}
+
+}
+  
 </script>
 
 </body>
