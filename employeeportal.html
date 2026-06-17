@@ -1314,10 +1314,12 @@ alert(
 );
 
 }
-
-alert(
+  
+  alert(
 'Attendance Request Submitted'
 );
+
+loadAttendanceRequests();
 loadAttendanceRequests();
 /* CLEAR */
 
@@ -1664,7 +1666,17 @@ if(
 found = true;
 
 payslipArea.style.display='block';
+setTimeout(()=>{
 
+payslipArea.scrollIntoView({
+
+behavior:'smooth',
+
+block:'center'
+
+});
+
+},300);
 payEmpId.innerText =
 pay.empid || '';
 
@@ -1679,7 +1691,7 @@ Number(pay.dailyrate || 0)
 .toFixed(2);
 
 payTotalDays.innerText =
-Number(pay.totalhours || 0);
+Number(pay.totaldays || 0);
 
 payOvertime.innerText =
 Number(pay.overtime || 0)
@@ -1690,15 +1702,15 @@ Number(pay.holidaypay || 0)
 .toFixed(2);
 
 paySick.innerText =
-Number(pay.sick || 0)
+Number(pay.sickleave || 0)
 .toFixed(2);
 
 payVacation.innerText =
-Number(pay.vacation || 0)
+Number(pay.vacationleave || 0)
 .toFixed(2);
 
 payBirthday.innerText =
-Number(pay.birthday || 0)
+Number(pay.birthdayleave || 0)
 .toFixed(2);
 
 payAllowance.innerText =
