@@ -376,6 +376,21 @@ onclick="loadPayroll()">
 📋 SHOW ALL
 
 </button>
+
+  <div
+style="
+margin-top:10px;
+font-size:18px;
+font-weight:bold;
+color:#ffcc00;
+">
+
+TOTAL PAYROLL :
+₱ <span id="totalPayroll">
+0.00
+</span>
+
+</div>
   
 <div class="table-box">
 
@@ -566,24 +581,33 @@ hours * rate;
 
 /* OT */
 
-let overtimePay =
-overtime * (rate * 1.25);
+let overtimePay = 0;
 
-/* HOLIDAY */
+if(
+holidayType.value === 'regular'
+){
 
-let holidayPay = 0;
-
-if(holidayType.value === 'regular'){
-
-holidayPay =
-holidayHoursValue * (rate * 2);
+overtimePay =
+overtime *
+(rate * 2.60);
 
 }
 
-if(holidayType.value === 'special'){
+else if(
+holidayType.value === 'special'
+){
 
-holidayPay =
-holidayHoursValue * (rate * 1.30);
+overtimePay =
+overtime *
+(rate * 1.69);
+
+}
+
+else{
+
+overtimePay =
+overtime *
+(rate * 1.25);
 
 }
 window.lastHolidayPay =
@@ -643,7 +667,15 @@ alert('Select Employee');
 return;
 
 }
+if(grossSalary.value===''){
 
+alert(
+'Click COMPUTE PAYROLL first'
+);
+
+return;
+
+}
 try{
 
 let payrollData = {
@@ -657,7 +689,7 @@ employeeName.value,
 dailyrate:
 salaryRate.value,
 
-totalhours:
+totaldays:
 totalHours.value,
 
 overtime:
@@ -667,7 +699,7 @@ holidaytype:
 holidayType.value,
 
 holiday:
-holidayHours.value,
+(window.lastHolidayPay || 0),
 
 holidaypay:
 (window.lastHolidayPay || 0)
@@ -778,9 +810,11 @@ collection(db,'payroll')
 querySnapshot.forEach(docSnap=>{
 
 let pay = docSnap.data();
+totalPayroll +=
 
+Number(pay.net || 0);
 tbody.innerHTML += `
-
+let totalPayroll = 0;
 <tr>
 
 <td>${pay.empid || ''}</td>
@@ -857,7 +891,11 @@ DELETE
 `;
 
 });
+document.getElementById(
+'totalPayroll'
+).innerText =
 
+totalPayroll.toFixed(2);
 }
 
 loadPayroll();
