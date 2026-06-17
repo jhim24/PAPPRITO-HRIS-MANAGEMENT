@@ -610,6 +610,29 @@ overtime *
 (rate * 1.25);
 
 }
+  /* HOLIDAY PAY */
+
+let holidayPay = 0;
+
+if(
+holidayType.value === 'regular'
+){
+
+holidayPay =
+holidayHoursValue *
+(rate * 2);
+
+}
+
+else if(
+holidayType.value === 'special'
+){
+
+holidayPay =
+holidayHoursValue *
+(rate * 1.30);
+
+}
 window.lastHolidayPay =
 holidayPay;
 /* NIGHT DIFF */
@@ -800,7 +823,7 @@ document.querySelector(
 );
 
 tbody.innerHTML='';
-
+let totalPayroll = 0;
 let querySnapshot =
 
 await getDocs(
@@ -814,7 +837,6 @@ totalPayroll +=
 
 Number(pay.net || 0);
 tbody.innerHTML += `
-let totalPayroll = 0;
 <tr>
 
 <td>${pay.empid || ''}</td>
@@ -823,7 +845,7 @@ let totalPayroll = 0;
 
 <td>${pay.dailyrate || 0}</td>
 
-<td>${pay.totalhours || 0}</td>
+<td>${pay.totaldays || 0}</td>
 
 <td>${pay.overtime || 0}</td>
 
@@ -1089,7 +1111,7 @@ tbody.innerHTML += `
 
 <td>${pay.dailyrate || 0}</td>
 
-<td>${pay.totalhours || 0}</td>
+<td>${pay.totaldays || 0}</td>
 
 <td>${pay.overtime || 0}</td>
 
