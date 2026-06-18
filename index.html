@@ -705,11 +705,36 @@ DATE
 <p>Employee Requests</p>
 
 </div>
+  
+<div class="stat-card dark">
+
+<h2 id="upcomingBirthdays">
+0
+</h2>
+
+<p>Upcoming Birthdays</p>
+
+</div>
+</div>
+
+</div>
+<div class="cards">
+
+<div class="card">
+
+<h3>
+🎂 Upcoming Birthdays
+</h3>
+
+<div id="birthdayList">
+
+No upcoming birthdays
 
 </div>
 
 </div>
 
+</div>
 <script type="module">
 
  /* =========================
@@ -922,7 +947,105 @@ document.getElementById(
 'totalRequests'
 ).innerText =
 requestSnap.size;
+  
+const birthdaySnap =
+await getDocs(
+collection(db,'employees')
+);
 
+let birthdayCount = 0;
+
+let birthdayHTML = '';
+
+const today = new Date();
+
+birthdaySnap.forEach(docSnap=>{
+
+let emp = docSnap.data();
+
+if(!emp.birthdate) return;
+
+let birthDate =
+new Date(emp.birthdate);
+
+let thisYearBirthday =
+new Date(
+
+today.getFullYear(),
+
+birthDate.getMonth(),
+
+birthDate.getDate()
+
+);
+
+let diffDays = Math.ceil(
+
+(thisYearBirthday - today)
+
+/
+
+(1000 * 60 * 60 * 24)
+
+);
+
+if(
+
+diffDays >= 0 &&
+diffDays <= 30
+
+){
+
+birthdayCount++;
+
+birthdayHTML += `
+
+<div style="
+padding:8px;
+border-bottom:1px solid #444;
+">
+
+🎂
+
+${emp.firstname || ''}
+
+${emp.lastname || ''}
+
+<br>
+
+<small>
+
+${birthDate.toLocaleDateString(
+'en-US',
+{
+month:'long',
+day:'numeric'
+}
+)}
+
+</small>
+
+</div>
+
+`;
+
+}
+
+});
+
+document.getElementById(
+'upcomingBirthdays'
+).innerText =
+birthdayCount;
+
+document.getElementById(
+'birthdayList'
+).innerHTML =
+
+birthdayHTML ||
+
+'No upcoming birthdays';
+  
 }catch(error){
 
 console.log(error);
