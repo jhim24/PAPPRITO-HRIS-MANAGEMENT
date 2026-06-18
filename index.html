@@ -370,7 +370,26 @@ background:#353535;
 }
 
 .card h3{
+  .card h3{
 
+display:flex;
+
+align-items:center;
+
+gap:10px;
+
+color:#ffcc00;
+
+margin-bottom:15px;
+
+}
+.material-icons{
+
+vertical-align:middle;
+
+font-size:24px;
+
+}
 font-size:22px;
 
 margin-bottom:15px;
@@ -708,11 +727,27 @@ DATE
   
 <div class="stat-card dark">
 
+<div
+style="
+display:flex;
+align-items:center;
+justify-content:center;
+gap:8px;
+">
+
+<span class="material-icons">
+cake
+</span>
+
 <h2 id="upcomingBirthdays">
 0
 </h2>
 
-<p>Upcoming Birthdays</p>
+</div>
+
+<p>
+Upcoming Birthdays
+</p>
 
 </div>
 </div>
@@ -723,7 +758,13 @@ DATE
 <div class="card">
 
 <h3>
-🎂 Upcoming Birthdays
+
+<span class="material-icons">
+cake
+</span>
+
+Upcoming Birthdays
+
 </h3>
 
 <div id="birthdayList">
