@@ -306,6 +306,23 @@ background:#6f42c1;
 color:white;
 
 }
+  .summary-card{
+
+background:#333;
+
+padding:15px;
+
+border-radius:10px;
+
+border:2px solid #ffcc00;
+
+text-align:center;
+
+font-size:16px;
+
+color:white;
+
+}
 .action-btn{
 
 padding:10px 20px;
@@ -846,20 +863,19 @@ background:rgba(0,0,0,.75);
 z-index:9999;
 ">
 
-<div
-
 style="
 background:#2b2b2b;
 color:white;
-width:90%;
-max-width:700px;
-margin:50px auto;
-padding:25px;
+width:96%;
+max-width:1200px;
+height:85vh;
+margin:20px auto;
+padding:20px;
 border-radius:15px;
 border:3px solid #ffcc00;
 position:relative;
-">
-
+overflow:auto;
+"
 <button
 
 onclick="closeSummary()"
@@ -892,6 +908,109 @@ margin-bottom:20px;
 </h2>
 
 <div id="summaryContent">
+
+<div
+style="
+background:#1f1f1f;
+padding:15px;
+border-radius:10px;
+margin-bottom:15px;
+">
+
+<h3 id="sumEmployee"
+style="color:#ffcc00;">
+Employee :
+</h3>
+
+<h4 id="sumCutoff">
+Cutoff :
+</h4>
+
+</div>
+
+<div
+style="
+overflow:auto;
+max-height:420px;
+border:2px solid #ffcc00;
+border-radius:10px;
+">
+
+<table
+id="summaryTable"
+style="
+width:100%;
+min-width:1100px;
+border-collapse:collapse;
+">
+
+<thead>
+
+<tr>
+
+<th>DAY</th>
+
+<th>DATE</th>
+
+<th>TIME IN</th>
+
+<th>BREAK OUT</th>
+
+<th>BREAK IN</th>
+
+<th>TIME OUT</th>
+
+<th>REG HOURS</th>
+
+<th>OT</th>
+
+<th>LATE</th>
+
+<th>STATUS</th>
+
+</tr>
+
+</thead>
+
+<tbody
+id="summaryBody">
+
+</tbody>
+
+</table>
+
+</div>
+
+<br>
+
+<div
+style="
+display:grid;
+grid-template-columns:repeat(4,1fr);
+gap:10px;
+">
+
+<div class="summary-card">
+<b>Total Days</b><br>
+<span id="sumDays">0</span>
+</div>
+
+<div class="summary-card">
+<b>Regular Hours</b><br>
+<span id="sumRegular">0</span>
+</div>
+
+<div class="summary-card">
+<b>Overtime</b><br>
+<span id="sumOT">0</span>
+</div>
+
+<div class="summary-card">
+<b>Late Minutes</b><br>
+<span id="sumLate">0</span>
+</div>
+
+</div>
 
 </div>
 
@@ -1766,7 +1885,7 @@ window.openSummary = function(){
 
 let emp = employeeSelect.value;
 
-if(emp === ''){
+if(emp===""){
 
 alert("Please select an employee.");
 
@@ -1774,6 +1893,103 @@ return;
 
 }
 
+let from = fromDate.value;
+
+let to = toDate.value;
+
+let records = attendance.filter(att=>{
+
+let empMatch =
+(att.name||att.employee)===emp;
+
+let d = formatDate(att.date);
+
+let fromMatch =
+from==="" || d>=from;
+
+let toMatch =
+to==="" || d<=to;
+
+return empMatch && fromMatch && toMatch;
+
+});
+
+if(records.length===0){
+
+alert("No attendance found.");
+
+return;
+
+}
+
+summaryModal.style.display="block";
+
+sumEmployee.innerHTML =
+"<b>Employee :</b> "+emp;
+
+sumCutoff.innerHTML =
+"<b>Cutoff :</b> "+
+(from||"-")+" to "+(to||"-");
+
+summaryBody.innerHTML="";
+
+let totalRegular=0;
+let totalOT=0;
+let totalLate=0;
+
+records.forEach((r,index)=>{
+
+totalRegular += Number(r.regularhours||0);
+
+totalOT += Number(r.overtime||0);
+
+totalLate += parseFloat(
+(r.late||"0").replace(" mins","")
+);
+
+summaryBody.innerHTML += `
+
+<tr>
+
+<td>${index+1}</td>
+
+<td>${r.date}</td>
+
+<td>${r.timein}</td>
+
+<td>${r.breakout}</td>
+
+<td>${r.breakin}</td>
+
+<td>${r.timeout}</td>
+
+<td>${r.regularhours||0}</td>
+
+<td>${r.overtime||0}</td>
+
+<td>${r.late}</td>
+
+<td>${r.status}</td>
+
+</tr>
+
+`;
+
+});
+
+sumDays.innerText =
+records.length;
+
+sumRegular.innerText =
+totalRegular.toFixed(2)+" hrs";
+
+sumOT.innerText =
+totalOT.toFixed(2)+" hrs";
+
+sumLate.innerText =
+totalLate.toFixed(0)+" mins";
+
+}
 let from = fromDate.value;
 let to = toDate.value;
 
