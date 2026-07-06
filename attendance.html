@@ -1082,7 +1082,25 @@ alert('No Time In Record');
 return;
 
 }
+/* ALREADY BREAK OUT */
 
+if(last.breakout !== '-'){
+
+alert('Employee already Break Out.');
+
+return;
+
+}
+
+/* ALREADY TIME OUT */
+
+if(last.timeout !== '-'){
+
+alert('Employee already Time Out.');
+
+return;
+
+}
 await updateDoc(
 
 doc(db,'attendance',last.id),
