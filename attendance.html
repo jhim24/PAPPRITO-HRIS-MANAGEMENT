@@ -671,7 +671,21 @@ onchange="filterAttendance()">
 type="date"
 id="toDate"
 onchange="filterAttendance()">
+<button
+class="filter-btn"
+onclick="filterAttendance()">
 
+🔍 FILTER
+
+</button>
+
+<button
+class="summary-btn"
+onclick="openSummary()">
+
+📊 SUMMARY
+
+</button>
 </div>
 
 <!-- INFO -->
@@ -707,41 +721,7 @@ DATE
 </div>
 
 <!-- BUTTONS -->
-<div class="filter-toolbar">
 
-<select id="summaryEmployee">
-
-<option value="">
-Select Employee
-</option>
-
-</select>
-
-<input
-type="date"
-id="summaryFromDate">
-
-<input
-type="date"
-id="summaryToDate">
-
-<button
-class="filter-btn"
-onclick="filterAttendance()">
-
-🔍 FILTER
-
-</button>
-
-<button
-class="summary-btn"
-onclick="openSummary()">
-
-📊 SUMMARY
-
-</button>
-
-</div>
 <div class="button-group">
 
 <button
