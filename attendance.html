@@ -1096,7 +1096,44 @@ emp.employeeid || 'NO-ID';
 }
 
 });
+/* COMPUTE LATE */
 
+let shiftStart =
+
+new Date(
+'1/1/2024 8:00:00 AM'
+);
+
+let actualTimeIn =
+
+new Date(
+'1/1/2024 ' + getTime()
+);
+
+let lateMinutes = 0;
+
+if(actualTimeIn > shiftStart){
+
+lateMinutes = Math.floor(
+
+(actualTimeIn - shiftStart)
+
+/1000/60
+
+);
+
+}
+
+let attendanceStatus =
+
+lateMinutes > 0 ?
+
+'LATE'
+
+:
+
+'PRESENT';
+  
 let data = {
 
 date:getToday(),
@@ -1117,9 +1154,11 @@ breakminutes:'0 mins',
 
 totalhours:'0',
 
-late:'0 mins',
+late:
+lateMinutes + ' mins',
 
-status:'PRESENT'
+status:
+attendanceStatus
 
 };
 
@@ -1528,7 +1567,7 @@ filtered[0]?.empid ||
 employeeName.innerText =
 'EMPLOYEE NAME : ' +
 (emp || 'ALL');
-
+updateAttendanceSummary(filtered);
 }
 
 /* DELETE */
