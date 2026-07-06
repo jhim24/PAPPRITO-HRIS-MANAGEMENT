@@ -1040,9 +1040,6 @@ loadAttendance();
 window.breakOut =
 async function(){
 
-window.breakOut =
-async function(){
-
 let selectedEmployee =
 employeeSelect.value;
 
@@ -1075,6 +1072,67 @@ doc(db,'attendance',last.id),
 {
 
 breakout:getTime()
+
+}
+
+);
+
+loadAttendance();
+
+}
+  /* BREAK IN */
+
+window.breakIn =
+async function(){
+
+let selectedEmployee =
+employeeSelect.value;
+
+if(selectedEmployee===''){
+
+alert('Select Employee');
+
+return;
+
+}
+
+let last =
+
+attendance
+.filter(a=>a.name===selectedEmployee)
+.pop();
+
+if(!last){
+
+alert('No Time In Record');
+
+return;
+
+}
+
+if(last.breakout === '-'){
+
+alert('Please Break Out First');
+
+return;
+
+}
+
+if(last.breakin !== '-'){
+
+alert('Break In Already Recorded');
+
+return;
+
+}
+
+await updateDoc(
+
+doc(db,'attendance',last.id),
+
+{
+
+breakin:getTime()
 
 }
 
