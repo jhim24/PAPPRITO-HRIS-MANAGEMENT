@@ -867,7 +867,107 @@ EMPLOYEE SIGNATURE
 </div>
 
 </div>
+<!-- ATTENDANCE SUMMARY POPUP -->
 
+<div
+id="summaryModal"
+
+style="
+display:none;
+position:fixed;
+left:0;
+top:0;
+width:100%;
+height:100%;
+background:rgba(0,0,0,.75);
+z-index:9999;
+">
+
+<div
+
+style="
+background:#2b2b2b;
+color:white;
+width:90%;
+max-width:700px;
+margin:50px auto;
+padding:25px;
+border-radius:15px;
+border:3px solid #ffcc00;
+position:relative;
+">
+
+<button
+
+onclick="closeSummary()"
+
+style="
+position:absolute;
+right:15px;
+top:15px;
+background:red;
+color:white;
+border:none;
+padding:8px 12px;
+border-radius:8px;
+cursor:pointer;
+">
+
+✖
+
+</button>
+
+<h2
+style="
+color:#ffcc00;
+text-align:center;
+margin-bottom:20px;
+">
+
+📊 ATTENDANCE SUMMARY
+
+</h2>
+
+<div id="summaryContent">
+
+</div>
+
+<br>
+
+<div
+style="
+text-align:center;
+">
+
+<button
+
+class="action-btn"
+
+onclick="window.print()"
+
+style="background:#009933;">
+
+🖨 PRINT
+
+</button>
+
+<button
+
+class="action-btn"
+
+onclick="closeSummary()"
+
+style="background:#666;">
+
+CLOSE
+
+</button>
+
+</div>
+
+</div>
+
+</div>
 <script type="module">
 
 /* FIREBASE */
@@ -1696,7 +1796,33 @@ function(){
 window.print();
 
 }
+/* ==========================
+SUMMARY POPUP
+========================== */
 
+window.openSummary = function(){
+
+document.getElementById(
+'summaryModal'
+).style.display = 'block';
+
+document.getElementById(
+'summaryContent'
+).innerHTML =
+
+document.getElementById(
+'attendanceSummary'
+).innerHTML;
+
+}
+
+window.closeSummary = function(){
+
+document.getElementById(
+'summaryModal'
+).style.display = 'none';
+
+}
 /* AUTO LOAD */
 
 loadEmployees();
