@@ -1153,7 +1153,43 @@ alert('Please Break Out First');
 return;
 
 }
+if(last.breakout === '-'){
 
+alert('Please Break Out First');
+
+return;
+
+}
+
+if(last.breakin !== '-'){
+
+alert('Break In Already Recorded');
+
+return;
+
+}
+
+/* ALREADY TIME OUT */
+
+if(last.timeout !== '-'){
+
+alert('Employee already Time Out.');
+
+return;
+
+}
+
+await updateDoc(
+
+doc(db,'attendance',last.id),
+
+{
+
+breakin:getTime()
+
+}
+
+);
 if(last.breakin !== '-'){
 
 alert('Break In Already Recorded');
@@ -1204,6 +1240,15 @@ attendance
 if(!last){
 
 alert('No Time In record found');
+
+return;
+
+}
+  /* ALREADY TIME OUT */
+
+if(last.timeout !== '-'){
+
+alert('Employee already Time Out.');
 
 return;
 
