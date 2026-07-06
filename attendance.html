@@ -1844,13 +1844,34 @@ ${from || '-'}
 ${to || '-'}
 </p>
 
+<div style="overflow-x:auto;">
+
 <table
 style="
 width:100%;
-margin-top:15px;
+min-width:100%;
 border-collapse:collapse;
+margin-top:15px;
+table-layout:fixed;
 ">
 
+<thead>
+
+<tr>
+
+<th style="width:70%;">
+Description
+</th>
+
+<th style="width:30%;">
+Value
+</th>
+
+</tr>
+
+</thead>
+
+<tbody>
 <tr>
 
 <th>Description</th>
@@ -1923,7 +1944,11 @@ border-collapse:collapse;
 
 </tr>
 
+</tbody>
+
 </table>
+
+</div>
 
 `;
 
