@@ -1037,13 +1037,30 @@ loadAttendance();
 
 /* BREAK OUT */
 
-window.breakOut =
-async function(){
+let selectedEmployee =
+employeeSelect.value;
 
-if(attendance.length===0) return;
+if(selectedEmployee===''){
+
+alert('Select Employee');
+
+return;
+
+}
 
 let last =
-attendance[attendance.length-1];
+
+attendance
+.filter(a=>a.name===selectedEmployee)
+.pop();
+
+if(!last){
+
+alert('No Time In record found');
+
+return;
+
+}
 
 await updateDoc(
 
@@ -1068,9 +1085,30 @@ async function(){
 
 if(attendance.length===0) return;
 
-let last =
-attendance[attendance.length-1];
+let selectedEmployee =
+employeeSelect.value;
 
+if(selectedEmployee===''){
+
+alert('Select Employee');
+
+return;
+
+}
+
+let last =
+
+attendance
+.filter(a=>a.name===selectedEmployee)
+.pop();
+
+if(!last){
+
+alert('No Time In record found');
+
+return;
+
+}
 await updateDoc(
 
 doc(db,'attendance',last.id),
@@ -1094,9 +1132,30 @@ async function(){
 
 if(attendance.length===0) return;
 
-let last =
-attendance[attendance.length-1];
+let selectedEmployee =
+employeeSelect.value;
 
+if(selectedEmployee===''){
+
+alert('Select Employee');
+
+return;
+
+}
+
+let last =
+
+attendance
+.filter(a=>a.name===selectedEmployee)
+.pop();
+
+if(!last){
+
+alert('No Time In record found');
+
+return;
+
+}
 let outTimeNow =
 getTime();
 
