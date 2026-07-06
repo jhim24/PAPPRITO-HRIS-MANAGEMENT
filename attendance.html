@@ -972,7 +972,25 @@ return;
 
 let fullName =
 employeeSelect.value;
+/* CHECK IF ALREADY TIME IN TODAY */
 
+let existing = attendance.find(a =>
+
+a.name === fullName &&
+
+a.date === getToday() &&
+
+(a.timeout === '-' || !a.timeout)
+
+);
+
+if(existing){
+
+alert('Employee already Time In today.');
+
+return;
+
+}
 let snapshot =
 
 await getDocs(
