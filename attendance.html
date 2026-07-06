@@ -1571,7 +1571,103 @@ updateAttendanceSummary(filtered);
 }
 
 /* DELETE */
+function updateAttendanceSummary(records){
 
+document.getElementById(
+'attendanceSummary'
+).style.display='block';
+
+if(records.length===0){
+
+sumEmployee.innerText='-';
+sumDate.innerText='-';
+sumDays.innerText='0';
+sumRegular.innerText='0.00 hrs';
+sumOT.innerText='0.00 hrs';
+sumBreak.innerText='0 mins';
+sumAverage.innerText='0.00 hrs';
+sumLate.innerText='0 mins';
+sumAbsent.innerText='0';
+sumPresent.innerText='0';
+
+return;
+
+}
+
+let totalRegular = 0;
+let totalOT = 0;
+let totalBreak = 0;
+let totalLate = 0;
+let totalHours = 0;
+
+records.forEach(att=>{
+
+totalRegular +=
+Number(att.regularhours || 0);
+
+totalOT +=
+Number(att.overtime || 0);
+
+totalHours +=
+Number(att.totalhours || 0);
+
+totalBreak +=
+parseFloat(
+(att.breakminutes || '0')
+.replace(' mins','')
+);
+
+totalLate +=
+parseFloat(
+(att.late || '0')
+.replace(' mins','')
+);
+
+});
+
+sumEmployee.innerText =
+records[0].name || '-';
+
+if(records.length===1){
+
+sumDate.innerText =
+records[0].date;
+
+}else{
+
+sumDate.innerText =
+records[0].date +
+' to ' +
+records[records.length-1].date;
+
+}
+
+sumDays.innerText =
+records.length;
+
+sumRegular.innerText =
+totalRegular.toFixed(2) + ' hrs';
+
+sumOT.innerText =
+totalOT.toFixed(2) + ' hrs';
+
+sumBreak.innerText =
+totalBreak.toFixed(0) + ' mins';
+
+sumAverage.innerText =
+(totalHours / records.length)
+.toFixed(2) + ' hrs';
+
+sumLate.innerText =
+totalLate.toFixed(0) + ' mins';
+
+sumPresent.innerText =
+records.length;
+
+sumAbsent.innerText =
+'0';
+
+}
 window.deleteAttendance =
 async function(id){
 
