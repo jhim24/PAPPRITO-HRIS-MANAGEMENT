@@ -1564,11 +1564,15 @@ return;
 
 }
 
-let last =
+let last = attendance.find(a =>
 
-attendance
-.filter(a=>a.name===selectedEmployee)
-.pop();
+    a.name === selectedEmployee &&
+
+    a.date === getToday() &&
+
+    (a.timeout === "-" || !a.timeout)
+
+);
 
 if(!last){
 
