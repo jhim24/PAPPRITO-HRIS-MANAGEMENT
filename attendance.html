@@ -1225,7 +1225,25 @@ parts[2];
 return `${year}-${month}-${day}`;
 
 }
+function getDateRange(startDate, endDate){
 
+    let dates = [];
+
+    let current = new Date(startDate);
+
+    let end = new Date(endDate);
+
+    while(current <= end){
+
+        dates.push(new Date(current));
+
+        current.setDate(current.getDate() + 1);
+
+    }
+
+    return dates;
+
+}
 /* TIME IN */
 
 window.timeIn =
@@ -1761,15 +1779,18 @@ if(!document.getElementById('summaryBody')){
 if(records.length===0){
 
 sumEmployee.innerText='-';
-sumDate.innerText='-';
+
+sumCutoff.innerText='Cutoff : -';
+
 sumDays.innerText='0';
+
 sumRegular.innerText='0.00 hrs';
+
 sumOT.innerText='0.00 hrs';
-sumBreak.innerText='0 mins';
-sumAverage.innerText='0.00 hrs';
+
 sumLate.innerText='0 mins';
-sumAbsent.innerText='0';
-sumPresent.innerText='0';
+
+summaryBody.innerHTML='';
 
 return;
 
@@ -1811,12 +1832,13 @@ records[0].name || '-';
 
 if(records.length===1){
 
-sumDate.innerText =
-records[0].date;
+sumCutoff.innerText =
+'Cutoff : ' + records[0].date;
 
 }else{
 
-sumDate.innerText =
+sumCutoff.innerText =
+'Cutoff : ' +
 records[0].date +
 ' to ' +
 records[records.length-1].date;
@@ -1949,7 +1971,7 @@ summaryBody.innerHTML += `
 
 <tr>
 
-<td>${index+1}</td>
+<td>Day ${index + 1}</td>
 
 <td>${r.date}</td>
 
