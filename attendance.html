@@ -1189,6 +1189,12 @@ id:docSnap.id,
 
 });
 
+// Auto select today's date
+const today = new Date().toISOString().split('T')[0];
+
+document.getElementById('fromDate').value = today;
+document.getElementById('toDate').value = today;
+
 filterAttendance();
 
 }
@@ -1707,7 +1713,15 @@ toMatch
 );
 
 });
+filtered.sort((a,b)=>{
 
+    let dateA = new Date(formatDate(a.date));
+
+    let dateB = new Date(formatDate(b.date));
+
+    return dateA - dateB;
+
+});
 if(filtered.length===0){
 
 tbody.innerHTML = `
