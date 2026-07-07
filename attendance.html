@@ -1997,30 +1997,29 @@ let absent = 0;
 
 let allDates = getDateRange(from, to);
 
-allDates.forEach((dateObj,index)=>{
-
-    let yyyy = dateObj.getFullYear();
-
-    let mm = String(dateObj.getMonth()+1).padStart(2,'0');
-
-    let dd = String(dateObj.getDate()).padStart(2,'0');
-
-    let searchDate = `${yyyy}-${mm}-${dd}`;
-
-    let r = records.find(x=>formatDate(x.date)==searchDate);
-
-   if(r){
+if(r){
 
     present++;
 
-    totalRegular += Number(r.regularhours||0);
+    let regHours = Number(r.regularhours);
 
-    totalOT += Number(r.overtime||0);
+    if(isNaN(regHours) || regHours===0){
+
+        regHours = Number(r.totalhours || 0);
+
+        if(regHours > 8) regHours = 8;
+
+    }
+
+    totalRegular += regHours;
+
+    totalOT += Number(r.overtime || 0);
 
     totalLate += parseFloat(
-        (r.late||"0").replace(" mins","")
+        (r.late || "0").replace(" mins","")
     );
 
+}
 }else{
 
     absent++;
