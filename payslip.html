@@ -619,21 +619,28 @@ ${pay.date || '-'}
 <tr>
 <td>Basic Pay</td>
 <td>
-₱ ${Number(pay.basicpay || 0).toFixed(2)}
+₱ ${(
+Number(pay.dailyrate || 0) *
+Number(pay.totaldays || 0)
+).toFixed(2)}
 </td>
 </tr>
 
 <tr>
-<td>Overtime</td>
+<td>Overtime Pay</td>
 <td>
-₱ ${Number(pay.overtime || 0).toFixed(2)}
+₱ ${(
+Number(pay.overtime || 0) *
+Number(pay.dailyrate || 0) *
+1.25
+).toFixed(2)}
 </td>
 </tr>
 
 <tr>
 <td>Holiday Pay</td>
 <td>
-₱ ${Number(pay.holiday || 0).toFixed(2)}
+₱ ${Number(pay.holidaypay || 0).toFixed(2)}
 </td>
 </tr>
 
@@ -712,14 +719,13 @@ ${pay.date || '-'}
 <tr>
 <td>Health Card</td>
 <td>
-₱ ${Number(pay.healthcard || 0).toFixed(2)}
+₱ ${Number(pay.health || 0).toFixed(2)}
 </td>
-</tr>
 
 <tr>
 <td>Other Deduction</td>
 <td>
-₱ ${Number(pay.otherdeduction || 0).toFixed(2)}
+₱ ${Number(pay.other || 0).toFixed(2)}
 </td>
 </tr>
 
