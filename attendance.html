@@ -987,7 +987,7 @@ id="summaryBody">
 <div
 style="
 display:grid;
-grid-template-columns:repeat(4,1fr);
+grid-template-columns:repeat(6,1fr);
 gap:10px;
 ">
 
@@ -1010,7 +1010,15 @@ gap:10px;
 <b>Late Minutes</b><br>
 <span id="sumLate">0</span>
 </div>
+<div class="summary-card">
+<b>Present</b><br>
+<span id="sumPresent">0</span>
+</div>
 
+<div class="summary-card">
+<b>Absent</b><br>
+<span id="sumAbsent">0</span>
+</div>
 </div>
 
 </div>
@@ -2045,7 +2053,9 @@ totalOT.toFixed(2)+" hrs";
 
 sumLate.innerText =
 totalLate.toFixed(0)+" mins";
+sumPresent.innerText = present;
 
+sumAbsent.innerText = absent;
 }
 
 window.closeSummary = function(){
