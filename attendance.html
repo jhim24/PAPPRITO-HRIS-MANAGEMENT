@@ -1996,7 +1996,11 @@ let present = 0;
 let absent = 0;
 
 let allDates = getDateRange(from, to);
+allDates.forEach((dateObj,index)=>{
 
+    let dateString = dateObj.toISOString().split("T")[0];
+
+    let r = records.find(x=>formatDate(x.date)===dateString);
 if(r){
 
     present++;
