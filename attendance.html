@@ -2011,7 +2011,9 @@ if(r){
 
         regHours = Number(r.totalhours || 0);
 
-        if(regHours > 8) regHours = 8;
+        if(regHours > 8){
+            regHours = 8;
+        }
 
     }
 
@@ -2023,13 +2025,11 @@ if(r){
         (r.late || "0").replace(" mins","")
     );
 
-}
 }else{
 
     absent++;
 
 }
-
     summaryBody.innerHTML += `
 
 <tr>
@@ -2046,8 +2046,16 @@ if(r){
 
 <td>${r ? r.timeout : "-"}</td>
 
-<td>${r ? (r.regularhours||0) : "0.00"}</td>
-
+<td>${
+r
+?
+(
+Number(r.regularhours) ||
+Math.min(Number(r.totalhours || 0),8)
+).toFixed(2)
+:
+"0.00"
+}</td>
 <td>${r ? (r.overtime||0) : "0.00"}</td>
 
 <td>${r ? r.late : "0 mins"}</td>
