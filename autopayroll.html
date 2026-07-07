@@ -1078,7 +1078,7 @@ document.querySelector(
 );
 
 tbody.innerHTML = '';
-
+let totalPayroll = 0;
 try{
 
 let querySnapshot =
@@ -1098,7 +1098,7 @@ let pay = docSnap.data();
 if(pay.date === selectedDate){
 
 found = true;
-
+totalPayroll += Number(pay.net || 0);
 tbody.innerHTML += `
 
 <tr>
