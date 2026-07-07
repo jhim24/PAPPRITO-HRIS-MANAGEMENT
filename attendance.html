@@ -2069,7 +2069,26 @@ Math.min(Number(r.totalhours || 0),8)
 });
 sumDays.innerText =
 allDates.length;
+// Recompute total regular hours
+totalRegular = 0;
 
+records.forEach(r=>{
+
+    let reg = Number(r.regularhours);
+
+    if(isNaN(reg) || reg===0){
+
+        reg = Number(r.totalhours || 0);
+
+        if(reg > 8){
+            reg = 8;
+        }
+
+    }
+
+    totalRegular += reg;
+
+});
 sumRegular.innerText =
 totalRegular.toFixed(2)+" hrs";
 
