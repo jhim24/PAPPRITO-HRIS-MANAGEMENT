@@ -1244,6 +1244,19 @@ function getDateRange(startDate, endDate){
     return dates;
 
 }
+  function formatLongDate(dateObj){
+
+    return dateObj.toLocaleDateString('en-US',{
+
+        year:'numeric',
+
+        month:'long',
+
+        day:'2-digit'
+
+    });
+
+}
 /* TIME IN */
 
 window.timeIn =
@@ -1953,50 +1966,74 @@ sumCutoff.innerHTML =
 
 summaryBody.innerHTML="";
 
-let totalRegular=0;
-let totalOT=0;
-let totalLate=0;
+let totalRegular = 0;
+let totalOT = 0;
+let totalLate = 0;
 
-records.forEach((r,index)=>{
+let present = 0;
+let absent = 0;
 
-totalRegular += Number(r.regularhours||0);
+let allDates = getDateRange(from, to);
 
-totalOT += Number(r.overtime||0);
+allDates.forEach((dateObj,index)=>{
 
-totalLate += parseFloat(
-(r.late||"0").replace(" mins","")
-);
+    let yyyy = dateObj.getFullYear();
 
-summaryBody.innerHTML += `
+    let mm = String(dateObj.getMonth()+1).padStart(2,'0');
+
+    let dd = String(dateObj.getDate()).padStart(2,'0');
+
+    let searchDate = `${yyyy}-${mm}-${dd}`;
+
+    let r = records.find(x=>formatDate(x.date)==searchDate);
+
+   if(r){
+
+    present++;
+
+    totalRegular += Number(r.regularhours||0);
+
+    totalOT += Number(r.overtime||0);
+
+    totalLate += parseFloat(
+        (r.late||"0").replace(" mins","")
+    );
+
+}else{
+
+    absent++;
+
+}
+
+    summaryBody.innerHTML += `
 
 <tr>
 
-<td>Day ${index + 1}</td>
+<td>Day ${index+1}</td>
 
-<td>${r.date}</td>
+<td>${formatLongDate(dateObj)}</td>
 
-<td>${r.timein}</td>
+<td>${r ? r.timein : "-"}</td>
 
-<td>${r.breakout}</td>
+<td>${r ? r.breakout : "-"}</td>
 
-<td>${r.breakin}</td>
+<td>${r ? r.breakin : "-"}</td>
 
-<td>${r.timeout}</td>
+<td>${r ? r.timeout : "-"}</td>
 
-<td>${r.regularhours||0}</td>
+<td>${r ? (r.regularhours||0) : "0.00"}</td>
 
-<td>${r.overtime||0}</td>
+<td>${r ? (r.overtime||0) : "0.00"}</td>
 
-<td>${r.late}</td>
+<td>${r ? r.late : "0 mins"}</td>
 
-<td>${r.status}</td>
+<td>${r ? r.status : "ABSENT"}</td>
 
 </tr>
 
 `;
 
 });
-
 sumDays.innerText =
 records.length;
 
