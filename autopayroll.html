@@ -849,7 +849,7 @@ tbody.innerHTML += `
 
 <td>${pay.holidaytype || ''}</td>
 
-<td>${pay.holiday || 0}</td>
+<td>${pay.holidayhours || 0}</td>
 
 <td>${pay.nightdiff || 0}</td>
 
@@ -881,7 +881,7 @@ onclick="editPayroll(
 '${pay.totaldays}',
 '${pay.overtime}',
 '${pay.holidaytype}',
-'${pay.holiday}',
+'${pay.holidayhours}',
 '${pay.nightdiff}',
 '${pay.sss}',
 '${pay.philhealth}',
@@ -1115,7 +1115,7 @@ tbody.innerHTML += `
 
 <td>${pay.holidaytype || ''}</td>
 
-<td>${pay.holiday || 0}</td>
+<td>${pay.holidayhours || 0}</td>
 
 <td>${pay.nightdiff || 0}</td>
 
@@ -1139,7 +1139,7 @@ tbody.innerHTML += `
 
 <button
 class="edit-btn"
-onclick="editPayroll(
+'${pay.holidayhours}',
 '${docSnap.id}',
 '${pay.empid}',
 '${pay.employee}',
