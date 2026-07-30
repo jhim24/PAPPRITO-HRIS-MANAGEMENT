@@ -48,11 +48,19 @@ body{
     min-height:100vh;
 
     background:
-    linear-gradient(
-    135deg,
-    #111111,
-    #1f1f1f,
-    #2d2d2d);
+        linear-gradient(
+            rgba(0,0,0,.72),
+            rgba(0,0,0,.72)
+        ),
+        url("../images/login-bg.jpg");
+
+    background-size:cover;
+
+    background-position:center;
+
+    background-repeat:no-repeat;
+
+    background-attachment:fixed;
 
     color:var(--white);
 
@@ -62,12 +70,11 @@ body{
 
     justify-content:center;
 
-    overflow:hidden;
+    overflow-x:hidden;
 
     position:relative;
 
 }
-
 /* BACKGROUND */
 
 .background-overlay{
