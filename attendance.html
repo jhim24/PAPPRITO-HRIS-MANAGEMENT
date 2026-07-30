@@ -7,8 +7,6 @@
 
 <link rel="apple-touch-icon" href="icon-192.png">
   
-<title>PAPPRITO</title>
-
 <title>Employee Attendance</title>
 
 <style>
@@ -1010,6 +1008,17 @@ gap:10px;
 <b>Late Minutes</b><br>
 <span id="sumLate">0</span>
 </div>
+
+<div class="summary-card">
+<b>Break Minutes</b><br>
+<span id="sumBreak">0 mins</span>
+</div>
+
+<div class="summary-card">
+<b>Average Hours</b><br>
+<span id="sumAverage">0.00 hrs</span>
+</div>
+  
 <div class="summary-card">
 <b>Present</b><br>
 <span id="sumPresent">0</span>
@@ -1203,23 +1212,33 @@ filterAttendance();
 
 function getToday(){
 
-let d = new Date();
+const d = new Date();
 
-return (
-d.getMonth()+1
-) + '/' +
-d.getDate() + '/' +
-d.getFullYear();
+const month = String(d.getMonth() + 1).padStart(2,"0");
+
+const day = String(d.getDate()).padStart(2,"0");
+
+const year = d.getFullYear();
+
+return `${month}/${day}/${year}`;
 
 }
 
 function getTime(){
 
-return new Date()
-.toLocaleTimeString();
+return new Date().toLocaleTimeString("en-US",{
+
+hour:"2-digit",
+
+minute:"2-digit",
+
+second:"2-digit",
+
+hour12:true
+
+});
 
 }
-
 /* FORMAT DATE */
 
 function formatDate(dateStr){
@@ -1373,7 +1392,7 @@ let data = {
 
 date:getToday(),
 
-empid:empId,
+employeeid:empId,
 
 name:fullName,
 
@@ -1703,7 +1722,6 @@ let filtered = attendance.filter(att=>{
 
 let empMatch =
 emp === '' ||
-att.employee === emp ||
 att.name === emp;
 
 let attDate =
@@ -1768,7 +1786,7 @@ row.innerHTML = `
 
 <td>${att.date}</td>
 <td>${att.employeeid || att.empid || '-'}</td>
-<td>${att.employee || att.name || '-'}</td>
+<td>${att.name || '-'}</td>
 <td>${att.timein}</td>
 <td>${att.breakout}</td>
 <td>${att.breakin}</td>
@@ -1966,7 +1984,7 @@ let to = toDate.value;
 let records = attendance.filter(att=>{
 
 let empMatch =
-(att.name||att.employee)===emp;
+att.name === emp;
 
 let d = formatDate(att.date);
 
