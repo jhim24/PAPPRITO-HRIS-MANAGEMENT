@@ -221,13 +221,14 @@ body{
 
     align-items:center;
 
-    padding:70px;
-
     text-align:center;
 
-    background:rgba(0,0,0,.25);
+    padding:70px;
+
+    gap:18px;
 
 }
+
 .logo-box{
 
     width:170px;
@@ -248,7 +249,7 @@ body{
 
     justify-content:center;
 
-    margin-bottom:25px;
+   margin-bottom:35px;
 
     box-shadow:
         0 0 35px rgba(255,204,0,.30),
@@ -281,33 +282,33 @@ body{
 
 .login-left h1{
 
-    font-size:42px;
+    font-size:64px;
 
-    color:var(--primary);
+    font-weight:800;
 
-    margin-bottom:12px;
+    line-height:1;
 
-    letter-spacing:2px;
+    color:#ffcc00;
+
+    text-shadow:
+        0 0 15px rgba(255,204,0,.35);
 
 }
 
 .login-left p{
 
-    font-size:20px;
+    font-size:22px;
 
-    margin-bottom:12px;
-
-    color:white;
+    color:#ffffff;
 
 }
-
 .login-left span{
 
-    font-size:15px;
+    font-size:18px;
 
-    color:var(--gray);
+    color:#d7d7d7;
 
-    line-height:1.7;
+    line-height:1.8;
 
 }
 
