@@ -234,27 +234,22 @@ body{
 
     height:170px;
 
-    border-radius:50%;
-
-    background:rgba(255,255,255,.12);
-
-    border:3px solid rgba(255,204,0,.35);
-
-    backdrop-filter:blur(15px);
+    margin:0 auto 35px;
 
     display:flex;
 
-    align-items:center;
-
     justify-content:center;
 
-   margin-bottom:35px;
+    align-items:center;
+
+    border-radius:50%;
+
+    background:rgba(255,255,255,.08);
+
+    border:3px solid rgba(255,204,0,.35);
 
     box-shadow:
-        0 0 35px rgba(255,204,0,.30),
-        0 0 80px rgba(215,25,32,.15);
-
-    animation:floatLogo 4s ease-in-out infinite;
+        0 0 35px rgba(255,204,0,.30);
 
 }
 .logo-image{
@@ -281,36 +276,46 @@ body{
 
 .login-left h1{
 
+    width:100%;
+
+    text-align:center;
+
     font-size:64px;
 
     font-weight:800;
 
-    line-height:1;
-
     color:#ffcc00;
 
-    text-shadow:
-        0 0 15px rgba(255,204,0,.35);
+    margin:0;
 
 }
 
 .login-left p{
 
+    width:100%;
+
+    text-align:center;
+
     font-size:22px;
+
+    margin:0;
 
     color:#ffffff;
 
 }
 .login-left span{
 
-    font-size:18px;
+    width:100%;
+
+    text-align:center;
 
     color:#d7d7d7;
+
+    font-size:18px;
 
     line-height:1.8;
 
 }
-
 /* RIGHT */
 
 .login-right{
