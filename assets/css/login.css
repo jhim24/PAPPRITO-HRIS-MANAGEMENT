@@ -209,10 +209,6 @@ body{
 
 .login-left{
 
-    position:relative;
-
-    overflow:hidden;
-
     display:flex;
 
     flex-direction:column;
@@ -223,12 +219,15 @@ body{
 
     text-align:center;
 
-    padding:70px;
+    height:100%;
 
-    gap:18px;
+    width:100%;
+
+    padding:60px;
+
+    gap:20px;
 
 }
-
 .logo-box{
 
     width:170px;
