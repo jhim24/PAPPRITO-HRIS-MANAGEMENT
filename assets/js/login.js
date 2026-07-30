@@ -1,3 +1,9 @@
+import { auth } from "../../database/firebase-config.js";
+
+import {
+    signInWithEmailAndPassword
+} from "https://www.gstatic.com/firebasejs/12.13.0/firebase-auth.js";
+
 /* ==========================================
    PAPPRITO HRIS
    LOGIN.JS
@@ -8,140 +14,124 @@ const loginForm = document.getElementById("loginForm");
 const username = document.getElementById("username");
 const password = document.getElementById("password");
 
-const loadingScreen =
-document.getElementById("loadingScreen");
+const loadingScreen = document.getElementById("loadingScreen");
 
-const loginMessage =
-document.getElementById("loginMessage");
+const loginMessage = document.getElementById("loginMessage");
 
-const toast =
-document.getElementById("toast");
+const toast = document.getElementById("toast");
 
-const toastMessage =
-document.getElementById("toastMessage");
+const toastMessage = document.getElementById("toastMessage");
 
-const rememberMe =
-document.getElementById("rememberMe");
+const rememberMe = document.getElementById("rememberMe");
 
-/* ==========================
-SHOW / HIDE PASSWORD
-========================== */
+/* ==========================================
+   SHOW / HIDE PASSWORD
+========================================== */
 
-window.togglePassword = function(){
+window.togglePassword = function () {
 
-    if(password.type==="password"){
+    if (password.type === "password") {
 
-        password.type="text";
+        password.type = "text";
 
-    }else{
+    } else {
 
-        password.type="password";
+        password.type = "password";
 
     }
 
 };
 
-/* ==========================
-LOADING
-========================== */
+/* ==========================================
+   LOADING SCREEN
+========================================== */
 
-function showLoading(){
+function showLoading() {
 
-    loadingScreen.style.display="flex";
-
-}
-
-function hideLoading(){
-
-    loadingScreen.style.display="none";
+    loadingScreen.style.display = "flex";
 
 }
 
-/* ==========================
-TOAST
-========================== */
+function hideLoading() {
 
-function showToast(message,color="#16a34a"){
+    loadingScreen.style.display = "none";
 
-    toast.style.background=color;
+}
 
-    toastMessage.innerText=message;
+/* ==========================================
+   TOAST MESSAGE
+========================================== */
+
+function showToast(message, color = "#16a34a") {
+
+    toast.style.background = color;
+
+    toastMessage.innerText = message;
 
     toast.classList.add("show");
 
-    setTimeout(()=>{
+    setTimeout(() => {
 
         toast.classList.remove("show");
 
-    },3000);
+    }, 3000);
 
 }
 
-/* ==========================
-REMEMBER ME
-========================== */
+/* ==========================================
+   REMEMBER ME
+========================================== */
 
-window.addEventListener("load",()=>{
+window.addEventListener("load", () => {
 
-    const savedUser =
-    localStorage.getItem("remember_username");
+    const savedUser = localStorage.getItem("remember_username");
 
-    if(savedUser){
+    if (savedUser) {
 
-        username.value=savedUser;
+        username.value = savedUser;
 
-        rememberMe.checked=true;
+        rememberMe.checked = true;
 
     }
 
 });
 
-/* ==========================
-SAVE REMEMBER
-========================== */
+/* ==========================================
+   SAVE REMEMBER
+========================================== */
 
-function saveRemember(){
+function saveRemember() {
 
-    if(rememberMe.checked){
+    if (rememberMe.checked) {
 
         localStorage.setItem(
-
             "remember_username",
-
             username.value
-
         );
 
-    }else{
+    } else {
 
         localStorage.removeItem(
-
             "remember_username"
-
         );
 
     }
 
 }
 
-/* ==========================
-BASIC VALIDATION
-========================== */
+/* ==========================================
+   BASIC VALIDATION
+========================================== */
 
-loginForm.addEventListener(
-
-"submit",
-
-function(e){
+loginForm.addEventListener("submit", async function (e) {
 
     e.preventDefault();
 
-    loginMessage.innerHTML="";
+    loginMessage.innerHTML = "";
 
-    if(username.value.trim()===""){
+    if (username.value.trim() === "") {
 
-        loginMessage.innerHTML=
-        "Please enter username.";
+        loginMessage.innerHTML = "Please enter your username.";
 
         username.focus();
 
@@ -149,10 +139,9 @@ function(e){
 
     }
 
-    if(password.value.trim()===""){
+    if (password.value.trim() === "") {
 
-        loginMessage.innerHTML=
-        "Please enter password.";
+        loginMessage.innerHTML = "Please enter your password.";
 
         password.focus();
 
@@ -164,8 +153,41 @@ function(e){
 
     showLoading();
 
-    /* FIREBASE LOGIN
-       PART 2
-    */
+  try {
 
+    const email = username.value.trim();
+
+    const pass = password.value;
+
+    await signInWithEmailAndPassword(
+        auth,
+        email,
+        pass
+    );
+
+    hideLoading();
+
+    showToast(
+        "Login Successful",
+        "#16a34a"
+    );
+
+    setTimeout(() => {
+
+        window.location.href = "pages/dashboard.html";
+
+    }, 1000);
+
+} catch (error) {
+
+    hideLoading();
+
+    loginMessage.innerHTML = "Invalid email or password.";
+
+    showToast(
+        "Login Failed",
+        "#dc2626"
+    );
+
+}
 });
