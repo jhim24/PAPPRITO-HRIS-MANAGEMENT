@@ -75,6 +75,61 @@ body{
     position:relative;
 
 }
+/* ==========================
+   BACKGROUND SLIDER
+========================== */
+
+.background-slider{
+
+    position:fixed;
+
+    inset:0;
+
+    z-index:0;
+
+}
+
+.slide{
+
+    position:absolute;
+
+    inset:0;
+
+    opacity:0;
+
+    transition:opacity 1.5s ease;
+
+    background-size:cover;
+
+    background-position:center;
+
+    background-repeat:no-repeat;
+
+}
+
+.slide.active{
+
+    opacity:1;
+
+}
+
+.slide:nth-child(1){
+
+    background-image:url("../images/bg1.jpg");
+
+}
+
+.slide:nth-child(2){
+
+    background-image:url("../images/bg2.jpg");
+
+}
+
+.slide:nth-child(3){
+
+    background-image:url("../images/bg3.jpg");
+
+}
 /* BACKGROUND */
 
 .background-overlay{
