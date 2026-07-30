@@ -152,13 +152,17 @@ body{
 
 .logo-box{
 
-    width:150px;
+    width:170px;
 
-    height:150px;
+    height:170px;
 
     border-radius:50%;
 
-    background:white;
+    background:rgba(255,255,255,.12);
+
+    border:3px solid rgba(255,204,0,.35);
+
+    backdrop-filter:blur(15px);
 
     display:flex;
 
@@ -169,11 +173,12 @@ body{
     margin-bottom:25px;
 
     box-shadow:
-    0 0 30px
-    rgba(255,204,0,.25);
+        0 0 35px rgba(255,204,0,.30),
+        0 0 80px rgba(215,25,32,.15);
+
+    animation:floatLogo 4s ease-in-out infinite;
 
 }
-
 .logo-placeholder{
 
     font-size:70px;
