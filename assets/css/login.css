@@ -179,13 +179,13 @@ body{
     animation:floatLogo 4s ease-in-out infinite;
 
 }
-.logo-placeholder{
+.logo-image{
 
-    font-size:70px;
+    width:120px;
 
-    font-weight:700;
+    height:120px;
 
-    color:var(--secondary);
+    object-fit:contain;
 
 }
 
@@ -659,5 +659,20 @@ body{
     display:none;
 
 }
+
+}
+@keyframes floatLogo{
+
+    0%,100%{
+
+        transform:translateY(0);
+
+    }
+
+    50%{
+
+        transform:translateY(-10px);
+
+    }
 
 }
