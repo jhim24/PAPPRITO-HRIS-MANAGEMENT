@@ -158,16 +158,33 @@ body{
 
 .login-container{
 
-    width:95%;
+    width:min(95%,1500px);
 
-    max-width:1200px;
-
-    min-height:650px;
+    height:min(90vh,900px);
 
     display:grid;
 
-    grid-template-columns:
-    1fr 1fr;
+    grid-template-columns:55% 45%;
+
+    overflow:hidden;
+
+    border-radius:35px;
+
+    border:1px solid rgba(255,204,0,.30);
+
+    background:rgba(18,18,18,.70);
+
+    backdrop-filter:blur(30px);
+
+    box-shadow:
+        0 30px 80px rgba(0,0,0,.60),
+        inset 0 0 0 1px rgba(255,255,255,.05);
+
+    position:relative;
+
+    z-index:10;
+
+}
 
     background:var(--card);
 
@@ -192,26 +209,25 @@ body{
 
 .login-left{
 
-    background:
-    linear-gradient(
-    160deg,
-    #181818,
-    #262626);
+    position:relative;
+
+    overflow:hidden;
 
     display:flex;
 
     flex-direction:column;
 
-    align-items:center;
-
     justify-content:center;
 
-    padding:60px;
+    align-items:center;
+
+    padding:70px;
 
     text-align:center;
 
-}
+    background:rgba(0,0,0,.25);
 
+}
 .logo-box{
 
     width:170px;
