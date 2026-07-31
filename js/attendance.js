@@ -599,11 +599,11 @@ initialize();
    FILTER EVENTS
 ========================================== */
 
-employeeSelect.addEventListener("change", filterAttendance);
+// employeeSelect.addEventListener("change", filterAttendance);
 
-fromDate.addEventListener("change", filterAttendance);
+// fromDate.addEventListener("change", filterAttendance);
 
-toDate.addEventListener("change", filterAttendance);
+// toDate.addEventListener("change", filterAttendance);
 /* ==========================================
    BUTTON EVENTS
 ========================================== */
