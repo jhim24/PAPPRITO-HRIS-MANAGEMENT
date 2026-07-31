@@ -221,3 +221,15 @@ window.logout = async function(){
     }
 
 };
+/* ==========================================
+   MOBILE SIDEBAR
+========================================== */
+
+window.toggleSidebar = function(){
+
+    document
+        .querySelector(".sidebar")
+        .classList
+        .toggle("active");
+
+};
