@@ -43,7 +43,7 @@ const btnAdd = document.getElementById("addEmployeeBtn");
 const btnSave = document.getElementById("saveEmployee");
 
 const btnCancel = document.getElementById("cancelModal");
-
+const btnClose = document.getElementById("closeModal");
 const searchInput = document.getElementById("searchEmployee");
 
 const departmentFilter = document.getElementById("departmentFilter");
@@ -78,6 +78,8 @@ btnAdd.onclick = () => {
 
 btnCancel.onclick = closeModal;
 
+btnClose.onclick = closeModal;
+
 window.onclick = function(e){
 
     if(e.target===modal){
@@ -87,12 +89,38 @@ window.onclick = function(e){
     }
 
 };
+/* =====================================
+   ESC KEY
+===================================== */
 
+document.addEventListener("keydown",(e)=>{
+
+    if(e.key==="Escape"){
+
+        closeModal();
+
+    }
+
+});
 function closeModal(){
 
     modal.style.display="none";
 
     clearForm();
+
+    btnSave.style.display="inline-block";
+
+    document.querySelectorAll(
+
+        "#employeeModal input,#employeeModal select,#employeeModal textarea"
+
+    ).forEach(el=>{
+
+        el.disabled=false;
+
+    });
+
+    photoInput.disabled=false;
 
 }
 
