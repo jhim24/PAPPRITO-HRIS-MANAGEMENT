@@ -43,3 +43,96 @@ max-width:1400px;
 margin:auto;
 
 }
+/* ==========================================
+   CONTAINER
+========================================== */
+
+.container{
+
+background:var(--dark2);
+
+border:2px solid var(--primary);
+
+border-radius:12px;
+
+padding:15px;
+
+box-shadow:0 5px 15px rgba(0,0,0,.5);
+
+}
+
+/* ==========================================
+   HEADER
+========================================== */
+
+.header{
+
+position:relative;
+
+text-align:center;
+
+padding:20px 10px;
+
+}
+
+.logo{
+
+width:110px;
+
+height:110px;
+
+margin:auto;
+
+background:white;
+
+border-radius:50%;
+
+display:flex;
+
+justify-content:center;
+
+align-items:center;
+
+overflow:hidden;
+
+border:2px solid var(--primary);
+
+}
+
+.logo img{
+
+width:100%;
+
+height:100%;
+
+object-fit:cover;
+
+}
+
+.logo-text{
+
+font-size:40px;
+
+font-weight:bold;
+
+color:#ff3333;
+
+margin-top:10px;
+
+text-shadow:2px 2px 5px #000;
+
+}
+
+.title{
+
+font-size:34px;
+
+font-weight:bold;
+
+color:var(--primary);
+
+margin-top:10px;
+
+text-shadow:2px 2px 5px #000;
+
+}
