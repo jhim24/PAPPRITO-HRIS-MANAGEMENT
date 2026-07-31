@@ -1225,23 +1225,28 @@ return new Date()
 
 function formatDate(dateStr){
 
-if(!dateStr) return "";
+    if(!dateStr){
+        return "";
+    }
 
-if(dateStr.includes("-")){
-return dateStr;
-}
+    dateStr = String(dateStr).trim();
 
-let parts = dateStr.split("/");
+    if(dateStr.includes("-")){
+        return dateStr;
+    }
 
-if(parts.length !== 3){
-return "";
-}
+    const parts = dateStr.split("/");
 
-let month = parts[0].padStart(2,"0");
-let day = parts[1].padStart(2,"0");
-let year = parts[2];
+    if(parts.length !== 3){
+        console.log("Invalid Date:", dateStr);
+        return "";
+    }
 
-return `${year}-${month}-${day}`;
+    const month = (parts[0] || "").padStart(2,"0");
+    const day   = (parts[1] || "").padStart(2,"0");
+    const year  = parts[2];
+
+    return `${year}-${month}-${day}`;
 
 }
 function getDateRange(startDate, endDate){
