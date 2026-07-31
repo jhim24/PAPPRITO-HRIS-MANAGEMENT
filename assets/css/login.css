@@ -786,6 +786,40 @@ body{
 
 }
 
+}@media(max-width:900px){
+
+.login-container{
+
+    grid-template-columns:1fr;
+
+}
+
+.login-left{
+
+    display:none;
+
+}
+
+.mobile-logo{
+
+    display:block;
+
+}
+
+.login-right{
+
+    padding:25px;
+
+}
+
+.login-card{
+
+    max-width:100%;
+
+    padding:30px;
+
+}
+
 }
 
 @media(max-width:500px){
