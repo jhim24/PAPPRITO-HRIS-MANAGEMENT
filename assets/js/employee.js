@@ -172,21 +172,71 @@ async function loadEmployees() {
 
         const emp = documentData.data();
 
-        tbody.innerHTML += `
-            <tr>
-                <td>📷</td>
-                <td>${emp.employeeId ?? ""}</td>
-                <td>${emp.firstName ?? ""} ${emp.lastName ?? ""}</td>
-                <td>${emp.department ?? ""}</td>
-                <td>${emp.position ?? ""}</td>
-                <td>Active</td>
-                <td>${emp.mobile ?? ""}</td>
-                <td>
-                    <button>Edit</button>
-                    <button>Delete</button>
-                </td>
-            </tr>
-        `;
+       tbody.innerHTML += `
+<tr>
+
+<td><img src="${emp.photo || '../assets/images/default-avatar.png'}" class="photo"></td>
+
+<td>${emp.employeeId || ""}</td>
+
+<td>${emp.firstName || ""}</td>
+
+<td>${emp.middleName || ""}</td>
+
+<td>${emp.lastName || ""}</td>
+
+<td>${emp.birthday || ""}</td>
+
+<td>${emp.gender || ""}</td>
+
+<td>${emp.department || ""}</td>
+
+<td>${emp.position || ""}</td>
+
+<td>${emp.email || ""}</td>
+
+<td>${emp.mobile || ""}</td>
+
+<td>${emp.sss || ""}</td>
+
+<td>${emp.philhealth || ""}</td>
+
+<td>${emp.pagibig || ""}</td>
+
+<td>${emp.tin || ""}</td>
+
+<td>${emp.bank || ""}</td>
+
+<td>${emp.accountNo || ""}</td>
+
+<td>${emp.address || ""}</td>
+
+<td>${emp.createdAt?.toDate().toLocaleDateString() || ""}</td>
+
+<td>
+<span class="status active">
+Active
+</span>
+</td>
+
+<td>
+
+<div class="action-group">
+
+<button class="edit-btn">
+Edit
+</button>
+
+<button class="delete-btn">
+Delete
+</button>
+
+</div>
+
+</td>
+
+</tr>
+`;
 
     });
 
