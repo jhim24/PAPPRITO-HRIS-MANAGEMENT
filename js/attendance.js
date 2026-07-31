@@ -46,6 +46,8 @@ document.getElementById("todayDate");
 let employees = [];
 
 let attendance = [];
+const attendanceBody =
+document.getElementById("attendanceBody");
 /* ==========================================
    LIVE CLOCK
 ========================================== */
@@ -109,17 +111,19 @@ id:docSnap.id,
 
 const fullName = [
 
-emp.firstname,
+emp.firstname || "",
 
-emp.middlename,
+emp.middlename || "",
 
-emp.lastname
+emp.lastname || ""
 
 ]
 
-.filter(Boolean)
+.join(" ")
 
-.join(" ");
+.replace(/\s+/g," ")
+
+.trim();
 
 employeeSelect.innerHTML += `
 
@@ -135,7 +139,96 @@ ${emp.employeeid || "NO-ID"} - ${fullName}
 
 }
 /* ==========================================
+   LOAD ATTENDANCE
+========================================== */
+
+async function loadAttendance(){
+
+    attendance = [];
+
+    const snapshot =
+    await getDocs(collection(db,"attendance"));
+
+    snapshot.forEach(docSnap=>{
+
+        attendance.push({
+
+            id:docSnap.id,
+
+            ...docSnap.data()
+
+        });
+
+    });
+
+    renderAttendanceTable();
+
+}
+/* ==========================================
+   RENDER ATTENDANCE TABLE
+========================================== */
+
+function renderAttendanceTable(){
+
+    attendanceBody.innerHTML = "";
+
+    attendance.forEach(att=>{
+
+        attendanceBody.innerHTML += `
+
+<tr>
+
+<td>${att.date || "-"}</td>
+
+<td>${att.empid || "-"}</td>
+
+<td>${att.name || "-"}</td>
+
+<td>${att.timein || "-"}</td>
+
+<td>${att.breakout || "-"}</td>
+
+<td>${att.breakin || "-"}</td>
+
+<td>${att.timeout || "-"}</td>
+
+<td>${att.breakminutes || "0 mins"}</td>
+
+<td>${att.regularhours || "0.00"}</td>
+
+<td>${att.overtime || "0.00"}</td>
+
+<td>${att.late || "0 mins"}</td>
+
+<td>${att.status || "-"}</td>
+
+<td>
+
+<button class="action-btn timeout">
+
+DELETE
+
+</button>
+
+</td>
+
+</tr>
+
+`;
+
+    });
+
+}
+/* ==========================================
    INITIALIZE
 ========================================== */
 
-loadEmployees();
+async function initialize(){
+
+    await loadEmployees();
+
+    await loadAttendance();
+
+}
+
+initialize();
