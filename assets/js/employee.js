@@ -232,12 +232,20 @@ ${emp.status || 'Active'}
 
 <div class="action-group">
 
-<button class="edit-btn">
+<button
+class="edit-btn"
+data-id="${id}">
+
 Edit
+
 </button>
 
-<button class="delete-btn">
+<button
+class="delete-btn"
+data-id="${id}">
+
 Delete
+
 </button>
 
 </div>
@@ -254,13 +262,33 @@ Delete
 loadEmployees();
 document.addEventListener("click", async (e) => {
 
-    if (e.target.classList.contains("delete-btn")) {
+    if (!e.target.classList.contains("delete-btn")) return;
 
-        if (!confirm("Delete this employee?")) return;
+    const id = e.target.dataset.id;
 
-        await deleteDoc(doc(db, "employees", e.target.dataset.id));
+    if (!id) {
+
+        alert("Employee ID not found.");
+
+        return;
+
+    }
+
+    if (!confirm("Delete this employee?")) return;
+
+    try {
+
+        await deleteDoc(doc(db, "employees", id));
+
+        alert("Employee deleted successfully.");
 
         loadEmployees();
+
+    } catch (error) {
+
+        console.error(error);
+
+        alert(error.message);
 
     }
 
