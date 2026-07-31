@@ -229,14 +229,13 @@ async function breakOut(){
 
     }
 
-    const record = attendance.find(att=>
+   const record = attendance.find(att =>
 
-        att.empDocId===employeeSelect.value &&
+    att.empDocId === employeeSelect.value &&
+    att.date === getToday() &&
+    (!att.timeout || att.timeout === "-")
 
-        (!att.timeout || att.timeout==="-")
-
-
-    );
+);
 
     if(!record){
 
@@ -285,14 +284,13 @@ async function breakIn(){
 
     }
 
-    const record = attendance.find(att=>
+   const record = attendance.find(att =>
 
-        att.empDocId===employeeSelect.value &&
+    att.empDocId === employeeSelect.value &&
+    att.date === getToday() &&
+    (!att.timeout || att.timeout === "-")
 
-        (!att.timeout || att.timeout==="-")
-
-
-    );
+);
 
     if(!record){
 
@@ -349,14 +347,13 @@ async function timeOut(){
 
     }
 
-    const record = attendance.find(att=>
+   const record = attendance.find(att =>
 
-        att.empDocId===employeeSelect.value &&
+    att.empDocId === employeeSelect.value &&
+    att.date === getToday() &&
+    (!att.timeout || att.timeout === "-")
 
-        (!att.timeout || att.timeout==="-")
-
-    );
-
+);
     if(!record){
 
         alert("No active attendance found.");
@@ -395,20 +392,25 @@ async function timeOut(){
         totalHours = 0;
 
     }
+const regularHours = Math.min(totalHours, 8);
 
+const overtime = Math.max(totalHours - 8, 0);
+   
     await updateDoc(
 
         doc(db,"attendance",record.id),
 
-        {
+       {
+    timeout:getCurrentTime(),
 
-            timeout:getCurrentTime(),
+    breakminutes:breakMinutes + " mins",
 
-            breakminutes:breakMinutes + " mins",
+    totalhours:totalHours.toFixed(2),
 
-            totalhours:totalHours.toFixed(2)
+    regularhours:regularHours.toFixed(2),
 
-        }
+    overtime:overtime.toFixed(2)
+}
 
     );
 
@@ -535,7 +537,9 @@ function renderAttendanceTable(records = attendance){
 
 <td>${att.breakminutes || "0 mins"}</td>
 
-<td>${att.totalhours || "0.00"}</td>
+<td>${att.regularhours || "0.00"}</td>
+
+<td>${att.overtime || "0.00"}</td>
 
 <td>${att.late || "0 mins"}</td>
 
