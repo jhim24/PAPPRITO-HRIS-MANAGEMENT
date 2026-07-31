@@ -542,4 +542,26 @@ color:#000 !important;
 
 }
 
+/* ==========================================
+   HIDE STATUS & ACTION IN PRINT
+========================================== */
+
+/* STATUS COLUMN */
+
+#attendanceTable th:nth-child(12),
+#attendanceTable td:nth-child(12){
+
+display:none !important;
+
+}
+
+/* ACTION COLUMN */
+
+#attendanceTable th:nth-child(13),
+#attendanceTable td:nth-child(13){
+
+display:none !important;
+
+}
+
 }
