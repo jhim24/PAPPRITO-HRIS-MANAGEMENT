@@ -1179,11 +1179,15 @@ collection(db,'attendance')
 
 snapshot.forEach(docSnap=>{
 
+const data = docSnap.data();
+
+console.log("Attendance Record:", docSnap.id, data);
+
 attendance.push({
 
 id:docSnap.id,
 
-...docSnap.data()
+...data
 
 });
 
