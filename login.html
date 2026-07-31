@@ -506,6 +506,19 @@ LOGIN
 
 </button>
 
+<button
+class="login-btn"
+id="fingerBtn"
+style="
+margin-top:10px;
+background:linear-gradient(135deg,#0066cc,#004499);
+color:white;
+">
+
+🔐 LOGIN WITH FINGERPRINT
+
+</button>
+
 <div id="loading">
 
 <div class="loader-box">
@@ -832,6 +845,17 @@ remember.checked = true;
 }
 
 /* =========================
+FINGERPRINT BUTTON
+========================= */
+
+document
+.getElementById("fingerBtn")
+.addEventListener("click", async ()=>{
+
+    alert("Fingerprint Login Coming Soon");
+
+});   
+/* =========================
 SERVICE WORKER
 ========================= */
 
@@ -842,7 +866,25 @@ navigator.serviceWorker.register(
 );
 
 }
+/* =========================
+CHECK BIOMETRIC SUPPORT
+========================= */
 
+if(
+window.PublicKeyCredential
+){
+
+console.log(
+"Fingerprint Supported"
+);
+
+}else{
+
+document.getElementById(
+"fingerBtn"
+).style.display="none";
+
+}
 </script>
 
 </body>
