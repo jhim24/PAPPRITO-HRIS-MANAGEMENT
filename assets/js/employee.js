@@ -1,282 +1,431 @@
-import { db } from "../../database/firebase-config.js";
+/* ==========================================================
+   PAPPRITO HRIS
+   EMPLOYEE.JS
+   VERSION 2.0
+========================================================== */
+
+import {
+    db,
+    storage
+} from "../../database/firebase-config.js";
 
 import {
     collection,
-    addDoc,
     getDocs,
-    deleteDoc,
+    addDoc,
     updateDoc,
-    doc,
-    serverTimestamp
-} from "https://www.gstatic.com/firebasejs/12.13.0/firebase-firestore.js";
+    deleteDoc,
+    doc
+} from "https://www.gstatic.com/firebasejs/10.13.2/firebase-firestore.js";
 
-/* ==========================================
-   PAPPRITO HRIS
-   EMPLOYEE MODULE
-========================================== */
+import {
+    ref,
+    uploadBytes,
+    getDownloadURL
+} from "https://www.gstatic.com/firebasejs/10.13.2/firebase-storage.js";
+
+/* ==========================================================
+   COLLECTION
+========================================================== */
+
+const employeeCollection = collection(db, "employees");
+
+/* ==========================================================
+   DOM
+========================================================== */
+
+const employeeTable = document.getElementById("employeeTableBody");
 
 const modal = document.getElementById("employeeModal");
 
 const addBtn = document.getElementById("addEmployeeBtn");
 
-const closeBtn = document.getElementById("closeModal");
-
 const cancelBtn = document.getElementById("cancelModal");
 
-/* OPEN MODAL */
+const saveBtn = document.getElementById("saveEmployee");
 
-addBtn.addEventListener("click",()=>{
+const searchInput = document.getElementById("searchEmployee");
 
-    modal.style.display="flex";
+const departmentFilter = document.getElementById("departmentFilter");
+
+const photoInput = document.getElementById("employeePhoto");
+
+const previewPhoto = document.getElementById("previewPhoto");
+
+/* ==========================================================
+   VARIABLES
+========================================================== */
+
+let editingId = null;
+
+let uploadedPhoto = "";
+
+/* ==========================================================
+   OPEN MODAL
+========================================================== */
+
+addBtn.addEventListener("click", () => {
+
+    modal.style.display = "flex";
 
 });
 
-/* CLOSE MODAL */
+/* ==========================================================
+   CLOSE MODAL
+========================================================== */
 
-closeBtn.addEventListener("click",()=>{
+cancelBtn.addEventListener("click", () => {
 
-    modal.style.display="none";
+    modal.style.display = "none";
 
-});
-
-cancelBtn.addEventListener("click",()=>{
-
-    modal.style.display="none";
+    clearForm();
 
 });
 
-/* CLICK OUTSIDE */
+/* ==========================================================
+   CLOSE WHEN CLICK OUTSIDE
+========================================================== */
 
-window.addEventListener("click",(e)=>{
+window.addEventListener("click", (e)=>{
 
     if(e.target===modal){
 
         modal.style.display="none";
 
-    }
-
-});
-
-/* ==========================================
-   FIRESTORE
-========================================== */
-
-const employeeCollection = collection(db, "employees");
-
-
-/* ==========================================
-   SAVE EMPLOYEE
-========================================== */
-
-document
-.getElementById("saveEmployee")
-.addEventListener("click", async ()=>{
-
-    try{
-
-        await addDoc(employeeCollection,{
-
-            employeeId:
-            document.getElementById("empId").value,
-
-            firstName:
-            document.getElementById("firstName").value,
-
-            middleName:
-            document.getElementById("middleName").value,
-
-            lastName:
-            document.getElementById("lastName").value,
-
-            birthday:
-            document.getElementById("birthday").value,
-
-            gender:
-            document.getElementById("gender").value,
-
-            department:
-            document.getElementById("department").value,
-
-            position:
-            document.getElementById("position").value,
-
-            email:
-            document.getElementById("email").value,
-
-            mobile:
-            document.getElementById("mobile").value,
-
-            sss:
-            document.getElementById("sss").value,
-
-            philhealth:
-            document.getElementById("philhealth").value,
-
-            pagibig:
-            document.getElementById("pagibig").value,
-
-            tin:
-            document.getElementById("tin").value,
-
-            bank:
-            document.getElementById("bank").value,
-
-            accountNo:
-            document.getElementById("accountNo").value,
-
-            address:
-            document.getElementById("address").value,
-            status: "Active",
-            createdAt:
-            serverTimestamp()
-
-        });
-
-       alert("Employee saved successfully!");
-
-modal.style.display = "none";
-document.getElementById("empId").value = "";
-document.getElementById("firstName").value = "";
-document.getElementById("middleName").value = "";
-document.getElementById("lastName").value = "";
-document.getElementById("birthday").value = "";
-document.getElementById("gender").value = "";
-document.getElementById("department").value = "";
-document.getElementById("position").value = "";
-document.getElementById("email").value = "";
-document.getElementById("mobile").value = "";
-document.getElementById("sss").value = "";
-document.getElementById("philhealth").value = "";
-document.getElementById("pagibig").value = "";
-document.getElementById("tin").value = "";
-document.getElementById("bank").value = "";
-document.getElementById("accountNo").value = "";
-document.getElementById("address").value = "";
-loadEmployees();
-
-    }catch(error){
-
-        console.error(error);
-
-        alert(error.message);
+        clearForm();
 
     }
 
 });
-/* ==========================================
-   LOAD EMPLOYEES
-========================================== */
 
-async function loadEmployees() {
+/* ==========================================================
+   PHOTO PREVIEW
+========================================================== */
 
-    const tbody = document.getElementById("employeeBody");
+photoInput.addEventListener("change",(e)=>{
 
-    tbody.innerHTML = "";
+    const file=e.target.files[0];
+
+    if(!file) return;
+
+    previewPhoto.src=URL.createObjectURL(file);
+
+});
+
+/* ==========================================================
+   CLEAR FORM
+========================================================== */
+
+function clearForm(){
+
+    editingId=null;
+
+    document.querySelectorAll(
+        "#employeeModal input, #employeeModal select, #employeeModal textarea"
+    ).forEach(el=>{
+
+        if(el.type==="file") return;
+
+        el.value="";
+
+    });
+
+    previewPhoto.src="../assets/images/default-user.png";
+
+}
+/* ==========================================================
+   AUTO EMPLOYEE ID
+========================================================== */
+
+async function generateEmployeeId(){
 
     const snapshot = await getDocs(employeeCollection);
 
-   snapshot.forEach((documentData) => {
+    const total = snapshot.size + 1;
 
-    const id = documentData.id;
+    return "EMP-" + String(total).padStart(5,"0");
 
-    const emp = documentData.data();
+}
 
-       tbody.innerHTML += `
-<tr>
+/* ==========================================================
+   UPLOAD PHOTO
+========================================================== */
 
-<td><img src="${emp.photo || '../assets/images/default-avatar.png'}" class="photo"></td>
+async function uploadPhoto(file){
 
-<td>${emp.employeeId || ""}</td>
+    if(!file) return "";
 
-<td>${emp.firstName || ""}</td>
+    const fileName = Date.now() + "_" + file.name;
 
-<td>${emp.middleName || ""}</td>
+    const storageRef = ref(storage,"employees/" + fileName);
 
-<td>${emp.lastName || ""}</td>
+    await uploadBytes(storageRef,file);
 
-<td>${emp.birthday || ""}</td>
+    return await getDownloadURL(storageRef);
 
-<td>${emp.gender || ""}</td>
+}
 
-<td>${emp.department || ""}</td>
+/* ==========================================================
+   SAVE EMPLOYEE
+========================================================== */
 
-<td>${emp.position || ""}</td>
+saveBtn.addEventListener("click", async()=>{
 
-<td>${emp.email || ""}</td>
+    try{
 
-<td>${emp.mobile || ""}</td>
+        const firstName = document.getElementById("firstName").value.trim();
+        const middleName = document.getElementById("middleName").value.trim();
+        const lastName = document.getElementById("lastName").value.trim();
+        const department = document.getElementById("department").value;
+        const position = document.getElementById("position").value.trim();
+        const email = document.getElementById("email").value.trim();
+        const mobile = document.getElementById("mobile").value.trim();
+        const status = document.getElementById("status").value;
 
-<td>${emp.sss || ""}</td>
+        if(firstName==="" || lastName===""){
 
-<td>${emp.philhealth || ""}</td>
+            alert("First Name and Last Name are required.");
 
-<td>${emp.pagibig || ""}</td>
+            return;
 
-<td>${emp.tin || ""}</td>
+        }
 
-<td>${emp.bank || ""}</td>
+        let employeeId = document.getElementById("empId").value;
 
-<td>${emp.accountNo || ""}</td>
+        if(employeeId===""){
 
-<td>${emp.address || ""}</td>
+            employeeId = await generateEmployeeId();
 
-<td>${emp.createdAt?.toDate().toLocaleDateString() || ""}</td>
+        }
 
-<td>
-<span class="status ${emp.status === 'Inactive' ? 'inactive' : 'active'}">
-${emp.status || 'Active'}
-</span>
-</td>
+        let photoURL = uploadedPhoto;
 
-<td>
+        if(photoInput.files.length>0){
 
-<div class="action-group">
+            photoURL = await uploadPhoto(photoInput.files[0]);
 
-<button
-class="edit-btn"
-data-id="${id}">
+        }
 
-Edit
+        const employeeData={
 
-</button>
+            employeeId,
 
-<button
-class="delete-btn"
-data-id="${id}">
+            firstName,
 
-Delete
+            middleName,
 
-</button>
+            lastName,
 
-</div>
+            department,
 
-</td>
+            position,
 
-</tr>
-`;
+            email,
+
+            mobile,
+
+            status,
+
+            photoURL,
+
+            createdAt:new Date()
+
+        };
+
+        await addDoc(employeeCollection,employeeData);
+
+        alert("Employee saved successfully.");
+
+        modal.style.display="none";
+
+        clearForm();
+
+        loadEmployees();
+
+    }
+
+    catch(error){
+
+        console.error(error);
+
+        alert("Error saving employee.");
+
+    }
+
+});
+/* ==========================================================
+   LOAD EMPLOYEES
+========================================================== */
+
+async function loadEmployees(){
+
+    employeeTable.innerHTML = "";
+
+    const snapshot = await getDocs(employeeCollection);
+
+    snapshot.forEach((document)=>{
+
+        const data = document.data();
+
+        const row = document.createElement("tr");
+
+        row.innerHTML = `
+
+        <td>
+
+            <img
+            src="${data.photoURL || '../assets/images/default-user.png'}"
+            class="photo">
+
+        </td>
+
+        <td>${data.employeeId || ""}</td>
+
+        <td>${data.firstName || ""}</td>
+
+        <td>${data.middleName || ""}</td>
+
+        <td>${data.lastName || ""}</td>
+
+        <td>${data.birthday || ""}</td>
+
+        <td>${data.gender || ""}</td>
+
+        <td>${data.department || ""}</td>
+
+        <td>${data.position || ""}</td>
+
+        <td>${data.email || ""}</td>
+
+        <td>${data.mobile || ""}</td>
+
+        <td>
+
+            <span class="status ${(data.status || "Active").toLowerCase()}">
+
+                ${data.status || "Active"}
+
+            </span>
+
+        </td>
+
+        <td>
+
+            <div class="action-group">
+
+                <button
+                class="view-btn"
+                data-id="${document.id}">
+
+                View
+
+                </button>
+
+                <button
+                class="edit-btn"
+                data-id="${document.id}">
+
+                Edit
+
+                </button>
+
+                <button
+                class="delete-btn"
+                data-id="${document.id}">
+
+                Delete
+
+                </button>
+
+            </div>
+
+        </td>
+
+        `;
+
+        employeeTable.appendChild(row);
 
     });
 
 }
 
-loadEmployees();
-document.addEventListener("click", async (e) => {
+/* ==========================================================
+   SEARCH EMPLOYEE
+========================================================== */
 
-    if (!e.target.classList.contains("delete-btn")) return;
+searchInput.addEventListener("keyup",()=>{
+
+    const keyword = searchInput.value.toLowerCase();
+
+    const rows = employeeTable.querySelectorAll("tr");
+
+    rows.forEach(row=>{
+
+        row.style.display = row.innerText
+            .toLowerCase()
+            .includes(keyword)
+            ? ""
+            : "none";
+
+    });
+
+});
+
+/* ==========================================================
+   FILTER DEPARTMENT
+========================================================== */
+
+departmentFilter.addEventListener("change",()=>{
+
+    const department = departmentFilter.value;
+
+    const rows = employeeTable.querySelectorAll("tr");
+
+    rows.forEach(row=>{
+
+        if(department===""){
+
+            row.style.display="";
+
+            return;
+
+        }
+
+        row.style.display = row.innerText
+            .includes(department)
+            ? ""
+            : "none";
+
+    });
+
+});
+
+/* ==========================================================
+   INITIAL LOAD
+========================================================== */
+
+loadEmployees();
+/* ==========================================================
+   VIEW / EDIT / DELETE
+========================================================== */
+
+employeeTable.addEventListener("click", async (e) => {
 
     const id = e.target.dataset.id;
 
-    if (!id) {
+    if (!id) return;
 
-        alert("Employee ID not found.");
+    /* =========================
+       DELETE
+    ========================= */
 
-        return;
+    if (e.target.classList.contains("delete-btn")) {
 
-    }
+        const confirmDelete = confirm(
+            "Are you sure you want to delete this employee?"
+        );
 
-    if (!confirm("Delete this employee?")) return;
-
-    try {
+        if (!confirmDelete) return;
 
         await deleteDoc(doc(db, "employees", id));
 
@@ -284,12 +433,119 @@ document.addEventListener("click", async (e) => {
 
         loadEmployees();
 
-    } catch (error) {
+    }
 
-        console.error(error);
+    /* =========================
+       EDIT / VIEW
+    ========================= */
 
-        alert(error.message);
+    if (
+        e.target.classList.contains("edit-btn") ||
+        e.target.classList.contains("view-btn")
+    ) {
+
+        const snapshot = await getDocs(employeeCollection);
+
+        snapshot.forEach((employeeDoc) => {
+
+            if (employeeDoc.id !== id) return;
+
+            const data = employeeDoc.data();
+
+            editingId = id;
+
+            document.getElementById("empId").value = data.employeeId || "";
+            document.getElementById("firstName").value = data.firstName || "";
+            document.getElementById("middleName").value = data.middleName || "";
+            document.getElementById("lastName").value = data.lastName || "";
+            document.getElementById("birthday").value = data.birthday || "";
+            document.getElementById("gender").value = data.gender || "";
+            document.getElementById("department").value = data.department || "";
+            document.getElementById("position").value = data.position || "";
+            document.getElementById("email").value = data.email || "";
+            document.getElementById("mobile").value = data.mobile || "";
+            document.getElementById("status").value = data.status || "Active";
+
+            document.getElementById("sss").value = data.sss || "";
+            document.getElementById("philhealth").value = data.philhealth || "";
+            document.getElementById("pagibig").value = data.pagibig || "";
+            document.getElementById("tin").value = data.tin || "";
+
+            document.getElementById("bank").value = data.bank || "";
+            document.getElementById("accountNo").value = data.accountNo || "";
+
+            document.getElementById("notes").value = data.notes || "";
+
+            uploadedPhoto = data.photoURL || "";
+
+            previewPhoto.src =
+                uploadedPhoto || "../assets/images/default-user.png";
+
+            modal.style.display = "flex";
+
+        });
 
     }
+
+});
+
+/* ==========================================================
+   UPDATE EMPLOYEE
+========================================================== */
+
+saveBtn.addEventListener("click", async () => {
+
+    if (!editingId) return;
+
+    let photoURL = uploadedPhoto;
+
+    if (photoInput.files.length > 0) {
+
+        photoURL = await uploadPhoto(photoInput.files[0]);
+
+    }
+
+    const employeeData = {
+
+        employeeId: document.getElementById("empId").value,
+        firstName: document.getElementById("firstName").value,
+        middleName: document.getElementById("middleName").value,
+        lastName: document.getElementById("lastName").value,
+        birthday: document.getElementById("birthday").value,
+        gender: document.getElementById("gender").value,
+        department: document.getElementById("department").value,
+        position: document.getElementById("position").value,
+        email: document.getElementById("email").value,
+        mobile: document.getElementById("mobile").value,
+        status: document.getElementById("status").value,
+
+        sss: document.getElementById("sss").value,
+        philhealth: document.getElementById("philhealth").value,
+        pagibig: document.getElementById("pagibig").value,
+        tin: document.getElementById("tin").value,
+
+        bank: document.getElementById("bank").value,
+        accountNo: document.getElementById("accountNo").value,
+
+        notes: document.getElementById("notes").value,
+
+        photoURL
+
+    };
+
+    await updateDoc(
+        doc(db, "employees", editingId),
+        employeeData
+    );
+
+    alert("Employee updated successfully.");
+
+    editingId = null;
+
+    modal.style.display = "none";
+
+    clearForm();
+
+    loadEmployees();
 
 });
