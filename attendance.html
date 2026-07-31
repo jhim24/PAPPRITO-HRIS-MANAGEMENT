@@ -1720,9 +1720,17 @@ emp === '' ||
 att.employee === emp ||
 att.name === emp;
 
-let attDate =
-formatDate(att.date);
+if (!att || !att.date) {
+    console.log("Bad Attendance:", att);
+    return false;
+}
 
+let attDate = formatDate(att.date);
+
+if (!attDate) {
+    console.log("Invalid Date:", att);
+    return false;
+}
 let fromMatch =
 fromDate === '' ||
 attDate >= fromDate;
