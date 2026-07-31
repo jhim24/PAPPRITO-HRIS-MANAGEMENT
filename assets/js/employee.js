@@ -72,3 +72,85 @@ window.toggleSidebar=function(){
     sidebar.classList.toggle("active");
 
 };
+
+/* ==========================================
+   SAVE EMPLOYEE
+========================================== */
+
+document
+.getElementById("saveEmployee")
+.addEventListener("click", async ()=>{
+
+    try{
+
+        await addDoc(employeeCollection,{
+
+            employeeId:
+            document.getElementById("empId").value,
+
+            firstName:
+            document.getElementById("firstName").value,
+
+            middleName:
+            document.getElementById("middleName").value,
+
+            lastName:
+            document.getElementById("lastName").value,
+
+            birthday:
+            document.getElementById("birthday").value,
+
+            gender:
+            document.getElementById("gender").value,
+
+            department:
+            document.getElementById("department").value,
+
+            position:
+            document.getElementById("position").value,
+
+            email:
+            document.getElementById("email").value,
+
+            mobile:
+            document.getElementById("mobile").value,
+
+            sss:
+            document.getElementById("sss").value,
+
+            philhealth:
+            document.getElementById("philhealth").value,
+
+            pagibig:
+            document.getElementById("pagibig").value,
+
+            tin:
+            document.getElementById("tin").value,
+
+            bank:
+            document.getElementById("bank").value,
+
+            accountNo:
+            document.getElementById("accountNo").value,
+
+            address:
+            document.getElementById("address").value,
+
+            createdAt:
+            serverTimestamp()
+
+        });
+
+        alert("Employee saved successfully!");
+
+        modal.style.display="none";
+
+    }catch(error){
+
+        console.error(error);
+
+        alert(error.message);
+
+    }
+
+});
