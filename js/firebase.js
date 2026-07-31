@@ -1,0 +1,30 @@
+/* ==========================================
+   PAPPRITO HRIS
+   FIREBASE CONFIG
+========================================== */
+
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.13.0/firebase-app.js";
+
+import { getFirestore } from "https://www.gstatic.com/firebasejs/12.13.0/firebase-firestore.js";
+
+const firebaseConfig = {
+
+apiKey: "AIzaSyAehoq0teVYHiJ4bkKOgBqIgJZrQpce3k8",
+
+authDomain: "hr-system-38fc3.firebaseapp.com",
+
+projectId: "hr-system-38fc3",
+
+storageBucket: "hr-system-38fc3.firebasestorage.app",
+
+messagingSenderId: "615471610834",
+
+appId: "1:615471610834:web:a0d671d4e3f4c1b57b660b"
+
+};
+
+const app = initializeApp(firebaseConfig);
+
+const db = getFirestore(app);
+
+export { app, db };
