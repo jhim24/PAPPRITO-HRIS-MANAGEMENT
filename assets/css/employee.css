@@ -1,6 +1,6 @@
 /* ==========================================
    PAPPRITO HRIS
-   EMPLOYEE MODULE
+   EMPLOYEE.CSS
 ========================================== */
 
 *{
@@ -15,57 +15,118 @@
     --primary:#ffcc00;
     --secondary:#d71920;
     --dark:#111827;
-    --card:#ffffff;
-    --bg:#f4f6f9;
-    --text:#222;
+    --bg:#f5f6fa;
+    --white:#ffffff;
     --border:#e5e7eb;
+    --shadow:0 10px 25px rgba(0,0,0,.08);
 
 }
 
 body{
 
     background:var(--bg);
-    color:var(--text);
 
 }
 
 .dashboard{
 
-    display:flex;
+    width:100%;
     min-height:100vh;
-
-}
-
-.sidebar{
-
-    width:270px;
-    background:var(--dark);
-    color:#fff;
 
 }
 
 .main-content{
 
-    flex:1;
-    padding:25px;
+    width:100%;
+    min-height:100vh;
+
+    padding:30px;
 
 }
+
+/* ===============================
+   TOPBAR
+================================ */
 
 .topbar{
 
     display:flex;
+
     justify-content:space-between;
+
     align-items:center;
-    margin-bottom:25px;
+
+    margin-bottom:30px;
 
 }
+
+.header-left{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:20px;
+
+}
+
+.back-btn{
+
+    background:var(--secondary);
+
+    color:#fff;
+
+    border:none;
+
+    padding:12px 22px;
+
+    border-radius:10px;
+
+    cursor:pointer;
+
+    font-size:15px;
+
+    font-weight:600;
+
+    transition:.3s;
+
+}
+
+.back-btn:hover{
+
+    background:#b11418;
+
+}
+
+.topbar h1{
+
+    font-size:32px;
+
+    color:#111827;
+
+}
+
+.topbar p{
+
+    color:#6b7280;
+
+    margin-top:5px;
+
+}
+
+/* ===============================
+   TOOLBAR
+================================ */
 
 .employee-toolbar{
 
     display:flex;
+
     gap:15px;
+
     flex-wrap:wrap;
-    margin-bottom:20px;
+
+    margin-bottom:25px;
 
 }
 
@@ -78,166 +139,10 @@ body{
 .search-box input{
 
     width:100%;
-    padding:12px;
-    border:1px solid var(--border);
-    border-radius:10px;
-
-}
-
-.filter-box select{
-
-    padding:12px;
-    border-radius:10px;
-    border:1px solid var(--border);
-
-}
-
-.add-btn{
-
-    background:var(--primary);
-    color:#000;
-    border:none;
-    padding:12px 20px;
-    border-radius:10px;
-    cursor:pointer;
-    font-weight:bold;
-
-}
-
-.add-btn:hover{
-
-    background:#f5b800;
-
-}
-
-.table-container{
-
-    background:#fff;
-    border-radius:15px;
-    overflow:auto;
-    box-shadow:0 8px 20px rgba(0,0,0,.08);
-
-}
-
-table{
-
-    width:100%;
-    border-collapse:collapse;
-
-}
-
-th{
-
-    background:var(--primary);
-    color:#111;
-    padding:14px;
-    text-align:left;
-
-}
-
-td{
 
     padding:14px;
-    border-bottom:1px solid #eee;
 
-}
-
-tr:hover{
-
-    background:#fafafa;
-
-}
-/* ==========================================
-   EMPLOYEE MODAL
-========================================== */
-
-.modal{
-
-    position:fixed;
-    inset:0;
-    background:rgba(0,0,0,.55);
-
-    display:none;
-
-    justify-content:center;
-    align-items:center;
-
-    padding:20px;
-
-    z-index:9999;
-
-}
-
-.modal-content{
-
-    width:100%;
-    max-width:1100px;
-
-    max-height:90vh;
-
-    overflow-y:auto;
-
-    background:#fff;
-
-    border-radius:20px;
-
-    box-shadow:0 20px 60px rgba(0,0,0,.25);
-
-}
-
-.modal-header{
-
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-
-    padding:20px 25px;
-
-    border-bottom:1px solid #eee;
-
-}
-
-.modal-header h2{
-
-    color:#d71920;
-
-}
-
-.modal-header button{
-
-    border:none;
-    background:none;
-    font-size:28px;
-    cursor:pointer;
-
-}
-
-.modal-body{
-
-    padding:25px;
-
-}
-
-.form-grid{
-
-    display:grid;
-
-    grid-template-columns:
-    repeat(auto-fit,minmax(250px,1fr));
-
-    gap:18px;
-
-}
-
-.form-grid input,
-.form-grid select,
-textarea{
-
-    width:100%;
-
-    padding:12px;
-
-    border:1px solid #ddd;
+    border:1px solid var(--border);
 
     border-radius:10px;
 
@@ -245,55 +150,25 @@ textarea{
 
 }
 
-textarea{
+.filter-box select{
 
-    margin-top:20px;
+    padding:14px;
 
-    min-height:120px;
-
-    resize:vertical;
-
-}
-
-.modal-footer{
-
-    display:flex;
-
-    justify-content:flex-end;
-
-    gap:12px;
-
-    padding:20px 25px;
-
-    border-top:1px solid #eee;
-
-}
-
-.cancel-btn{
-
-    background:#888;
-
-    color:#fff;
-
-    border:none;
-
-    padding:12px 22px;
+    border:1px solid var(--border);
 
     border-radius:10px;
 
-    cursor:pointer;
-
 }
 
-.save-btn{
+.add-btn{
 
-    background:#ffcc00;
+    background:var(--primary);
 
     color:#111;
 
     border:none;
 
-    padding:12px 22px;
+    padding:14px 24px;
 
     border-radius:10px;
 
@@ -303,49 +178,191 @@ textarea{
 
 }
 
-.save-btn:hover{
+.add-btn:hover{
 
-    background:#f5b800;
+    background:#f7b800;
+
+}
+/* ==========================================
+   EMPLOYEE TABLE
+========================================== */
+
+.table-container{
+
+    width:100%;
+
+    background:#fff;
+
+    border-radius:15px;
+
+    overflow-x:auto;
+
+    box-shadow:var(--shadow);
+
+}
+
+table{
+
+    width:100%;
+
+    border-collapse:collapse;
+
+    min-width:1100px;
+
+}
+
+thead{
+
+    background:var(--primary);
+
+}
+
+th{
+
+    padding:16px;
+
+    text-align:left;
+
+    color:#111;
+
+    font-size:15px;
+
+    white-space:nowrap;
+
+}
+
+td{
+
+    padding:15px;
+
+    border-bottom:1px solid #ececec;
+
+    vertical-align:middle;
+
+    white-space:nowrap;
+
+}
+
+tbody tr{
+
+    transition:.3s;
+
+}
+
+tbody tr:hover{
+
+    background:#fffbe6;
 
 }
 
 /* ==========================================
-   MOBILE
+   PHOTO
 ========================================== */
 
-@media(max-width:900px){
+.photo{
 
-.main-content{
+    width:50px;
 
-    padding:15px;
+    height:50px;
 
-}
+    border-radius:50%;
 
-.employee-toolbar{
+    object-fit:cover;
 
-    flex-direction:column;
-
-}
-
-.modal-content{
-
-    max-height:95vh;
+    border:2px solid var(--primary);
 
 }
 
-.form-grid{
+/* ==========================================
+   STATUS
+========================================== */
 
-    grid-template-columns:1fr;
+.status{
+
+    display:inline-block;
+
+    padding:6px 12px;
+
+    border-radius:30px;
+
+    font-size:12px;
+
+    font-weight:bold;
 
 }
 
-th,
-td{
+.status.active{
+
+    background:#dcfce7;
+
+    color:#166534;
+
+}
+
+.status.inactive{
+
+    background:#fee2e2;
+
+    color:#991b1b;
+
+}
+
+/* ==========================================
+   ACTION BUTTONS
+========================================== */
+
+.action-group{
+
+    display:flex;
+
+    gap:8px;
+
+}
+
+.edit-btn{
+
+    background:#2563eb;
+
+    color:#fff;
+
+    border:none;
+
+    padding:8px 14px;
+
+    border-radius:8px;
+
+    cursor:pointer;
 
     font-size:13px;
 
-    padding:10px;
+}
+
+.edit-btn:hover{
+
+    background:#1d4ed8;
 
 }
+
+.delete-btn{
+
+    background:#dc2626;
+
+    color:#fff;
+
+    border:none;
+
+    padding:8px 14px;
+
+    border-radius:8px;
+
+    cursor:pointer;
+
+    font-size:13px;
+
+}
+
+.delete-btn:hover{
+
+    background:#b91c1c;
 
 }
