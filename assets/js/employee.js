@@ -1,21 +1,21 @@
 /* ==========================================================
    PAPPRITO HRIS
-   EMPLOYEE.JS
-   VERSION 2.0
+   EMPLOYEE.JS v3.0
 ========================================================== */
 
-import {
-    db,
-    storage
-} from "../../database/firebase-config.js";
+import { db, storage } from "../../database/firebase-config.js";
 
 import {
     collection,
-    getDocs,
     addDoc,
+    getDocs,
+    getDoc,
     updateDoc,
     deleteDoc,
-    doc
+    doc,
+    query,
+    orderBy,
+    serverTimestamp
 } from "https://www.gstatic.com/firebasejs/10.13.2/firebase-firestore.js";
 
 import {
@@ -28,83 +28,81 @@ import {
    COLLECTION
 ========================================================== */
 
-const employeeCollection = collection(db, "employees");
+const employeeRef = collection(db, "employees");
 
 /* ==========================================================
    DOM
 ========================================================== */
 
-const employeeTable = document.getElementById("employeeTableBody");
+const tableBody = document.getElementById("employeeTableBody");
 
 const modal = document.getElementById("employeeModal");
 
-const addBtn = document.getElementById("addEmployeeBtn");
+const btnAdd = document.getElementById("addEmployeeBtn");
 
-const cancelBtn = document.getElementById("cancelModal");
+const btnSave = document.getElementById("saveEmployee");
 
-const saveBtn = document.getElementById("saveEmployee");
+const btnCancel = document.getElementById("cancelModal");
 
 const searchInput = document.getElementById("searchEmployee");
 
 const departmentFilter = document.getElementById("departmentFilter");
 
-const photoInput = document.getElementById("employeePhoto");
-
 const previewPhoto = document.getElementById("previewPhoto");
+
+const photoInput = document.getElementById("employeePhoto");
 
 /* ==========================================================
    VARIABLES
 ========================================================== */
 
-let editingId = null;
+let editId = null;
 
-let uploadedPhoto = "";
+let photoURL = "";
 
 /* ==========================================================
    OPEN MODAL
 ========================================================== */
 
-addBtn.addEventListener("click", () => {
+btnAdd.onclick = () => {
+
+    clearForm();
 
     modal.style.display = "flex";
 
-});
+};
 
 /* ==========================================================
    CLOSE MODAL
 ========================================================== */
 
-cancelBtn.addEventListener("click", () => {
+btnCancel.onclick = closeModal;
 
-    modal.style.display = "none";
-
-    clearForm();
-
-});
-
-/* ==========================================================
-   CLOSE WHEN CLICK OUTSIDE
-========================================================== */
-
-window.addEventListener("click", (e)=>{
+window.onclick = function(e){
 
     if(e.target===modal){
 
-        modal.style.display="none";
-
-        clearForm();
+        closeModal();
 
     }
 
-});
+};
+
+function closeModal(){
+
+    modal.style.display="none";
+
+    clearForm();
+
+}
 
 /* ==========================================================
    PHOTO PREVIEW
 ========================================================== */
 
-photoInput.addEventListener("change",(e)=>{
+photoInput.addEventListener("change",function(){
 
-    const file=e.target.files[0];
+    const file=this.files[0];
 
     if(!file) return;
 
@@ -118,129 +116,397 @@ photoInput.addEventListener("change",(e)=>{
 
 function clearForm(){
 
-    editingId=null;
+    editId=null;
+
+    photoURL="";
 
     document.querySelectorAll(
-        "#employeeModal input, #employeeModal select, #employeeModal textarea"
+
+        "#employeeModal input,#employeeModal select,#employeeModal textarea"
+
     ).forEach(el=>{
 
-        if(el.type==="file") return;
+        if(el.type!=="file"){
 
-        el.value="";
+            el.value="";
+
+        }
 
     });
 
     previewPhoto.src="../assets/images/default-user.png";
 
 }
+
 /* ==========================================================
-   AUTO EMPLOYEE ID
+   GENERATE EMPLOYEE ID
 ========================================================== */
 
-async function generateEmployeeId(){
+async function generateEmployeeID(){
 
-    const snapshot = await getDocs(employeeCollection);
+    const snapshot=await getDocs(employeeRef);
 
-    const total = snapshot.size + 1;
+    const total=snapshot.size+1;
 
-    return "EMP-" + String(total).padStart(5,"0");
+    return "EMP-"+String(total).padStart(5,"0");
 
 }
-
 /* ==========================================================
-   UPLOAD PHOTO
+   UPLOAD PHOTO TO FIREBASE STORAGE
 ========================================================== */
 
-async function uploadPhoto(file){
+async function uploadEmployeePhoto() {
 
-    if(!file) return "";
+    const file = photoInput.files[0];
 
-    const fileName = Date.now() + "_" + file.name;
+    if (!file) return photoURL;
 
-    const storageRef = ref(storage,"employees/" + fileName);
+    const fileName =
+        "employees/" + Date.now() + "_" + file.name;
 
-    await uploadBytes(storageRef,file);
+    const storageRef = ref(storage, fileName);
+
+    await uploadBytes(storageRef, file);
 
     return await getDownloadURL(storageRef);
 
 }
 
 /* ==========================================================
-   SAVE EMPLOYEE
+   GET FORM DATA
 ========================================================== */
 
-saveBtn.addEventListener("click", async()=>{
+function getFormData() {
 
-    try{
+    return {
 
-        const firstName = document.getElementById("firstName").value.trim();
-        const middleName = document.getElementById("middleName").value.trim();
-        const lastName = document.getElementById("lastName").value.trim();
-        const department = document.getElementById("department").value;
-        const position = document.getElementById("position").value.trim();
-        const email = document.getElementById("email").value.trim();
-        const mobile = document.getElementById("mobile").value.trim();
-        const status = document.getElementById("status").value;
+        employeeId: document.getElementById("empId").value,
 
-        if(firstName==="" || lastName===""){
+        firstName: document.getElementById("firstName").value.trim(),
 
-            alert("First Name and Last Name are required.");
+        middleName: document.getElementById("middleName").value.trim(),
 
-            return;
+        lastName: document.getElementById("lastName").value.trim(),
+
+        birthday: document.getElementById("birthday").value,
+
+        gender: document.getElementById("gender").value,
+
+        civilStatus: document.getElementById("civilStatus").value,
+
+        nationality: document.getElementById("nationality").value,
+
+        email: document.getElementById("email").value.trim(),
+
+        mobile: document.getElementById("mobile").value.trim(),
+
+        address: document.getElementById("address").value.trim(),
+
+        department: document.getElementById("department").value,
+
+        position: document.getElementById("position").value,
+
+        employmentStatus:
+            document.getElementById("employmentStatus").value,
+
+        dateHired:
+            document.getElementById("dateHired").value,
+
+        salaryRate:
+            Number(document.getElementById("salaryRate").value || 0),
+
+        sss:
+            document.getElementById("sss").value,
+
+        philhealth:
+            document.getElementById("philhealth").value,
+
+        pagibig:
+            document.getElementById("pagibig").value,
+
+        tin:
+            document.getElementById("tin").value,
+
+        bank:
+            document.getElementById("bank").value,
+
+        accountNo:
+            document.getElementById("accountNo").value,
+
+        accountName:
+            document.getElementById("accountName")?.value || "",
+
+        branch:
+            document.getElementById("branch")?.value || "",
+
+        emergencyPerson:
+            document.getElementById("emergencyPerson").value,
+
+        relationship:
+            document.getElementById("relationship").value,
+
+        emergencyMobile:
+            document.getElementById("emergencyMobile").value,
+
+        emergencyAddress:
+            document.getElementById("emergencyAddress").value,
+
+        status:
+            document.getElementById("status").value,
+
+        remarks:
+            document.getElementById("remarks").value,
+
+        notes:
+            document.getElementById("notes").value
+
+    };
+
+}
+
+/* ==========================================================
+   VALIDATE REQUIRED FIELDS
+========================================================== */
+
+function validateEmployee(data) {
+
+    if (!data.firstName) {
+
+        alert("First Name is required.");
+
+        return false;
+
+    }
+
+    if (!data.lastName) {
+
+        alert("Last Name is required.");
+
+        return false;
+
+    }
+
+    if (!data.department) {
+
+        alert("Please select Department.");
+
+        return false;
+
+    }
+
+    if (!data.position) {
+
+        alert("Please enter Position.");
+
+        return false;
+
+    }
+
+    return true;
+
+}
+/* ==========================================================
+   SAVE / UPDATE EMPLOYEE
+========================================================== */
+
+btnSave.addEventListener("click", async () => {
+
+    try {
+
+        let data = getFormData();
+
+        if (!validateEmployee(data)) return;
+
+        /* ==========================
+           PHOTO
+        ========================== */
+
+        data.photoURL = await uploadEmployeePhoto();
+
+        /* ==========================
+           ADD NEW EMPLOYEE
+        ========================== */
+
+        if (!editId) {
+
+            data.employeeId = await generateEmployeeID();
+
+            data.createdAt = serverTimestamp();
+
+            data.updatedAt = serverTimestamp();
+
+            await addDoc(employeeRef, data);
+
+            alert("Employee added successfully.");
 
         }
 
-        let employeeId = document.getElementById("empId").value;
+        /* ==========================
+           UPDATE EMPLOYEE
+        ========================== */
 
-        if(employeeId===""){
+        else {
 
-            employeeId = await generateEmployeeId();
+            data.updatedAt = serverTimestamp();
+
+            await updateDoc(
+
+                doc(db, "employees", editId),
+
+                data
+
+            );
+
+            alert("Employee updated successfully.");
 
         }
 
-        let photoURL = uploadedPhoto;
-
-        if(photoInput.files.length>0){
-
-            photoURL = await uploadPhoto(photoInput.files[0]);
-
-        }
-
-        const employeeData={
-
-            employeeId,
-
-            firstName,
-
-            middleName,
-
-            lastName,
-
-            department,
-
-            position,
-
-            email,
-
-            mobile,
-
-            status,
-
-            photoURL,
-
-            createdAt:new Date()
-
-        };
-
-        await addDoc(employeeCollection,employeeData);
-
-        alert("Employee saved successfully.");
-
-        modal.style.display="none";
-
-        clearForm();
+        closeModal();
 
         loadEmployees();
+
+    }
+
+    catch (error) {
+
+        console.error(error);
+
+        alert(error.message);
+
+    }
+
+});
+
+/* ==========================================================
+   RESET FORM WHEN ADDING
+========================================================== */
+
+btnAdd.addEventListener("click", async () => {
+
+    clearForm();
+
+    document.getElementById("empId").value =
+
+        await generateEmployeeID();
+
+});
+
+/* ==========================================================
+   FORMAT STATUS BADGE
+========================================================== */
+
+function statusBadge(status) {
+
+    const value = (status || "Active").toLowerCase();
+
+    return `
+
+        <span class="status ${value}">
+
+            ${status || "Active"}
+
+        </span>
+
+    `;
+
+}
+/* ==========================================================
+   LOAD EMPLOYEES
+========================================================== */
+
+async function loadEmployees() {
+
+    try {
+
+        tableBody.innerHTML = "";
+
+        const q = query(
+            employeeRef,
+            orderBy("employeeId", "asc")
+        );
+
+        const snapshot = await getDocs(q);
+
+        snapshot.forEach((employee) => {
+
+            const data = employee.data();
+
+            const tr = document.createElement("tr");
+
+            tr.innerHTML = `
+
+            <td>
+
+                <img
+                    src="${data.photoURL || "../assets/images/default-user.png"}"
+                    class="photo"
+                    alt="Employee">
+
+            </td>
+
+            <td>${data.employeeId || ""}</td>
+
+            <td>${data.firstName || ""}</td>
+
+            <td>${data.middleName || ""}</td>
+
+            <td>${data.lastName || ""}</td>
+
+            <td>${data.birthday || ""}</td>
+
+            <td>${data.gender || ""}</td>
+
+            <td>${data.department || ""}</td>
+
+            <td>${data.position || ""}</td>
+
+            <td>${data.email || ""}</td>
+
+            <td>${data.mobile || ""}</td>
+
+            <td>
+
+                ${statusBadge(data.status)}
+
+            </td>
+
+            <td>
+
+                <div class="action-group">
+
+                    <button
+                        class="view-btn"
+                        data-id="${employee.id}">
+
+                        View
+
+                    </button>
+
+                    <button
+                        class="edit-btn"
+                        data-id="${employee.id}">
+
+                        Edit
+
+                    </button>
+
+                    <button
+                        class="delete-btn"
+                        data-id="${employee.id}">
+
+                        Delete
+
+                    </button>
+
+                </div>
+
+            </td>
+
+            `;
+
+            tableBody.appendChild(tr);
+
+        });
 
     }
 
@@ -248,157 +514,9 @@ saveBtn.addEventListener("click", async()=>{
 
         console.error(error);
 
-        alert("Error saving employee.");
-
     }
 
-});
-/* ==========================================================
-   LOAD EMPLOYEES
-========================================================== */
-
-async function loadEmployees(){
-
-    employeeTable.innerHTML = "";
-
-    const snapshot = await getDocs(employeeCollection);
-
-    snapshot.forEach((document)=>{
-
-        const data = document.data();
-
-        const row = document.createElement("tr");
-
-        row.innerHTML = `
-
-        <td>
-
-            <img
-            src="${data.photoURL || '../assets/images/default-user.png'}"
-            class="photo">
-
-        </td>
-
-        <td>${data.employeeId || ""}</td>
-
-        <td>${data.firstName || ""}</td>
-
-        <td>${data.middleName || ""}</td>
-
-        <td>${data.lastName || ""}</td>
-
-        <td>${data.birthday || ""}</td>
-
-        <td>${data.gender || ""}</td>
-
-        <td>${data.department || ""}</td>
-
-        <td>${data.position || ""}</td>
-
-        <td>${data.email || ""}</td>
-
-        <td>${data.mobile || ""}</td>
-
-        <td>
-
-            <span class="status ${(data.status || "Active").toLowerCase()}">
-
-                ${data.status || "Active"}
-
-            </span>
-
-        </td>
-
-        <td>
-
-            <div class="action-group">
-
-                <button
-                class="view-btn"
-                data-id="${document.id}">
-
-                View
-
-                </button>
-
-                <button
-                class="edit-btn"
-                data-id="${document.id}">
-
-                Edit
-
-                </button>
-
-                <button
-                class="delete-btn"
-                data-id="${document.id}">
-
-                Delete
-
-                </button>
-
-            </div>
-
-        </td>
-
-        `;
-
-        employeeTable.appendChild(row);
-
-    });
-
 }
-
-/* ==========================================================
-   SEARCH EMPLOYEE
-========================================================== */
-
-searchInput.addEventListener("keyup",()=>{
-
-    const keyword = searchInput.value.toLowerCase();
-
-    const rows = employeeTable.querySelectorAll("tr");
-
-    rows.forEach(row=>{
-
-        row.style.display = row.innerText
-            .toLowerCase()
-            .includes(keyword)
-            ? ""
-            : "none";
-
-    });
-
-});
-
-/* ==========================================================
-   FILTER DEPARTMENT
-========================================================== */
-
-departmentFilter.addEventListener("change",()=>{
-
-    const department = departmentFilter.value;
-
-    const rows = employeeTable.querySelectorAll("tr");
-
-    rows.forEach(row=>{
-
-        if(department===""){
-
-            row.style.display="";
-
-            return;
-
-        }
-
-        row.style.display = row.innerText
-            .includes(department)
-            ? ""
-            : "none";
-
-    });
-
-});
 
 /* ==========================================================
    INITIAL LOAD
@@ -406,53 +524,43 @@ departmentFilter.addEventListener("change",()=>{
 
 loadEmployees();
 /* ==========================================================
-   VIEW / EDIT / DELETE
+   VIEW / EDIT / DELETE EMPLOYEE
 ========================================================== */
 
-employeeTable.addEventListener("click", async (e) => {
+tableBody.addEventListener("click", async (e) => {
 
-    const id = e.target.dataset.id;
+    const button = e.target;
+
+    const id = button.dataset.id;
 
     if (!id) return;
 
-    /* =========================
-       DELETE
-    ========================= */
-
-    if (e.target.classList.contains("delete-btn")) {
-
-        const confirmDelete = confirm(
-            "Are you sure you want to delete this employee?"
-        );
-
-        if (!confirmDelete) return;
-
-        await deleteDoc(doc(db, "employees", id));
-
-        alert("Employee deleted successfully.");
-
-        loadEmployees();
-
-    }
-
-    /* =========================
-       EDIT / VIEW
-    ========================= */
+    /* ==========================
+       VIEW / EDIT
+    ========================== */
 
     if (
-        e.target.classList.contains("edit-btn") ||
-        e.target.classList.contains("view-btn")
+        button.classList.contains("view-btn") ||
+        button.classList.contains("edit-btn")
     ) {
 
-        const snapshot = await getDocs(employeeCollection);
+        try {
 
-        snapshot.forEach((employeeDoc) => {
+            const employeeDoc = await getDoc(
+                doc(db, "employees", id)
+            );
 
-            if (employeeDoc.id !== id) return;
+            if (!employeeDoc.exists()) {
+
+                alert("Employee not found.");
+
+                return;
+
+            }
 
             const data = employeeDoc.data();
 
-            editingId = id;
+            editId = id;
 
             document.getElementById("empId").value = data.employeeId || "";
             document.getElementById("firstName").value = data.firstName || "";
@@ -460,92 +568,247 @@ employeeTable.addEventListener("click", async (e) => {
             document.getElementById("lastName").value = data.lastName || "";
             document.getElementById("birthday").value = data.birthday || "";
             document.getElementById("gender").value = data.gender || "";
-            document.getElementById("department").value = data.department || "";
-            document.getElementById("position").value = data.position || "";
+            document.getElementById("civilStatus").value = data.civilStatus || "";
+            document.getElementById("nationality").value = data.nationality || "";
+
             document.getElementById("email").value = data.email || "";
             document.getElementById("mobile").value = data.mobile || "";
-            document.getElementById("status").value = data.status || "Active";
+            document.getElementById("address").value = data.address || "";
+
+            document.getElementById("department").value = data.department || "";
+            document.getElementById("position").value = data.position || "";
+            document.getElementById("employmentStatus").value =
+                data.employmentStatus || "";
+
+            document.getElementById("dateHired").value =
+                data.dateHired || "";
+
+            document.getElementById("salaryRate").value =
+                data.salaryRate || "";
 
             document.getElementById("sss").value = data.sss || "";
-            document.getElementById("philhealth").value = data.philhealth || "";
-            document.getElementById("pagibig").value = data.pagibig || "";
-            document.getElementById("tin").value = data.tin || "";
+            document.getElementById("philhealth").value =
+                data.philhealth || "";
 
-            document.getElementById("bank").value = data.bank || "";
-            document.getElementById("accountNo").value = data.accountNo || "";
+            document.getElementById("pagibig").value =
+                data.pagibig || "";
 
-            document.getElementById("notes").value = data.notes || "";
+            document.getElementById("tin").value =
+                data.tin || "";
 
-            uploadedPhoto = data.photoURL || "";
+            document.getElementById("bank").value =
+                data.bank || "";
+
+            document.getElementById("accountNo").value =
+                data.accountNo || "";
+
+            document.getElementById("accountName").value =
+                data.accountName || "";
+
+            document.getElementById("branch").value =
+                data.branch || "";
+
+            document.getElementById("emergencyPerson").value =
+                data.emergencyPerson || "";
+
+            document.getElementById("relationship").value =
+                data.relationship || "";
+
+            document.getElementById("emergencyMobile").value =
+                data.emergencyMobile || "";
+
+            document.getElementById("emergencyAddress").value =
+                data.emergencyAddress || "";
+
+            document.getElementById("status").value =
+                data.status || "Active";
+
+            document.getElementById("remarks").value =
+                data.remarks || "";
+
+            document.getElementById("notes").value =
+                data.notes || "";
+
+            photoURL = data.photoURL || "";
 
             previewPhoto.src =
-                uploadedPhoto || "../assets/images/default-user.png";
+                photoURL || "../assets/images/default-user.png";
 
             modal.style.display = "flex";
 
-        });
+            /* ==========================
+               VIEW ONLY MODE
+            ========================== */
+
+            const isView =
+                button.classList.contains("view-btn");
+
+            document
+                .querySelectorAll(
+                    "#employeeModal input, #employeeModal select, #employeeModal textarea"
+                )
+                .forEach(el => {
+
+                    if (el.type !== "file") {
+
+                        el.disabled = isView;
+
+                    }
+
+                });
+
+            photoInput.disabled = isView;
+
+            btnSave.style.display =
+                isView ? "none" : "inline-block";
+
+        }
+
+        catch (error) {
+
+            console.error(error);
+
+            alert(error.message);
+
+        }
 
     }
+
+    /* ==========================
+       DELETE EMPLOYEE
+    ========================== */
+
+    if (button.classList.contains("delete-btn")) {
+
+        const confirmDelete = confirm(
+            "Are you sure you want to delete this employee?"
+        );
+
+        if (!confirmDelete) return;
+
+        try {
+
+            await deleteDoc(
+                doc(db, "employees", id)
+            );
+
+            alert("Employee deleted successfully.");
+
+            loadEmployees();
+
+        }
+
+        catch (error) {
+
+            console.error(error);
+
+            alert(error.message);
+
+        }
+
+    }
+
+});
+/* ==========================================================
+   SEARCH EMPLOYEE
+========================================================== */
+
+searchInput.addEventListener("input", () => {
+
+    const keyword = searchInput.value
+        .toLowerCase()
+        .trim();
+
+    const rows = tableBody.querySelectorAll("tr");
+
+    rows.forEach(row => {
+
+        const text = row.innerText.toLowerCase();
+
+        row.style.display = text.includes(keyword)
+            ? ""
+            : "none";
+
+    });
 
 });
 
 /* ==========================================================
-   UPDATE EMPLOYEE
+   FILTER BY DEPARTMENT
 ========================================================== */
 
-saveBtn.addEventListener("click", async () => {
+departmentFilter.addEventListener("change", () => {
 
-    if (!editingId) return;
+    const department = departmentFilter.value;
 
-    let photoURL = uploadedPhoto;
+    const rows = tableBody.querySelectorAll("tr");
 
-    if (photoInput.files.length > 0) {
+    rows.forEach(row => {
 
-        photoURL = await uploadPhoto(photoInput.files[0]);
+        if (department === "") {
+
+            row.style.display = "";
+
+            return;
+
+        }
+
+        const rowDepartment = row.cells[7].textContent.trim();
+
+        row.style.display =
+            rowDepartment === department
+                ? ""
+                : "none";
+
+    });
+
+});
+
+/* ==========================================================
+   TOTAL EMPLOYEE COUNTER
+========================================================== */
+
+function updateEmployeeCount() {
+
+    const visibleRows = Array.from(
+        tableBody.querySelectorAll("tr")
+    ).filter(row => row.style.display !== "none");
+
+    const counter = document.getElementById("employeeCount");
+
+    if (counter) {
+
+        counter.textContent =
+            `Total Employees : ${visibleRows.length}`;
 
     }
 
-    const employeeData = {
+}
 
-        employeeId: document.getElementById("empId").value,
-        firstName: document.getElementById("firstName").value,
-        middleName: document.getElementById("middleName").value,
-        lastName: document.getElementById("lastName").value,
-        birthday: document.getElementById("birthday").value,
-        gender: document.getElementById("gender").value,
-        department: document.getElementById("department").value,
-        position: document.getElementById("position").value,
-        email: document.getElementById("email").value,
-        mobile: document.getElementById("mobile").value,
-        status: document.getElementById("status").value,
+/* ==========================================================
+   OBSERVE TABLE CHANGES
+========================================================== */
 
-        sss: document.getElementById("sss").value,
-        philhealth: document.getElementById("philhealth").value,
-        pagibig: document.getElementById("pagibig").value,
-        tin: document.getElementById("tin").value,
+const observer = new MutationObserver(() => {
 
-        bank: document.getElementById("bank").value,
-        accountNo: document.getElementById("accountNo").value,
-
-        notes: document.getElementById("notes").value,
-
-        photoURL
-
-    };
-
-    await updateDoc(
-        doc(db, "employees", editingId),
-        employeeData
-    );
-
-    alert("Employee updated successfully.");
-
-    editingId = null;
-
-    modal.style.display = "none";
-
-    clearForm();
-
-    loadEmployees();
+    updateEmployeeCount();
 
 });
+
+observer.observe(tableBody, {
+
+    childList: true,
+    subtree: true
+
+});
+
+/* ==========================================================
+   UPDATE COUNTER WHEN FILTERING
+========================================================== */
+
+searchInput.addEventListener("input", updateEmployeeCount);
+
+departmentFilter.addEventListener(
+    "change",
+    updateEmployeeCount
+);
