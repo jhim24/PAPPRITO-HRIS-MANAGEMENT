@@ -318,3 +318,74 @@ font-size:18px;
 color:white;
 
 }
+/* ==========================================
+   ACTION BUTTONS
+========================================== */
+
+.button-group{
+
+display:flex;
+
+justify-content:center;
+
+flex-wrap:wrap;
+
+gap:10px;
+
+margin:20px 0;
+
+}
+
+.action-btn{
+
+padding:12px 22px;
+
+border:none;
+
+border-radius:10px;
+
+font-size:14px;
+
+font-weight:bold;
+
+cursor:pointer;
+
+color:white;
+
+transition:.3s;
+
+min-width:140px;
+
+}
+
+.action-btn:hover{
+
+transform:translateY(-2px);
+
+filter:brightness(1.1);
+
+}
+
+.timein{
+
+background:#008000;
+
+}
+
+.breakout{
+
+background:#c58a00;
+
+}
+
+.breakin{
+
+background:#0066cc;
+
+}
+
+.timeout{
+
+background:#cc0000;
+
+}
