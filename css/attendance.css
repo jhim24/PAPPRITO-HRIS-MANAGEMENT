@@ -261,3 +261,60 @@ color:white;
 transform:translateY(-2px);
 
 }
+/* ==========================================
+   EMPLOYEE INFO
+========================================== */
+
+.employee-info{
+
+margin-top:20px;
+
+padding:15px;
+
+background:#242424;
+
+border:2px solid var(--primary);
+
+border-radius:10px;
+
+color:var(--primary);
+
+font-weight:bold;
+
+line-height:2;
+
+}
+
+/* ==========================================
+   CLOCK
+========================================== */
+
+.clock-area{
+
+text-align:center;
+
+margin:20px 0;
+
+}
+
+.clock{
+
+font-size:38px;
+
+font-weight:bold;
+
+color:#00ff99;
+
+text-shadow:2px 2px 5px #000;
+
+}
+
+.today-date{
+
+margin-top:5px;
+
+font-size:18px;
+
+color:white;
+
+}
