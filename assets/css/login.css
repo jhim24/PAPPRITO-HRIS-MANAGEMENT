@@ -547,6 +547,29 @@ body{
 
 }
 
+/* LOGIN VERSION */
+
+.login-version{
+
+    margin-top:18px;
+
+    text-align:center;
+
+    color:#bdbdbd;
+
+    font-size:13px;
+
+    line-height:1.6;
+
+}
+
+.login-version strong{
+
+    color:var(--primary);
+
+    font-size:14px;
+
+}
 /* MESSAGE */
 
 .login-message{
