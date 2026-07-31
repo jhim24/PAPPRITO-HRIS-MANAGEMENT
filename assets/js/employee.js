@@ -16,13 +16,13 @@ import {
     query,
     orderBy,
     serverTimestamp
-} from "https://www.gstatic.com/firebasejs/10.13.2/firebase-firestore.js";
+} from "https://www.gstatic.com/firebasejs/12.13.0/firebase-firestore.js";
 
 import {
     ref,
     uploadBytes,
     getDownloadURL
-} from "https://www.gstatic.com/firebasejs/10.13.2/firebase-storage.js";
+} from "https://www.gstatic.com/firebasejs/12.13.0/firebase-storage.js";
 
 /* ==========================================================
    COLLECTION
