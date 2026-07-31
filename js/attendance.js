@@ -502,7 +502,7 @@ async function loadAttendance(){
         });
 
     });
-console.log(docSnap.data());
+
   renderAttendanceTable(attendance);
 }
 /* ==========================================
@@ -581,57 +581,7 @@ window.deleteAttendance = async function(id){
     await loadAttendance();
 
 }
-/* ==========================================
-   FILTER ATTENDANCE
-========================================== */
 
-function filterAttendance(){
-
-    const selectedEmployee = employeeSelect.value;
-
-    const startDate = fromDate.value;
-
-    const endDate = toDate.value;
-
-    attendanceBody.innerHTML = "";
-
-    let filtered = attendance.filter(att=>{
-
-        let employeeMatch = true;
-
-        if(selectedEmployee !== ""){
-
-         employeeMatch =
-         att.empDocId === selectedEmployee;
-        }
-
-        let dateMatch = true;
-
-        if(startDate && endDate){
-
-           let dateMatch = true;
-
-if(startDate && endDate){
-
-    const attDate = formatDate(att.date);
-
-    if(attDate){
-
-        dateMatch =
-        attDate >= startDate &&
-        attDate <= endDate;
-
-    }
-
-}
-
-        return employeeMatch && dateMatch;
-
-    });
-
-    renderAttendanceTable(filtered);
-
-}
 /* ==========================================
    INITIALIZE
 ========================================== */
