@@ -389,3 +389,75 @@ background:#0066cc;
 background:#cc0000;
 
 }
+/* ==========================================
+   ATTENDANCE TABLE
+========================================== */
+
+.table-wrapper{
+
+margin-top:25px;
+
+background:#2b2b2b;
+
+border:2px solid var(--primary);
+
+border-radius:12px;
+
+overflow:auto;
+
+max-height:450px;
+
+box-shadow:0 5px 15px rgba(0,0,0,.4);
+
+}
+
+#attendanceTable{
+
+width:100%;
+
+border-collapse:collapse;
+
+min-width:1500px;
+
+font-size:13px;
+
+}
+
+#attendanceTable th,
+#attendanceTable td{
+
+padding:10px;
+
+border:1px solid #555;
+
+text-align:center;
+
+white-space:nowrap;
+
+}
+
+#attendanceTable th{
+
+background:var(--primary);
+
+color:#000;
+
+position:sticky;
+
+top:0;
+
+z-index:5;
+
+}
+
+#attendanceTable tr:nth-child(even){
+
+background:#242424;
+
+}
+
+#attendanceTable tr:hover{
+
+background:#353535;
+
+}
