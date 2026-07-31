@@ -158,50 +158,67 @@ async function timeIn(){
 
     }
 
-    const data = {
+    const now = new Date();
 
-        empDocId: employee.id,
+const shiftStart = new Date();
 
-        empid: employee.employeeid || "",
+shiftStart.setHours(8,0,0,0);
 
-        name: [
+let lateMinutes = 0;
 
-            employee.firstname,
+if(now > shiftStart){
 
-            employee.middlename,
+    lateMinutes = Math.floor(
 
-            employee.lastname
+        (now - shiftStart) / 60000
 
-        ]
+    );
 
-        .filter(Boolean)
+}
 
-        .join(" ")
+const data = {
 
-        .replace(/\s+/g," ")
+    empDocId: employee.id,
 
-        .trim(),
+    empid: employee.employeeid || "",
 
-        date: getToday(),
+    name: [
 
-        timein: getCurrentTime(),
+        employee.firstname,
 
-        breakout: "-",
+        employee.middlename,
 
-        breakin: "-",
+        employee.lastname
 
-        timeout: "-",
+    ]
 
-        breakminutes: "0 mins",
+    .filter(Boolean)
 
-        totalhours: "0.00",
+    .join(" ")
 
-        late: "0 mins",
+    .replace(/\s+/g," ")
 
-        status: "PRESENT"
+    .trim(),
 
-    };
+    date: getToday(),
 
+    timein: getCurrentTime(),
+
+    breakout:"-",
+
+    breakin:"-",
+
+    timeout:"-",
+
+    breakminutes:"0 mins",
+
+    totalhours:"0.00",
+
+    late: lateMinutes + " mins",
+
+    status: lateMinutes > 0 ? "LATE" : "PRESENT"
+
+};
     await addDoc(
 
         collection(db,"attendance"),
@@ -364,34 +381,67 @@ async function timeOut(){
 
     const timeOutNow = new Date();
 
-    const timeIn = new Date(record.date + " " + record.timein);
-
+ const timeIn = new Date(
+record.date + " " + record.timein
+);
     let breakMinutes = 0;
 
     if(record.breakout && record.breakin &&
        record.breakout!=="-" &&
        record.breakin!=="-"){
 
-        const breakOut = new Date(record.date + " " + record.breakout);
+       const breakOut = new Date(
+record.date + " " + record.breakout
+);
 
-        const breakIn = new Date(record.date + " " + record.breakin);
+const breakIn = new Date(
+record.date + " " + record.breakin
+);
+
+if(
+isNaN(breakOut.getTime()) ||
+isNaN(breakIn.getTime())
+){
+
+    breakMinutes = 0;
+
+}else{
+
+    breakMinutes =
+    Math.floor(
+        (breakIn - breakOut)/60000
+    );
+
+}
 
         breakMinutes =
         Math.floor((breakIn-breakOut)/60000);
 
     }
 
-    let totalHours =
+  // Compute total worked hours
+let totalHours =
+(timeOutNow - timeIn) / 3600000;
 
-    ((timeOutNow-timeIn)/3600000) -
+// Deduct break
+totalHours -= (breakMinutes / 60);
 
-    (breakMinutes/60);
+// Deduct late
+const lateMinutes =
+parseFloat(
+(record.late || "0 mins")
+.replace(" mins","")
+) || 0;
 
-    if(totalHours < 0){
+totalHours -= (lateMinutes / 60);
 
-        totalHours = 0;
+// Prevent negative hours
+if(totalHours < 0){
 
-    }
+    totalHours = 0;
+
+}
+   
 const regularHours = Math.min(totalHours, 8);
 
 const overtime = Math.max(totalHours - 8, 0);
@@ -537,7 +587,7 @@ function renderAttendanceTable(records = attendance){
 
 <td>${att.breakminutes || "0 mins"}</td>
 
-<td>${att.regularhours || "0.00"}</td>
+<td>${att.totalhours || "0.00"}</td>
 
 <td>${att.overtime || "0.00"}</td>
 
