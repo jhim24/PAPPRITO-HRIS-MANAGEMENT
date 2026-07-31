@@ -161,18 +161,18 @@ async function loadAttendance(){
 
     });
 
-    renderAttendanceTable();
+   filterAttendance();
 
 }
 /* ==========================================
    RENDER ATTENDANCE TABLE
 ========================================== */
 
-function renderAttendanceTable(){
+function renderAttendanceTable(records = attendance){
 
     attendanceBody.innerHTML = "";
 
-    attendance.forEach(att=>{
+  records.forEach(att=>{
 
         attendanceBody.innerHTML += `
 
@@ -194,17 +194,19 @@ function renderAttendanceTable(){
 
 <td>${att.breakminutes || "0 mins"}</td>
 
-<td>${att.regularhours || "0.00"}</td>
-
-<td>${att.overtime || "0.00"}</td>
+<td>${att.totalhours || "0.00"}</td>
 
 <td>${att.late || "0 mins"}</td>
 
 <td>${att.status || "-"}</td>
 
+<td>${att.status || "-"}</td>
+
 <td>
 
-<button class="action-btn timeout">
+<button
+class="action-btn timeout"
+onclick="deleteAttendance('${att.id}')">
 
 DELETE
 
@@ -220,6 +222,72 @@ DELETE
 
 }
 /* ==========================================
+   DELETE ATTENDANCE
+========================================== */
+
+window.deleteAttendance = async function(id){
+
+    const confirmDelete = confirm(
+        "Delete this attendance record?"
+    );
+
+    if(!confirmDelete){
+        return;
+    }
+
+    await deleteDoc(
+        doc(db,"attendance",id)
+    );
+
+    await loadAttendance();
+
+}
+/* ==========================================
+   FILTER ATTENDANCE
+========================================== */
+
+function filterAttendance(){
+
+    const selectedEmployee = employeeSelect.value;
+
+    const startDate = fromDate.value;
+
+    const endDate = toDate.value;
+
+    attendanceBody.innerHTML = "";
+
+    let filtered = attendance.filter(att=>{
+
+        let employeeMatch = true;
+
+        if(selectedEmployee !== ""){
+
+            employeeMatch =
+                att.employeeDocId === selectedEmployee ||
+                att.empDocId === selectedEmployee;
+
+        }
+
+        let dateMatch = true;
+
+        if(startDate && endDate){
+
+            const attDate = formatDate(att.date);
+
+            dateMatch =
+                attDate >= startDate &&
+                attDate <= endDate;
+
+        }
+
+        return employeeMatch && dateMatch;
+
+    });
+
+    renderAttendanceTable(filtered);
+
+}
+/* ==========================================
    INITIALIZE
 ========================================== */
 
@@ -232,3 +300,12 @@ async function initialize(){
 }
 
 initialize();
+/* ==========================================
+   FILTER EVENTS
+========================================== */
+
+employeeSelect.addEventListener("change", filterAttendance);
+
+fromDate.addEventListener("change", filterAttendance);
+
+toDate.addEventListener("change", filterAttendance);
