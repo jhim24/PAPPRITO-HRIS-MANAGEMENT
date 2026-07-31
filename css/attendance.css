@@ -461,3 +461,85 @@ background:#242424;
 background:#353535;
 
 }
+
+/* ==========================================
+   PRINT
+========================================== */
+
+@media print{
+
+body{
+
+background:#fff !important;
+
+color:#000 !important;
+
+padding:0;
+
+}
+
+#backBtn,
+#printBtn,
+#filterBtn,
+#summaryBtn,
+.filter-section,
+.button-group,
+.clock-area{
+
+display:none !important;
+
+}
+
+.container{
+
+border:none !important;
+
+box-shadow:none !important;
+
+background:#fff !important;
+
+}
+
+.employee-info{
+
+background:#fff !important;
+
+color:#000 !important;
+
+border:1px solid #000;
+
+}
+
+.table-wrapper{
+
+overflow:visible !important;
+
+max-height:none !important;
+
+border:none !important;
+
+}
+
+#attendanceTable{
+
+min-width:100% !important;
+
+font-size:11px;
+
+}
+
+#attendanceTable th{
+
+background:#ddd !important;
+
+color:#000 !important;
+
+}
+
+#attendanceTable td{
+
+color:#000 !important;
+
+}
+
+}
