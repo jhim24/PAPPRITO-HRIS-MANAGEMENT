@@ -229,25 +229,23 @@ thead{
 th{
 
     color:#fff;
-
-    padding:16px;
-
+    padding:10px 12px;
     text-align:left;
-
-    font-size:14px;
+    font-size:13px;
+    font-weight:600;
+    white-space:nowrap;
 
 }
 
 td{
 
-    padding:14px;
-
+    padding:8px 12px;
     border-bottom:1px solid #f0f0f0;
-
-    font-size:14px;
+    font-size:13px;
+    white-space:nowrap;
+    vertical-align:middle;
 
 }
-
 tbody tr{
 
     transition:.3s;
@@ -265,9 +263,9 @@ tbody tr:hover{
 
 .photo{
 
-    width:55px;
-    height:55px;
-
+    width:40px;
+    height:40px;
+   
     border-radius:50%;
 
     object-fit:cover;
@@ -344,7 +342,10 @@ tbody tr:hover{
 
     border:none;
 
-    padding:8px 14px;
+  .action-group button{
+
+    padding:5px 10px;
+    font-size:12px;
 
     border-radius:8px;
 
@@ -906,5 +907,21 @@ td{
     background:#ef4444;
 
     color:#fff;
+
+}
+/* ===============================
+   PREVENT TEXT WRAPPING
+================================ */
+
+#employeeTable th,
+#employeeTable td{
+
+    white-space:nowrap;
+
+}
+
+.table-container{
+
+    overflow-x:auto;
 
 }
