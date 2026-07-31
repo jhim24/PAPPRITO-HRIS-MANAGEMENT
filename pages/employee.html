@@ -114,7 +114,15 @@ placeholder="🔍 Search Employee">
 </select>
 
 </div>
+<div class="employee-summary">
 
+    <span id="employeeCount">
+
+        Total Employees : 0
+
+    </span>
+
+</div>
 </section>
 
 <!-- ==========================
@@ -159,7 +167,7 @@ EMPLOYEE TABLE
 
 </thead>
 
-<tbody id="employeeBody">
+<tbody id="employeeTableBody">
 
 <!-- Firebase Employee Records -->
 
@@ -187,7 +195,9 @@ ADD EMPLOYEE MODAL
 
 <button
 type="button"
-id="closeModal">
+id="closeModal"
+class="close-btn"
+title="Close">
 
 &times;
 
@@ -523,8 +533,6 @@ id="saveEmployee">
 <!-- ==========================
 END OF MAIN CONTENT
 ========================== -->
-
-</main>
 
 </div>
 
