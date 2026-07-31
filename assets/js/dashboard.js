@@ -225,11 +225,26 @@ window.logout = async function(){
    MOBILE SIDEBAR
 ========================================== */
 
+const sidebar = document.querySelector(".sidebar");
+
 window.toggleSidebar = function(){
 
-    document
-        .querySelector(".sidebar")
-        .classList
-        .toggle("active");
+    sidebar.classList.toggle("active");
 
 };
+
+/* Isara ang sidebar kapag pumindot ng menu */
+
+document.querySelectorAll(".menu a").forEach(link=>{
+
+    link.addEventListener("click",()=>{
+
+        if(window.innerWidth<=900){
+
+            sidebar.classList.remove("active");
+
+        }
+
+    });
+
+});
