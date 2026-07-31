@@ -1,13 +1,14 @@
-/* ==========================================
+/* ==========================================================
    PAPPRITO HRIS
    EMPLOYEE.CSS
-========================================== */
+   VERSION 2.0
+========================================================== */
 
 *{
     margin:0;
     padding:0;
     box-sizing:border-box;
-    font-family:"Segoe UI",sans-serif;
+    font-family:"Poppins",sans-serif;
 }
 
 :root{
@@ -15,62 +16,102 @@
     --primary:#ffcc00;
     --secondary:#d71920;
     --dark:#111827;
-    --bg:#f5f6fa;
     --white:#ffffff;
+    --bg:#f4f6f9;
     --border:#e5e7eb;
-    --shadow:0 10px 25px rgba(0,0,0,.08);
+    --text:#374151;
+
+    --shadow:
+    0 10px 30px rgba(0,0,0,.08);
 
 }
 
 body{
 
     background:var(--bg);
+    color:var(--text);
 
 }
 
-.dashboard{
+/* =====================================
+   CONTAINER
+===================================== */
+
+.container{
 
     width:100%;
     min-height:100vh;
-
-}
-
-.main-content{
-
-    width:100%;
-    min-height:100vh;
-
     padding:30px;
 
 }
 
-/* ===============================
-   TOPBAR
-================================ */
+/* =====================================
+   HEADER
+===================================== */
 
-.topbar{
+.header{
 
     display:flex;
-
     justify-content:space-between;
-
     align-items:center;
-
-    margin-bottom:30px;
+    margin-bottom:25px;
+    flex-wrap:wrap;
+    gap:20px;
 
 }
 
 .header-left{
 
     display:flex;
-
     align-items:center;
-
     gap:20px;
 
 }
 
+.header h1{
+
+    font-size:32px;
+    color:var(--dark);
+
+}
+
+.header p{
+
+    color:#6b7280;
+    margin-top:5px;
+
+}
+
+/* =====================================
+   BUTTONS
+===================================== */
+
 .back-btn{
+
+    background:#fff;
+    color:var(--dark);
+
+    border:1px solid var(--border);
+
+    padding:12px 22px;
+
+    border-radius:12px;
+
+    cursor:pointer;
+
+    font-weight:600;
+
+    transition:.3s;
+
+}
+
+.back-btn:hover{
+
+    background:#f3f4f6;
+
+}
+
+.add-btn{
 
     background:var(--secondary);
 
@@ -78,9 +119,9 @@ body{
 
     border:none;
 
-    padding:12px 22px;
+    padding:13px 25px;
 
-    border-radius:10px;
+    border-radius:12px;
 
     cursor:pointer;
 
@@ -92,41 +133,22 @@ body{
 
 }
 
-.back-btn:hover{
+.add-btn:hover{
 
-    background:#b11418;
-
-}
-
-.topbar h1{
-
-    font-size:32px;
-
-    color:#111827;
+    background:#b5161c;
 
 }
 
-.topbar p{
-
-    color:#6b7280;
-
-    margin-top:5px;
-
-}
-
-/* ===============================
+/* =====================================
    TOOLBAR
-================================ */
+===================================== */
 
-.employee-toolbar{
+.toolbar{
 
     display:flex;
-
     gap:15px;
-
-    flex-wrap:wrap;
-
     margin-bottom:25px;
+    flex-wrap:wrap;
 
 }
 
@@ -140,62 +162,49 @@ body{
 
     width:100%;
 
-    padding:14px;
+    padding:14px 18px;
 
     border:1px solid var(--border);
 
-    border-radius:10px;
+    border-radius:12px;
 
     outline:none;
+
+    font-size:15px;
+
+}
+
+.search-box input:focus{
+
+    border-color:var(--primary);
 
 }
 
 .filter-box select{
 
-    padding:14px;
+    padding:14px 18px;
 
     border:1px solid var(--border);
 
-    border-radius:10px;
-
-}
-
-.add-btn{
-
-    background:var(--primary);
-
-    color:#111;
-
-    border:none;
-
-    padding:14px 24px;
-
-    border-radius:10px;
-
-    cursor:pointer;
-
-    font-weight:bold;
-
-}
-
-.add-btn:hover{
-
-    background:#f7b800;
-
-}
-/* ==========================================
-   EMPLOYEE TABLE
-========================================== */
-
-.table-container{
-
-    width:100%;
+    border-radius:12px;
 
     background:#fff;
 
-    border-radius:15px;
+    outline:none;
 
-    overflow-x:auto;
+}
+
+/* =====================================
+   TABLE
+===================================== */
+
+.table-container{
+
+    background:#fff;
+
+    border-radius:18px;
+
+    overflow:auto;
 
     box-shadow:var(--shadow);
 
@@ -205,41 +214,37 @@ table{
 
     width:100%;
 
-    border-collapse:collapse;
+    min-width:1300px;
 
-    min-width:1100px;
+    border-collapse:collapse;
 
 }
 
 thead{
 
-    background:var(--primary);
+    background:var(--secondary);
 
 }
 
 th{
 
+    color:#fff;
+
     padding:16px;
 
     text-align:left;
 
-    color:#111;
-
-    font-size:15px;
-
-    white-space:nowrap;
+    font-size:14px;
 
 }
 
 td{
 
-    padding:15px;
+    padding:14px;
 
-    border-bottom:1px solid #ececec;
+    border-bottom:1px solid #f0f0f0;
 
-    vertical-align:middle;
-
-    white-space:nowrap;
+    font-size:14px;
 
 }
 
@@ -251,43 +256,43 @@ tbody tr{
 
 tbody tr:hover{
 
-    background:#fffbe6;
+    background:#fff9e6;
 
 }
-
-/* ==========================================
-   PHOTO
-========================================== */
+/* ==========================================================
+   EMPLOYEE PHOTO
+========================================================== */
 
 .photo{
 
-    width:50px;
-
-    height:50px;
+    width:55px;
+    height:55px;
 
     border-radius:50%;
 
     object-fit:cover;
 
-    border:2px solid var(--primary);
+    border:3px solid var(--primary);
+
+    background:#f3f4f6;
 
 }
 
-/* ==========================================
-   STATUS
-========================================== */
+/* ==========================================================
+   STATUS BADGE
+========================================================== */
 
 .status{
 
     display:inline-block;
 
-    padding:6px 12px;
+    padding:7px 14px;
 
     border-radius:30px;
 
     font-size:12px;
 
-    font-weight:bold;
+    font-weight:600;
 
 }
 
@@ -307,9 +312,25 @@ tbody tr:hover{
 
 }
 
-/* ==========================================
+.status.resigned{
+
+    background:#fef3c7;
+
+    color:#92400e;
+
+}
+
+.status.awol{
+
+    background:#fecaca;
+
+    color:#991b1b;
+
+}
+
+/* ==========================================================
    ACTION BUTTONS
-========================================== */
+========================================================== */
 
 .action-group{
 
@@ -319,11 +340,7 @@ tbody tr:hover{
 
 }
 
-.edit-btn{
-
-    background:#2563eb;
-
-    color:#fff;
+.action-group button{
 
     border:none;
 
@@ -334,35 +351,528 @@ tbody tr:hover{
     cursor:pointer;
 
     font-size:13px;
+
+    font-weight:600;
+
+    transition:.3s;
+
+}
+
+.view-btn{
+
+    background:#3b82f6;
+
+    color:#fff;
+
+}
+
+.view-btn:hover{
+
+    background:#2563eb;
+
+}
+
+.edit-btn{
+
+    background:#22c55e;
+
+    color:#fff;
 
 }
 
 .edit-btn:hover{
 
-    background:#1d4ed8;
+    background:#16a34a;
 
 }
 
 .delete-btn{
 
-    background:#dc2626;
+    background:#ef4444;
 
     color:#fff;
-
-    border:none;
-
-    padding:8px 14px;
-
-    border-radius:8px;
-
-    cursor:pointer;
-
-    font-size:13px;
 
 }
 
 .delete-btn:hover{
 
-    background:#b91c1c;
+    background:#dc2626;
+
+}
+
+/* ==========================================================
+   MODAL
+========================================================== */
+
+.modal{
+
+    position:fixed;
+
+    inset:0;
+
+    background:rgba(0,0,0,.55);
+
+    display:none;
+
+    justify-content:center;
+
+    align-items:center;
+
+    padding:20px;
+
+    z-index:9999;
+
+}
+
+.modal-content{
+
+    width:100%;
+
+    max-width:1200px;
+
+    max-height:92vh;
+
+    overflow-y:auto;
+
+    background:#fff;
+
+    border-radius:20px;
+
+    box-shadow:0 20px 50px rgba(0,0,0,.25);
+
+}
+
+.modal-header{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    padding:20px 30px;
+
+    border-bottom:1px solid #eee;
+
+}
+
+.modal-header h2{
+
+    color:var(--secondary);
+
+}
+
+.modal-header button{
+
+    background:none;
+
+    border:none;
+
+    font-size:30px;
+
+    cursor:pointer;
+
+}
+
+/* ==========================================================
+   MODAL BODY
+========================================================== */
+
+.modal-body{
+
+    padding:30px;
+
+}
+
+.section-title{
+
+    margin-top:30px;
+
+    margin-bottom:15px;
+
+    color:var(--secondary);
+
+    font-size:18px;
+
+    font-weight:700;
+
+}
+
+.form-grid{
+
+    display:grid;
+
+    grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+
+    gap:18px;
+
+}
+
+.form-grid input,
+.form-grid select,
+.form-grid textarea{
+
+    width:100%;
+
+    padding:13px;
+
+    border:1px solid var(--border);
+
+    border-radius:10px;
+
+    outline:none;
+
+    font-size:14px;
+
+}
+
+.form-grid input:focus,
+.form-grid select:focus,
+.form-grid textarea:focus{
+
+    border-color:var(--primary);
+
+}
+
+textarea{
+
+    width:100%;
+
+    min-height:120px;
+
+    margin-top:15px;
+
+    resize:vertical;
+
+}
+
+/* ==========================================================
+   PHOTO UPLOAD
+========================================================== */
+
+.photo-section{
+
+    display:flex;
+
+    flex-direction:column;
+
+    align-items:center;
+
+    margin-bottom:25px;
+
+}
+
+.employee-photo{
+
+    width:150px;
+
+    height:150px;
+
+    border-radius:50%;
+
+    object-fit:cover;
+
+    border:5px solid var(--primary);
+
+    margin-bottom:15px;
+
+}
+
+.photo-section input{
+
+    width:260px;
+
+}
+/* ==========================================================
+   MODAL FOOTER
+========================================================== */
+
+.modal-footer{
+
+    display:flex;
+
+    justify-content:flex-end;
+
+    gap:15px;
+
+    padding:20px 30px;
+
+    border-top:1px solid #e5e7eb;
+
+    background:#fafafa;
+
+}
+
+.cancel-btn{
+
+    background:#9ca3af;
+
+    color:#fff;
+
+    border:none;
+
+    padding:13px 24px;
+
+    border-radius:10px;
+
+    cursor:pointer;
+
+    font-size:15px;
+
+    font-weight:600;
+
+    transition:.3s;
+
+}
+
+.cancel-btn:hover{
+
+    background:#6b7280;
+
+}
+
+.save-btn{
+
+    background:#16a34a;
+
+    color:#fff;
+
+    border:none;
+
+    padding:13px 24px;
+
+    border-radius:10px;
+
+    cursor:pointer;
+
+    font-size:15px;
+
+    font-weight:600;
+
+    transition:.3s;
+
+}
+
+.save-btn:hover{
+
+    background:#15803d;
+
+}
+
+/* ==========================================================
+   SCROLLBAR
+========================================================== */
+
+::-webkit-scrollbar{
+
+    width:10px;
+
+    height:10px;
+
+}
+
+::-webkit-scrollbar-track{
+
+    background:#f3f4f6;
+
+}
+
+::-webkit-scrollbar-thumb{
+
+    background:#d71920;
+
+    border-radius:10px;
+
+}
+
+::-webkit-scrollbar-thumb:hover{
+
+    background:#b51218;
+
+}
+
+/* ==========================================================
+   ANIMATION
+========================================================== */
+
+.modal-content{
+
+    animation:popup .25s ease;
+
+}
+
+@keyframes popup{
+
+    from{
+
+        transform:scale(.9);
+
+        opacity:0;
+
+    }
+
+    to{
+
+        transform:scale(1);
+
+        opacity:1;
+
+    }
+
+}
+
+/* ==========================================================
+   RESPONSIVE
+========================================================== */
+
+@media(max-width:992px){
+
+.container{
+
+    padding:20px;
+
+}
+
+.header{
+
+    flex-direction:column;
+
+    align-items:flex-start;
+
+}
+
+.header-left{
+
+    flex-direction:column;
+
+    align-items:flex-start;
+
+}
+
+.toolbar{
+
+    flex-direction:column;
+
+}
+
+.search-box{
+
+    width:100%;
+
+}
+
+.filter-box{
+
+    width:100%;
+
+}
+
+.filter-box select{
+
+    width:100%;
+
+}
+
+.add-btn{
+
+    width:100%;
+
+}
+
+.table-container{
+
+    overflow-x:auto;
+
+}
+
+.modal-content{
+
+    max-width:100%;
+
+    margin:10px;
+
+}
+
+.form-grid{
+
+    grid-template-columns:1fr;
+
+}
+
+.employee-photo{
+
+    width:120px;
+
+    height:120px;
+
+}
+
+.modal-footer{
+
+    flex-direction:column;
+
+}
+
+.cancel-btn,
+
+.save-btn{
+
+    width:100%;
+
+}
+
+}
+
+@media(max-width:576px){
+
+.container{
+
+    padding:15px;
+
+}
+
+.header h1{
+
+    font-size:24px;
+
+}
+
+.header p{
+
+    font-size:13px;
+
+}
+
+.back-btn,
+
+.add-btn{
+
+    width:100%;
+
+}
+
+th,
+
+td{
+
+    font-size:12px;
+
+    padding:10px;
+
+}
+
+.employee-photo{
+
+    width:100px;
+
+    height:100px;
+
+}
+
+.section-title{
+
+    font-size:16px;
+
+}
 
 }
