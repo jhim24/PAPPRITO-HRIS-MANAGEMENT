@@ -82,3 +82,60 @@ const today = new Date().toISOString().split("T")[0];
 fromDate.value = today;
 
 toDate.value = today;
+/* ==========================================
+   LOAD EMPLOYEES
+========================================== */
+
+async function loadEmployees(){
+
+const snapshot = await getDocs(collection(db,"employees"));
+
+employees = [];
+
+employeeSelect.innerHTML =
+'<option value="">Select Employee</option>';
+
+snapshot.forEach(docSnap=>{
+
+const emp = docSnap.data();
+
+employees.push({
+
+id:docSnap.id,
+
+...emp
+
+});
+
+const fullName = [
+
+emp.firstname,
+
+emp.middlename,
+
+emp.lastname
+
+]
+
+.filter(Boolean)
+
+.join(" ");
+
+employeeSelect.innerHTML += `
+
+<option value="${docSnap.id}">
+
+${emp.employeeid || "NO-ID"} - ${fullName}
+
+</option>
+
+`;
+
+});
+
+}
+/* ==========================================
+   INITIALIZE
+========================================== */
+
+loadEmployees();
