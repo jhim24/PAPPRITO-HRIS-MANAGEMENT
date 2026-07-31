@@ -8,7 +8,7 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/12.13.0/fireba
 import { getAuth } from "https://www.gstatic.com/firebasejs/12.13.0/firebase-auth.js";
 
 import { getFirestore } from "https://www.gstatic.com/firebasejs/12.13.0/firebase-firestore.js";
-
+import { getStorage } from "https://www.gstatic.com/firebasejs/12.13.0/firebase-storage.js";
 /* ==========================================
    FIREBASE CONFIGURATION
 ========================================== */
@@ -38,7 +38,7 @@ const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 
 const db = getFirestore(app);
-
+const storage = getStorage(app);
 /* ==========================================
    EXPORT
 ========================================== */
@@ -49,6 +49,8 @@ export {
 
     auth,
 
-    db
+    db,
+
+    storage
 
 };
