@@ -1195,8 +1195,9 @@ const today = new Date().toISOString().split('T')[0];
 document.getElementById('fromDate').value = today;
 document.getElementById('toDate').value = today;
 
-filterAttendance();
+console.log("Attendance Loaded:", attendance);
 
+filterAttendance();
 }
 
 /* DATE */
@@ -1224,17 +1225,21 @@ return new Date()
 
 function formatDate(dateStr){
 
-let parts =
-dateStr.split('/');
+if(!dateStr) return "";
 
-let month =
-parts[0].padStart(2,'0');
+if(dateStr.includes("-")){
+return dateStr;
+}
 
-let day =
-parts[1].padStart(2,'0');
+let parts = dateStr.split("/");
 
-let year =
-parts[2];
+if(parts.length !== 3){
+return "";
+}
+
+let month = parts[0].padStart(2,"0");
+let day = parts[1].padStart(2,"0");
+let year = parts[2];
 
 return `${year}-${month}-${day}`;
 
@@ -1700,7 +1705,7 @@ document.getElementById(
 tbody.innerHTML = '';
 
 let filtered = attendance.filter(att=>{
-
+if(!att.date) return false;
 let empMatch =
 emp === '' ||
 att.employee === emp ||
@@ -1900,12 +1905,12 @@ totalRegular.toFixed(2) + ' hrs';
 sumOT.innerText =
 totalOT.toFixed(2) + ' hrs';
 
-sumBreak.innerText =
-totalBreak.toFixed(0) + ' mins';
+// sumBreak.innerText =
+// totalBreak.toFixed(0) + ' mins';
 
-sumAverage.innerText =
-(totalHours / records.length)
-.toFixed(2) + ' hrs';
+// sumAverage.innerText =
+// (totalHours / records.length)
+// .toFixed(2) + ' hrs';
 
 sumLate.innerText =
 totalLate.toFixed(0) + ' mins';
