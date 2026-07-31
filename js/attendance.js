@@ -46,3 +46,39 @@ document.getElementById("todayDate");
 let employees = [];
 
 let attendance = [];
+/* ==========================================
+   LIVE CLOCK
+========================================== */
+
+function updateClock(){
+
+const now = new Date();
+
+clock.textContent = now.toLocaleTimeString();
+
+todayDate.textContent = now.toLocaleDateString("en-US",{
+
+weekday:"long",
+
+year:"numeric",
+
+month:"long",
+
+day:"numeric"
+
+});
+
+}
+
+setInterval(updateClock,1000);
+
+updateClock();
+/* ==========================================
+   DEFAULT DATE
+========================================== */
+
+const today = new Date().toISOString().split("T")[0];
+
+fromDate.value = today;
+
+toDate.value = today;
