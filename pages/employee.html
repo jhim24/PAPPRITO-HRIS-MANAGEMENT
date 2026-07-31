@@ -1,1 +1,306 @@
+<!DOCTYPE html>
+<html lang="en">
 
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0">
+
+<title>PAPPRITO HRIS | Employee</title>
+
+<link
+rel="stylesheet"
+href="../assets/css/employee.css">
+
+</head>
+
+<body>
+
+<div class="dashboard">
+
+    <!-- SIDEBAR -->
+
+    <aside class="sidebar">
+
+        <div class="logo">
+
+            <img
+            src="../assets/images/logo.png"
+            alt="Logo">
+
+            <h2>PAPPRITO</h2>
+
+            <span>HRIS v2.0</span>
+
+        </div>
+
+        <ul class="menu">
+
+            <li>
+
+                <a href="dashboard.html">
+
+                    🏠 Dashboard
+
+                </a>
+
+            </li>
+
+            <li class="active">
+
+                <a href="employee.html">
+
+                    👥 Employee
+
+                </a>
+
+            </li>
+
+            <li>
+
+                <a href="attendance.html">
+
+                    🕒 Attendance
+
+                </a>
+
+            </li>
+
+            <li>
+
+                <a href="leave.html">
+
+                    📝 Leave
+
+                </a>
+
+            </li>
+
+            <li>
+
+                <a href="payroll.html">
+
+                    💰 Payroll
+
+                </a>
+
+            </li>
+
+            <li>
+
+                <a href="reports.html">
+
+                    📊 Reports
+
+                </a>
+
+            </li>
+
+            <li>
+
+                <a href="settings.html">
+
+                    ⚙ Settings
+
+                </a>
+
+            </li>
+
+        </ul>
+
+    </aside>
+
+    <!-- MAIN -->
+
+    <main class="main-content">
+
+        <header class="topbar">
+
+            <button
+            class="menu-toggle"
+            onclick="toggleSidebar()">
+
+                ☰
+
+            </button>
+
+            <div>
+
+                <h1>
+
+                    Employee Masterlist
+
+                </h1>
+
+                <p>
+
+                    Manage all employee information
+
+                </p>
+
+            </div>
+
+        </header>
+        <!-- TOOLBAR -->
+
+<section class="employee-toolbar">
+
+    <div class="search-box">
+
+        <input
+            type="text"
+            id="searchEmployee"
+            placeholder="Search employee...">
+
+    </div>
+
+    <div class="filter-box">
+
+        <select id="departmentFilter">
+
+            <option value="">All Departments</option>
+
+            <option>HR</option>
+
+            <option>Accounting</option>
+
+            <option>Kitchen</option>
+
+            <option>Dining</option>
+
+            <option>Cashier</option>
+
+            <option>Admin</option>
+
+        </select>
+
+    </div>
+
+    <button
+        class="add-btn"
+        id="addEmployeeBtn">
+
+        + Add Employee
+
+    </button>
+
+</section>
+
+<!-- EMPLOYEE TABLE -->
+
+<section class="table-container">
+
+    <table id="employeeTable">
+
+        <thead>
+
+            <tr>
+
+                <th>Photo</th>
+                <th>Employee ID</th>
+                <th>Name</th>
+                <th>Department</th>
+                <th>Position</th>
+                <th>Status</th>
+                <th>Contact</th>
+                <th>Action</th>
+
+            </tr>
+
+        </thead>
+
+        <tbody id="employeeBody">
+
+        </tbody>
+
+    </table>
+
+</section>
+<!-- ADD EMPLOYEE MODAL -->
+
+<div class="modal" id="employeeModal">
+
+    <div class="modal-content">
+
+        <div class="modal-header">
+
+            <h2>Add Employee</h2>
+
+            <button id="closeModal">&times;</button>
+
+        </div>
+
+        <div class="modal-body">
+
+            <div class="form-grid">
+
+                <input type="text" id="empId" placeholder="Employee ID">
+
+                <input type="text" id="firstName" placeholder="First Name">
+
+                <input type="text" id="middleName" placeholder="Middle Name">
+
+                <input type="text" id="lastName" placeholder="Last Name">
+
+                <input type="date" id="birthday">
+
+                <select id="gender">
+                    <option value="">Gender</option>
+                    <option>Male</option>
+                    <option>Female</option>
+                </select>
+
+                <input type="text" id="department" placeholder="Department">
+
+                <input type="text" id="position" placeholder="Position">
+
+                <input type="email" id="email" placeholder="Email">
+
+                <input type="text" id="mobile" placeholder="Mobile Number">
+
+                <input type="text" id="sss" placeholder="SSS Number">
+
+                <input type="text" id="philhealth" placeholder="PhilHealth Number">
+
+                <input type="text" id="pagibig" placeholder="Pag-IBIG Number">
+
+                <input type="text" id="tin" placeholder="TIN Number">
+
+                <input type="text" id="bank" placeholder="Bank Name">
+
+                <input type="text" id="accountNo" placeholder="Bank Account Number">
+
+            </div>
+
+            <textarea
+                id="address"
+                placeholder="Complete Address"></textarea>
+
+        </div>
+
+        <div class="modal-footer">
+
+            <button class="cancel-btn" id="cancelModal">
+
+                Cancel
+
+            </button>
+
+            <button class="save-btn" id="saveEmployee">
+
+                Save Employee
+
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+<script src="../assets/js/employee.js"></script>
+
+</body>
+</html>
