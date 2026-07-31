@@ -1,0 +1,714 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="manifest" href="manifest.json">
+
+<meta name="theme-color" content="#ffcc00">
+
+<link rel="apple-touch-icon" href="icon-192.png">
+<title>HR Settings</title>
+
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0">
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Tahoma,sans-serif;
+}
+
+body{
+
+background:#1f1f1f;
+
+padding:20px;
+
+color:white;
+}
+
+.container{
+
+max-width:900px;
+
+margin:auto;
+
+background:#2b2b2b;
+
+border:3px solid #ffcc00;
+
+border-radius:15px;
+
+overflow:hidden;
+
+box-shadow:
+0 5px 20px rgba(0,0,0,0.5);
+}
+
+/* HEADER */
+
+.header{
+
+background:
+linear-gradient(
+135deg,
+#ffcc00,
+#ff8800
+);
+
+padding:15px;
+
+display:flex;
+
+justify-content:space-between;
+
+align-items:center;
+
+flex-wrap:wrap;
+}
+
+.title{
+
+font-size:28px;
+
+font-weight:bold;
+
+color:black;
+}
+
+/* FORM */
+
+.form-section{
+
+padding:20px;
+}
+
+.form-grid{
+
+display:grid;
+
+grid-template-columns:
+1fr 1fr;
+
+gap:15px;
+}
+
+input,
+select{
+
+width:100%;
+
+padding:12px;
+
+border-radius:10px;
+
+border:2px solid #555;
+
+background:#1f1f1f;
+
+color:white;
+
+font-size:14px;
+}
+
+input:focus,
+select:focus{
+
+outline:none;
+
+border-color:#ffcc00;
+}
+
+/* BUTTON */
+
+.btn{
+
+padding:12px 18px;
+
+border:none;
+
+border-radius:10px;
+
+cursor:pointer;
+
+font-weight:bold;
+
+font-size:14px;
+
+transition:0.3s;
+}
+
+.save-btn{
+
+background:#008000;
+
+color:white;
+}
+
+.back-btn{
+
+background:#0066cc;
+
+color:white;
+}
+
+.delete-btn{
+
+background:#cc0000;
+
+color:white;
+}
+
+.btn:hover{
+
+transform:scale(1.03);
+}
+
+/* TABLE */
+
+.table-wrapper{
+
+margin-top:25px;
+
+overflow:auto;
+
+background:white;
+
+border-radius:10px;
+}
+
+table{
+
+width:100%;
+
+border-collapse:collapse;
+
+min-width:700px;
+}
+
+th,
+td{
+
+border:1px solid #999;
+
+padding:10px;
+
+text-align:center;
+}
+
+th{
+
+background:#ffcc00;
+
+color:black;
+}
+
+td{
+color:black;
+}
+
+.role-admin{
+
+color:red;
+
+font-weight:bold;
+}
+
+.role-employee{
+
+color:green;
+
+font-weight:bold;
+}
+
+/* MOBILE */
+
+@media(max-width:768px){
+
+.form-grid{
+
+grid-template-columns:1fr;
+}
+
+.title{
+
+font-size:22px;
+}
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+<!-- HEADER -->
+
+<div class="header">
+
+<div class="title">
+⚙️ FIREBASE USER SETTINGS
+</div>
+
+<button
+class="btn back-btn"
+onclick="window.location.href='index.html'">
+
+← BACK
+
+</button>
+
+</div>
+
+<!-- FORM -->
+
+<div class="form-section">
+
+<div class="form-grid">
+
+<select id="employeeSelect">
+
+<option value="">
+Select Employee
+</option>
+
+</select>
+
+<input
+type="text"
+id="username"
+placeholder="Username">
+
+<input
+type="password"
+id="password"
+placeholder="Password">
+
+<select id="role">
+
+<option value="">
+Select Role
+</option>
+
+<option value="admin">
+ADMIN
+</option>
+
+<option value="employee">
+EMPLOYEE
+</option>
+
+</select>
+
+</div>
+
+<br>
+
+<button
+class="btn save-btn"
+onclick="saveUser()">
+
+SAVE USER
+
+</button>
+
+<!-- TABLE -->
+
+<div class="table-wrapper">
+
+<table>
+
+<thead>
+
+<tr>
+
+<th>EMPLOYEE</th>
+<th>USERNAME</th>
+<th>PASSWORD</th>
+<th>ROLE</th>
+<th>ACTION</th>
+
+</tr>
+
+</thead>
+
+<tbody id="userBody">
+
+</tbody>
+
+</table>
+
+</div>
+
+</div>
+
+</div>
+
+<script type="module">
+
+/* =========================
+FIREBASE IMPORT
+========================= */
+
+import {
+
+initializeApp
+
+}
+
+from
+"https://www.gstatic.com/firebasejs/12.2.1/firebase-app.js";
+
+import {
+
+getFirestore,
+collection,
+addDoc,
+getDocs,
+deleteDoc,
+doc
+
+}
+
+from
+"https://www.gstatic.com/firebasejs/12.2.1/firebase-firestore.js";
+
+/* =========================
+FIREBASE CONFIG
+========================= */
+
+const firebaseConfig = {
+
+apiKey:
+"AIzaSyAehoq0teVYHiJ4bkKOgBqIgJZrQpce3k8",
+
+authDomain:
+"hr-system-38fc3.firebaseapp.com",
+
+projectId:
+"hr-system-38fc3",
+
+storageBucket:
+"hr-system-38fc3.firebasestorage.app",
+
+messagingSenderId:
+"615471610834",
+
+appId:
+"1:615471610834:web:a0d671d4e3f4c1b57b660b"
+
+};
+
+/* =========================
+INIT
+========================= */
+
+const app =
+initializeApp(firebaseConfig);
+
+const db =
+getFirestore(app);
+
+/* =========================
+LOAD EMPLOYEES
+========================= */
+
+async function loadEmployees(){
+
+employeeSelect.innerHTML =
+
+'<option value="">Select Employee</option>';
+
+let querySnapshot =
+
+await getDocs(
+collection(db,'employees')
+);
+
+querySnapshot.forEach(doc=>{
+
+let emp = doc.data();
+
+let fullname =
+
+(emp.firstname || '') + ' ' +
+
+(emp.middlename || '') + ' ' +
+
+(emp.lastname || '');
+
+let empId =
+emp.employeeid || '';
+
+employeeSelect.innerHTML += `
+
+<option
+value="${empId}"
+data-name="${fullname}">
+
+${empId} - ${fullname}
+
+</option>
+
+`;
+
+});
+
+}
+
+loadEmployees();
+
+/* =========================
+AUTO USERNAME
+========================= */
+
+employeeSelect.addEventListener(
+'change',
+function(){
+
+username.value =
+this.value;
+
+role.value =
+'employee';
+
+}
+);
+
+/* =========================
+SAVE USER
+========================= */
+
+window.saveUser =
+async function(){
+
+if(
+
+username.value === '' ||
+
+password.value === '' ||
+
+role.value === ''
+
+){
+
+alert(
+'Complete all fields'
+);
+
+return;
+
+}
+
+/* EMPLOYEE NAME */
+
+let employeeName = '';
+
+if(employeeSelect.value !== ''){
+
+let selected =
+
+employeeSelect.options[
+employeeSelect.selectedIndex
+];
+
+employeeName =
+selected.dataset.name;
+
+}
+
+try{
+
+await addDoc(
+collection(db,'users'),
+
+{
+
+employee:
+employeeName,
+
+username:
+username.value,
+
+password:
+password.value,
+
+role:
+role.value
+
+}
+
+);
+
+alert(
+'User Saved Successfully'
+);
+
+clearForm();
+
+loadUsers();
+
+}catch(error){
+
+console.log(error);
+
+alert(
+'Firebase Save Error'
+);
+
+}
+
+}
+
+/* =========================
+LOAD USERS
+========================= */
+
+async function loadUsers(){
+
+userBody.innerHTML='';
+
+let querySnapshot =
+
+await getDocs(
+collection(db,'users')
+);
+
+if(querySnapshot.empty){
+
+userBody.innerHTML = `
+
+<tr>
+
+<td colspan="5">
+
+NO USER FOUND
+
+</td>
+
+</tr>
+
+`;
+
+return;
+
+}
+
+querySnapshot.forEach(userDoc=>{
+
+let user = userDoc.data();
+
+let roleClass =
+
+user.role === 'admin'
+
+? 'role-admin'
+
+: 'role-employee';
+
+userBody.innerHTML += `
+
+<tr>
+
+<td>
+${user.employee || '-'}
+</td>
+
+<td>
+${user.username}
+</td>
+
+<td>
+${user.password}
+</td>
+
+<td class="${roleClass}">
+
+${user.role.toUpperCase()}
+
+</td>
+
+<td>
+
+<button
+class="btn delete-btn"
+onclick="deleteUser('${userDoc.id}')">
+
+DELETE
+
+</button>
+
+</td>
+
+</tr>
+
+`;
+
+});
+
+}
+
+loadUsers();
+
+/* =========================
+DELETE USER
+========================= */
+
+window.deleteUser =
+async function(id){
+
+let confirmDelete = confirm(
+'Delete User?'
+);
+
+if(!confirmDelete) return;
+
+try{
+
+await deleteDoc(
+doc(db,'users',id)
+);
+
+alert(
+'User Deleted'
+);
+
+loadUsers();
+
+}catch(error){
+
+console.log(error);
+
+alert(
+'Delete Error'
+);
+
+}
+
+}
+
+/* =========================
+CLEAR
+========================= */
+
+function clearForm(){
+
+employeeSelect.value='';
+
+username.value='';
+
+password.value='';
+
+role.value='';
+
+}
+
+</script>
+
+</body>
+</html>

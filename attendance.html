@@ -1,0 +1,2132 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="manifest" href="manifest.json">
+
+<meta name="theme-color" content="#ffcc00">
+
+<link rel="apple-touch-icon" href="icon-192.png">
+  
+<title>PAPPRITO</title>
+
+<title>Employee Attendance</title>
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Tahoma,sans-serif;
+}
+
+body{
+background:#1f1f1f;
+padding:10px;
+color:white;
+}
+
+/* CONTAINER */
+
+.container{
+
+max-width:1300px;
+
+margin:auto;
+
+background:#2b2b2b;
+
+border:2px solid #ffcc00;
+
+border-radius:12px;
+
+box-shadow:0 5px 15px rgba(0,0,0,0.5);
+
+padding:10px;
+}
+
+/* HEADER */
+
+.header{
+
+padding:10px;
+
+text-align:center;
+
+position:relative;
+}
+
+/* BUTTONS */
+
+.top-btn{
+
+padding:10px 18px;
+
+cursor:pointer;
+
+font-weight:bold;
+
+font-size:12px;
+
+border:none;
+
+border-radius:10px;
+
+transition:0.3s;
+
+box-shadow:0 4px 10px rgba(0,0,0,0.4);
+}
+
+.top-btn:hover{
+
+transform:translateY(-2px);
+
+filter:brightness(1.1);
+}
+
+.back-btn{
+
+position:absolute;
+
+left:15px;
+top:15px;
+
+background:linear-gradient(
+135deg,
+#ffcc00,
+#ff6600
+);
+
+color:black;
+}
+
+.print-btn{
+
+position:absolute;
+
+right:15px;
+top:15px;
+
+background:linear-gradient(
+135deg,
+#00cc66,
+#00994d
+);
+
+color:white;
+}
+
+/* LOGO */
+
+.logo{
+
+width:120px;
+height:120px;
+
+margin:auto;
+
+background:white;
+
+border-radius:50%;
+
+display:flex;
+
+align-items:center;
+justify-content:center;
+
+overflow:hidden;
+
+border:2px solid #ffcc00;
+
+margin-bottom:8px;
+}
+
+.logo img{
+
+width:100%;
+height:100%;
+
+object-fit:cover;
+}
+.logo-text{
+
+font-size:42px;
+
+font-weight:bold;
+
+color:#ff3333;
+
+margin-top:10px;
+
+text-shadow:2px 2px 5px black;
+
+letter-spacing:2px;
+
+}
+/* TITLE */
+
+.title{
+
+font-size:42px;
+
+font-weight:bold;
+
+margin-bottom:10px;
+
+color:#ffcc00;
+
+text-shadow:2px 2px 5px black;
+}
+
+/* FILTERS */
+
+.filter-section{
+
+display:flex;
+
+justify-content:center;
+
+gap:10px;
+
+flex-wrap:wrap;
+
+margin-top:15px;
+}
+
+select,
+input{
+
+padding:10px;
+
+border:2px solid #555;
+
+font-size:13px;
+
+min-width:220px;
+
+border-radius:8px;
+
+background:#1f1f1f;
+
+color:white;
+}
+
+input:focus,
+select:focus{
+
+outline:none;
+
+border-color:#ffcc00;
+}
+
+/* EMPLOYEE INFO */
+
+.employee-info{
+
+margin-top:15px;
+
+line-height:1.5;
+
+font-size:15px;
+
+font-weight:bold;
+
+color:#ffcc00;
+}
+
+/* CLOCK */
+
+.clock{
+
+font-size:30px;
+
+font-weight:bold;
+
+margin-top:10px;
+
+color:#00ff99;
+}
+
+.date{
+
+font-size:18px;
+
+margin-top:3px;
+}
+
+/* ACTION BUTTONS */
+
+.button-group{
+
+display:flex;
+
+justify-content:center;
+
+gap:8px;
+
+flex-wrap:wrap;
+
+margin:18px 0;
+}
+.filter-toolbar{
+
+display:flex;
+
+gap:10px;
+
+flex-wrap:wrap;
+
+align-items:center;
+
+margin:20px 0;
+
+}
+
+.filter-toolbar select,
+.filter-toolbar input{
+
+flex:1;
+
+min-width:180px;
+
+}
+
+.filter-btn{
+
+background:#f4b400;
+
+color:black;
+
+}
+
+.summary-btn{
+
+background:#6f42c1;
+
+color:white;
+
+}
+  .summary-card{
+
+background:#333;
+
+padding:15px;
+
+border-radius:10px;
+
+border:2px solid #ffcc00;
+
+text-align:center;
+
+font-size:16px;
+
+color:white;
+
+}
+.action-btn{
+
+padding:10px 20px;
+
+font-size:13px;
+
+font-weight:bold;
+
+cursor:pointer;
+
+border:none;
+
+border-radius:10px;
+
+color:white;
+
+min-width:120px;
+
+transition:0.3s;
+
+box-shadow:0 4px 10px rgba(0,0,0,0.4);
+}
+
+.action-btn:hover{
+
+transform:translateY(-2px);
+
+filter:brightness(1.1);
+}
+
+.timein{
+background:#008000;
+}
+
+.breakout{
+background:#c58a00;
+}
+
+.breakin{
+background:#0066cc;
+}
+
+.timeout{
+background:#cc0000;
+}
+
+/* DELETE BUTTON */
+
+.delete-btn{
+
+background:#cc0000;
+
+color:white;
+
+border:none;
+
+padding:6px 12px;
+
+border-radius:6px;
+
+cursor:pointer;
+
+font-weight:bold;
+
+transition:0.3s;
+}
+
+.delete-btn:hover{
+
+background:#ff0000;
+
+transform:scale(1.05);
+}
+
+/* TABLE */
+
+.table-wrapper{
+
+overflow:auto;
+
+max-height:350px;
+
+background:#2b2b2b;
+
+margin-top:10px;
+
+border:2px solid #ffcc00;
+
+border-radius:10px;
+}
+
+/* SCROLLBAR */
+
+.table-wrapper::-webkit-scrollbar{
+
+width:12px;
+height:12px;
+}
+
+.table-wrapper::-webkit-scrollbar-track{
+
+background:#333;
+}
+
+.table-wrapper::-webkit-scrollbar-thumb{
+
+background:#ffcc00;
+
+border-radius:10px;
+}
+
+/* TABLE */
+
+table{
+
+width:100%;
+
+border-collapse:collapse;
+
+min-width:1600px;
+
+font-size:12px;
+}
+
+th,
+td{
+
+border:1px solid #555;
+
+padding:8px;
+
+text-align:center;
+
+white-space:nowrap;
+}
+
+th{
+
+background:#ffcc00;
+
+color:black;
+
+position:sticky;
+
+top:0;
+}
+
+tr:nth-child(even){
+
+background:#242424;
+}
+
+tr:hover{
+
+background:#3a3a3a;
+}
+
+/* SUMMARY */
+
+.summary{
+
+margin-top:15px;
+
+background:#2b2b2b;
+
+padding:15px;
+
+border:2px solid #ffcc00;
+
+font-weight:bold;
+
+line-height:1.8;
+
+border-radius:10px;
+
+color:#ffcc00;
+}
+
+/* SIGNATURE */
+
+.signature{
+
+margin-top:50px;
+
+display:flex;
+
+justify-content:space-between;
+
+text-align:center;
+}
+
+.line{
+
+margin-top:50px;
+
+border-top:1px solid white;
+
+padding-top:5px;
+
+width:250px;
+}
+
+/* PRINT */
+
+@media print{
+
+@page{
+size:landscape;
+margin:10mm;
+}
+
+body{
+background:white;
+padding:0;
+zoom:85%;
+color:black;
+}
+
+/* HIDE BUTTONS */
+
+.back-btn,
+.print-btn,
+.button-group,
+.filter-section,
+.clock,
+.date,
+.delete-btn{
+
+display:none !important;
+}
+
+/* REMOVE BOARD */
+
+.container{
+
+border:none !important;
+box-shadow:none !important;
+
+background:white;
+}
+
+/* REMOVE SCROLLBAR */
+
+.table-wrapper{
+
+overflow:visible !important;
+
+max-height:none !important;
+
+border:none !important;
+}
+
+.table-wrapper::-webkit-scrollbar{
+
+display:none;
+}
+
+/* AUTO FIT */
+
+table{
+
+min-width:100% !important;
+
+font-size:10px;
+}
+
+th,
+td{
+
+white-space:normal !important;
+
+padding:4px;
+}
+
+}
+
+/* MOBILE */
+
+@media(max-width:768px){
+
+.filter-section{
+flex-direction:column;
+}
+
+select,
+input{
+width:100%;
+}
+
+.button-group{
+flex-direction:column;
+}
+
+.action-btn{
+width:100%;
+}
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+<!-- HEADER -->
+
+<div class="header">
+
+<button
+class="top-btn back-btn"
+onclick="window.history.back()">
+
+← BACK
+
+</button>
+
+<button
+class="top-btn print-btn"
+onclick="printAttendance()">
+
+🖨 PRINT DTR
+
+</button>
+
+<div class="logo">
+
+<img
+src="logo.png">
+
+</div>
+
+<div class="logo-text">
+PAPPRITO
+</div>
+
+<div class="title">
+EMPLOYEE ATTENDANCE
+</div>
+
+<!-- FILTER -->
+
+<div class="filter-section">
+
+<select
+id="employeeSelect"
+onchange="filterAttendance()">
+
+<option value="">
+Select Employee
+</option>
+
+</select>
+
+<input
+type="date"
+id="fromDate"
+onchange="filterAttendance()">
+
+<input
+type="date"
+id="toDate"
+onchange="filterAttendance()">
+<button
+class="filter-btn"
+onclick="filterAttendance()">
+
+🔍 FILTER
+
+</button>
+
+<button
+class="summary-btn"
+onclick="openSummary()">
+
+📊 SUMMARY
+
+</button>
+</div>
+
+<!-- INFO -->
+
+<div class="employee-info">
+
+<div id="employeeId">
+EMPLOYEE ID :
+</div>
+
+<div id="employeeName">
+EMPLOYEE NAME :
+</div>
+
+</div>
+
+<!-- CLOCK -->
+
+<div
+class="clock"
+id="clock">
+
+00:00:00
+
+</div>
+
+<div
+class="date"
+id="dateToday">
+
+DATE
+
+</div>
+
+<!-- BUTTONS -->
+
+<div class="button-group">
+
+<button
+class="action-btn timein"
+onclick="timeIn()">
+
+TIME IN
+
+</button>
+
+<button
+class="action-btn breakout"
+onclick="breakOut()">
+
+BREAK OUT
+
+</button>
+
+<button
+class="action-btn breakin"
+onclick="breakIn()">
+
+BREAK IN
+
+</button>
+
+<button
+class="action-btn timeout"
+onclick="timeOut()">
+
+TIME OUT
+</button>
+  
+</div>
+
+<!-- TABLE -->
+
+<div class="table-wrapper">
+
+<table>
+
+<thead>
+
+<tr>
+
+<th>DATE</th>
+<th>EMP ID</th>
+<th>EMPLOYEE NAME</th>
+<th>TIME IN</th>
+<th>BREAK OUT</th>
+<th>BREAK IN</th>
+<th>TIME OUT</th>
+<th>BREAK MINUTES</th>
+<th>TOTAL HOURS</th>
+<th>LATE</th>
+<th>STATUS</th>
+<th>ACTION</th>
+
+</tr>
+
+</thead>
+
+<tbody id="attendanceBody">
+
+</tbody>
+
+</table>
+
+
+</div>
+</div>
+
+<!-- SUMMARY -->
+
+<div class="summary">
+
+<div id="totalDays">
+TOTAL DAYS : 0
+</div>
+
+<div id="totalRecords">
+TOTAL RECORDS : 0
+</div>
+
+</div>
+
+<!-- SIGNATURE -->
+
+<div class="signature">
+
+<div>
+
+<div class="line">
+EMPLOYER SIGNATURE
+</div>
+
+</div>
+
+<div>
+
+<div class="line">
+EMPLOYEE SIGNATURE
+</div>
+
+</div>
+
+</div>
+
+</div>
+<!-- ATTENDANCE SUMMARY POPUP -->
+
+<div
+id="summaryModal"
+
+style="
+display:none;
+position:fixed;
+left:0;
+top:0;
+width:100%;
+height:100%;
+background:rgba(0,0,0,.75);
+z-index:9999;
+">
+<div
+style="
+background:#2b2b2b;
+color:white;
+width:96%;
+max-width:1200px;
+height:85vh;
+margin:20px auto;
+padding:20px;
+border-radius:15px;
+border:3px solid #ffcc00;
+position:relative;
+overflow:auto;
+">
+<button
+
+onclick="closeSummary()"
+
+style="
+position:absolute;
+right:15px;
+top:15px;
+background:red;
+color:white;
+border:none;
+padding:8px 12px;
+border-radius:8px;
+cursor:pointer;
+">
+
+✖
+
+</button>
+
+<h2
+style="
+color:#ffcc00;
+text-align:center;
+margin-bottom:20px;
+">
+
+📊 ATTENDANCE SUMMARY
+
+</h2>
+
+<div id="summaryContent">
+
+<div
+style="
+background:#1f1f1f;
+padding:15px;
+border-radius:10px;
+margin-bottom:15px;
+">
+
+<h3 id="sumEmployee"
+style="color:#ffcc00;">
+Employee :
+</h3>
+
+<h4 id="sumCutoff">
+Cutoff :
+</h4>
+
+</div>
+
+<div
+style="
+overflow:auto;
+max-height:420px;
+border:2px solid #ffcc00;
+border-radius:10px;
+">
+
+<table
+id="summaryTable"
+style="
+width:100%;
+min-width:1100px;
+border-collapse:collapse;
+">
+
+<thead>
+
+<tr>
+
+<th>DAY</th>
+
+<th>DATE</th>
+
+<th>TIME IN</th>
+
+<th>BREAK OUT</th>
+
+<th>BREAK IN</th>
+
+<th>TIME OUT</th>
+
+<th>REG HOURS</th>
+
+<th>OT</th>
+
+<th>LATE</th>
+
+<th>STATUS</th>
+
+</tr>
+
+</thead>
+
+<tbody
+id="summaryBody">
+
+</tbody>
+
+</table>
+
+</div>
+
+<br>
+
+<div
+style="
+display:grid;
+grid-template-columns:repeat(6,1fr);
+gap:10px;
+">
+
+<div class="summary-card">
+<b>Total Days</b><br>
+<span id="sumDays">0</span>
+</div>
+
+<div class="summary-card">
+<b>Regular Hours</b><br>
+<span id="sumRegular">0</span>
+</div>
+
+<div class="summary-card">
+<b>Overtime</b><br>
+<span id="sumOT">0</span>
+</div>
+
+<div class="summary-card">
+<b>Late Minutes</b><br>
+<span id="sumLate">0</span>
+</div>
+<div class="summary-card">
+<b>Present</b><br>
+<span id="sumPresent">0</span>
+</div>
+
+<div class="summary-card">
+<b>Absent</b><br>
+<span id="sumAbsent">0</span>
+</div>
+</div>
+
+</div>
+
+<br>
+
+<div
+style="
+text-align:center;
+">
+
+<button
+
+class="action-btn"
+
+onclick="window.print()"
+
+style="background:#009933;">
+
+🖨 PRINT
+
+</button>
+
+<button
+
+class="action-btn"
+
+onclick="closeSummary()"
+
+style="background:#666;">
+
+CLOSE
+
+</button>
+
+</div> <!-- End popup box -->
+
+</div> <!-- End summaryModal -->
+
+<script type="module">
+/* FIREBASE */
+
+import { initializeApp }
+
+from "https://www.gstatic.com/firebasejs/12.13.0/firebase-app.js";
+
+import {
+
+getFirestore,
+collection,
+addDoc,
+getDocs,
+deleteDoc,
+doc,
+updateDoc
+
+}
+
+from "https://www.gstatic.com/firebasejs/12.13.0/firebase-firestore.js";
+
+/* CONFIG */
+
+const firebaseConfig = {
+
+apiKey: "AIzaSyAehoq0teVYHiJ4bkKOgBqIgJZrQpce3k8",
+
+authDomain: "hr-system-38fc3.firebaseapp.com",
+
+projectId: "hr-system-38fc3",
+
+storageBucket: "hr-system-38fc3.firebasestorage.app",
+
+messagingSenderId: "615471610834",
+
+appId: "1:615471610834:web:a0d671d4e3f4c1b57b660b"
+
+};
+
+const app =
+initializeApp(firebaseConfig);
+
+const db =
+getFirestore(app);
+
+/* CLOCK */
+
+function updateClock(){
+
+let now = new Date();
+
+clock.innerText =
+now.toLocaleTimeString();
+
+dateToday.innerText =
+now.toDateString();
+
+}
+
+setInterval(updateClock,1000);
+
+updateClock();
+
+/* EMPLOYEES */
+
+async function loadEmployees(){
+
+let snapshot =
+
+await getDocs(
+collection(db,'employees')
+);
+
+employeeSelect.innerHTML =
+'<option value="">Select Employee</option>';
+
+snapshot.forEach(docSnap=>{
+
+let emp = docSnap.data();
+
+let fullName =
+
+(emp.firstname || '') + ' ' +
+(emp.middlename || '') + ' ' +
+(emp.lastname || '');
+
+let empId =
+emp.employeeid || 'NO-ID';
+
+employeeSelect.innerHTML += `
+
+<option value="${fullName}">
+
+${empId} - ${fullName}
+
+</option>
+
+`;
+
+});
+
+}
+
+/* STORAGE */
+
+let attendance = [];
+
+/* LOAD ATTENDANCE */
+
+async function loadAttendance(){
+
+attendance = [];
+
+let snapshot =
+
+await getDocs(
+collection(db,'attendance')
+);
+
+snapshot.forEach(docSnap=>{
+
+attendance.push({
+
+id:docSnap.id,
+
+...docSnap.data()
+
+});
+
+});
+
+// Auto select today's date
+const today = new Date().toISOString().split('T')[0];
+
+document.getElementById('fromDate').value = today;
+document.getElementById('toDate').value = today;
+
+filterAttendance();
+
+}
+
+/* DATE */
+
+function getToday(){
+
+let d = new Date();
+
+return (
+d.getMonth()+1
+) + '/' +
+d.getDate() + '/' +
+d.getFullYear();
+
+}
+
+function getTime(){
+
+return new Date()
+.toLocaleTimeString();
+
+}
+
+/* FORMAT DATE */
+
+function formatDate(dateStr){
+
+let parts =
+dateStr.split('/');
+
+let month =
+parts[0].padStart(2,'0');
+
+let day =
+parts[1].padStart(2,'0');
+
+let year =
+parts[2];
+
+return `${year}-${month}-${day}`;
+
+}
+function getDateRange(startDate, endDate){
+
+    let dates = [];
+
+    let current = new Date(startDate);
+
+    let end = new Date(endDate);
+
+    while(current <= end){
+
+        dates.push(new Date(current));
+
+        current.setDate(current.getDate() + 1);
+
+    }
+
+    return dates;
+
+}
+  function formatLongDate(dateObj){
+
+    return dateObj.toLocaleDateString('en-US',{
+
+        year:'numeric',
+
+        month:'long',
+
+        day:'2-digit'
+
+    });
+
+}
+/* TIME IN */
+
+window.timeIn =
+async function(){
+
+if(employeeSelect.value===''){
+
+alert('Select Employee');
+
+return;
+
+}
+
+let fullName =
+employeeSelect.value;
+/* CHECK IF ALREADY TIME IN TODAY */
+
+let existing = attendance.find(a =>
+
+a.name === fullName &&
+
+a.date === getToday() &&
+
+(a.timeout === '-' || !a.timeout)
+
+);
+
+if(existing){
+
+alert('Employee already Time In today.');
+
+return;
+
+}
+let snapshot =
+
+await getDocs(
+collection(db,'employees')
+);
+
+let empId = 'NO-ID';
+
+snapshot.forEach(docSnap=>{
+
+let emp = docSnap.data();
+
+let full =
+
+(emp.firstname || '') + ' ' +
+(emp.middlename || '') + ' ' +
+(emp.lastname || '');
+
+if(full === fullName){
+
+empId =
+emp.employeeid || 'NO-ID';
+
+}
+
+});
+/* COMPUTE LATE */
+
+let shiftStart =
+
+new Date(
+'1/1/2024 8:00:00 AM'
+);
+
+let actualTimeIn =
+
+new Date(
+'1/1/2024 ' + getTime()
+);
+
+let lateMinutes = 0;
+
+if(actualTimeIn > shiftStart){
+
+lateMinutes = Math.floor(
+
+(actualTimeIn - shiftStart)
+
+/1000/60
+
+);
+
+}
+
+let attendanceStatus =
+
+lateMinutes > 0 ?
+
+'LATE'
+
+:
+
+'PRESENT';
+  
+let data = {
+
+date:getToday(),
+
+empid:empId,
+
+name:fullName,
+
+timein:getTime(),
+
+breakout:'-',
+
+breakin:'-',
+
+timeout:'-',
+
+breakminutes:'0 mins',
+
+totalhours:'0',
+
+late:
+lateMinutes + ' mins',
+
+status:
+attendanceStatus
+
+};
+
+await addDoc(
+collection(db,'attendance'),
+data
+);
+
+loadAttendance();
+
+}
+
+/* BREAK OUT */
+
+window.breakOut =
+async function(){
+
+let selectedEmployee =
+employeeSelect.value;
+
+if(selectedEmployee===''){
+
+alert('Select Employee');
+
+return;
+
+}
+
+let last = attendance.find(a =>
+
+    a.name === selectedEmployee &&
+
+    a.date === getToday() &&
+
+    (a.timeout === "-" || !a.timeout)
+
+);
+if(!last){
+
+alert('No Time In Record');
+
+return;
+
+}
+/* ALREADY BREAK OUT */
+
+if(last.breakout !== '-'){
+
+alert('Employee already Break Out.');
+
+return;
+
+}
+
+/* ALREADY TIME OUT */
+
+if(last.timeout !== '-'){
+
+alert('Employee already Time Out.');
+
+return;
+
+}
+await updateDoc(
+
+doc(db,'attendance',last.id),
+
+{
+
+breakout:getTime()
+
+}
+
+);
+
+loadAttendance();
+
+}
+  /* BREAK IN */
+
+window.breakIn =
+async function(){
+
+let selectedEmployee =
+employeeSelect.value;
+
+if(selectedEmployee===''){
+
+alert('Select Employee');
+
+return;
+
+}
+
+let last = attendance.find(a =>
+
+    a.name === selectedEmployee &&
+
+    a.date === getToday() &&
+
+    (a.timeout === "-" || !a.timeout)
+
+);
+
+if(!last){
+
+alert('No Time In Record');
+
+return;
+
+}
+
+if(last.breakout === '-'){
+
+alert('Please Break Out First');
+
+return;
+
+}
+if(last.breakin !== '-'){
+
+alert('Break In Already Recorded');
+
+return;
+
+}
+
+/* ALREADY TIME OUT */
+
+if(last.timeout !== '-'){
+
+alert('Employee already Time Out.');
+
+return;
+
+}
+
+await updateDoc(
+
+doc(db,'attendance',last.id),
+
+{
+
+breakin:getTime()
+
+}
+
+);
+
+loadAttendance();
+
+}
+/* TIME OUT */
+
+window.timeOut =
+async function(){
+
+if(attendance.length===0) return;
+
+let selectedEmployee =
+employeeSelect.value;
+
+if(selectedEmployee===''){
+
+alert('Select Employee');
+
+return;
+
+}
+
+let last = attendance.find(a =>
+
+    a.name === selectedEmployee &&
+
+    a.date === getToday() &&
+
+    (a.timeout === "-" || !a.timeout)
+
+);
+
+if(!last){
+
+alert('No Time In record found');
+
+return;
+
+}
+  /* ALREADY TIME OUT */
+
+if(last.timeout !== '-'){
+
+alert('Employee already Time Out.');
+
+return;
+
+}
+let outTimeNow =
+getTime();
+
+let inTime =
+new Date(
+'1/1/2024 ' + last.timein
+);
+
+let outTime =
+new Date(
+'1/1/2024 ' + outTimeNow
+);
+
+let diff =
+
+(outTime - inTime)
+/ 1000 / 60 / 60;
+
+let breakMinutes = 0;
+
+if(
+last.breakout !== '-' &&
+last.breakin !== '-'
+){
+
+let breakOut =
+new Date(
+'1/1/2024 ' + last.breakout
+);
+
+let breakIn =
+new Date(
+'1/1/2024 ' + last.breakin
+);
+
+breakMinutes =
+
+(breakIn - breakOut)
+/ 1000 / 60;
+
+}
+
+let finalHours =
+
+diff - (breakMinutes / 60);
+/* REGULAR HOURS */
+
+let regularHours =
+
+Math.min(finalHours,8);
+
+/* OVERTIME */
+
+let overtimeHours =
+
+Math.max(finalHours-8,0);
+await updateDoc(
+
+doc(db,'attendance',last.id),
+
+{
+
+timeout:outTimeNow,
+
+breakminutes:
+breakMinutes.toFixed(0) + ' mins',
+
+totalhours:
+finalHours.toFixed(2),
+
+regularhours:
+regularHours.toFixed(2),
+
+overtime:
+overtimeHours.toFixed(2)
+
+}
+
+);
+
+loadAttendance();
+
+}
+
+/* FILTER */
+
+window.filterAttendance =
+function(){
+
+let emp =
+employeeSelect.value;
+
+let fromDate =
+document.getElementById(
+'fromDate'
+).value;
+
+let toDate =
+document.getElementById(
+'toDate'
+).value;
+
+let tbody =
+document.getElementById(
+'attendanceBody'
+);
+
+tbody.innerHTML = '';
+
+let filtered = attendance.filter(att=>{
+
+let empMatch =
+emp === '' ||
+att.employee === emp ||
+att.name === emp;
+
+let attDate =
+formatDate(att.date);
+
+let fromMatch =
+fromDate === '' ||
+attDate >= fromDate;
+
+let toMatch =
+toDate === '' ||
+attDate <= toDate;
+
+return (
+empMatch &&
+fromMatch &&
+toMatch
+);
+
+});
+filtered.sort((a,b)=>{
+
+    let dateA = new Date(formatDate(a.date));
+
+    let dateB = new Date(formatDate(b.date));
+
+    return dateA - dateB;
+
+});
+if(filtered.length===0){
+
+tbody.innerHTML = `
+
+<tr>
+
+<td colspan="12">
+
+NO ATTENDANCE RECORD
+
+</td>
+
+</tr>
+
+`;
+
+totalDays.innerText =
+'TOTAL DAYS : 0';
+
+totalRecords.innerText =
+'TOTAL RECORDS : 0';
+
+return;
+
+}
+
+filtered.forEach(att=>{
+
+let row =
+document.createElement('tr');
+
+row.innerHTML = `
+
+<td>${att.date}</td>
+<td>${att.employeeid || att.empid || '-'}</td>
+<td>${att.employee || att.name || '-'}</td>
+<td>${att.timein}</td>
+<td>${att.breakout}</td>
+<td>${att.breakin}</td>
+<td>${att.timeout}</td>
+<td>${att.breakminutes}</td>
+<td>${att.totalhours}</td>
+<td>${att.late}</td>
+<td>${att.status}</td>
+
+<td>
+
+<button
+class="delete-btn"
+onclick="deleteAttendance('${att.id}')">
+
+DELETE
+
+</button>
+
+</td>
+
+`;
+
+tbody.appendChild(row);
+
+});
+
+totalDays.innerText =
+'TOTAL DAYS : ' +
+filtered.length;
+
+totalRecords.innerText =
+'TOTAL RECORDS : ' +
+filtered.length;
+
+employeeId.innerText =
+'EMPLOYEE ID : ' +
+(filtered[0]?.employeeid ||
+filtered[0]?.empid ||
+'-');
+
+employeeName.innerText =
+'EMPLOYEE NAME : ' +
+(emp || 'ALL');
+updateAttendanceSummary(filtered);
+}
+
+/* DELETE */
+function updateAttendanceSummary(records){
+
+if(!document.getElementById('summaryBody')){
+    return;
+}
+if(records.length===0){
+
+sumEmployee.innerText='-';
+
+sumCutoff.innerText='Cutoff : -';
+
+sumDays.innerText='0';
+
+sumRegular.innerText='0.00 hrs';
+
+sumOT.innerText='0.00 hrs';
+
+sumLate.innerText='0 mins';
+
+summaryBody.innerHTML='';
+
+return;
+
+}
+
+let totalRegular = 0;
+let totalOT = 0;
+let totalBreak = 0;
+let totalLate = 0;
+let totalHours = 0;
+
+records.forEach(att=>{
+
+totalRegular +=
+Number(att.regularhours || 0);
+
+totalOT +=
+Number(att.overtime || 0);
+
+totalHours +=
+Number(att.totalhours || 0);
+
+totalBreak +=
+parseFloat(
+(att.breakminutes || '0')
+.replace(' mins','')
+);
+
+totalLate +=
+parseFloat(
+(att.late || '0')
+.replace(' mins','')
+);
+
+});
+
+sumEmployee.innerText =
+records[0].name || '-';
+
+if(records.length===1){
+
+sumCutoff.innerText =
+'Cutoff : ' + records[0].date;
+
+}else{
+
+sumCutoff.innerText =
+'Cutoff : ' +
+records[0].date +
+' to ' +
+records[records.length-1].date;
+
+}
+
+sumDays.innerText =
+records.length;
+
+sumRegular.innerText =
+totalRegular.toFixed(2) + ' hrs';
+
+sumOT.innerText =
+totalOT.toFixed(2) + ' hrs';
+
+sumBreak.innerText =
+totalBreak.toFixed(0) + ' mins';
+
+sumAverage.innerText =
+(totalHours / records.length)
+.toFixed(2) + ' hrs';
+
+sumLate.innerText =
+totalLate.toFixed(0) + ' mins';
+
+sumPresent.innerText =
+records.length;
+
+sumAbsent.innerText =
+'0';
+
+}
+window.deleteAttendance =
+async function(id){
+
+if(
+confirm(
+'Delete Attendance Record?'
+)
+){
+
+await deleteDoc(
+doc(db,'attendance',id)
+);
+
+loadAttendance();
+
+}
+
+}
+
+/* PRINT */
+
+window.printAttendance =
+function(){
+
+window.print();
+
+}
+/* ==========================
+SUMMARY POPUP
+========================== */
+window.openSummary = function(){
+
+let emp = employeeSelect.value;
+
+if(emp===""){
+
+alert("Please select an employee.");
+
+return;
+
+}
+
+let from = fromDate.value;
+
+let to = toDate.value;
+
+let records = attendance.filter(att=>{
+
+let empMatch =
+(att.name||att.employee)===emp;
+
+let d = formatDate(att.date);
+
+let fromMatch =
+from==="" || d>=from;
+
+let toMatch =
+to==="" || d<=to;
+
+return empMatch && fromMatch && toMatch;
+
+});
+
+if(records.length===0){
+
+alert("No attendance found.");
+
+return;
+
+}
+
+summaryModal.style.display="block";
+
+sumEmployee.innerHTML =
+"<b>Employee :</b> "+emp;
+
+sumCutoff.innerHTML =
+"<b>Cutoff :</b> "+
+(from||"-")+" to "+(to||"-");
+
+summaryBody.innerHTML="";
+
+let totalRegular = 0;
+let totalOT = 0;
+let totalLate = 0;
+
+let present = 0;
+let absent = 0;
+
+let allDates = getDateRange(from, to);
+allDates.forEach((dateObj,index)=>{
+
+    let dateString = dateObj.toISOString().split("T")[0];
+
+    let r = records.find(x=>formatDate(x.date)===dateString);
+if(r){
+
+    present++;
+
+    let regHours = Number(r.regularhours);
+
+    if(isNaN(regHours) || regHours===0){
+
+        regHours = Number(r.totalhours || 0);
+
+        if(regHours > 8){
+            regHours = 8;
+        }
+
+    }
+
+    totalRegular += regHours;
+
+    totalOT += Number(r.overtime || 0);
+
+    totalLate += parseFloat(
+        (r.late || "0").replace(" mins","")
+    );
+
+}else{
+
+    absent++;
+
+}
+    summaryBody.innerHTML += `
+
+<tr>
+
+<td>Day ${index+1}</td>
+
+<td>${formatLongDate(dateObj)}</td>
+
+<td>${r ? r.timein : "-"}</td>
+
+<td>${r ? r.breakout : "-"}</td>
+
+<td>${r ? r.breakin : "-"}</td>
+
+<td>${r ? r.timeout : "-"}</td>
+
+<td>${
+r
+?
+(
+Number(r.regularhours) ||
+Math.min(Number(r.totalhours || 0),8)
+).toFixed(2)
+:
+"0.00"
+}</td>
+<td>${r ? (r.overtime||0) : "0.00"}</td>
+
+<td>${r ? r.late : "0 mins"}</td>
+
+<td>${r ? r.status : "ABSENT"}</td>
+
+</tr>
+
+`;
+
+});
+sumDays.innerText =
+allDates.length;
+// Recompute total regular hours
+totalRegular = 0;
+
+records.forEach(r=>{
+
+    let reg = Number(r.regularhours);
+
+    if(isNaN(reg) || reg===0){
+
+        reg = Number(r.totalhours || 0);
+
+        if(reg > 8){
+            reg = 8;
+        }
+
+    }
+
+    totalRegular += reg;
+
+});
+sumRegular.innerText =
+totalRegular.toFixed(2)+" hrs";
+
+sumOT.innerText =
+totalOT.toFixed(2)+" hrs";
+
+sumLate.innerText =
+totalLate.toFixed(0)+" mins";
+sumPresent.innerText = present;
+
+sumAbsent.innerText = absent;
+}
+
+window.closeSummary = function(){
+
+document.getElementById(
+'summaryModal'
+).style.display = 'none';
+
+}
+/* AUTO LOAD */
+
+loadEmployees();
+
+loadAttendance();
+
+</script>
+
+</body>
+</html>

@@ -1,0 +1,1025 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<title>AUTO ATTENDANCE COMPUTATION</title>
+
+<link rel="manifest" href="manifest.json">
+
+<meta name="theme-color" content="#ffcc00">
+
+<link rel="apple-touch-icon" href="icon-192.png">
+
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0">
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Tahoma,sans-serif;
+}
+
+body{
+background:#1f1f1f;
+padding:15px;
+color:white;
+}
+
+/* CONTAINER */
+
+.container{
+
+max-width:1400px;
+
+margin:auto;
+
+background:#2b2b2b;
+
+border:3px solid #ffcc00;
+
+border-radius:15px;
+
+overflow:hidden;
+
+box-shadow:
+0 5px 20px rgba(0,0,0,0.5);
+}
+
+/* HEADER */
+
+.header{
+
+padding:15px;
+
+background:
+linear-gradient(
+135deg,
+#ffcc00,
+#ff8800
+);
+
+display:flex;
+
+justify-content:space-between;
+
+align-items:center;
+
+flex-wrap:wrap;
+
+gap:10px;
+}
+
+.title{
+
+font-size:28px;
+
+font-weight:bold;
+
+color:black;
+}
+
+/* BUTTON */
+
+.btn{
+
+padding:10px 18px;
+
+border:none;
+
+border-radius:10px;
+
+cursor:pointer;
+
+font-weight:bold;
+
+font-size:13px;
+
+background:#1f1f1f;
+
+color:#ffcc00;
+
+transition:0.3s;
+}
+
+.btn:hover{
+
+transform:scale(1.03);
+
+}
+
+/* FORM */
+
+.form-section{
+
+padding:20px;
+}
+
+.form-grid{
+
+display:grid;
+
+grid-template-columns:
+repeat(auto-fit,minmax(220px,1fr));
+
+gap:12px;
+}
+
+input,
+select{
+
+width:100%;
+
+padding:12px;
+
+border-radius:10px;
+
+border:2px solid #555;
+
+background:#1f1f1f;
+
+color:white;
+
+font-size:14px;
+}
+
+input:focus,
+select:focus{
+
+outline:none;
+
+border-color:#ffcc00;
+
+}
+
+/* RESULT */
+
+.result-box{
+
+margin-top:20px;
+
+background:#1a1a1a;
+
+padding:20px;
+
+border-radius:12px;
+
+border:2px solid #ffcc00;
+
+line-height:2;
+
+font-size:16px;
+
+font-weight:bold;
+}
+
+/* TABLE */
+
+.table-wrapper{
+
+margin-top:20px;
+
+overflow:auto;
+
+background:#2a2a2a;
+
+border:2px solid #ffcc00;
+
+border-radius:12px;
+
+max-height:500px;
+}
+
+table{
+
+width:100%;
+
+border-collapse:collapse;
+
+min-width:1600px;
+}
+
+th,
+td{
+
+border:1px solid #555;
+
+padding:10px;
+
+text-align:center;
+
+white-space:nowrap;
+}
+
+th{
+
+background:#ffcc00;
+
+color:black;
+
+position:sticky;
+
+top:0;
+}
+
+tr:nth-child(even){
+
+background:#242424;
+}
+
+tr:hover{
+
+background:#333;
+}
+
+/* STATUS */
+
+.late{
+color:#ff3333;
+font-weight:bold;
+}
+
+.ot{
+color:#00ff99;
+font-weight:bold;
+}
+
+.present{
+color:#00ff99;
+font-weight:bold;
+}
+
+.absent{
+color:#ff3333;
+font-weight:bold;
+}
+
+/* ACTION */
+
+.edit-btn{
+
+background:#0099cc;
+
+color:white;
+
+border:none;
+
+padding:5px 10px;
+
+border-radius:6px;
+
+cursor:pointer;
+
+margin:2px;
+}
+
+.delete-btn{
+
+background:#cc0000;
+
+color:white;
+
+border:none;
+
+padding:5px 10px;
+
+border-radius:6px;
+
+cursor:pointer;
+
+margin:2px;
+}
+
+/* MOBILE */
+
+@media(max-width:768px){
+
+.form-grid{
+
+grid-template-columns:1fr;
+}
+
+.title{
+
+font-size:22px;
+}
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+<!-- HEADER -->
+
+<div class="header">
+
+<div class="title">
+🕒 AUTO ATTENDANCE COMPUTATION
+</div>
+
+<button
+class="btn"
+onclick="window.location.href='index.html'">
+
+← BACK
+
+</button>
+
+</div>
+
+<!-- FORM -->
+
+<div class="form-section">
+
+<div class="form-grid">
+
+<select id="employeeSelect">
+
+<option value="">
+Select Employee
+</option>
+
+</select>
+
+<input
+type="text"
+id="employeeId"
+placeholder="Employee ID"
+readonly>
+
+<input
+type="date"
+id="attendanceDate">
+
+<input
+type="time"
+id="shiftIn"
+value="08:00">
+
+<input
+type="time"
+id="shiftOut"
+value="17:00">
+
+<input
+type="time"
+id="timeIn">
+
+<input
+type="time"
+id="breakOut">
+
+<input
+type="time"
+id="breakIn">
+
+<input
+type="time"
+id="timeOut">
+
+</div>
+
+<div style="margin-top:15px;display:flex;gap:10px;flex-wrap:wrap;">
+
+<button
+class="btn"
+onclick="computeAttendance()">
+
+🧮 COMPUTE ATTENDANCE
+
+</button>
+
+<button
+class="btn"
+onclick="clearForm()">
+
+🧹 CLEAR
+
+</button>
+
+</div>
+
+<!-- RESULT -->
+
+<div class="result-box">
+
+<div id="lateResult">
+LATE : 0 mins
+</div>
+
+<div id="breakResult">
+BREAK : 0 mins
+</div>
+
+<div id="hoursResult">
+TOTAL HOURS : 0 hrs
+</div>
+
+<div id="otResult">
+OVERTIME : 0 hrs
+</div>
+
+<div id="statusResult">
+STATUS : -
+</div>
+
+</div>
+
+<!-- TABLE -->
+
+<div class="table-wrapper">
+
+<table>
+
+<thead>
+
+<tr>
+
+<th>DATE</th>
+<th>EMPLOYEE ID</th>
+<th>EMPLOYEE</th>
+<th>SHIFT IN</th>
+<th>SHIFT OUT</th>
+<th>TIME IN</th>
+<th>BREAK OUT</th>
+<th>BREAK IN</th>
+<th>TIME OUT</th>
+<th>LATE</th>
+<th>BREAK</th>
+<th>TOTAL HOURS</th>
+<th>OVERTIME</th>
+<th>STATUS</th>
+<th>ACTION</th>
+
+</tr>
+
+</thead>
+
+<tbody id="attendanceBody">
+
+</tbody>
+
+</table>
+
+</div>
+
+</div>
+
+</div>
+
+<script type="module">
+
+import {
+
+initializeApp
+
+}
+
+from
+"https://www.gstatic.com/firebasejs/12.13.0/firebase-app.js";
+
+import {
+
+getFirestore,
+collection,
+getDocs,
+addDoc,
+deleteDoc,
+updateDoc,
+doc
+
+}
+
+from
+"https://www.gstatic.com/firebasejs/12.13.0/firebase-firestore.js";
+
+/* FIREBASE */
+
+const firebaseConfig = {
+
+apiKey:
+"AIzaSyAehoq0teVYHiJ4bkKOgBqIgJZrQpce3k8",
+
+authDomain:
+"hr-system-38fc3.firebaseapp.com",
+
+projectId:
+"hr-system-38fc3",
+
+storageBucket:
+"hr-system-38fc3.firebasestorage.app",
+
+messagingSenderId:
+"615471610834",
+
+appId:
+"1:615471610834:web:a0d671d4e3f4c1b57b660b"
+
+};
+
+const app =
+initializeApp(firebaseConfig);
+
+const db =
+getFirestore(app);
+
+let editId = null;
+
+/* LOAD EMPLOYEES */
+
+async function loadEmployees(){
+
+employeeSelect.innerHTML =
+
+'<option value="">Select Employee</option>';
+
+let querySnapshot =
+
+await getDocs(
+collection(db,'employees')
+);
+
+querySnapshot.forEach(docSnap=>{
+
+let emp = docSnap.data();
+
+let fullname =
+
+(emp.firstname || '') +
+' ' +
+(emp.lastname || '');
+
+employeeSelect.innerHTML += `
+
+<option
+value="${fullname}"
+data-id="${emp.employeeid || ''}">
+
+${emp.employeeid || ''} - ${fullname}
+
+</option>
+
+`;
+
+});
+
+}
+
+loadEmployees();
+
+/* AUTO ID */
+
+employeeSelect.addEventListener(
+'change',
+function(){
+
+let selected =
+
+this.options[
+this.selectedIndex
+];
+
+employeeId.value =
+selected.dataset.id || '';
+
+}
+);
+
+/* TIME TO MINUTES */
+
+function timeToMinutes(time){
+
+if(!time) return 0;
+
+let parts = time.split(':');
+
+return (
+parseInt(parts[0]) * 60
+) + parseInt(parts[1]);
+
+}
+
+/* COMPUTE */
+
+window.computeAttendance =
+async function(){
+
+if(employeeSelect.value===''){
+
+alert('Select Employee');
+
+return;
+
+}
+
+let employee =
+employeeSelect.value;
+
+let empid =
+employeeId.value;
+
+let date =
+attendanceDate.value;
+
+let sIn =
+timeToMinutes(shiftIn.value);
+
+let sOut =
+timeToMinutes(shiftOut.value);
+
+let tIn =
+timeToMinutes(timeIn.value);
+
+let bOut =
+timeToMinutes(breakOut.value);
+
+let bIn =
+timeToMinutes(breakIn.value);
+
+let tOut =
+timeToMinutes(timeOut.value);
+
+/* LATE */
+
+let late = 0;
+
+if(tIn > sIn){
+
+late = tIn - sIn;
+
+}
+
+/* BREAK */
+
+let breakMinutes = 0;
+
+if(bIn > bOut){
+
+breakMinutes =
+bIn - bOut;
+
+}
+
+/* TOTAL HOURS */
+
+let totalMinutes =
+tOut - tIn - breakMinutes;
+
+let totalHours =
+(totalMinutes / 60)
+.toFixed(2);
+
+/* OT */
+
+let shiftHours =
+(sOut - sIn) / 60;
+
+let overtime = 0;
+
+if(totalHours > shiftHours){
+
+overtime =
+(
+totalHours -
+shiftHours
+).toFixed(2);
+
+}
+
+/* STATUS */
+
+let status =
+'PRESENT';
+
+if(late > 0){
+
+status = 'LATE';
+
+}
+
+/* DISPLAY */
+
+lateResult.innerText =
+'LATE : ' +
+late + ' mins';
+
+breakResult.innerText =
+'BREAK : ' +
+breakMinutes + ' mins';
+
+hoursResult.innerText =
+'TOTAL HOURS : ' +
+totalHours + ' hrs';
+
+otResult.innerText =
+'OVERTIME : ' +
+overtime + ' hrs';
+
+statusResult.innerText =
+'STATUS : ' +
+status;
+
+try{
+
+if(editId){
+
+await updateDoc(
+
+doc(
+db,
+'autoAttendance',
+editId
+),
+
+{
+
+date,
+empid,
+employee,
+shiftIn:shiftIn.value,
+shiftOut:shiftOut.value,
+timeIn:timeIn.value,
+breakOut:breakOut.value,
+breakIn:breakIn.value,
+timeOut:timeOut.value,
+late,
+breakMinutes,
+totalHours,
+overtime,
+status
+
+}
+
+);
+
+alert('Attendance Updated');
+
+editId = null;
+
+}else{
+
+await addDoc(
+
+collection(db,'autoAttendance'),
+
+{
+
+date,
+empid,
+employee,
+shiftIn:shiftIn.value,
+shiftOut:shiftOut.value,
+timeIn:timeIn.value,
+breakOut:breakOut.value,
+breakIn:breakIn.value,
+timeOut:timeOut.value,
+late,
+breakMinutes,
+totalHours,
+overtime,
+status
+
+}
+
+);
+
+alert('Attendance Saved');
+
+}
+
+loadAttendance();
+
+clearForm();
+
+}catch(error){
+
+console.log(error);
+
+alert('Save Error');
+
+}
+
+}
+
+/* LOAD */
+
+async function loadAttendance(){
+
+attendanceBody.innerHTML='';
+
+let querySnapshot =
+
+await getDocs(
+collection(db,'autoAttendance')
+);
+
+if(querySnapshot.empty){
+
+attendanceBody.innerHTML = `
+
+<tr>
+
+<td colspan="15">
+
+NO RECORD FOUND
+
+</td>
+
+</tr>
+
+`;
+
+return;
+
+}
+
+querySnapshot.forEach(docSnap=>{
+
+let att = docSnap.data();
+
+attendanceBody.innerHTML += `
+
+<tr>
+
+<td>${att.date || ''}</td>
+
+<td>${att.empid || ''}</td>
+
+<td>${att.employee || ''}</td>
+
+<td>${att.shiftIn || ''}</td>
+
+<td>${att.shiftOut || ''}</td>
+
+<td>${att.timeIn || ''}</td>
+
+<td>${att.breakOut || ''}</td>
+
+<td>${att.breakIn || ''}</td>
+
+<td>${att.timeOut || ''}</td>
+
+<td class="late">
+${att.late || 0} mins
+</td>
+
+<td>
+${att.breakMinutes || 0} mins
+</td>
+
+<td>
+${att.totalHours || 0} hrs
+</td>
+
+<td class="ot">
+${att.overtime || 0} hrs
+</td>
+
+<td class="${(att.status || '').toLowerCase()}">
+${att.status || ''}
+</td>
+
+<td>
+
+<button
+class="edit-btn"
+onclick="editAttendance(
+'${docSnap.id}',
+'${att.date}',
+'${att.employee}',
+'${att.empid}',
+'${att.shiftIn}',
+'${att.shiftOut}',
+'${att.timeIn}',
+'${att.breakOut}',
+'${att.breakIn}',
+'${att.timeOut}'
+)">
+
+EDIT
+
+</button>
+
+<button
+class="delete-btn"
+onclick="deleteAttendance(
+'${docSnap.id}'
+)">
+
+DELETE
+
+</button>
+
+</td>
+
+</tr>
+
+`;
+
+});
+
+}
+
+loadAttendance();
+
+/* EDIT */
+
+window.editAttendance =
+function(
+id,
+date,
+employee,
+empid,
+sIn,
+sOut,
+tIn,
+bOut,
+bIn,
+tOut
+){
+
+editId = id;
+
+attendanceDate.value = date;
+
+employeeSelect.value = employee;
+
+employeeId.value = empid;
+
+shiftIn.value = sIn;
+
+shiftOut.value = sOut;
+
+timeIn.value = tIn;
+
+breakOut.value = bOut;
+
+breakIn.value = bIn;
+
+timeOut.value = tOut;
+
+window.scrollTo({
+
+top:0,
+
+behavior:'smooth'
+
+});
+
+}
+
+/* DELETE */
+
+window.deleteAttendance =
+async function(id){
+
+if(confirm('Delete Attendance?')){
+
+await deleteDoc(
+doc(db,'autoAttendance',id)
+);
+
+loadAttendance();
+
+}
+
+}
+
+/* CLEAR */
+
+window.clearForm =
+function(){
+
+employeeSelect.value='';
+
+employeeId.value='';
+
+attendanceDate.value='';
+
+shiftIn.value='08:00';
+
+shiftOut.value='17:00';
+
+timeIn.value='';
+
+breakOut.value='';
+
+breakIn.value='';
+
+timeOut.value='';
+
+editId = null;
+
+}
+
+</script>
+
+</body>
+</html>

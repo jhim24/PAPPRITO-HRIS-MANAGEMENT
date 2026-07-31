@@ -1,0 +1,1121 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>HR System Dashboard</title>
+  <link
+href="https://fonts.googleapis.com/icon?family=Material+Icons"
+rel="stylesheet">
+  
+<link rel="manifest" href="/manifest.json">
+
+<link rel="icon" href="/logo.png">
+<meta name="theme-color" content="#ffcc00">
+
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0">
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Tahoma,sans-serif;
+}
+
+body{
+
+margin:0;
+
+color:white;
+
+display:flex;
+
+height:100vh;
+
+overflow:hidden;
+
+background:url('hrbg.jpg');
+
+background-size:cover;
+
+background-position:center;
+
+background-repeat:no-repeat;
+
+position:relative;
+}
+body::before{
+
+content:'';
+
+position:fixed;
+
+inset:0;
+
+background:
+linear-gradient(
+135deg,
+rgba(0,0,0,0.18),
+rgba(0,0,0,0.08)
+);
+
+backdrop-filter:blur(2px);
+
+z-index:-1;
+}
+/* =========================
+SIDEBAR
+========================= */
+
+.sidebar{
+
+width:250px;
+
+background:rgba(20,20,20,0.45);
+
+backdrop-filter:blur(4px);
+
+border-right:3px solid #ffcc00;
+
+padding:15px;
+
+display:flex;
+
+flex-direction:column;
+
+gap:10px;
+
+box-shadow:4px 0 10px rgba(0,0,0,0.4);
+
+position:relative;
+
+overflow-y:auto;
+}
+
+.sidebar h2{
+
+text-align:center;
+
+margin-bottom:20px;
+
+font-size:26px;
+
+color:#ffcc00;
+
+text-shadow:1px 1px 2px black;
+}
+
+/* =========================
+BUTTON
+========================= */
+
+.sidebar button{
+
+padding:14px;
+
+background:#3a3a3a;
+
+border:none;
+
+border-left:5px solid #ffcc00;
+
+cursor:pointer;
+
+font-size:14px;
+
+font-weight:bold;
+
+text-align:left;
+
+color:white;
+
+transition:background 0.2s;
+
+border-radius:6px;
+
+display:flex;
+
+align-items:center;
+
+gap:10px;
+}
+
+.material-icons{
+
+font-size:20px;
+}
+
+.sidebar button:hover{
+
+background:#4a4a4a;
+
+color:#ffcc00;
+
+}
+
+/* LOGOUT BUTTON */
+
+.logout-btn{
+
+margin-top:auto;
+
+background:linear-gradient(
+135deg,
+#ff0000,
+#990000
+) !important;
+
+border-left:5px solid white !important;
+
+color:white !important;
+}
+
+.logout-btn:hover{
+
+background:linear-gradient(
+135deg,
+#ff4444,
+#cc0000
+) !important;
+
+color:white !important;
+}
+
+/* =========================
+MAIN
+========================= */
+
+.main{
+
+flex:1;
+
+padding:20px;
+
+overflow:auto;
+
+background:transparent;
+
+contain:layout paint;
+
+backface-visibility:hidden;
+}
+
+.main h1{
+
+margin-bottom:10px;
+
+font-size:36px;
+
+color:#cc0000;
+
+text-shadow:2px 2px 3px black;
+}
+/* =========================
+TOP CLOCK
+========================= */
+
+.top-time{
+
+margin-bottom:20px;
+
+display:flex;
+
+gap:15px;
+
+align-items:center;
+
+flex-wrap:wrap;
+}
+
+#clock{
+
+font-size:30px;
+
+font-weight:bold;
+
+color:#ff3333;
+}
+
+#dateToday{
+
+font-size:18px;
+
+font-weight:bold;
+
+color:#ffcc00;
+}
+
+/* =========================
+TOP STATS
+========================= */
+
+.stats{
+
+display:grid;
+
+grid-template-columns:
+repeat(auto-fit,minmax(180px,1fr));
+
+gap:12px;
+
+margin-bottom:15px;
+}
+
+.stat-card{
+
+padding:14px;
+
+min-height:95px;
+
+border-radius:10px;
+
+color:white;
+
+background-clip:padding-box;
+
+box-shadow:none;
+
+border:1px solid rgba(255,255,255,0.08);
+
+position:relative;
+
+overflow:hidden;
+
+display:flex;
+
+flex-direction:column;
+
+justify-content:center;
+
+align-items:center;
+
+text-align:center;
+}
+.stat-card h2{
+
+font-size:32px;
+
+margin-bottom:10px;
+
+text-align:center;
+}
+
+.stat-card p{
+
+font-size:14px;
+
+font-weight:bold;
+
+text-align:center;
+}
+.red{
+background:rgba(160,0,0,0.75);
+
+backdrop-filter:blur(4px);
+}
+
+.yellow{
+background:rgba(212,160,0,0.75);
+
+backdrop-filter:blur(4px);
+
+color:black;
+}
+
+.dark{
+background:rgba(34,34,34,0.78);
+
+backdrop-filter:blur(4px);
+}
+
+.green{
+background:rgba(0,122,47,0.75);
+
+backdrop-filter:blur(4px);
+}
+
+/* =========================
+CARDS
+========================= */
+
+.cards{
+
+display:grid;
+
+grid-template-columns:
+repeat(auto-fit,minmax(250px,1fr));
+
+gap:20px;
+}
+
+.card{
+
+background:rgba(25,25,25,0.55);
+
+backdrop-filter:blur(6px);
+
+padding:25px;
+
+border-radius:12px;
+
+border-left:6px solid #ffcc00;
+
+box-shadow:0 2px 6px rgba(0,0,0,0.25);
+}
+
+.card:hover{
+
+background:#353535;
+}
+
+.card h3{
+  .card h3{
+
+display:flex;
+
+align-items:center;
+
+gap:10px;
+
+color:#ffcc00;
+
+margin-bottom:15px;
+
+}
+.material-icons{
+
+vertical-align:middle;
+
+font-size:24px;
+
+}
+font-size:22px;
+
+margin-bottom:15px;
+
+color:#ffcc00;
+}
+.card p{
+
+font-size:14px;
+
+line-height:1.6;
+
+color:#ddd;
+}
+
+/* =========================
+MOBILE
+========================= */
+
+@media(max-width:768px){
+
+body{
+
+flex-direction:column;
+
+height:auto;
+
+overflow:auto;
+}
+
+/* SIDEBAR */
+
+.sidebar{
+
+width:100%;
+
+border-right:none;
+
+border-bottom:3px solid #ffcc00;
+
+padding:10px;
+
+flex-direction:row;
+
+flex-wrap:wrap;
+
+justify-content:center;
+
+gap:8px;
+}
+
+.sidebar h2{
+
+width:100%;
+
+font-size:22px;
+
+margin-bottom:10px;
+
+text-align:center;
+}
+
+.sidebar button{
+
+width:48%;
+
+font-size:12px;
+
+padding:12px;
+
+justify-content:center;
+
+text-align:center;
+
+border-left:none;
+
+border-bottom:4px solid #ffcc00;
+}
+
+/* MAIN */
+
+.main{
+
+padding:12px;
+}
+
+.main h1{
+
+font-size:28px;
+
+text-align:center;
+}
+
+/* CLOCK */
+
+.top-time{
+
+justify-content:center;
+
+text-align:center;
+}
+
+#clock{
+
+font-size:24px;
+}
+
+#dateToday{
+
+font-size:15px;
+}
+
+/* STATS */
+
+.stats{
+
+grid-template-columns:1fr;
+
+gap:12px;
+}
+
+.stat-card{
+
+padding:18px;
+}
+
+.stat-card h2{
+
+font-size:38px;
+}
+
+.stat-card p{
+
+font-size:16px;
+}
+
+/* CARDS */
+
+.cards{
+
+grid-template-columns:1fr;
+
+gap:15px;
+}
+
+.card{
+
+padding:18px;
+}
+
+.card h3{
+
+font-size:20px;
+}
+
+.card p{
+
+font-size:13px;
+
+line-height:1.5;
+}
+
+/* LOGOUT */
+
+.logout-btn{
+
+width:100%;
+}
+
+}
+#clock,
+#dateToday{
+
+will-change:contents;
+}
+</style>
+
+</head>
+
+<body>
+
+<!-- SIDEBAR -->
+
+<div class="sidebar">
+
+<h2>HR SYSTEM</h2>
+
+<button onclick="openPage('employee.html')">
+<span class="material-icons">groups</span>
+Employees
+</button>
+
+<button onclick="openPage('attendance.html')">
+<span class="material-icons">schedule</span>
+Attendance
+</button>
+
+<button onclick="openPage('qrattendance.html')">
+<span class="material-icons">qr_code_scanner</span>
+QR Attendance
+</button>
+
+<button onclick="openPage('payroll.html')">
+<span class="material-icons">payments</span>
+Payroll
+</button>
+
+<button onclick="openPage('autopayroll.html')">
+<span class="material-icons">smart_toy</span>
+Auto Payroll
+</button>
+
+<button onclick="openPage('autoattendance.html')">
+<span class="material-icons">calculate</span>
+Auto Attendance
+</button>
+
+<button onclick="openPage('payslip.html')">
+<span class="material-icons">receipt_long</span>
+Payslip
+</button>
+
+<button onclick="openPage('hrapproval.html')">
+<span class="material-icons">fact_check</span>
+HR Approval
+</button>
+
+<button onclick="openPage('trackleaves.html')">
+<span class="material-icons">event_note</span>
+Track Leaves
+</button>
+
+<button onclick="openPage('attendance-approval.html')">
+<span class="material-icons">fact_check</span>
+Attendance Approval
+</button>
+  
+<button onclick="openPage('settings.html')">
+<span class="material-icons">settings</span>
+Settings
+</button>
+<button onclick="window.open('https://www.papprito.com/','_blank')">
+
+<span class="material-icons">
+public
+</span>
+
+PAPPRITO WEBSITE
+
+</button>
+
+<button onclick="window.open('https://papprito.com/dashboard.html','_blank')">
+
+<span class="material-icons">
+dashboard
+</span>
+
+PAPPRITO DASHBOARD
+
+</button>
+  
+<button
+class="logout-btn"
+onclick="logout()">
+
+<span class="material-icons">
+logout
+</span>
+
+LOG OUT
+
+</button>
+</div>
+
+<!-- MAIN -->
+
+<div class="main">
+<h1>PAPPRITO</h1>
+<!-- TOP TIME -->
+
+<div class="top-time">
+
+<div id="clock">
+00:00:00
+</div>
+
+<div id="dateToday">
+DATE
+</div>
+
+</div>
+<!-- TOP STATS -->
+
+<div class="stats">
+
+<div class="stat-card yellow">
+
+<h2 id="totalEmployees">
+0
+</h2>
+
+<p>Total Employees</p>
+
+</div>
+
+<div class="stat-card red">
+
+<h2 id="totalAttendance">
+0
+</h2>
+
+<p>Attendance Records</p>
+
+</div>
+
+<div class="stat-card dark">
+
+<h2 id="totalPayroll">
+0
+</h2>
+
+<p>Payroll Records</p>
+
+</div>
+
+<div class="stat-card green">
+
+<h2 id="totalRequests">
+0
+</h2>
+
+<p>Employee Requests</p>
+
+</div>
+  
+<div class="stat-card dark">
+
+<div
+style="
+display:flex;
+align-items:center;
+justify-content:center;
+gap:8px;
+">
+
+<span class="material-icons">
+cake
+</span>
+
+<h2 id="upcomingBirthdays">
+0
+</h2>
+
+</div>
+
+<p>
+Upcoming Birthdays
+</p>
+
+</div>
+</div>
+
+</div>
+<div class="cards">
+
+<div class="card">
+
+<h3>
+
+<span class="material-icons">
+cake
+</span>
+
+Upcoming Birthdays
+
+</h3>
+
+<div id="birthdayList">
+
+No upcoming birthdays
+
+</div>
+
+</div>
+
+</div>
+<script type="module">
+
+ /* =========================
+LOGIN PROTECTION
+========================= */
+
+const loggedInUser =
+localStorage.getItem(
+'loggedInUser'
+);
+
+const userRole =
+localStorage.getItem(
+'userRole'
+);
+
+/* WALANG LOGIN */
+
+if(!loggedInUser){
+
+window.location.href =
+'login.html';
+
+}
+
+/* HINDI ADMIN */
+
+if(userRole !== 'admin'){
+
+window.location.href =
+'login.html';
+
+} 
+
+/* =========================
+FIREBASE
+========================= */
+
+import {
+
+initializeApp
+
+}
+
+from
+"https://www.gstatic.com/firebasejs/12.13.0/firebase-app.js";
+
+import {
+
+getFirestore,
+collection,
+getDocs
+
+}
+
+from
+"https://www.gstatic.com/firebasejs/12.13.0/firebase-firestore.js";
+
+/* =========================
+FIREBASE CONFIG
+========================= */
+
+const firebaseConfig = {
+
+apiKey:
+"AIzaSyAehoq0teVYHiJ4bkKOgBqIgJZrQpce3k8",
+
+authDomain:
+"hr-system-38fc3.firebaseapp.com",
+
+projectId:
+"hr-system-38fc3",
+
+storageBucket:
+"hr-system-38fc3.firebasestorage.app",
+
+messagingSenderId:
+"615471610834",
+
+appId:
+"1:615471610834:web:a0d671d4e3f4c1b57b660b"
+
+};
+
+const app =
+initializeApp(firebaseConfig);
+
+const db =
+getFirestore(app);
+
+/* =========================
+OPEN PAGE
+========================= */
+
+window.openPage =
+function(page){
+
+window.location.href = page;
+
+}
+
+/* =========================
+LOGOUT
+========================= */
+
+window.logout =
+function(){
+
+let confirmLogout = confirm(
+'Are you sure you want to logout?'
+);
+
+if(confirmLogout){
+
+localStorage.removeItem(
+'userRole'
+);
+
+localStorage.removeItem(
+'loggedInUser'
+);
+
+window.location.href =
+'login.html';
+
+}
+
+}
+
+/* =========================
+LIVE CLOCK
+========================= */
+
+function updateClock(){
+
+let now = new Date();
+
+document.getElementById(
+'clock'
+).innerText =
+now.toLocaleTimeString();
+
+document.getElementById(
+'dateToday'
+).innerText =
+now.toDateString();
+
+}
+
+setInterval(()=>{
+
+requestAnimationFrame(updateClock);
+
+},1000);
+
+updateClock();
+
+/* =========================
+LOAD DASHBOARD COUNTS
+========================= */
+
+async function loadDashboard(){
+
+try{
+
+/* EMPLOYEES */
+
+const employeeSnap =
+await getDocs(
+collection(db,'employees')
+);
+
+document.getElementById(
+'totalEmployees'
+).innerText =
+employeeSnap.size;
+
+/* ATTENDANCE */
+
+const attendanceSnap =
+await getDocs(
+collection(db,'attendance')
+);
+
+document.getElementById(
+'totalAttendance'
+).innerText =
+attendanceSnap.size;
+
+/* PAYROLL */
+
+const payrollSnap =
+await getDocs(
+collection(db,'payroll')
+);
+
+document.getElementById(
+'totalPayroll'
+).innerText =
+payrollSnap.size;
+
+/* REQUESTS */
+
+const requestSnap =
+await getDocs(
+collection(db,'employeeRequests')
+);
+
+document.getElementById(
+'totalRequests'
+).innerText =
+requestSnap.size;
+  
+const birthdaySnap =
+await getDocs(
+collection(db,'employees')
+);
+
+let birthdayCount = 0;
+
+let birthdayHTML = '';
+
+const today = new Date();
+
+birthdaySnap.forEach(docSnap=>{
+
+let emp = docSnap.data();
+
+if(!emp.birthdate) return;
+
+let birthDate =
+new Date(emp.birthdate);
+
+let thisYearBirthday =
+new Date(
+
+today.getFullYear(),
+
+birthDate.getMonth(),
+
+birthDate.getDate()
+
+);
+
+let diffDays = Math.ceil(
+
+(thisYearBirthday - today)
+
+/
+
+(1000 * 60 * 60 * 24)
+
+);
+
+if(
+
+diffDays >= 0 &&
+diffDays <= 30
+
+){
+
+birthdayCount++;
+
+birthdayHTML += `
+
+<div style="
+padding:8px;
+border-bottom:1px solid #444;
+">
+
+🎂
+
+${emp.firstname || ''}
+
+${emp.lastname || ''}
+
+<br>
+
+<small>
+
+${birthDate.toLocaleDateString(
+'en-US',
+{
+month:'long',
+day:'numeric'
+}
+)}
+
+</small>
+
+</div>
+
+`;
+
+}
+
+});
+
+document.getElementById(
+'upcomingBirthdays'
+).innerText =
+birthdayCount;
+
+document.getElementById(
+'birthdayList'
+).innerHTML =
+
+birthdayHTML ||
+
+'No upcoming birthdays';
+  
+}catch(error){
+
+console.log(error);
+
+alert(
+'Failed to load Firebase dashboard data'
+);
+
+}
+
+}
+
+/* =========================
+AUTO LOAD
+========================= */
+
+loadDashboard();
+
+</script>
+<script>
+
+if("serviceWorker" in navigator){
+
+navigator.serviceWorker.register(
+"/service-worker.js"
+);
+
+}
+
+</script>
+</body>
+</html>

@@ -1,0 +1,832 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="manifest" href="manifest.json">
+
+<meta name="theme-color" content="#ffcc00">
+
+<link rel="apple-touch-icon" href="icon-192.png">
+<title>4 Payslip Bond Paper</title>
+
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0">
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Tahoma,sans-serif;
+}
+
+body{
+
+background:linear-gradient(
+135deg,
+#1f1f1f,
+#2b2b2b
+);
+
+padding:10px;
+}
+
+/* HEADER */
+
+.topbar{
+
+display:flex;
+
+justify-content:space-between;
+
+align-items:center;
+
+margin-bottom:10px;
+
+background:linear-gradient(
+135deg,
+#ffcc00,
+#ff8800
+);
+
+padding:12px;
+
+border-radius:12px;
+
+box-shadow:0 5px 15px rgba(0,0,0,0.5);
+
+flex-wrap:wrap;
+
+gap:10px;
+}
+
+.title{
+
+font-size:24px;
+
+font-weight:bold;
+
+color:black;
+}
+
+/* BUTTON */
+
+.btn{
+
+padding:8px 16px;
+
+border:none;
+
+border-radius:8px;
+
+cursor:pointer;
+
+font-weight:bold;
+
+font-size:12px;
+
+transition:0.3s;
+}
+
+.btn:hover{
+
+transform:scale(1.03);
+}
+
+.back-btn{
+
+background:#cc0000;
+
+color:white;
+}
+
+.print-btn{
+
+background:#008000;
+
+color:white;
+}
+
+.next-btn{
+
+background:#0066cc;
+
+color:white;
+}
+
+/* PAPER */
+
+.paper{
+
+width:190mm;
+
+min-height:270mm;
+
+margin:auto;
+
+background:white;
+
+padding:5mm;
+
+display:grid;
+
+grid-template-columns:1fr 1fr;
+
+grid-template-rows:1fr 1fr;
+
+gap:6px;
+
+border-radius:10px;
+
+box-shadow:0 5px 20px rgba(0,0,0,0.5);
+}
+
+/* PAYSLIP */
+
+.payslip{
+
+border:2px solid #ffcc00;
+
+border-radius:10px;
+
+padding:8px;
+
+display:flex;
+
+flex-direction:column;
+
+justify-content:space-between;
+
+overflow:hidden;
+
+background:#f9f9f9;
+
+min-height:125mm;
+}
+
+/* COMPANY */
+
+.company{
+
+text-align:center;
+
+margin-bottom:5px;
+
+padding-bottom:4px;
+
+border-bottom:2px solid #ffcc00;
+}
+
+.company h2{
+
+font-size:14px;
+
+color:#cc0000;
+}
+
+.company p{
+
+font-size:9px;
+
+font-weight:bold;
+
+color:#444;
+}
+
+/* INFO */
+
+.info{
+
+font-size:9px;
+
+line-height:1.5;
+
+margin-bottom:5px;
+
+background:#fff8dc;
+
+padding:5px;
+
+border-radius:5px;
+
+border:1px solid #ffcc00;
+}
+
+/* TABLE */
+
+table{
+
+width:100%;
+
+border-collapse:collapse;
+
+font-size:8px;
+
+margin-top:4px;
+}
+
+th,
+td{
+
+border:1px solid #999;
+
+padding:3px;
+}
+
+th{
+
+background:#ffcc00;
+
+color:black;
+
+font-size:8px;
+}
+
+td{
+
+background:white;
+}
+
+/* TOTAL */
+
+.total{
+
+margin-top:6px;
+
+padding:5px;
+
+background:#008000;
+
+color:white;
+
+border-radius:5px;
+
+font-size:10px;
+
+font-weight:bold;
+
+text-align:right;
+}
+
+/* SIGNATURE */
+
+.signature{
+
+margin-top:10px;
+
+display:flex;
+
+justify-content:space-between;
+
+font-size:8px;
+}
+
+.line{
+
+margin-top:12px;
+
+border-top:1px solid black;
+
+width:80px;
+
+text-align:center;
+
+padding-top:2px;
+
+font-weight:bold;
+}
+
+/* PAGE NUMBER */
+
+.page-info{
+
+color:white;
+
+font-weight:bold;
+
+font-size:14px;
+}
+
+/* MOBILE */
+
+@media(max-width:768px){
+
+.paper{
+
+width:100%;
+
+grid-template-columns:1fr;
+
+grid-template-rows:auto;
+
+}
+
+.payslip{
+
+min-height:auto;
+}
+
+}
+
+/* PRINT */
+
+@media print{
+
+@page{
+size:A4 portrait;
+margin:5mm;
+}
+
+body{
+
+background:white;
+padding:0;
+}
+
+.topbar{
+
+display:none;
+}
+
+.paper{
+
+border:none;
+
+box-shadow:none;
+
+width:190mm;
+
+min-height:270mm;
+
+padding:0;
+
+gap:6px;
+}
+
+.payslip{
+
+box-shadow:none;
+
+break-inside:avoid;
+}
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<!-- HEADER -->
+
+<div class="topbar">
+
+<div class="title">
+💰 PAYSLIP SYSTEM
+</div>
+
+<div class="page-info" id="pageInfo">
+
+PAGE 1
+
+</div>
+
+<div style="display:flex;gap:10px;flex-wrap:wrap;">
+
+<button
+class="btn back-btn"
+onclick="window.history.back()">
+
+← BACK
+
+</button>
+
+<button
+class="btn next-btn"
+onclick="prevPage()">
+
+⬅ PREV
+
+</button>
+
+<button
+class="btn next-btn"
+onclick="nextPage()">
+
+NEXT ➡
+
+</button>
+
+<button
+class="btn print-btn"
+onclick="window.print()">
+
+🖨 PRINT
+
+</button>
+
+</div>
+
+</div>
+
+<!-- PAPER -->
+
+<div class="paper" id="paper">
+
+</div>
+
+<script type="module">
+
+/* =========================
+FIREBASE
+========================= */
+
+import {
+
+initializeApp
+
+}
+
+from
+"https://www.gstatic.com/firebasejs/12.2.1/firebase-app.js";
+
+import {
+
+getFirestore,
+collection,
+getDocs,
+onSnapshot
+
+}
+
+from
+"https://www.gstatic.com/firebasejs/12.2.1/firebase-firestore.js";
+
+/* =========================
+CONFIG
+========================= */
+
+const firebaseConfig = {
+
+apiKey:
+"AIzaSyAehoq0teVYHiJ4bkKOgBqIgJZrQpce3k8",
+
+authDomain:
+"hr-system-38fc3.firebaseapp.com",
+
+projectId:
+"hr-system-38fc3",
+
+storageBucket:
+"hr-system-38fc3.firebasestorage.app",
+
+messagingSenderId:
+"615471610834",
+
+appId:
+"1:615471610834:web:a0d671d4e3f4c1b57b660b"
+
+};
+
+const app =
+initializeApp(firebaseConfig);
+
+const db =
+getFirestore(app);
+
+/* =========================
+VARIABLES
+========================= */
+
+let payrollRecords = [];
+
+let currentPage = 0;
+
+const perPage = 4;
+
+/* =========================
+LOAD PAYROLL REALTIME
+========================= */
+
+function loadPayrollRealtime(){
+
+onSnapshot(
+
+collection(db,'payroll'),
+
+(snapshot)=>{
+
+payrollRecords = [];
+
+snapshot.forEach(doc=>{
+
+payrollRecords.push({
+
+id: doc.id,
+
+...doc.data()
+
+});
+
+});
+
+renderPayslips();
+
+}
+
+);
+
+}
+
+loadPayrollRealtime();
+
+/* =========================
+RENDER PAYSLIP
+========================= */
+
+function renderPayslips(){
+
+let paper =
+document.getElementById('paper');
+
+paper.innerHTML = '';
+
+let start =
+currentPage * perPage;
+
+let end =
+start + perPage;
+
+let currentRecords =
+payrollRecords.slice(start,end);
+
+/* FILL EMPTY */
+
+while(currentRecords.length < 4){
+
+currentRecords.push(null);
+
+}
+
+/* LOOP */
+
+currentRecords.forEach(pay=>{
+
+let div =
+document.createElement('div');
+
+div.className = 'payslip';
+
+if(pay){
+
+div.innerHTML = `
+
+<div>
+
+<div class="company">
+
+<h2>PAPPRITO</h2>
+
+<p>OFFICIAL EMPLOYEE PAYSLIP</p>
+
+</div>
+
+<div class="info">
+
+<b>Employee ID:</b>
+${pay.empid || '-'}
+
+<br>
+
+<b>Employee:</b>
+${pay.employee || '-'}
+
+<br>
+
+<b>Date:</b>
+${pay.date || '-'}
+
+</div>
+
+<table>
+
+<tr>
+<th>EARNINGS</th>
+<th>AMOUNT</th>
+</tr>
+
+<tr>
+<td>Basic Pay</td>
+<td>
+₱ ${(
+Number(pay.dailyrate || 0) *
+Number(pay.totaldays || 0)
+).toFixed(2)}
+</td>
+</tr>
+
+<tr>
+<td>Overtime Pay</td>
+<td>
+₱ ${(
+Number(pay.overtime || 0) *
+Number(pay.dailyrate || 0) *
+1.25
+).toFixed(2)}
+</td>
+</tr>
+
+<tr>
+<td>Holiday Pay</td>
+<td>
+₱ ${Number(pay.holidaypay || 0).toFixed(2)}
+</td>
+</tr>
+
+<tr>
+<td>Sick Leave</td>
+<td>
+₱ ${Number(pay.sickleave || 0).toFixed(2)}
+</td>
+</tr>
+
+<tr>
+<td>Vacation Leave</td>
+<td>
+₱ ${Number(pay.vacationleave || 0).toFixed(2)}
+</td>
+</tr>
+
+<tr>
+<td>Birthday Leave</td>
+<td>
+₱ ${Number(pay.birthdayleave || 0).toFixed(2)}
+</td>
+</tr>
+
+<tr>
+<td>Maternity Leave</td>
+<td>
+₱ ${Number(pay.maternityleave || 0).toFixed(2)}
+</td>
+</tr>
+
+<tr>
+<td>Paternity Leave</td>
+<td>
+₱ ${Number(pay.paternityleave || 0).toFixed(2)}
+</td>
+</tr>
+
+<tr>
+<td>Allowance</td>
+<td>
+₱ ${Number(pay.allowance || 0).toFixed(2)}
+</td>
+</tr>
+
+</table>
+
+<table>
+
+<tr>
+<th>DEDUCTIONS</th>
+<th>AMOUNT</th>
+</tr>
+
+<tr>
+<td>SSS</td>
+<td>
+₱ ${Number(pay.sss || 0).toFixed(2)}
+</td>
+</tr>
+
+<tr>
+<td>PhilHealth</td>
+<td>
+₱ ${Number(pay.philhealth || 0).toFixed(2)}
+</td>
+</tr>
+
+<tr>
+<td>Pag-IBIG</td>
+<td>
+₱ ${Number(pay.pagibig || 0).toFixed(2)}
+</td>
+</tr>
+
+<tr>
+<td>Health Card</td>
+<td>
+₱ ${Number(pay.health || 0).toFixed(2)}
+</td>
+
+<tr>
+<td>Other Deduction</td>
+<td>
+₱ ${Number(pay.other || 0).toFixed(2)}
+</td>
+</tr>
+
+<tr>
+<td>Total Deduction</td>
+<td>
+₱ ${Number(pay.deductions || 0).toFixed(2)}
+</td>
+</tr>
+
+</table>
+
+<table>
+
+<tr>
+<th>DEDUCTION REASON</th>
+</tr>
+
+<tr>
+<td>
+${pay.deductionreason || '-'}
+</td>
+</tr>
+
+</table>
+
+<div class="total">
+
+NET PAY :
+₱ ${Number(pay.net || 0).toFixed(2)}
+
+</div>
+
+</div>
+
+<div class="signature">
+
+<div class="line">
+Employer
+</div>
+
+<div class="line">
+Employee
+</div>
+
+</div>
+
+`;
+
+}
+
+paper.appendChild(div);
+
+});
+
+/* PAGE INFO */
+
+pageInfo.innerText =
+'PAGE ' + (currentPage + 1);
+
+}
+
+/* =========================
+NEXT PAGE
+========================= */
+
+window.nextPage =
+function(){
+
+if(
+(currentPage + 1) * perPage
+<
+payrollRecords.length
+){
+
+currentPage++;
+
+renderPayslips();
+
+}
+
+}
+
+/* =========================
+PREV PAGE
+========================= */
+
+window.prevPage =
+function(){
+
+if(currentPage > 0){
+
+currentPage--;
+
+renderPayslips();
+
+}
+
+}
+
+</script>
+
+</body>
+</html>

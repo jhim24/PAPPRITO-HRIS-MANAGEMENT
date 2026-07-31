@@ -1,0 +1,1463 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<link rel="manifest" href="manifest.json">
+
+<meta name="theme-color" content="#ffcc00">
+
+<link rel="apple-touch-icon" href="icon-192.png">
+
+<meta charset="UTF-8">
+
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0">
+
+<title>Employee Masterlist</title>
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Tahoma,sans-serif;
+}
+
+body{
+background:
+linear-gradient(
+135deg,
+#1f1f1f,
+#2b2b2b
+);
+padding:15px;
+color:white;
+}
+
+/* TOP */
+
+.top-bar{
+display:flex;
+justify-content:space-between;
+align-items:center;
+flex-wrap:wrap;
+gap:10px;
+margin-bottom:15px;
+}
+
+h2{
+font-size:30px;
+color:#ffcc00;
+text-shadow:2px 2px 5px black;
+}
+
+/* BUTTONS */
+
+.add-btn,
+.save-btn,
+.btn,
+.close-btn,
+.back-btn,
+.print-btn{
+
+padding:10px 18px;
+border:none;
+border-radius:10px;
+cursor:pointer;
+font-weight:bold;
+font-size:13px;
+transition:0.3s;
+box-shadow:
+0 4px 10px rgba(0,0,0,0.4);
+color:white;
+}
+
+.add-btn{
+background:
+linear-gradient(
+135deg,
+#ffcc00,
+#ff9900
+);
+color:black;
+}
+
+.save-btn{
+background:
+linear-gradient(
+135deg,
+#00cc66,
+#00994d
+);
+}
+
+.print-btn{
+background:
+linear-gradient(
+135deg,
+#0099ff,
+#0066cc
+);
+}
+
+.btn{
+background:
+linear-gradient(
+135deg,
+#ff4444,
+#cc0000
+);
+}
+
+.close-btn{
+background:
+linear-gradient(
+135deg,
+#ff0000,
+#990000
+);
+
+position:absolute;
+top:10px;
+right:10px;
+}
+
+.back-btn{
+background:
+linear-gradient(
+135deg,
+#ffcc00,
+#ff6600
+);
+
+color:black;
+}
+
+.add-btn:hover,
+.save-btn:hover,
+.btn:hover,
+.close-btn:hover,
+.back-btn:hover,
+.print-btn:hover{
+
+transform:translateY(-2px);
+
+filter:brightness(1.1);
+}
+
+/* SEARCH */
+
+.search-box input{
+
+width:250px;
+padding:10px;
+border:2px solid #ffcc00;
+border-radius:8px;
+background:#2f2f2f;
+color:white;
+}
+
+/* FILTER */
+
+.filter-box{
+display:flex;
+gap:10px;
+margin-bottom:15px;
+flex-wrap:wrap;
+}
+
+/* TABLE */
+
+.table-box{
+
+background:#2b2b2b;
+border:2px solid #ffcc00;
+overflow:auto;
+height:70vh;
+border-radius:12px;
+
+box-shadow:
+0 5px 15px rgba(0,0,0,0.5);
+}
+
+table{
+
+width:100%;
+border-collapse:collapse;
+min-width:4500px;
+font-size:12px;
+}
+
+th,
+td{
+
+border:1px solid #555;
+padding:8px;
+text-align:left;
+white-space:nowrap;
+}
+
+th{
+
+background:#ffcc00;
+color:black;
+position:sticky;
+top:0;
+z-index:2;
+}
+
+tr:nth-child(even){
+background:#242424;
+}
+
+tr:hover{
+background:#3a3a3a;
+}
+
+/* MODAL */
+
+.modal{
+
+display:none;
+position:fixed;
+inset:0;
+background:rgba(0,0,0,0.6);
+
+justify-content:center;
+align-items:center;
+
+z-index:999;
+}
+
+.modal-box{
+
+background:
+linear-gradient(
+135deg,
+#2c2c2c,
+#1f1f1f
+);
+
+width:95%;
+max-width:1200px;
+height:95vh;
+overflow:auto;
+
+padding:20px;
+
+border:2px solid #ffcc00;
+border-radius:18px;
+
+position:relative;
+
+box-shadow:
+0 10px 30px rgba(0,0,0,0.7);
+}
+
+.modal-box h3{
+
+font-size:28px;
+color:#ffcc00;
+margin-bottom:15px;
+
+text-shadow:
+2px 2px 5px black;
+}
+
+/* TABS */
+
+.classic-tabs{
+
+display:flex;
+flex-wrap:wrap;
+gap:8px;
+
+padding:10px;
+
+border-radius:12px;
+
+background:
+linear-gradient(
+135deg,
+#2b2b2b,
+#1f1f1f
+);
+
+margin-bottom:15px;
+}
+
+.tab-btn{
+
+background:
+linear-gradient(
+135deg,
+#555,
+#3a3a3a
+);
+
+padding:12px 18px;
+
+border:none;
+border-radius:10px;
+
+cursor:pointer;
+
+font-weight:bold;
+
+color:white;
+
+transition:0.3s;
+}
+
+.tab-btn.active{
+
+background:
+linear-gradient(
+135deg,
+#ffcc00,
+#ff4444
+);
+}
+
+.tab-content{
+
+display:none;
+
+padding:20px;
+
+background:#d9d9d9;
+
+border-radius:14px;
+
+border-top:5px solid #ffcc00;
+border-left:5px solid #ff4444;
+}
+
+.tab-content.active{
+display:block;
+}
+
+/* GRID */
+
+.form-grid{
+
+display:grid;
+
+grid-template-columns:
+repeat(auto-fit,minmax(220px,1fr));
+
+gap:12px;
+}
+
+/* INPUT */
+
+input,
+select{
+
+width:100%;
+
+padding:11px;
+
+border:2px solid #555;
+
+border-radius:8px;
+
+background:#f1f1f1;
+
+color:black;
+
+font-size:13px;
+}
+
+input::placeholder{
+color:#555;
+}
+
+input:focus,
+select:focus{
+
+outline:none;
+
+border-color:#ffcc00;
+}
+
+/* TOTAL */
+
+#total{
+
+color:#ff4444;
+font-size:20px;
+margin-bottom:10px;
+}
+
+/* STATUS */
+
+.status-active{
+color:#00ff99;
+font-weight:bold;
+}
+
+.status-awol{
+color:#ff3333;
+font-weight:bold;
+}
+
+.status-resigned{
+color:#ffaa00;
+font-weight:bold;
+}
+
+.status-other{
+color:#ff6666;
+font-weight:bold;
+}
+
+/* MOBILE */
+
+@media(max-width:768px){
+
+.top-bar{
+flex-direction:column;
+align-items:flex-start;
+}
+
+.search-box input{
+width:100%;
+}
+
+.form-grid{
+grid-template-columns:1fr;
+}
+
+table{
+min-width:2500px;
+}
+
+}
+
+/* PRINT */
+
+@media print{
+
+body{
+background:white;
+padding:0;
+color:black;
+}
+
+.top-bar,
+.modal,
+.filter-box{
+display:none !important;
+}
+
+.table-box{
+overflow:visible;
+height:auto;
+border:none;
+}
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="top-bar">
+
+<button
+class="back-btn"
+onclick="window.location.href='index.html'">
+
+← BACK
+
+</button>
+
+<h2>Employee Masterlist</h2>
+
+<div
+style="
+display:flex;
+gap:10px;
+flex-wrap:wrap;
+">
+
+<div class="search-box">
+
+<input
+type="text"
+id="search"
+placeholder="Search..."
+onkeyup="searchEmp()">
+
+</div>
+
+<button
+class="add-btn"
+onclick="openModal()">
+
++ Add Employee
+
+</button>
+
+<button
+class="print-btn"
+onclick="window.print()">
+
+🖨 PRINT
+
+</button>
+
+<button
+class="btn"
+onclick="window.location.href='inactive-employees.html'">
+
+INACTIVE EMPLOYEES
+
+</button>
+
+</div>
+
+</div>
+
+<h3 id="total">
+Total : 0
+</h3>
+
+<div class="filter-box">
+
+<button
+class="print-btn"
+onclick="filterStatus('ALL')">
+
+ALL
+
+</button>
+
+<button
+class="save-btn"
+onclick="filterStatus('Active')">
+
+ACTIVE
+
+</button>
+
+<button
+class="btn"
+onclick="filterStatus('INACTIVE')">
+
+INACTIVE
+
+</button>
+
+</div>
+
+<div class="table-box">
+
+<table id="empTable">
+
+<thead>
+
+<tr>
+
+<th>QR</th>
+
+<th>First Name</th>
+<th>Middle Name</th>
+<th>Last Name</th>
+<th>Birthdate</th>
+<th>Age</th>
+<th>Gender</th>
+
+<th>SSS Number</th>
+<th>PhilHealth Number</th>
+<th>Pag-IBIG Number</th>
+<th>Health Card Number</th>
+
+<th>Bank Name</th>
+<th>Bank Account Number</th>
+
+<th>ID Type</th>
+<th>ID Number</th>
+
+<th>Mobile</th>
+<th>Email</th>
+<th>Current Address</th>
+<th>Permanent Address</th>
+
+<th>Employee ID</th>
+<th>Position</th>
+<th>Department</th>
+<th>Employment</th>
+<th>Status</th>
+<th>Salary Rate</th>
+
+<th>Vacation Leave</th>
+<th>Sick Leave</th>
+<th>Birthday Leave</th>
+
+<th>Action</th>
+
+</tr>
+
+</thead>
+
+<tbody></tbody>
+
+</table>
+
+</div>
+
+<!-- MODAL -->
+
+<div
+class="modal"
+id="employeeModal">
+
+<div class="modal-box">
+
+<button
+class="close-btn"
+onclick="closeModal()">
+
+X
+
+</button>
+
+<h3>Employee Information</h3>
+
+<div class="classic-tabs">
+
+<button
+class="tab-btn active"
+onclick="openTab(event,'personal')">
+
+Personal Info
+
+</button>
+
+<button
+class="tab-btn"
+onclick="openTab(event,'government')">
+
+Government Info
+
+</button>
+
+<button
+class="tab-btn"
+onclick="openTab(event,'contact')">
+
+Contact Info
+
+</button>
+
+<button
+class="tab-btn"
+onclick="openTab(event,'employment')">
+
+Employment Info
+
+</button>
+
+</div>
+
+<!-- PERSONAL -->
+
+<div
+id="personal"
+class="tab-content active">
+
+<div class="form-grid">
+
+<input class="emp-field" placeholder="First Name">
+
+<input class="emp-field" placeholder="Middle Name">
+
+<input class="emp-field" placeholder="Last Name">
+
+<input
+class="emp-field"
+type="date"
+id="birthdate"
+onchange="calcAge()">
+
+<input
+class="emp-field"
+id="age"
+placeholder="Age"
+readonly>
+
+<select class="emp-field">
+
+<option>Gender</option>
+<option>Male</option>
+<option>Female</option>
+
+</select>
+
+</div>
+
+</div>
+
+<!-- GOVERNMENT -->
+
+<div
+id="government"
+class="tab-content">
+
+<div class="form-grid">
+
+<input class="emp-field" placeholder="SSS Number">
+
+<input class="emp-field" placeholder="PhilHealth Number">
+
+<input class="emp-field" placeholder="Pag-IBIG Number">
+
+<input class="emp-field" placeholder="Health Card Number">
+
+<select class="emp-field">
+
+<option>Select Bank</option>
+
+<option>BDO Unibank</option>
+<option>BPI</option>
+<option>Metrobank</option>
+<option>Landbank</option>
+<option>PNB</option>
+<option>Security Bank</option>
+<option>China Bank</option>
+<option>RCBC</option>
+<option>UnionBank</option>
+<option>EastWest</option>
+
+</select>
+
+<input
+class="emp-field"
+placeholder="Bank Account Number">
+
+<select class="emp-field">
+
+<option>Select ID</option>
+
+<option>National ID</option>
+<option>Passport</option>
+<option>Driver's License</option>
+<option>UMID</option>
+<option>SSS ID</option>
+<option>PhilHealth ID</option>
+<option>Pag-IBIG ID</option>
+<option>Postal ID</option>
+<option>PRC ID</option>
+
+</select>
+
+<input
+class="emp-field"
+placeholder="ID Number">
+
+</div>
+
+</div>
+
+<!-- CONTACT -->
+
+<div
+id="contact"
+class="tab-content">
+
+<div class="form-grid">
+
+<input class="emp-field" placeholder="Mobile">
+
+<input class="emp-field" placeholder="Email">
+
+<input class="emp-field" placeholder="Current Address">
+
+<input class="emp-field" placeholder="Permanent Address">
+
+</div>
+
+</div>
+
+<!-- EMPLOYMENT -->
+
+<div
+id="employment"
+class="tab-content">
+
+<div class="form-grid">
+
+<input class="emp-field" placeholder="Employee ID">
+
+<input class="emp-field" placeholder="Position">
+
+<input class="emp-field" placeholder="Department">
+
+<select class="emp-field">
+
+<option>Employment</option>
+
+<option>Regular</option>
+<option>Probationary</option>
+<option>Contractual</option>
+
+</select>
+
+<select class="emp-field">
+
+<option>Active</option>
+
+<option>Active</option>
+<option>Resigned</option>
+<option>AWOL</option>
+<option>Terminated</option>
+<option>End Contract</option>
+<option>On Leave</option>
+
+</select>
+
+<input class="emp-field" placeholder="Salary Rate">
+
+</div>
+
+</div>
+
+<br>
+
+<button
+class="save-btn"
+onclick="saveEmployee()">
+
+Save Employee
+
+</button>
+
+</div>
+
+</div>
+
+<script type="module">
+
+import { initializeApp }
+from "https://www.gstatic.com/firebasejs/12.13.0/firebase-app.js";
+
+import {
+getFirestore,
+collection,
+addDoc,
+getDocs,
+deleteDoc,
+doc,
+updateDoc
+}
+from "https://www.gstatic.com/firebasejs/12.13.0/firebase-firestore.js";
+
+const firebaseConfig = {
+
+apiKey:"AIzaSyAehoq0teVYHiJ4bkKOgBqIgJZrQpce3k8",
+
+authDomain:"hr-system-38fc3.firebaseapp.com",
+
+projectId:"hr-system-38fc3",
+
+storageBucket:"hr-system-38fc3.firebasestorage.app",
+
+messagingSenderId:"615471610834",
+
+appId:"1:615471610834:web:a0d671d4e3f4c1b57b660b"
+
+};
+
+const app = initializeApp(firebaseConfig);
+
+const db = getFirestore(app);
+
+let employees = [];
+
+let editId = null;
+
+let currentStatusFilter = 'ALL';
+
+/* OPEN MODAL */
+
+window.openModal = function(){
+
+employeeModal.style.display='flex';
+
+}
+
+/* CLOSE MODAL */
+
+window.closeModal = function(){
+
+employeeModal.style.display='none';
+
+clearForm();
+
+}
+
+/* OPEN TAB */
+
+window.openTab = function(evt,tabId){
+
+document
+.querySelectorAll('.tab-content')
+.forEach(tab=>{
+
+tab.classList.remove('active');
+
+});
+
+document
+.getElementById(tabId)
+.classList.add('active');
+
+document
+.querySelectorAll('.tab-btn')
+.forEach(btn=>{
+
+btn.classList.remove('active');
+
+});
+
+evt.currentTarget
+.classList.add('active');
+
+}
+
+/* CALCULATE AGE */
+
+window.calcAge = function(){
+
+let birth =
+new Date(birthdate.value);
+
+let today =
+new Date();
+
+let years =
+today.getFullYear() -
+birth.getFullYear();
+
+age.value = years;
+
+}
+
+/* SAVE EMPLOYEE */
+
+window.saveEmployee =
+async function(){
+
+let fields =
+document.querySelectorAll('.emp-field');
+
+let data = [];
+
+fields.forEach(field=>{
+
+data.push(field.value);
+
+});
+
+let employeeData = {
+
+firstname:data[0] || '',
+middlename:data[1] || '',
+lastname:data[2] || '',
+birthdate:data[3] || '',
+age:data[4] || '',
+gender:data[5] || '',
+
+sss:data[6] || '',
+philhealth:data[7] || '',
+pagibig:data[8] || '',
+healthcard:data[9] || '',
+
+bankname:data[10] || '',
+bankaccount:data[11] || '',
+idtype:data[12] || '',
+idnumber:data[13] || '',
+
+mobile:data[14] || '',
+email:data[15] || '',
+currentaddress:data[16] || '',
+permanentaddress:data[17] || '',
+
+employeeid:
+(data[18] || '')
+.toUpperCase()
+.trim(),
+
+username:
+(data[18] || '')
+.toUpperCase()
+.trim(),
+position:data[19] || '',
+department:data[20] || '',
+employment:data[21] || '',
+status:data[22] || 'Active',
+salary:data[23] || '',
+
+vacationleave:10,
+sickleave:7,
+birthdayleave:1
+
+};
+
+try{
+
+if(editId){
+
+await updateDoc(
+doc(db,'employees',editId),
+employeeData
+);
+
+alert('Employee Updated');
+
+}else{
+
+await addDoc(
+collection(db,'employees'),
+employeeData
+);
+
+alert('Employee Saved');
+
+}
+
+closeModal();
+
+loadEmployees();
+
+}catch(error){
+
+console.log(error);
+
+alert('Save Error');
+
+}
+
+}
+
+/* LOAD EMPLOYEES */
+
+async function loadEmployees(){
+
+employees = [];
+
+let table =
+document.querySelector('#empTable tbody');
+
+table.innerHTML='';
+
+let snapshot =
+await getDocs(collection(db,'employees'));
+
+snapshot.forEach(docSnap=>{
+
+employees.push({
+
+id:docSnap.id,
+
+...docSnap.data()
+
+});
+
+});
+
+renderTable();
+
+}
+
+/* RENDER TABLE */
+
+function renderTable(){
+
+let table =
+document.querySelector('#empTable tbody');
+
+table.innerHTML='';
+
+employees.forEach((emp)=>{
+
+if(currentStatusFilter==='Active'){
+
+if(emp.status !== 'Active') return;
+
+}
+
+if(currentStatusFilter==='INACTIVE'){
+
+if(emp.status === 'Active') return;
+
+}
+
+let statusClass =
+emp.status==='Active'
+? 'status-active'
+: emp.status==='AWOL'
+? 'status-awol'
+: emp.status==='Resigned'
+? 'status-resigned'
+: 'status-other';
+
+table.innerHTML += `
+
+<tr>
+
+<td>
+
+<button
+class="print-btn"
+onclick="viewQR(
+'${emp.employeeid || ""}',
+'${emp.firstname || ""} ${emp.lastname || ""}'
+)">
+
+VIEW QR
+
+</button>
+
+</td>
+
+<td>${emp.firstname || ''}</td>
+<td>${emp.middlename || ''}</td>
+<td>${emp.lastname || ''}</td>
+<td>${emp.birthdate || ''}</td>
+<td>${emp.age || ''}</td>
+<td>${emp.gender || ''}</td>
+
+<td>${emp.sss || ''}</td>
+<td>${emp.philhealth || ''}</td>
+<td>${emp.pagibig || ''}</td>
+<td>${emp.healthcard || ''}</td>
+
+<td>${emp.bankname || ''}</td>
+<td>${emp.bankaccount || ''}</td>
+
+<td>${emp.idtype || ''}</td>
+<td>${emp.idnumber || ''}</td>
+
+<td>${emp.mobile || ''}</td>
+<td>${emp.email || ''}</td>
+<td>${emp.currentaddress || ''}</td>
+<td>${emp.permanentaddress || ''}</td>
+
+<td>${emp.employeeid || ''}</td>
+<td>${emp.position || ''}</td>
+<td>${emp.department || ''}</td>
+<td>${emp.employment || ''}</td>
+
+<td class="${statusClass}">
+${emp.status || 'Active'}
+</td>
+
+<td>${emp.salary || ''}</td>
+
+<td>${emp.vacationleave || 0}</td>
+<td>${emp.sickleave || 0}</td>
+<td>${emp.birthdayleave || 0}</td>
+
+<td>
+
+<button
+class="btn"
+onclick="editEmployee('${emp.id}')">
+
+Edit
+
+</button>
+
+<button
+class="btn"
+onclick="deleteEmployee('${emp.id}')">
+
+Delete
+
+</button>
+
+</td>
+
+</tr>
+
+`;
+
+});
+
+updateTotal();
+
+}
+
+/* FILTER */
+
+window.filterStatus = function(status){
+
+currentStatusFilter = status;
+
+renderTable();
+
+}
+
+/* VIEW QR */
+
+window.viewQR =
+function(employeeid,name){
+
+let qrWindow =
+window.open(
+'',
+'_blank',
+'width=400,height=500'
+);
+
+qrWindow.document.write(`
+
+<html>
+
+<head>
+
+<title>Employee QR</title>
+
+<style>
+
+body{
+font-family:Tahoma,sans-serif;
+text-align:center;
+padding:20px;
+background:white;
+}
+
+h2{
+color:#cc0000;
+}
+
+#qrcode{
+margin-top:20px;
+}
+
+button{
+margin-top:20px;
+padding:10px 20px;
+border:none;
+background:#ffcc00;
+font-weight:bold;
+cursor:pointer;
+border-radius:8px;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<h2>PAPPRITO</h2>
+
+<h3>Employee QR Code</h3>
+
+<p><b>ID:</b> ${employeeid}</p>
+
+<p><b>Name:</b> ${name}</p>
+
+<div id="qrcode"></div>
+
+<br>
+
+<button onclick="window.print()">
+PRINT QR
+</button>
+
+<script src="https://cdn.jsdelivr.net/npm/qrcode/build/qrcode.min.js"><\/script>
+
+<script>
+
+QRCode.toCanvas(
+
+document.createElement('canvas'),
+
+JSON.stringify({
+
+employeeid:'${employeeid}',
+
+name:'${name}'
+
+}),
+
+{
+width:220
+},
+
+function(error,canvas){
+
+if(!error){
+
+document
+.getElementById('qrcode')
+.appendChild(canvas);
+
+}
+
+}
+
+);
+
+<\/script>
+
+</body>
+
+</html>
+
+`);
+
+}
+
+/* EDIT EMPLOYEE */
+
+window.editEmployee = function(id){
+
+let emp =
+employees.find(e=>e.id===id);
+
+if(!emp) return;
+
+openModal();
+
+editId = id;
+
+let values = [
+
+emp.firstname,
+emp.middlename,
+emp.lastname,
+emp.birthdate,
+emp.age,
+emp.gender,
+
+emp.sss,
+emp.philhealth,
+emp.pagibig,
+emp.healthcard,
+
+emp.bankname,
+emp.bankaccount,
+emp.idtype,
+emp.idnumber,
+
+emp.mobile,
+emp.email,
+emp.currentaddress,
+emp.permanentaddress,
+
+emp.employeeid,
+emp.position,
+emp.department,
+emp.employment,
+emp.status,
+emp.salary
+
+];
+
+document
+.querySelectorAll('.emp-field')
+.forEach((field,i)=>{
+
+field.value = values[i] || '';
+
+});
+
+}
+
+/* DELETE */
+
+window.deleteEmployee =
+async function(id){
+
+if(confirm('Delete Employee?')){
+
+await deleteDoc(
+doc(db,'employees',id)
+);
+
+loadEmployees();
+
+}
+
+}
+
+/* SEARCH */
+
+window.searchEmp = function(){
+
+let val =
+search.value.toLowerCase();
+
+let rows =
+document.querySelectorAll(
+'#empTable tbody tr'
+);
+
+let visible = 0;
+
+rows.forEach(row=>{
+
+let show =
+row.innerText
+.toLowerCase()
+.includes(val);
+
+row.style.display =
+show ? '' : 'none';
+
+if(show) visible++;
+
+});
+
+total.innerText =
+'Showing : ' + visible;
+
+}
+
+/* CLEAR */
+
+function clearForm(){
+
+editId = null;
+
+document
+.querySelectorAll('.emp-field')
+.forEach(el=>{
+
+el.value='';
+
+});
+
+}
+
+/* TOTAL */
+
+function updateTotal(){
+
+let rows =
+document.querySelectorAll(
+'#empTable tbody tr:not([style*="display: none"])'
+);
+
+total.innerText =
+'Total : ' + rows.length;
+
+}
+
+/* START */
+
+loadEmployees();
+
+</script>
+
+</body>
+</html>

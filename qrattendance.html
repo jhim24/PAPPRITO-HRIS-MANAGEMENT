@@ -1,0 +1,563 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<title>QR Attendance Scanner</title>
+
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0">
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Tahoma,sans-serif;
+}
+
+body{
+
+background:#1f1f1f;
+
+color:white;
+
+padding:20px;
+
+text-align:center;
+}
+
+.container{
+
+max-width:600px;
+
+margin:auto;
+
+background:#2b2b2b;
+
+padding:20px;
+
+border-radius:20px;
+
+border:3px solid #ffcc00;
+
+box-shadow:0 5px 20px rgba(0,0,0,0.5);
+}
+
+h1{
+
+color:#ffcc00;
+
+margin-bottom:20px;
+}
+
+.back-btn{
+
+background:linear-gradient(
+135deg,
+#ffcc00,
+#ff8800
+);
+
+color:black;
+
+padding:12px 18px;
+
+border:none;
+
+border-radius:10px;
+
+font-weight:bold;
+
+cursor:pointer;
+
+margin-bottom:20px;
+
+font-size:14px;
+}
+
+#reader{
+
+width:100%;
+
+overflow:hidden;
+
+border-radius:15px;
+
+border:3px solid #ffcc00;
+}
+
+.result{
+
+margin-top:20px;
+
+padding:20px;
+
+background:#111;
+
+border-radius:15px;
+
+font-size:18px;
+
+line-height:1.8;
+
+border:2px solid #00cc66;
+}
+
+.success{
+
+color:#00ff99;
+
+font-weight:bold;
+}
+
+.time{
+
+color:#ffcc00;
+
+font-size:22px;
+
+font-weight:bold;
+}
+
+.error{
+
+color:red;
+
+font-weight:bold;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+<button
+class="back-btn"
+onclick="window.location.href='index.html'">
+
+← BACK
+
+</button>
+
+<h1>
+📷 QR ATTENDANCE
+</h1>
+
+<div id="reader"></div>
+
+<div class="result">
+
+<div class="success">
+Waiting for QR Scan...
+</div>
+
+<div class="time"
+id="clock">
+
+00:00:00
+
+</div>
+
+<div id="employeeInfo">
+
+No Employee
+
+</div>
+
+</div>
+
+</div>
+
+<script src="https://unpkg.com/html5-qrcode"></script>
+
+<script type="module">
+
+/* =========================
+FIREBASE
+========================= */
+
+import {
+
+initializeApp
+
+}
+
+from
+"https://www.gstatic.com/firebasejs/12.13.0/firebase-app.js";
+
+import {
+
+getFirestore,
+collection,
+addDoc,
+query,
+where,
+getDocs
+
+}
+
+from
+"https://www.gstatic.com/firebasejs/12.13.0/firebase-firestore.js";
+
+/* =========================
+FIREBASE CONFIG
+========================= */
+
+const firebaseConfig = {
+
+apiKey:
+"AIzaSyAehoq0teVYHiJ4bkKOgBqIgJZrQpce3k8",
+
+authDomain:
+"hr-system-38fc3.firebaseapp.com",
+
+projectId:
+"hr-system-38fc3",
+
+storageBucket:
+"hr-system-38fc3.firebasestorage.app",
+
+messagingSenderId:
+"615471610834",
+
+appId:
+"1:615471610834:web:a0d671d4e3f4c1b57b660b"
+
+};
+
+const app =
+initializeApp(firebaseConfig);
+
+const db =
+getFirestore(app);
+
+/* =========================
+CLOCK
+========================= */
+
+function updateClock(){
+
+clock.innerText =
+
+new Date()
+.toLocaleTimeString();
+
+}
+
+setInterval(updateClock,1000);
+
+updateClock();
+
+/* =========================
+SCAN PROTECTION
+========================= */
+
+let lastScan = "";
+
+let scanLock = false;
+
+/* =========================
+QR SUCCESS
+========================= */
+
+async function onScanSuccess(decodedText){
+
+if(scanLock) return;
+
+scanLock = true;
+
+try{
+
+let data =
+JSON.parse(decodedText);
+
+/* VALIDATE QR */
+
+if(
+!data.employeeid ||
+!data.name
+){
+
+throw new Error(
+'Invalid QR Structure'
+);
+
+}
+
+let currentScan =
+data.employeeid;
+
+/* CHECK EMPLOYEE */
+
+const employeeQuery = query(
+
+collection(db,'employees'),
+
+where(
+'employeeid',
+'==',
+data.employeeid
+)
+
+);
+
+const employeeSnap =
+await getDocs(employeeQuery);
+
+/* EMPLOYEE NOT FOUND */
+
+if(employeeSnap.empty){
+
+employeeInfo.innerHTML = `
+
+<div class="error">
+
+EMPLOYEE NOT FOUND
+
+</div>
+
+`;
+
+scanLock = false;
+
+return;
+
+}
+
+let empData =
+employeeSnap.docs[0].data();
+
+/* BLOCK INACTIVE */
+
+if(empData.status !== 'Active'){
+
+employeeInfo.innerHTML = `
+
+<div style="
+background:red;
+padding:20px;
+border-radius:10px;
+font-weight:bold;
+color:white;
+text-align:center;
+">
+
+EMPLOYEE INACTIVE
+
+<br><br>
+
+STATUS:
+${empData.status}
+
+</div>
+
+`;
+
+navigator.vibrate(400);
+
+scanLock = false;
+
+return;
+
+}
+  
+/* BLOCK DUPLICATE */
+
+if(lastScan === currentScan){
+
+setTimeout(()=>{
+
+scanLock = false;
+
+},3000);
+
+return;
+
+}
+
+lastScan = currentScan;
+
+let today =
+new Date().toLocaleDateString();
+
+/* CHECK EXISTING */
+
+const attendanceQuery = query(
+
+collection(db,'attendance'),
+
+where(
+'employeeid',
+'==',
+data.employeeid
+),
+
+where(
+'date',
+'==',
+today
+)
+
+);
+
+const existing =
+await getDocs(attendanceQuery);
+
+/* ALREADY SCANNED */
+
+if(!existing.empty){
+
+employeeInfo.innerHTML = `
+
+<div class="error">
+
+ALREADY SCANNED TODAY
+
+</div>
+
+<br>
+
+<b>Employee ID:</b>
+${data.employeeid}
+
+<br>
+
+<b>Name:</b>
+${data.name}
+
+`;
+
+navigator.vibrate(300);
+
+setTimeout(()=>{
+
+scanLock = false;
+
+lastScan = "";
+
+},3000);
+
+return;
+
+}
+
+/* SHOW INFO */
+
+employeeInfo.innerHTML = `
+
+<b>Employee ID:</b>
+${data.employeeid}
+
+<br>
+
+<b>Name:</b>
+${data.name}
+
+<br>
+
+<b>Date:</b>
+${today}
+
+<br>
+
+<b>Time:</b>
+${new Date().toLocaleTimeString()}
+
+<br><br>
+
+<div class="success">
+
+TIME IN SAVED
+
+</div>
+
+`;
+
+/* SAVE ATTENDANCE */
+
+await addDoc(
+
+collection(db,'attendance'),
+
+{
+
+employeeid:
+data.employeeid,
+
+employee:
+data.name,
+
+date:
+today,
+
+timein:
+new Date()
+.toLocaleTimeString(),
+
+timestamp:
+Date.now()
+
+}
+
+);
+
+/* VIBRATE */
+
+navigator.vibrate(200);
+
+/* RESET */
+
+setTimeout(()=>{
+
+scanLock = false;
+
+lastScan = "";
+
+},3000);
+
+}catch(error){
+
+console.log(error);
+
+employeeInfo.innerHTML = `
+
+<div class="error">
+
+INVALID QR CODE
+
+</div>
+
+`;
+
+scanLock = false;
+
+}
+
+}
+
+/* =========================
+START SCANNER
+========================= */
+
+new Html5QrcodeScanner(
+
+"reader",
+
+{
+
+fps:10,
+
+qrbox:250
+
+}
+
+).render(onScanSuccess);
+
+</script>
+
+</body>
+</html>

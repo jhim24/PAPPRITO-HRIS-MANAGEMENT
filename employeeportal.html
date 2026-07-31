@@ -1,0 +1,2017 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#ffcc00">
+<link rel="apple-touch-icon" href="icon-192.png">
+
+<title>Employee Portal</title>
+
+<link
+href="https://fonts.googleapis.com/icon?family=Material+Icons"
+rel="stylesheet">
+
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0">
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Tahoma,sans-serif;
+}
+
+body{
+background:#1f1f1f;
+padding:15px;
+color:white;
+}
+
+.container{
+
+max-width:1400px;
+
+margin:auto;
+
+background:#2b2b2b;
+
+border:3px solid #ffcc00;
+
+border-radius:15px;
+
+overflow:hidden;
+}
+
+/* HEADER */
+
+.header{
+
+background:
+linear-gradient(
+135deg,
+#ffcc00,
+#ff8800
+);
+
+padding:15px;
+
+display:flex;
+
+justify-content:space-between;
+
+align-items:center;
+
+flex-wrap:wrap;
+
+gap:10px;
+}
+
+.title{
+
+font-size:28px;
+
+font-weight:bold;
+
+color:black;
+}
+
+.portal-title{
+
+display:flex;
+
+align-items:center;
+
+gap:10px;
+}
+
+/* BUTTON */
+
+.btn{
+
+padding:10px 18px;
+
+border:none;
+
+border-radius:10px;
+
+cursor:pointer;
+
+font-weight:bold;
+
+font-size:13px;
+
+transition:0.3s;
+
+display:flex;
+
+align-items:center;
+
+justify-content:center;
+
+gap:8px;
+}
+
+.btn:hover{
+transform:scale(1.03);
+}
+
+.material-icons{
+font-size:20px;
+}
+
+.logout-btn{
+background:#cc0000;
+color:white;
+}
+
+.submit-btn{
+background:#008000;
+color:white;
+}
+
+.attendance-btn{
+background:#0066cc;
+color:white;
+}
+
+.view-btn{
+background:#ff8800;
+color:black;
+}
+
+.close-btn{
+background:#444;
+color:white;
+}
+
+.print-btn{
+background:#0066cc;
+color:white;
+}
+
+.edit-btn{
+background:#0099cc;
+color:white;
+}
+
+.delete-btn{
+background:#990000;
+color:white;
+}
+
+.edit-btn,
+.delete-btn{
+
+padding:5px 8px;
+
+font-size:10px;
+
+min-width:85px;
+
+display:inline-flex;
+
+align-items:center;
+
+justify-content:center;
+
+gap:5px;
+
+margin:3px;
+
+border-radius:8px;
+
+font-weight:bold;
+}
+
+/* FORM */
+
+.form-section{
+padding:20px;
+}
+
+/* EMPLOYEE INFO */
+
+.emp-info{
+
+background:#1a1a1a;
+
+padding:15px;
+
+border-radius:10px;
+
+border:2px solid #ffcc00;
+
+margin-bottom:20px;
+
+line-height:1.8;
+
+font-size:15px;
+}
+
+/* GRID */
+
+.form-grid{
+
+display:grid;
+
+grid-template-columns:
+repeat(auto-fit,minmax(220px,1fr));
+
+gap:12px;
+}
+
+input,
+select,
+textarea{
+
+width:100%;
+
+padding:10px;
+
+border-radius:10px;
+
+border:2px solid #555;
+
+background:#1f1f1f;
+
+color:white;
+}
+
+textarea{
+min-height:90px;
+resize:vertical;
+}
+
+/* ACTION BUTTONS */
+
+.action-buttons{
+
+display:flex;
+
+gap:10px;
+
+flex-wrap:wrap;
+
+margin-top:15px;
+}
+
+/* TABLE */
+
+.table-wrapper{
+
+margin-top:25px;
+
+overflow-x:auto;
+
+background:#2a2a2a;
+
+border:2px solid #ffcc00;
+
+border-radius:18px;
+
+width:100%;
+
+box-shadow:
+0 6px 20px rgba(0,0,0,0.5);
+
+padding:8px;
+}
+
+.table-wrapper table{
+
+width:100%;
+
+border-collapse:separate;
+
+border-spacing:0;
+
+min-width:1000px;
+
+overflow:hidden;
+
+border-radius:12px;
+}
+
+.table-wrapper th,
+.table-wrapper td{
+
+border:1px solid #555;
+
+padding:6px 6px;
+
+text-align:center;
+
+font-size:11px;
+
+vertical-align:middle;
+
+white-space:nowrap;
+
+line-height:1.2;
+}
+
+.table-wrapper td{
+
+color:white;
+
+background:#1f1f1f;
+}
+
+.table-wrapper th{
+
+background:
+linear-gradient(
+135deg,
+#ffcc00,
+#ff9900
+);
+
+color:black;
+
+font-weight:bold;
+
+position:sticky;
+
+top:0;
+
+z-index:2;
+}
+
+/* STATUS */
+
+.pending{
+color:orange;
+font-weight:bold;
+}
+
+.approved{
+color:#00ff99;
+font-weight:bold;
+}
+
+.rejected{
+color:#ff3333;
+font-weight:bold;
+}
+
+/* PAYSLIP */
+
+.payslip{
+
+display:none;
+
+margin:20px auto;
+
+width:100%;
+
+max-width:110mm;
+
+background:#f9f9f9;
+
+color:black;
+
+padding:10px;
+
+border-radius:15px;
+
+border:2px solid #ffcc00;
+
+box-shadow:0 5px 15px rgba(0,0,0,0.4);
+}
+
+.company{
+
+text-align:center;
+
+margin-bottom:6px;
+
+padding-bottom:5px;
+
+border-bottom:2px solid #ffcc00;
+}
+.payroll-logo{
+
+width:70px;
+
+height:70px;
+
+object-fit:cover;
+
+border-radius:50%;
+
+border:3px solid #ffcc00;
+
+background:white;
+
+padding:4px;
+
+margin-bottom:8px;
+
+box-shadow:
+0 4px 10px rgba(0,0,0,0.3);
+
+}
+.company h2{
+
+font-size:18px;
+
+color:#cc0000;
+}
+
+.company p{
+
+font-size:9px;
+
+font-weight:bold;
+}
+
+.info{
+
+font-size:10px;
+
+line-height:1.6;
+
+margin-bottom:6px;
+
+background:#fff8dc;
+
+padding:6px;
+
+border-radius:6px;
+
+border:1px solid #ffcc00;
+}
+
+.payroll-table{
+
+width:100%;
+
+border-collapse:collapse;
+
+margin-top:5px;
+
+table-layout:fixed;
+}
+
+.payroll-table th,
+.payroll-table td{
+
+border:1px solid #999;
+
+padding:4px;
+
+font-size:9px;
+}
+
+.payroll-table th{
+
+background:#ffcc00;
+
+color:black;
+}
+
+.payroll-table td{
+
+background:white;
+color:black;
+}
+
+.netpay{
+
+margin-top:8px;
+
+padding:8px;
+
+background:#008000;
+
+color:white;
+
+border-radius:6px;
+
+font-size:10px;
+
+font-weight:bold;
+
+text-align:right;
+}
+
+.signature{
+
+margin-top:15px;
+
+display:flex;
+
+justify-content:space-between;
+
+font-size:8px;
+}
+
+.line{
+
+margin-top:12px;
+
+border-top:1px solid black;
+
+width:75px;
+
+text-align:center;
+
+padding-top:3px;
+}
+
+/* MOBILE */
+
+@media(max-width:768px){
+
+.title{
+font-size:22px;
+}
+
+.table-wrapper table{
+min-width:1000px;
+}
+
+.action-buttons{
+flex-direction:column;
+}
+
+.btn{
+width:100%;
+}
+.payslip{
+
+width:100%;
+
+max-width:100%;
+
+margin:20px auto;
+
+padding:8px;
+
+}
+
+.payroll-table th,
+.payroll-table td{
+
+font-size:8px;
+
+padding:3px;
+
+}
+
+.netpay{
+
+font-size:9px;
+
+}
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+<!-- HEADER -->
+
+<div class="header">
+
+<div class="title portal-title">
+
+<span class="material-icons">
+badge
+</span>
+
+EMPLOYEE PORTAL
+
+</div>
+
+<button
+class="btn logout-btn"
+onclick="logout()">
+
+<span class="material-icons">
+logout
+</span>
+
+LOGOUT
+
+</button>
+
+</div>
+
+<!-- FORM SECTION -->
+
+<div class="form-section">
+
+<!-- EMPLOYEE INFO -->
+
+<div class="emp-info">
+
+<div>
+<b>EMPLOYEE ID :</b>
+<span id="empIdDisplay">-</span>
+</div>
+
+<div>
+<b>EMPLOYEE NAME :</b>
+<span id="empNameDisplay">-</span>
+</div>
+
+</div>
+
+<!-- REQUEST FORM -->
+
+<div class="form-grid">
+
+<select id="requestType">
+
+<option value="">
+Select Request
+</option>
+
+<option>DAY OFF</option>
+<option>VACATION LEAVE</option>
+<option>BIRTHDAY LEAVE</option>
+<option>SICK LEAVE</option>
+
+</select>
+
+<input
+type="date"
+id="requestDate">
+
+<input
+type="number"
+id="days"
+placeholder="Days">
+
+<textarea
+id="reason"
+placeholder="Reason"></textarea>
+
+  <!-- ATTENDANCE REQUEST -->
+
+<select id="attendanceType">
+
+<option value="">
+Select Attendance Request
+</option>
+
+<option>Missing Time In</option>
+<option>Missing Time Out</option>
+<option>Late Correction</option>
+
+</select>
+
+<input
+type="date"
+id="attendanceDate">
+
+<input
+type="time"
+id="attendanceTime">
+
+<textarea
+id="attendanceReason"
+placeholder="Attendance Reason"></textarea>
+</div>
+
+<!-- BUTTONS -->
+
+<div class="action-buttons">
+
+<button
+class="btn submit-btn"
+onclick="submitRequest()">
+
+<span class="material-icons">
+send
+</span>
+
+SUBMIT REQUEST
+
+</button>
+
+<button
+class="btn attendance-btn"
+onclick="submitAttendanceRequest()">
+
+<span class="material-icons">
+schedule
+</span>
+
+ATTENDANCE REQUEST
+
+</button>
+
+<button
+class="btn view-btn"
+onclick="loadPayslip()">
+
+<span class="material-icons">
+visibility
+</span>
+
+VIEW PAYSLIP
+
+</button>
+
+<button
+class="btn close-btn"
+onclick="closePayslip()">
+
+<span class="material-icons">
+close
+</span>
+
+CLOSE PAYSLIP
+
+</button>
+
+<button
+class="btn print-btn"
+onclick="printPayslip()">
+
+<span class="material-icons">
+print
+</span>
+
+PRINT PAYSLIP
+
+</button>
+
+</div>
+
+<!-- REQUEST TABLE -->
+
+<div class="table-wrapper">
+
+<table>
+
+<thead>
+
+<tr>
+
+<th>EMPLOYEE ID</th>
+<th>EMPLOYEE</th>
+<th>REQUEST</th>
+<th>DATE</th>
+<th>DAYS / TIME</th>
+<th>REASON</th>
+<th>STATUS</th>
+<th>ACTION</th>
+
+</tr>
+
+</thead>
+
+<tbody id="requestBody">
+
+</tbody>
+
+</table>
+
+</div>
+
+  <!-- ATTENDANCE REQUEST TABLE -->
+
+<div class="table-wrapper">
+
+<table>
+
+<thead>
+
+<tr>
+
+<th>EMPLOYEE ID</th>
+<th>EMPLOYEE</th>
+<th>ATTENDANCE REQUEST</th>
+<th>DATE</th>
+<th>TIME</th>
+<th>REASON</th>
+<th>STATUS</th>
+<th>ACTION</th>
+</tr>
+
+</thead>
+
+<tbody id="attendanceBody">
+
+</tbody>
+
+</table>
+
+</div>
+  
+<!-- PAYSLIP -->
+
+<div
+class="payslip"
+id="payslipArea">
+
+<div class="company">
+
+<img
+src="logo.png"
+class="payroll-logo">
+
+<h2>PAPPRITO</h2>
+
+<p>OFFICIAL EMPLOYEE PAYSLIP</p>
+
+</div>
+  
+<div class="info">
+
+<b>ID:</b>
+<span id="payEmpId">-</span>
+
+<br>
+
+<b>Name:</b>
+<span id="payEmp">-</span>
+
+<br>
+
+<b>Date:</b>
+<span id="payDate">-</span>
+
+</div>
+
+<table class="payroll-table">
+
+<tr>
+<th>EARNINGS</th>
+<th>AMOUNT</th>
+</tr>
+
+<tr>
+<td>Daily Rate</td>
+<td id="payDailyRate">0.00</td>
+</tr>
+
+<tr>
+<td>Total Days</td>
+<td id="payTotalDays">0</td>
+</tr>
+
+<tr>
+<td>Overtime</td>
+<td id="payOvertime">0.00</td>
+</tr>
+
+<tr>
+<td>Holiday Pay</td>
+<td id="payHoliday">0.00</td>
+</tr>
+
+<tr>
+<td>Sick Leave</td>
+<td id="paySick">0.00</td>
+</tr>
+
+<tr>
+<td>Vacation Leave</td>
+<td id="payVacation">0.00</td>
+</tr>
+
+<tr>
+<td>Birthday Leave</td>
+<td id="payBirthday">0.00</td>
+</tr>
+
+<tr>
+<td>Allowance</td>
+<td id="payAllowance">0.00</td>
+</tr>
+
+<tr>
+<td><b>TOTAL GROSS</b></td>
+<td id="payGross"><b>0.00</b></td>
+</tr>
+
+</table>
+
+<table class="payroll-table">
+
+<tr>
+<th>DEDUCTIONS</th>
+<th>AMOUNT</th>
+</tr>
+
+<tr>
+<td>SSS</td>
+<td id="paySSS">0.00</td>
+</tr>
+
+<tr>
+<td>PhilHealth</td>
+<td id="payPhilhealth">0.00</td>
+</tr>
+
+<tr>
+<td>Pag-IBIG</td>
+<td id="payPagibig">0.00</td>
+</tr>
+
+<tr>
+<td>Health Card</td>
+<td id="payHealth">0.00</td>
+</tr>
+
+<tr>
+<td>Others</td>
+<td id="payOther">0.00</td>
+</tr>
+
+<tr>
+<td><b>Total Deduction</b></td>
+<td id="payDeduction"><b>0.00</b></td>
+</tr>
+
+</table>
+
+<div class="netpay">
+
+NET PAY :
+₱ <span id="payNet">0.00</span>
+
+</div>
+
+<div class="signature">
+
+<div class="line">
+HR
+</div>
+
+<div class="line">
+Employee
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+<script type="module">
+
+import {
+initializeApp
+}
+from
+"https://www.gstatic.com/firebasejs/12.13.0/firebase-app.js";
+
+import {
+getFirestore,
+collection,
+getDocs,
+addDoc,
+updateDoc,
+deleteDoc,
+doc
+}
+from
+"https://www.gstatic.com/firebasejs/12.13.0/firebase-firestore.js";
+
+/* FIREBASE */
+
+const firebaseConfig = {
+
+apiKey:
+"AIzaSyAehoq0teVYHiJ4bkKOgBqIgJZrQpce3k8",
+
+authDomain:
+"hr-system-38fc3.firebaseapp.com",
+
+projectId:
+"hr-system-38fc3",
+
+storageBucket:
+"hr-system-38fc3.firebasestorage.app",
+
+messagingSenderId:
+"615471610834",
+
+appId:
+"1:615471610834:web:a0d671d4e3f4c1b57b660b"
+
+};
+
+const app =
+initializeApp(firebaseConfig);
+
+const db =
+getFirestore(app);
+
+/* USER */
+
+let currentUser =
+localStorage.getItem(
+'loggedInUser'
+) || '';
+
+let currentEmployee = null;
+  
+if(!currentUser){
+
+window.location.href =
+'login.html';
+
+}
+let editId = null;
+let attendanceEditId = null;
+/* LOAD EMPLOYEE */
+
+async function loadEmployee(){
+
+try{
+
+let querySnapshot =
+
+await getDocs(
+collection(db,'employees')
+);
+
+currentUser =
+(currentUser || '')
+.toString()
+.toUpperCase()
+.trim();
+
+querySnapshot.forEach(docSnap=>{
+
+let emp = docSnap.data();
+
+let empId =
+
+(emp.employeeid || '')
+.toString()
+.toUpperCase()
+.trim();
+
+let fullname =
+
+(emp.firstname || '') +
+' ' +
+(emp.lastname || '');
+
+if(empId === currentUser){
+
+currentEmployee = {
+
+id: emp.employeeid || '',
+name: fullname
+
+};
+
+}
+
+});
+
+if(currentEmployee){
+
+empIdDisplay.innerText =
+currentEmployee.id;
+
+empNameDisplay.innerText =
+currentEmployee.name;
+
+loadRequests();
+loadAttendanceRequests();
+
+}else{
+
+alert(
+'Employee account not found in masterlist'
+);
+
+window.location.href =
+'login.html';
+
+}
+
+}catch(error){
+
+console.log(error);
+
+alert(
+'Failed to load employee'
+);
+
+}
+
+}
+
+loadEmployee();
+
+/* SUBMIT REQUEST */
+
+window.submitRequest =
+async function(){
+
+if(requestType.value===''){
+
+alert('Select Request Type');
+
+return;
+
+}
+
+try{
+
+if(editId){
+
+await updateDoc(
+
+doc(db,'employeeRequests',editId),
+
+{
+
+type:requestType.value,
+date:requestDate.value,
+days:days.value,
+reason:reason.value
+
+}
+
+);
+
+alert('Request Updated');
+
+editId = null;
+
+}else{
+
+await addDoc(
+
+collection(db,'employeeRequests'),
+
+{
+
+empid:
+currentEmployee.id,
+
+employee:
+currentEmployee.name,
+
+type:
+requestType.value,
+
+date:
+requestDate.value,
+
+days:
+days.value,
+
+reason:
+reason.value,
+
+status:
+'PENDING'
+
+}
+
+);
+
+alert('Request Submitted');
+
+}
+
+clearForm();
+
+loadRequests();
+
+}catch(error){
+
+console.log(error);
+
+alert('Submit Error');
+
+}
+
+}
+
+/* ATTENDANCE REQUEST */
+
+window.submitAttendanceRequest =
+async function(){
+
+if(attendanceType.value===''){
+
+alert('Select Attendance Request');
+
+return;
+
+}
+
+if(attendanceDate.value===''){
+
+alert('Select Date');
+
+return;
+
+}
+
+if(attendanceTime.value===''){
+
+alert('Select Time');
+
+return;
+
+}
+
+if(attendanceReason.value===''){
+
+alert('Enter Reason');
+
+return;
+
+}
+
+try{
+
+if(attendanceEditId){
+
+await updateDoc(
+
+doc(
+db,
+'attendanceRequests',
+attendanceEditId
+),
+
+{
+
+requesttype:
+attendanceType.value,
+
+date:
+attendanceDate.value,
+
+time:
+attendanceTime.value,
+
+reason:
+attendanceReason.value
+
+}
+
+);
+
+alert(
+'Attendance Request Updated'
+);
+
+attendanceEditId = null;
+
+}else{
+
+await addDoc(
+
+collection(db,'attendanceRequests'),
+
+{
+
+employeeid:
+currentEmployee.id,
+
+employee:
+currentEmployee.name,
+
+requesttype:
+attendanceType.value,
+
+date:
+attendanceDate.value,
+
+time:
+attendanceTime.value,
+
+reason:
+attendanceReason.value,
+
+status:
+'PENDING',
+
+timestamp:
+Date.now()
+
+}
+
+);
+
+alert(
+'Attendance Request Submitted'
+);
+
+}
+  
+  alert(
+'Attendance Request Submitted'
+);
+
+loadAttendanceRequests();
+loadAttendanceRequests();
+/* CLEAR */
+
+attendanceType.value='';
+attendanceDate.value='';
+attendanceTime.value='';
+attendanceReason.value='';
+
+}catch(error){
+
+console.log(error);
+
+alert(
+'Attendance Request Error'
+);
+
+}
+
+}
+
+/* LOAD REQUESTS */
+
+async function loadRequests(){
+
+requestBody.innerHTML='';
+
+let querySnapshot =
+
+await getDocs(
+
+collection(db,'employeeRequests')
+
+);
+
+querySnapshot.forEach(docSnap=>{
+
+let req = docSnap.data();
+
+let id = docSnap.id;
+
+if(
+
+(req.empid || '')
+.toString()
+.toUpperCase()
+.trim()
+
+===
+
+(currentEmployee.id || '')
+.toString()
+.toUpperCase()
+.trim()
+
+){
+
+let statusClass =
+(req.status || '')
+.toLowerCase();
+
+requestBody.innerHTML += `
+
+<tr>
+
+<td>${req.empid}</td>
+
+<td>${req.employee}</td>
+
+<td>${req.type}</td>
+
+<td>${req.date}</td>
+
+<td>${req.days}</td>
+
+<td>${req.reason}</td>
+
+<td class="${statusClass}">
+${req.status}
+</td>
+
+<td>
+
+<button
+class="btn edit-btn"
+onclick="editRequest(
+'${id}',
+'${req.type}',
+'${req.date}',
+'${req.days}',
+'${req.reason}'
+)">
+
+EDIT
+
+</button>
+
+<button
+class="btn delete-btn"
+onclick="deleteRequest('${id}')">
+
+DELETE
+
+</button>
+
+</td>
+
+</tr>
+
+`;
+
+}
+
+});
+
+}
+/* LOAD ATTENDANCE REQUESTS */
+
+async function loadAttendanceRequests(){
+
+attendanceBody.innerHTML='';
+
+try{
+
+let querySnapshot =
+
+await getDocs(
+
+collection(db,'attendanceRequests')
+
+);
+
+querySnapshot.forEach(docSnap=>{
+
+let req = docSnap.data();
+
+if(
+
+(req.employeeid || '')
+.toString()
+.toUpperCase()
+.trim()
+
+===
+
+(currentEmployee.id || '')
+.toString()
+.toUpperCase()
+.trim()
+
+){
+
+let statusClass =
+
+(req.status || '')
+.toLowerCase();
+
+attendanceBody.innerHTML += `
+
+<tr>
+
+<td>${req.employeeid}</td>
+
+<td>${req.employee}</td>
+
+<td>${req.requesttype}</td>
+
+<td>${req.date}</td>
+
+<td>${req.time}</td>
+
+<td>${req.reason}</td>
+
+<td class="${statusClass}">
+${req.status}
+</td>
+
+<td>
+
+<button
+class="btn edit-btn"
+onclick="editAttendanceRequest(
+'${docSnap.id}',
+'${req.requesttype}',
+'${req.date}',
+'${req.time}',
+'${req.reason}'
+)">
+
+EDIT
+
+</button>
+
+<button
+class="btn delete-btn"
+onclick="deleteAttendanceRequest(
+'${docSnap.id}'
+)">
+
+DELETE
+
+</button>
+
+</td>
+
+</tr>
+
+`;
+
+}
+
+});
+
+}catch(error){
+
+console.log(error);
+
+}
+
+}
+ /* EDIT ATTENDANCE */
+
+window.editAttendanceRequest =
+function(id,type,date,time,reasonText){
+
+attendanceEditId = id;
+
+attendanceType.value = type;
+
+attendanceDate.value = date;
+
+attendanceTime.value = time;
+
+attendanceReason.value = reasonText;
+
+window.scrollTo({
+
+top:0,
+
+behavior:'smooth'
+
+});
+
+}
+
+/* DELETE ATTENDANCE */
+
+window.deleteAttendanceRequest =
+async function(id){
+
+if(confirm('Delete Attendance Request?')){
+
+await deleteDoc(
+
+doc(db,'attendanceRequests',id)
+
+);
+
+loadAttendanceRequests();
+
+}
+
+} 
+/* EDIT */
+
+window.editRequest =
+function(id,type,date,daysValue,reasonText){
+
+editId = id;
+
+requestType.value = type;
+requestDate.value = date;
+days.value = daysValue;
+reason.value = reasonText;
+
+window.scrollTo({
+top:0,
+behavior:'smooth'
+});
+
+}
+
+/* DELETE */
+
+window.deleteRequest =
+async function(id){
+
+if(confirm('Delete Request?')){
+
+await deleteDoc(
+doc(db,'employeeRequests',id)
+);
+
+loadRequests();
+
+}
+
+}
+
+/* CLEAR FORM */
+
+function clearForm(){
+
+requestType.value='';
+requestDate.value='';
+days.value='';
+reason.value='';
+
+}
+
+/* LOAD PAYSLIP */
+
+window.loadPayslip =
+async function(){
+
+try{
+
+let querySnapshot =
+await getDocs(
+collection(db,'payroll')
+);
+
+let found = false;
+
+querySnapshot.forEach(docSnap=>{
+
+let pay = docSnap.data();
+
+if(
+
+(pay.empid || '')
+.toString()
+.toUpperCase()
+.trim()
+
+===
+
+(currentEmployee.id || '')
+.toString()
+.toUpperCase()
+.trim()
+
+){
+
+found = true;
+
+payslipArea.style.display='block';
+setTimeout(()=>{
+
+payslipArea.scrollIntoView({
+
+behavior:'smooth',
+
+block:'center'
+
+});
+
+},300);
+payEmpId.innerText =
+pay.empid || '';
+
+payEmp.innerText =
+pay.employee || '';
+
+payDate.innerText =
+pay.date || '';
+
+payDailyRate.innerText =
+Number(pay.dailyrate || 0)
+.toFixed(2);
+
+payTotalDays.innerText =
+Number(pay.totaldays || 0);
+
+payOvertime.innerText =
+Number(pay.overtime || 0)
+.toFixed(2);
+
+payHoliday.innerText =
+Number(pay.holidaypay || 0)
+.toFixed(2);
+
+paySick.innerText =
+Number(pay.sickleave || 0)
+.toFixed(2);
+
+payVacation.innerText =
+Number(pay.vacationleave || 0)
+.toFixed(2);
+
+payBirthday.innerText =
+Number(pay.birthdayleave || 0)
+.toFixed(2);
+
+payAllowance.innerText =
+Number(pay.allowance || 0)
+.toFixed(2);
+
+payGross.innerText =
+Number(pay.gross || 0)
+.toFixed(2);
+
+paySSS.innerText =
+Number(pay.sss || 0)
+.toFixed(2);
+
+payPhilhealth.innerText =
+Number(pay.philhealth || 0)
+.toFixed(2);
+
+payPagibig.innerText =
+Number(pay.pagibig || 0)
+.toFixed(2);
+
+payHealth.innerText =
+Number(pay.health || 0)
+.toFixed(2);
+
+payOther.innerText =
+Number(pay.other || 0)
+.toFixed(2);
+
+payDeduction.innerText =
+Number(pay.deductions || 0)
+.toFixed(2);
+
+payNet.innerText =
+Number(pay.net || 0)
+.toFixed(2);
+
+}
+
+});
+
+if(!found){
+
+alert('No Payslip Found');
+
+}
+
+}catch(error){
+
+console.log(error);
+
+alert('Failed To Load Payslip');
+
+}
+
+}
+/* CLOSE PAYSLIP */
+
+window.closePayslip =
+function(){
+
+payslipArea.style.display='none';
+
+}
+
+/* PRINT PAYSLIP */
+
+window.printPayslip =
+function(){
+
+let payslip =
+document.getElementById(
+'payslipArea'
+);
+
+if(
+payslip.style.display === 'none' ||
+payslip.innerHTML.trim() === ''
+){
+
+alert('Load Payslip First');
+
+return;
+
+}
+
+let printWindow =
+window.open(
+'',
+'',
+'width=900,height=1200'
+);
+
+printWindow.document.write(`
+
+<html>
+
+<head>
+
+<title>Print Payslip</title>
+
+<style>
+
+body{
+font-family:Tahoma,sans-serif;
+padding:0;
+margin:0;
+background:white;
+display:flex;
+justify-content:center;
+align-items:flex-start;
+}
+
+html,body{
+height:auto;
+overflow:hidden;
+}
+
+@page{
+size:auto;
+margin:5mm;
+}
+.payroll-logo{
+
+width:70px;
+
+height:70px;
+
+object-fit:cover;
+
+border-radius:50%;
+
+border:3px solid #ffcc00;
+
+background:white;
+
+padding:4px;
+
+margin-bottom:8px;
+
+display:block;
+
+margin-left:auto;
+
+margin-right:auto;
+
+}
+.payslip{
+display:block !important;
+width:110mm;
+height:auto;
+background:#f9f9f9;
+color:black;
+padding:8px;
+border:2px solid #ffcc00;
+border-radius:10px;
+margin:0 auto;
+box-sizing:border-box;
+}
+table{
+width:100%;
+border-collapse:collapse;
+margin-top:5px;
+}
+
+th,td{
+border:1px solid #999;
+padding:4px;
+font-size:10px;
+}
+
+th{
+background:#ffcc00;
+color:black;
+}
+
+.netpay{
+margin-top:10px;
+padding:8px;
+background:#008000;
+color:white;
+font-weight:bold;
+text-align:right;
+}
+
+.signature{
+margin-top:15px;
+display:flex;
+justify-content:space-between;
+font-size:8px;
+}
+
+.line{
+margin-top:12px;
+border-top:1px solid black;
+width:75px;
+text-align:center;
+padding-top:3px;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="payslip">
+
+<div class="company">
+
+<img
+src="logo.png"
+class="payroll-logo">
+
+<h2>PAPPRITO</h2>
+
+<p>OFFICIAL EMPLOYEE PAYSLIP</p>
+
+</div>
+
+<div class="info">
+
+<b>ID:</b>
+${payEmpId.innerText}
+
+<br><br>
+
+<b>Name:</b>
+${payEmp.innerText}
+
+<br><br>
+
+<b>Date:</b>
+${payDate.innerText}
+
+</div>
+
+${payslip.querySelectorAll('table')[0].outerHTML}
+
+${payslip.querySelectorAll('table')[1].outerHTML}
+
+<div class="netpay">
+
+NET PAY :
+₱ ${payNet.innerText}
+
+</div>
+
+<div class="signature">
+
+<div class="line">
+HR
+</div>
+
+<div class="line">
+Employee
+</div>
+
+</div>
+
+</div>
+
+</body>
+
+</html>
+
+`);
+
+printWindow.document.close();
+
+printWindow.focus();
+
+setTimeout(()=>{
+
+printWindow.print();
+
+printWindow.close();
+
+},500);
+
+}
+/* LOGOUT */
+
+window.logout =
+function(){
+
+localStorage.removeItem(
+'loggedInUser'
+);
+
+localStorage.removeItem(
+'userRole'
+);
+
+window.location.href =
+'login.html';
+
+}
+
+</script>
+
+</body>
+</html>

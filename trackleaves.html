@@ -1,0 +1,667 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<title>Track Leaves</title>
+
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0">
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Tahoma,sans-serif;
+}
+
+body{
+background:#1f1f1f;
+padding:15px;
+color:white;
+}
+
+.container{
+
+max-width:1400px;
+
+margin:auto;
+
+background:#2b2b2b;
+
+border:3px solid #ffcc00;
+
+border-radius:15px;
+
+overflow:hidden;
+}
+
+/* HEADER */
+
+.header{
+
+background:
+linear-gradient(
+135deg,
+#ffcc00,
+#ff8800
+);
+
+padding:15px;
+
+display:flex;
+
+justify-content:space-between;
+
+align-items:center;
+
+flex-wrap:wrap;
+
+gap:10px;
+}
+
+.title{
+
+font-size:28px;
+
+font-weight:bold;
+
+color:#990000;
+}
+
+/* BUTTON */
+
+.btn{
+
+padding:10px 18px;
+
+border:none;
+
+border-radius:10px;
+
+cursor:pointer;
+
+font-weight:bold;
+
+font-size:13px;
+
+transition:0.3s;
+}
+
+.btn:hover{
+transform:scale(1.03);
+}
+
+.back-btn{
+background:#0066cc;
+color:white;
+}
+
+.refresh-btn{
+background:#008000;
+color:white;
+}
+
+/* CONTENT */
+
+.content{
+padding:20px;
+}
+
+/* SUMMARY */
+
+.summary{
+
+display:grid;
+
+grid-template-columns:
+repeat(auto-fit,minmax(220px,1fr));
+
+gap:15px;
+
+margin-bottom:20px;
+}
+
+.card{
+
+padding:20px;
+
+border-radius:12px;
+
+text-align:center;
+
+font-weight:bold;
+
+box-shadow:0 5px 10px rgba(0,0,0,0.4);
+}
+
+.card h2{
+
+font-size:35px;
+
+margin-bottom:10px;
+}
+
+.total{
+background:linear-gradient(135deg,#333,#111);
+}
+
+.approved{
+background:linear-gradient(135deg,#00aa00,#006600);
+}
+
+.pending{
+background:linear-gradient(135deg,#ff9900,#cc6600);
+}
+
+.rejected{
+background:linear-gradient(135deg,#cc0000,#660000);
+}
+
+/* TABLE */
+
+.table-wrapper{
+
+overflow:auto;
+
+background:white;
+
+border-radius:10px;
+}
+
+table{
+
+width:100%;
+
+border-collapse:collapse;
+
+min-width:1000px;
+}
+
+th,
+td{
+
+border:1px solid #999;
+
+padding:10px;
+
+text-align:center;
+}
+
+th{
+
+background:#ffcc00;
+
+color:black;
+}
+
+td{
+color:black;
+}
+
+.leave-good{
+color:green;
+font-weight:bold;
+}
+
+.leave-warning{
+color:red;
+font-weight:bold;
+}
+
+/* MOBILE */
+
+@media(max-width:768px){
+
+.title{
+font-size:22px;
+}
+
+.summary{
+grid-template-columns:1fr;
+}
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+<!-- HEADER -->
+
+<div class="header">
+
+<div class="title">
+📋 TRACK LEAVES
+</div>
+
+<div style="display:flex;gap:10px;flex-wrap:wrap;">
+
+<button
+class="btn refresh-btn"
+onclick="loadLeaves()">
+
+🔄 REFRESH
+
+</button>
+
+<button
+class="btn back-btn"
+onclick="window.location.href='index.html'">
+
+← BACK
+
+</button>
+
+</div>
+
+</div>
+
+<!-- CONTENT -->
+
+<div class="content">
+
+<!-- SUMMARY -->
+
+<div class="summary">
+
+<div class="card total">
+
+<h2 id="totalEmployees">
+0
+</h2>
+
+<p>TOTAL EMPLOYEES</p>
+
+</div>
+
+<div class="card approved">
+
+<h2 id="approvedLeaves">
+0
+</h2>
+
+<p>APPROVED LEAVES</p>
+
+</div>
+
+<div class="card pending">
+
+<h2 id="pendingLeaves">
+0
+</h2>
+
+<p>PENDING REQUESTS</p>
+
+</div>
+
+<div class="card rejected">
+
+<h2 id="rejectedLeaves">
+0
+</h2>
+
+<p>REJECTED REQUESTS</p>
+
+</div>
+
+</div>
+
+<!-- TABLE -->
+
+<div class="table-wrapper">
+
+<table>
+
+<thead>
+
+<tr>
+
+<th>EMPLOYEE ID</th>
+<th>EMPLOYEE</th>
+
+<th>VACATION LEAVE</th>
+<th>SICK LEAVE</th>
+<th>BIRTHDAY LEAVE</th>
+
+<th>USED VACATION</th>
+<th>USED SICK</th>
+<th>USED BIRTHDAY</th>
+
+</tr>
+
+</thead>
+
+<tbody id="leaveBody">
+
+</tbody>
+
+</table>
+
+</div>
+
+</div>
+
+</div>
+
+<script type="module">
+
+import {
+initializeApp
+}
+from
+"https://www.gstatic.com/firebasejs/12.13.0/firebase-app.js";
+
+import {
+getFirestore,
+collection,
+getDocs
+}
+from
+"https://www.gstatic.com/firebasejs/12.13.0/firebase-firestore.js";
+
+/* FIREBASE */
+
+const firebaseConfig = {
+
+apiKey:
+"AIzaSyAehoq0teVYHiJ4bkKOgBqIgJZrQpce3k8",
+
+authDomain:
+"hr-system-38fc3.firebaseapp.com",
+
+projectId:
+"hr-system-38fc3",
+
+storageBucket:
+"hr-system-38fc3.firebasestorage.app",
+
+messagingSenderId:
+"615471610834",
+
+appId:
+"1:615471610834:web:a0d671d4e3f4c1b57b660b"
+
+};
+
+const app =
+initializeApp(firebaseConfig);
+
+const db =
+getFirestore(app);
+
+/* LOAD LEAVES */
+
+window.loadLeaves =
+async function(){
+
+leaveBody.innerHTML='';
+
+/* COUNTS */
+
+let approved = 0;
+let pending = 0;
+let rejected = 0;
+
+/* EMPLOYEES */
+
+let employeeSnapshot =
+
+await getDocs(
+collection(db,'employees')
+);
+
+let employeeMap = {};
+
+employeeSnapshot.forEach(empDoc=>{
+
+let emp = empDoc.data();
+
+employeeMap[emp.employeeid] = {
+
+name:
+
+(emp.firstname || '') +
+' ' +
+(emp.lastname || ''),
+
+vacation:
+Number(emp.vacationleave || 10),
+
+sick:
+Number(emp.sickleave || 7),
+
+birthday:
+Number(emp.birthdayleave || 1),
+
+usedVacation:0,
+
+usedSick:0,
+
+usedBirthday:0
+
+};
+
+});
+
+/* REQUESTS */
+
+let querySnapshot =
+
+await getDocs(
+collection(db,'employeeRequests')
+);
+
+querySnapshot.forEach(docSnap=>{
+
+let data = docSnap.data();
+
+let empid = data.empid;
+
+if(data.status === 'APPROVED'){
+
+approved++;
+
+}
+
+if(data.status === 'PENDING'){
+
+pending++;
+
+}
+
+if(data.status === 'REJECTED'){
+
+rejected++;
+
+}
+
+if(employeeMap[empid]){
+
+/* VACATION */
+
+if(
+
+data.type ===
+'VACATION LEAVE'
+
+&&
+
+data.status ===
+'APPROVED'
+
+){
+
+employeeMap[empid]
+.usedVacation +=
+
+Number(data.days || 0);
+
+}
+
+/* SICK */
+
+if(
+
+data.type ===
+'SICK LEAVE'
+
+&&
+
+data.status ===
+'APPROVED'
+
+){
+
+employeeMap[empid]
+.usedSick +=
+
+Number(data.days || 0);
+
+}
+
+/* BIRTHDAY */
+
+if(
+
+data.type ===
+'BIRTHDAY LEAVE'
+
+&&
+
+data.status ===
+'APPROVED'
+
+){
+
+employeeMap[empid]
+.usedBirthday +=
+
+Number(data.days || 0);
+
+}
+
+}
+
+});
+
+/* RENDER */
+
+Object.keys(employeeMap).forEach(empid=>{
+
+let emp =
+employeeMap[empid];
+
+let remainingVacation =
+
+emp.vacation -
+emp.usedVacation;
+
+let remainingSick =
+
+emp.sick -
+emp.usedSick;
+
+let remainingBirthday =
+
+emp.birthday -
+emp.usedBirthday;
+
+leaveBody.innerHTML += `
+
+<tr>
+
+<td>
+${empid}
+</td>
+
+<td>
+${emp.name}
+</td>
+
+<td class="${
+remainingVacation <= 2
+?
+'leave-warning'
+:
+'leave-good'
+}">
+${remainingVacation}
+</td>
+
+<td class="${
+remainingSick <= 2
+?
+'leave-warning'
+:
+'leave-good'
+}">
+${remainingSick}
+</td>
+
+<td class="${
+remainingBirthday <= 0
+?
+'leave-warning'
+:
+'leave-good'
+}">
+${remainingBirthday}
+</td>
+
+<td>
+${emp.usedVacation}
+</td>
+
+<td>
+${emp.usedSick}
+</td>
+
+<td>
+${emp.usedBirthday}
+</td>
+
+</tr>
+
+`;
+
+});
+
+/* SUMMARY */
+
+document.getElementById(
+'totalEmployees'
+).innerText =
+
+Object.keys(employeeMap).length;
+
+document.getElementById(
+'approvedLeaves'
+).innerText =
+approved;
+
+document.getElementById(
+'pendingLeaves'
+).innerText =
+pending;
+
+document.getElementById(
+'rejectedLeaves'
+).innerText =
+rejected;
+
+}
+
+/* AUTO LOAD */
+
+loadLeaves();
+
+</script>
+
+</body>
+</html>

@@ -1,0 +1,695 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<link rel="manifest" href="manifest.json">
+
+<meta name="theme-color" content="#ffcc00">
+
+<link rel="apple-touch-icon" href="icon-192.png">
+
+<title>HR Approval Request</title>
+
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0">
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Tahoma,sans-serif;
+}
+
+body{
+background:#1f1f1f;
+padding:15px;
+color:white;
+}
+
+/* CONTAINER */
+
+.container{
+
+max-width:1400px;
+
+margin:auto;
+
+background:#2b2b2b;
+
+border:3px solid #ffcc00;
+
+border-radius:15px;
+
+overflow:hidden;
+}
+
+/* HEADER */
+
+.header{
+
+background:
+linear-gradient(
+135deg,
+#ffcc00,
+#ff8800
+);
+
+padding:15px;
+
+display:flex;
+
+justify-content:space-between;
+
+align-items:center;
+
+flex-wrap:wrap;
+}
+
+.title{
+
+font-size:28px;
+
+font-weight:bold;
+
+color:black;
+}
+
+/* BUTTON */
+
+.btn{
+
+padding:10px 18px;
+
+border:none;
+
+border-radius:10px;
+
+cursor:pointer;
+
+font-weight:bold;
+
+font-size:13px;
+
+transition:0.3s;
+}
+
+.btn:hover{
+
+transform:scale(1.03);
+}
+
+.back-btn{
+background:#0066cc;
+color:white;
+}
+
+.approve-btn{
+background:#008000;
+color:white;
+}
+
+.reject-btn{
+background:#cc0000;
+color:white;
+}
+
+.delete-btn{
+background:#444;
+color:white;
+}
+
+/* TABLE */
+
+.table-wrapper{
+
+padding:20px;
+
+overflow:auto;
+}
+
+table{
+
+width:100%;
+
+border-collapse:collapse;
+
+min-width:1400px;
+
+background:white;
+}
+
+th,
+td{
+
+border:1px solid #999;
+
+padding:10px;
+
+text-align:center;
+}
+
+th{
+
+background:#ffcc00;
+
+color:black;
+
+position:sticky;
+
+top:0;
+}
+
+td{
+color:black;
+}
+
+/* STATUS */
+
+.pending{
+
+color:orange;
+
+font-weight:bold;
+}
+
+.approved{
+
+color:green;
+
+font-weight:bold;
+}
+
+.rejected{
+
+color:red;
+
+font-weight:bold;
+}
+
+/* EMPTY */
+
+.empty{
+
+padding:30px;
+
+text-align:center;
+
+font-size:18px;
+
+color:#ffcc00;
+}
+
+/* MOBILE */
+
+@media(max-width:768px){
+
+.title{
+font-size:22px;
+}
+
+table{
+min-width:1000px;
+}
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+<!-- HEADER -->
+
+<div class="header">
+
+<div class="title">
+✅ HR APPROVAL REQUEST
+</div>
+
+<button
+class="btn back-btn"
+onclick="window.location.href='index.html'">
+
+← BACK
+
+</button>
+
+</div>
+
+<!-- TABLE -->
+
+<div class="table-wrapper">
+
+<table>
+
+<thead>
+
+<tr>
+
+<th>EMPLOYEE ID</th>
+<th>EMPLOYEE NAME</th>
+<th>REQUEST TYPE</th>
+<th>DATE</th>
+<th>DAYS</th>
+<th>REASON</th>
+<th>STATUS</th>
+<th>ACTION</th>
+
+</tr>
+
+</thead>
+
+<tbody id="requestBody">
+
+</tbody>
+
+</table>
+
+<div
+class="empty"
+id="emptyBox"
+style="display:none;">
+
+NO REQUEST FOUND
+
+</div>
+
+</div>
+
+</div>
+
+<script type="module">
+
+/* =========================
+FIREBASE IMPORT
+========================= */
+
+import {
+
+initializeApp
+
+}
+from
+"https://www.gstatic.com/firebasejs/12.13.0/firebase-app.js";
+
+import {
+
+getFirestore,
+collection,
+getDocs,
+updateDoc,
+deleteDoc,
+doc,
+query,
+where
+
+}
+from
+"https://www.gstatic.com/firebasejs/12.13.0/firebase-firestore.js";
+
+/* =========================
+FIREBASE CONFIG
+========================= */
+
+const firebaseConfig = {
+
+apiKey:
+"AIzaSyAehoq0teVYHiJ4bkKOgBqIgJZrQpce3k8",
+
+authDomain:
+"hr-system-38fc3.firebaseapp.com",
+
+projectId:
+"hr-system-38fc3",
+
+storageBucket:
+"hr-system-38fc3.firebasestorage.app",
+
+messagingSenderId:
+"615471610834",
+
+appId:
+"1:615471610834:web:a0d671d4e3f4c1b57b660b"
+
+};
+
+/* =========================
+INIT FIREBASE
+========================= */
+
+const app =
+initializeApp(firebaseConfig);
+
+const db =
+getFirestore(app);
+
+/* =========================
+LOAD REQUESTS
+========================= */
+
+async function loadRequests(){
+
+let requestBody =
+document.getElementById(
+'requestBody'
+);
+
+let emptyBox =
+document.getElementById(
+'emptyBox'
+);
+
+requestBody.innerHTML='';
+
+try{
+
+const querySnapshot =
+await getDocs(
+collection(db,'employeeRequests')
+);
+
+if(querySnapshot.empty){
+
+emptyBox.style.display='block';
+
+return;
+
+}
+
+emptyBox.style.display='none';
+
+querySnapshot.forEach(docSnap=>{
+
+let req =
+docSnap.data();
+
+let id =
+docSnap.id;
+
+let statusClass =
+
+(req.status || 'PENDING')
+.toLowerCase();
+
+requestBody.innerHTML += `
+
+<tr>
+
+<td>${req.empid || '-'}</td>
+
+<td>${req.employee || '-'}</td>
+
+<td>${req.type || '-'}</td>
+
+<td>${req.date || '-'}</td>
+
+<td>${req.days || '-'}</td>
+
+<td>${req.reason || '-'}</td>
+
+<td class="${statusClass}">
+${req.status || 'PENDING'}
+</td>
+
+<td>
+
+<button
+class="btn approve-btn"
+onclick="approveRequest('${id}')">
+
+APPROVE
+
+</button>
+
+<button
+class="btn reject-btn"
+onclick="rejectRequest('${id}')">
+
+REJECT
+
+</button>
+
+<button
+class="btn delete-btn"
+onclick="deleteRequest('${id}')">
+
+DELETE
+
+</button>
+
+</td>
+
+</tr>
+
+`;
+
+});
+
+}catch(error){
+
+console.log(error);
+
+alert(
+'Error Loading Requests'
+);
+
+}
+
+}
+
+/* =========================
+APPROVE REQUEST
+========================= */
+
+window.approveRequest =
+async function(id){
+
+try{
+
+/* GET REQUEST */
+
+const reqSnap =
+await getDocs(
+query(
+collection(db,'employeeRequests'),
+where('__name__','==',id)
+)
+);
+
+if(reqSnap.empty){
+
+alert('Request Not Found');
+
+return;
+
+}
+
+let reqDoc =
+reqSnap.docs[0];
+
+let leave =
+reqDoc.data();
+
+/* UPDATE STATUS */
+
+await updateDoc(
+doc(db,'employeeRequests',id),
+{
+status:'APPROVED'
+}
+);
+
+/* FIND EMPLOYEE */
+
+let empQuery =
+query(
+collection(db,'employees'),
+where(
+'employeeid',
+'==',
+leave.empid
+)
+);
+
+let empSnap =
+await getDocs(empQuery);
+
+if(!empSnap.empty){
+
+let empDoc =
+empSnap.docs[0];
+
+let empData =
+empDoc.data();
+
+let updates = {};
+
+let days =
+parseInt(
+leave.days || 1
+);
+
+/* VACATION */
+
+if(
+leave.type ===
+'Vacation Leave'
+){
+
+updates.vacationleave =
+Math.max(
+0,
+(empData.vacationleave || 0)
+- days
+);
+
+}
+
+/* SICK */
+
+if(
+leave.type ===
+'Sick Leave'
+){
+
+updates.sickleave =
+Math.max(
+0,
+(empData.sickleave || 0)
+- days
+);
+
+}
+
+/* BIRTHDAY */
+
+if(
+leave.type ===
+'Birthday Leave'
+){
+
+updates.birthdayleave =
+Math.max(
+0,
+(empData.birthdayleave || 0)
+- days
+);
+
+}
+
+/* UPDATE EMPLOYEE */
+
+await updateDoc(
+doc(db,'employees',empDoc.id),
+updates
+);
+
+}
+
+alert(
+'Request Approved'
+);
+
+loadRequests();
+
+}catch(error){
+
+console.log(error);
+
+alert(
+'Approve Error'
+);
+
+}
+
+}
+
+/* =========================
+REJECT REQUEST
+========================= */
+
+window.rejectRequest =
+async function(id){
+
+try{
+
+await updateDoc(
+doc(db,'employeeRequests',id),
+{
+status:'REJECTED'
+}
+);
+
+alert(
+'Request Rejected'
+);
+
+loadRequests();
+
+}catch(error){
+
+console.log(error);
+
+alert(
+'Reject Error'
+);
+
+}
+
+}
+
+/* =========================
+DELETE REQUEST
+========================= */
+
+window.deleteRequest =
+async function(id){
+
+let confirmDelete =
+confirm(
+'Delete Request?'
+);
+
+if(confirmDelete){
+
+try{
+
+await deleteDoc(
+doc(db,'employeeRequests',id)
+);
+
+alert(
+'Request Deleted'
+);
+
+loadRequests();
+
+}catch(error){
+
+console.log(error);
+
+alert(
+'Delete Error'
+);
+
+}
+
+}
+
+}
+
+/* =========================
+AUTO LOAD
+========================= */
+
+loadRequests();
+
+</script>
+
+</body>
+</html>

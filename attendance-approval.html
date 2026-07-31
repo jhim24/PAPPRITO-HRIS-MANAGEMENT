@@ -1,0 +1,738 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<link rel="manifest" href="manifest.json">
+
+<meta name="theme-color" content="#ffcc00">
+
+<link rel="apple-touch-icon" href="icon-192.png">
+
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0">
+
+<title>Attendance Approval</title>
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Tahoma,sans-serif;
+}
+
+body{
+
+background:
+linear-gradient(
+135deg,
+#1f1f1f,
+#2b2b2b
+);
+
+padding:15px;
+
+color:white;
+}
+
+/* CONTAINER */
+
+.container{
+
+max-width:1500px;
+
+margin:auto;
+
+background:#2b2b2b;
+
+border:3px solid #ffcc00;
+
+border-radius:15px;
+
+overflow:hidden;
+}
+
+/* HEADER */
+
+.header{
+
+background:
+linear-gradient(
+135deg,
+#ffcc00,
+#ff8800
+);
+
+padding:15px;
+
+display:flex;
+
+justify-content:space-between;
+
+align-items:center;
+
+flex-wrap:wrap;
+}
+
+.title{
+
+font-size:28px;
+
+font-weight:bold;
+
+color:black;
+}
+
+/* BUTTONS */
+
+.btn{
+
+padding:10px 18px;
+
+border:none;
+
+border-radius:10px;
+
+cursor:pointer;
+
+font-weight:bold;
+
+font-size:13px;
+
+transition:0.3s;
+}
+
+.btn:hover{
+
+transform:scale(1.03);
+}
+
+.back-btn{
+background:#0066cc;
+color:white;
+}
+
+.approve-btn{
+background:#008000;
+color:white;
+}
+
+.reject-btn{
+background:#cc0000;
+color:white;
+}
+
+.delete-btn{
+background:#444;
+color:white;
+}
+
+/* TABLE */
+
+.table-wrapper{
+
+padding:20px;
+
+overflow:auto;
+}
+
+table{
+
+width:100%;
+
+border-collapse:collapse;
+
+min-width:1500px;
+
+background:white;
+}
+
+th,
+td{
+
+border:1px solid #999;
+
+padding:10px;
+
+text-align:center;
+}
+
+th{
+
+background:#ffcc00;
+
+color:black;
+
+position:sticky;
+
+top:0;
+}
+
+td{
+
+color:black;
+}
+
+/* STATUS */
+
+.pending{
+
+color:orange;
+
+font-weight:bold;
+}
+
+.approved{
+
+color:green;
+
+font-weight:bold;
+}
+
+.rejected{
+
+color:red;
+
+font-weight:bold;
+}
+
+/* EMPTY */
+
+.empty{
+
+padding:30px;
+
+text-align:center;
+
+font-size:18px;
+
+color:#ffcc00;
+}
+
+/* MOBILE */
+
+@media(max-width:768px){
+
+.title{
+font-size:22px;
+}
+
+table{
+min-width:1200px;
+}
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+<!-- HEADER -->
+
+<div class="header">
+
+<div class="title">
+🕒 ATTENDANCE APPROVAL
+</div>
+
+<button
+class="btn back-btn"
+onclick="window.location.href='index.html'">
+
+← BACK
+
+</button>
+
+</div>
+
+<!-- TABLE -->
+
+<div class="table-wrapper">
+
+<table>
+
+<thead>
+
+<tr>
+
+<th>EMPLOYEE ID</th>
+<th>EMPLOYEE NAME</th>
+<th>REQUEST TYPE</th>
+<th>DATE</th>
+<th>TIME</th>
+<th>REASON</th>
+<th>STATUS</th>
+<th>ACTION</th>
+
+</tr>
+
+</thead>
+
+<tbody id="requestBody">
+
+</tbody>
+
+</table>
+
+<div
+class="empty"
+id="emptyBox"
+style="display:none;">
+
+NO ATTENDANCE REQUEST FOUND
+
+</div>
+
+</div>
+
+</div>
+
+<script type="module">
+
+/* =========================
+FIREBASE IMPORT
+========================= */
+
+import {
+
+initializeApp
+
+}
+from
+"https://www.gstatic.com/firebasejs/12.13.0/firebase-app.js";
+
+import {
+
+getFirestore,
+collection,
+getDocs,
+updateDoc,
+deleteDoc,
+doc,
+query,
+where,
+addDoc
+
+}
+from
+"https://www.gstatic.com/firebasejs/12.13.0/firebase-firestore.js";
+
+/* =========================
+FIREBASE CONFIG
+========================= */
+
+const firebaseConfig = {
+
+apiKey:
+"AIzaSyAehoq0teVYHiJ4bkKOgBqIgJZrQpce3k8",
+
+authDomain:
+"hr-system-38fc3.firebaseapp.com",
+
+projectId:
+"hr-system-38fc3",
+
+storageBucket:
+"hr-system-38fc3.firebasestorage.app",
+
+messagingSenderId:
+"615471610834",
+
+appId:
+"1:615471610834:web:a0d671d4e3f4c1b57b660b"
+
+};
+
+/* =========================
+INIT FIREBASE
+========================= */
+
+const app =
+initializeApp(firebaseConfig);
+
+const db =
+getFirestore(app);
+
+/* =========================
+LOAD REQUESTS
+========================= */
+
+async function loadRequests(){
+
+let requestBody =
+document.getElementById(
+'requestBody'
+);
+
+let emptyBox =
+document.getElementById(
+'emptyBox'
+);
+
+requestBody.innerHTML='';
+
+try{
+
+const querySnapshot =
+await getDocs(
+collection(db,'attendanceRequests')
+);
+
+if(querySnapshot.empty){
+
+emptyBox.style.display='block';
+
+return;
+
+}
+
+emptyBox.style.display='none';
+
+querySnapshot.forEach(docSnap=>{
+
+let req =
+docSnap.data();
+
+let id =
+docSnap.id;
+
+let statusClass =
+
+(req.status || 'PENDING')
+.toLowerCase();
+
+requestBody.innerHTML += `
+
+<tr>
+
+<td>${req.employeeid || '-'}</td>
+
+<td>${req.employee || '-'}</td>
+
+<td>${req.requesttype || '-'}</td>
+
+<td>${req.date || '-'}</td>
+
+<td>${req.time || '-'}</td>
+
+<td>${req.reason || '-'}</td>
+
+<td class="${statusClass}">
+${req.status || 'PENDING'}
+</td>
+
+<td>
+
+<button
+class="btn approve-btn"
+onclick="approveRequest('${id}')">
+
+APPROVE
+
+</button>
+
+<button
+class="btn reject-btn"
+onclick="rejectRequest('${id}')">
+
+REJECT
+
+</button>
+
+<button
+class="btn delete-btn"
+onclick="deleteRequest('${id}')">
+
+DELETE
+
+</button>
+
+</td>
+
+</tr>
+
+`;
+
+});
+
+}catch(error){
+
+console.log(error);
+
+alert(
+'Error Loading Requests'
+);
+
+}
+
+}
+
+/* =========================
+APPROVE
+========================= */
+
+window.approveRequest =
+async function(id){
+
+try{
+
+const reqQuery =
+query(
+collection(db,'attendanceRequests'),
+where('__name__','==',id)
+);
+
+const reqSnap =
+await getDocs(reqQuery);
+
+if(reqSnap.empty){
+
+alert('Request Not Found');
+
+return;
+
+}
+
+let reqDoc =
+reqSnap.docs[0];
+
+let req =
+reqDoc.data();
+
+/* UPDATE REQUEST STATUS */
+
+await updateDoc(
+doc(db,'attendanceRequests',id),
+{
+status:'APPROVED'
+}
+);
+
+/* CHECK EXISTING ATTENDANCE */
+
+const attendanceQuery =
+query(
+collection(db,'attendance'),
+where(
+'employeeid',
+'==',
+req.employeeid
+),
+where(
+'date',
+'==',
+req.date
+)
+);
+
+const attendanceSnap =
+await getDocs(attendanceQuery);
+
+/* EXISTING ATTENDANCE */
+
+if(!attendanceSnap.empty){
+
+let attendanceDoc =
+attendanceSnap.docs[0];
+
+/* MISSING TIME IN */
+
+if(
+req.requesttype ===
+'Missing Time In'
+){
+
+await updateDoc(
+doc(
+db,
+'attendance',
+attendanceDoc.id
+),
+{
+timein:req.time
+}
+);
+
+}
+
+/* MISSING TIME OUT */
+
+if(
+req.requesttype ===
+'Missing Time Out'
+){
+
+await updateDoc(
+doc(
+db,
+'attendance',
+attendanceDoc.id
+),
+{
+timeout:req.time
+}
+);
+
+}
+
+/* LATE CORRECTION */
+
+if(
+req.requesttype ===
+'Late Correction'
+){
+
+await updateDoc(
+doc(
+db,
+'attendance',
+attendanceDoc.id
+),
+{
+timein:req.time
+}
+);
+
+}
+
+}else{
+/* CREATE NEW ATTENDANCE */
+
+let newAttendance = {
+
+employeeid:req.employeeid,
+
+employee:req.employee,
+
+date:req.date,
+
+timein:
+req.requesttype ===
+'Missing Time In'
+? req.time
+: '',
+
+timeout:
+req.requesttype ===
+'Missing Time Out'
+? req.time
+: '',
+
+timestamp:Date.now()
+
+};
+
+await addDoc(
+collection(db,'attendance'),
+newAttendance
+);
+
+}
+
+alert(
+'Attendance Request Approved'
+);
+
+loadRequests();
+
+}catch(error){
+
+console.log(error);
+
+alert(
+'Approve Error'
+);
+
+}
+
+}
+
+/* =========================
+REJECT
+========================= */
+
+window.rejectRequest =
+async function(id){
+
+try{
+
+await updateDoc(
+doc(db,'attendanceRequests',id),
+{
+status:'REJECTED'
+}
+);
+
+alert(
+'Request Rejected'
+);
+
+loadRequests();
+
+}catch(error){
+
+console.log(error);
+
+alert(
+'Reject Error'
+);
+
+}
+
+}
+
+/* =========================
+DELETE
+========================= */
+
+window.deleteRequest =
+async function(id){
+
+let confirmDelete =
+confirm(
+'Delete Request?'
+);
+
+if(confirmDelete){
+
+try{
+
+await deleteDoc(
+doc(db,'attendanceRequests',id)
+);
+
+alert(
+'Request Deleted'
+);
+
+loadRequests();
+
+}catch(error){
+
+console.log(error);
+
+alert(
+'Delete Error'
+);
+
+}
+
+}
+
+}
+
+/* =========================
+AUTO LOAD
+========================= */
+
+loadRequests();
+
+</script>
+
+</body>
+</html>

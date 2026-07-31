@@ -1,0 +1,770 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<title>HR SYSTEM LOGIN</title>
+
+<link rel="manifest" href="/manifest.json">
+<link rel="icon" href="/logo.png">
+<link rel="apple-touch-icon" href="/icon-192.png">
+
+<meta name="theme-color" content="#ffcc00">
+
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0">
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Tahoma,sans-serif;
+}
+
+body{
+
+height:100vh;
+
+display:flex;
+
+justify-content:center;
+
+align-items:center;
+
+background:
+
+linear-gradient(
+rgba(0,0,0,0.30),
+rgba(0,0,0,0.30)
+),
+
+url("hrbg.jpg");
+
+background-size:cover;
+
+background-position:center;
+
+background-repeat:no-repeat;
+
+overflow:hidden;
+}
+
+body::before{
+
+content:'';
+
+position:fixed;
+
+inset:0;
+
+background:
+linear-gradient(
+135deg,
+rgba(0,0,0,0.15),
+rgba(0,0,0,0.10)
+);
+
+z-index:-1;
+}
+
+/* LOGIN BOX */
+
+.login-box{
+
+width:400px;
+
+max-width:95%;
+
+backdrop-filter:blur(10px);
+
+background:rgba(20,20,20,0.72);
+
+padding:30px;
+
+border-radius:20px;
+
+border:2px solid rgba(255,204,0,0.8);
+
+box-shadow:
+0 8px 30px rgba(0,0,0,0.7);
+
+text-align:center;
+
+color:white;
+
+animation:fadeIn 0.5s ease;
+}
+
+/* LOGO */
+
+.logo-box{
+
+display:flex;
+
+flex-direction:column;
+
+align-items:center;
+
+margin-bottom:15px;
+}
+
+.logo{
+
+width:90px;
+
+height:90px;
+
+border-radius:50%;
+
+border:4px solid #ffcc00;
+
+background:white;
+
+padding:5px;
+
+object-fit:cover;
+
+box-shadow:
+0 4px 15px rgba(0,0,0,0.5);
+}
+
+.logo-text{
+
+font-size:32px;
+
+font-weight:bold;
+
+color:#ff3333;
+
+margin-top:10px;
+
+text-shadow:2px 2px 5px black;
+
+letter-spacing:2px;
+}
+
+/* TITLE */
+
+.title{
+
+font-size:35px;
+
+font-weight:bold;
+
+color:#ffcc00;
+
+margin-bottom:10px;
+
+text-shadow:
+2px 2px 5px black;
+}
+
+.subtitle{
+
+font-size:14px;
+
+margin-bottom:25px;
+
+color:#ccc;
+}
+
+/* INPUT */
+
+input,
+select{
+
+width:100%;
+
+padding:14px;
+
+margin-bottom:15px;
+
+border:none;
+
+border-radius:12px;
+
+background:rgba(0,0,0,0.45);
+
+color:white;
+
+font-size:14px;
+
+border:2px solid #555;
+
+transition:0.3s;
+}
+
+input:focus,
+select:focus{
+
+outline:none;
+
+border-color:#ffcc00;
+
+box-shadow:
+0 0 10px rgba(255,204,0,0.4);
+}
+
+/* PASSWORD BOX */
+
+.password-box{
+
+position:relative;
+}
+
+.show-btn{
+
+position:absolute;
+
+right:12px;
+
+top:13px;
+
+cursor:pointer;
+
+font-size:13px;
+
+color:#ffcc00;
+
+font-weight:bold;
+}
+
+/* REMEMBER */
+
+.remember{
+
+display:flex;
+
+align-items:center;
+
+gap:8px;
+
+margin-bottom:20px;
+
+font-size:13px;
+
+justify-content:left;
+}
+
+.remember input{
+
+width:auto;
+
+margin:0;
+}
+
+/* BUTTON */
+
+.login-btn{
+
+width:100%;
+
+padding:14px;
+
+border:none;
+
+border-radius:12px;
+
+background:
+linear-gradient(
+135deg,
+#ffcc00,
+#ff8800
+);
+
+color:black;
+
+font-size:15px;
+
+font-weight:bold;
+
+cursor:pointer;
+
+transition:0.3s;
+}
+
+.login-btn:hover{
+
+transform:scale(1.03);
+}
+
+/* LOADING */
+
+.loading{
+
+display:none;
+
+margin-top:15px;
+
+color:#ffcc00;
+
+font-size:14px;
+
+font-weight:bold;
+}
+
+/* FOOTER */
+
+.footer{
+
+margin-top:25px;
+
+font-size:12px;
+
+color:#aaa;
+}
+
+/* ANIMATION */
+
+@keyframes fadeIn{
+
+from{
+opacity:0;
+transform:translateY(20px);
+}
+
+to{
+opacity:1;
+transform:translateY(0);
+}
+
+}
+
+/* MOBILE */
+
+@media(max-width:768px){
+
+.login-box{
+padding:20px;
+}
+
+.title{
+font-size:28px;
+}
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="login-box">
+
+<div class="logo-box">
+
+<img
+src="/logo.png"
+class="logo">
+
+<div class="logo-text">
+PAPPRITO
+</div>
+
+</div>
+
+<div class="title">
+HR SYSTEM
+</div>
+
+<div class="subtitle">
+Professional HR Login System
+</div>
+
+<select id="role">
+
+<option value="">
+Select Role
+</option>
+
+<option value="admin">
+ADMIN
+</option>
+
+<option value="employee">
+EMPLOYEE
+</option>
+
+</select>
+
+<input
+type="text"
+id="email"
+placeholder="Email or Employee ID">
+
+<div class="password-box">
+
+<input
+type="password"
+id="password"
+placeholder="Password">
+
+<span
+class="show-btn"
+onclick="togglePassword()">
+
+SHOW
+
+</span>
+
+</div>
+
+<div class="remember">
+
+<input
+type="checkbox"
+id="remember">
+
+<label for="remember">
+Remember Me
+</label>
+
+</div>
+
+<button
+class="login-btn"
+onclick="login()">
+
+LOGIN
+
+</button>
+
+<div
+class="loading"
+id="loading">
+
+Please wait...
+
+</div>
+
+<div class="footer">
+
+Powered by Firebase HR System
+
+</div>
+
+</div>
+
+<script type="module">
+
+/* =========================
+FIREBASE IMPORT
+========================= */
+
+import {
+initializeApp
+}
+from
+"https://www.gstatic.com/firebasejs/12.13.0/firebase-app.js";
+
+import {
+getAuth,
+signInWithEmailAndPassword,
+onAuthStateChanged
+}
+from
+"https://www.gstatic.com/firebasejs/12.13.0/firebase-auth.js";
+
+import {
+getFirestore,
+collection,
+getDocs
+}
+from
+"https://www.gstatic.com/firebasejs/12.13.0/firebase-firestore.js";
+
+/* =========================
+FIREBASE CONFIG
+========================= */
+
+const firebaseConfig = {
+
+apiKey:
+"AIzaSyAehoq0teVYHiJ4bkKOgBqIgJZrQpce3k8",
+
+authDomain:
+"hr-system-38fc3.firebaseapp.com",
+
+projectId:
+"hr-system-38fc3",
+
+storageBucket:
+"hr-system-38fc3.firebasestorage.app",
+
+messagingSenderId:
+"615471610834",
+
+appId:
+"1:615471610834:web:a0d671d4e3f4c1b57b660b"
+
+};
+
+/* =========================
+INIT
+========================= */
+
+const app =
+initializeApp(firebaseConfig);
+
+const auth =
+getAuth(app);
+
+const db =
+getFirestore(app);
+
+/* =========================
+AUTO LOGIN CHECK
+========================= */
+
+onAuthStateChanged(auth,(user)=>{
+
+if(user){
+
+let role =
+localStorage.getItem(
+'userRole'
+);
+
+if(role === 'admin'){
+
+window.location.href =
+'index.html';
+
+}
+
+}
+
+});
+
+/* =========================
+SHOW PASSWORD
+========================= */
+
+window.togglePassword = function(){
+
+let pass =
+
+document.getElementById(
+'password'
+);
+
+if(pass.type === 'password'){
+
+pass.type = 'text';
+
+}else{
+
+pass.type = 'password';
+
+}
+
+}
+
+/* =========================
+LOGIN
+========================= */
+
+window.login = async function(){
+
+let role =
+document.getElementById('role').value;
+
+let username =
+document.getElementById('email')
+.value
+.trim();
+
+let password =
+document.getElementById('password')
+.value
+.trim();
+
+if(
+role === '' ||
+username === '' ||
+password === ''
+){
+
+alert('Complete all fields');
+
+return;
+
+}
+
+loading.style.display = 'block';
+
+/* =========================
+ADMIN LOGIN
+========================= */
+
+if(role === 'admin'){
+
+try{
+
+await signInWithEmailAndPassword(
+auth,
+username,
+password
+);
+
+localStorage.setItem(
+'userRole',
+'admin'
+);
+
+localStorage.setItem(
+'loggedInUser',
+username
+);
+
+if(remember.checked){
+
+localStorage.setItem(
+'rememberUser',
+username
+);
+
+}
+
+window.location.href =
+'index.html';
+
+}catch(error){
+
+alert(error.message);
+
+loading.style.display='none';
+
+}
+
+}
+
+/* =========================
+EMPLOYEE LOGIN
+========================= */
+
+if(role === 'employee'){
+
+try{
+
+let querySnapshot =
+
+await getDocs(
+collection(db,'users')
+);
+
+let found = false;
+
+querySnapshot.forEach(docSnap=>{
+
+let user = docSnap.data();
+
+if(
+
+user.role === 'employee' &&
+
+(user.username || '')
+.toUpperCase()
+.trim()
+
+===
+
+username
+.toUpperCase()
+.trim()
+
+&&
+
+(user.password || '') === password
+
+){
+
+found = true;
+
+localStorage.setItem(
+'userRole',
+'employee'
+);
+
+localStorage.setItem(
+'loggedInUser',
+username
+);
+
+if(remember.checked){
+
+localStorage.setItem(
+'rememberUser',
+username
+);
+
+}
+
+window.location.href =
+'employeeportal.html';
+
+}
+
+});
+
+loading.style.display='none';
+
+if(!found){
+
+alert(
+'Invalid Employee Login'
+);
+
+}
+
+}catch(error){
+
+console.log(error);
+
+alert('Firebase Error');
+
+loading.style.display='none';
+
+}
+
+}
+
+}
+
+/* =========================
+REMEMBER USER
+========================= */
+
+let remembered =
+
+localStorage.getItem(
+'rememberUser'
+);
+
+if(remembered){
+
+email.value =
+remembered;
+
+remember.checked = true;
+
+}
+
+/* =========================
+SERVICE WORKER
+========================= */
+
+if("serviceWorker" in navigator){
+
+navigator.serviceWorker.register(
+"/service-worker.js"
+);
+
+}
+
+</script>
+
+</body>
+</html>

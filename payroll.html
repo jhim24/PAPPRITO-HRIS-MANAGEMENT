@@ -1,0 +1,1000 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="manifest" href="manifest.json">
+
+<meta name="theme-color" content="#ffcc00">
+
+<link rel="apple-touch-icon" href="icon-192.png">
+<title>Payroll Management</title>
+
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0">
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Tahoma,sans-serif;
+}
+
+body{
+background:#1f1f1f;
+padding:15px;
+color:white;
+}
+
+/* CONTAINER */
+
+.container{
+
+max-width:1700px;
+
+margin:auto;
+
+background:#2b2b2b;
+
+border:3px solid #ffcc00;
+
+border-radius:15px;
+
+overflow:hidden;
+}
+
+/* HEADER */
+
+.header{
+
+background:
+linear-gradient(
+135deg,
+#ffcc00,
+#ff8800
+);
+
+padding:15px;
+
+display:flex;
+
+justify-content:space-between;
+
+align-items:center;
+
+flex-wrap:wrap;
+}
+
+.title{
+
+font-size:28px;
+
+font-weight:bold;
+
+color:black;
+}
+
+/* BUTTON */
+
+.btn{
+
+padding:10px 18px;
+
+border:none;
+
+border-radius:10px;
+
+cursor:pointer;
+
+font-weight:bold;
+
+font-size:13px;
+
+transition:0.3s;
+}
+
+.btn:hover{
+
+transform:scale(1.03);
+}
+
+.back-btn{
+background:#0066cc;
+color:white;
+}
+
+.save-btn{
+background:#008000;
+color:white;
+}
+
+.delete-btn{
+background:#cc0000;
+color:white;
+}
+
+.print-btn{
+background:#ff8800;
+color:black;
+}
+
+/* FORM */
+
+.form-section{
+padding:20px;
+}
+
+.form-grid{
+
+display:grid;
+
+grid-template-columns:
+repeat(auto-fit,minmax(220px,1fr));
+
+gap:12px;
+}
+
+input,
+select{
+
+width:100%;
+
+padding:10px;
+
+border-radius:10px;
+
+border:2px solid #555;
+
+background:#1f1f1f;
+
+color:white;
+}
+
+/* TABLE */
+
+.table-wrapper{
+
+margin-top:20px;
+
+overflow-x:auto;
+
+-webkit-overflow-scrolling:touch;
+
+background:white;
+
+border-radius:10px;
+}
+
+table{
+
+width:100%;
+
+border-collapse:collapse;
+
+min-width:2800px;
+}
+
+th,
+td{
+
+border:1px solid #999;
+
+padding:10px;
+
+text-align:center;
+
+white-space:nowrap;
+}
+
+th{
+
+background:#ffcc00;
+
+color:black;
+
+position:sticky;
+
+top:0;
+}
+
+td{
+color:black;
+}
+
+/* TOTAL */
+
+.total-box{
+
+margin-top:15px;
+
+padding:15px;
+
+background:#1a1a1a;
+
+border:2px solid #ffcc00;
+
+border-radius:10px;
+
+font-size:18px;
+
+font-weight:bold;
+}
+
+/* MOBILE */
+
+@media(max-width:768px){
+
+.title{
+font-size:22px;
+}
+
+.table-wrapper{
+
+overflow-x:auto;
+}
+
+table{
+
+min-width:1800px;
+
+font-size:11px;
+}
+
+th,
+td{
+
+padding:7px;
+}
+
+}
+
+/* EXTRA SMALL */
+
+@media(max-width:480px){
+
+table{
+
+min-width:1600px;
+
+font-size:10px;
+}
+
+th,
+td{
+
+padding:6px;
+}
+
+}
+
+/* PRINT */
+
+@media print{
+
+body{
+background:white;
+padding:0;
+}
+
+.btn{
+display:none !important;
+}
+
+.container{
+
+border:none;
+
+background:white;
+}
+
+table{
+
+min-width:100%;
+}
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+<!-- HEADER -->
+
+<div class="header">
+
+<div class="title">
+💰 PAYROLL MANAGEMENT
+</div>
+
+<div style="display:flex;gap:10px;flex-wrap:wrap;">
+
+<button
+class="btn print-btn"
+onclick="window.print()">
+
+🖨 PRINT
+
+</button>
+
+<button
+class="btn back-btn"
+onclick="window.location.href='index.html'">
+
+← BACK
+
+</button>
+
+</div>
+
+</div>
+
+<!-- FORM -->
+
+<div class="form-section">
+
+<div class="form-grid">
+
+<select id="employeeSelect">
+
+<option value="">
+Select Employee
+</option>
+
+</select>
+
+<input
+type="number"
+id="totaldays"
+placeholder="Total Days">
+
+<input
+type="number"
+id="dailyrate"
+placeholder="Daily Rate">
+
+<input
+type="number"
+id="overtime"
+placeholder="Overtime">
+
+<input
+type="number"
+id="holiday"
+placeholder="Holiday Pay">
+
+<input
+type="number"
+id="sickleave"
+placeholder="Sick Leave">
+
+<input
+type="number"
+id="vacationleave"
+placeholder="Vacation Leave">
+
+<input
+type="number"
+id="birthdayleave"
+placeholder="Birthday Leave">
+
+<input
+type="number"
+id="maternityleave"
+placeholder="Maternity Leave">
+
+<input
+type="number"
+id="paternityleave"
+placeholder="Paternity Leave">
+
+<input
+type="number"
+id="allowance"
+placeholder="Allowance">
+
+<input
+type="number"
+id="sss"
+placeholder="SSS">
+
+<input
+type="number"
+id="philhealth"
+placeholder="PhilHealth">
+
+<input
+type="number"
+id="pagibig"
+placeholder="Pag-IBIG">
+
+<input
+type="number"
+id="healthcard"
+placeholder="Health Card">
+
+<input
+type="number"
+id="otherdeduction"
+placeholder="Other Deduction">
+
+<input
+type="text"
+id="deductionreason"
+placeholder="Reason for Deduction">
+
+</div>
+
+<br>
+
+<button
+class="btn save-btn"
+onclick="savePayroll()">
+
+💾 SAVE PAYROLL
+
+</button>
+
+<!-- TOTAL -->
+
+<div class="total-box">
+
+TOTAL NET PAY :
+₱ <span id="totalNet">
+0.00
+</span>
+
+</div>
+
+<!-- TABLE -->
+
+<div class="table-wrapper">
+
+<table>
+
+<thead>
+
+<tr>
+
+<th>EMPLOYEE ID</th>
+<th>EMPLOYEE</th>
+<th>TOTAL DAYS</th>
+<th>DAILY RATE</th>
+<th>BASIC PAY</th>
+<th>OVERTIME</th>
+<th>HOLIDAY</th>
+<th>SICK LEAVE</th>
+<th>VACATION LEAVE</th>
+<th>BIRTHDAY LEAVE</th>
+<th>MATERNITY LEAVE</th>
+<th>PATERNITY LEAVE</th>
+<th>ALLOWANCE</th>
+<th>SSS</th>
+<th>PHILHEALTH</th>
+<th>PAG-IBIG</th>
+<th>HEALTH CARD</th>
+<th>OTHER DEDUCTION</th>
+<th>DEDUCTION REASON</th>
+<th>TOTAL DEDUCTION</th>
+<th>TOTAL GROSS</th>
+<th>NET PAY</th>
+<th>ACTION</th>
+
+</tr>
+
+</thead>
+
+<tbody id="payrollBody">
+
+</tbody>
+
+</table>
+
+</div>
+
+</div>
+
+</div>
+
+<script type="module">
+
+/* FIREBASE */
+
+import {
+
+initializeApp
+
+}
+
+from
+"https://www.gstatic.com/firebasejs/12.2.1/firebase-app.js";
+
+import {
+
+getFirestore,
+collection,
+addDoc,
+getDocs,
+deleteDoc,
+doc
+
+}
+
+from
+"https://www.gstatic.com/firebasejs/12.2.1/firebase-firestore.js";
+
+/* CONFIG */
+
+const firebaseConfig = {
+
+apiKey:
+"AIzaSyAehoq0teVYHiJ4bkKOgBqIgJZrQpce3k8",
+
+authDomain:
+"hr-system-38fc3.firebaseapp.com",
+
+projectId:
+"hr-system-38fc3",
+
+storageBucket:
+"hr-system-38fc3.firebasestorage.app",
+
+messagingSenderId:
+"615471610834",
+
+appId:
+"1:615471610834:web:a0d671d4e3f4c1b57b660b"
+
+};
+
+const app =
+initializeApp(firebaseConfig);
+
+const db =
+getFirestore(app);
+
+/* LOAD EMPLOYEES */
+
+async function loadEmployees(){
+
+employeeSelect.innerHTML =
+
+`
+<option value="">
+Select Employee
+</option>
+`;
+
+let querySnapshot =
+
+await getDocs(
+collection(db,'employees')
+);
+
+querySnapshot.forEach(doc=>{
+
+let emp = doc.data();
+
+let fullname =
+
+(emp.firstname || '') + ' ' +
+
+(emp.middlename || '') + ' ' +
+
+(emp.lastname || '');
+
+employeeSelect.innerHTML += `
+
+<option
+value="${fullname}"
+data-id="${emp.employeeid}">
+
+${emp.employeeid}
+-
+${fullname}
+
+</option>
+
+`;
+
+});
+
+}
+
+loadEmployees();
+
+/* SAVE PAYROLL */
+
+window.savePayroll =
+async function(){
+
+if(employeeSelect.value===''){
+
+alert('Select Employee');
+
+return;
+
+}
+
+let selected =
+
+employeeSelect.options[
+employeeSelect.selectedIndex
+];
+
+let empid =
+selected.dataset.id;
+
+let employee =
+employeeSelect.value;
+
+let totalDays =
+Number(totaldays.value || 0);
+
+let dailyRate =
+Number(dailyrate.value || 0);
+
+let basicPay =
+totalDays * dailyRate;
+
+let overtimePay =
+Number(overtime.value || 0);
+
+let holidayPay =
+Number(holiday.value || 0);
+
+let sickLeave =
+Number(sickleave.value || 0);
+
+let vacationLeave =
+Number(vacationleave.value || 0);
+
+let birthdayLeave =
+Number(birthdayleave.value || 0);
+
+let maternityLeave =
+Number(maternityleave.value || 0);
+
+let paternityLeave =
+Number(paternityleave.value || 0);
+
+let allowancePay =
+Number(allowance.value || 0);
+
+let sssDed =
+Number(sss.value || 0);
+
+let philhealthDed =
+Number(philhealth.value || 0);
+
+let pagibigDed =
+Number(pagibig.value || 0);
+
+let healthCardDed =
+Number(healthcard.value || 0);
+
+let otherDed =
+Number(otherdeduction.value || 0);
+
+let deductionReason =
+deductionreason.value;
+
+let deductions =
+
+sssDed +
+philhealthDed +
+pagibigDed +
+healthCardDed +
+otherDed;
+
+let gross =
+
+basicPay +
+overtimePay +
+holidayPay +
+sickLeave +
+vacationLeave +
+birthdayLeave +
+maternityLeave +
+paternityLeave +
+allowancePay;
+
+let net = gross - deductions;
+
+try{
+
+await addDoc(
+collection(db,'payroll'),
+
+{
+
+empid: empid,
+
+employee: employee,
+
+totaldays: totalDays,
+
+dailyrate: dailyRate,
+
+basicpay: basicPay,
+
+overtime: overtimePay,
+
+holiday: holidayPay,
+
+sickleave: sickLeave,
+
+vacationleave: vacationLeave,
+
+birthdayleave: birthdayLeave,
+
+maternityleave: maternityLeave,
+
+paternityleave: paternityLeave,
+
+allowance: allowancePay,
+
+sss: sssDed,
+
+philhealth: philhealthDed,
+
+pagibig: pagibigDed,
+
+healthcard: healthCardDed,
+
+otherdeduction: otherDed,
+
+deductionreason: deductionReason,
+
+deductions: deductions,
+
+gross: gross,
+
+net: net,
+
+date:
+new Date()
+.toLocaleDateString()
+
+}
+
+);
+
+alert('Payroll Saved');
+
+clearForm();
+
+loadPayroll();
+
+}catch(error){
+
+console.log(error);
+
+alert('Firebase Error');
+
+}
+
+}
+
+/* LOAD PAYROLL */
+
+async function loadPayroll(){
+
+payrollBody.innerHTML='';
+
+let total = 0;
+
+let querySnapshot =
+
+await getDocs(
+collection(db,'payroll')
+);
+
+querySnapshot.forEach(async(payrollDoc)=>{
+
+let pay =
+payrollDoc.data();
+
+total +=
+Number(pay.net || 0);
+
+payrollBody.innerHTML += `
+
+<tr>
+
+<td>${pay.empid || ''}</td>
+
+<td>${pay.employee || ''}</td>
+
+<td>${pay.totaldays || 0}</td>
+
+<td>
+₱ ${Number(pay.dailyrate || 0)
+.toFixed(2)}
+</td>
+
+<td>
+₱ ${Number(pay.basicpay || 0)
+.toFixed(2)}
+</td>
+
+<td>
+₱ ${Number(pay.overtime || 0)
+.toFixed(2)}
+</td>
+
+<td>
+₱ ${Number(pay.holiday || 0)
+.toFixed(2)}
+</td>
+
+<td>
+₱ ${Number(pay.sickleave || 0)
+.toFixed(2)}
+</td>
+
+<td>
+₱ ${Number(pay.vacationleave || 0)
+.toFixed(2)}
+</td>
+
+<td>
+₱ ${Number(pay.birthdayleave || 0)
+.toFixed(2)}
+</td>
+
+<td>
+₱ ${Number(pay.maternityleave || 0)
+.toFixed(2)}
+</td>
+
+<td>
+₱ ${Number(pay.paternityleave || 0)
+.toFixed(2)}
+</td>
+
+<td>
+₱ ${Number(pay.allowance || 0)
+.toFixed(2)}
+</td>
+
+<td>
+₱ ${Number(pay.sss || 0)
+.toFixed(2)}
+</td>
+
+<td>
+₱ ${Number(pay.philhealth || 0)
+.toFixed(2)}
+</td>
+
+<td>
+₱ ${Number(pay.pagibig || 0)
+.toFixed(2)}
+</td>
+
+<td>
+₱ ${Number(pay.healthcard || 0)
+.toFixed(2)}
+</td>
+
+<td>
+₱ ${Number(pay.otherdeduction || 0)
+.toFixed(2)}
+</td>
+
+<td>
+${pay.deductionreason || ''}
+</td>
+
+<td>
+₱ ${Number(pay.deductions || 0)
+.toFixed(2)}
+</td>
+
+<td>
+₱ ${Number(pay.gross || 0)
+.toFixed(2)}
+</td>
+
+<td>
+₱ ${Number(pay.net || 0)
+.toFixed(2)}
+</td>
+
+<td>
+
+<button
+class="btn delete-btn"
+onclick="deletePayroll(
+'${payrollDoc.id}'
+)">
+
+DELETE
+
+</button>
+
+</td>
+
+</tr>
+
+`;
+
+});
+
+totalNet.innerText =
+total.toFixed(2);
+
+}
+
+loadPayroll();
+
+/* DELETE PAYROLL */
+
+window.deletePayroll =
+async function(id){
+
+let confirmDelete =
+confirm(
+'Delete Payroll?'
+);
+
+if(confirmDelete){
+
+await deleteDoc(
+doc(db,'payroll',id)
+);
+
+loadPayroll();
+
+}
+
+}
+
+/* CLEAR FORM */
+
+function clearForm(){
+
+employeeSelect.value='';
+
+totaldays.value='';
+
+dailyrate.value='';
+
+overtime.value='';
+
+holiday.value='';
+
+sickleave.value='';
+
+vacationleave.value='';
+
+birthdayleave.value='';
+
+maternityleave.value='';
+
+paternityleave.value='';
+
+allowance.value='';
+
+sss.value='';
+
+philhealth.value='';
+
+pagibig.value='';
+
+healthcard.value='';
+
+otherdeduction.value='';
+
+deductionreason.value='';
+
+}
+
+</script>
+
+</body>
+</html>
