@@ -135,7 +135,23 @@ document
        alert("Employee saved successfully!");
 
 modal.style.display = "none";
-
+document.getElementById("empId").value = "";
+document.getElementById("firstName").value = "";
+document.getElementById("middleName").value = "";
+document.getElementById("lastName").value = "";
+document.getElementById("birthday").value = "";
+document.getElementById("gender").value = "";
+document.getElementById("department").value = "";
+document.getElementById("position").value = "";
+document.getElementById("email").value = "";
+document.getElementById("mobile").value = "";
+document.getElementById("sss").value = "";
+document.getElementById("philhealth").value = "";
+document.getElementById("pagibig").value = "";
+document.getElementById("tin").value = "";
+document.getElementById("bank").value = "";
+document.getElementById("accountNo").value = "";
+document.getElementById("address").value = "";
 loadEmployees();
 
     }catch(error){
@@ -159,9 +175,11 @@ async function loadEmployees() {
 
     const snapshot = await getDocs(employeeCollection);
 
-    snapshot.forEach((documentData) => {
+   snapshot.forEach((documentData) => {
 
-        const emp = documentData.data();
+    const id = documentData.id;
+
+    const emp = documentData.data();
 
        tbody.innerHTML += `
 <tr>
