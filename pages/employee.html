@@ -5,14 +5,11 @@
 
 <meta charset="UTF-8">
 
-<meta name="viewport"
-content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>PAPPRITO HRIS | Employee</title>
+<title>PAPPRITO HRIS | Employee Masterlist</title>
 
-<link
-rel="stylesheet"
-href="../assets/css/employee.css">
+<link rel="stylesheet" href="../assets/css/employee.css">
 
 </head>
 
@@ -20,130 +17,39 @@ href="../assets/css/employee.css">
 
 <div class="dashboard">
 
-    <!-- SIDEBAR -->
+<main class="main-content">
 
-    <aside class="sidebar">
+<!-- ==========================
+     HEADER
+========================== -->
 
-        <div class="logo">
+<header class="topbar">
 
-            <img
-            src="../assets/images/logo.png"
-            alt="Logo">
+    <div class="header-left">
 
-            <h2>PAPPRITO</h2>
+        <button
+            class="back-btn"
+            onclick="window.location.href='dashboard.html'">
 
-            <span>HRIS v2.0</span>
+            ← Back to Dashboard
+
+        </button>
+
+        <div>
+
+            <h1>Employee Masterlist</h1>
+
+            <p>Manage all employee information</p>
 
         </div>
 
-        <ul class="menu">
+    </div>
 
-            <li>
+</header>
 
-                <a href="dashboard.html">
-
-                    🏠 Dashboard
-
-                </a>
-
-            </li>
-
-            <li class="active">
-
-                <a href="employee.html">
-
-                    👥 Employee
-
-                </a>
-
-            </li>
-
-            <li>
-
-                <a href="attendance.html">
-
-                    🕒 Attendance
-
-                </a>
-
-            </li>
-
-            <li>
-
-                <a href="leave.html">
-
-                    📝 Leave
-
-                </a>
-
-            </li>
-
-            <li>
-
-                <a href="payroll.html">
-
-                    💰 Payroll
-
-                </a>
-
-            </li>
-
-            <li>
-
-                <a href="reports.html">
-
-                    📊 Reports
-
-                </a>
-
-            </li>
-
-            <li>
-
-                <a href="settings.html">
-
-                    ⚙ Settings
-
-                </a>
-
-            </li>
-
-        </ul>
-
-    </aside>
-
-    <!-- MAIN -->
-
-    <main class="main-content">
-
-        <header class="topbar">
-
-            <button
-            class="menu-toggle"
-            onclick="toggleSidebar()">
-
-                ☰
-
-            </button>
-
-            <div>
-
-                <h1>
-
-                    Employee Masterlist
-
-                </h1>
-
-                <p>
-
-                    Manage all employee information
-
-                </p>
-
-            </div>
-
-        </header>
-        <!-- TOOLBAR -->
+<!-- ==========================
+     TOOLBAR
+========================== -->
 
 <section class="employee-toolbar">
 
@@ -152,7 +58,7 @@ href="../assets/css/employee.css">
         <input
             type="text"
             id="searchEmployee"
-            placeholder="Search employee...">
+            placeholder="Search Employee">
 
     </div>
 
@@ -188,37 +94,43 @@ href="../assets/css/employee.css">
 
 </section>
 
-<!-- EMPLOYEE TABLE -->
+<!-- ==========================
+     EMPLOYEE TABLE
+========================== -->
 
 <section class="table-container">
 
-    <table id="employeeTable">
+<table id="employeeTable">
 
-        <thead>
+<thead>
 
-            <tr>
+<tr>
 
-                <th>Photo</th>
-                <th>Employee ID</th>
-                <th>Name</th>
-                <th>Department</th>
-                <th>Position</th>
-                <th>Status</th>
-                <th>Contact</th>
-                <th>Action</th>
+<th>Photo</th>
+<th>Employee ID</th>
+<th>Employee Name</th>
+<th>Department</th>
+<th>Position</th>
+<th>Status</th>
+<th>Contact</th>
+<th>Action</th>
 
-            </tr>
+</tr>
 
-        </thead>
+</thead>
 
-        <tbody id="employeeBody">
+<tbody id="employeeBody">
 
-        </tbody>
+<!-- Employee Records -->
 
-    </table>
+</tbody>
+
+</table>
 
 </section>
-<!-- ADD EMPLOYEE MODAL -->
+<!-- ==========================
+     ADD EMPLOYEE MODAL
+========================== -->
 
 <div class="modal" id="employeeModal">
 
@@ -236,41 +148,89 @@ href="../assets/css/employee.css">
 
             <div class="form-grid">
 
-                <input type="text" id="empId" placeholder="Employee ID">
+                <input
+                    type="text"
+                    id="empId"
+                    placeholder="Employee ID">
 
-                <input type="text" id="firstName" placeholder="First Name">
+                <input
+                    type="text"
+                    id="firstName"
+                    placeholder="First Name">
 
-                <input type="text" id="middleName" placeholder="Middle Name">
+                <input
+                    type="text"
+                    id="middleName"
+                    placeholder="Middle Name">
 
-                <input type="text" id="lastName" placeholder="Last Name">
+                <input
+                    type="text"
+                    id="lastName"
+                    placeholder="Last Name">
 
-                <input type="date" id="birthday">
+                <input
+                    type="date"
+                    id="birthday">
 
                 <select id="gender">
+
                     <option value="">Gender</option>
+
                     <option>Male</option>
+
                     <option>Female</option>
+
                 </select>
 
-                <input type="text" id="department" placeholder="Department">
+                <input
+                    type="text"
+                    id="department"
+                    placeholder="Department">
 
-                <input type="text" id="position" placeholder="Position">
+                <input
+                    type="text"
+                    id="position"
+                    placeholder="Position">
 
-                <input type="email" id="email" placeholder="Email">
+                <input
+                    type="email"
+                    id="email"
+                    placeholder="Email Address">
 
-                <input type="text" id="mobile" placeholder="Mobile Number">
+                <input
+                    type="text"
+                    id="mobile"
+                    placeholder="Mobile Number">
 
-                <input type="text" id="sss" placeholder="SSS Number">
+                <input
+                    type="text"
+                    id="sss"
+                    placeholder="SSS Number">
 
-                <input type="text" id="philhealth" placeholder="PhilHealth Number">
+                <input
+                    type="text"
+                    id="philhealth"
+                    placeholder="PhilHealth Number">
 
-                <input type="text" id="pagibig" placeholder="Pag-IBIG Number">
+                <input
+                    type="text"
+                    id="pagibig"
+                    placeholder="Pag-IBIG Number">
 
-                <input type="text" id="tin" placeholder="TIN Number">
+                <input
+                    type="text"
+                    id="tin"
+                    placeholder="TIN Number">
 
-                <input type="text" id="bank" placeholder="Bank Name">
+                <input
+                    type="text"
+                    id="bank"
+                    placeholder="Bank Name">
 
-                <input type="text" id="accountNo" placeholder="Bank Account Number">
+                <input
+                    type="text"
+                    id="accountNo"
+                    placeholder="Bank Account Number">
 
             </div>
 
@@ -282,13 +242,17 @@ href="../assets/css/employee.css">
 
         <div class="modal-footer">
 
-            <button class="cancel-btn" id="cancelModal">
+            <button
+                class="cancel-btn"
+                id="cancelModal">
 
                 Cancel
 
             </button>
 
-            <button class="save-btn" id="saveEmployee">
+            <button
+                class="save-btn"
+                id="saveEmployee">
 
                 Save Employee
 
@@ -300,7 +264,16 @@ href="../assets/css/employee.css">
 
 </div>
 
-<script type="module" src="../assets/js/employee.js"></script>
+</main>
+
+</div>
+
+<script
+type="module"
+src="../assets/js/employee.js">
+
+</script>
 
 </body>
+
 </html>
