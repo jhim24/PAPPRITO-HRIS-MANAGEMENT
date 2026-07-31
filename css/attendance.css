@@ -484,7 +484,8 @@ padding:0;
 #summaryBtn,
 .filter-section,
 .button-group,
-.clock-area{
+.clock-area,
+.employee-info{
 
 display:none !important;
 
