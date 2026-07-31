@@ -63,15 +63,6 @@ window.addEventListener("click",(e)=>{
 
 const employeeCollection = collection(db, "employees");
 
-/* MOBILE SIDEBAR */
-
-const sidebar = document.querySelector(".sidebar");
-
-window.toggleSidebar=function(){
-
-    sidebar.classList.toggle("active");
-
-};
 
 /* ==========================================
    SAVE EMPLOYEE
@@ -135,7 +126,7 @@ document
 
             address:
             document.getElementById("address").value,
-
+            status: "Active",
             createdAt:
             serverTimestamp()
 
@@ -214,8 +205,8 @@ async function loadEmployees() {
 <td>${emp.createdAt?.toDate().toLocaleDateString() || ""}</td>
 
 <td>
-<span class="status active">
-Active
+<span class="status ${emp.status === 'Inactive' ? 'inactive' : 'active'}">
+${emp.status || 'Active'}
 </span>
 </td>
 
@@ -243,3 +234,16 @@ Delete
 }
 
 loadEmployees();
+document.addEventListener("click", async (e) => {
+
+    if (e.target.classList.contains("delete-btn")) {
+
+        if (!confirm("Delete this employee?")) return;
+
+        await deleteDoc(doc(db, "employees", e.target.dataset.id));
+
+        loadEmployees();
+
+    }
+
+});
