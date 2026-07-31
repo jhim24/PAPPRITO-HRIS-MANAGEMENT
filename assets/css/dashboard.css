@@ -638,3 +638,82 @@ table tbody tr:hover{
     }
 
 }
+/* ==========================================
+   MOBILE SIDEBAR
+========================================== */
+
+.menu-toggle{
+
+    display:none;
+
+    width:45px;
+
+    height:45px;
+
+    border:none;
+
+    border-radius:10px;
+
+    background:#ffcc00;
+
+    color:#111;
+
+    font-size:24px;
+
+    font-weight:bold;
+
+    cursor:pointer;
+
+}
+
+@media(max-width:900px){
+
+.menu-toggle{
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+}
+
+.sidebar{
+
+    position:fixed;
+
+    top:0;
+
+    left:-280px;
+
+    width:270px;
+
+    height:100vh;
+
+    z-index:999;
+
+    transition:.30s;
+
+}
+
+.sidebar.active{
+
+    left:0;
+
+}
+
+.main-content{
+
+    width:100%;
+
+    margin-left:0;
+
+}
+
+.topbar{
+
+    gap:15px;
+
+}
+
+}
