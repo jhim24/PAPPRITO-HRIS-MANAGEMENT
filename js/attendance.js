@@ -691,3 +691,15 @@ function printAttendance(){
 document
 .getElementById("printBtn")
 .addEventListener("click", printAttendance);
+
+/* ==========================================
+   BACK BUTTON
+========================================== */
+
+document
+.getElementById("backBtn")
+.addEventListener("click", function(){
+
+    window.location.href = "index.html";
+
+});
