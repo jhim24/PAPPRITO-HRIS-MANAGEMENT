@@ -1,1 +1,351 @@
+/* ==========================================
+   PAPPRITO HRIS
+   EMPLOYEE MODULE
+========================================== */
 
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:"Segoe UI",sans-serif;
+}
+
+:root{
+
+    --primary:#ffcc00;
+    --secondary:#d71920;
+    --dark:#111827;
+    --card:#ffffff;
+    --bg:#f4f6f9;
+    --text:#222;
+    --border:#e5e7eb;
+
+}
+
+body{
+
+    background:var(--bg);
+    color:var(--text);
+
+}
+
+.dashboard{
+
+    display:flex;
+    min-height:100vh;
+
+}
+
+.sidebar{
+
+    width:270px;
+    background:var(--dark);
+    color:#fff;
+
+}
+
+.main-content{
+
+    flex:1;
+    padding:25px;
+
+}
+
+.topbar{
+
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:25px;
+
+}
+
+.employee-toolbar{
+
+    display:flex;
+    gap:15px;
+    flex-wrap:wrap;
+    margin-bottom:20px;
+
+}
+
+.search-box{
+
+    flex:1;
+
+}
+
+.search-box input{
+
+    width:100%;
+    padding:12px;
+    border:1px solid var(--border);
+    border-radius:10px;
+
+}
+
+.filter-box select{
+
+    padding:12px;
+    border-radius:10px;
+    border:1px solid var(--border);
+
+}
+
+.add-btn{
+
+    background:var(--primary);
+    color:#000;
+    border:none;
+    padding:12px 20px;
+    border-radius:10px;
+    cursor:pointer;
+    font-weight:bold;
+
+}
+
+.add-btn:hover{
+
+    background:#f5b800;
+
+}
+
+.table-container{
+
+    background:#fff;
+    border-radius:15px;
+    overflow:auto;
+    box-shadow:0 8px 20px rgba(0,0,0,.08);
+
+}
+
+table{
+
+    width:100%;
+    border-collapse:collapse;
+
+}
+
+th{
+
+    background:var(--primary);
+    color:#111;
+    padding:14px;
+    text-align:left;
+
+}
+
+td{
+
+    padding:14px;
+    border-bottom:1px solid #eee;
+
+}
+
+tr:hover{
+
+    background:#fafafa;
+
+}
+/* ==========================================
+   EMPLOYEE MODAL
+========================================== */
+
+.modal{
+
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,.55);
+
+    display:none;
+
+    justify-content:center;
+    align-items:center;
+
+    padding:20px;
+
+    z-index:9999;
+
+}
+
+.modal-content{
+
+    width:100%;
+    max-width:1100px;
+
+    max-height:90vh;
+
+    overflow-y:auto;
+
+    background:#fff;
+
+    border-radius:20px;
+
+    box-shadow:0 20px 60px rgba(0,0,0,.25);
+
+}
+
+.modal-header{
+
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+
+    padding:20px 25px;
+
+    border-bottom:1px solid #eee;
+
+}
+
+.modal-header h2{
+
+    color:#d71920;
+
+}
+
+.modal-header button{
+
+    border:none;
+    background:none;
+    font-size:28px;
+    cursor:pointer;
+
+}
+
+.modal-body{
+
+    padding:25px;
+
+}
+
+.form-grid{
+
+    display:grid;
+
+    grid-template-columns:
+    repeat(auto-fit,minmax(250px,1fr));
+
+    gap:18px;
+
+}
+
+.form-grid input,
+.form-grid select,
+textarea{
+
+    width:100%;
+
+    padding:12px;
+
+    border:1px solid #ddd;
+
+    border-radius:10px;
+
+    outline:none;
+
+}
+
+textarea{
+
+    margin-top:20px;
+
+    min-height:120px;
+
+    resize:vertical;
+
+}
+
+.modal-footer{
+
+    display:flex;
+
+    justify-content:flex-end;
+
+    gap:12px;
+
+    padding:20px 25px;
+
+    border-top:1px solid #eee;
+
+}
+
+.cancel-btn{
+
+    background:#888;
+
+    color:#fff;
+
+    border:none;
+
+    padding:12px 22px;
+
+    border-radius:10px;
+
+    cursor:pointer;
+
+}
+
+.save-btn{
+
+    background:#ffcc00;
+
+    color:#111;
+
+    border:none;
+
+    padding:12px 22px;
+
+    border-radius:10px;
+
+    cursor:pointer;
+
+    font-weight:bold;
+
+}
+
+.save-btn:hover{
+
+    background:#f5b800;
+
+}
+
+/* ==========================================
+   MOBILE
+========================================== */
+
+@media(max-width:900px){
+
+.main-content{
+
+    padding:15px;
+
+}
+
+.employee-toolbar{
+
+    flex-direction:column;
+
+}
+
+.modal-content{
+
+    max-height:95vh;
+
+}
+
+.form-grid{
+
+    grid-template-columns:1fr;
+
+}
+
+th,
+td{
+
+    font-size:13px;
+
+    padding:10px;
+
+}
+
+}
