@@ -502,9 +502,8 @@ async function loadAttendance(){
         });
 
     });
-
-   filterAttendance();
-
+console.log(docSnap.data());
+  renderAttendanceTable(attendance);
 }
 /* ==========================================
    RENDER ATTENDANCE TABLE
@@ -610,13 +609,21 @@ function filterAttendance(){
 
         if(startDate && endDate){
 
-            const attDate = formatDate(att.date);
+           let dateMatch = true;
 
-            dateMatch =
-                attDate >= startDate &&
-                attDate <= endDate;
+if(startDate && endDate){
 
-        }
+    const attDate = formatDate(att.date);
+
+    if(attDate){
+
+        dateMatch =
+        attDate >= startDate &&
+        attDate <= endDate;
+
+    }
+
+}
 
         return employeeMatch && dateMatch;
 
