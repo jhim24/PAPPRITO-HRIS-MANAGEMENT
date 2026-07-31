@@ -141,9 +141,11 @@ document
 
         });
 
-        alert("Employee saved successfully!");
+       alert("Employee saved successfully!");
 
-        modal.style.display="none";
+modal.style.display = "none";
+
+loadEmployees();
 
     }catch(error){
 
@@ -154,3 +156,40 @@ document
     }
 
 });
+/* ==========================================
+   LOAD EMPLOYEES
+========================================== */
+
+async function loadEmployees() {
+
+    const tbody = document.getElementById("employeeBody");
+
+    tbody.innerHTML = "";
+
+    const snapshot = await getDocs(employeeCollection);
+
+    snapshot.forEach((documentData) => {
+
+        const emp = documentData.data();
+
+        tbody.innerHTML += `
+            <tr>
+                <td>📷</td>
+                <td>${emp.employeeId ?? ""}</td>
+                <td>${emp.firstName ?? ""} ${emp.lastName ?? ""}</td>
+                <td>${emp.department ?? ""}</td>
+                <td>${emp.position ?? ""}</td>
+                <td>Active</td>
+                <td>${emp.mobile ?? ""}</td>
+                <td>
+                    <button>Edit</button>
+                    <button>Delete</button>
+                </td>
+            </tr>
+        `;
+
+    });
+
+}
+
+loadEmployees();
