@@ -627,3 +627,17 @@ document
 document
 .getElementById("timeOutBtn")
 .addEventListener("click", timeOut);
+
+/* ==========================================
+   PRINT
+========================================== */
+
+function printAttendance(){
+
+    window.print();
+
+}
+
+document
+.getElementById("printBtn")
+.addEventListener("click", printAttendance);
