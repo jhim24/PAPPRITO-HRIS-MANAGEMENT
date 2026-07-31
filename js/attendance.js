@@ -92,6 +92,29 @@ function getCurrentTime(){
     return new Date().toLocaleTimeString("en-US");
 
 }
+function formatDate(dateString){
+
+    if(!dateString) return "";
+
+    const d = new Date(dateString);
+
+    if(isNaN(d.getTime())){
+
+        const p = dateString.split("/");
+
+        if(p.length === 3){
+
+            return `${p[2]}-${p[0].padStart(2,"0")}-${p[1].padStart(2,"0")}`;
+
+        }
+
+        return "";
+
+    }
+
+    return d.toISOString().split("T")[0];
+
+}
 /* ==========================================
    TIME IN
 ========================================== */
@@ -190,6 +213,208 @@ async function timeIn(){
     await loadAttendance();
 
     alert("Time In Successful.");
+
+}
+/* ==========================================
+   BREAK OUT
+========================================== */
+
+async function breakOut(){
+
+    if(employeeSelect.value===""){
+
+        alert("Please select an employee.");
+
+        return;
+
+    }
+
+    const record = attendance.find(att=>
+
+        att.empDocId===employeeSelect.value &&
+
+        (!att.timeout || att.timeout==="-")
+
+
+    );
+
+    if(!record){
+
+        alert("No active Time In found.");
+
+        return;
+
+    }
+
+    if(record.breakout && record.breakout!=="-"){
+
+        alert("Already Break Out.");
+
+        return;
+
+    }
+
+    await updateDoc(
+
+        doc(db,"attendance",record.id),
+
+        {
+
+            breakout:getCurrentTime()
+
+        }
+
+    );
+
+    await loadAttendance();
+
+    alert("Break Out Successful.");
+
+}
+/* ==========================================
+   BREAK IN
+========================================== */
+
+async function breakIn(){
+
+    if(employeeSelect.value===""){
+
+        alert("Please select an employee.");
+
+        return;
+
+    }
+
+    const record = attendance.find(att=>
+
+        att.empDocId===employeeSelect.value &&
+
+        (!att.timeout || att.timeout==="-")
+
+
+    );
+
+    if(!record){
+
+        alert("No active attendance found.");
+
+        return;
+
+    }
+
+    if(record.breakout==="-" || !record.breakout){
+
+        alert("Please Break Out first.");
+
+        return;
+
+    }
+
+    if(record.breakin && record.breakin!=="-"){
+
+        alert("Already Break In.");
+
+        return;
+
+    }
+
+    await updateDoc(
+
+        doc(db,"attendance",record.id),
+
+        {
+
+            breakin:getCurrentTime()
+
+        }
+
+    );
+
+    await loadAttendance();
+
+    alert("Break In Successful.");
+
+}
+/* ==========================================
+   TIME OUT
+========================================== */
+
+async function timeOut(){
+
+    if(employeeSelect.value===""){
+
+        alert("Please select an employee.");
+
+        return;
+
+    }
+
+    const record = attendance.find(att=>
+
+        att.empDocId===employeeSelect.value &&
+
+        (!att.timeout || att.timeout==="-")
+
+    );
+
+    if(!record){
+
+        alert("No active attendance found.");
+
+        return;
+
+    }
+
+    const timeOutNow = new Date();
+
+    const timeIn = new Date(record.date + " " + record.timein);
+
+    let breakMinutes = 0;
+
+    if(record.breakout && record.breakin &&
+       record.breakout!=="-" &&
+       record.breakin!=="-"){
+
+        const breakOut = new Date(record.date + " " + record.breakout);
+
+        const breakIn = new Date(record.date + " " + record.breakin);
+
+        breakMinutes =
+        Math.floor((breakIn-breakOut)/60000);
+
+    }
+
+    let totalHours =
+
+    ((timeOutNow-timeIn)/3600000) -
+
+    (breakMinutes/60);
+
+    if(totalHours < 0){
+
+        totalHours = 0;
+
+    }
+
+    await updateDoc(
+
+        doc(db,"attendance",record.id),
+
+        {
+
+            timeout:getCurrentTime(),
+
+            breakminutes:breakMinutes + " mins",
+
+            totalhours:totalHours.toFixed(2)
+
+        }
+
+    );
+
+    await loadAttendance();
+
+    alert("Time Out Successful.");
 
 }
 /* ==========================================
@@ -317,8 +542,6 @@ function renderAttendanceTable(records = attendance){
 
 <td>${att.status || "-"}</td>
 
-<td>${att.status || "-"}</td>
-
 <td>
 
 <button
@@ -379,10 +602,8 @@ function filterAttendance(){
 
         if(selectedEmployee !== ""){
 
-            employeeMatch =
-                att.employeeDocId === selectedEmployee ||
-                att.empDocId === selectedEmployee;
-
+         employeeMatch =
+         att.empDocId === selectedEmployee;
         }
 
         let dateMatch = true;
@@ -433,3 +654,15 @@ toDate.addEventListener("change", filterAttendance);
 document
 .getElementById("timeInBtn")
 .addEventListener("click", timeIn);
+
+document
+.getElementById("breakOutBtn")
+.addEventListener("click", breakOut);
+
+document
+.getElementById("breakInBtn")
+.addEventListener("click", breakIn);
+
+document
+.getElementById("timeOutBtn")
+.addEventListener("click", timeOut);
