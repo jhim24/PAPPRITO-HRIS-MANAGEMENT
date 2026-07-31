@@ -76,6 +76,123 @@ setInterval(updateClock,1000);
 
 updateClock();
 /* ==========================================
+   DATE & TIME HELPERS
+========================================== */
+
+function getToday(){
+
+    const now = new Date();
+
+    return now.toLocaleDateString("en-US");
+
+}
+
+function getCurrentTime(){
+
+    return new Date().toLocaleTimeString("en-US");
+
+}
+/* ==========================================
+   TIME IN
+========================================== */
+
+async function timeIn(){
+
+    if(employeeSelect.value === ""){
+
+        alert("Please select an employee.");
+
+        return;
+
+    }
+
+    const employee =
+    employees.find(emp => emp.id === employeeSelect.value);
+
+    if(!employee){
+
+        alert("Employee not found.");
+
+        return;
+
+    }
+
+    const existing = attendance.find(att =>
+
+        att.empDocId === employee.id &&
+
+        att.date === getToday() &&
+
+        (!att.timeout || att.timeout === "-")
+
+    );
+
+    if(existing){
+
+        alert("Employee already Time In today.");
+
+        return;
+
+    }
+
+    const data = {
+
+        empDocId: employee.id,
+
+        empid: employee.employeeid || "",
+
+        name: [
+
+            employee.firstname,
+
+            employee.middlename,
+
+            employee.lastname
+
+        ]
+
+        .filter(Boolean)
+
+        .join(" ")
+
+        .replace(/\s+/g," ")
+
+        .trim(),
+
+        date: getToday(),
+
+        timein: getCurrentTime(),
+
+        breakout: "-",
+
+        breakin: "-",
+
+        timeout: "-",
+
+        breakminutes: "0 mins",
+
+        totalhours: "0.00",
+
+        late: "0 mins",
+
+        status: "PRESENT"
+
+    };
+
+    await addDoc(
+
+        collection(db,"attendance"),
+
+        data
+
+    );
+
+    await loadAttendance();
+
+    alert("Time In Successful.");
+
+}
+/* ==========================================
    DEFAULT DATE
 ========================================== */
 
@@ -309,3 +426,10 @@ employeeSelect.addEventListener("change", filterAttendance);
 fromDate.addEventListener("change", filterAttendance);
 
 toDate.addEventListener("change", filterAttendance);
+/* ==========================================
+   BUTTON EVENTS
+========================================== */
+
+document
+.getElementById("timeInBtn")
+.addEventListener("click", timeIn);
