@@ -1,6 +1,6 @@
 /* ==========================================
    PAPPRITO HRIS
-   FUTURISTIC HUD LOADING
+   LOADING HUD V2
 ========================================== */
 
 *{
@@ -12,57 +12,53 @@ font-family:"Segoe UI",Tahoma,sans-serif;
 
 :root{
 
+--bg:#07131d;
+--panel:#0c1d2d;
 --primary:#ffcc00;
 --cyan:#00e5ff;
---dark:#07131d;
---panel:#0c1d2d;
---line:#16384f;
+--green:#00ff88;
 --text:#ffffff;
 
 }
 
 body{
 
-width:100%;
-min-height:100vh;
-
-overflow-x:hidden;
-overflow-y:auto;
-
 background:
-radial-gradient(circle at center,#12304a 0%,#08111c 70%,#04080d 100%);
+radial-gradient(circle,#10283b 0%,#07131d 65%,#03080d 100%);
+
+color:var(--text);
+
+min-height:100vh;
 
 display:flex;
 
 justify-content:center;
 
-align-items:flex-start;
+align-items:center;
 
-padding:30px 15px;
+padding:20px;
 
-color:white;
+overflow:hidden;
+
+position:relative;
 
 }
 
 /* ==========================================
-GRID BACKGROUND
+GRID
 ========================================== */
 
 .grid-bg{
 
 position:fixed;
 
-top:0;
-left:0;
-
-width:100%;
-height:100%;
+inset:0;
 
 background-image:
 
-linear-gradient(rgba(0,229,255,.06) 1px,transparent 1px),
+linear-gradient(rgba(0,229,255,.05) 1px,transparent 1px),
 
-linear-gradient(90deg,rgba(0,229,255,.06) 1px,transparent 1px);
+linear-gradient(90deg,rgba(0,229,255,.05) 1px,transparent 1px);
 
 background-size:40px 40px;
 
@@ -74,17 +70,9 @@ z-index:0;
 
 @keyframes gridMove{
 
-0%{
+0%{transform:translateY(0);}
 
-transform:translateY(0);
-
-}
-
-100%{
-
-transform:translateY(40px);
-
-}
+100%{transform:translateY(40px);}
 
 }
 
@@ -100,85 +88,111 @@ z-index:2;
 
 width:1100px;
 
-max-width:95vw;
+max-width:100%;
 
-min-height:auto;
+background:rgba(8,20,32,.90);
 
-padding:40px;
+border:1px solid rgba(0,229,255,.20);
 
-border-radius:20px;
+border-radius:22px;
 
-background:rgba(5,15,25,.75);
-
-backdrop-filter:blur(15px);
-
-border:1px solid rgba(0,229,255,.25);
+padding:30px;
 
 box-shadow:
 
-0 0 25px rgba(0,229,255,.15),
+0 0 30px rgba(0,229,255,.15);
 
-0 0 80px rgba(0,229,255,.05);
+backdrop-filter:blur(10px);
 
 }
 
 /* ==========================================
-LOGO
+HEADER
 ========================================== */
 
 .logo-area{
 
 text-align:center;
 
-margin-bottom:35px;
+margin-bottom:25px;
 
 }
 
 .logo{
 
-width:90px;
+width:80px;
 
-height:90px;
+height:80px;
 
 border-radius:50%;
 
-border:4px solid var(--primary);
-
 background:white;
 
-padding:6px;
+padding:5px;
+
+border:3px solid var(--primary);
 
 box-shadow:
 
-0 0 20px rgba(255,204,0,.5);
+0 0 15px rgba(255,204,0,.5);
 
 }
 
 .logo-area h1{
 
-margin-top:15px;
+margin-top:10px;
 
 font-size:42px;
 
 color:var(--primary);
 
-font-weight:bold;
-
-letter-spacing:2px;
+letter-spacing:3px;
 
 }
 
 .logo-area h2{
 
-margin-top:6px;
+margin-top:5px;
 
-font-size:18px;
+font-size:16px;
 
 font-weight:400;
 
-color:#cfd8dc;
-
 letter-spacing:3px;
+
+color:#d8e4ea;
+
+}
+
+/* ==========================================
+MAIN LAYOUT
+========================================== */
+
+.hud-main{
+
+display:grid;
+
+grid-template-columns:320px 1fr;
+
+gap:35px;
+
+align-items:center;
+
+margin-bottom:25px;
+
+}
+
+/* ==========================================
+LEFT
+========================================== */
+
+.hud-left{
+
+display:flex;
+
+flex-direction:column;
+
+align-items:center;
 
 }
 
@@ -190,11 +204,9 @@ HUD CIRCLE
 
 position:relative;
 
-width:200px;
+width:220px;
 
-height:200px;
-
-margin:0 auto 30px;
+height:220px;
 
 display:flex;
 
@@ -202,15 +214,13 @@ justify-content:center;
 
 align-items:center;
 
+margin-bottom:20px;
+
 }
 
 .hud-circle svg{
 
 position:absolute;
-
-width:200px;
-
-height:200px;
 
 transform:rotate(-90deg);
 
@@ -242,13 +252,9 @@ stroke-dashoffset:597;
 
 filter:drop-shadow(0 0 12px var(--cyan));
 
-transition:.4s;
+transition:.35s;
 
 }
-
-/* ==========================================
-CENTER TEXT
-========================================== */
 
 .circle-text{
 
@@ -260,7 +266,7 @@ text-align:center;
 
 #percent{
 
-font-size:34px;
+font-size:46px;
 
 font-weight:bold;
 
@@ -272,17 +278,17 @@ color:var(--primary);
 
 display:block;
 
-margin-top:10px;
+margin-top:8px;
 
-font-size:15px;
+font-size:14px;
 
-letter-spacing:3px;
+letter-spacing:2px;
 
-color:#b0bec5;
+color:#c8d6dd;
 
 }
 /* ==========================================
-   LOADING TITLE
+LOADING TITLE
 ========================================== */
 
 .loading-title{
@@ -291,15 +297,13 @@ text-align:center;
 
 font-size:18px;
 
-font-weight:bold;
+font-weight:700;
 
 letter-spacing:2px;
 
 color:var(--cyan);
 
-margin-bottom:25px;
-
-text-shadow:0 0 15px rgba(0,229,255,.5);
+margin-bottom:20px;
 
 animation:pulseText 1.5s infinite;
 
@@ -307,17 +311,9 @@ animation:pulseText 1.5s infinite;
 
 @keyframes pulseText{
 
-0%,100%{
+0%,100%{opacity:.6;}
 
-opacity:.6;
-
-}
-
-50%{
-
-opacity:1;
-
-}
+50%{opacity:1;}
 
 }
 
@@ -330,6 +326,7 @@ PROGRESS BAR
 width:100%;
 
 height:10px;
+
 background:#102635;
 
 border-radius:30px;
@@ -338,41 +335,28 @@ overflow:hidden;
 
 border:1px solid rgba(0,229,255,.25);
 
-margin-bottom:30px;
-
 position:relative;
 
 }
 
 .progress-bar{
 
-height:100%;
-
 width:0%;
 
-background:
+height:100%;
 
-linear-gradient(
-
+background:linear-gradient(
 90deg,
-
 #00e5ff,
-
 #00b8ff,
-
 #ffcc00
-
 );
-
-box-shadow:
-
-0 0 15px rgba(0,229,255,.6);
 
 transition:.35s;
 
-}
+box-shadow:0 0 15px rgba(0,229,255,.6);
 
-/* scanning light */
+}
 
 .progress-container::after{
 
@@ -388,18 +372,11 @@ width:80px;
 
 height:100%;
 
-background:
-
-linear-gradient(
-
+background:linear-gradient(
 90deg,
-
 transparent,
-
-rgba(255,255,255,.6),
-
+rgba(255,255,255,.5),
 transparent
-
 );
 
 animation:scan 2s linear infinite;
@@ -408,22 +385,66 @@ animation:scan 2s linear infinite;
 
 @keyframes scan{
 
-0%{
+0%{left:-80px;}
 
-left:-80px;
-
-}
-
-100%{
-
-left:100%;
-
-}
+100%{left:100%;}
 
 }
 
 /* ==========================================
-MODULE LIST
+RIGHT PANEL
+========================================== */
+
+.status-box{
+
+background:#0d2232;
+
+border:1px solid rgba(0,229,255,.15);
+
+border-radius:15px;
+
+padding:20px;
+
+}
+
+.status-box h3{
+
+margin-bottom:20px;
+
+color:var(--primary);
+
+font-size:18px;
+
+letter-spacing:2px;
+
+}
+
+.status-item{
+
+display:flex;
+
+justify-content:space-between;
+
+padding:12px 0;
+
+border-bottom:1px solid rgba(255,255,255,.08);
+
+}
+
+.status-item:last-child{
+
+border-bottom:none;
+
+}
+
+.online{
+
+color:var(--green);
+
+}
+
+/* ==========================================
+MODULES
 ========================================== */
 
 .module-list{
@@ -434,7 +455,7 @@ grid-template-columns:repeat(2,1fr);
 
 gap:15px;
 
-margin-top:15px;
+margin-top:20px;
 
 }
 
@@ -442,21 +463,15 @@ margin-top:15px;
 
 background:#0d2232;
 
-padding:10px 14px;
+padding:12px 16px;
 
-border-radius:10px;
+border-radius:12px;
 
 border-left:4px solid #1f4d68;
 
 font-size:14px;
 
-color:#d7e8ef;
-
 transition:.35s;
-
-box-shadow:
-
-inset 0 0 10px rgba(0,229,255,.05);
 
 }
 
@@ -464,23 +479,20 @@ inset 0 0 10px rgba(0,229,255,.05);
 
 background:#14382a;
 
-border-left-color:#00ff88;
+border-left-color:var(--green);
 
-color:#ffffff;
-
-box-shadow:
-
-0 0 15px rgba(0,255,136,.35);
+box-shadow:0 0 15px rgba(0,255,136,.25);
 
 }
 
 /* ==========================================
-SYSTEM STATUS
+FOOTER
 ========================================== */
 
 .system-status{
 
-margin-top:18px;
+margin-top:25px;
+
 display:flex;
 
 justify-content:center;
@@ -489,11 +501,9 @@ align-items:center;
 
 gap:10px;
 
-font-size:15px;
+font-size:14px;
 
-letter-spacing:2px;
-
-color:#b7d4de;
+color:#c8d6dd;
 
 }
 
@@ -505,11 +515,9 @@ height:12px;
 
 border-radius:50%;
 
-background:#00ff88;
+background:var(--green);
 
-box-shadow:
-
-0 0 15px #00ff88;
+box-shadow:0 0 12px var(--green);
 
 animation:blink 1s infinite;
 
@@ -517,61 +525,9 @@ animation:blink 1s infinite;
 
 @keyframes blink{
 
-0%,100%{
+0%,100%{opacity:1;}
 
-opacity:1;
-
-}
-
-50%{
-
-opacity:.2;
-
-}
-
-}
-
-/* ==========================================
-HUD PANEL BORDER GLOW
-========================================== */
-
-.hud-card::before{
-
-content:"";
-
-position:absolute;
-
-inset:0;
-
-border-radius:20px;
-
-padding:1px;
-
-background:
-
-linear-gradient(
-
-135deg,
-
-rgba(0,229,255,.35),
-
-transparent,
-
-rgba(255,204,0,.35)
-
-);
-
--webkit-mask:
-
-linear-gradient(#fff 0 0) content-box,
-
-linear-gradient(#fff 0 0);
-
--webkit-mask-composite:xor;
-
-mask-composite:exclude;
-
-pointer-events:none;
+50%{opacity:.3;}
 
 }
 
@@ -579,11 +535,39 @@ pointer-events:none;
 RESPONSIVE
 ========================================== */
 
-@media(max-width:768px){
+@media(max-width:900px){
+
+body{
+
+padding:15px;
+
+overflow-y:auto;
+
+}
 
 .hud-card{
 
-padding:25px;
+padding:20px;
+
+}
+
+.hud-main{
+
+grid-template-columns:1fr;
+
+gap:20px;
+
+}
+
+.status-box{
+
+width:100%;
+
+}
+
+.module-list{
+
+grid-template-columns:1fr;
 
 }
 
@@ -605,57 +589,33 @@ font-size:30px;
 
 font-size:14px;
 
-letter-spacing:2px;
-
 }
 
 .hud-circle{
 
-width:190px;
+width:180px;
 
-height:190px;
+height:180px;
 
 }
 
 .hud-circle svg{
 
-width:190px;
+width:180px;
 
-height:190px;
+height:180px;
 
 }
 
 #percent{
 
-font-size:32px;
+font-size:34px;
 
 }
 
 .loading-title{
 
-font-size:18px;
-
-}
-
-.module-list{
-
-grid-template-columns:1fr;
-
-}
-
-.module-item{
-
-font-size:14px;
-
-padding:12px;
-
-}
-
-.system-status{
-
-font-size:13px;
-
-text-align:center;
+font-size:16px;
 
 }
 
