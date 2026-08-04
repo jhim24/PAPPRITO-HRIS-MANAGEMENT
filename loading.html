@@ -7,7 +7,7 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>PAPPRITO HRIS - Loading</title>
+<title>PAPPRITO HRIS - Initializing</title>
 
 <link rel="manifest" href="manifest.json">
 
@@ -23,89 +23,136 @@
 
 <body>
 
-<div class="loading-container">
+<div class="hud-container">
 
-    <div class="loading-card">
+    <!-- Background Grid -->
 
-        <img src="logo.png" class="logo" alt="PAPPRITO Logo">
+    <div class="grid-bg"></div>
 
-        <h1>PAPPRITO</h1>
+    <!-- HUD Card -->
 
-        <h2>HR MANAGEMENT SYSTEM</h2>
+    <div class="hud-card">
 
-        <div class="chip-loader">
+        <!-- Logo -->
 
-            <div class="chip"></div>
-            <div class="chip"></div>
-            <div class="chip"></div>
-            <div class="chip"></div>
-            <div class="chip"></div>
+        <div class="logo-area">
+
+            <img src="logo.png" class="logo">
+
+            <h1>PAPPRITO</h1>
+
+            <h2>HR MANAGEMENT SYSTEM</h2>
 
         </div>
 
-        <h3 id="loadingTitle">
+        <!-- Circular Loader -->
 
-            Initializing System...
+        <div class="hud-circle">
 
-        </h3>
+            <svg width="240" height="240">
 
-        <div class="progress">
+                <circle
+                    class="circle-bg"
+                    cx="120"
+                    cy="120"
+                    r="95">
+                </circle>
+
+                <circle
+                    id="progressCircle"
+                    class="circle-progress"
+                    cx="120"
+                    cy="120"
+                    r="95">
+                </circle>
+
+            </svg>
+
+            <div class="circle-text">
+
+                <div id="percent">
+
+                    0%
+
+                </div>
+
+                <span>
+
+                    INITIALIZING
+
+                </span>
+
+            </div>
+
+        </div>
+
+        <!-- Status -->
+
+        <div id="loadingTitle" class="loading-title">
+
+            Connecting to Firebase...
+
+        </div>
+
+        <!-- Progress Bar -->
+
+        <div class="progress-container">
 
             <div id="progressBar" class="progress-bar"></div>
 
         </div>
 
-        <div id="percent">
+        <!-- Loading Modules -->
 
-            0%
+        <div class="module-list">
 
-        </div>
+            <div id="step1" class="module-item">
 
-        <div class="loading-list">
-
-            <div id="step1">
-
-                ⏳ Connecting to Firebase...
+                ⏳ Connecting Firebase...
 
             </div>
 
-            <div id="step2">
+            <div id="step2" class="module-item">
 
-                ⏳ Loading Employee Database...
-
-            </div>
-
-            <div id="step3">
-
-                ⏳ Loading Attendance Module...
+                ⏳ Loading Employees...
 
             </div>
 
-            <div id="step4">
+            <div id="step3" class="module-item">
 
-                ⏳ Loading Payroll Module...
+                ⏳ Loading Attendance...
 
             </div>
 
-            <div id="step5">
+            <div id="step4" class="module-item">
+
+                ⏳ Loading Payroll...
+
+            </div>
+
+            <div id="step5" class="module-item">
 
                 ⏳ Loading Dashboard...
 
             </div>
 
-            <div id="step6">
+            <div id="step6" class="module-item">
 
-                ⏳ Preparing User Interface...
+                ⏳ Preparing Interface...
 
             </div>
 
         </div>
 
-        <p class="footer">
+        <!-- Bottom Status -->
 
-            Please wait while PAPPRITO HRIS starts...
+        <div class="system-status">
 
-        </p>
+            <span class="status-dot"></span>
+
+            SYSTEM INITIALIZATION IN PROGRESS
+
+        </div>
 
     </div>
 
