@@ -419,14 +419,20 @@ border-collapse:collapse;
 
 min-width:1500px;
 
-font-size:13px;
+font-size:11px;
+
+table-layout:auto;
 
 }
 
 #attendanceTable th,
 #attendanceTable td{
 
-padding:10px;
+height:19px;
+
+padding:1px 6px;
+
+line-height:16px;
 
 border:1px solid #555;
 
@@ -434,8 +440,9 @@ text-align:center;
 
 white-space:nowrap;
 
-}
+vertical-align:middle;
 
+}
 #attendanceTable th{
 
 background:var(--primary);
@@ -448,8 +455,15 @@ top:0;
 
 z-index:5;
 
-}
+height:22px;
 
+padding:2px 6px;
+
+font-size:11px;
+
+font-weight:bold;
+
+}
 #attendanceTable tr:nth-child(even){
 
 background:#242424;
@@ -461,7 +475,29 @@ background:#242424;
 background:#353535;
 
 }
+/* Excel Style */
 
+#attendanceTable td{
+
+font-size:11px;
+
+font-family:Tahoma,sans-serif;
+
+}
+
+#attendanceTable td:first-child{
+
+text-align:center;
+
+}
+
+#attendanceTable td:nth-child(3){
+
+text-align:left;
+
+padding-left:8px;
+
+}
 /* ==========================================
    PRINT
 ========================================== */
