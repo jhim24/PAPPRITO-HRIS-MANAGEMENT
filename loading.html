@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>PAPPRITO HRIS - Loading</title>
+
+<link rel="manifest" href="manifest.json">
+
+<link rel="icon" href="logo.png">
+
+<meta name="theme-color" content="#ffcc00">
+
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+<link rel="stylesheet" href="css/loading.css">
+
+</head>
+
+<body>
+
+<div class="loading-container">
+
+    <div class="loading-card">
+
+        <img src="logo.png" class="logo" alt="PAPPRITO Logo">
+
+        <h1>PAPPRITO</h1>
+
+        <h2>HR MANAGEMENT SYSTEM</h2>
+
+        <div class="chip-loader">
+
+            <div class="chip"></div>
+            <div class="chip"></div>
+            <div class="chip"></div>
+            <div class="chip"></div>
+            <div class="chip"></div>
+
+        </div>
+
+        <h3 id="loadingTitle">
+
+            Initializing System...
+
+        </h3>
+
+        <div class="progress">
+
+            <div id="progressBar" class="progress-bar"></div>
+
+        </div>
+
+        <div id="percent">
+
+            0%
+
+        </div>
+
+        <div class="loading-list">
+
+            <div id="step1">
+
+                ⏳ Connecting to Firebase...
+
+            </div>
+
+            <div id="step2">
+
+                ⏳ Loading Employee Database...
+
+            </div>
+
+            <div id="step3">
+
+                ⏳ Loading Attendance Module...
+
+            </div>
+
+            <div id="step4">
+
+                ⏳ Loading Payroll Module...
+
+            </div>
+
+            <div id="step5">
+
+                ⏳ Loading Dashboard...
+
+            </div>
+
+            <div id="step6">
+
+                ⏳ Preparing User Interface...
+
+            </div>
+
+        </div>
+
+        <p class="footer">
+
+            Please wait while PAPPRITO HRIS starts...
+
+        </p>
+
+    </div>
+
+</div>
+
+<script type="module" src="js/loading.js"></script>
+
+</body>
+
+</html>
