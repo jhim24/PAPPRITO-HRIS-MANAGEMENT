@@ -253,9 +253,7 @@ localStorage.removeItem(
 
 }
 
-window.location.href=
-
-"employeeportal.html";
+window.location.replace("loading.html");
 
 }
 
