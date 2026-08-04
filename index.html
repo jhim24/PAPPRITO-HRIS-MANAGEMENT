@@ -5,37 +5,32 @@
 
 <meta charset="UTF-8">
 
-<meta
-name="viewport"
-content="width=device-width, initial-scale=1.0">
+<meta name="viewport"
+content="width=device-width,initial-scale=1.0">
 
-<title>PAPPRITO HRIS</title>
+<title>PAPPRITO HRIS Dashboard</title>
 
-<link
-href="https://fonts.googleapis.com/icon?family=Material+Icons"
+<link rel="manifest" href="manifest.json">
+
+<link rel="icon" href="logo.png">
+
+<link rel="apple-touch-icon" href="icon-192.png">
+
+<meta name="theme-color" content="#ffcc00">
+
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons"
 rel="stylesheet">
 
-<link
-rel="manifest"
-href="manifest.json">
-
-<link
-rel="icon"
-href="logo.png">
-
-<meta
-name="theme-color"
-content="#ffcc00">
-
-<link
-rel="stylesheet"
-href="dashboard.css">
+<link rel="stylesheet"
+href="css/dashboard.css">
 
 </head>
 
 <body>
 
-<!-- MOBILE MENU -->
+<!-- ==========================================
+MOBILE MENU
+========================================== -->
 
 <button
 id="menuBtn"
@@ -55,9 +50,9 @@ class="overlay">
 
 </div>
 
-<!-- =========================
+<!-- ==========================================
 SIDEBAR
-========================= -->
+========================================== -->
 
 <aside
 id="sidebar"
@@ -67,8 +62,8 @@ class="sidebar">
 
 <img
 src="logo.png"
-alt="Logo"
-class="logo">
+class="logo"
+alt="Logo">
 
 <h2>
 
@@ -170,6 +165,18 @@ Auto Attendance
 
 </button>
 
+<button onclick="openPage('employeeportal.html')">
+
+<span class="material-icons">
+
+badge
+
+</span>
+
+Employee Portal
+
+</button>
+
 <button onclick="openPage('payslip.html')">
 
 <span class="material-icons">
@@ -194,18 +201,6 @@ HR Approval
 
 </button>
 
-<button onclick="openPage('trackleaves.html')">
-
-<span class="material-icons">
-
-event_note
-
-</span>
-
-Track Leaves
-
-</button>
-
 <button onclick="openPage('attendance-approval.html')">
 
 <span class="material-icons">
@@ -215,6 +210,18 @@ assignment_turned_in
 </span>
 
 Attendance Approval
+
+</button>
+
+<button onclick="openPage('trackleaves.html')">
+
+<span class="material-icons">
+
+event_note
+
+</span>
+
+Track Leaves
 
 </button>
 
@@ -230,32 +237,7 @@ Settings
 
 </button>
 
-<button onclick="window.open('https://www.papprito.com/','_blank')">
-
-<span class="material-icons">
-
-public
-
-</span>
-
-Papprito Website
-
-</button>
-
-<button onclick="window.open('https://papprito.com/dashboard.html','_blank')">
-
-<span class="material-icons">
-
-travel_explore
-
-</span>
-
-Restaurant Dashboard
-
-</button>
-
-<button
-class="logout-btn"
+<button class="logout-btn"
 onclick="logout()">
 
 <span class="material-icons">
@@ -272,26 +254,33 @@ Logout
 
 </aside>
 
-<!-- MAIN -->
+<!-- ==========================================
+MAIN CONTENT
+========================================== -->
 
 <div class="main">
-<!-- ==========================================
-TOP BAR
-========================================== -->
 
 <header class="topbar">
 
 <div class="top-left">
 
-<h1>PAPPRITO HRIS</h1>
+<h1>
 
-<p>Human Resource Information System Dashboard</p>
+PAPPRITO HRIS
+
+</h1>
+
+<p>
+
+Human Resource Information System
+
+</p>
 
 </div>
 
 <div class="top-right">
 
-<div class="live-clock">
+<div class="clock-box">
 
 <span class="material-icons">
 
@@ -321,195 +310,131 @@ Loading...
 
 </header>
 
-<!-- ==========================================
-DASHBOARD
-========================================== -->
-
 <div class="dashboard-content">
 
-<!-- STATS -->
+ <!-- ==========================================
+STATISTICS
+========================================== -->
 
 <div class="stats-grid">
 
 <div class="stat-card employees">
 
-<span class="material-icons">
+<span class="material-icons">groups</span>
 
-groups
+<div class="stat-info">
 
-</span>
+<h2 id="totalEmployees">0</h2>
 
-<h2 id="totalEmployees">
+<p>Total Employees</p>
 
-0
-
-</h2>
-
-<p>
-
-Employees
-
-</p>
+</div>
 
 </div>
 
 <div class="stat-card attendance">
 
-<span class="material-icons">
+<span class="material-icons">schedule</span>
 
-schedule
+<div class="stat-info">
 
-</span>
+<h2 id="totalAttendance">0</h2>
 
-<h2 id="totalAttendance">
+<p>Attendance Today</p>
 
-0
-
-</h2>
-
-<p>
-
-Attendance
-
-</p>
+</div>
 
 </div>
 
 <div class="stat-card payroll">
 
-<span class="material-icons">
+<span class="material-icons">payments</span>
 
-payments
+<div class="stat-info">
 
-</span>
+<h2 id="totalPayroll">0</h2>
 
-<h2 id="totalPayroll">
+<p>Payroll Records</p>
 
-0
-
-</h2>
-
-<p>
-
-Payroll
-
-</p>
+</div>
 
 </div>
 
 <div class="stat-card requests">
 
-<span class="material-icons">
+<span class="material-icons">mail</span>
 
-mail
+<div class="stat-info">
 
-</span>
+<h2 id="totalRequests">0</h2>
 
-<h2 id="totalRequests">
+<p>Pending Requests</p>
 
-0
-
-</h2>
-
-<p>
-
-Employee Requests
-
-</p>
+</div>
 
 </div>
 
 <div class="stat-card birthday">
 
-<span class="material-icons">
+<span class="material-icons">cake</span>
 
-cake
+<div class="stat-info">
 
-</span>
+<h2 id="upcomingBirthdays">0</h2>
 
-<h2 id="upcomingBirthdays">
+<p>Birthdays</p>
 
-0
-
-</h2>
-
-<p>
-
-Upcoming Birthdays
-
-</p>
+</div>
 
 </div>
 
 <div class="stat-card present">
 
-<span class="material-icons">
+<span class="material-icons">how_to_reg</span>
 
-how_to_reg
+<div class="stat-info">
 
-</span>
+<h2 id="presentToday">0</h2>
 
-<h2 id="presentToday">
+<p>Present Today</p>
 
-0
-
-</h2>
-
-<p>
-
-Present Today
-
-</p>
+</div>
 
 </div>
 
 <div class="stat-card late">
 
-<span class="material-icons">
+<span class="material-icons">timer</span>
 
-timer
+<div class="stat-info">
 
-</span>
+<h2 id="lateToday">0</h2>
 
-<h2 id="lateToday">
+<p>Late Today</p>
 
-0
-
-</h2>
-
-<p>
-
-Late Today
-
-</p>
+</div>
 
 </div>
 
 <div class="stat-card leave">
 
-<span class="material-icons">
+<span class="material-icons">event_busy</span>
 
-event_busy
+<div class="stat-info">
 
-</span>
+<h2 id="leaveToday">0</h2>
 
-<h2 id="leaveToday">
-
-0
-
-</h2>
-
-<p>
-
-On Leave
-
-</p>
+<p>On Leave</p>
 
 </div>
 
 </div>
 
-<!-- DASHBOARD CARDS -->
+</div>
+
+<!-- ==========================================
+MAIN DASHBOARD
+========================================== -->
 
 <div class="dashboard-grid">
 
@@ -529,7 +454,7 @@ Upcoming Birthdays
 
 <div id="birthdayList">
 
-No upcoming birthdays
+<p>No upcoming birthdays.</p>
 
 </div>
 
@@ -551,13 +476,14 @@ Announcements
 
 <div id="announcementList">
 
-No announcements available.
+<p>No announcements available.</p>
 
 </div>
 
 </div>
 
 </div>
+
 <!-- ==========================================
 RECENT ACTIVITY
 ========================================== -->
@@ -580,21 +506,7 @@ Recent Activity
 
 <div id="recentActivity">
 
-<div class="empty-state">
-
-<span class="material-icons">
-
-history_toggle_off
-
-</span>
-
-<p>
-
-No recent activity.
-
-</p>
-
-</div>
+<p>No recent activity.</p>
 
 </div>
 
@@ -664,18 +576,6 @@ Auto Payroll
 
 </button>
 
-<button onclick="openPage('trackleaves.html')">
-
-<span class="material-icons">
-
-event_note
-
-</span>
-
-Leave Tracker
-
-</button>
-
 <button onclick="openPage('settings.html')">
 
 <span class="material-icons">
@@ -692,9 +592,8 @@ Settings
 
 </div>
 
-</div>
-
-<!-- ==========================================
+</div> 
+  <!-- ==========================================
 SYSTEM INFORMATION
 ========================================== -->
 
@@ -714,23 +613,19 @@ System Information
 
 <div class="system-grid">
 
-<div>
+<div class="system-item">
 
 <strong>System</strong>
 
-<p>
-
-PAPPRITO HRIS v2
-
-</p>
+<p>PAPPRITO HRIS v2.0</p>
 
 </div>
 
-<div>
+<div class="system-item">
 
 <strong>Status</strong>
 
-<p>
+<p id="systemStatus">
 
 🟢 Online
 
@@ -738,7 +633,7 @@ PAPPRITO HRIS v2
 
 </div>
 
-<div>
+<div class="system-item">
 
 <strong>Database</strong>
 
@@ -750,13 +645,37 @@ Firebase Firestore
 
 </div>
 
-<div>
+<div class="system-item">
 
-<strong>PWA</strong>
+<strong>User</strong>
+
+<p id="loggedUser">
+
+Loading...
+
+</p>
+
+</div>
+
+<div class="system-item">
+
+<strong>Version</strong>
 
 <p>
 
-Enabled
+Version 2.0
+
+</p>
+
+</div>
+
+<div class="system-item">
+
+<strong>Build</strong>
+
+<p>
+
+August 2026
 
 </p>
 
@@ -768,6 +687,34 @@ Enabled
 
 </div>
 
-<!-- END MAIN -->
+</div>
+
+<footer class="footer">
+
+<p>
+
+© 2026 PAPPRITO HRIS
+
+</p>
+
+</footer>
 
 </div>
+
+<!-- ==========================================
+JAVASCRIPT
+========================================== -->
+
+<script type="module"
+src="js/dashboard.js">
+
+</script>
+
+<script
+src="js/responsive.js">
+
+</script>
+
+</body>
+
+</html>
