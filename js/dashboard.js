@@ -421,3 +421,132 @@ alert("Dashboard loading failed.");
 }
 
 }
+/* ==========================================
+   RECENT ACTIVITY
+========================================== */
+
+function loadRecentActivity(){
+
+const activity=
+
+document.getElementById("recentActivity");
+
+if(!activity) return;
+
+activity.innerHTML=`
+
+<div class="activity-item">
+
+<span class="material-icons">
+
+check_circle
+
+</span>
+
+Dashboard Loaded Successfully
+
+</div>
+
+`;
+
+}
+
+/* ==========================================
+   ANNOUNCEMENTS
+========================================== */
+
+function loadAnnouncements(){
+
+const announcement=
+
+document.getElementById("announcementList");
+
+if(!announcement) return;
+
+announcement.innerHTML=`
+
+<div class="announcement-item">
+
+📢 Welcome to PAPPRITO HRIS Version 2.0
+
+</div>
+
+`;
+
+}
+
+/* ==========================================
+   MOBILE SIDEBAR
+========================================== */
+
+const menuBtn=
+
+document.getElementById("menuBtn");
+
+const sidebar=
+
+document.getElementById("sidebar");
+
+const overlay=
+
+document.getElementById("overlay");
+
+if(menuBtn && sidebar && overlay){
+
+menuBtn.onclick=function(){
+
+sidebar.classList.add("show");
+
+overlay.classList.add("show");
+
+};
+
+overlay.onclick=function(){
+
+sidebar.classList.remove("show");
+
+overlay.classList.remove("show");
+
+};
+
+window.addEventListener("resize",()=>{
+
+if(window.innerWidth>768){
+
+sidebar.classList.remove("show");
+
+overlay.classList.remove("show");
+
+}
+
+});
+
+}
+
+/* ==========================================
+   AUTO REFRESH
+========================================== */
+
+setInterval(()=>{
+
+if(dashboardLoaded){
+
+loadDashboard();
+
+}
+
+},60000);
+
+/* ==========================================
+   INITIALIZE
+========================================== */
+
+window.addEventListener("load",()=>{
+
+loadRecentActivity();
+
+loadAnnouncements();
+
+console.log("PAPPRITO HRIS Dashboard Ready");
+
+});
