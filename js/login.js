@@ -8,13 +8,12 @@ import { auth, db } from "./firebase.js";
 import {
 
 signInWithEmailAndPassword,
-
-onAuthStateChanged
+onAuthStateChanged,
+signOut
 
 }
 
 from "https://www.gstatic.com/firebasejs/12.13.0/firebase-auth.js";
-
 import {
 
 collection,
@@ -33,13 +32,13 @@ onAuthStateChanged(auth,(user)=>{
 
     if(!user) return;
 
-    if(!localStorage.getItem("rememberUser")){
+   if(!localStorage.getItem("rememberUser")){
 
-        signOut(auth);
+    await signOut(auth);
 
-        return;
+    return;
 
-    }
+}
 
    window.location.replace("loading.html");
 
