@@ -1,8 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta
+name="viewport"
+content="width=device-width, initial-scale=1.0">
+
+<title>PAPPRITO HRIS</title>
+
+<link
+href="https://fonts.googleapis.com/icon?family=Material+Icons"
+rel="stylesheet">
+
+<link
+rel="manifest"
+href="manifest.json">
+
+<link
+rel="icon"
+href="logo.png">
+
+<meta
+name="theme-color"
+content="#ffcc00">
+
+<link
+rel="stylesheet"
+href="dashboard.css">
+
+</head>
+
 <body>
 
 <!-- MOBILE MENU -->
 
-<button id="menuBtn" class="menu-btn">
+<button
+id="menuBtn"
+class="menu-btn">
 
 <span class="material-icons">
 
@@ -12,16 +49,25 @@ menu
 
 </button>
 
-<div id="overlay" class="overlay"></div>
+<div
+id="overlay"
+class="overlay">
 
-<!-- SIDEBAR -->
+</div>
 
-<aside id="sidebar" class="sidebar">
+<!-- =========================
+SIDEBAR
+========================= -->
+
+<aside
+id="sidebar"
+class="sidebar">
 
 <div class="sidebar-header">
 
 <img
 src="logo.png"
+alt="Logo"
 class="logo">
 
 <h2>
@@ -136,6 +182,18 @@ Payslip
 
 </button>
 
+<button onclick="openPage('hrapproval.html')">
+
+<span class="material-icons">
+
+fact_check
+
+</span>
+
+HR Approval
+
+</button>
+
 <button onclick="openPage('trackleaves.html')">
 
 <span class="material-icons">
@@ -152,7 +210,7 @@ Track Leaves
 
 <span class="material-icons">
 
-fact_check
+assignment_turned_in
 
 </span>
 
@@ -169,6 +227,30 @@ settings
 </span>
 
 Settings
+
+</button>
+
+<button onclick="window.open('https://www.papprito.com/','_blank')">
+
+<span class="material-icons">
+
+public
+
+</span>
+
+Papprito Website
+
+</button>
+
+<button onclick="window.open('https://papprito.com/dashboard.html','_blank')">
+
+<span class="material-icons">
+
+travel_explore
+
+</span>
+
+Restaurant Dashboard
 
 </button>
 
@@ -193,26 +275,31 @@ Logout
 <!-- MAIN -->
 
 <div class="main">
+<!-- ==========================================
+TOP BAR
+========================================== -->
 
 <header class="topbar">
 
-<div>
+<div class="top-left">
 
-<h1>
+<h1>PAPPRITO HRIS</h1>
 
-PAPPRITO HRIS
-
-</h1>
-
-<p>
-
-Human Resource Information System
-
-</p>
+<p>Human Resource Information System Dashboard</p>
 
 </div>
 
 <div class="top-right">
+
+<div class="live-clock">
+
+<span class="material-icons">
+
+schedule
+
+</span>
+
+<div>
 
 <div id="clock">
 
@@ -222,7 +309,11 @@ Human Resource Information System
 
 <div id="dateToday">
 
-DATE
+Loading...
+
+</div>
+
+</div>
 
 </div>
 
@@ -230,13 +321,13 @@ DATE
 
 </header>
 
-<!-- DASHBOARD CONTENT -->
+<!-- ==========================================
+DASHBOARD
+========================================== -->
 
-<section class="dashboard-content">
+<div class="dashboard-content">
 
-<!-- =========================
-STATISTICS
-========================= -->
+<!-- STATS -->
 
 <div class="stats-grid">
 
@@ -248,9 +339,17 @@ groups
 
 </span>
 
-<h2 id="totalEmployees">0</h2>
+<h2 id="totalEmployees">
 
-<p>Total Employees</p>
+0
+
+</h2>
+
+<p>
+
+Employees
+
+</p>
 
 </div>
 
@@ -262,9 +361,17 @@ schedule
 
 </span>
 
-<h2 id="totalAttendance">0</h2>
+<h2 id="totalAttendance">
 
-<p>Attendance</p>
+0
+
+</h2>
+
+<p>
+
+Attendance
+
+</p>
 
 </div>
 
@@ -276,9 +383,17 @@ payments
 
 </span>
 
-<h2 id="totalPayroll">0</h2>
+<h2 id="totalPayroll">
 
-<p>Payroll</p>
+0
+
+</h2>
+
+<p>
+
+Payroll
+
+</p>
 
 </div>
 
@@ -290,9 +405,17 @@ mail
 
 </span>
 
-<h2 id="totalRequests">0</h2>
+<h2 id="totalRequests">
 
-<p>Employee Requests</p>
+0
+
+</h2>
+
+<p>
+
+Employee Requests
+
+</p>
 
 </div>
 
@@ -304,9 +427,17 @@ cake
 
 </span>
 
-<h2 id="upcomingBirthdays">0</h2>
+<h2 id="upcomingBirthdays">
 
-<p>Upcoming Birthdays</p>
+0
+
+</h2>
+
+<p>
+
+Upcoming Birthdays
+
+</p>
 
 </div>
 
@@ -318,9 +449,17 @@ how_to_reg
 
 </span>
 
-<h2 id="presentToday">0</h2>
+<h2 id="presentToday">
 
-<p>Present Today</p>
+0
+
+</h2>
+
+<p>
+
+Present Today
+
+</p>
 
 </div>
 
@@ -332,9 +471,17 @@ timer
 
 </span>
 
-<h2 id="lateToday">0</h2>
+<h2 id="lateToday">
 
-<p>Late Today</p>
+0
+
+</h2>
+
+<p>
+
+Late Today
+
+</p>
 
 </div>
 
@@ -346,17 +493,23 @@ event_busy
 
 </span>
 
-<h2 id="leaveToday">0</h2>
+<h2 id="leaveToday">
 
-<p>On Leave</p>
+0
+
+</h2>
+
+<p>
+
+On Leave
+
+</p>
 
 </div>
 
 </div>
 
-<!-- =========================
-DASHBOARD CARDS
-========================= -->
+<!-- DASHBOARD CARDS -->
 
 <div class="dashboard-grid">
 
@@ -388,7 +541,7 @@ No upcoming birthdays
 
 <span class="material-icons">
 
-notifications
+campaign
 
 </span>
 
@@ -398,7 +551,48 @@ Announcements
 
 <div id="announcementList">
 
-No announcements.
+No announcements available.
+
+</div>
+
+</div>
+
+</div>
+<!-- ==========================================
+RECENT ACTIVITY
+========================================== -->
+
+<div class="dashboard-grid">
+
+<div class="dashboard-card">
+
+<h3>
+
+<span class="material-icons">
+
+history
+
+</span>
+
+Recent Activity
+
+</h3>
+
+<div id="recentActivity">
+
+<div class="empty-state">
+
+<span class="material-icons">
+
+history_toggle_off
+
+</span>
+
+<p>
+
+No recent activity.
+
+</p>
 
 </div>
 
@@ -406,45 +600,174 @@ No announcements.
 
 </div>
 
-</section>
+<div class="dashboard-card">
+
+<h3>
+
+<span class="material-icons">
+
+bolt
+
+</span>
+
+Quick Actions
+
+</h3>
+
+<div class="quick-actions">
+
+<button onclick="openPage('employee.html')">
+
+<span class="material-icons">
+
+person_add
+
+</span>
+
+Add Employee
+
+</button>
+
+<button onclick="openPage('attendance.html')">
+
+<span class="material-icons">
+
+schedule
+
+</span>
+
+Attendance
+
+</button>
+
+<button onclick="openPage('payroll.html')">
+
+<span class="material-icons">
+
+payments
+
+</span>
+
+Payroll
+
+</button>
+
+<button onclick="openPage('autopayroll.html')">
+
+<span class="material-icons">
+
+smart_toy
+
+</span>
+
+Auto Payroll
+
+</button>
+
+<button onclick="openPage('trackleaves.html')">
+
+<span class="material-icons">
+
+event_note
+
+</span>
+
+Leave Tracker
+
+</button>
+
+<button onclick="openPage('settings.html')">
+
+<span class="material-icons">
+
+settings
+
+</span>
+
+Settings
+
+</button>
 
 </div>
-<script>
 
-const menuBtn=document.getElementById("menuBtn");
+</div>
 
-const sidebar=document.getElementById("sidebar");
+</div>
 
-const overlay=document.getElementById("overlay");
+<!-- ==========================================
+SYSTEM INFORMATION
+========================================== -->
 
-menuBtn.onclick=function(){
+<div class="dashboard-card system-card">
 
-sidebar.classList.add("show");
+<h3>
 
-overlay.classList.add("show");
+<span class="material-icons">
 
-}
+info
 
-overlay.onclick=function(){
+</span>
 
-sidebar.classList.remove("show");
+System Information
 
-overlay.classList.remove("show");
+</h3>
 
-}
+<div class="system-grid">
 
-window.addEventListener("resize",()=>{
+<div>
 
-if(window.innerWidth>768){
+<strong>System</strong>
 
-sidebar.classList.remove("show");
+<p>
 
-overlay.classList.remove("show");
+PAPPRITO HRIS v2
 
-}
+</p>
 
-});
+</div>
 
-</script>
-  
-</body>
+<div>
+
+<strong>Status</strong>
+
+<p>
+
+🟢 Online
+
+</p>
+
+</div>
+
+<div>
+
+<strong>Database</strong>
+
+<p>
+
+Firebase Firestore
+
+</p>
+
+</div>
+
+<div>
+
+<strong>PWA</strong>
+
+<p>
+
+Enabled
+
+</p>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+<!-- END MAIN -->
+
+</div>
