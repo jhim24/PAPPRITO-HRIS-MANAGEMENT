@@ -1,23 +1,21 @@
 /* ==========================================
    PAPPRITO HRIS
-   LOGIN
+   LOGIN SYSTEM V2
 ========================================== */
 
 import { auth, db } from "./firebase.js";
 
 import {
 
-signInWithEmailAndPassword,
-onAuthStateChanged,
-signOut
+signInWithEmailAndPassword
 
 }
 
 from "https://www.gstatic.com/firebasejs/12.13.0/firebase-auth.js";
+
 import {
 
 collection,
-
 getDocs
 
 }
@@ -25,8 +23,23 @@ getDocs
 from "https://www.gstatic.com/firebasejs/12.13.0/firebase-firestore.js";
 
 /* ==========================================
-AUTO LOGIN
+ELEMENTS
 ========================================== */
+
+const role =
+document.getElementById("role");
+
+const email =
+document.getElementById("email");
+
+const password =
+document.getElementById("password");
+
+const remember =
+document.getElementById("remember");
+
+const loading =
+document.getElementById("loading");
 
 /* ==========================================
 SHOW PASSWORD
@@ -34,60 +47,69 @@ SHOW PASSWORD
 
 window.togglePassword=function(){
 
-const pass=document.getElementById("password");
-
 const btn=document.querySelector(".show-btn");
 
-if(pass.type==="password"){
+if(password.type==="password"){
 
-pass.type="text";
+password.type="text";
 
-btn.innerHTML="HIDE";
+btn.textContent="HIDE";
 
 }else{
 
-pass.type="password";
+password.type="password";
 
-btn.innerHTML="SHOW";
+btn.textContent="SHOW";
 
 }
 
 };
 
 /* ==========================================
-REMEMBER USER
+REMEMBER USERNAME
 ========================================== */
 
-const remembered=
+const rememberedUser=
 
 localStorage.getItem("rememberUser");
 
-if(remembered){
+if(rememberedUser){
 
-email.value=remembered;
+email.value=rememberedUser;
 
 remember.checked=true;
 
 }
+
 /* ==========================================
-ADMIN & EMPLOYEE LOGIN
+LOGIN
 ========================================== */
 
-window.login = async function(){
+window.login=async function(){
 
-const role = document.getElementById("role").value;
+const selectedRole=
 
-const username = document.getElementById("email").value.trim();
+role.value;
 
-const password = document.getElementById("password").value.trim();
+const username=
 
-const remember = document.getElementById("remember");
+email.value.trim();
 
-const loading = document.getElementById("loading");
+const pass=
 
-if(role==="" || username==="" || password===""){
+password.value.trim();
 
-alert("Complete all fields");
+if(
+
+selectedRole==="" ||
+
+username==="" ||
+
+pass===""
+
+){
+
+alert("Complete all fields.");
 
 return;
 
@@ -95,11 +117,11 @@ return;
 
 loading.style.display="flex";
 
-/* ==========================
+/* ==========================================
 ADMIN LOGIN
-========================== */
+========================================== */
 
-if(role==="admin"){
+if(selectedRole==="admin"){
 
 try{
 
@@ -109,7 +131,7 @@ auth,
 
 username,
 
-password
+pass
 
 );
 
@@ -149,7 +171,13 @@ localStorage.removeItem(
 
 }
 
-window.location.replace("loading.html");
+window.location.replace(
+
+"loading.html"
+
+);
+
+return;
 
 }catch(error){
 
@@ -157,17 +185,16 @@ loading.style.display="none";
 
 alert(error.message);
 
-}
-
 return;
 
 }
 
-/* ==========================
+}
+   /* ==========================================
 EMPLOYEE LOGIN
-========================== */
+========================================== */
 
-if(role==="employee"){
+if(selectedRole==="employee"){
 
 try{
 
@@ -199,11 +226,7 @@ user.role==="employee"
 
 ===
 
-username
-
-.toUpperCase()
-
-.trim()
+username.toUpperCase().trim()
 
 &&
 
@@ -211,7 +234,7 @@ username
 
 ===
 
-password
+pass
 
 ){
 
@@ -253,7 +276,11 @@ localStorage.removeItem(
 
 }
 
-window.location.replace("loading.html");
+window.location.replace(
+
+"loading.html"
+
+);
 
 }
 
@@ -263,11 +290,7 @@ loading.style.display="none";
 
 if(!found){
 
-alert(
-
-"Invalid Employee Login"
-
-);
+alert("Invalid Employee Login");
 
 }
 
@@ -281,72 +304,19 @@ alert("Firebase Error");
 
 }
 
+return;
+
 }
+
+loading.style.display="none";
 
 };
-/* ==========================================
-   FINGERPRINT LOGIN
-========================================== */
-
-const fingerBtn = document.getElementById("fingerBtn");
-
-if(window.PublicKeyCredential){
-
-console.log("Fingerprint Supported");
-
-}else{
-
-if(fingerBtn){
-
-fingerBtn.style.display="none";
-
-}
-
-}
-
-if(fingerBtn){
-
-fingerBtn.addEventListener("click",async()=>{
-
-alert("Fingerprint Login Coming Soon");
-
-});
-
-}
 
 /* ==========================================
-   SERVICE WORKER
+ENTER KEY LOGIN
 ========================================== */
 
-if("serviceWorker" in navigator){
-
-window.addEventListener("load",()=>{
-
-navigator.serviceWorker.register("/service-worker.js")
-
-.then(()=>{
-
-console.log("Service Worker Registered");
-
-})
-
-.catch(error=>{
-
-console.log("Service Worker Error:",error);
-
-});
-
-});
-
-}
-
-/* ==========================================
-   ENTER KEY LOGIN
-========================================== */
-
-document.getElementById("password")
-
-.addEventListener("keypress",(e)=>{
+password.addEventListener("keypress",(e)=>{
 
 if(e.key==="Enter"){
 
@@ -357,26 +327,67 @@ login();
 });
 
 /* ==========================================
-   PAGE READY
+FINGERPRINT LOGIN
+========================================== */
+
+const fingerBtn=
+
+document.getElementById("fingerBtn");
+
+if(fingerBtn){
+
+if(!window.PublicKeyCredential){
+
+fingerBtn.style.display="none";
+
+}else{
+
+fingerBtn.addEventListener("click",()=>{
+
+alert("Fingerprint Login Coming Soon");
+
+});
+
+}
+
+}
+
+/* ==========================================
+SERVICE WORKER
+========================================== */
+
+if("serviceWorker" in navigator){
+
+window.addEventListener("load",()=>{
+
+navigator.serviceWorker
+
+.register("/service-worker.js")
+
+.then(()=>{
+
+console.log("Service Worker Registered");
+
+})
+
+.catch(error=>{
+
+console.log(error);
+
+});
+
+});
+
+}
+
+/* ==========================================
+PAGE READY
 ========================================== */
 
 window.addEventListener("load",()=>{
 
-document.getElementById("loading").style.display="none";
+loading.style.display="none";
 
 console.log("PAPPRITO HR Login Ready");
-
-});
-/* ==========================================
-CHECK EXISTING LOGIN
-========================================== */
-
-onAuthStateChanged(auth,(user)=>{
-
-if(user){
-
-window.location.replace("loading.html");
-
-}
 
 });
