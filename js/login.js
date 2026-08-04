@@ -369,3 +369,16 @@ document.getElementById("loading").style.display="none";
 console.log("PAPPRITO HR Login Ready");
 
 });
+/* ==========================================
+CHECK EXISTING LOGIN
+========================================== */
+
+onAuthStateChanged(auth,(user)=>{
+
+if(user){
+
+window.location.replace("loading.html");
+
+}
+
+});
