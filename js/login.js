@@ -28,15 +28,6 @@ from "https://www.gstatic.com/firebasejs/12.13.0/firebase-firestore.js";
 AUTO LOGIN
 ========================================== */
 
-onAuthStateChanged(auth,(user)=>{
-
-    if(user && localStorage.getItem("rememberUser")){
-
-        window.location.replace("loading.html");
-
-    }
-
-});
 /* ==========================================
 SHOW PASSWORD
 ========================================== */
