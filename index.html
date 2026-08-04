@@ -409,5 +409,42 @@ No announcements.
 </section>
 
 </div>
+<script>
 
+const menuBtn=document.getElementById("menuBtn");
+
+const sidebar=document.getElementById("sidebar");
+
+const overlay=document.getElementById("overlay");
+
+menuBtn.onclick=function(){
+
+sidebar.classList.add("show");
+
+overlay.classList.add("show");
+
+}
+
+overlay.onclick=function(){
+
+sidebar.classList.remove("show");
+
+overlay.classList.remove("show");
+
+}
+
+window.addEventListener("resize",()=>{
+
+if(window.innerWidth>768){
+
+sidebar.classList.remove("show");
+
+overlay.classList.remove("show");
+
+}
+
+});
+
+</script>
+  
 </body>
