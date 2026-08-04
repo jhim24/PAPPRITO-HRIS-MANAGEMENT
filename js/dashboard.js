@@ -45,9 +45,8 @@ try{
 
 await signOut(auth);
 
-localStorage.removeItem("userRole");
-localStorage.removeItem("loggedInUser");
-localStorage.removeItem("rememberUser");
+localStorage.clear();
+sessionStorage.clear();
 
 window.location.replace("login.html");
 }catch(error){
@@ -71,7 +70,17 @@ window.location.replace("login.html");
 return;
 
 }
+/* ==========================================
+BACK BUTTON PROTECTION
+========================================== */
 
+history.pushState(null,null,location.href);
+
+window.onpopstate=function(){
+
+history.go(1);
+
+};
 const loggedUser=
 
 localStorage.getItem("loggedInUser")
