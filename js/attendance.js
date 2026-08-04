@@ -679,7 +679,8 @@ function filterAttendance(){
         return employeeMatch && dateMatch;
 
     });
-
+    console.log("Attendance:", attendance);
+    console.log("Filtered:", filtered);
     renderAttendanceTable(filtered);
 
 }
