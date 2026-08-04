@@ -29,18 +29,19 @@ from "https://www.gstatic.com/firebasejs/12.13.0/firebase-firestore.js";
 AUTO LOGIN
 ========================================== */
 
-import { signOut } from "https://www.gstatic.com/firebasejs/12.13.0/firebase-auth.js";
+onAuthStateChanged(auth,(user)=>{
 
-onAuthStateChanged(auth, async (user) => {
+    if(!user) return;
 
-    if(user){
+    if(!localStorage.getItem("rememberUser")){
 
-        await signOut(auth);
+        signOut(auth);
+
+        return;
 
     }
 
-    localStorage.removeItem("userRole");
-    localStorage.removeItem("loggedInUser");
+    window.location.replace("dashboard.html");
 
 });
 /* ==========================================
