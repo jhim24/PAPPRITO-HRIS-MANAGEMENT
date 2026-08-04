@@ -258,23 +258,25 @@ alert(error.message);
 AUTH CHECK
 ========================================== */
 
-onAuthStateChanged(
-
-auth,
-
-(user)=>{
+onAuthStateChanged(auth,(user)=>{
 
 if(!user){
 
-window.location.replace(
-
-"login.html"
-
-);
+window.location.replace("login.html");
 
 return;
 
 }
+
+/* Prevent Back Button */
+
+history.pushState(null,null,location.href);
+
+window.onpopstate=function(){
+
+history.go(1);
+
+};
 
 initializeSystem();
 
