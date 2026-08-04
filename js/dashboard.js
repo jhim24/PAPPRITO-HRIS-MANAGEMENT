@@ -1,6 +1,6 @@
 /* ==========================================
    PAPPRITO HRIS
-   DASHBOARD
+   DASHBOARD V2
 ========================================== */
 
 import { auth, db } from "./firebase.js";
@@ -22,6 +22,14 @@ getDocs
 }
 
 from "https://www.gstatic.com/firebasejs/12.13.0/firebase-firestore.js";
+
+/* ==========================================
+GLOBAL VARIABLES
+========================================== */
+
+let dashboardLoaded=false;
+
+let clockStarted=false;
 
 /* ==========================================
 PAGE NAVIGATION
@@ -46,9 +54,11 @@ try{
 await signOut(auth);
 
 localStorage.clear();
+
 sessionStorage.clear();
 
 window.location.replace("login.html");
+
 }catch(error){
 
 alert(error.message);
@@ -58,7 +68,7 @@ alert(error.message);
 };
 
 /* ==========================================
-LOGIN PROTECTION
+AUTH PROTECTION
 ========================================== */
 
 onAuthStateChanged(auth,(user)=>{
@@ -70,9 +80,8 @@ window.location.replace("login.html");
 return;
 
 }
-/* ==========================================
-BACK BUTTON PROTECTION
-========================================== */
+
+/* Prevent Back Button */
 
 history.pushState(null,null,location.href);
 
@@ -81,13 +90,18 @@ window.onpopstate=function(){
 history.go(1);
 
 };
+
 const loggedUser=
 
 localStorage.getItem("loggedInUser")
 
 ||
 
-user.email;
+user.email
+
+||
+
+"Administrator";
 
 const userBox=
 
@@ -95,171 +109,43 @@ document.getElementById("loggedUser");
 
 if(userBox){
 
-userBox.textContent=loggedUser;
+userBox.textContent=
+
+loggedUser;
 
 }
 
+/* Prevent duplicate loading */
+
+if(!dashboardLoaded){
+
+dashboardLoaded=true;
+
 loadDashboard();
+
+}
 
 updateClock();
 
 });
+
 /* ==========================================
-   LOAD DASHBOARD
-========================================== */
-
-async function loadDashboard(){
-
-try{
-
-/* EMPLOYEES */
-
-const employeeSnap=
-
-await getDocs(
-
-collection(db,"users")
-
-);
-
-const employees=[];
-
-employeeSnap.forEach(doc=>{
-
-employees.push(doc.data());
-
-});
-
-document.getElementById("totalEmployees").innerHTML=
-
-employees.length;
-
-/* ATTENDANCE */
-
-const attendanceSnap=
-
-await getDocs(
-
-collection(db,"attendance")
-
-);
-
-document.getElementById("totalAttendance").innerHTML=
-
-attendanceSnap.size;
-
-/* PAYROLL */
-
-const payrollSnap=
-
-await getDocs(
-
-collection(db,"payroll")
-
-);
-
-document.getElementById("totalPayroll").innerHTML=
-
-payrollSnap.size;
-
-/* REQUESTS */
-
-const requestSnap=
-
-await getDocs(
-
-collection(db,"requests")
-
-);
-
-document.getElementById("totalRequests").innerHTML=
-
-requestSnap.size;
-
-/* BIRTHDAY */
-
-let birthdayCount=0;
-
-const birthdayList=document.getElementById("birthdayList");
-
-birthdayList.innerHTML="";
-
-const today=new Date();
-
-const month=today.getMonth()+1;
-
-employees.forEach(emp=>{
-
-if(!emp.birthdate) return;
-
-const birth=new Date(emp.birthdate);
-
-if((birth.getMonth()+1)===month){
-
-birthdayCount++;
-
-birthdayList.innerHTML+=`
-
-<div class="birthday-item">
-
-<strong>${emp.firstname||""} ${emp.lastname||""}</strong>
-
-<br>
-
-${birth.toLocaleDateString()}
-
-</div>
-
-`;
-
-}
-
-});
-
-if(birthdayCount===0){
-
-birthdayList.innerHTML=
-
-"<p>No upcoming birthdays.</p>";
-
-}
-
-document.getElementById("upcomingBirthdays").innerHTML=
-
-birthdayCount;
-
-/* SAMPLE VALUES */
-
-document.getElementById("presentToday").innerHTML=
-
-attendanceSnap.size;
-
-document.getElementById("lateToday").innerHTML=
-
-0;
-
-document.getElementById("leaveToday").innerHTML=
-
-0;
-
-}catch(error){
-
-console.error(error);
-
-alert("Dashboard loading failed.");
-
-}
-
-}
-/* ==========================================
-   LIVE CLOCK
+LIVE CLOCK
 ========================================== */
 
 function updateClock(){
 
-const clock=document.getElementById("clock");
+if(clockStarted) return;
 
-const dateToday=document.getElementById("dateToday");
+clockStarted=true;
+
+const clock=
+
+document.getElementById("clock");
+
+const dateToday=
+
+document.getElementById("dateToday");
 
 if(!clock || !dateToday) return;
 
@@ -267,9 +153,13 @@ setInterval(()=>{
 
 const now=new Date();
 
-clock.innerHTML=now.toLocaleTimeString();
+clock.textContent=
 
-dateToday.innerHTML=now.toLocaleDateString(
+now.toLocaleTimeString();
+
+dateToday.textContent=
+
+now.toLocaleDateString(
 
 "en-US",
 
@@ -290,28 +180,177 @@ day:"numeric"
 },1000);
 
 }
-
 /* ==========================================
-   RECENT ACTIVITY
+   LOAD DASHBOARD
 ========================================== */
 
-function loadRecentActivity(){
+async function loadDashboard(){
 
-const activity=document.getElementById("recentActivity");
+try{
 
-if(!activity) return;
+/* ==========================
+EMPLOYEES
+========================== */
 
-activity.innerHTML=`
+const employeeSnap=
 
-<div class="activity-item">
+await getDocs(
 
-<span class="material-icons">
+collection(db,"users")
 
-check_circle
+);
 
-</span>
+const employees=[];
 
-Dashboard Loaded Successfully
+employeeSnap.forEach(doc=>{
+
+employees.push(doc.data());
+
+});
+
+const totalEmployees=
+
+document.getElementById("totalEmployees");
+
+if(totalEmployees){
+
+totalEmployees.textContent=
+
+employees.length;
+
+}
+
+/* ==========================
+ATTENDANCE
+========================== */
+
+const attendanceSnap=
+
+await getDocs(
+
+collection(db,"attendance")
+
+);
+
+const totalAttendance=
+
+document.getElementById("totalAttendance");
+
+if(totalAttendance){
+
+totalAttendance.textContent=
+
+attendanceSnap.size;
+
+}
+
+/* ==========================
+PAYROLL
+========================== */
+
+const payrollSnap=
+
+await getDocs(
+
+collection(db,"payroll")
+
+);
+
+const totalPayroll=
+
+document.getElementById("totalPayroll");
+
+if(totalPayroll){
+
+totalPayroll.textContent=
+
+payrollSnap.size;
+
+}
+
+/* ==========================
+REQUESTS
+========================== */
+
+const requestSnap=
+
+await getDocs(
+
+collection(db,"requests")
+
+);
+
+const totalRequests=
+
+document.getElementById("totalRequests");
+
+if(totalRequests){
+
+totalRequests.textContent=
+
+requestSnap.size;
+
+}
+
+/* ==========================
+UPCOMING BIRTHDAYS
+========================== */
+
+const birthdayList=
+
+document.getElementById("birthdayList");
+
+const birthdayCount=
+
+document.getElementById("upcomingBirthdays");
+
+if(birthdayList){
+
+birthdayList.innerHTML="";
+
+}
+
+let count=0;
+
+const today=new Date();
+
+const currentMonth=
+
+today.getMonth()+1;
+
+employees.forEach(emp=>{
+
+if(!emp.birthdate) return;
+
+const birth=
+
+new Date(emp.birthdate);
+
+if(
+
+birth.getMonth()+1===currentMonth
+
+){
+
+count++;
+
+if(birthdayList){
+
+birthdayList.innerHTML+=`
+
+<div class="birthday-item">
+
+<strong>
+
+${emp.firstname||""}
+
+${emp.lastname||""}
+
+</strong>
+
+<br>
+
+${birth.toLocaleDateString()}
 
 </div>
 
@@ -319,94 +358,66 @@ Dashboard Loaded Successfully
 
 }
 
-/* ==========================================
-   ANNOUNCEMENTS
-========================================== */
-
-function loadAnnouncements(){
-
-const announcement=document.getElementById("announcementList");
-
-if(!announcement) return;
-
-announcement.innerHTML=`
-
-<div class="announcement-item">
-
-📢 Welcome to PAPPRITO HRIS Version 2.0
-
-</div>
-
-`;
-
-}
-
-/* ==========================================
-   MOBILE MENU
-========================================== */
-
-const menuBtn=document.getElementById("menuBtn");
-
-const sidebar=document.getElementById("sidebar");
-
-const overlay=document.getElementById("overlay");
-
-if(menuBtn){
-
-menuBtn.onclick=function(){
-
-sidebar.classList.add("show");
-
-overlay.classList.add("show");
-
-};
-
-}
-
-if(overlay){
-
-overlay.onclick=function(){
-
-sidebar.classList.remove("show");
-
-overlay.classList.remove("show");
-
-};
-
-}
-
-window.addEventListener("resize",()=>{
-
-if(window.innerWidth>768){
-
-sidebar.classList.remove("show");
-
-overlay.classList.remove("show");
-
 }
 
 });
 
-/* ==========================================
-   AUTO REFRESH
-========================================== */
+if(count===0 && birthdayList){
 
-setInterval(()=>{
+birthdayList.innerHTML=
 
-loadDashboard();
+"<p>No upcoming birthdays.</p>";
 
-},60000);
+}
 
-/* ==========================================
-   INITIALIZE
-========================================== */
+if(birthdayCount){
 
-window.addEventListener("load",()=>{
+birthdayCount.textContent=count;
 
-loadRecentActivity();
+}
 
-loadAnnouncements();
+/* ==========================
+SAMPLE VALUES
+========================== */
 
-console.log("PAPPRITO HRIS Dashboard Ready");
+const present=
 
-});
+document.getElementById("presentToday");
+
+const late=
+
+document.getElementById("lateToday");
+
+const leave=
+
+document.getElementById("leaveToday");
+
+if(present){
+
+present.textContent=
+
+attendanceSnap.size;
+
+}
+
+if(late){
+
+late.textContent="0";
+
+}
+
+if(leave){
+
+leave.textContent="0";
+
+}
+
+}catch(error){
+
+console.error(error);
+
+alert("Dashboard loading failed.");
+
+}
+
+}
