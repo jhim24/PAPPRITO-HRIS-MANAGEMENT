@@ -644,43 +644,55 @@ function filterAttendance(){
 
     const selectedEmployee = employeeSelect.value;
 
-    const startDate = fromDate.value;
+    const startDate = fromDate.value
+        ? new Date(fromDate.value)
+        : null;
 
-    const endDate = toDate.value;
+    const endDate = toDate.value
+        ? new Date(toDate.value)
+        : null;
 
     let filtered = attendance.filter(att=>{
 
-        let employeeMatch = true;
+        // Employee Filter
+        if(
+            selectedEmployee &&
+            att.empDocId !== selectedEmployee
+        ){
+            return false;
+        }
 
-        if(selectedEmployee){
+        // Date Filter
+        if(startDate || endDate){
 
-            employeeMatch =
-            att.empDocId === selectedEmployee;
+            const attDate = new Date(att.date);
+
+            if(isNaN(attDate.getTime())){
+                return false;
+            }
+
+            if(startDate && attDate < startDate){
+                return false;
+            }
+
+            if(endDate){
+
+                const end = new Date(endDate);
+
+                end.setHours(23,59,59,999);
+
+                if(attDate > end){
+                    return false;
+                }
+
+            }
 
         }
 
-        let dateMatch = true;
-
-        if(startDate){
-
-            dateMatch =
-            formatDate(att.date) >= startDate;
-
-        }
-
-        if(endDate){
-
-            dateMatch =
-            dateMatch &&
-            formatDate(att.date) <= endDate;
-
-        }
-
-        return employeeMatch && dateMatch;
+        return true;
 
     });
-    console.log("Attendance:", attendance);
-    console.log("Filtered:", filtered);
+
     renderAttendanceTable(filtered);
 
 }
