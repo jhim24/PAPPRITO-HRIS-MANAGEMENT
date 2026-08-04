@@ -29,22 +29,20 @@ from "https://www.gstatic.com/firebasejs/12.13.0/firebase-firestore.js";
 AUTO LOGIN
 ========================================== */
 
-onAuthStateChanged(auth,(user)=>{
+import { signOut } from "https://www.gstatic.com/firebasejs/12.13.0/firebase-auth.js";
 
-if(user){
+onAuthStateChanged(auth, async (user) => {
 
-const role = localStorage.getItem("userRole");
+    if(user){
 
-if(role==="admin"){
+        await signOut(auth);
 
-window.location.replace("dashboard.html");
+    }
 
-}
-
-}
+    localStorage.removeItem("userRole");
+    localStorage.removeItem("loggedInUser");
 
 });
-
 /* ==========================================
 SHOW PASSWORD
 ========================================== */
