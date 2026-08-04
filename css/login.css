@@ -1,0 +1,191 @@
+/* ==========================================
+   PAPPRITO HRIS
+   LOGIN PAGE
+========================================== */
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Tahoma,sans-serif;
+}
+
+:root{
+
+--primary:#ffcc00;
+--primary2:#ff8800;
+--danger:#ff3333;
+
+--glass:rgba(20,20,20,.72);
+
+--white:#ffffff;
+
+}
+
+/* ==========================================
+BODY
+========================================== */
+
+body{
+
+height:100vh;
+
+display:flex;
+
+justify-content:center;
+
+align-items:center;
+
+background:
+linear-gradient(
+rgba(0,0,0,.30),
+rgba(0,0,0,.30)
+),
+url("../hrbg.jpg");
+
+background-size:cover;
+
+background-position:center;
+
+background-repeat:no-repeat;
+
+overflow:hidden;
+
+}
+
+body::before{
+
+content:"";
+
+position:fixed;
+
+inset:0;
+
+background:
+linear-gradient(
+135deg,
+rgba(0,0,0,.15),
+rgba(0,0,0,.10)
+);
+
+z-index:-1;
+
+}
+
+/* ==========================================
+LOGIN BOX
+========================================== */
+
+.login-box{
+
+width:400px;
+
+max-width:95%;
+
+padding:30px;
+
+border-radius:20px;
+
+background:var(--glass);
+
+backdrop-filter:blur(10px);
+
+border:2px solid rgba(255,204,0,.8);
+
+box-shadow:
+
+0 8px 30px rgba(0,0,0,.70);
+
+text-align:center;
+
+color:var(--white);
+
+animation:fadeIn .5s ease;
+
+}
+
+/* ==========================================
+LOGO
+========================================== */
+
+.logo-box{
+
+display:flex;
+
+flex-direction:column;
+
+align-items:center;
+
+margin-bottom:15px;
+
+}
+
+.logo{
+
+width:90px;
+
+height:90px;
+
+border-radius:50%;
+
+background:#fff;
+
+padding:5px;
+
+object-fit:cover;
+
+border:4px solid var(--primary);
+
+box-shadow:
+
+0 4px 15px rgba(0,0,0,.5);
+
+}
+
+.logo-text{
+
+font-size:32px;
+
+font-weight:bold;
+
+color:var(--danger);
+
+margin-top:10px;
+
+letter-spacing:2px;
+
+text-shadow:
+
+2px 2px 5px #000;
+
+}
+
+/* ==========================================
+TITLE
+========================================== */
+
+.title{
+
+font-size:35px;
+
+font-weight:bold;
+
+color:var(--primary);
+
+margin-bottom:10px;
+
+text-shadow:
+
+2px 2px 5px #000;
+
+}
+
+.subtitle{
+
+font-size:14px;
+
+color:#cccccc;
+
+margin-bottom:25px;
+
+}
