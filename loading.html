@@ -5,17 +5,16 @@
 
 <meta charset="UTF-8">
 
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport"
+content="width=device-width,initial-scale=1.0">
 
 <title>PAPPRITO HRIS - Initializing</title>
 
-<link rel="manifest" href="manifest.json">
-
 <link rel="icon" href="logo.png">
 
-<meta name="theme-color" content="#ffcc00">
+<link rel="manifest" href="manifest.json">
 
-<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+<meta name="theme-color" content="#07131d">
 
 <link rel="stylesheet" href="css/loading.css">
 
@@ -23,143 +22,231 @@
 
 <body>
 
-<div class="hud-container">
+<!-- GRID BACKGROUND -->
 
-    <!-- Background Grid -->
+<div class="grid-bg"></div>
 
-    <div class="grid-bg"></div>
+<!-- HUD PANEL -->
 
-    <!-- HUD Card -->
+<div class="hud-card">
 
-    <div class="hud-card">
+    <!-- ==========================================
+         HEADER
+    ========================================== -->
 
-        <!-- Logo -->
+    <div class="logo-area">
 
-        <div class="logo-area">
+        <img
+        src="logo.png"
+        class="logo"
+        alt="Papprito Logo">
 
-            <img src="logo.png" class="logo">
+        <h1>PAPPRITO</h1>
 
-            <h1>PAPPRITO</h1>
+        <h2>HR MANAGEMENT SYSTEM</h2>
 
-            <h2>HR MANAGEMENT SYSTEM</h2>
+    </div>
 
-        </div>
+    <!-- ==========================================
+         MAIN HUD
+    ========================================== -->
 
-        <!-- Circular Loader -->
+    <div class="hud-main">
 
-        <div class="hud-circle">
+        <!-- LEFT -->
 
-            <svg width="240" height="240">
+        <div class="hud-left">
 
-                <circle
+            <div class="hud-circle">
+
+                <svg width="220" height="220">
+
+                    <circle
                     class="circle-bg"
-                    cx="120"
-                    cy="120"
-                    r="95">
-                </circle>
+                    cx="110"
+                    cy="110"
+                    r="95"></circle>
 
-                <circle
+                    <circle
                     id="progressCircle"
                     class="circle-progress"
-                    cx="120"
-                    cy="120"
-                    r="95">
-                </circle>
+                    cx="110"
+                    cy="110"
+                    r="95"></circle>
 
-            </svg>
+                </svg>
 
-            <div class="circle-text">
+                <div class="circle-text">
 
-                <div id="percent">
+                    <div id="percent">
 
-                    0%
+                        0%
+
+                    </div>
+
+                    <span>
+
+                        INITIALIZING
+
+                    </span>
 
                 </div>
 
-                <span>
+            </div>
 
-                    INITIALIZING
+            <div
+            id="loadingTitle"
+            class="loading-title">
 
-                </span>
+                Connecting to Firebase...
+
+            </div>
+
+            <div class="progress-container">
+
+                <div
+                id="progressBar"
+                class="progress-bar">
+
+                </div>
 
             </div>
 
         </div>
 
-        <!-- Status -->
+        <!-- RIGHT -->
 
-        <div id="loadingTitle" class="loading-title">
+        <div class="hud-right">
 
-            Connecting to Firebase...
+            <div class="status-box">
 
-        </div>
+                <h3>SYSTEM STATUS</h3>
 
-        <!-- Progress Bar -->
+                <div class="status-item">
 
-        <div class="progress-container">
+                    <span>CPU</span>
 
-            <div id="progressBar" class="progress-bar"></div>
+                    <strong id="cpuUsage">0%</strong>
 
-        </div>
+                </div>
 
-        <!-- Loading Modules -->
+                <div class="status-item">
 
-        <div class="module-list">
+                    <span>MEMORY</span>
 
-            <div id="step1" class="module-item">
+                    <strong id="ramUsage">0%</strong>
 
-                ⏳ Connecting Firebase...
+                </div>
 
-            </div>
+                <div class="status-item">
 
-            <div id="step2" class="module-item">
+                    <span>DATABASE</span>
 
-                ⏳ Loading Employees...
+                    <strong class="online">
 
-            </div>
+                        CONNECTING
 
-            <div id="step3" class="module-item">
+                    </strong>
 
-                ⏳ Loading Attendance...
+                </div>
 
-            </div>
+                <div class="status-item">
 
-            <div id="step4" class="module-item">
+                    <span>NETWORK</span>
 
-                ⏳ Loading Payroll...
+                    <strong class="online">
 
-            </div>
+                        ONLINE
 
-            <div id="step5" class="module-item">
+                    </strong>
 
-                ⏳ Loading Dashboard...
-
-            </div>
-
-            <div id="step6" class="module-item">
-
-                ⏳ Preparing Interface...
+                </div>
 
             </div>
-
-        </div>
-
-        <!-- Bottom Status -->
-
-        <div class="system-status">
-
-            <span class="status-dot"></span>
-
-            SYSTEM INITIALIZATION IN PROGRESS
 
         </div>
 
     </div>
 
+    <!-- ==========================================
+         MODULES
+    ========================================== -->
+
+    <div class="module-list">
+
+        <div
+        id="step1"
+        class="module-item">
+
+            Firebase
+
+        </div>
+
+        <div
+        id="step2"
+        class="module-item">
+
+            Employees
+
+        </div>
+
+        <div
+        id="step3"
+        class="module-item">
+
+            Attendance
+
+        </div>
+
+        <div
+        id="step4"
+        class="module-item">
+
+            Payroll
+
+        </div>
+
+        <div
+        id="step5"
+        class="module-item">
+
+            Dashboard
+
+        </div>
+
+        <div
+        id="step6"
+        class="module-item">
+
+            System Ready
+
+        </div>
+
+    </div>
+
+    <!-- ==========================================
+         FOOTER
+    ========================================== -->
+
+    <div class="system-status">
+
+        <div class="status-dot"></div>
+
+        <span>
+
+            PAPPRITO HRIS v2.0 • FIREBASE • INITIALIZING...
+
+        </span>
+
+    </div>
+
 </div>
 
-<script type="module" src="js/loading.js"></script>
+<script
+type="module"
+src="js/loading.js">
+
+</script>
 
 </body>
-
 </html>
