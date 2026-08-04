@@ -49,7 +49,7 @@ localStorage.removeItem("userRole");
 
 localStorage.removeItem("loggedInUser");
 
-window.location.href="login.html";
+window.location.replace("login.html");
 
 }catch(error){
 
