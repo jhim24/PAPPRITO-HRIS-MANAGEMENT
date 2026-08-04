@@ -1,6 +1,6 @@
 /* ==========================================
    PAPPRITO HRIS
-   LOADING ENGINE V3
+   LOADING ENGINE V2
 ========================================== */
 
 import { auth, db } from "./firebase.js";
@@ -38,12 +38,19 @@ document.getElementById("percent");
 const title =
 document.getElementById("loadingTitle");
 
+const cpu =
+document.getElementById("cpuUsage");
+
+const ram =
+document.getElementById("ramUsage");
+
 const radius = 95;
 
-const circumference = 2 * Math.PI * radius;
+const circumference =
+2 * Math.PI * radius;
 
 /* ==========================================
-INIT SVG
+SVG INIT
 ========================================== */
 
 if(circle){
@@ -57,6 +64,37 @@ circumference;
 }
 
 /* ==========================================
+CPU / RAM ANIMATION
+========================================== */
+
+let cpuValue = 15;
+let ramValue = 28;
+
+setInterval(()=>{
+
+cpuValue += Math.floor(Math.random()*6)-2;
+ramValue += Math.floor(Math.random()*6)-2;
+
+cpuValue = Math.max(10,Math.min(cpuValue,45));
+ramValue = Math.max(20,Math.min(ramValue,65));
+
+if(cpu){
+
+cpu.textContent =
+cpuValue + "%";
+
+}
+
+if(ram){
+
+ram.textContent =
+ramValue + "%";
+
+}
+
+},500);
+
+/* ==========================================
 PROGRESS
 ========================================== */
 
@@ -68,7 +106,7 @@ const offset =
 
 circumference -
 
-(value / 100) * circumference;
+(value/100)*circumference;
 
 circle.style.strokeDashoffset =
 offset;
@@ -92,7 +130,7 @@ value + "%";
 }
 
 /* ==========================================
-MODULE COMPLETE
+COMPLETE STEP
 ========================================== */
 
 function completeStep(id,text){
@@ -113,7 +151,7 @@ item.innerHTML =
 WAIT
 ========================================== */
 
-function delay(ms){
+function wait(ms){
 
 return new Promise(resolve=>{
 
@@ -124,7 +162,7 @@ setTimeout(resolve,ms);
 }
 
 /* ==========================================
-LOAD MODULES
+INITIALIZE SYSTEM
 ========================================== */
 
 async function initializeSystem(){
@@ -143,12 +181,16 @@ return;
 
 }
 
+/* ==========================================
+STEP 1
+========================================== */
+
 title.textContent =
 "Connecting to Firebase...";
 
 updateProgress(10);
 
-await delay(400);
+await wait(400);
 
 completeStep(
 
@@ -158,9 +200,9 @@ completeStep(
 
 );
 
-/* ==========================
-EMPLOYEES
-========================== */
+/* ==========================================
+STEP 2
+========================================== */
 
 title.textContent =
 "Loading Employees...";
@@ -185,11 +227,11 @@ employeeSnap.size +
 
 );
 
-await delay(500);
+await wait(500);
 
-/* ==========================
-ATTENDANCE
-========================== */
+/* ==========================================
+STEP 3
+========================================== */
 
 title.textContent =
 "Loading Attendance...";
@@ -202,7 +244,7 @@ collection(db,"attendance")
 
 );
 
-updateProgress(55);
+updateProgress(50);
 
 completeStep(
 
@@ -210,15 +252,14 @@ completeStep(
 
 attendanceSnap.size +
 
-" Attendance Records"
+" Attendance Loaded"
 
 );
 
-await delay(500);
-
-/* ==========================
-PAYROLL
-========================== */
+await wait(500);
+   /* ==========================================
+STEP 4
+========================================== */
 
 title.textContent =
 "Loading Payroll...";
@@ -231,7 +272,7 @@ collection(db,"payroll")
 
 );
 
-updateProgress(75);
+updateProgress(70);
 
 completeStep(
 
@@ -239,18 +280,18 @@ completeStep(
 
 payrollSnap.size +
 
-" Payroll Records"
+" Payroll Records Loaded"
 
 );
 
-await delay(500);
+await wait(500);
 
-/* ==========================
-DASHBOARD
-========================== */
+/* ==========================================
+STEP 5
+========================================== */
 
 title.textContent =
-"Loading Dashboard...";
+"Initializing Dashboard...";
 
 updateProgress(90);
 
@@ -258,18 +299,18 @@ completeStep(
 
 "step5",
 
-"Dashboard Ready"
+"Dashboard Initialized"
 
 );
 
-await delay(500);
+await wait(700);
 
-/* ==========================
-FINALIZE
-========================== */
+/* ==========================================
+STEP 6
+========================================== */
 
 title.textContent =
-"Preparing User Interface...";
+"System Ready...";
 
 updateProgress(100);
 
@@ -281,7 +322,7 @@ completeStep(
 
 );
 
-await delay(1000);
+await wait(1000);
 
 /* ==========================================
 REDIRECT
@@ -289,27 +330,15 @@ REDIRECT
 
 if(role==="admin"){
 
-window.location.replace(
-
-"dashboard.html"
-
-);
+window.location.replace("dashboard.html");
 
 }else if(role==="employee"){
 
-window.location.replace(
-
-"employeeportal.html"
-
-);
+window.location.replace("employeeportal.html");
 
 }else{
 
-window.location.replace(
-
-"login.html"
-
-);
+window.location.replace("login.html");
 
 }
 
@@ -317,9 +346,9 @@ window.location.replace(
 
 console.error(error);
 
-alert(error.message);
-
 title.textContent="Initialization Failed";
+
+alert(error.message);
 
 }
 
@@ -340,7 +369,7 @@ return;
 }
 
 /* ==========================================
-BACK BUTTON PROTECTION
+PREVENT BACK BUTTON
 ========================================== */
 
 history.pushState(null,null,location.href);
@@ -350,6 +379,10 @@ window.onpopstate=function(){
 history.go(1);
 
 };
+
+/* ==========================================
+START INITIALIZATION
+========================================== */
 
 initializeSystem();
 
