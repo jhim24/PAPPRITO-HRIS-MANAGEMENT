@@ -176,7 +176,33 @@ type="module"
 src="js/login.js">
 
 </script>
+<script type="module">
 
+import { auth } from "./js/firebase.js";
+
+import { onAuthStateChanged }
+
+from "https://www.gstatic.com/firebasejs/12.13.0/firebase-auth.js";
+
+onAuthStateChanged(auth,(user)=>{
+
+    if(user){
+
+        window.location.replace("loading.html");
+
+    }
+
+});
+
+history.pushState(null,null,location.href);
+
+window.onpopstate=function(){
+
+    history.go(1);
+
+};
+
+</script>
 </body>
 
 </html>
