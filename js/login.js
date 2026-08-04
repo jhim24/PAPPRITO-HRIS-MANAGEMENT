@@ -30,17 +30,11 @@ AUTO LOGIN
 
 onAuthStateChanged(auth,(user)=>{
 
-    if(!user) return;
+    if(user && localStorage.getItem("rememberUser")){
 
-   if(!localStorage.getItem("rememberUser")){
+        window.location.replace("loading.html");
 
-    await signOut(auth);
-
-    return;
-
-}
-
-   window.location.replace("loading.html");
+    }
 
 });
 /* ==========================================
