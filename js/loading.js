@@ -1,18 +1,21 @@
 /* ==========================================
    PAPPRITO HRIS
-   LOADING SCREEN
+   HUD LOADING ENGINE
 ========================================== */
 
 import { auth, db } from "./firebase.js";
 
-import { onAuthStateChanged }
+import {
+
+onAuthStateChanged
+
+}
 
 from "https://www.gstatic.com/firebasejs/12.13.0/firebase-auth.js";
 
 import {
 
 collection,
-
 getDocs
 
 }
@@ -23,131 +26,227 @@ from "https://www.gstatic.com/firebasejs/12.13.0/firebase-firestore.js";
 ELEMENTS
 ========================================== */
 
-const progressBar=document.getElementById("progressBar");
+const circle=document.getElementById("progressCircle");
+
+const bar=document.getElementById("progressBar");
 
 const percent=document.getElementById("percent");
 
 const title=document.getElementById("loadingTitle");
 
-const steps=[
+const radius=95;
 
-document.getElementById("step1"),
+const circumference=2*Math.PI*radius;
 
-document.getElementById("step2"),
+circle.style.strokeDasharray=circumference;
 
-document.getElementById("step3"),
-
-document.getElementById("step4"),
-
-document.getElementById("step5"),
-
-document.getElementById("step6")
-
-];
+circle.style.strokeDashoffset=circumference;
 
 /* ==========================================
-UPDATE STEP
-========================================== */
-
-function finishStep(index,text){
-
-steps[index].classList.add("done");
-
-steps[index].innerHTML="✔ "+text;
-
-}
-
-/* ==========================================
-PROGRESS
+UPDATE PROGRESS
 ========================================== */
 
 function setProgress(value){
 
-progressBar.style.width=value+"%";
+const offset=
+
+circumference-
+
+(value/100)*circumference;
+
+circle.style.strokeDashoffset=offset;
+
+bar.style.width=value+"%";
 
 percent.innerHTML=value+"%";
 
 }
 
 /* ==========================================
-START LOADING
+MODULE COMPLETE
 ========================================== */
 
-async function startLoading(){
+function finish(id,text){
+
+const item=document.getElementById(id);
+
+item.classList.add("done");
+
+item.innerHTML="✔ "+text;
+
+}
+
+/* ==========================================
+DELAY
+========================================== */
+
+function wait(ms){
+
+return new Promise(resolve=>setTimeout(resolve,ms));
+
+}
+
+/* ==========================================
+START INITIALIZATION
+========================================== */
+
+async function initializeSystem(){
 
 try{
+
+/* STEP 1 */
 
 title.innerHTML="Connecting to Firebase...";
 
 setProgress(10);
 
-await new Promise(r=>setTimeout(r,500));
+await wait(400);
 
-finishStep(0,"Connected to Firebase");
+finish(
 
-/* EMPLOYEES */
+"step1",
+
+"Firebase Connected"
+
+);
+
+/* STEP 2 */
 
 title.innerHTML="Loading Employees...";
 
-await getDocs(collection(db,"users"));
+const employees=
+
+await getDocs(
+
+collection(db,"users")
+
+);
 
 setProgress(30);
 
-finishStep(1,"Employee Database Loaded");
+finish(
 
-await new Promise(r=>setTimeout(r,500));
+"step2",
 
-/* ATTENDANCE */
+employees.size+" Employees Loaded"
+
+);
+
+await wait(500);
+
+/* STEP 3 */
 
 title.innerHTML="Loading Attendance...";
 
-await getDocs(collection(db,"attendance"));
+const attendance=
+
+await getDocs(
+
+collection(db,"attendance")
+
+);
 
 setProgress(50);
 
-finishStep(2,"Attendance Module Loaded");
+finish(
 
-await new Promise(r=>setTimeout(r,500));
+"step3",
 
-/* PAYROLL */
+attendance.size+" Attendance Records"
+
+);
+
+await wait(500);
+
+/* STEP 4 */
 
 title.innerHTML="Loading Payroll...";
 
-await getDocs(collection(db,"payroll"));
+const payroll=
+
+await getDocs(
+
+collection(db,"payroll")
+
+);
 
 setProgress(70);
 
-finishStep(3,"Payroll Module Loaded");
+finish(
 
-await new Promise(r=>setTimeout(r,500));
+"step4",
 
-/* DASHBOARD */
+payroll.size+" Payroll Records"
+
+);
+
+await wait(500);
+
+/* STEP 5 */
 
 title.innerHTML="Loading Dashboard...";
 
 setProgress(90);
 
-finishStep(4,"Dashboard Ready");
+finish(
 
-await new Promise(r=>setTimeout(r,500));
+"step5",
 
-/* FINALIZE */
+"Dashboard Ready"
 
-title.innerHTML="Preparing Interface...";
+);
+
+await wait(500);
+
+/* STEP 6 */
+
+title.innerHTML="Preparing User Interface...";
 
 setProgress(100);
 
-finishStep(5,"System Ready");
+finish(
 
-await new Promise(r=>setTimeout(r,1000));
+"step6",
 
-window.location.replace("dashboard.html");
+"System Ready"
+
+);
+
+await wait(1200);
+
+/* ==========================================
+REDIRECT
+========================================== */
+
+const role=
+
+localStorage.getItem("userRole");
+
+if(role==="employee"){
+
+window.location.replace(
+
+"employeeportal.html"
+
+);
+
+}else{
+
+window.location.replace(
+
+"dashboard.html"
+
+);
+
+}
 
 }catch(error){
 
 console.error(error);
 
-title.innerHTML="Initialization Failed";
+title.innerHTML=
+
+"Initialization Failed";
 
 alert(error.message);
 
@@ -159,16 +258,24 @@ alert(error.message);
 AUTH CHECK
 ========================================== */
 
-onAuthStateChanged(auth,(user)=>{
+onAuthStateChanged(
+
+auth,
+
+(user)=>{
 
 if(!user){
 
-window.location.replace("login.html");
+window.location.replace(
+
+"login.html"
+
+);
 
 return;
 
 }
 
-startLoading();
+initializeSystem();
 
 });
