@@ -41,7 +41,7 @@ onAuthStateChanged(auth,(user)=>{
 
     }
 
-    window.location.replace("dashboard.html");
+   window.location.replace("loading.html");
 
 });
 /* ==========================================
@@ -165,7 +165,7 @@ localStorage.removeItem(
 
 }
 
-window.location.replace("dashboard.html");
+window.location.replace("loading.html");
 
 }catch(error){
 
