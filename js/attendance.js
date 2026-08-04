@@ -555,7 +555,7 @@ async function loadAttendance(){
 
     });
 
-  renderAttendanceTable(attendance);
+filterAttendance();
 }
 /* ==========================================
    RENDER ATTENDANCE TABLE
@@ -637,6 +637,53 @@ window.deleteAttendance = async function(id){
 }
 
 /* ==========================================
+   FILTER ATTENDANCE
+========================================== */
+
+function filterAttendance(){
+
+    const selectedEmployee = employeeSelect.value;
+
+    const startDate = fromDate.value;
+
+    const endDate = toDate.value;
+
+    let filtered = attendance.filter(att=>{
+
+        let employeeMatch = true;
+
+        if(selectedEmployee){
+
+            employeeMatch =
+            att.empDocId === selectedEmployee;
+
+        }
+
+        let dateMatch = true;
+
+        if(startDate){
+
+            dateMatch =
+            formatDate(att.date) >= startDate;
+
+        }
+
+        if(endDate){
+
+            dateMatch =
+            dateMatch &&
+            formatDate(att.date) <= endDate;
+
+        }
+
+        return employeeMatch && dateMatch;
+
+    });
+
+    renderAttendanceTable(filtered);
+
+}
+/* ==========================================
    INITIALIZE
 ========================================== */
 
@@ -653,11 +700,27 @@ initialize();
    FILTER EVENTS
 ========================================== */
 
-// employeeSelect.addEventListener("change", filterAttendance);
+employeeSelect.addEventListener(
+"change",
+filterAttendance
+);
 
-// fromDate.addEventListener("change", filterAttendance);
+fromDate.addEventListener(
+"change",
+filterAttendance
+);
 
-// toDate.addEventListener("change", filterAttendance);
+toDate.addEventListener(
+"change",
+filterAttendance
+);
+
+document
+.getElementById("filterBtn")
+.addEventListener(
+"click",
+filterAttendance
+);
 /* ==========================================
    BUTTON EVENTS
 ========================================== */
