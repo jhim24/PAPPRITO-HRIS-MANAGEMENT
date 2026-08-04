@@ -1,6 +1,6 @@
 /* ==========================================
    PAPPRITO HRIS
-   HUD LOADING ENGINE
+   LOADING ENGINE V3
 ========================================== */
 
 import { auth, db } from "./firebase.js";
@@ -26,39 +26,68 @@ from "https://www.gstatic.com/firebasejs/12.13.0/firebase-firestore.js";
 ELEMENTS
 ========================================== */
 
-const circle=document.getElementById("progressCircle");
+const circle =
+document.getElementById("progressCircle");
 
-const bar=document.getElementById("progressBar");
+const progressBar =
+document.getElementById("progressBar");
 
-const percent=document.getElementById("percent");
+const percent =
+document.getElementById("percent");
 
-const title=document.getElementById("loadingTitle");
+const title =
+document.getElementById("loadingTitle");
 
-const radius=95;
+const radius = 95;
 
-const circumference=2*Math.PI*radius;
-
-circle.style.strokeDasharray=circumference;
-
-circle.style.strokeDashoffset=circumference;
+const circumference = 2 * Math.PI * radius;
 
 /* ==========================================
-UPDATE PROGRESS
+INIT SVG
 ========================================== */
 
-function setProgress(value){
+if(circle){
 
-const offset=
+circle.style.strokeDasharray =
+circumference;
 
-circumference-
+circle.style.strokeDashoffset =
+circumference;
 
-(value/100)*circumference;
+}
 
-circle.style.strokeDashoffset=offset;
+/* ==========================================
+PROGRESS
+========================================== */
 
-bar.style.width=value+"%";
+function updateProgress(value){
 
-percent.innerHTML=value+"%";
+if(circle){
+
+const offset =
+
+circumference -
+
+(value / 100) * circumference;
+
+circle.style.strokeDashoffset =
+offset;
+
+}
+
+if(progressBar){
+
+progressBar.style.width =
+value + "%";
+
+}
+
+if(percent){
+
+percent.textContent =
+value + "%";
+
+}
 
 }
 
@@ -66,43 +95,62 @@ percent.innerHTML=value+"%";
 MODULE COMPLETE
 ========================================== */
 
-function finish(id,text){
+function completeStep(id,text){
 
-const item=document.getElementById(id);
+const item =
+document.getElementById(id);
+
+if(!item) return;
 
 item.classList.add("done");
 
-item.innerHTML="✔ "+text;
+item.innerHTML =
+"✔ " + text;
 
 }
 
 /* ==========================================
-DELAY
+WAIT
 ========================================== */
 
-function wait(ms){
+function delay(ms){
 
-return new Promise(resolve=>setTimeout(resolve,ms));
+return new Promise(resolve=>{
+
+setTimeout(resolve,ms);
+
+});
 
 }
 
 /* ==========================================
-START INITIALIZATION
+LOAD MODULES
 ========================================== */
 
 async function initializeSystem(){
 
 try{
 
-/* STEP 1 */
+const role =
 
-title.innerHTML="Connecting to Firebase...";
+localStorage.getItem("userRole");
 
-setProgress(10);
+if(!role){
 
-await wait(400);
+window.location.replace("login.html");
 
-finish(
+return;
+
+}
+
+title.textContent =
+"Connecting to Firebase...";
+
+updateProgress(10);
+
+await delay(400);
+
+completeStep(
 
 "step1",
 
@@ -110,11 +158,14 @@ finish(
 
 );
 
-/* STEP 2 */
+/* ==========================
+EMPLOYEES
+========================== */
 
-title.innerHTML="Loading Employees...";
+title.textContent =
+"Loading Employees...";
 
-const employees=
+const employeeSnap =
 
 await getDocs(
 
@@ -122,23 +173,28 @@ collection(db,"users")
 
 );
 
-setProgress(30);
+updateProgress(30);
 
-finish(
+completeStep(
 
 "step2",
 
-employees.size+" Employees Loaded"
+employeeSnap.size +
+
+" Employees Loaded"
 
 );
 
-await wait(500);
+await delay(500);
 
-/* STEP 3 */
+/* ==========================
+ATTENDANCE
+========================== */
 
-title.innerHTML="Loading Attendance...";
+title.textContent =
+"Loading Attendance...";
 
-const attendance=
+const attendanceSnap =
 
 await getDocs(
 
@@ -146,23 +202,28 @@ collection(db,"attendance")
 
 );
 
-setProgress(50);
+updateProgress(55);
 
-finish(
+completeStep(
 
 "step3",
 
-attendance.size+" Attendance Records"
+attendanceSnap.size +
+
+" Attendance Records"
 
 );
 
-await wait(500);
+await delay(500);
 
-/* STEP 4 */
+/* ==========================
+PAYROLL
+========================== */
 
-title.innerHTML="Loading Payroll...";
+title.textContent =
+"Loading Payroll...";
 
-const payroll=
+const payrollSnap =
 
 await getDocs(
 
@@ -170,25 +231,30 @@ collection(db,"payroll")
 
 );
 
-setProgress(70);
+updateProgress(75);
 
-finish(
+completeStep(
 
 "step4",
 
-payroll.size+" Payroll Records"
+payrollSnap.size +
+
+" Payroll Records"
 
 );
 
-await wait(500);
+await delay(500);
 
-/* STEP 5 */
+/* ==========================
+DASHBOARD
+========================== */
 
-title.innerHTML="Loading Dashboard...";
+title.textContent =
+"Loading Dashboard...";
 
-setProgress(90);
+updateProgress(90);
 
-finish(
+completeStep(
 
 "step5",
 
@@ -196,15 +262,18 @@ finish(
 
 );
 
-await wait(500);
+await delay(500);
 
-/* STEP 6 */
+/* ==========================
+FINALIZE
+========================== */
 
-title.innerHTML="Preparing User Interface...";
+title.textContent =
+"Preparing User Interface...";
 
-setProgress(100);
+updateProgress(100);
 
-finish(
+completeStep(
 
 "step6",
 
@@ -212,17 +281,21 @@ finish(
 
 );
 
-await wait(1200);
+await delay(1000);
 
 /* ==========================================
 REDIRECT
 ========================================== */
 
-const role=
+if(role==="admin"){
 
-localStorage.getItem("userRole");
+window.location.replace(
 
-if(role==="employee"){
+"dashboard.html"
+
+);
+
+}else if(role==="employee"){
 
 window.location.replace(
 
@@ -234,7 +307,7 @@ window.location.replace(
 
 window.location.replace(
 
-"dashboard.html"
+"login.html"
 
 );
 
@@ -244,11 +317,9 @@ window.location.replace(
 
 console.error(error);
 
-title.innerHTML=
-
-"Initialization Failed";
-
 alert(error.message);
+
+title.textContent="Initialization Failed";
 
 }
 
@@ -268,7 +339,9 @@ return;
 
 }
 
-/* Prevent Back Button */
+/* ==========================================
+BACK BUTTON PROTECTION
+========================================== */
 
 history.pushState(null,null,location.href);
 
