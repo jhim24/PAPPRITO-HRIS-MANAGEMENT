@@ -37,7 +37,7 @@ const role = localStorage.getItem("userRole");
 
 if(role==="admin"){
 
-window.location.href="index.html";
+window.location.replace("dashboard.html");
 
 }
 
