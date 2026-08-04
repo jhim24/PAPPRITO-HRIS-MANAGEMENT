@@ -75,13 +75,19 @@ return;
 
 const loggedUser=
 
-localStorage.getItem("loggedInUser") || "Administrator";
+localStorage.getItem("loggedInUser")
 
-const userBox=document.getElementById("loggedUser");
+||
+
+user.email;
+
+const userBox=
+
+document.getElementById("loggedUser");
 
 if(userBox){
 
-userBox.innerHTML=loggedUser;
+userBox.textContent=loggedUser;
 
 }
 
