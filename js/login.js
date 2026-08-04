@@ -166,7 +166,7 @@ localStorage.removeItem(
 
 }
 
-window.location.href="index.html";
+window.location.replace("dashboard.html");
 
 }catch(error){
 
