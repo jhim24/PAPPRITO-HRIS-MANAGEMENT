@@ -46,11 +46,10 @@ try{
 await signOut(auth);
 
 localStorage.removeItem("userRole");
-
 localStorage.removeItem("loggedInUser");
+localStorage.removeItem("rememberUser");
 
 window.location.replace("login.html");
-
 }catch(error){
 
 alert(error.message);
