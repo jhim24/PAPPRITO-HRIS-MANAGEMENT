@@ -151,6 +151,8 @@ loadGeneralSettings();
 loadCompanySettings();
 loadEmployeeSettings();
 loadAttendanceSettings();
+loadPayrollSettings();
+       
     }
 );
 
@@ -2413,6 +2415,896 @@ async function saveAttendanceSettings(){
             </span>
 
             SAVE ATTENDANCE SETTINGS
+
+        `;
+
+    }
+
+}
+/* ==========================================
+   PAPPRITO HRIS
+   PAYROLL SETTINGS
+========================================== */
+
+
+/* ==========================================
+   PAYROLL ELEMENTS
+========================================== */
+
+const payFrequency =
+    document.getElementById(
+        "payFrequency"
+    );
+
+const payDay =
+    document.getElementById(
+        "payDay"
+    );
+
+const firstCutoffStart =
+    document.getElementById(
+        "firstCutoffStart"
+    );
+
+const firstCutoffEnd =
+    document.getElementById(
+        "firstCutoffEnd"
+    );
+
+const secondCutoffStart =
+    document.getElementById(
+        "secondCutoffStart"
+    );
+
+const secondCutoffEnd =
+    document.getElementById(
+        "secondCutoffEnd"
+    );
+
+const salaryBasis =
+    document.getElementById(
+        "salaryBasis"
+    );
+
+const workingDaysPerMonth =
+    document.getElementById(
+        "workingDaysPerMonth"
+    );
+
+const hoursPerDay =
+    document.getElementById(
+        "hoursPerDay"
+    );
+
+const hourlyRateMethod =
+    document.getElementById(
+        "hourlyRateMethod"
+    );
+
+const includeOvertimePay =
+    document.getElementById(
+        "includeOvertimePay"
+    );
+
+const regularOtRate =
+    document.getElementById(
+        "regularOtRate"
+    );
+
+const restDayOtRate =
+    document.getElementById(
+        "restDayOtRate"
+    );
+
+const holidayOtRate =
+    document.getElementById(
+        "holidayOtRate"
+    );
+
+const deductLate =
+    document.getElementById(
+        "deductLate"
+    );
+
+const deductUndertime =
+    document.getElementById(
+        "deductUndertime"
+    );
+
+const deductionRounding =
+    document.getElementById(
+        "deductionRounding"
+    );
+
+const enableGovernmentDeductions =
+    document.getElementById(
+        "enableGovernmentDeductions"
+    );
+
+const enableSSS =
+    document.getElementById(
+        "enableSSS"
+    );
+
+const enablePhilHealth =
+    document.getElementById(
+        "enablePhilHealth"
+    );
+
+const enablePagIBIG =
+    document.getElementById(
+        "enablePagIBIG"
+    );
+
+const enableTax =
+    document.getElementById(
+        "enableTax"
+    );
+
+const enableHealthCard =
+    document.getElementById(
+        "enableHealthCard"
+    );
+
+const enableOtherDeductions =
+    document.getElementById(
+        "enableOtherDeductions"
+    );
+
+const payrollRounding =
+    document.getElementById(
+        "payrollRounding"
+    );
+
+const autoComputePayroll =
+    document.getElementById(
+        "autoComputePayroll"
+    );
+
+const savePayrollBtn =
+    document.getElementById(
+        "savePayrollBtn"
+    );
+
+
+/* ==========================================
+   DEFAULT PAYROLL SETTINGS
+========================================== */
+
+const DEFAULT_PAYROLL_SETTINGS = {
+
+    payFrequency:
+        "semi-monthly",
+
+    payDay:
+        15,
+
+    firstCutoffStart:
+        "1",
+
+    firstCutoffEnd:
+        "15",
+
+    secondCutoffStart:
+        "16",
+
+    secondCutoffEnd:
+        "last-day",
+
+    salaryBasis:
+        "monthly",
+
+    workingDaysPerMonth:
+        26,
+
+    hoursPerDay:
+        8,
+
+    hourlyRateMethod:
+        "monthly-divide-days",
+
+    includeOvertimePay:
+        true,
+
+    regularOtRate:
+        1.25,
+
+    restDayOtRate:
+        1.30,
+
+    holidayOtRate:
+        2.00,
+
+    deductLate:
+        true,
+
+    deductUndertime:
+        true,
+
+    deductionRounding:
+        1,
+
+    enableGovernmentDeductions:
+        true,
+
+    enableSSS:
+        true,
+
+    enablePhilHealth:
+        true,
+
+    enablePagIBIG:
+        true,
+
+    enableTax:
+        true,
+
+    enableHealthCard:
+        true,
+
+    enableOtherDeductions:
+        true,
+
+    payrollRounding:
+        0.01,
+
+    autoComputePayroll:
+        true
+
+};
+
+
+/* ==========================================
+   LOAD PAYROLL SETTINGS
+========================================== */
+
+async function loadPayrollSettings(){
+
+    try{
+
+        const payrollSettingsRef =
+            doc(
+                db,
+                "systemSettings",
+                "payroll"
+            );
+
+
+        const snapshot =
+            await getDoc(
+                payrollSettingsRef
+            );
+
+
+        let data =
+            DEFAULT_PAYROLL_SETTINGS;
+
+
+        if(
+            snapshot.exists()
+        ){
+
+            data = {
+
+                ...DEFAULT_PAYROLL_SETTINGS,
+
+                ...snapshot.data()
+
+            };
+
+        }
+
+
+        setPayrollSettingsForm(
+            data
+        );
+
+
+    }catch(error){
+
+        console.error(
+            "Load Payroll Settings Error:",
+            error
+        );
+
+
+        setPayrollSettingsForm(
+            DEFAULT_PAYROLL_SETTINGS
+        );
+
+    }
+
+}
+
+
+/* ==========================================
+   SET PAYROLL FORM VALUES
+========================================== */
+
+function setPayrollSettingsForm(
+    data
+){
+
+    if(payFrequency){
+
+        payFrequency.value =
+            data.payFrequency ||
+            "semi-monthly";
+
+    }
+
+
+    if(payDay){
+
+        payDay.value =
+            data.payDay ?? 15;
+
+    }
+
+
+    if(firstCutoffStart){
+
+        firstCutoffStart.value =
+            data.firstCutoffStart ||
+            "1";
+
+    }
+
+
+    if(firstCutoffEnd){
+
+        firstCutoffEnd.value =
+            data.firstCutoffEnd ||
+            "15";
+
+    }
+
+
+    if(secondCutoffStart){
+
+        secondCutoffStart.value =
+            data.secondCutoffStart ||
+            "16";
+
+    }
+
+
+    if(secondCutoffEnd){
+
+        secondCutoffEnd.value =
+            data.secondCutoffEnd ||
+            "last-day";
+
+    }
+
+
+    if(salaryBasis){
+
+        salaryBasis.value =
+            data.salaryBasis ||
+            "monthly";
+
+    }
+
+
+    if(workingDaysPerMonth){
+
+        workingDaysPerMonth.value =
+            data.workingDaysPerMonth ??
+            26;
+
+    }
+
+
+    if(hoursPerDay){
+
+        hoursPerDay.value =
+            data.hoursPerDay ??
+            8;
+
+    }
+
+
+    if(hourlyRateMethod){
+
+        hourlyRateMethod.value =
+            data.hourlyRateMethod ||
+            "monthly-divide-days";
+
+    }
+
+
+    if(includeOvertimePay){
+
+        includeOvertimePay.checked =
+            data.includeOvertimePay !== false;
+
+    }
+
+
+    if(regularOtRate){
+
+        regularOtRate.value =
+            data.regularOtRate ??
+            1.25;
+
+    }
+
+
+    if(restDayOtRate){
+
+        restDayOtRate.value =
+            data.restDayOtRate ??
+            1.30;
+
+    }
+
+
+    if(holidayOtRate){
+
+        holidayOtRate.value =
+            data.holidayOtRate ??
+            2.00;
+
+    }
+
+
+    if(deductLate){
+
+        deductLate.checked =
+            data.deductLate !== false;
+
+    }
+
+
+    if(deductUndertime){
+
+        deductUndertime.checked =
+            data.deductUndertime !== false;
+
+    }
+
+
+    if(deductionRounding){
+
+        deductionRounding.value =
+            String(
+                data.deductionRounding ?? 1
+            );
+
+    }
+
+
+    if(enableGovernmentDeductions){
+
+        enableGovernmentDeductions.checked =
+            data.enableGovernmentDeductions !== false;
+
+    }
+
+
+    if(enableSSS){
+
+        enableSSS.checked =
+            data.enableSSS !== false;
+
+    }
+
+
+    if(enablePhilHealth){
+
+        enablePhilHealth.checked =
+            data.enablePhilHealth !== false;
+
+    }
+
+
+    if(enablePagIBIG){
+
+        enablePagIBIG.checked =
+            data.enablePagIBIG !== false;
+
+    }
+
+
+    if(enableTax){
+
+        enableTax.checked =
+            data.enableTax !== false;
+
+    }
+
+
+    if(enableHealthCard){
+
+        enableHealthCard.checked =
+            data.enableHealthCard !== false;
+
+    }
+
+
+    if(enableOtherDeductions){
+
+        enableOtherDeductions.checked =
+            data.enableOtherDeductions !== false;
+
+    }
+
+
+    if(payrollRounding){
+
+        payrollRounding.value =
+            String(
+                data.payrollRounding ??
+                0.01
+            );
+
+    }
+
+
+    if(autoComputePayroll){
+
+        autoComputePayroll.checked =
+            data.autoComputePayroll !== false;
+
+    }
+
+}
+
+
+/* ==========================================
+   PAYROLL SAVE BUTTON
+========================================== */
+
+if(savePayrollBtn){
+
+    savePayrollBtn.addEventListener(
+        "click",
+        savePayrollSettings
+    );
+
+}
+
+
+/* ==========================================
+   SAVE PAYROLL SETTINGS
+========================================== */
+
+async function savePayrollSettings(){
+
+    if(!auth.currentUser){
+
+        alert(
+            "You are not logged in."
+        );
+
+        window.location.replace(
+            "login.html"
+        );
+
+        return;
+
+    }
+
+
+    /* ======================================
+       VALIDATION
+    ====================================== */
+
+    const selectedPayDay =
+        Number(
+            payDay.value
+        );
+
+
+    if(
+        !Number.isInteger(
+            selectedPayDay
+        ) ||
+        selectedPayDay < 1 ||
+        selectedPayDay > 31
+    ){
+
+        alert(
+            "Pay Day must be between 1 and 31."
+        );
+
+        payDay.focus();
+
+        return;
+
+    }
+
+
+    const workingDays =
+        Number(
+            workingDaysPerMonth.value
+        );
+
+
+    if(
+        !Number.isFinite(
+            workingDays
+        ) ||
+        workingDays < 1 ||
+        workingDays > 31
+    ){
+
+        alert(
+            "Working Days Per Month must be between 1 and 31."
+        );
+
+        workingDaysPerMonth.focus();
+
+        return;
+
+    }
+
+
+    const dailyHours =
+        Number(
+            hoursPerDay.value
+        );
+
+
+    if(
+        !Number.isFinite(
+            dailyHours
+        ) ||
+        dailyHours <= 0 ||
+        dailyHours > 24
+    ){
+
+        alert(
+            "Regular Hours Per Day must be between 1 and 24."
+        );
+
+        hoursPerDay.focus();
+
+        return;
+
+    }
+
+
+    const regularOT =
+        Number(
+            regularOtRate.value
+        );
+
+
+    const restOT =
+        Number(
+            restDayOtRate.value
+        );
+
+
+    const holidayOT =
+        Number(
+            holidayOtRate.value
+        );
+
+
+    if(
+        !Number.isFinite(regularOT) ||
+        regularOT < 0
+    ){
+
+        alert(
+            "Regular Day OT Rate is invalid."
+        );
+
+        regularOtRate.focus();
+
+        return;
+
+    }
+
+
+    if(
+        !Number.isFinite(restOT) ||
+        restOT < 0
+    ){
+
+        alert(
+            "Rest Day OT Rate is invalid."
+        );
+
+        restDayOtRate.focus();
+
+        return;
+
+    }
+
+
+    if(
+        !Number.isFinite(holidayOT) ||
+        holidayOT < 0
+    ){
+
+        alert(
+            "Holiday OT Rate is invalid."
+        );
+
+        holidayOtRate.focus();
+
+        return;
+
+    }
+
+
+    /* ======================================
+       DISABLE BUTTON
+    ====================================== */
+
+    savePayrollBtn.disabled =
+        true;
+
+
+    savePayrollBtn.innerHTML = `
+
+        <span class="material-icons">
+            sync
+        </span>
+
+        SAVING...
+
+    `;
+
+
+    try{
+
+        /* ==================================
+           PAYROLL DATA
+        ================================== */
+
+        const payrollData = {
+
+            payFrequency:
+                payFrequency.value,
+
+            payDay:
+                selectedPayDay,
+
+            firstCutoffStart:
+                firstCutoffStart.value,
+
+            firstCutoffEnd:
+                firstCutoffEnd.value,
+
+            secondCutoffStart:
+                secondCutoffStart.value,
+
+            secondCutoffEnd:
+                secondCutoffEnd.value,
+
+            salaryBasis:
+                salaryBasis.value,
+
+            workingDaysPerMonth:
+                workingDays,
+
+            hoursPerDay:
+                dailyHours,
+
+            hourlyRateMethod:
+                hourlyRateMethod.value,
+
+            includeOvertimePay:
+                includeOvertimePay.checked,
+
+            regularOtRate:
+                regularOT,
+
+            restDayOtRate:
+                restOT,
+
+            holidayOtRate:
+                holidayOT,
+
+            deductLate:
+                deductLate.checked,
+
+            deductUndertime:
+                deductUndertime.checked,
+
+            deductionRounding:
+                Number(
+                    deductionRounding.value
+                ),
+
+            enableGovernmentDeductions:
+                enableGovernmentDeductions.checked,
+
+            enableSSS:
+                enableSSS.checked,
+
+            enablePhilHealth:
+                enablePhilHealth.checked,
+
+            enablePagIBIG:
+                enablePagIBIG.checked,
+
+            enableTax:
+                enableTax.checked,
+
+            enableHealthCard:
+                enableHealthCard.checked,
+
+            enableOtherDeductions:
+                enableOtherDeductions.checked,
+
+            payrollRounding:
+                Number(
+                    payrollRounding.value
+                ),
+
+            autoComputePayroll:
+                autoComputePayroll.checked
+
+        };
+
+
+        /* ==================================
+           FIREBASE REFERENCE
+        ================================== */
+
+        const payrollSettingsRef =
+            doc(
+                db,
+                "systemSettings",
+                "payroll"
+            );
+
+
+        /* ==================================
+           SAVE
+        ================================== */
+
+        await setDoc(
+
+            payrollSettingsRef,
+
+            payrollData,
+
+            {
+                merge:true
+            }
+
+        );
+
+
+        alert(
+            "Payroll Settings Saved Successfully."
+        );
+
+
+    }catch(error){
+
+        console.error(
+            "Save Payroll Settings Error:",
+            error
+        );
+
+
+        alert(
+            "Unable to save Payroll Settings.\n\n" +
+            error.message
+        );
+
+
+    }finally{
+
+        savePayrollBtn.disabled =
+            false;
+
+
+        savePayrollBtn.innerHTML = `
+
+            <span class="material-icons">
+                save
+            </span>
+
+            SAVE PAYROLL SETTINGS
 
         `;
 
