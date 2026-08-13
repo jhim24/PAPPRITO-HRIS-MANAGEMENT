@@ -1,1 +1,329 @@
+<!DOCTYPE html>
+<html lang="en">
 
+<head>
+
+<meta charset="UTF-8">
+
+<meta
+name="viewport"
+content="width=device-width, initial-scale=1.0">
+
+<title>AUTO PAYROLL SYSTEM</title>
+
+<link
+rel="manifest"
+href="../manifest.json">
+
+<meta
+name="theme-color"
+content="#ffcc00">
+
+<link
+rel="apple-touch-icon"
+href="../assets/images/icon-192.png">
+
+<link
+rel="icon"
+href="../assets/images/logo.png">
+
+<link
+rel="stylesheet"
+href="../css/autopayroll.css">
+
+</head>
+
+
+<body>
+
+
+<!-- ==========================================
+     TOP BAR
+========================================== -->
+
+<div class="top-bar">
+
+<h1>
+
+🤖 AUTO PAYROLL SYSTEM
+
+</h1>
+
+
+<button
+onclick="window.location.href='dashboard.html'">
+
+← BACK
+
+</button>
+
+</div>
+
+
+<!-- ==========================================
+     FORM
+========================================== -->
+
+<div class="form-box">
+
+
+<div class="grid">
+
+
+<select id="employeeName">
+
+<option value="">
+
+Select Employee
+
+</option>
+
+</select>
+
+
+<input
+id="employeeId"
+placeholder="Employee ID"
+readonly>
+
+
+<input
+id="salaryRate"
+type="number"
+placeholder="Hourly Rate">
+
+
+<input
+id="totalHours"
+type="number"
+placeholder="Regular Hours">
+
+
+<input
+id="overtimeHours"
+type="number"
+placeholder="Overtime Hours">
+
+
+<select id="holidayType">
+
+<option value="none">
+
+No Holiday
+
+</option>
+
+<option value="regular">
+
+Regular Holiday
+
+</option>
+
+<option value="special">
+
+Special Holiday
+
+</option>
+
+</select>
+
+
+<input
+id="holidayHours"
+type="number"
+placeholder="Holiday Hours">
+
+
+<input
+id="nightHours"
+type="number"
+placeholder="Night Differential Hours">
+
+
+<input
+id="sss"
+type="number"
+placeholder="SSS Deduction">
+
+
+<input
+id="philhealth"
+type="number"
+placeholder="PhilHealth Deduction">
+
+
+<input
+id="pagibig"
+type="number"
+placeholder="Pag-IBIG Deduction">
+
+
+<input
+id="healthcard"
+type="number"
+placeholder="Health Card">
+
+
+<input
+id="others"
+type="number"
+placeholder="Other Deduction">
+
+
+<input
+id="grossSalary"
+placeholder="Gross Salary"
+readonly>
+
+
+<input
+id="netSalary"
+placeholder="Net Salary"
+readonly>
+
+
+</div>
+
+
+<br>
+
+
+<button
+onclick="computePayroll()">
+
+🧮 COMPUTE PAYROLL
+
+</button>
+
+
+<button
+onclick="savePayroll()">
+
+💾 SAVE PAYROLL
+
+</button>
+
+
+</div>
+
+
+<!-- ==========================================
+     FILTER
+========================================== -->
+
+<br>
+
+
+<input
+type="date"
+id="filterDate">
+
+
+<button
+onclick="filterPayroll()">
+
+🔍 FILTER DATE
+
+</button>
+
+
+<button
+onclick="loadPayroll()">
+
+📋 SHOW ALL
+
+</button>
+
+
+<div
+class="total-payroll">
+
+TOTAL PAYROLL :
+
+₱ <span id="totalPayroll">
+
+0.00
+
+</span>
+
+</div>
+
+
+<!-- ==========================================
+     TABLE
+========================================== -->
+
+<div class="table-box">
+
+
+<table id="payrollTable">
+
+
+<thead>
+
+<tr>
+
+<th>EMPLOYEE ID</th>
+
+<th>EMPLOYEE</th>
+
+<th>RATE</th>
+
+<th>REG HOURS</th>
+
+<th>OT HOURS</th>
+
+<th>HOLIDAY</th>
+
+<th>HOLIDAY HOURS</th>
+
+<th>NIGHT DIFF</th>
+
+<th>GROSS</th>
+
+<th>SSS</th>
+
+<th>PHILHEALTH</th>
+
+<th>PAGIBIG</th>
+
+<th>HEALTH CARD</th>
+
+<th>OTHERS</th>
+
+<th>NET PAY</th>
+
+<th>DATE</th>
+
+<th>ACTION</th>
+
+</tr>
+
+</thead>
+
+
+<tbody>
+
+</tbody>
+
+
+</table>
+
+
+</div>
+
+
+<!-- ==========================================
+     JAVASCRIPT
+========================================== -->
+
+<script
+type="module"
+src="../js/autopayroll.js">
+
+</script>
+
+
+</body>
+
+</html>
