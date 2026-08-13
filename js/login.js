@@ -1,29 +1,39 @@
 /* ==========================================
    PAPPRITO HRIS
-   LOGIN SYSTEM V2
+   LOGIN SYSTEM V3
 ========================================== */
 
-import { auth, db } from "./firebase.js";
+import {
+    auth,
+    db
+} from "./firebase.js";
 
 import {
 
-signInWithEmailAndPassword
+    signInWithEmailAndPassword,
+
+    setPersistence,
+
+    browserLocalPersistence,
+
+    browserSessionPersistence
 
 }
-
-from "https://www.gstatic.com/firebasejs/12.13.0/firebase-auth.js";
+from
+"https://www.gstatic.com/firebasejs/12.13.0/firebase-auth.js";
 
 import {
 
-collection,
-getDocs
+    collection,
+    getDocs
 
 }
+from
+"https://www.gstatic.com/firebasejs/12.13.0/firebase-firestore.js";
 
-from "https://www.gstatic.com/firebasejs/12.13.0/firebase-firestore.js";
 
 /* ==========================================
-ELEMENTS
+   ELEMENTS
 ========================================== */
 
 const role =
@@ -41,353 +51,646 @@ document.getElementById("remember");
 const loading =
 document.getElementById("loading");
 
+const loginBtn =
+document.getElementById("loginBtn");
+
+const fingerBtn =
+document.getElementById("fingerBtn");
+
+
 /* ==========================================
-SHOW PASSWORD
+   SHOW PASSWORD
 ========================================== */
 
-window.togglePassword=function(){
+window.togglePassword = function(){
 
-const btn=document.querySelector(".show-btn");
+    const btn =
+    document.querySelector(".show-btn");
 
-if(password.type==="password"){
 
-password.type="text";
+    if(password.type === "password"){
 
-btn.textContent="HIDE";
+        password.type = "text";
 
-}else{
+        btn.textContent = "HIDE";
 
-password.type="password";
+    }else{
 
-btn.textContent="SHOW";
+        password.type = "password";
 
-}
+        btn.textContent = "SHOW";
+
+    }
 
 };
 
+
 /* ==========================================
-REMEMBER USERNAME
+   REMEMBER USERNAME
 ========================================== */
 
-const rememberedUser=
-
+const rememberedUser =
 localStorage.getItem("rememberUser");
+
 
 if(rememberedUser){
 
-email.value=rememberedUser;
+    email.value =
+    rememberedUser;
 
-remember.checked=true;
+    remember.checked =
+    true;
 
 }
+
 
 /* ==========================================
-LOGIN
+   SHOW LOADING
 ========================================== */
 
-window.login=async function(){
+function showLoading(){
 
-const selectedRole=
+    if(loading){
 
-role.value;
+        loading.style.display =
+        "flex";
 
-const username=
-
-email.value.trim();
-
-const pass=
-
-password.value.trim();
-
-if(
-
-selectedRole==="" ||
-
-username==="" ||
-
-pass===""
-
-){
-
-alert("Complete all fields.");
-
-return;
+    }
 
 }
 
-loading.style.display="flex";
 
 /* ==========================================
-ADMIN LOGIN
+   HIDE LOADING
 ========================================== */
 
-if(selectedRole==="admin"){
+function hideLoading(){
 
-try{
+    if(loading){
 
-await signInWithEmailAndPassword(
+        loading.style.display =
+        "none";
 
-auth,
-
-username,
-
-pass
-
-);
-
-localStorage.setItem(
-
-"userRole",
-
-"admin"
-
-);
-
-localStorage.setItem(
-
-"loggedInUser",
-
-username
-
-);
-
-if(remember.checked){
-
-localStorage.setItem(
-
-"rememberUser",
-
-username
-
-);
-
-}else{
-
-localStorage.removeItem(
-
-"rememberUser"
-
-);
+    }
 
 }
 
-window.location.replace(
 
-"loading.html"
-
-);
-
-return;
-
-}catch(error){
-
-loading.style.display="none";
-
-alert(error.message);
-
-return;
-
-}
-
-}
-   /* ==========================================
-EMPLOYEE LOGIN
+/* ==========================================
+   DISABLE LOGIN
 ========================================== */
 
-if(selectedRole==="employee"){
+function disableLogin(){
 
-try{
+    if(loginBtn){
 
-const snapshot=
+        loginBtn.disabled =
+        true;
 
-await getDocs(
+        loginBtn.style.opacity =
+        "0.6";
 
-collection(db,"users")
+        loginBtn.textContent =
+        "SIGNING IN...";
 
-);
+    }
 
-let found=false;
+}
 
-snapshot.forEach(doc=>{
 
-const user=doc.data();
+/* ==========================================
+   ENABLE LOGIN
+========================================== */
 
-if(
+function enableLogin(){
 
-user.role==="employee"
+    if(loginBtn){
 
-&&
+        loginBtn.disabled =
+        false;
 
-(user.username||"")
+        loginBtn.style.opacity =
+        "1";
 
-.toUpperCase()
+        loginBtn.textContent =
+        "LOGIN";
 
-.trim()
+    }
 
-===
+}
 
-username.toUpperCase().trim()
 
-&&
+/* ==========================================
+   SAVE LOGIN SESSION
+========================================== */
 
-(user.password||"")
-
-===
-
-pass
-
+function saveLoginSession(
+    selectedRole,
+    username
 ){
 
-found=true;
+    localStorage.setItem(
+        "userRole",
+        selectedRole
+    );
 
-localStorage.setItem(
 
-"userRole",
+    localStorage.setItem(
+        "loggedInUser",
+        username
+    );
 
-"employee"
 
-);
+    if(remember.checked){
 
-localStorage.setItem(
+        localStorage.setItem(
+            "rememberUser",
+            username
+        );
 
-"loggedInUser",
+    }else{
 
-username
+        localStorage.removeItem(
+            "rememberUser"
+        );
 
-);
-
-if(remember.checked){
-
-localStorage.setItem(
-
-"rememberUser",
-
-username
-
-);
-
-}else{
-
-localStorage.removeItem(
-
-"rememberUser"
-
-);
+    }
 
 }
 
-window.location.replace(
 
-"loading.html"
+/* ==========================================
+   ADMIN LOGIN
+========================================== */
 
-);
+async function adminLogin(
+    username,
+    pass
+){
+
+    await signInWithEmailAndPassword(
+
+        auth,
+
+        username,
+
+        pass
+
+    );
+
+
+    saveLoginSession(
+        "admin",
+        username
+    );
+
+
+    window.location.replace(
+        "loading.html"
+    );
 
 }
 
-});
 
-loading.style.display="none";
+/* ==========================================
+   EMPLOYEE LOGIN
+========================================== */
 
-if(!found){
+async function employeeLogin(
+    username,
+    pass
+){
 
-alert("Invalid Employee Login");
+    const snapshot =
+
+    await getDocs(
+
+        collection(
+            db,
+            "employees"
+        )
+
+    );
+
+
+    let foundEmployee =
+    null;
+
+
+    snapshot.forEach(
+        docSnap => {
+
+            const emp =
+            docSnap.data();
+
+
+            const employeeId =
+
+            String(
+                emp.employeeid || ""
+            )
+            .trim()
+            .toUpperCase();
+
+
+            const employeeUsername =
+
+            String(
+                emp.username || ""
+            )
+            .trim()
+            .toUpperCase();
+
+
+            const enteredUsername =
+
+            username
+            .trim()
+            .toUpperCase();
+
+
+            const employeePassword =
+
+            String(
+                emp.password || ""
+            );
+
+
+            const idMatch =
+
+            employeeId !== "" &&
+
+            employeeId ===
+            enteredUsername;
+
+
+            const usernameMatch =
+
+            employeeUsername !== "" &&
+
+            employeeUsername ===
+            enteredUsername;
+
+
+            const passwordMatch =
+
+            employeePassword ===
+            pass;
+
+
+            if(
+
+                (idMatch ||
+                usernameMatch)
+
+                &&
+
+                passwordMatch
+
+            ){
+
+                foundEmployee = {
+
+                    id:
+                    docSnap.id,
+
+                    ...emp
+
+                };
+
+            }
+
+        }
+    );
+
+
+    if(!foundEmployee){
+
+        throw new Error(
+            "Invalid Employee Login"
+        );
+
+    }
+
+
+    saveLoginSession(
+        "employee",
+        username
+    );
+
+
+    localStorage.setItem(
+
+        "employeeDocId",
+
+        foundEmployee.id
+
+    );
+
+
+    localStorage.setItem(
+
+        "employeeId",
+
+        foundEmployee.employeeid || ""
+
+    );
+
+
+    localStorage.setItem(
+
+        "employeeName",
+
+        [
+
+            foundEmployee.firstname,
+
+            foundEmployee.middlename,
+
+            foundEmployee.lastname
+
+        ]
+
+        .filter(Boolean)
+
+        .join(" ")
+
+        .replace(/\s+/g," ")
+
+        .trim()
+
+    );
+
+
+    window.location.replace(
+        "loading.html"
+    );
 
 }
 
-}catch(error){
 
-loading.style.display="none";
+/* ==========================================
+   LOGIN
+========================================== */
 
-console.error(error);
+window.login = async function(){
 
-alert("Firebase Error");
+    const selectedRole =
+    role.value;
 
-}
 
-return;
+    const username =
+    email.value.trim();
 
-}
 
-loading.style.display="none";
+    const pass =
+    password.value;
+
+
+    /* ======================================
+       VALIDATION
+    ====================================== */
+
+    if(selectedRole === ""){
+
+        alert(
+            "Please select your role."
+        );
+
+        return;
+
+    }
+
+
+    if(username === ""){
+
+        alert(
+            "Please enter your Email or Employee ID."
+        );
+
+        return;
+
+    }
+
+
+    if(pass === ""){
+
+        alert(
+            "Please enter your password."
+        );
+
+        return;
+
+    }
+
+
+    try{
+
+        showLoading();
+
+        disableLogin();
+
+
+        /* ==================================
+           FIREBASE AUTH PERSISTENCE
+        ================================== */
+
+        if(remember.checked){
+
+            await setPersistence(
+
+                auth,
+
+                browserLocalPersistence
+
+            );
+
+        }else{
+
+            await setPersistence(
+
+                auth,
+
+                browserSessionPersistence
+
+            );
+
+        }
+
+
+        /* ==================================
+           ADMIN
+        ================================== */
+
+        if(selectedRole === "admin"){
+
+            await adminLogin(
+                username,
+                pass
+            );
+
+            return;
+
+        }
+
+
+        /* ==================================
+           EMPLOYEE
+        ================================== */
+
+        if(selectedRole === "employee"){
+
+            await employeeLogin(
+                username,
+                pass
+            );
+
+            return;
+
+        }
+
+
+    }catch(error){
+
+        console.error(
+            "Login Error:",
+            error
+        );
+
+
+        hideLoading();
+
+        enableLogin();
+
+
+        if(
+            error.code ===
+            "auth/invalid-credential"
+        ){
+
+            alert(
+                "Invalid email or password."
+            );
+
+            return;
+
+        }
+
+
+        if(
+            error.code ===
+            "auth/invalid-email"
+        ){
+
+            alert(
+                "Invalid email address."
+            );
+
+            return;
+
+        }
+
+
+        if(
+            error.code ===
+            "auth/user-not-found"
+        ){
+
+            alert(
+                "Account not found."
+            );
+
+            return;
+
+        }
+
+
+        if(
+            error.message ===
+            "Invalid Employee Login"
+        ){
+
+            alert(
+                "Invalid Employee ID or password."
+            );
+
+            return;
+
+        }
+
+
+        alert(
+            error.message ||
+            "Login failed."
+        );
+
+    }
 
 };
 
-/* ==========================================
-ENTER KEY LOGIN
-========================================== */
-
-password.addEventListener("keypress",(e)=>{
-
-if(e.key==="Enter"){
-
-login();
-
-}
-
-});
 
 /* ==========================================
-FINGERPRINT LOGIN
+   ENTER KEY
 ========================================== */
 
-const fingerBtn=
+password.addEventListener(
+    "keydown",
+    function(event){
 
-document.getElementById("fingerBtn");
+        if(event.key === "Enter"){
+
+            login();
+
+        }
+
+    }
+);
+
+
+/* ==========================================
+   FINGERPRINT / BIOMETRIC
+========================================== */
 
 if(fingerBtn){
 
-if(!window.PublicKeyCredential){
+    if(
+        !window.PublicKeyCredential
+    ){
 
-fingerBtn.style.display="none";
+        fingerBtn.style.display =
+        "none";
 
-}else{
+    }else{
 
-fingerBtn.addEventListener("click",()=>{
+        fingerBtn.addEventListener(
+            "click",
+            function(){
 
-alert("Fingerprint Login Coming Soon");
+                alert(
+                    "Fingerprint Login is not yet connected."
+                );
 
-});
+            }
+        );
+
+    }
 
 }
 
-}
 
 /* ==========================================
-SERVICE WORKER
+   PAGE READY
 ========================================== */
 
-if("serviceWorker" in navigator){
+window.addEventListener(
+    "load",
+    function(){
 
-window.addEventListener("load",()=>{
+        hideLoading();
 
-navigator.serviceWorker
+        console.log(
+            "PAPPRITO HR Login Ready"
+        );
 
-.register("/service-worker.js")
-
-.then(()=>{
-
-console.log("Service Worker Registered");
-
-})
-
-.catch(error=>{
-
-console.log(error);
-
-});
-
-});
-
-}
-
-/* ==========================================
-PAGE READY
-========================================== */
-
-window.addEventListener("load",()=>{
-
-loading.style.display="none";
-
-console.log("PAPPRITO HR Login Ready");
-
-});
+    }
+);
