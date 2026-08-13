@@ -1,52 +1,19 @@
 /* ==========================================
    PAPPRITO HRIS
    EMPLOYEE MASTERLIST JS
-   EMPLOYEE PORTAL ACCOUNT VERSION
+   VERSION WITH LEAVE ALLOCATION
 ========================================== */
 
+import { db } from "./firebase.js";
 
 import {
-    db,
-    auth
-} from "./firebase.js";
-
-
-import {
-
-    initializeApp,
-    getApps,
-    getApp
-
-}
-from
-"https://www.gstatic.com/firebasejs/12.13.0/firebase-app.js";
-
-
-import {
-
-    getAuth,
-    createUserWithEmailAndPassword
-
-}
-from
-"https://www.gstatic.com/firebasejs/12.13.0/firebase-auth.js";
-
-
-import {
-
     collection,
     addDoc,
     getDocs,
     deleteDoc,
     doc,
-    updateDoc,
-    query,
-    where,
-    getDoc
-
-}
-from
-"https://www.gstatic.com/firebasejs/12.13.0/firebase-firestore.js";
+    updateDoc
+} from "https://www.gstatic.com/firebasejs/12.13.0/firebase-firestore.js";
 
 
 /* ==========================================
@@ -95,150 +62,127 @@ const total =
 
 
 /* ==========================================
-   EMPLOYEE PORTAL ELEMENTS
+   HELPER
 ========================================== */
 
-const portalEnabled =
-    document.getElementById(
-        "portalEnabled"
-    );
+function getFieldValue(
+    selector
+){
 
-
-const portalPassword =
-    document.getElementById(
-        "portalPassword"
-    );
-
-
-/* ==========================================
-   SECONDARY FIREBASE APP
-========================================== */
-
-/*
-   IMPORTANT:
-
-   We cannot create an employee Firebase
-   Auth account using the main auth object
-   because doing so would log the ADMIN out.
-
-   Therefore we create a SECOND Firebase App
-   only for employee account creation.
-*/
-
-
-let secondaryApp = null;
-
-let secondaryAuth = null;
-
-
-function initializeSecondaryAuth(){
-
-    try{
-
-        const existingApps =
-            getApps();
-
-
-        const existingSecondary =
-            existingApps.find(
-                app =>
-
-                app.name ===
-                "PAPPRITO_EMPLOYEE_AUTH"
-            );
-
-
-        if(
-            existingSecondary
-        ){
-
-            secondaryApp =
-                existingSecondary;
-
-        }else{
-
-            /*
-             * Get the Firebase configuration
-             * from the existing main app.
-             */
-
-            const mainApp =
-                getApp();
-
-
-            const config =
-                mainApp.options;
-
-
-            secondaryApp =
-                initializeApp(
-                    config,
-                    "PAPPRITO_EMPLOYEE_AUTH"
-                );
-
-        }
-
-
-        secondaryAuth =
-            getAuth(
-                secondaryApp
-            );
-
-
-        return true;
-
-
-    }catch(error){
-
-        console.error(
-            "Secondary Auth Error:",
-            error
+    const element =
+        document.querySelector(
+            selector
         );
 
 
-        return false;
+    return element
+        ? element.value.trim()
+        : "";
+
+}
+
+
+function setFieldValue(
+    selector,
+    value
+){
+
+    const element =
+        document.querySelector(
+            selector
+        );
+
+
+    if(element){
+
+        element.value =
+            value ?? "";
 
     }
 
 }
 
 
-/* ==========================================
-   CREATE INTERNAL AUTH EMAIL
-========================================== */
-
-/*
-   Employees login using Employee ID.
-
-   Firebase Authentication requires an email.
-
-   Therefore we create an internal email:
-
-   EMP001
-   ↓
-   emp001@papprito-hr.local
-
-   The employee will NOT need to know
-   this internal email.
-*/
-
-
-function createAuthEmail(
-    employeeId
+function numberValue(
+    value,
+    defaultValue = 0
 ){
 
-    return (
+    const number =
+        Number(value);
 
-        String(
-            employeeId || ""
-        )
-        .trim()
-        .toLowerCase()
 
-        +
+    if(
+        Number.isFinite(number)
+    ){
 
-        "@papprito-hr.local"
+        return number;
 
+    }
+
+
+    return defaultValue;
+
+}
+
+
+function escapeHTML(
+    value
+){
+
+    return String(
+        value ?? ""
+    )
+
+    .replace(
+        /&/g,
+        "&amp;"
+    )
+
+    .replace(
+        /</g,
+        "&lt;"
+    )
+
+    .replace(
+        />/g,
+        "&gt;"
+    )
+
+    .replace(
+        /"/g,
+        "&quot;"
+    )
+
+    .replace(
+        /'/g,
+        "&#039;"
+    );
+
+}
+
+
+function escapeAttribute(
+    value
+){
+
+    return String(
+        value ?? ""
+    )
+
+    .replace(
+        /\\/g,
+        "\\\\"
+    )
+
+    .replace(
+        /'/g,
+        "\\'"
+    )
+
+    .replace(
+        /"/g,
+        "&quot;"
     );
 
 }
@@ -251,43 +195,16 @@ function createAuthEmail(
 window.openModal =
 function(){
 
-    if(
-        employeeModal
-    ){
+    editId = null;
+
+
+    clearForm();
+
+
+    if(employeeModal){
 
         employeeModal.style.display =
             "flex";
-
-    }
-
-
-    /*
-     * New employee mode
-     */
-
-    editId =
-        null;
-
-
-    if(
-        portalEnabled
-    ){
-
-        portalEnabled.checked =
-            false;
-
-    }
-
-
-    if(
-        portalPassword
-    ){
-
-        portalPassword.value =
-            "";
-
-        portalPassword.placeholder =
-            "Temporary Password";
 
     }
 
@@ -301,9 +218,7 @@ function(){
 window.closeModal =
 function(){
 
-    if(
-        employeeModal
-    ){
+    if(employeeModal){
 
         employeeModal.style.display =
             "none";
@@ -347,9 +262,7 @@ function(
         );
 
 
-    if(
-        selectedTab
-    ){
+    if(selectedTab){
 
         selectedTab.classList.add(
             "active"
@@ -363,9 +276,9 @@ function(
             ".tab-btn"
         )
         .forEach(
-            btn => {
+            button => {
 
-                btn.classList.remove(
+                button.classList.remove(
                     "active"
                 );
 
@@ -400,6 +313,12 @@ function(){
         !birthdate.value
     ){
 
+        if(age){
+
+            age.value = "";
+
+        }
+
         return;
 
     }
@@ -415,6 +334,19 @@ function(){
         new Date();
 
 
+    if(
+        Number.isNaN(
+            birth.getTime()
+        )
+    ){
+
+        age.value = "";
+
+        return;
+
+    }
+
+
     let years =
         today.getFullYear()
         -
@@ -428,21 +360,15 @@ function(){
 
 
     if(
-
         monthDifference < 0
-
         ||
-
         (
             monthDifference === 0
-
             &&
-
             today.getDate()
             <
             birth.getDate()
         )
-
     ){
 
         years--;
@@ -451,324 +377,417 @@ function(){
 
 
     age.value =
-        years;
+        years >= 0
+        ? years
+        : "";
 
 };
 
 
 /* ==========================================
-   GET FORM DATA
+   GET EMPLOYEE FORM DATA
 ========================================== */
 
 function getEmployeeFormData(){
 
-    const fields =
-        document.querySelectorAll(
-            ".emp-field"
+    /*
+     * PERSONAL
+     */
+
+    const firstname =
+        getFieldValue(
+            "#personal .emp-field:nth-of-type(1)"
         );
 
 
-    const data = [];
+    const middlename =
+        getFieldValue(
+            "#personal .emp-field:nth-of-type(2)"
+        );
 
 
-    fields.forEach(
-        field => {
+    const lastname =
+        getFieldValue(
+            "#personal .emp-field:nth-of-type(3)"
+        );
 
-            data.push(
-                field.value
-            );
 
-        }
-    );
+    const birthdateValue =
+        getFieldValue(
+            "#birthdate"
+        );
+
+
+    const ageValue =
+        getFieldValue(
+            "#age"
+        );
+
+
+    const personalFields =
+        document.querySelectorAll(
+            "#personal .emp-field"
+        );
+
+
+    const gender =
+        personalFields[5]
+        ?
+        personalFields[5].value.trim()
+        :
+        "";
+
+
+    /*
+     * GOVERNMENT
+     */
+
+    const governmentFields =
+        document.querySelectorAll(
+            "#government .emp-field"
+        );
+
+
+    const sss =
+        governmentFields[0]
+        ?
+        governmentFields[0].value.trim()
+        :
+        "";
+
+
+    const philhealth =
+        governmentFields[1]
+        ?
+        governmentFields[1].value.trim()
+        :
+        "";
+
+
+    const pagibig =
+        governmentFields[2]
+        ?
+        governmentFields[2].value.trim()
+        :
+        "";
+
+
+    const healthcard =
+        governmentFields[3]
+        ?
+        governmentFields[3].value.trim()
+        :
+        "";
+
+
+    const bankname =
+        governmentFields[4]
+        ?
+        governmentFields[4].value.trim()
+        :
+        "";
+
+
+    const bankaccount =
+        governmentFields[5]
+        ?
+        governmentFields[5].value.trim()
+        :
+        "";
+
+
+    const idtype =
+        governmentFields[6]
+        ?
+        governmentFields[6].value.trim()
+        :
+        "";
+
+
+    const idnumber =
+        governmentFields[7]
+        ?
+        governmentFields[7].value.trim()
+        :
+        "";
+
+
+    /*
+     * CONTACT
+     */
+
+    const contactFields =
+        document.querySelectorAll(
+            "#contact .emp-field"
+        );
+
+
+    const mobile =
+        contactFields[0]
+        ?
+        contactFields[0].value.trim()
+        :
+        "";
+
+
+    const email =
+        contactFields[1]
+        ?
+        contactFields[1].value.trim()
+        :
+        "";
+
+
+    const currentaddress =
+        contactFields[2]
+        ?
+        contactFields[2].value.trim()
+        :
+        "";
+
+
+    const permanentaddress =
+        contactFields[3]
+        ?
+        contactFields[3].value.trim()
+        :
+        "";
+
+
+    /*
+     * EMPLOYMENT
+     */
+
+    const employmentFields =
+        document.querySelectorAll(
+            "#employment .emp-field"
+        );
+
+
+    /*
+     * First 6 fields:
+     *
+     * 0 Employee ID
+     * 1 Position
+     * 2 Department
+     * 3 Employment
+     * 4 Status
+     * 5 Salary
+     *
+     * Last 3:
+     *
+     * 6 Vacation
+     * 7 Sick
+     * 8 Birthday
+     */
+
+    const employeeid =
+        employmentFields[0]
+        ?
+        employmentFields[0].value
+            .trim()
+            .toUpperCase()
+        :
+        "";
+
+
+    const position =
+        employmentFields[1]
+        ?
+        employmentFields[1].value.trim()
+        :
+        "";
+
+
+    const department =
+        employmentFields[2]
+        ?
+        employmentFields[2].value.trim()
+        :
+        "";
+
+
+    const employment =
+        employmentFields[3]
+        ?
+        employmentFields[3].value.trim()
+        :
+        "";
+
+
+    const status =
+        employmentFields[4]
+        ?
+        employmentFields[4].value.trim()
+        :
+        "Active";
+
+
+    const salary =
+        employmentFields[5]
+        ?
+        employmentFields[5].value.trim()
+        :
+        "";
+
+
+    /*
+     * LEAVE ALLOCATION
+     */
+
+    const vacationLeave =
+        numberValue(
+            document.getElementById(
+                "vacationleave"
+            )
+            ?
+            document.getElementById(
+                "vacationleave"
+            ).value
+            :
+            0
+        );
+
+
+    const sickLeave =
+        numberValue(
+            document.getElementById(
+                "sickleave"
+            )
+            ?
+            document.getElementById(
+                "sickleave"
+            ).value
+            :
+            0
+        );
+
+
+    const birthdayLeave =
+        numberValue(
+            document.getElementById(
+                "birthdayleave"
+            )
+            ?
+            document.getElementById(
+                "birthdayleave"
+            ).value
+            :
+            0
+        );
 
 
     return {
 
+        /*
+         * PERSONAL
+         */
+
         firstname:
-            data[0] || "",
+            firstname,
 
         middlename:
-            data[1] || "",
+            middlename,
 
         lastname:
-            data[2] || "",
+            lastname,
 
         birthdate:
-            data[3] || "",
+            birthdateValue,
 
         age:
-            data[4] || "",
+            ageValue,
 
         gender:
-            data[5] || "",
+            gender,
 
+
+        /*
+         * GOVERNMENT
+         */
 
         sss:
-            data[6] || "",
+            sss,
 
         philhealth:
-            data[7] || "",
+            philhealth,
 
         pagibig:
-            data[8] || "",
+            pagibig,
 
         healthcard:
-            data[9] || "",
-
+            healthcard,
 
         bankname:
-            data[10] || "",
+            bankname,
 
         bankaccount:
-            data[11] || "",
+            bankaccount,
 
         idtype:
-            data[12] || "",
+            idtype,
 
         idnumber:
-            data[13] || "",
+            idnumber,
 
+
+        /*
+         * CONTACT
+         */
 
         mobile:
-            data[14] || "",
+            mobile,
 
         email:
-            data[15] || "",
+            email,
 
         currentaddress:
-            data[16] || "",
+            currentaddress,
 
         permanentaddress:
-            data[17] || "",
+            permanentaddress,
 
+
+        /*
+         * EMPLOYMENT
+         */
 
         employeeid:
-            (data[18] || "")
-            .toUpperCase()
-            .trim(),
+            employeeid,
 
+        username:
+            employeeid,
 
         position:
-            data[19] || "",
+            position,
 
         department:
-            data[20] || "",
+            department,
 
         employment:
-            data[21] || "",
+            employment,
 
         status:
-            data[22] || "Active",
+            status || "Active",
 
         salary:
-            data[23] || "",
+            salary,
 
+
+        /*
+         * LEAVE ALLOCATION
+         */
 
         vacationleave:
-            10,
+            vacationLeave,
 
         sickleave:
-            7,
+            sickLeave,
 
         birthdayleave:
-            1
+            birthdayLeave
 
     };
-
-}
-
-
-/* ==========================================
-   CHECK DUPLICATE EMPLOYEE ID
-========================================== */
-
-async function employeeIdExists(
-    employeeId,
-    ignoreId = null
-){
-
-    const snapshot =
-        await getDocs(
-            collection(
-                db,
-                "employees"
-            )
-        );
-
-
-    let exists =
-        false;
-
-
-    snapshot.forEach(
-        docSnap => {
-
-            if(
-                ignoreId &&
-                docSnap.id ===
-                ignoreId
-            ){
-
-                return;
-
-            }
-
-
-            const emp =
-                docSnap.data();
-
-
-            const existingId =
-                String(
-                    emp.employeeid || ""
-                )
-                .trim()
-                .toUpperCase();
-
-
-            if(
-                existingId ===
-                employeeId
-            ){
-
-                exists =
-                    true;
-
-            }
-
-        }
-    );
-
-
-    return exists;
-
-}
-
-
-/* ==========================================
-   CREATE EMPLOYEE AUTH ACCOUNT
-========================================== */
-
-async function createEmployeePortalAccount(
-    employeeId,
-    password
-){
-
-    if(
-        !employeeId
-    ){
-
-        throw new Error(
-            "Employee ID is required."
-        );
-
-    }
-
-
-    if(
-        !password
-    ){
-
-        throw new Error(
-            "Employee portal password is required."
-        );
-
-    }
-
-
-    if(
-        password.length < 6
-    ){
-
-        throw new Error(
-            "Employee portal password must contain at least 6 characters."
-        );
-
-    }
-
-
-    const initialized =
-        initializeSecondaryAuth();
-
-
-    if(
-        !initialized ||
-        !secondaryAuth
-    ){
-
-        throw new Error(
-            "Unable to initialize Employee Portal Authentication."
-        );
-
-    }
-
-
-    const authEmail =
-        createAuthEmail(
-            employeeId
-        );
-
-
-    try{
-
-        const result =
-            await createUserWithEmailAndPassword(
-
-                secondaryAuth,
-
-                authEmail,
-
-                password
-
-            );
-
-
-        return {
-
-            uid:
-                result.user.uid,
-
-            email:
-                authEmail
-
-        };
-
-
-    }catch(error){
-
-        console.error(
-            "Employee Auth Creation Error:",
-            error
-        );
-
-
-        if(
-            error.code ===
-            "auth/email-already-in-use"
-        ){
-
-            throw new Error(
-                "Employee Portal account already exists for this Employee ID."
-            );
-
-        }
-
-
-        if(
-            error.code ===
-            "auth/weak-password"
-        ){
-
-            throw new Error(
-                "Password is too weak. Use at least 6 characters."
-            );
-
-        }
-
-
-        throw error;
-
-    }
 
 }
 
@@ -784,9 +803,9 @@ async function(){
         getEmployeeFormData();
 
 
-    /* ======================================
-       VALIDATION
-    ====================================== */
+    /*
+     * REQUIRED FIELDS
+     */
 
     if(
         !employeeData.firstname
@@ -827,38 +846,42 @@ async function(){
     }
 
 
-    /* ======================================
-       PORTAL SETTINGS
-    ====================================== */
-
-    const enablePortal =
-        portalEnabled
-        ?
-        portalEnabled.checked
-        :
-        false;
-
-
-    const password =
-        portalPassword
-        ?
-        portalPassword.value
-        :
-        "";
-
-
     /*
-     * New employee + portal enabled
+     * CHECK DUPLICATE EMPLOYEE ID
      */
 
-    if(
-        !editId &&
-        enablePortal &&
-        !password
-    ){
+    const duplicate =
+        employees.find(
+            employee => {
+
+                const existingId =
+                    String(
+                        employee.employeeid || ""
+                    )
+                    .trim()
+                    .toUpperCase();
+
+
+                return (
+
+                    existingId ===
+                    employeeData.employeeid
+
+                )
+
+                &&
+
+                employee.id !==
+                editId;
+
+            }
+        );
+
+
+    if(duplicate){
 
         alert(
-            "Please enter a temporary password for the Employee Portal."
+            "Employee ID already exists."
         );
 
         return;
@@ -866,14 +889,20 @@ async function(){
     }
 
 
+    /*
+     * VALIDATE LEAVES
+     */
+
     if(
-        !editId &&
-        enablePortal &&
-        password.length < 6
+        employeeData.vacationleave < 0
+        ||
+        employeeData.sickleave < 0
+        ||
+        employeeData.birthdayleave < 0
     ){
 
         alert(
-            "Employee Portal password must contain at least 6 characters."
+            "Leave allocation cannot be negative."
         );
 
         return;
@@ -883,90 +912,26 @@ async function(){
 
     try{
 
-        /* ==================================
-           DUPLICATE EMPLOYEE ID
-        ================================== */
+        if(editId){
 
-        const duplicate =
-            await employeeIdExists(
-                employeeData.employeeid,
-                editId
+            await updateDoc(
+
+                doc(
+                    db,
+                    "employees",
+                    editId
+                ),
+
+                employeeData
+
             );
 
-
-        if(
-            duplicate
-        ){
 
             alert(
-                "Employee ID already exists."
+                "Employee updated successfully."
             );
 
-            return;
-
-        }
-
-
-        /* ==================================
-           NEW EMPLOYEE
-        ================================== */
-
-        if(
-            !editId
-        ){
-
-            let portalAccount =
-                null;
-
-
-            /*
-             * Create Firebase Auth account
-             * BEFORE saving Firestore employee.
-             */
-
-            if(
-                enablePortal
-            ){
-
-                portalAccount =
-                    await createEmployeePortalAccount(
-
-                        employeeData.employeeid,
-
-                        password
-
-                    );
-
-            }
-
-
-            /* ==============================
-               SAVE EMPLOYEE
-            ============================== */
-
-            const finalData = {
-
-                ...employeeData,
-
-                portalEnabled:
-                    enablePortal,
-
-                portalEmail:
-                    portalAccount
-                    ?
-                    portalAccount.email
-                    :
-                    "",
-
-                portalUid:
-                    portalAccount
-                    ?
-                    portalAccount.uid
-                    :
-                    ""
-
-            };
-
+        }else{
 
             await addDoc(
 
@@ -975,179 +940,17 @@ async function(){
                     "employees"
                 ),
 
-                finalData
+                employeeData
 
             );
 
 
             alert(
-
-                enablePortal
-
-                ?
-
-                "Employee Saved Successfully.\n\nEmployee Portal account has been created."
-
-                :
-
-                "Employee Saved Successfully."
-
+                "Employee saved successfully."
             );
 
         }
 
-
-        /* ==================================
-           EDIT EMPLOYEE
-        ================================== */
-
-        else{
-
-            /*
-             * Get existing employee
-             */
-
-            const employeeRef =
-                doc(
-                    db,
-                    "employees",
-                    editId
-                );
-
-
-            const employeeSnap =
-                await getDoc(
-                    employeeRef
-                );
-
-
-            if(
-                !employeeSnap.exists()
-            ){
-
-                alert(
-                    "Employee record not found."
-                );
-
-                return;
-
-            }
-
-
-            const existingEmployee =
-                employeeSnap.data();
-
-
-            let portalUid =
-                existingEmployee.portalUid
-                ||
-                "";
-
-
-            let portalEmail =
-                existingEmployee.portalEmail
-                ||
-                "";
-
-
-            /*
-             * If portal was previously disabled
-             * and admin enables it now,
-             * create the Auth account.
-             */
-
-            if(
-
-                enablePortal
-
-                &&
-
-                !existingEmployee.portalEnabled
-
-            ){
-
-                if(
-                    !password
-                ){
-
-                    alert(
-                        "Please enter a temporary password to create the Employee Portal account."
-                    );
-
-                    return;
-
-                }
-
-
-                if(
-                    password.length < 6
-                ){
-
-                    alert(
-                        "Employee Portal password must contain at least 6 characters."
-                    );
-
-                    return;
-
-                }
-
-
-                const portalAccount =
-                    await createEmployeePortalAccount(
-
-                        employeeData.employeeid,
-
-                        password
-
-                    );
-
-
-                portalUid =
-                    portalAccount.uid;
-
-
-                portalEmail =
-                    portalAccount.email;
-
-            }
-
-
-            /*
-             * Save updated employee data
-             */
-
-            await updateDoc(
-
-                employeeRef,
-
-                {
-
-                    ...employeeData,
-
-                    portalEnabled:
-                        enablePortal,
-
-                    portalUid:
-                        portalUid,
-
-                    portalEmail:
-                        portalEmail
-
-                }
-
-            );
-
-
-            alert(
-                "Employee Updated Successfully."
-            );
-
-        }
-
-
-        /* ==================================
-           CLOSE + RELOAD
-        ================================== */
 
         closeModal();
 
@@ -1164,13 +967,8 @@ async function(){
 
 
         alert(
-
+            "Save Error\n\n" +
             error.message
-
-            ||
-
-            "Save Employee Error."
-
         );
 
     }
@@ -1195,12 +993,26 @@ async function loadEmployees(){
             );
 
 
-        if(
-            table
-        ){
+        if(table){
 
-            table.innerHTML =
-                "";
+            table.innerHTML = `
+
+<tr>
+
+<td
+    colspan="29"
+    style="
+        text-align:center;
+        padding:30px;
+    ">
+
+    Loading employees...
+
+</td>
+
+</tr>
+
+`;
 
         }
 
@@ -1232,6 +1044,36 @@ async function loadEmployees(){
         );
 
 
+        /*
+         * Sort by last name
+         */
+
+        employees.sort(
+            (
+                a,
+                b
+            ) => {
+
+                const lastA =
+                    String(
+                        a.lastname || ""
+                    ).toLowerCase();
+
+
+                const lastB =
+                    String(
+                        b.lastname || ""
+                    ).toLowerCase();
+
+
+                return lastA.localeCompare(
+                    lastB
+                );
+
+            }
+        );
+
+
         renderTable();
 
 
@@ -1243,8 +1085,40 @@ async function loadEmployees(){
         );
 
 
+        const table =
+            document.querySelector(
+                "#empTable tbody"
+            );
+
+
+        if(table){
+
+            table.innerHTML = `
+
+<tr>
+
+<td
+    colspan="29"
+    style="
+        text-align:center;
+        padding:30px;
+        color:red;
+    ">
+
+    Failed to load employees.
+
+</td>
+
+</tr>
+
+`;
+
+        }
+
+
         alert(
-            "Failed to load employees."
+            "Failed to load employees.\n\n" +
+            error.message
         );
 
     }
@@ -1264,26 +1138,33 @@ function renderTable(){
         );
 
 
-    if(
-        !table
-    ){
+    if(!table){
 
         return;
 
     }
 
 
-    table.innerHTML =
-        "";
+    table.innerHTML = "";
+
+
+    let visibleCount = 0;
 
 
     employees.forEach(
-        emp => {
+        employee => {
 
+            /*
+             * STATUS FILTER
+             */
 
-            /* ==============================
-               ACTIVE FILTER
-            ============================== */
+            const employeeStatus =
+                String(
+                    employee.status ||
+                    "Active"
+                )
+                .trim();
+
 
             if(
                 currentStatusFilter ===
@@ -1291,7 +1172,7 @@ function renderTable(){
             ){
 
                 if(
-                    emp.status !==
+                    employeeStatus !==
                     "Active"
                 ){
 
@@ -1301,10 +1182,6 @@ function renderTable(){
 
             }
 
-
-            /* ==============================
-               INACTIVE FILTER
-            ============================== */
 
             if(
                 currentStatusFilter ===
@@ -1312,7 +1189,7 @@ function renderTable(){
             ){
 
                 if(
-                    emp.status ===
+                    employeeStatus ===
                     "Active"
                 ){
 
@@ -1323,424 +1200,374 @@ function renderTable(){
             }
 
 
-            /* ==============================
-               STATUS CLASS
-            ============================== */
+            visibleCount++;
 
-            const statusClass =
 
-                emp.status ===
-                "Active"
+            /*
+             * STATUS CLASS
+             */
 
-                ?
-
-                "status-active"
-
-                :
-
-                emp.status ===
-                "AWOL"
-
-                ?
-
-                "status-awol"
-
-                :
-
-                emp.status ===
-                "Resigned"
-
-                ?
-
-                "status-resigned"
-
-                :
-
+            let statusClass =
                 "status-other";
 
 
-            /* ==============================
-               PORTAL STATUS
-            ============================== */
+            if(
+                employeeStatus ===
+                "Active"
+            ){
 
-            const portalStatus =
+                statusClass =
+                    "status-active";
 
-                emp.portalEnabled
+            }
 
-                ?
+            else if(
+                employeeStatus ===
+                "AWOL"
+            ){
 
-                `<span style="
-                    color:#008000;
-                    font-weight:bold;
-                ">
-                    ENABLED
-                </span>`
+                statusClass =
+                    "status-awol";
 
-                :
+            }
 
-                `<span style="
-                    color:#999;
-                    font-weight:bold;
-                ">
-                    DISABLED
-                </span>`;
+            else if(
+                employeeStatus ===
+                "Resigned"
+            ){
 
+                statusClass =
+                    "status-resigned";
 
-            /* ==============================
-               TABLE ROW
-            ============================== */
-
-            table.innerHTML += `
-
-<tr>
+            }
 
 
-<td>
+            /*
+             * FULL NAME
+             */
 
-<button
-class="print-btn"
-onclick="
-viewQR(
-'${escapeHTML(
-    emp.employeeid || ""
-)}',
-'${escapeHTML(
-    `${emp.firstname || ""} ${emp.lastname || ""}`
-)}'
-)">
+            const fullName = [
 
-VIEW QR
+                employee.firstname || "",
 
-</button>
+                employee.middlename || "",
 
-</td>
+                employee.lastname || ""
+
+            ]
+
+            .filter(Boolean)
+
+            .join(" ");
 
 
-<td>
+            /*
+             * LEAVE VALUES
+             */
 
-${escapeHTML(
-    emp.firstname || ""
-)}
-
-</td>
-
-
-<td>
-
-${escapeHTML(
-    emp.middlename || ""
-)}
-
-</td>
+            const vacationLeave =
+                numberValue(
+                    employee.vacationleave
+                );
 
 
-<td>
-
-${escapeHTML(
-    emp.lastname || ""
-)}
-
-</td>
+            const sickLeave =
+                numberValue(
+                    employee.sickleave
+                );
 
 
-<td>
-
-${escapeHTML(
-    emp.birthdate || ""
-)}
-
-</td>
+            const birthdayLeave =
+                numberValue(
+                    employee.birthdayleave
+                );
 
 
-<td>
+            /*
+             * SAFE VALUES
+             */
 
-${escapeHTML(
-    emp.age || ""
-)}
+            const employeeDocId =
+                escapeAttribute(
+                    employee.id
+                );
 
-</td>
+
+            const employeeId =
+                escapeAttribute(
+                    employee.employeeid
+                );
 
 
-<td>
+            const safeName =
+                escapeAttribute(
+                    fullName
+                );
 
-${escapeHTML(
-    emp.gender || ""
-)}
 
-</td>
+            /*
+             * TABLE ROW
+             */
 
+            const row =
+                document.createElement(
+                    "tr"
+                );
+
+
+            row.innerHTML = `
 
 <td>
 
-${escapeHTML(
-    emp.sss || ""
-)}
+    <button
+        class="icon-btn qr-icon"
+        onclick="viewQR(
+            '${employeeId}',
+            '${safeName}'
+        )"
+        title="View QR Code"
+        aria-label="View QR Code">
 
-</td>
+        <span class="material-icons">
+            qr_code_2
+        </span>
 
-
-<td>
-
-${escapeHTML(
-    emp.philhealth || ""
-)}
+    </button>
 
 </td>
 
 
 <td>
+    ${escapeHTML(
+        employee.firstname
+    )}
+</td>
 
-${escapeHTML(
-    emp.pagibig || ""
-)}
+
+<td>
+    ${escapeHTML(
+        employee.middlename
+    )}
+</td>
+
+
+<td>
+    ${escapeHTML(
+        employee.lastname
+    )}
+</td>
+
+
+<td>
+    ${escapeHTML(
+        employee.birthdate
+    )}
+</td>
+
+
+<td>
+    ${escapeHTML(
+        employee.age
+    )}
+</td>
+
+
+<td>
+    ${escapeHTML(
+        employee.gender
+    )}
+</td>
+
+
+<td>
+    ${escapeHTML(
+        employee.sss
+    )}
+</td>
+
+
+<td>
+    ${escapeHTML(
+        employee.philhealth
+    )}
+</td>
+
+
+<td>
+    ${escapeHTML(
+        employee.pagibig
+    )}
+</td>
+
+
+<td>
+    ${escapeHTML(
+        employee.healthcard
+    )}
+</td>
+
+
+<td>
+    ${escapeHTML(
+        employee.bankname
+    )}
+</td>
+
+
+<td>
+    ${escapeHTML(
+        employee.bankaccount
+    )}
+</td>
+
+
+<td>
+    ${escapeHTML(
+        employee.idtype
+    )}
+</td>
+
+
+<td>
+    ${escapeHTML(
+        employee.idnumber
+    )}
+</td>
+
+
+<td>
+    ${escapeHTML(
+        employee.mobile
+    )}
+</td>
+
+
+<td>
+    ${escapeHTML(
+        employee.email
+    )}
+</td>
+
+
+<td>
+    ${escapeHTML(
+        employee.currentaddress
+    )}
+</td>
+
+
+<td>
+    ${escapeHTML(
+        employee.permanentaddress
+    )}
+</td>
+
+
+<td>
+    ${escapeHTML(
+        employee.employeeid
+    )}
+</td>
+
+
+<td>
+    ${escapeHTML(
+        employee.position
+    )}
+</td>
+
+
+<td>
+    ${escapeHTML(
+        employee.department
+    )}
+</td>
+
+
+<td>
+    ${escapeHTML(
+        employee.employment
+    )}
+</td>
+
+
+<td class="${statusClass}">
+
+    ${escapeHTML(
+        employeeStatus
+    )}
 
 </td>
 
 
 <td>
+    ${escapeHTML(
+        employee.salary
+    )}
+</td>
 
-${escapeHTML(
-    emp.healthcard || ""
-)}
 
+<td>
+    ${vacationLeave}
+</td>
+
+
+<td>
+    ${sickLeave}
+</td>
+
+
+<td>
+    ${birthdayLeave}
 </td>
 
 
 <td>
 
-${escapeHTML(
-    emp.bankname || ""
-)}
+    <button
+        class="icon-btn edit-icon"
+        onclick="editEmployee(
+            '${employeeDocId}'
+        )"
+        title="Edit Employee"
+        aria-label="Edit Employee">
+
+        <span class="material-icons">
+            edit
+        </span>
+
+    </button>
+
+
+    <button
+        class="icon-btn delete-icon"
+        onclick="deleteEmployee(
+            '${employeeDocId}'
+        )"
+        title="Delete Employee"
+        aria-label="Delete Employee">
+
+        <span class="material-icons">
+            delete
+        </span>
+
+    </button>
 
 </td>
-
-
-<td>
-
-${escapeHTML(
-    emp.bankaccount || ""
-)}
-
-</td>
-
-
-<td>
-
-${escapeHTML(
-    emp.idtype || ""
-)}
-
-</td>
-
-
-<td>
-
-${escapeHTML(
-    emp.idnumber || ""
-)}
-
-</td>
-
-
-<td>
-
-${escapeHTML(
-    emp.mobile || ""
-)}
-
-</td>
-
-
-<td>
-
-${escapeHTML(
-    emp.email || ""
-)}
-
-</td>
-
-
-<td>
-
-${escapeHTML(
-    emp.currentaddress || ""
-)}
-
-</td>
-
-
-<td>
-
-${escapeHTML(
-    emp.permanentaddress || ""
-)}
-
-</td>
-
-
-<td>
-
-<strong>
-
-${escapeHTML(
-    emp.employeeid || ""
-)}
-
-</strong>
-
-</td>
-
-
-<td>
-
-${escapeHTML(
-    emp.position || ""
-)}
-
-</td>
-
-
-<td>
-
-${escapeHTML(
-    emp.department || ""
-)}
-
-</td>
-
-
-<td>
-
-${escapeHTML(
-    emp.employment || ""
-)}
-
-</td>
-
-
-<td
-class="${statusClass}">
-
-${escapeHTML(
-    emp.status || "Active"
-)}
-
-</td>
-
-
-<td>
-
-${escapeHTML(
-    emp.salary || ""
-)}
-
-</td>
-
-
-<td>
-
-${emp.vacationleave || 0}
-
-</td>
-
-
-<td>
-
-${emp.sickleave || 0}
-
-</td>
-
-
-<td>
-
-${emp.birthdayleave || 0}
-
-</td>
-
-
-<td>
-
-${portalStatus}
-
-
-<br><br>
-
-
-<button
-class="btn"
-onclick="
-editEmployee(
-'${escapeHTML(emp.id)}'
-)">
-
-Edit
-
-</button>
-
-
-<button
-class="btn"
-onclick="
-deleteEmployee(
-'${escapeHTML(emp.id)}'
-)">
-
-Delete
-
-</button>
-
-
-</td>
-
-
-</tr>
 
 `;
+
+
+            table.appendChild(
+                row
+            );
 
         }
     );
 
 
-    updateTotal();
-
-}
-
-
-/* ==========================================
-   HTML ESCAPE
-========================================== */
-
-function escapeHTML(
-value
-){
-
-    return String(
-        value ?? ""
-    )
-
-    .replace(
-        /&/g,
-        "&amp;"
-    )
-
-    .replace(
-        /</g,
-        "&lt;"
-    )
-
-    .replace(
-        />/g,
-        "&gt;"
-    )
-
-    .replace(
-        /"/g,
-        "&quot;"
-    )
-
-    .replace(
-        /'/g,
-        "&#039;"
+    updateTotal(
+        visibleCount
     );
 
 }
@@ -1761,6 +1588,83 @@ function(
 
     renderTable();
 
+
+    /*
+     * Clear search when changing filter
+     */
+
+    if(search){
+
+        search.value = "";
+
+    }
+
+};
+
+
+/* ==========================================
+   SEARCH
+========================================== */
+
+window.searchEmp =
+function(){
+
+    const value =
+        search
+        ?
+        search.value
+            .trim()
+            .toLowerCase()
+        :
+        "";
+
+
+    const rows =
+        document.querySelectorAll(
+            "#empTable tbody tr"
+        );
+
+
+    let visible = 0;
+
+
+    rows.forEach(
+        row => {
+
+            const match =
+                row.innerText
+                    .toLowerCase()
+                    .includes(
+                        value
+                    );
+
+
+            row.style.display =
+                match
+                ?
+                ""
+                :
+                "none";
+
+
+            if(match){
+
+                visible++;
+
+            }
+
+        }
+    );
+
+
+    if(total){
+
+        total.innerText =
+            "Showing : " +
+            visible;
+
+    }
+
 };
 
 
@@ -1778,13 +1682,11 @@ function(
         window.open(
             "",
             "_blank",
-            "width=400,height=500"
+            "width=420,height=560"
         );
 
 
-    if(
-        !qrWindow
-    ){
+    if(!qrWindow){
 
         alert(
             "Please allow pop-ups to view the QR code."
@@ -1795,65 +1697,224 @@ function(
     }
 
 
+    const safeEmployeeId =
+        escapeHTML(
+            employeeid
+        );
+
+
+    const safeName =
+        escapeHTML(
+            name
+        );
+
+
+    const qrData =
+        JSON.stringify({
+
+            employeeid:
+                employeeid,
+
+            name:
+                name
+
+        });
+
+
+    const safeQRData =
+        escapeHTML(
+            qrData
+        );
+
+
     qrWindow.document.write(`
 
-<html>
+<!DOCTYPE html>
+
+<html lang="en">
 
 <head>
 
+<meta charset="UTF-8">
+
+<meta
+    name="viewport"
+    content="width=device-width,initial-scale=1.0">
+
 <title>
-
-Employee QR
-
+PAPPRITO Employee QR
 </title>
 
 
 <style>
 
+*{
+
+    box-sizing:border-box;
+
+}
+
+
 body{
 
+    margin:0;
+
+    min-height:100vh;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    background:#f5f5f5;
+
     font-family:
+        "Segoe UI",
         Tahoma,
+        Arial,
         sans-serif;
+
+}
+
+
+.qr-card{
+
+    width:350px;
+
+    max-width:90vw;
+
+    background:#ffffff;
+
+    border:
+        2px solid
+        #ffcc00;
+
+    border-radius:15px;
+
+    padding:25px;
 
     text-align:center;
 
-    padding:20px;
+    box-shadow:
+        0 10px 30px
+        rgba(0,0,0,.12);
 
-    background:white;
+}
+
+
+.logo{
+
+    width:65px;
+
+    height:65px;
+
+    object-fit:cover;
+
+    border-radius:50%;
+
+    border:
+        3px solid
+        #ffcc00;
+
+    padding:3px;
+
+    margin-bottom:8px;
 
 }
 
 
 h2{
 
-    color:#cc0000;
+    margin:2px;
+
+    color:#d71920;
+
+}
+
+
+h3{
+
+    margin:5px 0 15px;
+
+    color:#333;
+
+}
+
+
+.info{
+
+    margin:8px 0;
+
+    padding:8px;
+
+    background:#fff9df;
+
+    border-radius:7px;
+
+    font-size:13px;
 
 }
 
 
 #qrcode{
 
-    margin-top:20px;
+    display:flex;
+
+    justify-content:center;
+
+    margin:20px 0;
 
 }
 
 
 button{
 
-    margin-top:20px;
-
-    padding:10px 20px;
-
     border:none;
+
+    border-radius:7px;
 
     background:#ffcc00;
 
-    font-weight:bold;
+    color:#111;
+
+    padding:11px 20px;
+
+    font-weight:900;
 
     cursor:pointer;
 
-    border-radius:8px;
+}
+
+
+button:hover{
+
+    opacity:.85;
+
+}
+
+
+@media print{
+
+    body{
+
+        background:#fff;
+
+    }
+
+
+    .qr-card{
+
+        box-shadow:none;
+
+    }
+
+
+    button{
+
+        display:none;
+
+    }
 
 }
 
@@ -1865,97 +1926,107 @@ button{
 <body>
 
 
+<div class="qr-card">
+
+
+<img
+    src="../assets/images/logo.png"
+    class="logo"
+    alt="PAPPRITO">
+
+
 <h2>
-
 PAPPRITO
-
 </h2>
 
 
 <h3>
-
 Employee QR Code
-
 </h3>
 
 
-<p>
+<div class="info">
 
-<b>ID:</b>
+<b>
+Employee ID:
+</b>
 
-${escapeHTML(employeeid)}
+<br>
 
-</p>
-
-
-<p>
-
-<b>Name:</b>
-
-${escapeHTML(name)}
-
-</p>
-
-
-<div id="qrcode">
+${safeEmployeeId}
 
 </div>
 
 
+<div class="info">
+
+<b>
+Employee:
+</b>
+
 <br>
+
+${safeName}
+
+</div>
+
+
+<div id="qrcode">
+</div>
 
 
 <button
-onclick="window.print()">
+    onclick="window.print()">
 
-PRINT QR
+    🖨 PRINT QR
 
 </button>
 
 
-<script src="
-https://cdn.jsdelivr.net/npm/qrcode/build/qrcode.min.js
-"><\/script>
+</div>
+
+
+
+<script
+src="https://cdn.jsdelivr.net/npm/qrcode/build/qrcode.min.js">
+<\/script>
 
 
 <script>
 
+const qrValue =
+${JSON.stringify(qrData)};
+
+
+const canvas =
+document.createElement(
+    "canvas"
+);
+
+
 QRCode.toCanvas(
 
-    document.createElement(
-        'canvas'
-    ),
+    canvas,
 
-    JSON.stringify({
-
-        employeeid:
-            '${String(employeeid)
-                .replace(/'/g,"\\'")}',
-
-        name:
-            '${String(name)
-                .replace(/'/g,"\\'")}'
-
-    }),
+    qrValue,
 
     {
 
-        width:220
+        width:220,
+
+        margin:2
 
     },
 
     function(
-        error,
-        canvas
+        error
     ){
 
-        if(
-            !error
-        ){
+        if(!error){
 
             document
                 .getElementById(
-                    'qrcode'
+                    "qrcode"
                 )
                 .appendChild(
                     canvas
@@ -1987,324 +2058,258 @@ QRCode.toCanvas(
 ========================================== */
 
 window.editEmployee =
-async function(
+function(
     id
 ){
 
-    const emp =
+    const employee =
         employees.find(
-            e =>
-                e.id ===
-                id
+            item =>
+                item.id === id
         );
 
 
-    if(
-        !emp
-    ){
+    if(!employee){
+
+        alert(
+            "Employee record not found."
+        );
 
         return;
 
     }
-
-
-    openModal();
 
 
     editId =
         id;
 
 
-    const values = [
+    /*
+     * OPEN MODAL
+     */
 
-        emp.firstname,
+    if(employeeModal){
 
-        emp.middlename,
+        employeeModal.style.display =
+            "flex";
 
-        emp.lastname,
-
-        emp.birthdate,
-
-        emp.age,
-
-        emp.gender,
+    }
 
 
-        emp.sss,
+    /*
+     * PERSONAL
+     */
 
-        emp.philhealth,
-
-        emp.pagibig,
-
-        emp.healthcard,
-
-
-        emp.bankname,
-
-        emp.bankaccount,
-
-        emp.idtype,
-
-        emp.idnumber,
+    const personalFields =
+        document.querySelectorAll(
+            "#personal .emp-field"
+        );
 
 
-        emp.mobile,
+    if(personalFields[0]){
 
-        emp.email,
+        personalFields[0].value =
+            employee.firstname || "";
 
-        emp.currentaddress,
-
-        emp.permanentaddress,
+    }
 
 
-        emp.employeeid,
+    if(personalFields[1]){
 
-        emp.position,
+        personalFields[1].value =
+            employee.middlename || "";
 
-        emp.department,
+    }
 
-        emp.employment,
 
-        emp.status,
+    if(personalFields[2]){
 
-        emp.salary
+        personalFields[2].value =
+            employee.lastname || "";
+
+    }
+
+
+    setFieldValue(
+        "#birthdate",
+        employee.birthdate || ""
+    );
+
+
+    setFieldValue(
+        "#age",
+        employee.age || ""
+    );
+
+
+    if(personalFields[5]){
+
+        personalFields[5].value =
+            employee.gender || "";
+
+    }
+
+
+    /*
+     * GOVERNMENT
+     */
+
+    const governmentFields =
+        document.querySelectorAll(
+            "#government .emp-field"
+        );
+
+
+    const governmentValues = [
+
+        employee.sss,
+
+        employee.philhealth,
+
+        employee.pagibig,
+
+        employee.healthcard,
+
+        employee.bankname,
+
+        employee.bankaccount,
+
+        employee.idtype,
+
+        employee.idnumber
 
     ];
 
 
-    document
-        .querySelectorAll(
-            ".emp-field"
-        )
-        .forEach(
-            (
-                field,
-                i
-            ) => {
+    governmentFields.forEach(
+        (
+            field,
+            index
+        ) => {
 
-                field.value =
-                    values[i] || "";
-
-            }
-        );
-
-
-    /*
-     * Restore portal settings
-     */
-
-    if(
-        portalEnabled
-    ){
-
-        portalEnabled.checked =
-            emp.portalEnabled === true;
-
-    }
-
-
-    if(
-        portalPassword
-    ){
-
-        portalPassword.value =
-            "";
-
-
-        portalPassword.placeholder =
-
-            emp.portalEnabled
-
-            ?
-
-            "Password already exists - leave blank"
-
-            :
-
-            "Temporary Password";
-
-    }
-
-};
-
-
-/* ==========================================
-   DELETE EMPLOYEE
-========================================== */
-
-window.deleteEmployee =
-async function(
-    id
-){
-
-    if(
-        !confirm(
-            "Delete Employee?"
-        )
-    ){
-
-        return;
-
-    }
-
-
-    try{
-
-        await deleteDoc(
-
-            doc(
-                db,
-                "employees",
-                id
-            )
-
-        );
-
-
-        await loadEmployees();
-
-
-    }catch(error){
-
-        console.error(
-            "Delete Employee Error:",
-            error
-        );
-
-
-        alert(
-            "Delete Error"
-        );
-
-    }
-
-};
-
-
-/* ==========================================
-   SEARCH
-========================================== */
-
-window.searchEmp =
-function(){
-
-    const val =
-
-        search
-
-        ?
-
-        search.value
-            .toLowerCase()
-
-        :
-
-        "";
-
-
-    const rows =
-        document.querySelectorAll(
-            "#empTable tbody tr"
-        );
-
-
-    let visible =
-        0;
-
-
-    rows.forEach(
-        row => {
-
-            const show =
-                row.innerText
-                    .toLowerCase()
-                    .includes(
-                        val
-                    );
-
-
-            row.style.display =
-                show
-                ?
-                ""
-                :
-                "none";
-
-
-            if(
-                show
-            ){
-
-                visible++;
-
-            }
+            field.value =
+                governmentValues[index]
+                ?? "";
 
         }
     );
 
 
-    if(
-        total
-    ){
+    /*
+     * CONTACT
+     */
 
-        total.innerText =
-            "Showing : " +
-            visible;
-
-    }
-
-};
-
-
-/* ==========================================
-   CLEAR FORM
-========================================== */
-
-function clearForm(){
-
-    editId =
-        null;
-
-
-    document
-        .querySelectorAll(
-            ".emp-field"
-        )
-        .forEach(
-            el => {
-
-                el.value =
-                    "";
-
-            }
+    const contactFields =
+        document.querySelectorAll(
+            "#contact .emp-field"
         );
 
 
-    if(
-        portalEnabled
-    ){
+    const contactValues = [
 
-        portalEnabled.checked =
-            false;
+        employee.mobile,
 
-    }
+        employee.email,
+
+        employee.currentaddress,
+
+        employee.permanentaddress
+
+    ];
 
 
-    if(
-        portalPassword
-    ){
+    contactFields.forEach(
+        (
+            field,
+            index
+        ) => {
 
-        portalPassword.value =
-            "";
+            field.value =
+                contactValues[index]
+                ?? "";
 
-        portalPassword.placeholder =
-            "Temporary Password";
-
-    }
+        }
+    );
 
 
     /*
-     * Return to Personal Info
+     * EMPLOYMENT
+     */
+
+    const employmentFields =
+        document.querySelectorAll(
+            "#employment .emp-field"
+        );
+
+
+    const employmentValues = [
+
+        employee.employeeid,
+
+        employee.position,
+
+        employee.department,
+
+        employee.employment,
+
+        employee.status ||
+            "Active",
+
+        employee.salary,
+
+        employee.vacationleave ??
+            10,
+
+        employee.sickleave ??
+            7,
+
+        employee.birthdayleave ??
+            1
+
+    ];
+
+
+    employmentFields.forEach(
+        (
+            field,
+            index
+        ) => {
+
+            field.value =
+                employmentValues[index]
+                ?? "";
+
+        }
+    );
+
+
+    /*
+     * ENSURE LEAVE FIELDS
+     */
+
+    setFieldValue(
+        "#vacationleave",
+        employee.vacationleave ??
+            10
+    );
+
+
+    setFieldValue(
+        "#sickleave",
+        employee.sickleave ??
+            7
+    );
+
+
+    setFieldValue(
+        "#birthdayleave",
+        employee.birthdayleave ??
+            1
+    );
+
+
+    /*
+     * OPEN PERSONAL TAB
      */
 
     document
@@ -2328,9 +2333,7 @@ function clearForm(){
         );
 
 
-    if(
-        personal
-    ){
+    if(personal){
 
         personal.classList.add(
             "active"
@@ -2345,11 +2348,231 @@ function clearForm(){
         )
         .forEach(
             (
-                btn,
+                button,
                 index
             ) => {
 
-                btn.classList.toggle(
+                button.classList.toggle(
+                    "active",
+                    index === 0
+                );
+
+            }
+        );
+
+};
+
+
+/* ==========================================
+   DELETE EMPLOYEE
+========================================== */
+
+window.deleteEmployee =
+async function(
+    id
+){
+
+    const employee =
+        employees.find(
+            item =>
+                item.id === id
+        );
+
+
+    if(!employee){
+
+        alert(
+            "Employee record not found."
+        );
+
+        return;
+
+    }
+
+
+    const name = [
+
+        employee.firstname || "",
+
+        employee.lastname || ""
+
+    ]
+
+    .filter(Boolean)
+    .join(" ");
+
+
+    const confirmed =
+        confirm(
+
+            "Delete Employee?\n\n" +
+
+            (
+                name ||
+                employee.employeeid ||
+                "Employee"
+            )
+
+        );
+
+
+    if(!confirmed){
+
+        return;
+
+    }
+
+
+    try{
+
+        await deleteDoc(
+
+            doc(
+                db,
+                "employees",
+                id
+            )
+
+        );
+
+
+        alert(
+            "Employee deleted successfully."
+        );
+
+
+        await loadEmployees();
+
+
+    }catch(error){
+
+        console.error(
+            "Delete Employee Error:",
+            error
+        );
+
+
+        alert(
+            "Delete Error\n\n" +
+            error.message
+        );
+
+    }
+
+};
+
+
+/* ==========================================
+   CLEAR FORM
+========================================== */
+
+function clearForm(){
+
+    editId = null;
+
+
+    /*
+     * Clear all inputs/selects
+     */
+
+    document
+        .querySelectorAll(
+            ".emp-field"
+        )
+        .forEach(
+            element => {
+
+                element.value = "";
+
+            }
+        );
+
+
+    /*
+     * Default STATUS
+     */
+
+    const employmentFields =
+        document.querySelectorAll(
+            "#employment .emp-field"
+        );
+
+
+    if(employmentFields[4]){
+
+        employmentFields[4].value =
+            "Active";
+
+    }
+
+
+    /*
+     * Default LEAVES
+     */
+
+    setFieldValue(
+        "#vacationleave",
+        10
+    );
+
+
+    setFieldValue(
+        "#sickleave",
+        7
+    );
+
+
+    setFieldValue(
+        "#birthdayleave",
+        1
+    );
+
+
+    /*
+     * Reset tabs
+     */
+
+    document
+        .querySelectorAll(
+            ".tab-content"
+        )
+        .forEach(
+            tab => {
+
+                tab.classList.remove(
+                    "active"
+                );
+
+            }
+        );
+
+
+    const personal =
+        document.getElementById(
+            "personal"
+        );
+
+
+    if(personal){
+
+        personal.classList.add(
+            "active"
+        );
+
+    }
+
+
+    document
+        .querySelectorAll(
+            ".tab-btn"
+        )
+        .forEach(
+            (
+                button,
+                index
+            ) => {
+
+                button.classList.toggle(
                     "active",
                     index === 0
                 );
@@ -2361,30 +2584,115 @@ function clearForm(){
 
 
 /* ==========================================
-   TOTAL
+   UPDATE TOTAL
 ========================================== */
 
-function updateTotal(){
+function updateTotal(
+    count = null
+){
 
-    const rows =
-        document.querySelectorAll(
+    if(!total){
 
-            "#empTable tbody tr:not([style*=\"display: none\"])"
-
-        );
-
-
-    if(
-        total
-    ){
-
-        total.innerText =
-            "Total : " +
-            rows.length;
+        return;
 
     }
 
+
+    if(count !== null){
+
+        total.innerText =
+            "Total : " +
+            count;
+
+        return;
+
+    }
+
+
+    const rows =
+        document.querySelectorAll(
+            "#empTable tbody tr"
+        );
+
+
+    let visible = 0;
+
+
+    rows.forEach(
+        row => {
+
+            if(
+                row.style.display !==
+                "none"
+            ){
+
+                visible++;
+
+            }
+
+        }
+    );
+
+
+    total.innerText =
+        "Total : " +
+        visible;
+
 }
+
+
+/* ==========================================
+   MODAL OUTSIDE CLICK
+========================================== */
+
+if(employeeModal){
+
+    employeeModal.addEventListener(
+        "click",
+        function(event){
+
+            if(
+                event.target ===
+                employeeModal
+            ){
+
+                closeModal();
+
+            }
+
+        }
+    );
+
+}
+
+
+/* ==========================================
+   ESCAPE KEY
+========================================== */
+
+document.addEventListener(
+    "keydown",
+    function(event){
+
+        if(
+            event.key ===
+            "Escape"
+        ){
+
+            if(
+                employeeModal &&
+                employeeModal.style.display ===
+                "flex"
+            ){
+
+                closeModal();
+
+            }
+
+        }
+
+    }
+);
 
 
 /* ==========================================
