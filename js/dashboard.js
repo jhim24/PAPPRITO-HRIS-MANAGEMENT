@@ -1,6 +1,7 @@
 /* ==========================================
    PAPPRITO HRIS
    PREMIUM DASHBOARD JS
+   MATCHED WITH CURRENT dashboard.html
 ========================================== */
 
 import {
@@ -12,16 +13,14 @@ import {
 import {
     collection,
     getDocs
-}
-from
+} from
 "https://www.gstatic.com/firebasejs/12.13.0/firebase-firestore.js";
 
 
 import {
     onAuthStateChanged,
     signOut
-}
-from
+} from
 "https://www.gstatic.com/firebasejs/12.13.0/firebase-auth.js";
 
 
@@ -43,14 +42,8 @@ let currentUser = null;
 ========================================== */
 
 const sidebar =
-    document.getElementById(
-        "sidebar"
-    );
-
-
-const sidebarOverlay =
-    document.getElementById(
-        "sidebarOverlay"
+    document.querySelector(
+        ".sidebar"
     );
 
 
@@ -66,6 +59,53 @@ const currentDate =
     );
 
 
+const currentUserName =
+    document.getElementById(
+        "currentUserName"
+    );
+
+
+const totalEmployees =
+    document.getElementById(
+        "totalEmployees"
+    );
+
+
+const todayAttendance =
+    document.getElementById(
+        "todayAttendance"
+    );
+
+
+const leaveRequestsElement =
+    document.getElementById(
+        "leaveRequests"
+    );
+
+
+const totalPayroll =
+    document.getElementById(
+        "totalPayroll"
+    );
+
+
+const recentActivity =
+    document.getElementById(
+        "recentActivity"
+    );
+
+
+const logoutBtn =
+    document.getElementById(
+        "logoutBtn"
+    );
+
+
+/* ==========================================
+   OPTIONAL ELEMENTS
+   These may exist in future
+========================================== */
+
 const sidebarUser =
     document.getElementById(
         "sidebarUser"
@@ -78,21 +118,9 @@ const welcomeUser =
     );
 
 
-const totalEmployees =
-    document.getElementById(
-        "totalEmployees"
-    );
-
-
 const activeEmployees =
     document.getElementById(
         "activeEmployees"
-    );
-
-
-const todayAttendance =
-    document.getElementById(
-        "todayAttendance"
     );
 
 
@@ -132,12 +160,6 @@ const notificationBadge =
     );
 
 
-const recentLeaves =
-    document.getElementById(
-        "recentLeaves"
-    );
-
-
 /* ==========================================
    HELPERS
 ========================================== */
@@ -150,6 +172,10 @@ function text(value){
 
 }
 
+
+/* ==========================================
+   ESCAPE HTML
+========================================== */
 
 function escapeHTML(value){
 
@@ -186,7 +212,7 @@ function escapeHTML(value){
 
 
 /* ==========================================
-   DATE FORMAT
+   TODAY
 ========================================== */
 
 function getToday(){
@@ -299,7 +325,7 @@ function getCurrentUserName(){
     }
 
 
-    return "Admin";
+    return "HR Administrator";
 
 }
 
@@ -312,6 +338,16 @@ function displayUser(){
 
     const name =
         getCurrentUserName();
+
+
+    if(
+        currentUserName
+    ){
+
+        currentUserName.textContent =
+            name;
+
+    }
 
 
     if(
@@ -468,12 +504,16 @@ async function loadEmployees(){
         updateEmployeeStats();
 
 
-    }catch(error){
+    }
+    catch(error){
 
         console.error(
             "Employee Load Error:",
             error
         );
+
+
+        updateEmployeeStats();
 
     }
 
@@ -562,20 +602,14 @@ async function loadAttendance(){
 
         updateAttendanceStats();
 
-
-    }catch(error){
+    }
+    catch(error){
 
         console.error(
             "Attendance Load Error:",
             error
         );
 
-
-        /*
-         * Keep dashboard working
-         * even if collection does
-         * not exist yet.
-         */
 
         updateAttendanceStats();
 
@@ -592,25 +626,75 @@ function getAttendanceDate(
     record
 ){
 
-    return text(
+    let value =
+        text(
 
-        record.date ||
+            record.date ||
 
-        record.attendanceDate ||
+            record.attendanceDate ||
 
-        record.workDate ||
+            record.workDate ||
 
-        record.day ||
+            record.day ||
 
-        ""
+            ""
 
-    );
+        );
+
+
+    /*
+     * Handle Firestore Timestamp
+     */
+
+    if(
+        record.date &&
+        typeof record.date ===
+        "object" &&
+        typeof record.date.toDate ===
+        "function"
+    ){
+
+        const date =
+            record.date.toDate();
+
+
+        const year =
+            date.getFullYear();
+
+
+        const month =
+            String(
+                date.getMonth() + 1
+            )
+            .padStart(
+                2,
+                "0"
+            );
+
+
+        const day =
+            String(
+                date.getDate()
+            )
+            .padStart(
+                2,
+                "0"
+            );
+
+
+        value =
+            `${year}-${month}-${day}`;
+
+    }
+
+
+    return value;
 
 }
 
 
 /* ==========================================
-   ATTENDANCE EMPLOYEE ID
+   EMPLOYEE ID
 ========================================== */
 
 function getAttendanceEmployeeId(
@@ -626,6 +710,8 @@ function getAttendanceEmployeeId(
         record.empid ||
 
         record.empID ||
+
+        record.employeeID ||
 
         ""
 
@@ -648,14 +734,12 @@ function getTodayAttendance(){
     return attendanceRecords.filter(
         record => {
 
-            const date =
+            return (
                 getAttendanceDate(
                     record
-                );
-
-
-            return date ===
-                today;
+                ) ===
+                today
+            );
 
         }
     );
@@ -672,10 +756,6 @@ function updateAttendanceStats(){
     const records =
         getTodayAttendance();
 
-
-    /*
-     * Unique employees
-     */
 
     const uniqueEmployees =
         new Set();
@@ -705,8 +785,7 @@ function updateAttendanceStats(){
 
 
     const attendanceTotal =
-        uniqueEmployees.size
-        ||
+        uniqueEmployees.size ||
         records.length;
 
 
@@ -718,8 +797,22 @@ function updateAttendanceStats(){
         0;
 
 
+    const uniquePresent =
+        new Set();
+
+
+    const uniqueLate =
+        new Set();
+
+
     records.forEach(
         record => {
+
+            const id =
+                getAttendanceEmployeeId(
+                    record
+                );
+
 
             const status =
                 text(
@@ -730,32 +823,38 @@ function updateAttendanceStats(){
 
             const timeIn =
                 text(
+
                     record.timeIn ||
+
                     record.timein ||
+
                     ""
+
                 );
 
 
             if(
-                status.includes(
-                    "late"
-                )
+                id &&
+                timeIn
             ){
 
-                late++;
-
-                present++;
-
-                return;
+                uniquePresent.add(
+                    id
+                );
 
             }
 
 
             if(
-                timeIn
+                id &&
+                status.includes(
+                    "late"
+                )
             ){
 
-                present++;
+                uniqueLate.add(
+                    id
+                );
 
             }
 
@@ -763,40 +862,22 @@ function updateAttendanceStats(){
     );
 
 
-    /*
-     * Avoid counting duplicate
-     * records as multiple employees
-     */
-
     if(
         uniqueEmployees.size > 0
     ){
 
-        const uniquePresent =
-            new Set();
+        present =
+            uniquePresent.size;
 
 
-        const uniqueLate =
-            new Set();
+        late =
+            uniqueLate.size;
 
+    }
+    else{
 
         records.forEach(
             record => {
-
-                const id =
-                    getAttendanceEmployeeId(
-                        record
-                    );
-
-
-                if(
-                    !id
-                ){
-
-                    return;
-
-                }
-
 
                 const status =
                     text(
@@ -807,9 +888,13 @@ function updateAttendanceStats(){
 
                 const timeIn =
                     text(
+
                         record.timeIn ||
+
                         record.timein ||
+
                         ""
+
                     );
 
 
@@ -817,9 +902,7 @@ function updateAttendanceStats(){
                     timeIn
                 ){
 
-                    uniquePresent.add(
-                        id
-                    );
+                    present++;
 
                 }
 
@@ -830,22 +913,12 @@ function updateAttendanceStats(){
                     )
                 ){
 
-                    uniqueLate.add(
-                        id
-                    );
+                    late++;
 
                 }
 
             }
         );
-
-
-        present =
-            uniquePresent.size;
-
-
-        late =
-            uniqueLate.size;
 
     }
 
@@ -869,19 +942,23 @@ function updateAttendanceStats(){
 
 
     /*
-     * Absent is based on active
-     * employees without attendance.
+     * ABSENT
      */
 
     const active =
         employees.filter(
-            employee =>
-                text(
-                    employee.status
-                )
-                .toLowerCase()
-                ===
-                "active"
+            employee => {
+
+                return (
+                    text(
+                        employee.status
+                    )
+                    .toLowerCase()
+                    ===
+                    "active"
+                );
+
+            }
         );
 
 
@@ -894,7 +971,15 @@ function updateAttendanceStats(){
 
             const id =
                 text(
-                    employee.employeeid
+
+                    employee.employeeid ||
+
+                    employee.employeeId ||
+
+                    employee.empid ||
+
+                    ""
+
                 )
                 .toUpperCase();
 
@@ -1013,10 +1098,10 @@ async function loadLeaveRequests(){
 
         updateLeaveStats();
 
-        renderRecentLeaves();
+        renderRecentActivity();
 
-
-    }catch(error){
+    }
+    catch(error){
 
         console.error(
             "Leave Request Load Error:",
@@ -1026,7 +1111,7 @@ async function loadLeaveRequests(){
 
         updateLeaveStats();
 
-        renderRecentLeaves();
+        renderRecentActivity();
 
     }
 
@@ -1043,16 +1128,32 @@ function updateLeaveStats(){
         leaveRequests.filter(
             request => {
 
-                return text(
-                    request.status
-                )
-                .toUpperCase()
-                ===
-                "PENDING";
+                return (
+                    text(
+                        request.status
+                    )
+                    .toUpperCase()
+                    ===
+                    "PENDING"
+                );
 
             }
         ).length;
 
+
+    /*
+     * Current HTML uses leaveRequests
+     */
+
+    animateNumber(
+        leaveRequestsElement,
+        pending
+    );
+
+
+    /*
+     * Optional old/new element
+     */
 
     animateNumber(
         pendingLeaves,
@@ -1078,7 +1179,7 @@ function updateLeaveStats(){
 
 
     /*
-     * Approved leaves today
+     * Approved leave today
      */
 
     const today =
@@ -1103,11 +1204,15 @@ function updateLeaveStats(){
 
 
                 return (
+
                     status ===
                     "APPROVED"
+
                     &&
+
                     date ===
                     today
+
                 );
 
             }
@@ -1140,6 +1245,7 @@ function sortLeaves(){
             const aTime =
                 Number(
                     a.timestamp ||
+                    a.createdAt ||
                     0
                 );
 
@@ -1147,6 +1253,7 @@ function sortLeaves(){
             const bTime =
                 Number(
                     b.timestamp ||
+                    b.createdAt ||
                     0
                 );
 
@@ -1163,13 +1270,13 @@ function sortLeaves(){
 
 
 /* ==========================================
-   RECENT LEAVES
+   RENDER RECENT ACTIVITY
 ========================================== */
 
-function renderRecentLeaves(){
+function renderRecentActivity(){
 
     if(
-        !recentLeaves
+        !recentActivity
     ){
 
         return;
@@ -1189,7 +1296,7 @@ function renderRecentLeaves(){
         requests.length === 0
     ){
 
-        recentLeaves.innerHTML = `
+        recentActivity.innerHTML = `
 
 <div class="empty-state">
 
@@ -1210,7 +1317,7 @@ No leave requests yet.
     }
 
 
-    recentLeaves.innerHTML =
+    recentActivity.innerHTML =
         "";
 
 
@@ -1219,17 +1326,29 @@ No leave requests yet.
 
             const name =
                 text(
-                    request.employee ||
+
                     request.employeeName ||
+
+                    request.employee ||
+
+                    request.name ||
+
                     request.empid ||
+
                     "Employee"
+
                 );
 
 
             const type =
                 text(
+
                     request.type ||
+
+                    request.leaveType ||
+
                     "Leave Request"
+
                 );
 
 
@@ -1242,13 +1361,17 @@ No leave requests yet.
 
             const days =
                 request.days ??
+                request.numberOfDays ??
                 "-";
 
 
             const status =
                 text(
+
                     request.status ||
+
                     "PENDING"
+
                 )
                 .toUpperCase();
 
@@ -1266,7 +1389,6 @@ No leave requests yet.
                     "approved";
 
             }
-
             else if(
                 status ===
                 "REJECTED"
@@ -1285,12 +1407,24 @@ No leave requests yet.
 
 
             item.className =
-                "leave-item";
+                "dashboard-activity-item";
 
 
             item.innerHTML = `
 
-<div class="leave-item-icon">
+<div
+    style="
+        width:42px;
+        height:42px;
+        min-width:42px;
+        display:flex;
+        align-items:center;
+        justify-content:center;
+        border-radius:10px;
+        background:#fff4bf;
+        color:#a77f00;
+    "
+>
 
 <span class="material-icons">
 event
@@ -1299,43 +1433,94 @@ event
 </div>
 
 
-<div class="leave-item-info">
+<div
+    style="
+        min-width:0;
+        flex:1;
+        display:flex;
+        flex-direction:column;
+    "
+>
 
-<strong>
+<strong
+    style="
+        color:#111111;
+        font-size:11px;
+        font-weight:1000;
+    "
+>
 ${escapeHTML(
     name
 )}
 </strong>
 
-<span>
+
+<span
+    style="
+        color:#555555;
+        font-size:8px;
+        font-weight:800;
+        margin-top:4px;
+    "
+>
 ${escapeHTML(
     type
 )}
-•
+&nbsp; • &nbsp;
 ${escapeHTML(
     date
 )}
-•
+&nbsp; • &nbsp;
 ${escapeHTML(
     days
-)} day(s)
+)}
+day(s)
 </span>
 
 </div>
 
 
-<span class="leave-status ${statusClass}">
-
+<span
+    style="
+        padding:5px 8px;
+        border-radius:20px;
+        font-size:7px;
+        font-weight:1000;
+        background:
+            ${
+                statusClass === "approved"
+                ?
+                "#e9f7ef"
+                :
+                statusClass === "rejected"
+                ?
+                "#fff0f0"
+                :
+                "#fff5c8"
+            };
+        color:
+            ${
+                statusClass === "approved"
+                ?
+                "#16803c"
+                :
+                statusClass === "rejected"
+                ?
+                "#d71920"
+                :
+                "#a77f00"
+            };
+    "
+>
 ${escapeHTML(
     status
 )}
-
 </span>
 
 `;
 
 
-            recentLeaves.appendChild(
+            recentActivity.appendChild(
                 item
             );
 
@@ -1346,39 +1531,33 @@ ${escapeHTML(
 
 
 /* ==========================================
-   MOBILE SIDEBAR
+   SIDEBAR OPEN
 ========================================== */
 
 function openSidebar(){
 
     if(
-        sidebar
+        !sidebar
     ){
 
-        sidebar.classList.add(
-            "open"
-        );
+        return;
 
     }
 
 
-    if(
-        sidebarOverlay
-    ){
-
-        sidebarOverlay.classList.add(
-            "show"
-        );
-
-    }
-
-
-    document.body.classList.add(
-        "sidebar-open"
+    sidebar.classList.add(
+        "open"
     );
+
+
+    createSidebarOverlay();
 
 }
 
+
+/* ==========================================
+   SIDEBAR CLOSE
+========================================== */
 
 function closeSidebar(){
 
@@ -1393,11 +1572,17 @@ function closeSidebar(){
     }
 
 
+    const overlay =
+        document.querySelector(
+            ".sidebar-overlay"
+        );
+
+
     if(
-        sidebarOverlay
+        overlay
     ){
 
-        sidebarOverlay.classList.remove(
+        overlay.classList.remove(
             "show"
         );
 
@@ -1405,6 +1590,57 @@ function closeSidebar(){
 
 
     document.body.classList.remove(
+        "sidebar-open"
+    );
+
+}
+
+
+/* ==========================================
+   CREATE OVERLAY
+========================================== */
+
+function createSidebarOverlay(){
+
+    let overlay =
+        document.querySelector(
+            ".sidebar-overlay"
+        );
+
+
+    if(
+        !overlay
+    ){
+
+        overlay =
+            document.createElement(
+                "div"
+            );
+
+
+        overlay.className =
+            "sidebar-overlay";
+
+
+        document.body.appendChild(
+            overlay
+        );
+
+
+        overlay.addEventListener(
+            "click",
+            closeSidebar
+        );
+
+    }
+
+
+    overlay.classList.add(
+        "show"
+    );
+
+
+    document.body.classList.add(
         "sidebar-open"
     );
 
@@ -1433,7 +1669,6 @@ if(
                 closeSidebar();
 
             }
-
             else{
 
                 openSidebar();
@@ -1447,23 +1682,7 @@ if(
 
 
 /* ==========================================
-   OVERLAY
-========================================== */
-
-if(
-    sidebarOverlay
-){
-
-    sidebarOverlay.addEventListener(
-        "click",
-        closeSidebar
-    );
-
-}
-
-
-/* ==========================================
-   CLOSE SIDEBAR ON NAV
+   NAVIGATION
 ========================================== */
 
 document
@@ -1487,11 +1706,34 @@ document
 
 
 /* ==========================================
+   QUICK ACTIONS
+========================================== */
+
+document
+    .querySelectorAll(
+        ".quick-action"
+    )
+    .forEach(
+        button => {
+
+            button.addEventListener(
+                "click",
+                function(){
+
+                    closeSidebar();
+
+                }
+            );
+
+        }
+    );
+
+
+/* ==========================================
    LOGOUT
 ========================================== */
 
-window.logout =
-async function(){
+async function logout(){
 
     const confirmed =
         confirm(
@@ -1514,7 +1756,8 @@ async function(){
             auth
         );
 
-    }catch(error){
+    }
+    catch(error){
 
         console.error(
             "Logout Error:",
@@ -1553,11 +1796,35 @@ async function(){
         "login.html"
     );
 
-};
+}
 
 
 /* ==========================================
-   NOTIFICATION BUTTON
+   LOGOUT BUTTON
+========================================== */
+
+if(
+    logoutBtn
+){
+
+    logoutBtn.addEventListener(
+        "click",
+        logout
+    );
+
+}
+
+
+/* ==========================================
+   GLOBAL LOGOUT
+========================================== */
+
+window.logout =
+    logout;
+
+
+/* ==========================================
+   OPTIONAL NOTIFICATION
 ========================================== */
 
 const notificationButton =
@@ -1579,10 +1846,9 @@ if(
             ){
 
                 window.location.href =
-                    "track-leaves.html";
+                    "trackleaves.html";
 
             }
-
             else{
 
                 alert(
@@ -1608,7 +1874,7 @@ onAuthStateChanged(
     async function(user){
 
         /*
-         * Require Firebase login
+         * Require login
          */
 
         if(
@@ -1629,7 +1895,7 @@ onAuthStateChanged(
 
 
         /*
-         * Verify dashboard role
+         * Check role
          */
 
         const role =
@@ -1641,9 +1907,18 @@ onAuthStateChanged(
             .toLowerCase();
 
 
+        /*
+         * If role is missing but
+         * Firebase user is logged in,
+         * keep dashboard available.
+         *
+         * If explicitly non-admin,
+         * redirect.
+         */
+
         if(
-            role !==
-            "admin"
+            role &&
+            role !== "admin"
         ){
 
             alert(
@@ -1666,7 +1941,7 @@ onAuthStateChanged(
 
 
         /*
-         * Load dashboard data
+         * Load all dashboard data
          */
 
         await Promise.all([
@@ -1681,17 +1956,29 @@ onAuthStateChanged(
 
 
         /*
-         * Recalculate attendance
-         * after employees are loaded.
+         * Recalculate after
+         * employees are loaded.
          */
 
         updateAttendanceStats();
 
 
         console.log(
-            "PAPPRITO HRIS Premium Dashboard Ready"
+            "PAPPRITO HRIS Dashboard Ready"
         );
 
     }
 
 );
+
+
+/* ==========================================
+   INITIAL DATE
+========================================== */
+
+displayCurrentDate();
+
+
+/* ==========================================
+   END
+========================================== */
