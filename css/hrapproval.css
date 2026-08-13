@@ -3,6 +3,7 @@
    HR APPROVAL CSS
 ========================================== */
 
+
 /* ==========================================
    RESET
 ========================================== */
@@ -26,21 +27,20 @@
     --danger:#d71920;
     --danger-dark:#b51218;
 
-    --success:#00a651;
-    --success-dark:#008c44;
+    --success:#00a65a;
+    --success-dark:#008f4d;
 
     --info:#0066cc;
 
-    --dark:#111111;
-    --dark-2:#181818;
-    --dark-3:#202020;
-    --dark-4:#282828;
+    --dark:#0b0b0b;
+    --dark-2:#151515;
+    --dark-3:#1c1c1c;
+    --dark-4:#242424;
 
-    --border:#444444;
+    --border:#3d3d3d;
 
     --text:#ffffff;
-    --muted:#aaaaaa;
-
+    --muted:#999999;
 }
 
 
@@ -78,11 +78,11 @@ body{
 
     width:100%;
 
-    max-width:1600px;
+    max-width:1500px;
 
     margin:0 auto;
 
-    padding:15px;
+    padding:18px;
 
 }
 
@@ -95,15 +95,17 @@ body{
 
     display:flex;
 
-    align-items:center;
-
     justify-content:space-between;
+
+    align-items:center;
 
     gap:15px;
 
-    padding:14px 16px;
+    width:100%;
 
-    margin-bottom:15px;
+    padding:15px 18px;
+
+    margin-bottom:16px;
 
     background:var(--dark-2);
 
@@ -144,9 +146,11 @@ body{
 
 .header-logo{
 
-    width:55px;
+    width:60px;
 
-    height:55px;
+    height:60px;
+
+    min-width:60px;
 
     object-fit:cover;
 
@@ -154,27 +158,20 @@ body{
 
     background:#ffffff;
 
-    padding:3px;
-
     border:
         3px solid
         var(--primary);
 
-}
-
-
-.header-title{
-
-    min-width:0;
+    padding:3px;
 
 }
 
 
-.header-title h1{
+.header-left h1{
 
     color:var(--primary);
 
-    font-size:22px;
+    font-size:26px;
 
     font-weight:900;
 
@@ -183,15 +180,15 @@ body{
 }
 
 
-.header-title p{
-
-    color:#999999;
-
-    font-size:11px;
-
-    font-weight:700;
+.header-left p{
 
     margin-top:4px;
+
+    color:#bbbbbb;
+
+    font-size:12px;
+
+    font-weight:600;
 
 }
 
@@ -211,11 +208,11 @@ body{
 }
 
 
-.header-btn{
+.icon-btn{
 
-    width:42px;
+    width:44px;
 
-    height:42px;
+    height:44px;
 
     border:none;
 
@@ -234,19 +231,17 @@ body{
 }
 
 
-.header-btn:hover{
+.icon-btn:hover{
 
     transform:
-        translateY(-1px);
-
-    opacity:.9;
+        translateY(-2px);
 
 }
 
 
-.header-btn .material-icons{
+.icon-btn .material-icons{
 
-    font-size:22px;
+    font-size:23px;
 
 }
 
@@ -260,6 +255,13 @@ body{
 }
 
 
+.dashboard-btn:hover{
+
+    background:var(--primary-dark);
+
+}
+
+
 .logout-btn{
 
     background:var(--danger);
@@ -269,11 +271,18 @@ body{
 }
 
 
+.logout-btn:hover{
+
+    background:var(--danger-dark);
+
+}
+
+
 /* ==========================================
-   SUMMARY GRID
+   STATISTICS
 ========================================== */
 
-.summary-grid{
+.stats-grid{
 
     display:grid;
 
@@ -285,26 +294,22 @@ body{
 
     gap:12px;
 
-    margin-bottom:15px;
+    margin-bottom:16px;
 
 }
 
 
-/* ==========================================
-   SUMMARY CARD
-========================================== */
+.stat-card{
 
-.summary-card{
-
-    min-height:90px;
+    min-height:105px;
 
     display:flex;
 
     align-items:center;
 
-    gap:12px;
+    gap:14px;
 
-    padding:14px;
+    padding:16px;
 
     background:var(--dark-2);
 
@@ -317,13 +322,13 @@ body{
 }
 
 
-.summary-icon{
+.stat-icon{
 
-    width:50px;
+    width:52px;
 
-    height:50px;
+    height:52px;
 
-    min-width:50px;
+    min-width:52px;
 
     display:flex;
 
@@ -331,19 +336,51 @@ body{
 
     justify-content:center;
 
-    border-radius:50%;
+    border-radius:10px;
 
 }
 
 
-.summary-icon .material-icons{
+.stat-icon .material-icons{
 
-    font-size:27px;
+    font-size:28px;
 
 }
 
 
-.summary-card.pending{
+.stat-card strong{
+
+    display:block;
+
+    font-size:28px;
+
+    font-weight:900;
+
+    color:#ffffff;
+
+}
+
+
+.stat-card span{
+
+    display:block;
+
+    margin-top:2px;
+
+    color:#aaaaaa;
+
+    font-size:12px;
+
+    font-weight:700;
+
+}
+
+
+/* ==========================================
+   STAT COLORS
+========================================== */
+
+.pending-card{
 
     border-left:
         4px solid
@@ -352,8 +389,7 @@ body{
 }
 
 
-.summary-card.pending
-.summary-icon{
+.pending-card .stat-icon{
 
     background:
         rgba(
@@ -368,7 +404,7 @@ body{
 }
 
 
-.summary-card.approved{
+.approved-card{
 
     border-left:
         4px solid
@@ -377,14 +413,13 @@ body{
 }
 
 
-.summary-card.approved
-.summary-icon{
+.approved-card .stat-icon{
 
     background:
         rgba(
             0,
             166,
-            81,
+            90,
             .12
         );
 
@@ -393,7 +428,7 @@ body{
 }
 
 
-.summary-card.rejected{
+.rejected-card{
 
     border-left:
         4px solid
@@ -402,8 +437,7 @@ body{
 }
 
 
-.summary-card.rejected
-.summary-icon{
+.rejected-card .stat-icon{
 
     background:
         rgba(
@@ -418,7 +452,7 @@ body{
 }
 
 
-.summary-card.total{
+.total-card{
 
     border-left:
         4px solid
@@ -427,8 +461,7 @@ body{
 }
 
 
-.summary-card.total
-.summary-icon{
+.total-card .stat-icon{
 
     background:
         rgba(
@@ -443,39 +476,111 @@ body{
 }
 
 
-.summary-info small{
+/* ==========================================
+   FILTER SECTION
+========================================== */
 
-    display:block;
+.filter-section{
 
-    color:#999999;
-
-    font-size:10px;
-
-    font-weight:700;
-
-    margin-bottom:4px;
+    margin-bottom:12px;
 
 }
 
 
-.summary-info strong{
+.filter-buttons{
 
-    display:block;
+    display:flex;
+
+    align-items:center;
+
+    gap:7px;
+
+    flex-wrap:wrap;
+
+}
+
+
+.filter-btn,
+.refresh-btn{
+
+    min-height:40px;
+
+    padding:
+        9px 15px;
+
+    border:
+        1px solid
+        #555555;
+
+    border-radius:7px;
+
+    background:#292929;
 
     color:#ffffff;
 
-    font-size:25px;
+    font-size:11px;
 
     font-weight:900;
+
+    cursor:pointer;
+
+    transition:.2s ease;
+
+}
+
+
+.filter-btn:hover,
+.refresh-btn:hover{
+
+    transform:
+        translateY(-1px);
+
+}
+
+
+.filter-btn.active{
+
+    background:var(--primary);
+
+    color:#111111;
+
+    border-color:
+        var(--primary);
+
+}
+
+
+.refresh-btn{
+
+    display:inline-flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    gap:5px;
+
+    background:#ffffff;
+
+    color:#111111;
+
+}
+
+
+.refresh-btn .material-icons{
+
+    font-size:18px;
 
 }
 
 
 /* ==========================================
-   SECTION
+   REQUEST SECTION
 ========================================== */
 
-.approval-section{
+.request-section{
+
+    width:100%;
 
     background:var(--dark-2);
 
@@ -490,23 +595,11 @@ body{
 }
 
 
-/* ==========================================
-   SECTION HEADER
-========================================== */
-
 .section-header{
 
-    display:flex;
+    margin-bottom:12px;
 
-    align-items:center;
-
-    justify-content:space-between;
-
-    gap:12px;
-
-    margin-bottom:15px;
-
-    padding-bottom:12px;
+    padding-bottom:10px;
 
     border-bottom:
         1px solid
@@ -515,55 +608,7 @@ body{
 }
 
 
-.section-title{
-
-    display:flex;
-
-    align-items:center;
-
-    gap:8px;
-
-}
-
-
-.section-title .material-icons{
-
-    color:var(--primary);
-
-    font-size:23px;
-
-}
-
-
-.section-title h2{
-
-    color:#ffffff;
-
-    font-size:18px;
-
-    font-weight:900;
-
-}
-
-
-/* ==========================================
-   LOADING
-========================================== */
-
-.loading-text{
-
-    color:#999999;
-
-    font-size:11px;
-
-}
-
-
-/* ==========================================
-   FILTER
-========================================== */
-
-.filter-bar{
+.section-header h2{
 
     display:flex;
 
@@ -571,56 +616,31 @@ body{
 
     gap:7px;
 
-    flex-wrap:wrap;
-
-    margin-bottom:12px;
-
-}
-
-
-.filter-btn{
-
-    min-height:36px;
-
-    padding:8px 13px;
-
-    border:
-        1px solid
-        #555555;
-
-    border-radius:7px;
-
-    background:#292929;
-
     color:#ffffff;
 
-    font-size:11px;
+    font-size:22px;
 
-    font-weight:800;
-
-    cursor:pointer;
-
-    transition:.2s ease;
+    font-weight:900;
 
 }
 
 
-.filter-btn:hover{
+.section-header h2 .material-icons{
 
-    border-color:
-        var(--primary);
+    color:var(--primary);
+
+    font-size:25px;
 
 }
 
 
-.filter-btn.active{
+.section-header p{
 
-    background:var(--primary);
+    margin-top:4px;
 
-    border-color:
-        var(--primary);
+    color:#aaaaaa;
 
-    color:#111111;
+    font-size:12px;
 
 }
 
@@ -639,7 +659,9 @@ body{
         1px solid
         var(--border);
 
-    border-radius:9px;
+    border-radius:8px;
+
+    -webkit-overflow-scrolling:touch;
 
 }
 
@@ -648,40 +670,41 @@ body{
    TABLE
 ========================================== */
 
-.approval-table{
+.request-table{
 
     width:100%;
 
-    min-width:1100px;
+    min-width:1050px;
 
     border-collapse:collapse;
 
 }
 
 
-.approval-table th,
-.approval-table td{
+.request-table th,
+.request-table td{
 
     border:
         1px solid
-        #444444;
+        #3d3d3d;
 
-    padding:9px 8px;
-
-    font-size:11px;
+    padding:
+        10px 8px;
 
     text-align:center;
 
     vertical-align:middle;
 
+    font-size:11px;
+
 }
 
 
-.approval-table th{
+.request-table th{
 
-    background:var(--primary);
+    background:#222222;
 
-    color:#111111;
+    color:var(--primary);
 
     font-weight:900;
 
@@ -690,37 +713,18 @@ body{
 }
 
 
-.approval-table td{
+.request-table td{
 
-    background:#222222;
+    background:#151515;
 
     color:#ffffff;
 
 }
 
 
-.approval-table tbody tr:hover td{
+.request-table tbody tr:hover td{
 
-    background:#2c2c2c;
-
-}
-
-
-/* ==========================================
-   REASON
-========================================== */
-
-.reason-cell{
-
-    max-width:260px;
-
-    min-width:180px;
-
-    white-space:normal;
-
-    word-break:break-word;
-
-    text-align:left !important;
+    background:#202020;
 
 }
 
@@ -733,9 +737,10 @@ body{
 
     display:inline-block;
 
-    padding:4px 7px;
+    padding:
+        4px 7px;
 
-    border-radius:5px;
+    border-radius:12px;
 
     background:
         rgba(
@@ -747,9 +752,11 @@ body{
 
     color:var(--primary);
 
-    font-weight:800;
-
     font-size:9px;
+
+    font-weight:900;
+
+    white-space:nowrap;
 
 }
 
@@ -760,17 +767,14 @@ body{
 
 .status{
 
-    display:inline-flex;
+    display:inline-block;
 
-    align-items:center;
+    min-width:75px;
 
-    justify-content:center;
+    padding:
+        5px 8px;
 
-    min-width:78px;
-
-    padding:5px 9px;
-
-    border-radius:20px;
+    border-radius:15px;
 
     font-size:9px;
 
@@ -778,6 +782,8 @@ body{
 
 }
 
+
+/* PENDING */
 
 .status.pending{
 
@@ -786,7 +792,7 @@ body{
             255,
             204,
             0,
-            .13
+            .15
         );
 
     color:var(--primary);
@@ -794,20 +800,24 @@ body{
 }
 
 
+/* APPROVED */
+
 .status.approved{
 
     background:
         rgba(
             0,
-            166,
-            81,
-            .14
+            204,
+            102,
+            .15
         );
 
     color:#00cc66;
 
 }
 
+
+/* REJECTED */
 
 .status.rejected{
 
@@ -816,7 +826,7 @@ body{
             215,
             25,
             32,
-            .14
+            .15
         );
 
     color:#ff5555;
@@ -825,58 +835,39 @@ body{
 
 
 /* ==========================================
-   ACTION GROUP
+   ACTION BUTTONS
 ========================================== */
 
-.action-group{
-
-    display:flex;
-
-    align-items:center;
-
-    justify-content:center;
-
-    gap:5px;
-
-    flex-wrap:wrap;
-
-}
-
-
-/* ==========================================
-   ACTION BUTTON
-========================================== */
-
-.action-btn{
-
-    min-height:32px;
-
-    padding:6px 9px;
+.approve-btn,
+.reject-btn,
+.delete-btn{
 
     border:none;
 
     border-radius:6px;
 
-    display:inline-flex;
+    padding:
+        7px 10px;
 
-    align-items:center;
-
-    justify-content:center;
-
-    gap:4px;
-
-    cursor:pointer;
+    margin:
+        2px;
 
     font-size:9px;
 
     font-weight:900;
 
+    cursor:pointer;
+
     transition:.2s ease;
+
+    white-space:nowrap;
 
 }
 
 
-.action-btn:hover{
+.approve-btn:hover,
+.reject-btn:hover,
+.delete-btn:hover{
 
     transform:
         translateY(-1px);
@@ -886,14 +877,7 @@ body{
 }
 
 
-.action-btn .material-icons{
-
-    font-size:16px;
-
-}
-
-
-.action-btn.approve{
+.approve-btn{
 
     background:var(--success);
 
@@ -902,14 +886,7 @@ body{
 }
 
 
-.action-btn.approve:hover{
-
-    background:var(--success-dark);
-
-}
-
-
-.action-btn.reject{
+.reject-btn{
 
     background:var(--danger);
 
@@ -918,14 +895,7 @@ body{
 }
 
 
-.action-btn.reject:hover{
-
-    background:var(--danger-dark);
-
-}
-
-
-.action-btn.delete{
+.delete-btn{
 
     background:#555555;
 
@@ -940,32 +910,14 @@ body{
 
 .empty-message{
 
-    padding:30px !important;
-
-    color:#888888 !important;
+    padding:
+        35px 15px !important;
 
     text-align:center !important;
 
-    font-size:12px !important;
+    color:#888888 !important;
 
-}
-
-
-/* ==========================================
-   EMPTY BOX
-========================================== */
-
-.empty-box{
-
-    display:none;
-
-    padding:25px;
-
-    text-align:center;
-
-    color:#888888;
-
-    font-size:12px;
+    font-size:13px !important;
 
 }
 
@@ -976,13 +928,23 @@ body{
 
 .approval-footer{
 
-    text-align:center;
+    display:flex;
 
-    padding:15px;
+    justify-content:center;
+
+    align-items:center;
+
+    gap:15px;
+
+    flex-wrap:wrap;
+
+    padding:18px;
 
     color:#777777;
 
     font-size:10px;
+
+    text-align:center;
 
 }
 
@@ -992,10 +954,10 @@ body{
 ========================================== */
 
 @media(
-    max-width:1000px
+    max-width:1100px
 ){
 
-    .summary-grid{
+    .stats-grid{
 
         grid-template-columns:
             repeat(
@@ -1025,65 +987,46 @@ body{
 
     .approval-header{
 
-        padding:10px;
+        padding:12px;
 
     }
 
 
-    .header-left{
-
-        min-width:0;
-
-    }
-
-
-    .header-logo{
-
-        width:48px;
-
-        height:48px;
-
-    }
-
-
-    .header-title h1{
-
-        font-size:17px;
-
-    }
-
-
-    .header-title p{
-
-        font-size:9px;
-
-    }
-
-
-    .header-actions{
-
-        gap:5px;
-
-    }
-
-
-    .header-btn{
-
-        width:38px;
-
-        height:38px;
-
-    }
-
-
-    .header-btn .material-icons{
+    .header-left h1{
 
         font-size:20px;
 
     }
 
 
-    .summary-grid{
+    .header-left p{
+
+        font-size:10px;
+
+    }
+
+
+    .header-logo{
+
+        width:50px;
+
+        height:50px;
+
+        min-width:50px;
+
+    }
+
+
+    .icon-btn{
+
+        width:40px;
+
+        height:40px;
+
+    }
+
+
+    .stats-grid{
 
         grid-template-columns:
             1fr 1fr;
@@ -1093,9 +1036,9 @@ body{
     }
 
 
-    .summary-card{
+    .stat-card{
 
-        min-height:75px;
+        min-height:90px;
 
         padding:10px;
 
@@ -1104,7 +1047,7 @@ body{
     }
 
 
-    .summary-icon{
+    .stat-icon{
 
         width:40px;
 
@@ -1115,62 +1058,74 @@ body{
     }
 
 
-    .summary-icon .material-icons{
+    .stat-icon .material-icons{
 
         font-size:22px;
 
     }
 
 
-    .summary-info strong{
+    .stat-card strong{
 
-        font-size:20px;
-
-    }
-
-
-    .approval-section{
-
-        padding:10px;
+        font-size:22px;
 
     }
 
 
-    .section-header{
+    .stat-card span{
 
-        align-items:flex-start;
-
-    }
-
-
-    .section-title h2{
-
-        font-size:15px;
+        font-size:10px;
 
     }
 
 
-    .filter-bar{
+    .filter-buttons{
 
-        overflow-x:auto;
+        display:grid;
 
-        flex-wrap:nowrap;
+        grid-template-columns:
+            repeat(
+                2,
+                1fr
+            );
 
-        padding-bottom:3px;
-
-    }
-
-
-    .filter-btn{
-
-        white-space:nowrap;
+        gap:6px;
 
     }
 
 
-    .approval-table{
+    .filter-btn,
+    .refresh-btn{
 
-        min-width:1050px;
+        width:100%;
+
+    }
+
+
+    .request-section{
+
+        padding:8px;
+
+    }
+
+
+    .section-header h2{
+
+        font-size:18px;
+
+    }
+
+
+    .section-header p{
+
+        font-size:10px;
+
+    }
+
+
+    .request-table{
+
+        min-width:1000px;
 
     }
 
@@ -1194,67 +1149,181 @@ body{
 
     .approval-header{
 
-        border-width:1px;
+        padding:10px;
+
+        border-radius:9px;
+
+    }
+
+
+    .header-left{
+
+        gap:8px;
 
     }
 
 
     .header-logo{
 
-        width:42px;
+        width:44px;
 
-        height:42px;
+        height:44px;
 
-    }
-
-
-    .header-title h1{
-
-        font-size:15px;
+        min-width:44px;
 
     }
 
 
-    .header-title p{
+    .header-left h1{
+
+        font-size:16px;
+
+    }
+
+
+    .header-left p{
 
         font-size:8px;
 
     }
 
 
-    .summary-grid{
+    .header-actions{
 
-        grid-template-columns:1fr;
-
-    }
-
-
-    .summary-card{
-
-        min-height:65px;
+        gap:5px;
 
     }
 
 
-    .summary-info strong{
+    .icon-btn{
 
-        font-size:18px;
+        width:36px;
+
+        height:36px;
 
     }
 
 
-    .approval-section{
+    .icon-btn .material-icons{
+
+        font-size:20px;
+
+    }
+
+
+    .stats-grid{
+
+        grid-template-columns:
+            1fr 1fr;
+
+    }
+
+
+    .stat-card{
+
+        min-height:78px;
 
         padding:8px;
 
     }
 
 
-    .filter-btn{
+    .stat-icon{
 
-        font-size:10px;
+        display:none;
 
-        padding:7px 10px;
+    }
+
+
+    .stat-card strong{
+
+        font-size:20px;
+
+    }
+
+
+    .stat-card span{
+
+        font-size:9px;
+
+    }
+
+
+    .filter-buttons{
+
+        grid-template-columns:
+            1fr 1fr;
+
+    }
+
+
+    .filter-btn,
+    .refresh-btn{
+
+        min-height:38px;
+
+        padding:
+            8px 5px;
+
+        font-size:9px;
+
+    }
+
+
+    .request-section{
+
+        padding:6px;
+
+    }
+
+
+    .section-header{
+
+        padding-bottom:8px;
+
+    }
+
+
+    .section-header h2{
+
+        font-size:16px;
+
+    }
+
+
+    .section-header h2 .material-icons{
+
+        font-size:20px;
+
+    }
+
+
+    .request-table{
+
+        min-width:950px;
+
+    }
+
+
+    .request-table th,
+    .request-table td{
+
+        padding:
+            8px 6px;
+
+        font-size:9px;
+
+    }
+
+
+    .approve-btn,
+    .reject-btn,
+    .delete-btn{
+
+        padding:
+            6px 7px;
+
+        font-size:8px;
 
     }
 
@@ -1286,8 +1355,7 @@ body{
 
 
     .approval-header,
-    .filter-bar,
-    .action-group,
+    .filter-section,
     .approval-footer{
 
         display:none !important;
@@ -1295,7 +1363,14 @@ body{
     }
 
 
-    .approval-section{
+    .stats-grid{
+
+        display:none !important;
+
+    }
+
+
+    .request-section{
 
         border:none;
 
@@ -1315,30 +1390,51 @@ body{
     }
 
 
-    .section-title h2{
+    .section-header h2,
+    .section-header p{
 
         color:#000000;
 
     }
 
 
-    .approval-table{
+    .table-wrapper{
+
+        overflow:visible;
+
+        border:none;
+
+    }
+
+
+    .request-table{
 
         min-width:0;
 
+        width:100%;
+
     }
 
 
-    .approval-table th,
-    .approval-table td{
+    .request-table th,
+    .request-table td{
 
-        color:#000000;
+        background:#ffffff !important;
 
-        background:#ffffff;
+        color:#000000 !important;
 
         border:
             1px solid
             #000000;
+
+    }
+
+
+    .request-table .approve-btn,
+    .request-table .reject-btn,
+    .request-table .delete-btn{
+
+        display:none;
 
     }
 
