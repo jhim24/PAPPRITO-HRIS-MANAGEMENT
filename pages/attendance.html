@@ -76,16 +76,13 @@ href="../css/attendance.css">
      HEADER
 ========================================== -->
 
-<div class="header">
+<header class="header">
 
-
-<!-- BACK BUTTON -->
 
 <button
 id="backBtn"
 class="top-btn"
-type="button"
-onclick="window.location.href='dashboard.html'">
+type="button">
 
 <span class="material-icons">
 arrow_back
@@ -97,8 +94,6 @@ BACK
 
 </button>
 
-
-<!-- PRINT BUTTON -->
 
 <button
 id="printBtn"
@@ -116,8 +111,6 @@ PRINT
 </button>
 
 
-<!-- LOGO -->
-
 <div class="logo">
 
 <img
@@ -127,16 +120,12 @@ alt="PAPPRITO Logo">
 </div>
 
 
-<!-- LOGO TEXT -->
-
 <div class="logo-text">
 
 PAPPRITO
 
 </div>
 
-
-<!-- PAGE TITLE -->
 
 <div class="title">
 
@@ -145,20 +134,19 @@ EMPLOYEE ATTENDANCE
 </div>
 
 
-</div>
+</header>
 
 
 <!-- ==========================================
      FILTER SECTION
 ========================================== -->
 
-<div class="filter-section">
+<section class="filter-section">
 
-
-<!-- EMPLOYEE SELECT -->
 
 <select
-id="employeeSelect">
+id="employeeSelect"
+aria-label="Select Employee">
 
 <option value="">
 
@@ -169,21 +157,17 @@ Select Employee
 </select>
 
 
-<!-- FROM DATE -->
+<input
+type="date"
+id="fromDate"
+aria-label="From Date">
+
 
 <input
 type="date"
-id="fromDate">
+id="toDate"
+aria-label="To Date">
 
-
-<!-- TO DATE -->
-
-<input
-type="date"
-id="toDate">
-
-
-<!-- FILTER BUTTON -->
 
 <button
 id="filterBtn"
@@ -200,8 +184,6 @@ FILTER
 </button>
 
 
-<!-- SUMMARY BUTTON -->
-
 <button
 id="summaryBtn"
 type="button">
@@ -217,40 +199,38 @@ SUMMARY
 </button>
 
 
-</div>
+</section>
 
 
 <!-- ==========================================
      EMPLOYEE INFORMATION
 ========================================== -->
 
-<div class="employee-info">
+<section class="employee-info">
 
 
-<div
-id="employeeId">
+<div id="employeeId">
 
-EMPLOYEE ID :
-
-</div>
-
-
-<div
-id="employeeName">
-
-EMPLOYEE NAME :
+EMPLOYEE ID : -
 
 </div>
 
 
+<div id="employeeName">
+
+EMPLOYEE NAME : -
+
 </div>
+
+
+</section>
 
 
 <!-- ==========================================
      CLOCK
 ========================================== -->
 
-<div class="clock-area">
+<section class="clock-area">
 
 
 <div class="clock-label">
@@ -284,101 +264,223 @@ DATE
 </div>
 
 
+</section>
+
+
+<!-- ==========================================
+     TODAY SUMMARY
+========================================== -->
+
+<section class="today-panel">
+
+
+<div class="today-item">
+
+
+<span class="material-icons">
+verified
+</span>
+
+
+<div>
+
+<small>
+TODAY STATUS
+</small>
+
+
+<strong
+id="todayStatus">
+
+-
+
+</strong>
+
 </div>
+
+
+</div>
+
+
+<div class="today-item">
+
+
+<span class="material-icons">
+schedule
+</span>
+
+
+<div>
+
+<small>
+REGULAR HOURS
+</small>
+
+
+<strong
+id="todayRegularHours">
+
+0.00
+
+</strong>
+
+</div>
+
+
+</div>
+
+
+<div class="today-item">
+
+
+<span class="material-icons">
+more_time
+</span>
+
+
+<div>
+
+<small>
+OVERTIME
+</small>
+
+
+<strong
+id="todayOvertime">
+
+0.00
+
+</strong>
+
+</div>
+
+
+</div>
+
+
+<div class="today-item">
+
+
+<span class="material-icons">
+alarm
+</span>
+
+
+<div>
+
+<small>
+LATE MINUTES
+</small>
+
+
+<strong
+id="todayLate">
+
+0
+
+</strong>
+
+</div>
+
+
+</div>
+
+
+</section>
 
 
 <!-- ==========================================
      ATTENDANCE BUTTONS
 ========================================== -->
 
-<div class="button-group">
+<section class="button-group">
 
-
-<!-- TIME IN -->
 
 <button
 id="timeInBtn"
 class="action-btn timein"
 type="button">
 
+
 <span class="material-icons">
 login
 </span>
+
 
 <span>
 TIME IN
 </span>
 
+
 </button>
 
-
-<!-- BREAK OUT -->
 
 <button
 id="breakOutBtn"
 class="action-btn breakout"
 type="button">
 
+
 <span class="material-icons">
 free_breakfast
 </span>
+
 
 <span>
 BREAK OUT
 </span>
 
+
 </button>
 
-
-<!-- BREAK IN -->
 
 <button
 id="breakInBtn"
 class="action-btn breakin"
 type="button">
 
+
 <span class="material-icons">
 restart_alt
 </span>
+
 
 <span>
 BREAK IN
 </span>
 
+
 </button>
 
-
-<!-- TIME OUT -->
 
 <button
 id="timeOutBtn"
 class="action-btn timeout"
 type="button">
 
+
 <span class="material-icons">
 logout
 </span>
+
 
 <span>
 TIME OUT
 </span>
 
+
 </button>
 
 
-</div>
+</section>
 
 
 <!-- ==========================================
-     ATTENDANCE RECORDS SECTION
+     ATTENDANCE RECORDS
 ========================================== -->
 
-<div class="attendance-section">
+<section class="attendance-section">
 
-
-<!-- ==========================================
-     SECTION HEADER
-========================================== -->
 
 <div class="section-heading">
 
@@ -393,28 +495,47 @@ event_note
 
 <div>
 
-
 <h2>
+
 ATTENDANCE RECORDS
+
 </h2>
 
 
 <p>
+
 Employee attendance and working hours
+
 </p>
 
-
 </div>
 
 
 </div>
+
+
+<button
+id="clearFilterBtn"
+class="clear-filter-btn"
+type="button">
+
+
+<span class="material-icons">
+clear_all
+</span>
+
+
+CLEAR
+
+
+</button>
 
 
 </div>
 
 
 <!-- ==========================================
-     ATTENDANCE TABLE
+     TABLE
 ========================================== -->
 
 <div class="table-wrapper">
@@ -425,6 +546,7 @@ id="attendanceTable">
 
 
 <thead>
+
 
 <tr>
 
@@ -496,11 +618,13 @@ ACTION
 
 </tr>
 
+
 </thead>
 
 
 <tbody
 id="attendanceBody">
+
 
 </tbody>
 
@@ -511,14 +635,15 @@ id="attendanceBody">
 </div>
 
 
-</div>
+</section>
 
 
 <!-- ==========================================
      FOOTER
 ========================================== -->
 
-<div class="attendance-footer">
+<footer
+class="attendance-footer">
 
 
 <span>
@@ -536,7 +661,7 @@ Employee Attendance Management
 </span>
 
 
-</div>
+</footer>
 
 
 </div>
@@ -546,13 +671,12 @@ Employee Attendance Management
 
 
 <!-- ==========================================
-     ATTENDANCE JAVASCRIPT
+     JAVASCRIPT
 ========================================== -->
 
 <script
 type="module"
 src="../js/attendance.js">
-
 </script>
 
 
