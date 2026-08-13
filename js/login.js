@@ -1,12 +1,19 @@
 /* ==========================================
    PAPPRITO HRIS
-   LOGIN SYSTEM V3
+   LOGIN SYSTEM V4
+   ADMIN + EMPLOYEE PORTAL
+========================================== */
+
+
+/* ==========================================
+   FIREBASE
 ========================================== */
 
 import {
     auth,
     db
 } from "./firebase.js";
+
 
 import {
 
@@ -16,11 +23,14 @@ import {
 
     browserLocalPersistence,
 
-    browserSessionPersistence
+    browserSessionPersistence,
+
+    signOut
 
 }
 from
 "https://www.gstatic.com/firebasejs/12.13.0/firebase-auth.js";
+
 
 import {
 
@@ -37,48 +47,88 @@ from
 ========================================== */
 
 const role =
-document.getElementById("role");
+    document.getElementById(
+        "role"
+    );
+
 
 const email =
-document.getElementById("email");
+    document.getElementById(
+        "email"
+    );
+
 
 const password =
-document.getElementById("password");
+    document.getElementById(
+        "password"
+    );
+
 
 const remember =
-document.getElementById("remember");
+    document.getElementById(
+        "remember"
+    );
+
 
 const loading =
-document.getElementById("loading");
+    document.getElementById(
+        "loading"
+    );
+
 
 const loginBtn =
-document.getElementById("loginBtn");
+    document.getElementById(
+        "loginBtn"
+    );
+
 
 const fingerBtn =
-document.getElementById("fingerBtn");
+    document.getElementById(
+        "fingerBtn"
+    );
 
 
 /* ==========================================
    SHOW PASSWORD
 ========================================== */
 
-window.togglePassword = function(){
+window.togglePassword =
+function(){
 
     const btn =
-    document.querySelector(".show-btn");
+        document.querySelector(
+            ".show-btn"
+        );
 
 
-    if(password.type === "password"){
+    if(
+        password.type ===
+        "password"
+    ){
 
-        password.type = "text";
+        password.type =
+            "text";
 
-        btn.textContent = "HIDE";
+
+        if(btn){
+
+            btn.textContent =
+                "HIDE";
+
+        }
 
     }else{
 
-        password.type = "password";
+        password.type =
+            "password";
 
-        btn.textContent = "SHOW";
+
+        if(btn){
+
+            btn.textContent =
+                "SHOW";
+
+        }
 
     }
 
@@ -90,16 +140,21 @@ window.togglePassword = function(){
 ========================================== */
 
 const rememberedUser =
-localStorage.getItem("rememberUser");
+    localStorage.getItem(
+        "rememberUser"
+    );
 
 
-if(rememberedUser){
+if(
+    rememberedUser
+){
 
     email.value =
-    rememberedUser;
+        rememberedUser;
+
 
     remember.checked =
-    true;
+        true;
 
 }
 
@@ -113,7 +168,7 @@ function showLoading(){
     if(loading){
 
         loading.style.display =
-        "flex";
+            "flex";
 
     }
 
@@ -129,7 +184,7 @@ function hideLoading(){
     if(loading){
 
         loading.style.display =
-        "none";
+            "none";
 
     }
 
@@ -145,13 +200,15 @@ function disableLogin(){
     if(loginBtn){
 
         loginBtn.disabled =
-        true;
+            true;
+
 
         loginBtn.style.opacity =
-        "0.6";
+            "0.6";
+
 
         loginBtn.textContent =
-        "SIGNING IN...";
+            "SIGNING IN...";
 
     }
 
@@ -167,13 +224,15 @@ function enableLogin(){
     if(loginBtn){
 
         loginBtn.disabled =
-        false;
+            false;
+
 
         loginBtn.style.opacity =
-        "1";
+            "1";
+
 
         loginBtn.textContent =
-        "LOGIN";
+            "LOGIN";
 
     }
 
@@ -201,7 +260,10 @@ function saveLoginSession(
     );
 
 
-    if(remember.checked){
+    if(
+        remember &&
+        remember.checked
+    ){
 
         localStorage.setItem(
             "rememberUser",
@@ -253,106 +315,80 @@ async function adminLogin(
 
 
 /* ==========================================
-   EMPLOYEE LOGIN
+   FIND EMPLOYEE
 ========================================== */
 
-async function employeeLogin(
-    username,
-    pass
+async function findEmployee(
+    username
 ){
 
     const snapshot =
+        await getDocs(
 
-    await getDocs(
+            collection(
+                db,
+                "employees"
+            )
 
-        collection(
-            db,
-            "employees"
-        )
-
-    );
+        );
 
 
     let foundEmployee =
-    null;
+        null;
+
+
+    const enteredUsername =
+        String(
+            username || ""
+        )
+        .trim()
+        .toUpperCase();
 
 
     snapshot.forEach(
         docSnap => {
 
             const emp =
-            docSnap.data();
+                docSnap.data();
 
 
             const employeeId =
-
-            String(
-                emp.employeeid || ""
-            )
-            .trim()
-            .toUpperCase();
+                String(
+                    emp.employeeid || ""
+                )
+                .trim()
+                .toUpperCase();
 
 
             const employeeUsername =
-
-            String(
-                emp.username || ""
-            )
-            .trim()
-            .toUpperCase();
-
-
-            const enteredUsername =
-
-            username
-            .trim()
-            .toUpperCase();
-
-
-            const employeePassword =
-
-            String(
-                emp.password || ""
-            );
+                String(
+                    emp.username || ""
+                )
+                .trim()
+                .toUpperCase();
 
 
             const idMatch =
-
-            employeeId !== "" &&
-
-            employeeId ===
-            enteredUsername;
+                employeeId !== "" &&
+                employeeId ===
+                enteredUsername;
 
 
             const usernameMatch =
-
-            employeeUsername !== "" &&
-
-            employeeUsername ===
-            enteredUsername;
-
-
-            const passwordMatch =
-
-            employeePassword ===
-            pass;
+                employeeUsername !== "" &&
+                employeeUsername ===
+                enteredUsername;
 
 
             if(
-
-                (idMatch ||
-                usernameMatch)
-
-                &&
-
-                passwordMatch
-
+                idMatch ||
+                usernameMatch
             ){
 
                 foundEmployee = {
 
                     id:
-                    docSnap.id,
+                        docSnap.id,
 
                     ...emp
 
@@ -364,18 +400,175 @@ async function employeeLogin(
     );
 
 
-    if(!foundEmployee){
+    return foundEmployee;
+
+}
+
+
+/* ==========================================
+   CREATE INTERNAL AUTH EMAIL
+========================================== */
+
+function createPortalEmail(
+    employeeId
+){
+
+    return String(
+        employeeId || ""
+    )
+    .toLowerCase()
+    .replace(
+        /[^a-z0-9]/g,
+        ""
+    )
+    +
+    "@papprito-hris.local";
+
+}
+
+
+/* ==========================================
+   EMPLOYEE LOGIN
+========================================== */
+
+async function employeeLogin(
+    username,
+    pass
+){
+
+    /* ======================================
+       FIND EMPLOYEE
+    ====================================== */
+
+    const foundEmployee =
+        await findEmployee(
+            username
+        );
+
+
+    if(
+        !foundEmployee
+    ){
 
         throw new Error(
-            "Invalid Employee Login"
+            "EMPLOYEE_NOT_FOUND"
         );
 
     }
 
 
+    /* ======================================
+       CHECK PORTAL ACCESS
+    ====================================== */
+
+    if(
+        foundEmployee.portalEnabled !==
+        true
+    ){
+
+        throw new Error(
+            "PORTAL_DISABLED"
+        );
+
+    }
+
+
+    /* ======================================
+       CHECK AUTH ACCOUNT
+    ====================================== */
+
+    if(
+        !foundEmployee.portalAccountCreated
+        ||
+        !foundEmployee.portalUid
+    ){
+
+        throw new Error(
+            "PORTAL_ACCOUNT_NOT_CREATED"
+        );
+
+    }
+
+
+    /* ======================================
+       EMPLOYEE ID
+    ====================================== */
+
+    const employeeId =
+        String(
+            foundEmployee.employeeid || ""
+        )
+        .trim()
+        .toUpperCase();
+
+
+    if(
+        !employeeId
+    ){
+
+        throw new Error(
+            "EMPLOYEE_ID_MISSING"
+        );
+
+    }
+
+
+    /* ======================================
+       INTERNAL AUTH EMAIL
+    ====================================== */
+
+    const portalEmail =
+        foundEmployee.portalEmail
+        ||
+        createPortalEmail(
+            employeeId
+        );
+
+
+    /* ======================================
+       FIREBASE AUTH LOGIN
+    ====================================== */
+
+    await signInWithEmailAndPassword(
+
+        auth,
+
+        portalEmail,
+
+        pass
+
+    );
+
+
+    /* ======================================
+       SAVE EMPLOYEE SESSION
+    ====================================== */
+
+    const fullName = [
+
+        foundEmployee.firstname,
+
+        foundEmployee.middlename,
+
+        foundEmployee.lastname
+
+    ]
+
+    .filter(Boolean)
+
+    .join(" ")
+
+    .replace(
+        /\s+/g,
+        " "
+    )
+
+    .trim();
+
+
     saveLoginSession(
         "employee",
-        username
+        employeeId
     );
 
 
@@ -392,7 +585,7 @@ async function employeeLogin(
 
         "employeeId",
 
-        foundEmployee.employeeid || ""
+        employeeId
 
     );
 
@@ -401,26 +594,25 @@ async function employeeLogin(
 
         "employeeName",
 
-        [
-
-            foundEmployee.firstname,
-
-            foundEmployee.middlename,
-
-            foundEmployee.lastname
-
-        ]
-
-        .filter(Boolean)
-
-        .join(" ")
-
-        .replace(/\s+/g," ")
-
-        .trim()
+        fullName
 
     );
 
+
+    localStorage.setItem(
+
+        "employeeUsername",
+
+        foundEmployee.portalUsername
+        ||
+        employeeId
+
+    );
+
+
+    /* ======================================
+       REDIRECT
+    ====================================== */
 
     window.location.replace(
         "loading.html"
@@ -433,25 +625,34 @@ async function employeeLogin(
    LOGIN
 ========================================== */
 
-window.login = async function(){
+window.login =
+async function(){
 
     const selectedRole =
-    role.value;
+        role
+            ? role.value
+            : "";
 
 
     const username =
-    email.value.trim();
+        email
+            ? email.value.trim()
+            : "";
 
 
     const pass =
-    password.value;
+        password
+            ? password.value
+            : "";
 
 
     /* ======================================
        VALIDATION
     ====================================== */
 
-    if(selectedRole === ""){
+    if(
+        selectedRole === ""
+    ){
 
         alert(
             "Please select your role."
@@ -462,7 +663,9 @@ window.login = async function(){
     }
 
 
-    if(username === ""){
+    if(
+        username === ""
+    ){
 
         alert(
             "Please enter your Email or Employee ID."
@@ -473,7 +676,9 @@ window.login = async function(){
     }
 
 
-    if(pass === ""){
+    if(
+        pass === ""
+    ){
 
         alert(
             "Please enter your password."
@@ -495,7 +700,10 @@ window.login = async function(){
            FIREBASE AUTH PERSISTENCE
         ================================== */
 
-        if(remember.checked){
+        if(
+            remember &&
+            remember.checked
+        ){
 
             await setPersistence(
 
@@ -522,11 +730,17 @@ window.login = async function(){
            ADMIN
         ================================== */
 
-        if(selectedRole === "admin"){
+        if(
+            selectedRole ===
+            "admin"
+        ){
 
             await adminLogin(
+
                 username,
+
                 pass
+
             );
 
             return;
@@ -538,16 +752,27 @@ window.login = async function(){
            EMPLOYEE
         ================================== */
 
-        if(selectedRole === "employee"){
+        if(
+            selectedRole ===
+            "employee"
+        ){
 
             await employeeLogin(
+
                 username,
+
                 pass
+
             );
 
             return;
 
         }
+
+
+        throw new Error(
+            "Invalid user role."
+        );
 
 
     }catch(error){
@@ -563,51 +788,93 @@ window.login = async function(){
         enableLogin();
 
 
-        if(
-            error.code ===
-            "auth/invalid-credential"
-        ){
-
-            alert(
-                "Invalid email or password."
-            );
-
-            return;
-
-        }
-
-
-        if(
-            error.code ===
-            "auth/invalid-email"
-        ){
-
-            alert(
-                "Invalid email address."
-            );
-
-            return;
-
-        }
-
-
-        if(
-            error.code ===
-            "auth/user-not-found"
-        ){
-
-            alert(
-                "Account not found."
-            );
-
-            return;
-
-        }
-
+        /* ==================================
+           EMPLOYEE NOT FOUND
+        ================================== */
 
         if(
             error.message ===
-            "Invalid Employee Login"
+            "EMPLOYEE_NOT_FOUND"
+        ){
+
+            alert(
+                "Employee ID or username was not found."
+            );
+
+            return;
+
+        }
+
+
+        /* ==================================
+           PORTAL DISABLED
+        ================================== */
+
+        if(
+            error.message ===
+            "PORTAL_DISABLED"
+        ){
+
+            alert(
+
+                "Employee Portal access is disabled.\n\n" +
+
+                "Please contact HR/Admin."
+
+            );
+
+            return;
+
+        }
+
+
+        /* ==================================
+           PORTAL ACCOUNT NOT CREATED
+        ================================== */
+
+        if(
+            error.message ===
+            "PORTAL_ACCOUNT_NOT_CREATED"
+        ){
+
+            alert(
+
+                "Employee Portal account has not been created yet.\n\n" +
+
+                "Please contact HR/Admin."
+
+            );
+
+            return;
+
+        }
+
+
+        /* ==================================
+           EMPLOYEE ID MISSING
+        ================================== */
+
+        if(
+            error.message ===
+            "EMPLOYEE_ID_MISSING"
+        ){
+
+            alert(
+                "Employee ID is missing from the employee record."
+            );
+
+            return;
+
+        }
+
+
+        /* ==================================
+           FIREBASE INVALID CREDENTIAL
+        ================================== */
+
+        if(
+            error.code ===
+            "auth/invalid-credential"
         ){
 
             alert(
@@ -619,9 +886,110 @@ window.login = async function(){
         }
 
 
+        /* ==================================
+           INVALID EMAIL
+        ================================== */
+
+        if(
+            error.code ===
+            "auth/invalid-email"
+        ){
+
+            alert(
+                "Employee portal account has an invalid authentication email."
+            );
+
+            return;
+
+        }
+
+
+        /* ==================================
+           USER NOT FOUND
+        ================================== */
+
+        if(
+            error.code ===
+            "auth/user-not-found"
+        ){
+
+            alert(
+                "Employee portal account was not found."
+            );
+
+            return;
+
+        }
+
+
+        /* ==================================
+           WRONG PASSWORD
+        ================================== */
+
+        if(
+            error.code ===
+            "auth/wrong-password"
+        ){
+
+            alert(
+                "Invalid Employee ID or password."
+            );
+
+            return;
+
+        }
+
+
+        /* ==================================
+           TOO MANY REQUESTS
+        ================================== */
+
+        if(
+            error.code ===
+            "auth/too-many-requests"
+        ){
+
+            alert(
+
+                "Too many login attempts.\n\n" +
+
+                "Please try again later."
+
+            );
+
+            return;
+
+        }
+
+
+        /* ==================================
+           ADMIN INVALID LOGIN
+        ================================== */
+
+        if(
+            error.code ===
+            "auth/invalid-login-credentials"
+        ){
+
+            alert(
+                "Invalid email or password."
+            );
+
+            return;
+
+        }
+
+
+        /* ==================================
+           DEFAULT
+        ================================== */
+
         alert(
-            error.message ||
+
+            error.message
+            ||
             "Login failed."
+
         );
 
     }
@@ -633,18 +1001,28 @@ window.login = async function(){
    ENTER KEY
 ========================================== */
 
-password.addEventListener(
-    "keydown",
-    function(event){
+if(password){
 
-        if(event.key === "Enter"){
+    password.addEventListener(
 
-            login();
+        "keydown",
+
+        function(event){
+
+            if(
+                event.key ===
+                "Enter"
+            ){
+
+                login();
+
+            }
 
         }
 
-    }
-);
+    );
+
+}
 
 
 /* ==========================================
@@ -658,12 +1036,14 @@ if(fingerBtn){
     ){
 
         fingerBtn.style.display =
-        "none";
+            "none";
 
     }else{
 
         fingerBtn.addEventListener(
+
             "click",
+
             function(){
 
                 alert(
@@ -671,6 +1051,7 @@ if(fingerBtn){
                 );
 
             }
+
         );
 
     }
@@ -683,14 +1064,18 @@ if(fingerBtn){
 ========================================== */
 
 window.addEventListener(
+
     "load",
+
     function(){
 
         hideLoading();
+
 
         console.log(
             "PAPPRITO HR Login Ready"
         );
 
     }
+
 );
