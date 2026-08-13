@@ -152,6 +152,7 @@ loadCompanySettings();
 loadEmployeeSettings();
 loadAttendanceSettings();
 loadPayrollSettings();
+loadLeaveSettings();
        
     }
 );
@@ -3305,6 +3306,812 @@ async function savePayrollSettings(){
             </span>
 
             SAVE PAYROLL SETTINGS
+
+        `;
+
+    }
+
+}
+
+/* ==========================================
+   PAPPRITO HRIS
+   LEAVE SETTINGS
+========================================== */
+
+
+/* ==========================================
+   LEAVE SETTINGS ELEMENTS
+========================================== */
+
+const enableLeaveRequest =
+    document.getElementById(
+        "enableLeaveRequest"
+    );
+
+const leaveAdvanceDays =
+    document.getElementById(
+        "leaveAdvanceDays"
+    );
+
+const maxLeaveDaysPerRequest =
+    document.getElementById(
+        "maxLeaveDaysPerRequest"
+    );
+
+const allowHalfDayLeave =
+    document.getElementById(
+        "allowHalfDayLeave"
+    );
+
+const allowBackdatedLeave =
+    document.getElementById(
+        "allowBackdatedLeave"
+    );
+
+
+/* ==========================================
+   LEAVE TYPES
+========================================== */
+
+const leaveAnnual =
+    document.getElementById(
+        "leaveAnnual"
+    );
+
+const leaveSick =
+    document.getElementById(
+        "leaveSick"
+    );
+
+const leaveEmergency =
+    document.getElementById(
+        "leaveEmergency"
+    );
+
+const leaveUnpaid =
+    document.getElementById(
+        "leaveUnpaid"
+    );
+
+const leaveOther =
+    document.getElementById(
+        "leaveOther"
+    );
+
+
+/* ==========================================
+   APPROVAL
+========================================== */
+
+const requireLeaveApproval =
+    document.getElementById(
+        "requireLeaveApproval"
+    );
+
+const leaveApprovalLevel =
+    document.getElementById(
+        "leaveApprovalLevel"
+    );
+
+const autoRejectInvalidLeave =
+    document.getElementById(
+        "autoRejectInvalidLeave"
+    );
+
+
+/* ==========================================
+   LEAVE BALANCE
+========================================== */
+
+const enableLeaveBalance =
+    document.getElementById(
+        "enableLeaveBalance"
+    );
+
+const defaultAnnualLeave =
+    document.getElementById(
+        "defaultAnnualLeave"
+    );
+
+const defaultSickLeave =
+    document.getElementById(
+        "defaultSickLeave"
+    );
+
+const allowLeaveCarryForward =
+    document.getElementById(
+        "allowLeaveCarryForward"
+    );
+
+
+/* ==========================================
+   EMPLOYEE PORTAL
+========================================== */
+
+const portalLeaveRequest =
+    document.getElementById(
+        "portalLeaveRequest"
+    );
+
+const portalLeaveHistory =
+    document.getElementById(
+        "portalLeaveHistory"
+    );
+
+const portalLeaveBalance =
+    document.getElementById(
+        "portalLeaveBalance"
+    );
+
+const portalLeaveCancel =
+    document.getElementById(
+        "portalLeaveCancel"
+    );
+
+
+/* ==========================================
+   SAVE BUTTON
+========================================== */
+
+const saveLeaveBtn =
+    document.getElementById(
+        "saveLeaveBtn"
+    );
+
+
+/* ==========================================
+   DEFAULT LEAVE SETTINGS
+========================================== */
+
+const DEFAULT_LEAVE_SETTINGS = {
+
+    enableLeaveRequest:
+        true,
+
+    leaveAdvanceDays:
+        1,
+
+    maxLeaveDaysPerRequest:
+        30,
+
+    allowHalfDayLeave:
+        true,
+
+    allowBackdatedLeave:
+        false,
+
+
+    /* Leave Types */
+
+    leaveAnnual:
+        true,
+
+    leaveSick:
+        true,
+
+    leaveEmergency:
+        true,
+
+    leaveUnpaid:
+        true,
+
+    leaveOther:
+        true,
+
+
+    /* Approval */
+
+    requireLeaveApproval:
+        true,
+
+    leaveApprovalLevel:
+        "hr",
+
+    autoRejectInvalidLeave:
+        false,
+
+
+    /* Balance */
+
+    enableLeaveBalance:
+        true,
+
+    defaultAnnualLeave:
+        30,
+
+    defaultSickLeave:
+        15,
+
+    allowLeaveCarryForward:
+        false,
+
+
+    /* Employee Portal */
+
+    portalLeaveRequest:
+        true,
+
+    portalLeaveHistory:
+        true,
+
+    portalLeaveBalance:
+        true,
+
+    portalLeaveCancel:
+        true
+
+};
+
+
+/* ==========================================
+   LOAD LEAVE SETTINGS
+========================================== */
+
+async function loadLeaveSettings(){
+
+    try{
+
+        const leaveSettingsRef =
+            doc(
+                db,
+                "systemSettings",
+                "leaves"
+            );
+
+
+        const snapshot =
+            await getDoc(
+                leaveSettingsRef
+            );
+
+
+        let data =
+            DEFAULT_LEAVE_SETTINGS;
+
+
+        if(
+            snapshot.exists()
+        ){
+
+            data = {
+
+                ...DEFAULT_LEAVE_SETTINGS,
+
+                ...snapshot.data()
+
+            };
+
+        }
+
+
+        setLeaveSettingsForm(
+            data
+        );
+
+
+    }catch(error){
+
+        console.error(
+            "Load Leave Settings Error:",
+            error
+        );
+
+
+        setLeaveSettingsForm(
+            DEFAULT_LEAVE_SETTINGS
+        );
+
+    }
+
+}
+
+
+/* ==========================================
+   SET LEAVE FORM VALUES
+========================================== */
+
+function setLeaveSettingsForm(
+    data
+){
+
+    /* ======================================
+       REQUEST SETTINGS
+    ====================================== */
+
+    if(enableLeaveRequest){
+
+        enableLeaveRequest.checked =
+            data.enableLeaveRequest !== false;
+
+    }
+
+
+    if(leaveAdvanceDays){
+
+        leaveAdvanceDays.value =
+            data.leaveAdvanceDays ?? 1;
+
+    }
+
+
+    if(maxLeaveDaysPerRequest){
+
+        maxLeaveDaysPerRequest.value =
+            data.maxLeaveDaysPerRequest ?? 30;
+
+    }
+
+
+    if(allowHalfDayLeave){
+
+        allowHalfDayLeave.checked =
+            data.allowHalfDayLeave !== false;
+
+    }
+
+
+    if(allowBackdatedLeave){
+
+        allowBackdatedLeave.checked =
+            data.allowBackdatedLeave === true;
+
+    }
+
+
+    /* ======================================
+       LEAVE TYPES
+    ====================================== */
+
+    if(leaveAnnual){
+
+        leaveAnnual.checked =
+            data.leaveAnnual !== false;
+
+    }
+
+
+    if(leaveSick){
+
+        leaveSick.checked =
+            data.leaveSick !== false;
+
+    }
+
+
+    if(leaveEmergency){
+
+        leaveEmergency.checked =
+            data.leaveEmergency !== false;
+
+    }
+
+
+    if(leaveUnpaid){
+
+        leaveUnpaid.checked =
+            data.leaveUnpaid !== false;
+
+    }
+
+
+    if(leaveOther){
+
+        leaveOther.checked =
+            data.leaveOther !== false;
+
+    }
+
+
+    /* ======================================
+       APPROVAL
+    ====================================== */
+
+    if(requireLeaveApproval){
+
+        requireLeaveApproval.checked =
+            data.requireLeaveApproval !== false;
+
+    }
+
+
+    if(leaveApprovalLevel){
+
+        leaveApprovalLevel.value =
+            data.leaveApprovalLevel ||
+            "hr";
+
+    }
+
+
+    if(autoRejectInvalidLeave){
+
+        autoRejectInvalidLeave.checked =
+            data.autoRejectInvalidLeave === true;
+
+    }
+
+
+    /* ======================================
+       BALANCE
+    ====================================== */
+
+    if(enableLeaveBalance){
+
+        enableLeaveBalance.checked =
+            data.enableLeaveBalance !== false;
+
+    }
+
+
+    if(defaultAnnualLeave){
+
+        defaultAnnualLeave.value =
+            data.defaultAnnualLeave ?? 30;
+
+    }
+
+
+    if(defaultSickLeave){
+
+        defaultSickLeave.value =
+            data.defaultSickLeave ?? 15;
+
+    }
+
+
+    if(allowLeaveCarryForward){
+
+        allowLeaveCarryForward.checked =
+            data.allowLeaveCarryForward === true;
+
+    }
+
+
+    /* ======================================
+       EMPLOYEE PORTAL
+    ====================================== */
+
+    if(portalLeaveRequest){
+
+        portalLeaveRequest.checked =
+            data.portalLeaveRequest !== false;
+
+    }
+
+
+    if(portalLeaveHistory){
+
+        portalLeaveHistory.checked =
+            data.portalLeaveHistory !== false;
+
+    }
+
+
+    if(portalLeaveBalance){
+
+        portalLeaveBalance.checked =
+            data.portalLeaveBalance !== false;
+
+    }
+
+
+    if(portalLeaveCancel){
+
+        portalLeaveCancel.checked =
+            data.portalLeaveCancel !== false;
+
+    }
+
+}
+
+
+/* ==========================================
+   SAVE BUTTON EVENT
+========================================== */
+
+if(saveLeaveBtn){
+
+    saveLeaveBtn.addEventListener(
+        "click",
+        saveLeaveSettings
+    );
+
+}
+
+
+/* ==========================================
+   SAVE LEAVE SETTINGS
+========================================== */
+
+async function saveLeaveSettings(){
+
+    if(!auth.currentUser){
+
+        alert(
+            "You are not logged in."
+        );
+
+        window.location.replace(
+            "login.html"
+        );
+
+        return;
+
+    }
+
+
+    /* ======================================
+       VALIDATION
+    ====================================== */
+
+    const advanceDays =
+        Number(
+            leaveAdvanceDays.value
+        );
+
+
+    if(
+        !Number.isFinite(
+            advanceDays
+        ) ||
+        advanceDays < 0 ||
+        advanceDays > 365
+    ){
+
+        alert(
+            "Minimum Advance Request must be between 0 and 365 days."
+        );
+
+        leaveAdvanceDays.focus();
+
+        return;
+
+    }
+
+
+    const maximumDays =
+        Number(
+            maxLeaveDaysPerRequest.value
+        );
+
+
+    if(
+        !Number.isFinite(
+            maximumDays
+        ) ||
+        maximumDays < 1 ||
+        maximumDays > 365
+    ){
+
+        alert(
+            "Maximum Days Per Request must be between 1 and 365."
+        );
+
+        maxLeaveDaysPerRequest.focus();
+
+        return;
+
+    }
+
+
+    const annualLeave =
+        Number(
+            defaultAnnualLeave.value
+        );
+
+
+    if(
+        !Number.isFinite(
+            annualLeave
+        ) ||
+        annualLeave < 0 ||
+        annualLeave > 365
+    ){
+
+        alert(
+            "Default Annual Leave must be between 0 and 365 days."
+        );
+
+        defaultAnnualLeave.focus();
+
+        return;
+
+    }
+
+
+    const sickLeave =
+        Number(
+            defaultSickLeave.value
+        );
+
+
+    if(
+        !Number.isFinite(
+            sickLeave
+        ) ||
+        sickLeave < 0 ||
+        sickLeave > 365
+    ){
+
+        alert(
+            "Default Sick Leave must be between 0 and 365 days."
+        );
+
+        defaultSickLeave.focus();
+
+        return;
+
+    }
+
+
+    /* ======================================
+       DISABLE BUTTON
+    ====================================== */
+
+    saveLeaveBtn.disabled =
+        true;
+
+
+    saveLeaveBtn.innerHTML = `
+
+        <span class="material-icons">
+            sync
+        </span>
+
+        SAVING...
+
+    `;
+
+
+    try{
+
+        /* ==================================
+           LEAVE DATA
+        ================================== */
+
+        const leaveData = {
+
+            /* Request */
+
+            enableLeaveRequest:
+                enableLeaveRequest.checked,
+
+            leaveAdvanceDays:
+                advanceDays,
+
+            maxLeaveDaysPerRequest:
+                maximumDays,
+
+            allowHalfDayLeave:
+                allowHalfDayLeave.checked,
+
+            allowBackdatedLeave:
+                allowBackdatedLeave.checked,
+
+
+            /* Leave Types */
+
+            leaveAnnual:
+                leaveAnnual.checked,
+
+            leaveSick:
+                leaveSick.checked,
+
+            leaveEmergency:
+                leaveEmergency.checked,
+
+            leaveUnpaid:
+                leaveUnpaid.checked,
+
+            leaveOther:
+                leaveOther.checked,
+
+
+            /* Approval */
+
+            requireLeaveApproval:
+                requireLeaveApproval.checked,
+
+            leaveApprovalLevel:
+                leaveApprovalLevel.value,
+
+            autoRejectInvalidLeave:
+                autoRejectInvalidLeave.checked,
+
+
+            /* Balance */
+
+            enableLeaveBalance:
+                enableLeaveBalance.checked,
+
+            defaultAnnualLeave:
+                annualLeave,
+
+            defaultSickLeave:
+                sickLeave,
+
+            allowLeaveCarryForward:
+                allowLeaveCarryForward.checked,
+
+
+            /* Employee Portal */
+
+            portalLeaveRequest:
+                portalLeaveRequest.checked,
+
+            portalLeaveHistory:
+                portalLeaveHistory.checked,
+
+            portalLeaveBalance:
+                portalLeaveBalance.checked,
+
+            portalLeaveCancel:
+                portalLeaveCancel.checked
+
+        };
+
+
+        /* ==================================
+           FIREBASE REFERENCE
+        ================================== */
+
+        const leaveSettingsRef =
+            doc(
+                db,
+                "systemSettings",
+                "leaves"
+            );
+
+
+        /* ==================================
+           SAVE
+        ================================== */
+
+        await setDoc(
+
+            leaveSettingsRef,
+
+            leaveData,
+
+            {
+                merge:true
+            }
+
+        );
+
+
+        alert(
+            "Leave Settings Saved Successfully."
+        );
+
+
+    }catch(error){
+
+        console.error(
+            "Save Leave Settings Error:",
+            error
+        );
+
+
+        alert(
+            "Unable to save Leave Settings.\n\n" +
+            error.message
+        );
+
+
+    }finally{
+
+        saveLeaveBtn.disabled =
+            false;
+
+
+        saveLeaveBtn.innerHTML = `
+
+            <span class="material-icons">
+                save
+            </span>
+
+            SAVE LEAVE SETTINGS
 
         `;
 
