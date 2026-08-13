@@ -1,6 +1,7 @@
 /* ==========================================
    PAPPRITO HRIS
    EMPLOYEE PORTAL JS
+   VERSION 2
 ========================================== */
 
 import {
@@ -11,9 +12,7 @@ import {
 import {
     collection,
     getDocs,
-    addDoc,
-    deleteDoc,
-    doc
+    addDoc
 } from "https://www.gstatic.com/firebasejs/12.13.0/firebase-firestore.js";
 
 import {
@@ -38,251 +37,139 @@ let currentPayslip = null;
 ========================================== */
 
 const employeeName =
-    document.getElementById(
-        "employeeName"
-    );
-
+    document.getElementById("employeeName");
 
 const employeeId =
-    document.getElementById(
-        "employeeId"
-    );
-
+    document.getElementById("employeeId");
 
 const infoEmployeeId =
-    document.getElementById(
-        "infoEmployeeId"
-    );
-
+    document.getElementById("infoEmployeeId");
 
 const infoName =
-    document.getElementById(
-        "infoName"
-    );
-
+    document.getElementById("infoName");
 
 const infoPosition =
-    document.getElementById(
-        "infoPosition"
-    );
-
+    document.getElementById("infoPosition");
 
 const infoDepartment =
-    document.getElementById(
-        "infoDepartment"
-    );
-
+    document.getElementById("infoDepartment");
 
 const infoEmployment =
-    document.getElementById(
-        "infoEmployment"
-    );
-
+    document.getElementById("infoEmployment");
 
 const infoStatus =
-    document.getElementById(
-        "infoStatus"
-    );
-
+    document.getElementById("infoStatus");
 
 const infoMobile =
-    document.getElementById(
-        "infoMobile"
-    );
-
+    document.getElementById("infoMobile");
 
 const infoEmail =
-    document.getElementById(
-        "infoEmail"
-    );
+    document.getElementById("infoEmail");
 
+
+/* ==========================================
+   REQUEST ELEMENTS
+========================================== */
 
 const requestType =
-    document.getElementById(
-        "requestType"
-    );
-
+    document.getElementById("requestType");
 
 const requestDate =
-    document.getElementById(
-        "requestDate"
-    );
-
+    document.getElementById("requestDate");
 
 const requestDays =
-    document.getElementById(
-        "requestDays"
-    );
-
+    document.getElementById("requestDays");
 
 const requestReason =
-    document.getElementById(
-        "requestReason"
-    );
-
+    document.getElementById("requestReason");
 
 const requestBody =
-    document.getElementById(
-        "requestBody"
-    );
-
-
-const payslipSelect =
-    document.getElementById(
-        "payslipSelect"
-    );
-
-
-const payslipArea =
-    document.getElementById(
-        "payslipArea"
-    );
-
-
-const payslipMessage =
-    document.getElementById(
-        "payslipMessage"
-    );
+    document.getElementById("requestBody");
 
 
 /* ==========================================
    PAYSLIP ELEMENTS
 ========================================== */
 
-const payEmpId =
-    document.getElementById(
-        "payEmpId"
-    );
+const payslipSelect =
+    document.getElementById("payslipSelect");
 
+const payslipArea =
+    document.getElementById("payslipArea");
+
+const payslipMessage =
+    document.getElementById("payslipMessage");
+
+
+const payEmpId =
+    document.getElementById("payEmpId");
 
 const payEmp =
-    document.getElementById(
-        "payEmp"
-    );
-
+    document.getElementById("payEmp");
 
 const payDate =
-    document.getElementById(
-        "payDate"
-    );
-
+    document.getElementById("payDate");
 
 const payDailyRate =
-    document.getElementById(
-        "payDailyRate"
-    );
-
+    document.getElementById("payDailyRate");
 
 const payTotalDays =
-    document.getElementById(
-        "payTotalDays"
-    );
-
+    document.getElementById("payTotalDays");
 
 const payBasic =
-    document.getElementById(
-        "payBasic"
-    );
-
+    document.getElementById("payBasic");
 
 const payOvertime =
-    document.getElementById(
-        "payOvertime"
-    );
-
+    document.getElementById("payOvertime");
 
 const payHoliday =
-    document.getElementById(
-        "payHoliday"
-    );
-
+    document.getElementById("payHoliday");
 
 const paySick =
-    document.getElementById(
-        "paySick"
-    );
-
+    document.getElementById("paySick");
 
 const payVacation =
-    document.getElementById(
-        "payVacation"
-    );
-
+    document.getElementById("payVacation");
 
 const payBirthday =
-    document.getElementById(
-        "payBirthday"
-    );
-
+    document.getElementById("payBirthday");
 
 const payMaternity =
-    document.getElementById(
-        "payMaternity"
-    );
-
+    document.getElementById("payMaternity");
 
 const payPaternity =
-    document.getElementById(
-        "payPaternity"
-    );
-
+    document.getElementById("payPaternity");
 
 const payAllowance =
-    document.getElementById(
-        "payAllowance"
-    );
-
+    document.getElementById("payAllowance");
 
 const payGross =
-    document.getElementById(
-        "payGross"
-    );
-
+    document.getElementById("payGross");
 
 const paySSS =
-    document.getElementById(
-        "paySSS"
-    );
-
+    document.getElementById("paySSS");
 
 const payPhilhealth =
-    document.getElementById(
-        "payPhilhealth"
-    );
-
+    document.getElementById("payPhilhealth");
 
 const payPagibig =
-    document.getElementById(
-        "payPagibig"
-    );
-
+    document.getElementById("payPagibig");
 
 const payHealth =
-    document.getElementById(
-        "payHealth"
-    );
-
+    document.getElementById("payHealth");
 
 const payOther =
-    document.getElementById(
-        "payOther"
-    );
-
+    document.getElementById("payOther");
 
 const payDeduction =
-    document.getElementById(
-        "payDeduction"
-    );
-
+    document.getElementById("payDeduction");
 
 const payNet =
-    document.getElementById(
-        "payNet"
-    );
+    document.getElementById("payNet");
 
 
 /* ==========================================
-   HELPERS
+   HELPER
 ========================================== */
 
 function text(value){
@@ -297,10 +184,7 @@ function text(value){
 function number(value){
 
     const n =
-        Number(
-            value || 0
-        );
-
+        Number(value || 0);
 
     return Number.isFinite(n)
         ? n
@@ -309,54 +193,63 @@ function number(value){
 }
 
 
-function rawMoney(value){
+function money(value){
 
-    return number(
-        value
-    ).toFixed(2);
+    return number(value)
+        .toFixed(2);
 
 }
 
 
 function escapeHTML(value){
 
-    return text(
-        value
-    )
+    return text(value)
 
-    .replace(
-        /&/g,
-        "&amp;"
-    )
+        .replace(/&/g,"&amp;")
 
-    .replace(
-        /</g,
-        "&lt;"
-    )
+        .replace(/</g,"&lt;")
 
-    .replace(
-        />/g,
-        "&gt;"
-    )
+        .replace(/>/g,"&gt;")
 
-    .replace(
-        /"/g,
-        "&quot;"
-    )
+        .replace(/"/g,"&quot;")
 
-    .replace(
-        /'/g,
-        "&#039;"
-    );
+        .replace(/'/g,"&#039;");
 
 }
 
 
 /* ==========================================
-   COMPATIBLE PAYROLL FIELD
+   FULL NAME
 ========================================== */
 
-function field(
+function getFullName(employee){
+
+    return [
+
+        employee.firstname,
+
+        employee.middlename,
+
+        employee.lastname
+
+    ]
+
+    .filter(Boolean)
+
+    .join(" ")
+
+    .replace(/\s+/g," ")
+
+    .trim();
+
+}
+
+
+/* ==========================================
+   PAYROLL COMPATIBILITY
+========================================== */
+
+function payrollField(
     pay,
     primary,
     secondary,
@@ -401,38 +294,6 @@ function field(
 
 
 /* ==========================================
-   FULL NAME
-========================================== */
-
-function getFullName(
-    employee
-){
-
-    return [
-
-        employee.firstname || "",
-
-        employee.middlename || "",
-
-        employee.lastname || ""
-
-    ]
-
-    .filter(Boolean)
-
-    .join(" ")
-
-    .replace(
-        /\s+/g,
-        " "
-    )
-
-    .trim();
-
-}
-
-
-/* ==========================================
    LOAD CURRENT EMPLOYEE
 ========================================== */
 
@@ -446,7 +307,7 @@ async function loadCurrentEmployee(){
         );
 
 
-    const employeeId =
+    const savedEmployeeId =
         text(
             localStorage.getItem(
                 "employeeId"
@@ -457,7 +318,7 @@ async function loadCurrentEmployee(){
 
     if(
         !employeeDocId &&
-        !employeeId
+        !savedEmployeeId
     ){
 
         throw new Error(
@@ -476,8 +337,7 @@ async function loadCurrentEmployee(){
         );
 
 
-    let found =
-        null;
+    let foundEmployee = null;
 
 
     snapshot.forEach(
@@ -488,8 +348,7 @@ async function loadCurrentEmployee(){
 
 
             /*
-             * First:
-             * Firestore document ID
+             * MATCH FIRESTORE DOCUMENT ID
              */
 
             if(
@@ -498,39 +357,7 @@ async function loadCurrentEmployee(){
                 employeeDocId
             ){
 
-                found = {
-
-                    id:
-                        docSnap.id,
-
-                    ...employee
-
-                };
-
-                return;
-
-            }
-
-
-            /*
-             * Second:
-             * Employee ID
-             */
-
-            const empId =
-                text(
-                    employee.employeeid
-                )
-                .toUpperCase();
-
-
-            if(
-                employeeId &&
-                empId ===
-                employeeId
-            ){
-
-                found = {
+                foundEmployee = {
 
                     id:
                         docSnap.id,
@@ -545,9 +372,51 @@ async function loadCurrentEmployee(){
     );
 
 
-    if(
-        !found
-    ){
+    /*
+     * IF DOCUMENT ID DID NOT MATCH,
+     * MATCH EMPLOYEE ID
+     */
+
+    if(!foundEmployee){
+
+        snapshot.forEach(
+            docSnap => {
+
+                const employee =
+                    docSnap.data();
+
+
+                const empId =
+                    text(
+                        employee.employeeid
+                    )
+                    .toUpperCase();
+
+
+                if(
+                    savedEmployeeId &&
+                    empId ===
+                    savedEmployeeId
+                ){
+
+                    foundEmployee = {
+
+                        id:
+                            docSnap.id,
+
+                        ...employee
+
+                    };
+
+                }
+
+            }
+        );
+
+    }
+
+
+    if(!foundEmployee){
 
         throw new Error(
             "EMPLOYEE_NOT_FOUND"
@@ -557,7 +426,7 @@ async function loadCurrentEmployee(){
 
 
     currentEmployee =
-        found;
+        foundEmployee;
 
 
     displayEmployeeInformation();
@@ -566,132 +435,107 @@ async function loadCurrentEmployee(){
 
 
 /* ==========================================
-   DISPLAY EMPLOYEE INFORMATION
+   DISPLAY EMPLOYEE
 ========================================== */
 
 function displayEmployeeInformation(){
 
-    const fullName =
+    if(!currentEmployee){
+
+        return;
+
+    }
+
+
+    const name =
         getFullName(
             currentEmployee
         );
 
 
-    const empId =
+    const id =
         text(
             currentEmployee.employeeid
         );
 
 
-    if(
-        employeeName
-    ){
+    if(employeeName){
 
         employeeName.innerText =
-            fullName ||
-            "Employee";
+            name || "Employee";
 
     }
 
 
-    if(
-        employeeId
-    ){
+    if(employeeId){
 
         employeeId.innerText =
             "Employee ID: " +
-            (
-                empId ||
-                "-"
-            );
+            (id || "-");
 
     }
 
 
-    if(
-        infoEmployeeId
-    ){
+    if(infoEmployeeId){
 
         infoEmployeeId.innerText =
-            empId ||
-            "-";
+            id || "-";
 
     }
 
 
-    if(
-        infoName
-    ){
+    if(infoName){
 
         infoName.innerText =
-            fullName ||
-            "-";
+            name || "-";
 
     }
 
 
-    if(
-        infoPosition
-    ){
+    if(infoPosition){
 
         infoPosition.innerText =
-            currentEmployee.position ||
-            "-";
+            currentEmployee.position || "-";
 
     }
 
 
-    if(
-        infoDepartment
-    ){
+    if(infoDepartment){
 
         infoDepartment.innerText =
-            currentEmployee.department ||
-            "-";
+            currentEmployee.department || "-";
 
     }
 
 
-    if(
-        infoEmployment
-    ){
+    if(infoEmployment){
 
         infoEmployment.innerText =
-            currentEmployee.employment ||
-            "-";
+            currentEmployee.employment || "-";
 
     }
 
 
-    if(
-        infoStatus
-    ){
+    if(infoStatus){
 
         infoStatus.innerText =
-            currentEmployee.status ||
-            "Active";
+            currentEmployee.status || "Active";
 
     }
 
 
-    if(
-        infoMobile
-    ){
+    if(infoMobile){
 
         infoMobile.innerText =
-            currentEmployee.mobile ||
-            "-";
+            currentEmployee.mobile || "-";
 
     }
 
 
-    if(
-        infoEmail
-    ){
+    if(infoEmail){
 
         infoEmail.innerText =
-            currentEmployee.email ||
-            "-";
+            currentEmployee.email || "-";
 
     }
 
@@ -699,7 +543,7 @@ function displayEmployeeInformation(){
 
 
 /* ==========================================
-   LOAD REQUEST HISTORY
+   LOAD REQUESTS
 ========================================== */
 
 async function loadRequests(){
@@ -759,19 +603,15 @@ async function loadRequests(){
                     docSnap.data();
 
 
-                const requestEmployeeId =
+                const requestId =
                     text(
                         request.empid
                     )
                     .toUpperCase();
 
 
-                /*
-                 * ONLY current employee
-                 */
-
                 if(
-                    requestEmployeeId !==
+                    requestId !==
                     currentId
                 ){
 
@@ -793,24 +633,21 @@ async function loadRequests(){
         );
 
 
-        /*
-         * Latest first
-         */
-
         requests.sort(
-            (
-                a,
-                b
-            ) => {
+            (a,b) => {
 
                 return (
+
                     Number(
                         b.timestamp || 0
                     )
+
                     -
+
                     Number(
                         a.timestamp || 0
                     )
+
                 );
 
             }
@@ -859,17 +696,7 @@ function renderRequests(
     requests
 ){
 
-    if(
-        !requestBody
-    ){
-
-        return;
-
-    }
-
-
-    requestBody.innerHTML =
-        "";
+    requestBody.innerHTML = "";
 
 
     if(
@@ -904,16 +731,17 @@ function renderRequests(
                 text(
                     request.status ||
                     "PENDING"
-                );
+                )
+                .toUpperCase();
 
 
             const statusClass =
                 status
-                    .toLowerCase()
-                    .replace(
-                        /\s+/g,
-                        "-"
-                    );
+                .toLowerCase()
+                .replace(
+                    /\s+/g,
+                    "-"
+                );
 
 
             const row =
@@ -925,53 +753,34 @@ function renderRequests(
             row.innerHTML = `
 
 <td>
-
 ${escapeHTML(
-    request.type ||
-    "-"
+    request.type || "-"
 )}
-
 </td>
 
+<td>
+${escapeHTML(
+    request.date || "-"
+)}
+</td>
+
+<td>
+${escapeHTML(
+    request.days ?? "-"
+)}
+</td>
+
+<td>
+${escapeHTML(
+    request.reason || "-"
+)}
+</td>
 
 <td>
 
-${escapeHTML(
-    request.date ||
-    "-"
-)}
+<span class="status ${statusClass}">
 
-</td>
-
-
-<td>
-
-${escapeHTML(
-    request.days ??
-    "-"
-)}
-
-</td>
-
-
-<td>
-
-${escapeHTML(
-    request.reason ||
-    "-"
-)}
-
-</td>
-
-
-<td>
-
-<span
-    class="status ${statusClass}">
-
-    ${escapeHTML(
-        status
-    )}
+${escapeHTML(status)}
 
 </span>
 
@@ -991,18 +800,16 @@ ${escapeHTML(
 
 
 /* ==========================================
-   SUBMIT LEAVE REQUEST
+   SUBMIT REQUEST
 ========================================== */
 
 window.submitLeaveRequest =
 async function(){
 
-    if(
-        !currentEmployee
-    ){
+    if(!currentEmployee){
 
         alert(
-            "Employee information is not loaded."
+            "Hindi pa loaded ang employee information."
         );
 
         return;
@@ -1043,7 +850,7 @@ async function(){
 
 
     /*
-     * Allowed requests only
+     * REQUEST TYPES
      */
 
     const allowedRequests = [
@@ -1076,7 +883,7 @@ async function(){
     ){
 
         alert(
-            "Please select a valid request type."
+            "Pumili muna ng Request Type."
         );
 
         return;
@@ -1084,12 +891,10 @@ async function(){
     }
 
 
-    if(
-        !date
-    ){
+    if(!date){
 
         alert(
-            "Please select the date."
+            "Pumili muna ng date."
         );
 
         return;
@@ -1103,7 +908,7 @@ async function(){
     ){
 
         alert(
-            "Please enter the number of days."
+            "Ilagay ang number of days."
         );
 
         return;
@@ -1111,12 +916,10 @@ async function(){
     }
 
 
-    if(
-        !reason
-    ){
+    if(!reason){
 
         alert(
-            "Please enter the reason."
+            "Ilagay ang reason."
         );
 
         return;
@@ -1126,7 +929,7 @@ async function(){
 
     try{
 
-        const employeeFullName =
+        const fullName =
             getFullName(
                 currentEmployee
             );
@@ -1145,7 +948,7 @@ async function(){
                     currentEmployee.employeeid,
 
                 employee:
-                    employeeFullName,
+                    fullName,
 
                 type:
                     type,
@@ -1154,9 +957,7 @@ async function(){
                     date,
 
                 days:
-                    Number(
-                        days
-                    ),
+                    Number(days),
 
                 reason:
                     reason,
@@ -1173,7 +974,7 @@ async function(){
 
 
         alert(
-            "Request submitted successfully."
+            "Successfully submitted ang request."
         );
 
 
@@ -1192,7 +993,7 @@ async function(){
 
 
         alert(
-            "Failed to submit request.\n\n" +
+            "Hindi na-submit ang request.\n\n" +
             error.message
         );
 
@@ -1208,42 +1009,30 @@ async function(){
 window.clearRequestForm =
 function(){
 
-    if(
-        requestType
-    ){
+    if(requestType){
 
-        requestType.value =
-            "";
+        requestType.value = "";
 
     }
 
 
-    if(
-        requestDate
-    ){
+    if(requestDate){
 
-        requestDate.value =
-            "";
+        requestDate.value = "";
 
     }
 
 
-    if(
-        requestDays
-    ){
+    if(requestDays){
 
-        requestDays.value =
-            "";
+        requestDays.value = "";
 
     }
 
 
-    if(
-        requestReason
-    ){
+    if(requestReason){
 
-        requestReason.value =
-            "";
+        requestReason.value = "";
 
     }
 
@@ -1251,14 +1040,12 @@ function(){
 
 
 /* ==========================================
-   LOAD EMPLOYEE PAYROLL
+   LOAD PAYROLL
 ========================================== */
 
 async function loadEmployeePayroll(){
 
-    if(
-        !currentEmployee
-    ){
+    if(!currentEmployee){
 
         return;
 
@@ -1268,9 +1055,7 @@ async function loadEmployeePayroll(){
     employeePayroll = [];
 
 
-    if(
-        payslipSelect
-    ){
+    if(payslipSelect){
 
         payslipSelect.innerHTML = `
 
@@ -1317,10 +1102,6 @@ Loading payslips...
                     .toUpperCase();
 
 
-                /*
-                 * ONLY CURRENT EMPLOYEE
-                 */
-
                 if(
                     payrollId !==
                     currentId
@@ -1344,15 +1125,8 @@ Loading payslips...
         );
 
 
-        /*
-         * Latest payroll first
-         */
-
         employeePayroll.sort(
-            (
-                a,
-                b
-            ) => {
+            (a,b) => {
 
                 return String(
                     b.date || ""
@@ -1378,9 +1152,7 @@ Loading payslips...
         );
 
 
-        if(
-            payslipSelect
-        ){
+        if(payslipSelect){
 
             payslipSelect.innerHTML = `
 
@@ -1400,14 +1172,12 @@ Unable to load payslips
 
 
 /* ==========================================
-   PAYSLIP SELECT
+   POPULATE PAYSLIP
 ========================================== */
 
 function populatePayslipSelect(){
 
-    if(
-        !payslipSelect
-    ){
+    if(!payslipSelect){
 
         return;
 
@@ -1473,32 +1243,20 @@ SELECT PAYROLL PERIOD
     );
 
 
-    /*
-     * Latest payslip automatically selected
-     */
-
-    if(
-        employeePayroll.length > 0
-    ){
-
-        payslipSelect.value =
-            employeePayroll[0].id;
-
-    }
+    payslipSelect.value =
+        employeePayroll[0].id;
 
 }
 
 
 /* ==========================================
-   VIEW SELECTED PAYSLIP
+   VIEW PAYSLIP
 ========================================== */
 
 window.viewSelectedPayslip =
 function(){
 
-    if(
-        !payslipSelect
-    ){
+    if(!payslipSelect){
 
         return;
 
@@ -1509,12 +1267,10 @@ function(){
         payslipSelect.value;
 
 
-    if(
-        !selectedId
-    ){
+    if(!selectedId){
 
         alert(
-            "Please select a payroll period."
+            "Pumili muna ng payroll period."
         );
 
         return;
@@ -1530,9 +1286,7 @@ function(){
         );
 
 
-    if(
-        !pay
-    ){
+    if(!pay){
 
         alert(
             "Payslip not found."
@@ -1542,10 +1296,6 @@ function(){
 
     }
 
-
-    /*
-     * Extra protection
-     */
 
     const currentId =
         text(
@@ -1567,7 +1317,7 @@ function(){
     ){
 
         alert(
-            "You are not authorized to view this payslip."
+            "Hindi ka authorized makita ang payslip na ito."
         );
 
         return;
@@ -1587,9 +1337,7 @@ function(){
     hidePayslipMessage();
 
 
-    if(
-        payslipArea
-    ){
+    if(payslipArea){
 
         payslipArea.style.display =
             "block";
@@ -1600,11 +1348,9 @@ function(){
 
                 payslipArea.scrollIntoView({
 
-                    behavior:
-                        "smooth",
+                    behavior:"smooth",
 
-                    block:
-                        "center"
+                    block:"center"
 
                 });
 
@@ -1621,12 +1367,10 @@ function(){
    DISPLAY PAYSLIP
 ========================================== */
 
-function displayPayslip(
-    pay
-){
+function displayPayslip(pay){
 
     const holiday =
-        field(
+        payrollField(
             pay,
             "holiday",
             "holidaypay"
@@ -1634,7 +1378,7 @@ function displayPayslip(
 
 
     const health =
-        field(
+        payrollField(
             pay,
             "healthcard",
             "health"
@@ -1642,16 +1386,14 @@ function displayPayslip(
 
 
     const other =
-        field(
+        payrollField(
             pay,
             "otherdeduction",
             "other"
         );
 
 
-    if(
-        payEmpId
-    ){
+    if(payEmpId){
 
         payEmpId.innerText =
             pay.empid || "-";
@@ -1659,9 +1401,7 @@ function displayPayslip(
     }
 
 
-    if(
-        payEmp
-    ){
+    if(payEmp){
 
         payEmp.innerText =
             pay.employee || "-";
@@ -1669,9 +1409,7 @@ function displayPayslip(
     }
 
 
-    if(
-        payDate
-    ){
+    if(payDate){
 
         payDate.innerText =
             pay.date || "-";
@@ -1679,21 +1417,17 @@ function displayPayslip(
     }
 
 
-    if(
-        payDailyRate
-    ){
+    if(payDailyRate){
 
         payDailyRate.innerText =
-            rawMoney(
+            money(
                 pay.dailyrate
             );
 
     }
 
 
-    if(
-        payTotalDays
-    ){
+    if(payTotalDays){
 
         payTotalDays.innerText =
             number(
@@ -1703,204 +1437,170 @@ function displayPayslip(
     }
 
 
-    if(
-        payBasic
-    ){
+    if(payBasic){
 
         payBasic.innerText =
-            rawMoney(
+            money(
                 pay.basicpay
             );
 
     }
 
 
-    if(
-        payOvertime
-    ){
+    if(payOvertime){
 
         payOvertime.innerText =
-            rawMoney(
+            money(
                 pay.overtime
             );
 
     }
 
 
-    if(
-        payHoliday
-    ){
+    if(payHoliday){
 
         payHoliday.innerText =
-            rawMoney(
+            money(
                 holiday
             );
 
     }
 
 
-    if(
-        paySick
-    ){
+    if(paySick){
 
         paySick.innerText =
-            rawMoney(
+            money(
                 pay.sickleave
             );
 
     }
 
 
-    if(
-        payVacation
-    ){
+    if(payVacation){
 
         payVacation.innerText =
-            rawMoney(
+            money(
                 pay.vacationleave
             );
 
     }
 
 
-    if(
-        payBirthday
-    ){
+    if(payBirthday){
 
         payBirthday.innerText =
-            rawMoney(
+            money(
                 pay.birthdayleave
             );
 
     }
 
 
-    if(
-        payMaternity
-    ){
+    if(payMaternity){
 
         payMaternity.innerText =
-            rawMoney(
+            money(
                 pay.maternityleave
             );
 
     }
 
 
-    if(
-        payPaternity
-    ){
+    if(payPaternity){
 
         payPaternity.innerText =
-            rawMoney(
+            money(
                 pay.paternityleave
             );
 
     }
 
 
-    if(
-        payAllowance
-    ){
+    if(payAllowance){
 
         payAllowance.innerText =
-            rawMoney(
+            money(
                 pay.allowance
             );
 
     }
 
 
-    if(
-        payGross
-    ){
+    if(payGross){
 
         payGross.innerText =
-            rawMoney(
+            money(
                 pay.gross
             );
 
     }
 
 
-    if(
-        paySSS
-    ){
+    if(paySSS){
 
         paySSS.innerText =
-            rawMoney(
+            money(
                 pay.sss
             );
 
     }
 
 
-    if(
-        payPhilhealth
-    ){
+    if(payPhilhealth){
 
         payPhilhealth.innerText =
-            rawMoney(
+            money(
                 pay.philhealth
             );
 
     }
 
 
-    if(
-        payPagibig
-    ){
+    if(payPagibig){
 
         payPagibig.innerText =
-            rawMoney(
+            money(
                 pay.pagibig
             );
 
     }
 
 
-    if(
-        payHealth
-    ){
+    if(payHealth){
 
         payHealth.innerText =
-            rawMoney(
+            money(
                 health
             );
 
     }
 
 
-    if(
-        payOther
-    ){
+    if(payOther){
 
         payOther.innerText =
-            rawMoney(
+            money(
                 other
             );
 
     }
 
 
-    if(
-        payDeduction
-    ){
+    if(payDeduction){
 
         payDeduction.innerText =
-            rawMoney(
+            money(
                 pay.deductions
             );
 
     }
 
 
-    if(
-        payNet
-    ){
+    if(payNet){
 
         payNet.innerText =
-            rawMoney(
+            money(
                 pay.net
             );
 
@@ -1913,35 +1613,36 @@ function displayPayslip(
    PAYSLIP MESSAGE
 ========================================== */
 
-function showPayslipMessage(
-    message
-){
+function showPayslipMessage(message){
 
-    if(
-        payslipMessage
-    ){
+    if(!payslipMessage){
 
-        payslipMessage.innerText =
-            message;
-
-        payslipMessage.style.display =
-            "block";
+        return;
 
     }
+
+
+    payslipMessage.innerText =
+        message;
+
+
+    payslipMessage.style.display =
+        "block";
 
 }
 
 
 function hidePayslipMessage(){
 
-    if(
-        payslipMessage
-    ){
+    if(!payslipMessage){
 
-        payslipMessage.style.display =
-            "none";
+        return;
 
     }
+
+
+    payslipMessage.style.display =
+        "none";
 
 }
 
@@ -1953,9 +1654,7 @@ function hidePayslipMessage(){
 window.closePayslip =
 function(){
 
-    if(
-        payslipArea
-    ){
+    if(payslipArea){
 
         payslipArea.style.display =
             "none";
@@ -1966,15 +1665,13 @@ function(){
 
 
 /* ==========================================
-   PRINT SELECTED PAYSLIP
+   PRINT PAYSLIP
 ========================================== */
 
 window.printSelectedPayslip =
 function(){
 
-    if(
-        !currentPayslip
-    ){
+    if(!currentPayslip){
 
         if(
             payslipSelect &&
@@ -1993,22 +1690,16 @@ function(){
     }
 
 
-    if(
-        !currentPayslip
-    ){
+    if(!currentPayslip){
 
         alert(
-            "Please view a payslip first."
+            "View a payslip first."
         );
 
         return;
 
     }
 
-
-    /*
-     * Verify employee ownership
-     */
 
     const currentId =
         text(
@@ -2030,7 +1721,7 @@ function(){
     ){
 
         alert(
-            "You are not authorized to print this payslip."
+            "Hindi ka authorized mag-print ng payslip na ito."
         );
 
         return;
@@ -2049,12 +1740,10 @@ function(){
    CREATE PRINT WINDOW
 ========================================== */
 
-function createPrintWindow(
-    pay
-){
+function createPrintWindow(pay){
 
     const holiday =
-        field(
+        payrollField(
             pay,
             "holiday",
             "holidaypay"
@@ -2062,7 +1751,7 @@ function createPrintWindow(
 
 
     const health =
-        field(
+        payrollField(
             pay,
             "healthcard",
             "health"
@@ -2070,7 +1759,7 @@ function createPrintWindow(
 
 
     const other =
-        field(
+        payrollField(
             pay,
             "otherdeduction",
             "other"
@@ -2085,9 +1774,7 @@ function createPrintWindow(
         );
 
 
-    if(
-        !printWindow
-    ){
+    if(!printWindow){
 
         alert(
             "Please allow pop-ups for printing."
@@ -2098,14 +1785,11 @@ function createPrintWindow(
     }
 
 
-    printWindow.document.open();
-
-
     printWindow.document.write(`
 
 <!DOCTYPE html>
 
-<html lang="en">
+<html>
 
 <head>
 
@@ -2115,29 +1799,21 @@ function createPrintWindow(
 PAPPRITO Payslip
 </title>
 
-
 <style>
 
 *{
-
     box-sizing:border-box;
-
 }
 
-
-html,
 body{
 
     margin:0;
 
-    padding:0;
+    padding:10px;
 
     background:#fff;
 
-}
-
-
-body{
+    color:#000;
 
     font-family:
         Tahoma,
@@ -2145,7 +1821,6 @@ body{
         sans-serif;
 
 }
-
 
 @page{
 
@@ -2155,115 +1830,102 @@ body{
 
 }
 
-
 .payslip{
 
     width:110mm;
 
-    margin:0 auto;
+    margin:auto;
 
     padding:8px;
 
+    border:2px solid #ffcc00;
+
+    border-radius:9px;
+
     background:#f9f9f9;
-
-    color:#000;
-
-    border:
-        2px solid #ffcc00;
-
-    border-radius:10px;
 
 }
 
-
 .logo{
+
+    display:block;
 
     width:60px;
 
     height:60px;
 
+    margin:0 auto 5px;
+
     object-fit:cover;
 
     border-radius:50%;
 
-    border:
-        2px solid #ffcc00;
+    border:2px solid #ffcc00;
 
-    display:block;
-
-    margin:0 auto 5px auto;
+    padding:3px;
 
 }
-
 
 .company{
 
     text-align:center;
 
-    border-bottom:
-        2px solid #ffcc00;
+    padding-bottom:5px;
 
-    padding-bottom:4px;
+    border-bottom:2px solid #ffcc00;
 
 }
 
-
 .company h2{
+
+    margin:2px;
 
     color:#cc0000;
 
     font-size:18px;
 
-    margin:2px;
-
 }
 
-
 .company p{
+
+    margin:2px;
 
     font-size:8px;
 
     font-weight:bold;
 
-    margin:2px;
-
 }
-
 
 .info{
 
-    font-size:9px;
-
-    line-height:1.5;
-
-    background:#fff8dc;
-
-    border:
-        1px solid #ffcc00;
+    margin-top:5px;
 
     padding:5px;
 
-    margin-top:5px;
+    background:#fff8dc;
+
+    border:1px solid #ffcc00;
+
+    font-size:8px;
+
+    line-height:1.5;
 
 }
-
 
 table{
 
     width:100%;
 
-    border-collapse:collapse;
-
     margin-top:5px;
 
-}
+    border-collapse:collapse;
 
+}
 
 th,
 td{
 
-    border:
-        1px solid #999;
+    border:1px solid #999;
 
     padding:4px;
 
@@ -2271,24 +1933,23 @@ td{
 
 }
 
-
 th{
 
     background:#ffcc00;
 
-    color:#000;
-
 }
-
 
 td{
 
     background:#fff;
 
-    color:#000;
-
 }
 
+td:last-child{
+
+    text-align:right;
+
+}
 
 .net{
 
@@ -2300,14 +1961,13 @@ td{
 
     color:#fff;
 
-    font-weight:bold;
-
     font-size:10px;
+
+    font-weight:bold;
 
     text-align:right;
 
 }
-
 
 .signature{
 
@@ -2315,23 +1975,21 @@ td{
 
     justify-content:space-between;
 
-    margin-top:15px;
+    margin-top:18px;
 
     font-size:7px;
 
 }
 
-
 .line{
-
-    border-top:
-        1px solid #000;
 
     width:70px;
 
-    text-align:center;
-
     padding-top:3px;
+
+    border-top:1px solid #000;
+
+    text-align:center;
 
 }
 
@@ -2339,435 +1997,182 @@ td{
 
 </head>
 
-
 <body>
 
-
 <div class="payslip">
-
-
-<div class="company">
-
 
 <img
 src="../assets/images/logo.png"
 class="logo"
 alt="PAPPRITO">
 
+<div class="company">
 
 <h2>
 PAPPRITO
 </h2>
 
-
 <p>
 OFFICIAL EMPLOYEE PAYSLIP
 </p>
 
-
 </div>
-
-
 
 <div class="info">
 
-
-<b>
-ID:
-</b>
-
-${escapeHTML(
-    pay.empid
-)}
-
+<b>ID:</b>
+${escapeHTML(pay.empid || "-")}
 
 <br>
 
-
-<b>
-Name:
-</b>
-
-${escapeHTML(
-    pay.employee
-)}
-
+<b>Name:</b>
+${escapeHTML(pay.employee || "-")}
 
 <br>
 
-
-<b>
-Date:
-</b>
-
-${escapeHTML(
-    pay.date
-)}
-
+<b>Date:</b>
+${escapeHTML(pay.date || "-")}
 
 <br>
 
-
-<b>
-Daily Rate:
-</b>
-
-₱ ${rawMoney(
-    pay.dailyrate
-)}
-
+<b>Daily Rate:</b>
+₱ ${money(pay.dailyrate)}
 
 <br>
 
-
-<b>
-Total Days:
-</b>
-
-${number(
-    pay.totaldays
-)}
+<b>Total Days:</b>
+${number(pay.totaldays)}
 
 </div>
 
 
-
 <table>
 
-
 <tr>
 
-<th>
-EARNINGS
-</th>
+<th>EARNINGS</th>
 
-<th>
-AMOUNT
-</th>
+<th>AMOUNT</th>
 
 </tr>
 
-
 <tr>
-
-<td>
-Basic Pay
-</td>
-
-<td>
-${rawMoney(
-    pay.basicpay
-)}
-</td>
-
+<td>Basic Pay</td>
+<td>${money(pay.basicpay)}</td>
 </tr>
 
-
 <tr>
-
-<td>
-Overtime
-</td>
-
-<td>
-${rawMoney(
-    pay.overtime
-)}
-</td>
-
+<td>Overtime</td>
+<td>${money(pay.overtime)}</td>
 </tr>
 
-
 <tr>
-
-<td>
-Holiday Pay
-</td>
-
-<td>
-${rawMoney(
-    holiday
-)}
-</td>
-
+<td>Holiday Pay</td>
+<td>${money(holiday)}</td>
 </tr>
 
-
 <tr>
-
-<td>
-Sick Leave
-</td>
-
-<td>
-${rawMoney(
-    pay.sickleave
-)}
-</td>
-
+<td>Sick Leave</td>
+<td>${money(pay.sickleave)}</td>
 </tr>
 
-
 <tr>
-
-<td>
-Vacation Leave
-</td>
-
-<td>
-${rawMoney(
-    pay.vacationleave
-)}
-</td>
-
+<td>Vacation Leave</td>
+<td>${money(pay.vacationleave)}</td>
 </tr>
 
-
 <tr>
-
-<td>
-Birthday Leave
-</td>
-
-<td>
-${rawMoney(
-    pay.birthdayleave
-)}
-</td>
-
+<td>Birthday Leave</td>
+<td>${money(pay.birthdayleave)}</td>
 </tr>
 
-
 <tr>
-
-<td>
-Maternity Leave
-</td>
-
-<td>
-${rawMoney(
-    pay.maternityleave
-)}
-</td>
-
+<td>Maternity Leave</td>
+<td>${money(pay.maternityleave)}</td>
 </tr>
 
-
 <tr>
-
-<td>
-Paternity Leave
-</td>
-
-<td>
-${rawMoney(
-    pay.paternityleave
-)}
-</td>
-
+<td>Paternity Leave</td>
+<td>${money(pay.paternityleave)}</td>
 </tr>
 
-
 <tr>
-
-<td>
-Allowance
-</td>
-
-<td>
-${rawMoney(
-    pay.allowance
-)}
-</td>
-
+<td>Allowance</td>
+<td>${money(pay.allowance)}</td>
 </tr>
 
-
-<tr>
-
-<td>
-
-<b>
-TOTAL GROSS
-</b>
-
-</td>
-
-<td>
-
-<b>
-
-${rawMoney(
-    pay.gross
-)}
-
-</b>
-
-</td>
-
+<tr class="total-row">
+<td><b>TOTAL GROSS</b></td>
+<td><b>${money(pay.gross)}</b></td>
 </tr>
-
 
 </table>
 
 
-
 <table>
 
-
 <tr>
 
-<th>
-DEDUCTIONS
-</th>
+<th>DEDUCTIONS</th>
 
-<th>
-AMOUNT
-</th>
+<th>AMOUNT</th>
 
 </tr>
 
-
 <tr>
-
-<td>
-SSS
-</td>
-
-<td>
-${rawMoney(
-    pay.sss
-)}
-</td>
-
+<td>SSS</td>
+<td>${money(pay.sss)}</td>
 </tr>
 
-
 <tr>
-
-<td>
-PhilHealth
-</td>
-
-<td>
-${rawMoney(
-    pay.philhealth
-)}
-</td>
-
+<td>PhilHealth</td>
+<td>${money(pay.philhealth)}</td>
 </tr>
 
-
 <tr>
-
-<td>
-Pag-IBIG
-</td>
-
-<td>
-${rawMoney(
-    pay.pagibig
-)}
-</td>
-
+<td>Pag-IBIG</td>
+<td>${money(pay.pagibig)}</td>
 </tr>
 
-
 <tr>
-
-<td>
-Health Card
-</td>
-
-<td>
-${rawMoney(
-    health
-)}
-</td>
-
+<td>Health Card</td>
+<td>${money(health)}</td>
 </tr>
 
-
 <tr>
-
-<td>
-Others
-</td>
-
-<td>
-${rawMoney(
-    other
-)}
-</td>
-
+<td>Others</td>
+<td>${money(other)}</td>
 </tr>
 
-
 <tr>
-
-<td>
-
-<b>
-TOTAL DEDUCTION
-</b>
-
-</td>
-
-<td>
-
-<b>
-
-${rawMoney(
-    pay.deductions
-)}
-
-</b>
-
-</td>
-
+<td><b>TOTAL DEDUCTION</b></td>
+<td><b>${money(pay.deductions)}</b></td>
 </tr>
-
 
 </table>
-
 
 
 <div class="net">
 
-
-NET PAY :
-
-₱ ${rawMoney(
-    pay.net
-)}
-
+NET PAY:
+₱ ${money(pay.net)}
 
 </div>
-
 
 
 <div class="signature">
 
-
 <div class="line">
-
 HR
-
 </div>
-
 
 <div class="line">
-
 Employee
+</div>
 
 </div>
 
-
 </div>
-
-
-</div>
-
 
 </body>
 
@@ -2777,7 +2182,6 @@ Employee
 
 
     printWindow.document.close();
-
 
     printWindow.focus();
 
@@ -2800,14 +2204,6 @@ Employee
 
 window.backToDashboard =
 function(){
-
-    /*
-     * Employee portal is inside
-     * the pages folder.
-     *
-     * dashboard.html is in
-     * the same pages folder.
-     */
 
     window.location.href =
         "dashboard.html";
@@ -2842,21 +2238,17 @@ async function(){
         "loggedInUser"
     );
 
-
     localStorage.removeItem(
         "userRole"
     );
-
 
     localStorage.removeItem(
         "employeeDocId"
     );
 
-
     localStorage.removeItem(
         "employeeId"
     );
-
 
     localStorage.removeItem(
         "employeeName"
@@ -2871,7 +2263,7 @@ async function(){
 
 
 /* ==========================================
-   AUTH STATE
+   AUTH CHECK
 ========================================== */
 
 onAuthStateChanged(
@@ -2881,12 +2273,10 @@ onAuthStateChanged(
     async function(user){
 
         /*
-         * Firebase session is required.
+         * Require Firebase login
          */
 
-        if(
-            !user
-        ){
+        if(!user){
 
             window.location.replace(
                 "login.html"
@@ -2898,7 +2288,7 @@ onAuthStateChanged(
 
 
         /*
-         * Check role.
+         * Employee role only
          */
 
         const role =
@@ -2924,7 +2314,6 @@ onAuthStateChanged(
                 "dashboard.html"
             );
 
-
             return;
 
         }
@@ -2937,6 +2326,11 @@ onAuthStateChanged(
             await loadRequests();
 
             await loadEmployeePayroll();
+
+
+            console.log(
+                "PAPPRITO Employee Portal Ready"
+            );
 
 
         }catch(error){
