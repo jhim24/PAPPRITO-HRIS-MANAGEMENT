@@ -831,9 +831,367 @@
                  PLACEHOLDER SECTIONS
             =================================== -->
 
-            <section
-                id="companySection"
-                class="settings-section">
+           <!-- ==================================
+     COMPANY SETTINGS
+=================================== -->
+
+<section
+    id="companySection"
+    class="settings-section">
+
+
+    <div class="section-title">
+
+        <div>
+
+            <h2>
+                Company Settings
+            </h2>
+
+            <p>
+                Manage company registration,
+                contact and authorized personnel information.
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <!-- ==================================
+         COMPANY INFORMATION
+    =================================== -->
+
+    <div class="settings-card">
+
+        <div class="card-title">
+
+            <span class="material-icons">
+                business
+            </span>
+
+            <div>
+
+                <h3>
+                    Company Information
+                </h3>
+
+                <p>
+                    Official company information
+                    used throughout the HRIS.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="form-grid">
+
+
+            <div class="form-group full">
+
+                <label for="legalName">
+                    Legal / Registered Name
+                </label>
+
+                <input
+                    type="text"
+                    id="legalName"
+                    placeholder="Enter legal company name">
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label for="tradeName">
+                    Trade Name
+                </label>
+
+                <input
+                    type="text"
+                    id="tradeName"
+                    placeholder="Enter trade name">
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label for="branch">
+                    Branch
+                </label>
+
+                <input
+                    type="text"
+                    id="branch"
+                    placeholder="Enter branch">
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label for="registrationNumber">
+                    Registration Number
+                </label>
+
+                <input
+                    type="text"
+                    id="registrationNumber"
+                    placeholder="Enter registration number">
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label for="taxNumber">
+                    Tax / VAT Number
+                </label>
+
+                <input
+                    type="text"
+                    id="taxNumber"
+                    placeholder="Enter tax or VAT number">
+
+            </div>
+
+
+        </div>
+
+    </div>
+
+
+    <!-- ==================================
+         HR CONTACT
+    =================================== -->
+
+    <div class="settings-card">
+
+        <div class="card-title">
+
+            <span class="material-icons">
+                support_agent
+            </span>
+
+            <div>
+
+                <h3>
+                    HR Contact
+                </h3>
+
+                <p>
+                    Contact information for the
+                    Human Resources department.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="form-grid">
+
+
+            <div class="form-group">
+
+                <label for="hrContactPerson">
+                    HR Contact Person
+                </label>
+
+                <input
+                    type="text"
+                    id="hrContactPerson"
+                    placeholder="Enter HR contact person">
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label for="hrContactNumber">
+                    HR Contact Number
+                </label>
+
+                <input
+                    type="text"
+                    id="hrContactNumber"
+                    placeholder="Enter HR contact number">
+
+            </div>
+
+
+            <div class="form-group full">
+
+                <label for="hrEmail">
+                    HR Email Address
+                </label>
+
+                <input
+                    type="email"
+                    id="hrEmail"
+                    placeholder="Enter HR email address">
+
+            </div>
+
+
+        </div>
+
+    </div>
+
+
+    <!-- ==================================
+         PAYROLL CONTACT
+    =================================== -->
+
+    <div class="settings-card">
+
+        <div class="card-title">
+
+            <span class="material-icons">
+                account_balance_wallet
+            </span>
+
+            <div>
+
+                <h3>
+                    Payroll Contact
+                </h3>
+
+                <p>
+                    Person responsible for payroll
+                    related matters.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="form-grid">
+
+
+            <div class="form-group full">
+
+                <label for="payrollContact">
+                    Payroll Contact Person
+                </label>
+
+                <input
+                    type="text"
+                    id="payrollContact"
+                    placeholder="Enter payroll contact">
+
+            </div>
+
+
+        </div>
+
+    </div>
+
+
+    <!-- ==================================
+         AUTHORIZED SIGNATORY
+    =================================== -->
+
+    <div class="settings-card">
+
+        <div class="card-title">
+
+            <span class="material-icons">
+                draw
+            </span>
+
+            <div>
+
+                <h3>
+                    Authorized Signatory
+                </h3>
+
+                <p>
+                    Person authorized to sign HR
+                    and payroll documents.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="form-grid">
+
+
+            <div class="form-group">
+
+                <label for="authorizedSignatory">
+                    Authorized Signatory
+                </label>
+
+                <input
+                    type="text"
+                    id="authorizedSignatory"
+                    placeholder="Enter authorized signatory">
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label for="signatoryPosition">
+                    Position
+                </label>
+
+                <input
+                    type="text"
+                    id="signatoryPosition"
+                    placeholder="Enter position">
+
+            </div>
+
+
+        </div>
+
+    </div>
+
+
+    <!-- ==================================
+         SAVE COMPANY SETTINGS
+    =================================== -->
+
+    <div class="save-bar">
+
+        <div>
+
+            <span class="material-icons">
+                info
+            </span>
+
+            <span>
+                Company information will be used
+                by HRIS documents and reports.
+            </span>
+
+        </div>
+
+
+        <button
+            id="saveCompanyBtn"
+            class="save-btn">
+
+            <span class="material-icons">
+                save
+            </span>
+
+            SAVE COMPANY SETTINGS
+
+        </button>
+
+    </div>
+
+
+</section>
 
                 <div class="coming-soon">
 
