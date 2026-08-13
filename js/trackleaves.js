@@ -1,17 +1,9 @@
 /* ==========================================
    PAPPRITO HRIS
-   TRACK LEAVES
-   EXISTING employeeRequests SYSTEM
+   TRACK LEAVES JS
 ========================================== */
 
-import {
-    auth,
-    db
-} from "./firebase.js";
-
-import {
-    onAuthStateChanged
-} from "https://www.gstatic.com/firebasejs/12.13.0/firebase-auth.js";
+import { db } from "./firebase.js";
 
 import {
     collection,
@@ -20,10 +12,14 @@ import {
 
 
 /* ==========================================
-   GLOBAL
+   GLOBAL DATA
 ========================================== */
 
+let employees = [];
+
 let requests = [];
+
+let filteredEmployees = [];
 
 
 /* ==========================================
@@ -33,138 +29,1438 @@ let requests = [];
 const leaveBody =
     document.getElementById("leaveBody");
 
-const employeeFilter =
-    document.getElementById("employeeFilter");
+const leaveSearch =
+    document.getElementById("leaveSearch");
+
+const departmentFilter =
+    document.getElementById("departmentFilter");
 
 const leaveTypeFilter =
     document.getElementById("leaveTypeFilter");
 
-const statusFilter =
-    document.getElementById("statusFilter");
+const employeeCount =
+    document.getElementById("employeeCount");
 
-const fromDate =
-    document.getElementById("fromDate");
+const grandTotalLeaves =
+    document.getElementById("grandTotalLeaves");
 
-const toDate =
-    document.getElementById("toDate");
+const grandTotalUsed =
+    document.getElementById("grandTotalUsed");
 
-const totalLeaves =
-    document.getElementById("totalLeaves");
+const grandTotalUnused =
+    document.getElementById("grandTotalUnused");
 
-const pendingLeaves =
-    document.getElementById("pendingLeaves");
+const grandRemaining =
+    document.getElementById("grandRemaining");
 
-const approvedLeaves =
-    document.getElementById("approvedLeaves");
-
-const rejectedLeaves =
-    document.getElementById("rejectedLeaves");
-
-const filterBtn =
-    document.getElementById("filterBtn");
-
-const resetBtn =
-    document.getElementById("resetBtn");
-
-const refreshBtn =
-    document.getElementById("refreshBtn");
-
-const leaveModal =
-    document.getElementById("leaveModal");
-
-const leaveDetails =
-    document.getElementById("leaveDetails");
-
-const closeModal =
-    document.getElementById("closeModal");
+const loading =
+    document.getElementById("loading");
 
 
 /* ==========================================
-   DASHBOARD
+   HELPERS
 ========================================== */
 
-window.goToDashboard = function(){
+function text(value){
 
-    window.location.replace(
-        "dashboard.html"
-    );
+    return String(
+        value ?? ""
+    ).trim();
 
-};
+}
+
+
+function number(value){
+
+    const n =
+        Number(value);
+
+    return Number.isFinite(n)
+        ? n
+        : 0;
+
+}
+
+
+function escapeHTML(value){
+
+    return text(value)
+
+        .replace(
+            /&/g,
+            "&amp;"
+        )
+
+        .replace(
+            /</g,
+            "&lt;"
+        )
+
+        .replace(
+            />/g,
+            "&gt;"
+        )
+
+        .replace(
+            /"/g,
+            "&quot;"
+        )
+
+        .replace(
+            /'/g,
+            "&#039;"
+        );
+
+}
 
 
 /* ==========================================
-   AUTH PROTECTION
+   GET FULL NAME
 ========================================== */
 
-onAuthStateChanged(
-    auth,
-    async function(user){
+function getFullName(employee){
 
-        if(!user){
+    return [
 
-            window.location.replace(
-                "login.html"
-            );
+        employee.firstname,
 
-            return;
+        employee.middlename,
 
-        }
+        employee.lastname
+
+    ]
+
+    .filter(
+        value =>
+            text(value) !== ""
+    )
+
+    .join(" ")
+
+    .replace(
+        /\s+/g,
+        " "
+    )
+
+    .trim();
+
+}
 
 
-        await loadRequests();
+/* ==========================================
+   SHOW LOADING
+========================================== */
+
+function showLoading(){
+
+    if(loading){
+
+        loading.style.display =
+            "flex";
 
     }
-);
+
+}
 
 
 /* ==========================================
-   LOAD EXISTING REQUESTS
+   HIDE LOADING
 ========================================== */
 
-async function loadRequests(){
+function hideLoading(){
 
-    showLoading();
+    if(loading){
 
+        loading.style.display =
+            "none";
 
-    try{
+    }
 
-        const snapshot =
-            await getDocs(
-                collection(
-                    db,
-                    "employeeRequests"
-                )
-            );
+}
 
 
-        requests = [];
+/* ==========================================
+   LOAD EMPLOYEES
+========================================== */
+
+async function loadEmployees(){
+
+    const snapshot =
+        await getDocs(
+            collection(
+                db,
+                "employees"
+            )
+        );
 
 
-        snapshot.forEach(
-            docSnap => {
+    employees = [];
 
-                requests.push({
 
-                    id:
-                        docSnap.id,
+    snapshot.forEach(
+        docSnap => {
 
-                    ...docSnap.data()
+            employees.push({
 
-                });
+                id:
+                    docSnap.id,
+
+                ...docSnap.data()
+
+            });
+
+        }
+    );
+
+
+    /*
+     * Only active employees
+     *
+     * Inactive employees are not
+     * included in current leave
+     * tracking.
+     */
+
+    employees =
+        employees.filter(
+            employee => {
+
+                const status =
+                    text(
+                        employee.status ||
+                        "Active"
+                    ).toLowerCase();
+
+
+                return (
+                    status ===
+                    "active"
+                );
 
             }
         );
 
 
-        populateEmployeeFilter();
+    employees.sort(
+        (a,b) => {
 
-        updateSummary(
-            requests
+            const nameA =
+                getFullName(a)
+                .toLowerCase();
+
+            const nameB =
+                getFullName(b)
+                .toLowerCase();
+
+            return nameA.localeCompare(
+                nameB
+            );
+
+        }
+    );
+
+
+    filteredEmployees =
+        [...employees];
+
+
+    populateDepartments();
+
+}
+
+
+/* ==========================================
+   LOAD REQUESTS
+========================================== */
+
+async function loadRequests(){
+
+    const snapshot =
+        await getDocs(
+            collection(
+                db,
+                "employeeRequests"
+            )
         );
 
-        renderRequests(
-            requests
+
+    requests = [];
+
+
+    snapshot.forEach(
+        docSnap => {
+
+            requests.push({
+
+                id:
+                    docSnap.id,
+
+                ...docSnap.data()
+
+            });
+
+        }
+    );
+
+}
+
+
+/* ==========================================
+   POPULATE DEPARTMENTS
+========================================== */
+
+function populateDepartments(){
+
+    if(
+        !departmentFilter
+    ){
+
+        return;
+
+    }
+
+
+    const departments =
+        new Set();
+
+
+    employees.forEach(
+        employee => {
+
+            const department =
+                text(
+                    employee.department
+                );
+
+
+            if(
+                department
+            ){
+
+                departments.add(
+                    department
+                );
+
+            }
+
+        }
+    );
+
+
+    departmentFilter.innerHTML = `
+
+<option value="">
+    All Departments
+</option>
+
+`;
+
+
+    Array.from(departments)
+
+        .sort(
+            (a,b) =>
+                a.localeCompare(b)
+        )
+
+        .forEach(
+            department => {
+
+                const option =
+                    document.createElement(
+                        "option"
+                    );
+
+
+                option.value =
+                    department;
+
+
+                option.textContent =
+                    department;
+
+
+                departmentFilter.appendChild(
+                    option
+                );
+
+            }
         );
+
+}
+
+
+/* ==========================================
+   GET EMPLOYEE ID
+========================================== */
+
+function getEmployeeId(employee){
+
+    return text(
+        employee.employeeid
+    )
+    .toUpperCase();
+
+}
+
+
+/* ==========================================
+   NORMALIZE REQUEST TYPE
+========================================== */
+
+function normalizeLeaveType(type){
+
+    const value =
+        text(type)
+        .toUpperCase();
+
+
+    if(
+        value.includes(
+            "VACATION"
+        )
+    ){
+
+        return "Vacation";
+
+    }
+
+
+    if(
+        value.includes(
+            "SICK"
+        )
+    ){
+
+        return "Sick";
+
+    }
+
+
+    if(
+        value.includes(
+            "BIRTHDAY"
+        )
+    ){
+
+        return "Birthday";
+
+    }
+
+
+    return "";
+
+}
+
+
+/* ==========================================
+   CHECK APPROVED REQUEST
+========================================== */
+
+function isApproved(request){
+
+    const status =
+        text(
+            request.status
+        )
+        .toUpperCase();
+
+
+    return (
+        status ===
+        "APPROVED"
+    );
+
+}
+
+
+/* ==========================================
+   GET USED LEAVES
+========================================== */
+
+function getUsedLeaves(
+    employee,
+    leaveType
+){
+
+    const employeeId =
+        getEmployeeId(
+            employee
+        );
+
+
+    if(
+        !employeeId
+    ){
+
+        return 0;
+
+    }
+
+
+    let used = 0;
+
+
+    requests.forEach(
+        request => {
+
+            const requestEmployeeId =
+                text(
+                    request.empid
+                )
+                .toUpperCase();
+
+
+            /*
+             * Must belong to employee
+             */
+
+            if(
+                requestEmployeeId !==
+                employeeId
+            ){
+
+                return;
+
+            }
+
+
+            /*
+             * Only APPROVED requests
+             */
+
+            if(
+                !isApproved(
+                    request
+                )
+            ){
+
+                return;
+
+            }
+
+
+            const type =
+                normalizeLeaveType(
+                    request.type
+                );
+
+
+            if(
+                type !==
+                leaveType
+            ){
+
+                return;
+
+            }
+
+
+            used +=
+                number(
+                    request.days
+                );
+
+        }
+    );
+
+
+    return used;
+
+}
+
+
+/* ==========================================
+   GET LEAVE BALANCE
+========================================== */
+
+function getLeaveBalance(
+    employee,
+    leaveType
+){
+
+    let total = 0;
+
+
+    /*
+     * IMPORTANT:
+     *
+     * These values come directly
+     * from Employee Masterlist.
+     */
+
+    if(
+        leaveType ===
+        "Vacation"
+    ){
+
+        total =
+            number(
+                employee.vacationleave
+            );
+
+    }
+
+
+    if(
+        leaveType ===
+        "Sick"
+    ){
+
+        total =
+            number(
+                employee.sickleave
+            );
+
+    }
+
+
+    if(
+        leaveType ===
+        "Birthday"
+    ){
+
+        total =
+            number(
+                employee.birthdayleave
+            );
+
+    }
+
+
+    const used =
+        getUsedLeaves(
+            employee,
+            leaveType
+        );
+
+
+    /*
+     * Unused means:
+     *
+     * Total - Used
+     *
+     * Never below zero.
+     */
+
+    const unused =
+        Math.max(
+            total - used,
+            0
+        );
+
+
+    /*
+     * Remaining is the actual
+     * available balance.
+     */
+
+    const remaining =
+        Math.max(
+            total - used,
+            0
+        );
+
+
+    return {
+
+        total,
+
+        used,
+
+        unused,
+
+        remaining
+
+    };
+
+}
+
+
+/* ==========================================
+   GET EMPLOYEE SUMMARY
+========================================== */
+
+function getEmployeeSummary(
+    employee
+){
+
+    const vacation =
+        getLeaveBalance(
+            employee,
+            "Vacation"
+        );
+
+
+    const sick =
+        getLeaveBalance(
+            employee,
+            "Sick"
+        );
+
+
+    const birthday =
+        getLeaveBalance(
+            employee,
+            "Birthday"
+        );
+
+
+    const total =
+        vacation.total
+        +
+        sick.total
+        +
+        birthday.total;
+
+
+    const used =
+        vacation.used
+        +
+        sick.used
+        +
+        birthday.used;
+
+
+    const unused =
+        vacation.unused
+        +
+        sick.unused
+        +
+        birthday.unused;
+
+
+    const remaining =
+        vacation.remaining
+        +
+        sick.remaining
+        +
+        birthday.remaining;
+
+
+    return {
+
+        vacation,
+
+        sick,
+
+        birthday,
+
+        total,
+
+        used,
+
+        unused,
+
+        remaining
+
+    };
+
+}
+
+
+/* ==========================================
+   RENDER TABLE
+========================================== */
+
+function renderTable(){
+
+    if(
+        !leaveBody
+    ){
+
+        return;
+
+    }
+
+
+    leaveBody.innerHTML =
+        "";
+
+
+    if(
+        filteredEmployees.length === 0
+    ){
+
+        leaveBody.innerHTML = `
+
+<tr>
+
+<td
+    colspan="18"
+    class="empty-message">
+
+    No employee leave records found.
+
+</td>
+
+</tr>
+
+`;
+
+        updateSummary();
+
+        return;
+
+    }
+
+
+    filteredEmployees.forEach(
+        employee => {
+
+            const summary =
+                getEmployeeSummary(
+                    employee
+                );
+
+
+            /*
+             * Leave type filter
+             *
+             * We keep the employee row,
+             * but highlight/filter based
+             * on selected leave type.
+             */
+
+            const selectedType =
+                leaveTypeFilter
+                ?
+                leaveTypeFilter.value
+                :
+                "ALL";
+
+
+            if(
+                selectedType !==
+                "ALL"
+            ){
+
+                const selectedBalance =
+
+                    selectedType ===
+                    "Vacation"
+
+                    ?
+
+                    summary.vacation
+
+                    :
+
+                    selectedType ===
+                    "Sick"
+
+                    ?
+
+                    summary.sick
+
+                    :
+
+                    summary.birthday;
+
+
+                /*
+                 * Keep employee visible.
+                 * The selected leave group
+                 * remains available in table.
+                 */
+
+                if(
+                    selectedBalance.total <= 0
+                ){
+
+                    return;
+
+                }
+
+            }
+
+
+            const row =
+                document.createElement(
+                    "tr"
+                );
+
+
+            row.innerHTML = `
+
+<td class="employee-id">
+
+    ${escapeHTML(
+        employee.employeeid ||
+        "-"
+    )}
+
+</td>
+
+
+<td class="employee-name">
+
+    ${escapeHTML(
+        getFullName(employee) ||
+        "-"
+    )}
+
+</td>
+
+
+<td>
+
+    ${escapeHTML(
+        employee.department ||
+        "-"
+    )}
+
+</td>
+
+
+<!-- ==================================
+     VACATION
+================================== -->
+
+<td class="total-cell">
+
+    ${summary.vacation.total}
+
+</td>
+
+
+<td class="used-cell">
+
+    ${summary.vacation.used}
+
+</td>
+
+
+<td class="unused-cell">
+
+    ${summary.vacation.unused}
+
+</td>
+
+
+<td class="remaining-cell">
+
+    ${summary.vacation.remaining}
+
+</td>
+
+
+
+<!-- ==================================
+     SICK
+================================== -->
+
+<td class="total-cell">
+
+    ${summary.sick.total}
+
+</td>
+
+
+<td class="used-cell">
+
+    ${summary.sick.used}
+
+</td>
+
+
+<td class="unused-cell">
+
+    ${summary.sick.unused}
+
+</td>
+
+
+<td class="remaining-cell">
+
+    ${summary.sick.remaining}
+
+</td>
+
+
+
+<!-- ==================================
+     BIRTHDAY
+================================== -->
+
+<td class="total-cell">
+
+    ${summary.birthday.total}
+
+</td>
+
+
+<td class="used-cell">
+
+    ${summary.birthday.used}
+
+</td>
+
+
+<td class="unused-cell">
+
+    ${summary.birthday.unused}
+
+</td>
+
+
+<td class="remaining-cell">
+
+    ${summary.birthday.remaining}
+
+</td>
+
+
+
+<!-- ==================================
+     OVERALL
+================================== -->
+
+<td class="total-cell">
+
+    ${summary.total}
+
+</td>
+
+
+<td class="used-cell">
+
+    ${summary.used}
+
+</td>
+
+
+<td class="unused-cell">
+
+    ${summary.unused}
+
+</td>
+
+
+<td class="remaining-cell overall">
+
+    ${summary.remaining}
+
+</td>
+
+`;
+
+
+            leaveBody.appendChild(
+                row
+            );
+
+        }
+    );
+
+
+    updateEmployeeCount();
+
+    updateSummary();
+
+}
+
+
+/* ==========================================
+   UPDATE EMPLOYEE COUNT
+========================================== */
+
+function updateEmployeeCount(){
+
+    if(
+        !employeeCount
+    ){
+
+        return;
+
+    }
+
+
+    const count =
+        filteredEmployees.filter(
+            employee => {
+
+                const selectedType =
+                    leaveTypeFilter
+                    ?
+                    leaveTypeFilter.value
+                    :
+                    "ALL";
+
+
+                if(
+                    selectedType ===
+                    "ALL"
+                ){
+
+                    return true;
+
+                }
+
+
+                const balance =
+                    getLeaveBalance(
+                        employee,
+                        selectedType
+                    );
+
+
+                return (
+                    balance.total > 0
+                );
+
+            }
+        ).length;
+
+
+    employeeCount.innerHTML = `
+
+Employees:
+
+<strong>
+    ${count}
+</strong>
+
+`;
+
+}
+
+
+/* ==========================================
+   UPDATE SUMMARY
+========================================== */
+
+function updateSummary(){
+
+    let total =
+        0;
+
+    let used =
+        0;
+
+    let unused =
+        0;
+
+    let remaining =
+        0;
+
+
+    const selectedType =
+        leaveTypeFilter
+        ?
+        leaveTypeFilter.value
+        :
+        "ALL";
+
+
+    filteredEmployees.forEach(
+        employee => {
+
+            const summary =
+                getEmployeeSummary(
+                    employee
+                );
+
+
+            if(
+                selectedType ===
+                "ALL"
+            ){
+
+                total +=
+                    summary.total;
+
+                used +=
+                    summary.used;
+
+                unused +=
+                    summary.unused;
+
+                remaining +=
+                    summary.remaining;
+
+                return;
+
+            }
+
+
+            const balance =
+                getLeaveBalance(
+                    employee,
+                    selectedType
+                );
+
+
+            total +=
+                balance.total;
+
+            used +=
+                balance.used;
+
+            unused +=
+                balance.unused;
+
+            remaining +=
+                balance.remaining;
+
+        }
+    );
+
+
+    if(
+        grandTotalLeaves
+    ){
+
+        grandTotalLeaves.innerText =
+            total;
+
+    }
+
+
+    if(
+        grandTotalUsed
+    ){
+
+        grandTotalUsed.innerText =
+            used;
+
+    }
+
+
+    if(
+        grandTotalUnused
+    ){
+
+        grandTotalUnused.innerText =
+            unused;
+
+    }
+
+
+    if(
+        grandRemaining
+    ){
+
+        grandRemaining.innerText =
+            remaining;
+
+    }
+
+}
+
+
+/* ==========================================
+   FILTER DATA
+========================================== */
+
+function applyFilters(){
+
+    const searchValue =
+        leaveSearch
+        ?
+        leaveSearch.value
+            .trim()
+            .toLowerCase()
+        :
+        "";
+
+
+    const department =
+        departmentFilter
+        ?
+        departmentFilter.value
+            .trim()
+            .toLowerCase()
+        :
+        "";
+
+
+    const selectedType =
+        leaveTypeFilter
+        ?
+        leaveTypeFilter.value
+        :
+        "ALL";
+
+
+    filteredEmployees =
+        employees.filter(
+            employee => {
+
+                /*
+                 * SEARCH
+                 */
+
+                if(
+                    searchValue
+                ){
+
+                    const searchable = [
+
+                        employee.employeeid,
+
+                        employee.firstname,
+
+                        employee.middlename,
+
+                        employee.lastname,
+
+                        employee.position,
+
+                        employee.department
+
+                    ]
+
+                    .join(" ")
+                    .toLowerCase();
+
+
+                    if(
+                        !searchable.includes(
+                            searchValue
+                        )
+                    ){
+
+                        return false;
+
+                    }
+
+                }
+
+
+                /*
+                 * DEPARTMENT
+                 */
+
+                if(
+                    department
+                ){
+
+                    if(
+                        text(
+                            employee.department
+                        )
+                        .toLowerCase()
+                        !==
+                        department
+                    ){
+
+                        return false;
+
+                    }
+
+                }
+
+
+                /*
+                 * LEAVE TYPE
+                 */
+
+                if(
+                    selectedType !==
+                    "ALL"
+                ){
+
+                    const balance =
+                        getLeaveBalance(
+                            employee,
+                            selectedType
+                        );
+
+
+                    if(
+                        balance.total <= 0
+                    ){
+
+                        return false;
+
+                    }
+
+                }
+
+
+                return true;
+
+            }
+        );
+
+
+    renderTable();
+
+}
+
+
+/* ==========================================
+   SEARCH EVENT
+========================================== */
+
+if(
+    leaveSearch
+){
+
+    leaveSearch.addEventListener(
+        "input",
+        applyFilters
+    );
+
+}
+
+
+/* ==========================================
+   DEPARTMENT EVENT
+========================================== */
+
+if(
+    departmentFilter
+){
+
+    departmentFilter.addEventListener(
+        "change",
+        applyFilters
+    );
+
+}
+
+
+/* ==========================================
+   LEAVE TYPE EVENT
+========================================== */
+
+if(
+    leaveTypeFilter
+){
+
+    leaveTypeFilter.addEventListener(
+        "change",
+        applyFilters
+    );
+
+}
+
+
+/* ==========================================
+   GLOBAL REFRESH
+========================================== */
+
+window.loadLeaveData =
+async function(){
+
+    try{
+
+        showLoading();
+
+
+        await loadEmployees();
+
+        await loadRequests();
+
+
+        /*
+         * Re-apply filters after
+         * loading latest Firestore data.
+         */
+
+        applyFilters();
 
 
     }catch(error){
@@ -175,1222 +1471,45 @@ async function loadRequests(){
         );
 
 
-        leaveBody.innerHTML = `
-
-            <tr>
-
-                <td
-                colspan="10"
-                class="empty-state">
-
-                    <span class="material-icons">
-
-                        error_outline
-
-                    </span>
-
-                    <p>
-
-                        Unable to load leave requests.
-
-                    </p>
-
-                    <small>
-
-                        ${escapeHtml(
-                            error.message
-                        )}
-
-                    </small>
-
-                </td>
-
-            </tr>
-
-        `;
-
-    }
-
-}
-
-
-/* ==========================================
-   EMPLOYEE FILTER
-========================================== */
-
-function populateEmployeeFilter(){
-
-    const current =
-        employeeFilter.value;
-
-
-    employeeFilter.innerHTML = `
-
-        <option value="">
-
-            All Employees
-
-        </option>
-
-    `;
-
-
-    const employees =
-        new Map();
-
-
-    requests.forEach(
-        request => {
-
-            const empid =
-                request.empid || "";
-
-
-            const name =
-                request.employeeName ||
-                request.name ||
-                request.fullName ||
-                empid ||
-                "Unknown Employee";
-
-
-            if(empid || name){
-
-                employees.set(
-                    empid || name,
-                    name
-                );
-
-            }
-
-        }
-    );
-
-
-    Array.from(
-        employees.entries()
-    )
-    .sort(
-        (a,b) =>
-            String(a[1])
-            .localeCompare(
-                String(b[1])
-            )
-    )
-    .forEach(
-        ([value,name]) => {
-
-            const option =
-                document.createElement(
-                    "option"
-                );
-
-
-            option.value =
-                value;
-
-
-            option.textContent =
-                name;
-
-
-            employeeFilter.appendChild(
-                option
-            );
-
-        }
-    );
-
-
-    employeeFilter.value =
-        current;
-
-}
-
-
-/* ==========================================
-   NORMALIZE STATUS
-========================================== */
-
-function getStatus(request){
-
-    const status =
-        String(
-            request.status ||
-            "PENDING"
-        )
-        .trim()
-        .toUpperCase();
-
-
-    if(status === "APPROVED"){
-
-        return "Approved";
-
-    }
-
-
-    if(status === "REJECTED"){
-
-        return "Rejected";
-
-    }
-
-
-    return "Pending";
-
-}
-
-
-/* ==========================================
-   REQUEST TYPE
-========================================== */
-
-function getLeaveType(request){
-
-    return (
-        request.type ||
-        request.leaveType ||
-        "REQUEST"
-    );
-
-}
-
-
-/* ==========================================
-   REQUEST DATE
-========================================== */
-
-function getRequestDate(request){
-
-    return (
-        request.date ||
-        request.requestDate ||
-        request.dateFiled ||
-        ""
-    );
-
-}
-
-
-/* ==========================================
-   DAYS
-========================================== */
-
-function getDays(request){
-
-    if(
-        request.days !== undefined &&
-        request.days !== null &&
-        request.days !== ""
-    ){
-
-        return request.days;
-
-    }
-
-
-    return "-";
-
-}
-
-
-/* ==========================================
-   REASON
-========================================== */
-
-function getReason(request){
-
-    return (
-        request.reason ||
-        request.remarks ||
-        request.description ||
-        "-"
-    );
-
-}
-
-
-/* ==========================================
-   EMPLOYEE NAME
-========================================== */
-
-function getEmployeeName(request){
-
-    return (
-        request.employeeName ||
-        request.name ||
-        request.fullName ||
-        request.empid ||
-        "Unknown Employee"
-    );
-
-}
-
-
-/* ==========================================
-   SUMMARY
-========================================== */
-
-function updateSummary(data){
-
-    let pending = 0;
-
-    let approved = 0;
-
-    let rejected = 0;
-
-
-    data.forEach(
-        request => {
-
-            const status =
-                getStatus(request);
-
-
-            if(status === "Pending"){
-
-                pending++;
-
-            }
-
-
-            else if(
-                status === "Approved"
-            ){
-
-                approved++;
-
-            }
-
-
-            else if(
-                status === "Rejected"
-            ){
-
-                rejected++;
-
-            }
-
-        }
-    );
-
-
-    totalLeaves.textContent =
-        data.length;
-
-
-    pendingLeaves.textContent =
-        pending;
-
-
-    approvedLeaves.textContent =
-        approved;
-
-
-    rejectedLeaves.textContent =
-        rejected;
-
-}
-
-
-/* ==========================================
-   RENDER REQUESTS
-========================================== */
-
-function renderRequests(data){
-
-    leaveBody.innerHTML = "";
-
-
-    if(data.length === 0){
-
-        leaveBody.innerHTML = `
-
-            <tr>
-
-                <td
-                colspan="10"
-                class="empty-state">
-
-                    <span class="material-icons">
-
-                        event_busy
-
-                    </span>
-
-                    <p>
-
-                        No leave requests found.
-
-                    </p>
-
-                </td>
-
-            </tr>
-
-        `;
-
-        return;
-
-    }
-
-
-    data.forEach(
-        request => {
-
-            const row =
-                document.createElement(
-                    "tr"
-                );
-
-
-            const status =
-                getStatus(request);
-
-
-            const type =
-                getLeaveType(request);
-
-
-            const date =
-                getRequestDate(request);
-
-
-            const days =
-                getDays(request);
-
-
-            const reason =
-                getReason(request);
-
-
-            const employeeName =
-                getEmployeeName(request);
-
-
-            const employeeId =
-                request.empid ||
-                "-";
-
-
-            /*
-               The existing request system
-               stores the request date in
-               request.date.
-
-               If there are no separate
-               FROM/TO fields, we display
-               the request date.
-            */
-
-            const from =
-                request.fromDate ||
-                request.startDate ||
-                date ||
-                "-";
-
-
-            const to =
-                request.toDate ||
-                request.endDate ||
-                date ||
-                "-";
-
-
-            row.innerHTML = `
-
-                <td>
-
-                    ${escapeHtml(
-                        formatDate(date)
-                    )}
-
-                </td>
-
-
-                <td>
-
-                    ${escapeHtml(
-                        employeeId
-                    )}
-
-                </td>
-
-
-                <td>
-
-                    ${escapeHtml(
-                        employeeName
-                    )}
-
-                </td>
-
-
-                <td>
-
-                    ${escapeHtml(
-                        type
-                    )}
-
-                </td>
-
-
-                <td>
-
-                    ${escapeHtml(
-                        formatDate(from)
-                    )}
-
-                </td>
-
-
-                <td>
-
-                    ${escapeHtml(
-                        formatDate(to)
-                    )}
-
-                </td>
-
-
-                <td>
-
-                    ${escapeHtml(
-                        String(days)
-                    )}
-
-                </td>
-
-
-                <td>
-
-                    ${escapeHtml(
-                        reason
-                    )}
-
-                </td>
-
-
-                <td>
-
-                    <span
-                    class="status ${status.toLowerCase()}">
-
-                        ${status}
-
-                    </span>
-
-                </td>
-
-
-                <td>
-
-                    <button
-                    class="view-btn">
-
-                        VIEW
-
-                    </button>
-
-                </td>
-
-            `;
-
-
-            const viewBtn =
-                row.querySelector(
-                    ".view-btn"
-                );
-
-
-            viewBtn.addEventListener(
-                "click",
-                () => {
-
-                    showDetails(
-                        request
-                    );
-
-                }
-            );
-
-
-            leaveBody.appendChild(
-                row
-            );
-
-        }
-    );
-
-}
-
-
-/* ==========================================
-   FILTER
-========================================== */
-
-function applyFilters(){
-
-    const employee =
-        employeeFilter.value;
-
-
-    const type =
-        leaveTypeFilter.value;
-
-
-    const status =
-        statusFilter.value;
-
-
-    const from =
-        fromDate.value;
-
-
-    const to =
-        toDate.value;
-
-
-    const filtered =
-        requests.filter(
-            request => {
-
-                const employeeId =
-                    request.empid || "";
-
-
-                const employeeName =
-                    getEmployeeName(
-                        request
-                    );
-
-
-                const requestType =
-                    getLeaveType(
-                        request
-                    );
-
-
-                const requestStatus =
-                    getStatus(
-                        request
-                    );
-
-
-                const requestDate =
-                    getRequestDate(
-                        request
-                    );
-
-
-                const employeeMatch =
-
-                    employee === "" ||
-
-                    employeeId === employee ||
-
-                    employeeName === employee;
-
-
-                const typeMatch =
-
-                    type === "" ||
-
-                    requestType === type;
-
-
-                const statusMatch =
-
-                    status === "" ||
-
-                    requestStatus === status;
-
-
-                const dateMatch =
-
-                    isDateInRange(
-                        requestDate,
-                        from,
-                        to
-                    );
-
-
-                return (
-
-                    employeeMatch &&
-
-                    typeMatch &&
-
-                    statusMatch &&
-
-                    dateMatch
-
-                );
-
-            }
-        );
-
-
-    updateSummary(
-        filtered
-    );
-
-
-    renderRequests(
-        filtered
-    );
-
-}
-
-
-/* ==========================================
-   DATE FILTER
-========================================== */
-
-function isDateInRange(
-    value,
-    from,
-    to
-){
-
-    if(
-        !from &&
-        !to
-    ){
-
-        return true;
-
-    }
-
-
-    if(!value){
-
-        return false;
-
-    }
-
-
-    const date =
-        new Date(value);
-
-
-    if(
-        isNaN(
-            date.getTime()
-        )
-    ){
-
-        return false;
-
-    }
-
-
-    const current =
-        date.toISOString()
-        .split("T")[0];
-
-
-    if(
-        from &&
-        current < from
-    ){
-
-        return false;
-
-    }
-
-
-    if(
-        to &&
-        current > to
-    ){
-
-        return false;
-
-    }
-
-
-    return true;
-
-}
-
-
-/* ==========================================
-   RESET
-========================================== */
-
-function resetFilters(){
-
-    employeeFilter.value =
-        "";
-
-    leaveTypeFilter.value =
-        "";
-
-    statusFilter.value =
-        "";
-
-    fromDate.value =
-        "";
-
-    toDate.value =
-        "";
-
-
-    updateSummary(
-        requests
-    );
-
-
-    renderRequests(
-        requests
-    );
-
-}
-
-
-/* ==========================================
-   DETAILS
-========================================== */
-
-function showDetails(request){
-
-    const status =
-        getStatus(request);
-
-
-    const employee =
-        getEmployeeName(request);
-
-
-    const employeeId =
-        request.empid ||
-        "-";
-
-
-    const type =
-        getLeaveType(request);
-
-
-    const date =
-        getRequestDate(request);
-
-
-    const days =
-        getDays(request);
-
-
-    const reason =
-        getReason(request);
-
-
-    const from =
-        request.fromDate ||
-        request.startDate ||
-        date ||
-        "-";
-
-
-    const to =
-        request.toDate ||
-        request.endDate ||
-        date ||
-        "-";
-
-
-    leaveDetails.innerHTML = `
-
-        <div class="detail-row">
-
-            <div class="detail-label">
-
-                Employee ID
-
-            </div>
-
-            <div class="detail-value">
-
-                ${escapeHtml(
-                    employeeId
-                )}
-
-            </div>
-
-        </div>
-
-
-        <div class="detail-row">
-
-            <div class="detail-label">
-
-                Employee
-
-            </div>
-
-            <div class="detail-value">
-
-                ${escapeHtml(
-                    employee
-                )}
-
-            </div>
-
-        </div>
-
-
-        <div class="detail-row">
-
-            <div class="detail-label">
-
-                Request Type
-
-            </div>
-
-            <div class="detail-value">
-
-                ${escapeHtml(
-                    type
-                )}
-
-            </div>
-
-        </div>
-
-
-        <div class="detail-row">
-
-            <div class="detail-label">
-
-                Date
-
-            </div>
-
-            <div class="detail-value">
-
-                ${escapeHtml(
-                    formatDate(date)
-                )}
-
-            </div>
-
-        </div>
-
-
-        <div class="detail-row">
-
-            <div class="detail-label">
-
-                From
-
-            </div>
-
-            <div class="detail-value">
-
-                ${escapeHtml(
-                    formatDate(from)
-                )}
-
-            </div>
-
-        </div>
-
-
-        <div class="detail-row">
-
-            <div class="detail-label">
-
-                To
-
-            </div>
-
-            <div class="detail-value">
-
-                ${escapeHtml(
-                    formatDate(to)
-                )}
-
-            </div>
-
-        </div>
-
-
-        <div class="detail-row">
-
-            <div class="detail-label">
-
-                Days
-
-            </div>
-
-            <div class="detail-value">
-
-                ${escapeHtml(
-                    String(days)
-                )}
-
-            </div>
-
-        </div>
-
-
-        <div class="detail-row">
-
-            <div class="detail-label">
-
-                Reason
-
-            </div>
-
-            <div class="detail-value">
-
-                ${escapeHtml(
-                    reason
-                )}
-
-            </div>
-
-        </div>
-
-
-        <div class="detail-row">
-
-            <div class="detail-label">
-
-                Status
-
-            </div>
-
-            <div class="detail-value">
-
-                <span
-                class="status ${status.toLowerCase()}">
-
-                    ${status}
-
-                </span>
-
-            </div>
-
-        </div>
-
-    `;
-
-
-    leaveModal.classList.add(
-        "show"
-    );
-
-}
-
-
-/* ==========================================
-   CLOSE MODAL
-========================================== */
-
-function closeDetails(){
-
-    leaveModal.classList.remove(
-        "show"
-    );
-
-}
-
-
-/* ==========================================
-   FORMAT DATE
-========================================== */
-
-function formatDate(value){
-
-    if(!value){
-
-        return "-";
-
-    }
-
-
-    const date =
-        new Date(value);
-
-
-    if(
-        isNaN(
-            date.getTime()
-        )
-    ){
-
-        return String(value);
-
-    }
-
-
-    return date.toLocaleDateString(
-        "en-US",
-        {
-            year:"numeric",
-            month:"short",
-            day:"2-digit"
-        }
-    );
-
-}
-
-
-/* ==========================================
-   ESCAPE HTML
-========================================== */
-
-function escapeHtml(value){
-
-    return String(
-        value ?? ""
-    )
-
-    .replace(
-        /&/g,
-        "&amp;"
-    )
-
-    .replace(
-        /</g,
-        "&lt;"
-    )
-
-    .replace(
-        />/g,
-        "&gt;"
-    )
-
-    .replace(
-        /"/g,
-        "&quot;"
-    )
-
-    .replace(
-        /'/g,
-        "&#039;"
-    );
-
-}
-
-
-/* ==========================================
-   LOADING
-========================================== */
-
-function showLoading(){
-
-    leaveBody.innerHTML = `
-
-        <tr>
-
-            <td
-            colspan="10"
-            class="empty-state">
-
-                <span class="material-icons">
-
-                    sync
-
-                </span>
-
-                <p>
-
-                    Loading requests...
-
-                </p>
-
-            </td>
-
-        </tr>
-
-    `;
-
-}
-
-
-/* ==========================================
-   EVENTS
-========================================== */
-
-if(filterBtn){
-
-    filterBtn.addEventListener(
-        "click",
-        applyFilters
-    );
-
-}
-
-
-if(resetBtn){
-
-    resetBtn.addEventListener(
-        "click",
-        resetFilters
-    );
-
-}
-
-
-if(refreshBtn){
-
-    refreshBtn.addEventListener(
-        "click",
-        loadRequests
-    );
-
-}
-
-
-if(closeModal){
-
-    closeModal.addEventListener(
-        "click",
-        closeDetails
-    );
-
-}
-
-
-if(leaveModal){
-
-    leaveModal.addEventListener(
-        "click",
-        event => {
-
-            if(
-                event.target ===
-                leaveModal
-            ){
-
-                closeDetails();
-
-            }
-
-        }
-    );
-
-}
-
-
-document.addEventListener(
-    "keydown",
-    event => {
-
         if(
-            event.key === "Escape"
+            leaveBody
         ){
 
-            closeDetails();
+            leaveBody.innerHTML = `
+
+<tr>
+
+<td
+    colspan="18"
+    class="empty-message">
+
+    Failed to load leave records.
+
+    <br><br>
+
+    ${escapeHTML(
+        error.message
+    )}
+
+</td>
+
+</tr>
+
+`;
 
         }
 
+    }finally{
+
+        hideLoading();
+
     }
-);
+
+};
 
 
-console.log(
-    "PAPPRITO HRIS Track Leaves Ready"
-);
+/* ==========================================
+   START
+========================================== */
+
+loadLeaveData();
