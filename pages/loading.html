@@ -1,515 +1,340 @@
-/* ==========================================
-   PAPPRITO HRIS
-   LOGIN SYSTEM V3
-========================================== */
+<!DOCTYPE html>
+<html lang="en">
 
-import { auth, db } from "./firebase.js";
+<head>
 
-import {
-    signInWithEmailAndPassword
-}
-from "https://www.gstatic.com/firebasejs/12.13.0/firebase-auth.js";
+<meta charset="UTF-8">
 
-import {
-    collection,
-    getDocs
-}
-from "https://www.gstatic.com/firebasejs/12.13.0/firebase-firestore.js";
+<meta
+name="viewport"
+content="width=device-width,initial-scale=1.0">
 
+<title>PAPPRITO HRIS</title>
 
-/* ==========================================
-   ELEMENTS
-========================================== */
+<link
+rel="stylesheet"
+href="../css/loading.css">
 
-const role =
-    document.getElementById("role");
+<link
+rel="icon"
+href="../assets/images/logo.png">
 
-const email =
-    document.getElementById("email");
+<meta
+name="theme-color"
+content="#ffcc00">
 
-const password =
-    document.getElementById("password");
+</head>
 
-const remember =
-    document.getElementById("remember");
 
-const loading =
-    document.getElementById("loading");
+<body>
 
 
-/* ==========================================
-   SHOW PASSWORD
-========================================== */
+<!-- ==========================================
+     GRID BACKGROUND
+========================================== -->
 
-window.togglePassword = function(){
+<div class="grid-bg"></div>
 
-    const btn =
-        document.querySelector(
-            ".show-btn"
-        );
 
+<!-- ==========================================
+     HUD CARD
+========================================== -->
 
-    if(password.type === "password"){
+<div class="hud-card">
 
-        password.type = "text";
 
-        btn.textContent = "HIDE";
+    <!-- ======================================
+         HEADER
+    ====================================== -->
 
-    }else{
+    <div class="logo-area">
 
-        password.type = "password";
+        <img
+        src="../assets/images/logo.png"
+        class="logo"
+        alt="PAPPRITO Logo">
 
-        btn.textContent = "SHOW";
+        <h1>
 
-    }
+            PAPPRITO
 
-};
+        </h1>
 
+        <h2>
 
-/* ==========================================
-   REMEMBER USERNAME
-========================================== */
+            HUMAN RESOURCE INFORMATION SYSTEM
 
-const rememberedUser =
-    localStorage.getItem(
-        "rememberUser"
-    );
+        </h2>
 
+    </div>
 
-if(rememberedUser){
 
-    email.value =
-        rememberedUser;
+    <!-- ======================================
+         MAIN
+    ====================================== -->
 
-    remember.checked =
-        true;
+    <div class="hud-main">
 
-}
 
+        <!-- ==================================
+             LEFT
+        ================================== -->
 
-/* ==========================================
-   LOGIN
-========================================== */
+        <div class="hud-left">
 
-window.login = async function(){
 
-    const selectedRole =
-        role.value;
+            <!-- ==================================
+                 HUD CIRCLE
+            ================================== -->
 
-    const username =
-        email.value.trim();
+            <div class="hud-circle">
 
-    const pass =
-        password.value.trim();
+                <svg
+                width="220"
+                height="220"
+                viewBox="0 0 220 220">
 
+                    <circle
+                    class="circle-bg"
+                    cx="110"
+                    cy="110"
+                    r="95">
+                    </circle>
 
-    /* ======================================
-       VALIDATE FIELDS
-    ====================================== */
+                    <circle
+                    class="circle-progress"
+                    id="circleProgress"
+                    cx="110"
+                    cy="110"
+                    r="95">
+                    </circle>
 
-    if(
+                </svg>
 
-        selectedRole === ""
 
-        ||
+                <div class="circle-text">
 
-        username === ""
+                    <div id="percent">
 
-        ||
+                        0%
 
-        pass === ""
+                    </div>
 
-    ){
+                    <span>
 
-        alert(
-            "Complete all fields."
-        );
+                        LOADING
 
-        return;
+                    </span>
 
-    }
+                </div>
 
+            </div>
 
-    /* ======================================
-       SHOW LOADING
-    ====================================== */
 
-    if(loading){
+            <!-- ==================================
+                 LOADING TITLE
+            ================================== -->
 
-        loading.style.display =
-            "flex";
+            <div
+            class="loading-title"
+            id="loadingText">
 
-    }
+                Initializing HR System...
 
+            </div>
 
-    /* ==========================================
-       ADMIN LOGIN
-    ========================================== */
 
-    if(selectedRole === "admin"){
+            <!-- ==================================
+                 PROGRESS BAR
+            ================================== -->
 
-        try{
+            <div class="progress-container">
 
-            await signInWithEmailAndPassword(
+                <div
+                class="progress-bar"
+                id="progressBar">
 
-                auth,
+                </div>
 
-                username,
+            </div>
 
-                pass
 
-            );
+        </div>
 
 
-            /* ==============================
-               SAVE ROLE
-            ============================== */
+        <!-- ==================================
+             RIGHT PANEL
+        ================================== -->
 
-            localStorage.setItem(
-                "userRole",
-                "admin"
-            );
+        <div class="status-box">
 
+            <h3>
 
-            localStorage.setItem(
-                "loggedInUser",
-                username
-            );
+                SYSTEM STATUS
 
+            </h3>
 
-            /* ==============================
-               REMEMBER USER
-            ============================== */
 
-            if(remember.checked){
+            <div class="status-item">
 
-                localStorage.setItem(
-                    "rememberUser",
-                    username
-                );
+                <span>
 
-            }else{
+                    Authentication
 
-                localStorage.removeItem(
-                    "rememberUser"
-                );
+                </span>
 
-            }
+                <strong
+                class="online">
 
+                    SECURE
 
-            /* ==============================
-               GO TO LOADING
-            ============================== */
+                </strong>
 
-            window.location.replace(
-                "loading.html"
-            );
+            </div>
 
-            return;
 
+            <div class="status-item">
 
-        }catch(error){
+                <span>
 
-            if(loading){
+                    Database
 
-                loading.style.display =
-                    "none";
+                </span>
 
-            }
+                <strong
+                class="online">
 
+                    CONNECTED
 
-            console.error(
-                "Admin Login Error:",
-                error
-            );
+                </strong>
 
+            </div>
 
-            alert(
-                error.message
-            );
 
+            <div class="status-item">
 
-            return;
+                <span>
 
-        }
+                    HR Modules
 
-    }
+                </span>
 
+                <strong
+                class="online">
 
-    /* ==========================================
-       EMPLOYEE LOGIN
-    ========================================== */
+                    LOADING
 
-    if(selectedRole === "employee"){
+                </strong>
 
-        try{
+            </div>
 
-            const snapshot =
 
-                await getDocs(
-                    collection(
-                        db,
-                        "users"
-                    )
-                );
+            <div class="status-item">
 
+                <span>
 
-            let found = false;
+                    System
 
+                </span>
 
-            snapshot.forEach(doc=>{
+                <strong
+                class="online"
+                id="systemStatus">
 
-                const user =
-                    doc.data();
+                    🟢 Online
 
+                </strong>
 
-                if(
+            </div>
 
-                    user.role === "employee"
 
-                    &&
+            <!-- ==================================
+                 MODULES
+            ================================== -->
 
-                    (user.username || "")
-                        .toUpperCase()
-                        .trim()
+            <div class="module-list">
 
-                    ===
 
-                    username
-                        .toUpperCase()
-                        .trim()
+                <div class="module-item">
 
-                    &&
+                    Employee Management
 
-                    (user.password || "")
-                    ===
-                    pass
+                </div>
 
-                ){
 
-                    found = true;
+                <div class="module-item">
 
+                    Attendance
 
-                    /* ==========================
-                       SAVE ROLE
-                    ========================== */
+                </div>
 
-                    localStorage.setItem(
-                        "userRole",
-                        "employee"
-                    );
 
+                <div class="module-item">
 
-                    localStorage.setItem(
-                        "loggedInUser",
-                        username
-                    );
+                    Payroll
 
+                </div>
 
-                    /* ==========================
-                       REMEMBER USER
-                    ========================== */
 
-                    if(remember.checked){
+                <div class="module-item">
 
-                        localStorage.setItem(
-                            "rememberUser",
-                            username
-                        );
+                    HR Management
 
-                    }else{
+                </div>
 
-                        localStorage.removeItem(
-                            "rememberUser"
-                        );
 
-                    }
+                <div class="module-item">
 
+                    Leave Management
 
-                    /* ==========================
-                       GO TO LOADING
-                    ========================== */
+                </div>
 
-                    window.location.replace(
-                        "loading.html"
-                    );
 
-                }
+                <div class="module-item">
 
-            });
+                    Reports
 
+                </div>
 
-            if(loading){
 
-                loading.style.display =
-                    "none";
+            </div>
 
-            }
+        </div>
 
+    </div>
 
-            if(!found){
 
-                alert(
-                    "Invalid Employee Login"
-                );
+    <!-- ==========================================
+         FOOTER STATUS
+    ========================================== -->
 
-            }
+    <div class="system-status">
 
+        <div class="status-dot"></div>
 
-        }catch(error){
+        <span>
 
-            if(loading){
+            PAPPRITO HRIS SYSTEM INITIALIZING
 
-                loading.style.display =
-                    "none";
+        </span>
 
-            }
+    </div>
 
 
-            console.error(
-                "Firebase Error:",
-                error
-            );
+</div>
 
 
-            alert(
-                "Firebase Error"
-            );
+<!-- ==========================================
+     JAVASCRIPT
+========================================== -->
 
-        }
+<script
+type="module"
+src="../js/loading.js">
 
+</script>
 
-        return;
 
-    }
+</body>
 
-
-    /* ==========================================
-       HIDE LOADING
-    ========================================== */
-
-    if(loading){
-
-        loading.style.display =
-            "none";
-
-    }
-
-};
-
-
-/* ==========================================
-   ENTER KEY LOGIN
-========================================== */
-
-password.addEventListener(
-    "keypress",
-    (e)=>{
-
-        if(e.key === "Enter"){
-
-            login();
-
-        }
-
-    }
-);
-
-
-/* ==========================================
-   FINGERPRINT LOGIN
-========================================== */
-
-const fingerBtn =
-    document.getElementById(
-        "fingerBtn"
-    );
-
-
-if(fingerBtn){
-
-    if(!window.PublicKeyCredential){
-
-        fingerBtn.style.display =
-            "none";
-
-    }else{
-
-        fingerBtn.addEventListener(
-            "click",
-            ()=>{
-
-                alert(
-                    "Fingerprint Login Coming Soon"
-                );
-
-            }
-        );
-
-    }
-
-}
-
-
-/* ==========================================
-   SERVICE WORKER
-========================================== */
-
-if(
-    "serviceWorker" in navigator
-){
-
-    window.addEventListener(
-        "load",
-        ()=>{
-
-            navigator.serviceWorker
-
-                .register(
-                    "/service-worker.js"
-                )
-
-                .then(()=>{
-
-                    console.log(
-                        "Service Worker Registered"
-                    );
-
-                })
-
-                .catch(error=>{
-
-                    console.log(
-                        error
-                    );
-
-                });
-
-        }
-    );
-
-}
-
-
-/* ==========================================
-   PAGE READY
-========================================== */
-
-window.addEventListener(
-    "load",
-    ()=>{
-
-        if(loading){
-
-            loading.style.display =
-                "none";
-
-        }
-
-
-        console.log(
-            "PAPPRITO HR Login Ready"
-        );
-
-    }
-);
+</html>
