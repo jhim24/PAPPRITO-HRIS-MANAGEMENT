@@ -5,21 +5,145 @@
 
 <meta charset="UTF-8">
 
-<meta name="viewport"
-content="width=device-width,initial-scale=1">
+<meta
+name="viewport"
+content="width=device-width,initial-scale=1.0">
 
 <title>PAPPRITO HRIS</title>
 
+<meta
+name="theme-color"
+content="#ffcc00">
+
 </head>
 
+
 <body
-style="background:#111;">
+style="
+margin:0;
+background:#111;
+">
 
-<script>
 
-window.location.replace("login.html");
+<script type="module">
+
+import { auth }
+from "./js/firebase.js";
+
+import {
+    onAuthStateChanged
+}
+from "https://www.gstatic.com/firebasejs/12.13.0/firebase-auth.js";
+
+
+/* ==========================================
+   AUTHENTICATION ROUTING
+========================================== */
+
+onAuthStateChanged(
+    auth,
+    (user)=>{
+
+        /*
+        No authenticated user
+        */
+
+        if(!user){
+
+            localStorage.removeItem(
+                "userRole"
+            );
+
+            localStorage.removeItem(
+                "loggedInUser"
+            );
+
+            window.location.replace(
+                "login.html"
+            );
+
+            return;
+
+        }
+
+
+        /*
+        Get saved role
+        */
+
+        const role =
+            localStorage.getItem(
+                "userRole"
+            );
+
+
+        /* ======================================
+           ADMIN
+        ====================================== */
+
+        if(role === "admin"){
+
+            window.location.replace(
+                "dashboard.html"
+            );
+
+            return;
+
+        }
+
+
+        /* ======================================
+           EMPLOYEE
+        ====================================== */
+
+        if(role === "employee"){
+
+            window.location.replace(
+                "employeeportal.html"
+            );
+
+            return;
+
+        }
+
+
+        /*
+        If authenticated but role is missing,
+        don't send the user to login.
+
+        Use Firebase email as logged user
+        and send to dashboard as fallback.
+        */
+
+        if(
+            !localStorage.getItem(
+                "loggedInUser"
+            )
+        ){
+
+            localStorage.setItem(
+                "loggedInUser",
+                user.email || ""
+            );
+
+        }
+
+
+        localStorage.setItem(
+            "userRole",
+            "admin"
+        );
+
+
+        window.location.replace(
+            "dashboard.html"
+        );
+
+    }
+);
 
 </script>
+
 
 </body>
 
