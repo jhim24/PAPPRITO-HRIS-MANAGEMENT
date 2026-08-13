@@ -11,478 +11,25 @@
 
 <title>Payroll Management</title>
 
-
-<!-- ==========================================
-     MANIFEST
-========================================== -->
-
 <link
     rel="manifest"
     href="../manifest.json">
-
 
 <meta
     name="theme-color"
     content="#ffcc00">
 
-
 <link
     rel="apple-touch-icon"
     href="../assets/images/icon-192.png">
-
 
 <link
     rel="icon"
     href="../assets/images/logo.png">
 
-
-<!-- ==========================================
-     PAYROLL CSS
-========================================== -->
-
 <link
     rel="stylesheet"
     href="../css/payroll.css">
-
-
-<style>
-
-/* ==========================================
-   PAYSLIP PRINT AREA
-========================================== */
-
-#payslipPrintArea {
-
-    display: none;
-
-}
-
-
-/* ==========================================
-   PAYSLIP PAGE
-========================================== */
-
-.payslip-page {
-
-    display: grid;
-
-    grid-template-columns:
-        1fr 1fr;
-
-    grid-template-rows:
-        1fr 1fr;
-
-    width: 100%;
-
-    height: 100%;
-
-}
-
-
-/* ==========================================
-   PAYSLIP CARD
-========================================== */
-
-.payslip-card {
-
-    background: #ffffff;
-
-    border: 1px dashed #555;
-
-    padding: 8px;
-
-    font-family:
-        Arial,
-        sans-serif;
-
-    font-size: 9px;
-
-    color: #000000;
-
-    overflow: hidden;
-
-    box-sizing: border-box;
-
-}
-
-
-/* ==========================================
-   PAYSLIP HEADER
-========================================== */
-
-.payslip-header {
-
-    text-align: center;
-
-    border-bottom:
-        2px solid #d71920;
-
-    padding-bottom: 4px;
-
-    margin-bottom: 5px;
-
-}
-
-
-.payslip-company {
-
-    font-size: 15px;
-
-    font-weight: 900;
-
-    color: #d71920;
-
-}
-
-
-.payslip-title {
-
-    font-size: 10px;
-
-    font-weight: 800;
-
-}
-
-
-/* ==========================================
-   PAYSLIP INFORMATION
-========================================== */
-
-.payslip-info {
-
-    display: grid;
-
-    gap: 2px;
-
-    margin-bottom: 5px;
-
-}
-
-
-.payslip-info-row {
-
-    display: flex;
-
-    justify-content:
-        space-between;
-
-    gap: 5px;
-
-}
-
-
-.payslip-info-row span:last-child {
-
-    text-align: right;
-
-}
-
-
-/* ==========================================
-   SECTION TITLE
-========================================== */
-
-.payslip-section-title {
-
-    background:
-        #ffcc00;
-
-    color:
-        #222222;
-
-    font-weight:
-        800;
-
-    padding:
-        3px 5px;
-
-    margin-top:
-        4px;
-
-    margin-bottom:
-        2px;
-
-}
-
-
-/* ==========================================
-   PAYSLIP ROW
-========================================== */
-
-.payslip-row {
-
-    display:
-        flex;
-
-    justify-content:
-        space-between;
-
-    padding:
-        2px 4px;
-
-}
-
-
-/* ==========================================
-   PAYSLIP TOTAL
-========================================== */
-
-.payslip-total {
-
-    display:
-        flex;
-
-    justify-content:
-        space-between;
-
-    border-top:
-        1px solid #555;
-
-    padding:
-        3px 4px;
-
-    font-weight:
-        800;
-
-}
-
-
-/* ==========================================
-   NET PAY
-========================================== */
-
-.payslip-net {
-
-    display:
-        flex;
-
-    justify-content:
-        space-between;
-
-    align-items:
-        center;
-
-    margin-top:
-        5px;
-
-    padding:
-        5px;
-
-    border:
-        2px solid #d71920;
-
-    font-size:
-        12px;
-
-    font-weight:
-        900;
-
-}
-
-
-/* ==========================================
-   SIGNATURE
-========================================== */
-
-.payslip-signature {
-
-    display:
-        grid;
-
-    grid-template-columns:
-        1fr 1fr;
-
-    gap:
-        15px;
-
-    margin-top:
-        13px;
-
-    text-align:
-        center;
-
-    font-size:
-        7px;
-
-}
-
-
-.payslip-signature div {
-
-    padding-top:
-        12px;
-
-    border-top:
-        1px solid #000;
-
-}
-
-
-/* ==========================================
-   EMPTY PAYSLIP
-========================================== */
-
-.empty-payslip {
-
-    visibility:
-        hidden;
-
-}
-
-
-/* ==========================================
-   PAYSLIP PRINT BUTTON
-========================================== */
-
-.payslip-print-btn {
-
-    background:
-        #ffcc00;
-
-    color:
-        #222222;
-
-}
-
-
-/* ==========================================
-   PRINT
-========================================== */
-
-@media print {
-
-    body {
-
-        margin:
-            0 !important;
-
-        padding:
-            0 !important;
-
-        background:
-            #ffffff !important;
-
-    }
-
-
-    body > *:not(#payslipPrintArea) {
-
-        display:
-            none !important;
-
-    }
-
-
-    #payslipPrintArea {
-
-        display:
-            block !important;
-
-        width:
-            100% !important;
-
-        margin:
-            0 !important;
-
-        padding:
-            0 !important;
-
-    }
-
-
-    .payslip-page {
-
-        display:
-            grid !important;
-
-        grid-template-columns:
-            1fr 1fr !important;
-
-        grid-template-rows:
-            1fr 1fr !important;
-
-        width:
-            100% !important;
-
-        height:
-            100vh !important;
-
-        page-break-after:
-            always !important;
-
-        break-after:
-            page !important;
-
-    }
-
-
-    .payslip-page:last-child {
-
-        page-break-after:
-            auto !important;
-
-        break-after:
-            auto !important;
-
-    }
-
-
-    .payslip-card {
-
-        display:
-            block !important;
-
-        width:
-            100% !important;
-
-        height:
-            100% !important;
-
-        min-height:
-            0 !important;
-
-        box-sizing:
-            border-box !important;
-
-        overflow:
-            hidden !important;
-
-        border:
-            1px dashed #555 !important;
-
-        padding:
-            8px !important;
-
-        background:
-            #ffffff !important;
-
-        color:
-            #000000 !important;
-
-    }
-
-
-    .empty-payslip {
-
-        visibility:
-            hidden !important;
-
-    }
-
-
-    @page {
-
-        size:
-            letter portrait;
-
-        margin:
-            5mm;
-
-    }
-
-}
-
-</style>
 
 </head>
 
@@ -499,398 +46,306 @@
 
 <div class="header">
 
-
-<div class="title">
-
-💰 PAYROLL MANAGEMENT
-
-</div>
+    <div class="title">
+        💰 PAYROLL MANAGEMENT
+    </div>
 
 
-<div
-style="
-display:flex;
-gap:10px;
-flex-wrap:wrap;
-">
+    <div
+        style="
+        display:flex;
+        gap:10px;
+        flex-wrap:wrap;
+        ">
 
 
-<!-- PRINT TABLE -->
+        <button
+            class="btn print-btn"
+            onclick="window.print()">
 
-<button
-class="btn print-btn"
-onclick="window.print()">
+            🖨 PRINT TABLE
 
-🖨 PRINT TABLE
-
-</button>
+        </button>
 
 
-<!-- PRINT ALL PAYSLIPS -->
+        <button
+            class="btn payslip-print-btn"
+            onclick="printPayslips()">
 
-<button
-class="btn payslip-print-btn"
-onclick="printPayslips()">
+            🧾 PRINT ALL PAYSLIPS
 
-🧾 PRINT ALL PAYSLIPS
-
-</button>
+        </button>
 
 
-<!-- BACK -->
+        <button
+            class="btn back-btn"
+            onclick="
+            window.location.href='dashboard.html'
+            ">
 
-<button
-class="btn back-btn"
-onclick="
-window.location.href='dashboard.html'
-">
+            ← BACK
 
-← BACK
+        </button>
 
-</button>
-
+    </div>
 
 </div>
 
-</div>
 
 
 <!-- ==========================================
-     FORM SECTION
+     PAYROLL FORM
 ========================================== -->
 
 <div class="form-section">
 
 
-<div class="form-grid">
+    <div class="form-grid">
 
 
-<select id="employeeSelect">
+        <select id="employeeSelect">
 
-<option value="">
+            <option value="">
+                Select Employee
+            </option>
 
-Select Employee
-
-</option>
-
-</select>
+        </select>
 
 
-<input
-type="number"
-id="totaldays"
-placeholder="Total Days">
+        <input
+            type="number"
+            id="totaldays"
+            placeholder="Total Days">
 
 
-<input
-type="number"
-id="dailyrate"
-placeholder="Daily Rate">
+        <input
+            type="number"
+            id="dailyrate"
+            placeholder="Daily Rate">
 
 
-<input
-type="number"
-id="overtime"
-placeholder="Overtime">
+        <input
+            type="number"
+            id="overtime"
+            placeholder="Overtime">
 
 
-<input
-type="number"
-id="holiday"
-placeholder="Holiday Pay">
+        <input
+            type="number"
+            id="holiday"
+            placeholder="Holiday Pay">
 
 
-<input
-type="number"
-id="sickleave"
-placeholder="Sick Leave">
+        <input
+            type="number"
+            id="sickleave"
+            placeholder="Sick Leave">
 
 
-<input
-type="number"
-id="vacationleave"
-placeholder="Vacation Leave">
+        <input
+            type="number"
+            id="vacationleave"
+            placeholder="Vacation Leave">
 
 
-<input
-type="number"
-id="birthdayleave"
-placeholder="Birthday Leave">
+        <input
+            type="number"
+            id="birthdayleave"
+            placeholder="Birthday Leave">
 
 
-<input
-type="number"
-id="maternityleave"
-placeholder="Maternity Leave">
+        <input
+            type="number"
+            id="maternityleave"
+            placeholder="Maternity Leave">
 
 
-<input
-type="number"
-id="paternityleave"
-placeholder="Paternity Leave">
+        <input
+            type="number"
+            id="paternityleave"
+            placeholder="Paternity Leave">
 
 
-<input
-type="number"
-id="allowance"
-placeholder="Allowance">
+        <input
+            type="number"
+            id="allowance"
+            placeholder="Allowance">
 
 
-<input
-type="number"
-id="sss"
-placeholder="SSS">
+        <input
+            type="number"
+            id="sss"
+            placeholder="SSS">
 
 
-<input
-type="number"
-id="philhealth"
-placeholder="PhilHealth">
+        <input
+            type="number"
+            id="philhealth"
+            placeholder="PhilHealth">
 
 
-<input
-type="number"
-id="pagibig"
-placeholder="Pag-IBIG">
+        <input
+            type="number"
+            id="pagibig"
+            placeholder="Pag-IBIG">
 
 
-<input
-type="number"
-id="healthcard"
-placeholder="Health Card">
+        <input
+            type="number"
+            id="healthcard"
+            placeholder="Health Card">
 
 
-<input
-type="number"
-id="otherdeduction"
-placeholder="Other Deduction">
+        <input
+            type="number"
+            id="otherdeduction"
+            placeholder="Other Deduction">
 
 
-<input
-type="text"
-id="deductionreason"
-placeholder="Reason for Deduction">
+        <input
+            type="text"
+            id="deductionreason"
+            placeholder="Reason for Deduction">
 
+    </div>
+
+
+    <br>
+
+
+    <button
+        class="btn save-btn"
+        onclick="savePayroll()">
+
+        💾 SAVE PAYROLL
+
+    </button>
+
+
+    <!-- ======================================
+         TOTAL
+    ======================================= -->
+
+    <div class="total-box">
+
+        TOTAL NET PAY :
+
+        ₱
+
+        <span id="totalNet">
+            0.00
+        </span>
+
+    </div>
+
+
+
+    <!-- ======================================
+         PAYROLL TABLE
+    ======================================= -->
+
+    <div class="table-wrapper">
+
+        <table>
+
+            <thead>
+
+                <tr>
+
+                    <th>EMPLOYEE ID</th>
+
+                    <th>EMPLOYEE</th>
+
+                    <th>TOTAL DAYS</th>
+
+                    <th>DAILY RATE</th>
+
+                    <th>BASIC PAY</th>
+
+                    <th>OVERTIME</th>
+
+                    <th>HOLIDAY</th>
+
+                    <th>SICK LEAVE</th>
+
+                    <th>VACATION LEAVE</th>
+
+                    <th>BIRTHDAY LEAVE</th>
+
+                    <th>MATERNITY LEAVE</th>
+
+                    <th>PATERNITY LEAVE</th>
+
+                    <th>ALLOWANCE</th>
+
+                    <th>SSS</th>
+
+                    <th>PHILHEALTH</th>
+
+                    <th>PAG-IBIG</th>
+
+                    <th>HEALTH CARD</th>
+
+                    <th>OTHER DEDUCTION</th>
+
+                    <th>DEDUCTION REASON</th>
+
+                    <th>TOTAL DEDUCTION</th>
+
+                    <th>TOTAL GROSS</th>
+
+                    <th>NET PAY</th>
+
+                    <th>ACTION</th>
+
+                </tr>
+
+            </thead>
+
+
+            <tbody id="payrollBody">
+
+            </tbody>
+
+        </table>
+
+    </div>
 
 </div>
 
+</div>
 
-<br>
 
 
 <!-- ==========================================
-     SAVE
-========================================== -->
-
-<button
-class="btn save-btn"
-onclick="savePayroll()">
-
-💾 SAVE PAYROLL
-
-</button>
-
-
-<!-- ==========================================
-     TOTAL NET
-========================================== -->
-
-<div class="total-box">
-
-TOTAL NET PAY :
-
-₱
-
-<span id="totalNet">
-
-0.00
-
-</span>
-
-</div>
-
-
-<!-- ==========================================
-     PAYROLL TABLE
-========================================== -->
-
-<div class="table-wrapper">
-
-
-<table>
-
-
-<thead>
-
-<tr>
-
-<th>
-EMPLOYEE ID
-</th>
-
-<th>
-EMPLOYEE
-</th>
-
-<th>
-TOTAL DAYS
-</th>
-
-<th>
-DAILY RATE
-</th>
-
-<th>
-BASIC PAY
-</th>
-
-<th>
-OVERTIME
-</th>
-
-<th>
-HOLIDAY
-</th>
-
-<th>
-SICK LEAVE
-</th>
-
-<th>
-VACATION LEAVE
-</th>
-
-<th>
-BIRTHDAY LEAVE
-</th>
-
-<th>
-MATERNITY LEAVE
-</th>
-
-<th>
-PATERNITY LEAVE
-</th>
-
-<th>
-ALLOWANCE
-</th>
-
-<th>
-SSS
-</th>
-
-<th>
-PHILHEALTH
-</th>
-
-<th>
-PAG-IBIG
-</th>
-
-<th>
-HEALTH CARD
-</th>
-
-<th>
-OTHER DEDUCTION
-</th>
-
-<th>
-DEDUCTION REASON
-</th>
-
-<th>
-TOTAL DEDUCTION
-</th>
-
-<th>
-TOTAL GROSS
-</th>
-
-<th>
-NET PAY
-</th>
-
-<th>
-ACTION
-</th>
-
-</tr>
-
-</thead>
-
-
-<tbody
-id="payrollBody">
-
-</tbody>
-
-
-</table>
-
-
-</div>
-
-
-</div>
-
-
-</div>
-
-
-<!-- ==================================================
-     PAYSLIP PRINT AREA
-================================================== -->
-
-<div
-id="payslipPrintArea">
-</div>
-
-
-<!-- ==========================================
-     PAYROLL JAVASCRIPT
+     PAYROLL JS
 ========================================== -->
 
 <script
-type="module"
-src="../js/payroll.js">
+    type="module"
+    src="../js/payroll.js">
 </script>
 
 
-<!-- ==================================================
-     PAYSLIP PRINT JAVASCRIPT
-================================================== -->
+
+<!-- ==========================================
+     PAYSLIP PRINT SYSTEM
+========================================== -->
 
 <script>
 
+
 /* ==========================================
    PRINT ALL PAYSLIPS
-   4 PAYSLIPS PER BOND PAPER
 ========================================== */
 
-async function printPayslips(){
+function printPayslips(){
 
     const rows =
         document.querySelectorAll(
             "#payrollBody tr"
         );
 
-
-    if(!rows.length){
-
-        alert(
-            "There are no payroll records to print."
-        );
-
-        return;
-
-    }
-
-
-    /* ======================================
-       COLLECT PAYROLL RECORDS
-    ====================================== */
 
     const records = [];
 
@@ -905,7 +360,8 @@ async function printPayslips(){
 
 
             /*
-             * Ignore loading/empty rows.
+             * Valid payroll row has
+             * 23 columns.
              */
 
             if(
@@ -929,6 +385,18 @@ async function printPayslips(){
                     getCell(
                         cells,
                         1
+                    ),
+
+                totaldays:
+                    getCell(
+                        cells,
+                        2
+                    ),
+
+                dailyrate:
+                    getCell(
+                        cells,
+                        3
                     ),
 
                 basicpay:
@@ -1015,6 +483,12 @@ async function printPayslips(){
                         17
                     ),
 
+                deductionreason:
+                    getCell(
+                        cells,
+                        18
+                    ),
+
                 deductions:
                     getCell(
                         cells,
@@ -1035,7 +509,9 @@ async function printPayslips(){
 
                 date:
                     new Date()
-                    .toLocaleDateString()
+                    .toLocaleDateString(
+                        "en-PH"
+                    )
 
             });
 
@@ -1043,10 +519,12 @@ async function printPayslips(){
     );
 
 
-    if(!records.length){
+    if(
+        records.length === 0
+    ){
 
         alert(
-            "No valid payroll records were found."
+            "There are no payroll records to print."
         );
 
         return;
@@ -1054,34 +532,407 @@ async function printPayslips(){
     }
 
 
-    /* ======================================
-       PRINT CONTAINER
-    ====================================== */
+    /*
+     * Create complete print HTML.
+     */
 
-    const printArea =
-        document.getElementById(
-            "payslipPrintArea"
-        );
+    let html = `
+
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="UTF-8">
+
+<title>
+PAPPRITO Payslips
+</title>
 
 
-    if(!printArea){
+<style>
 
-        alert(
-            "Payslip print area was not found."
-        );
+* {
 
-        return;
+    box-sizing:
+        border-box;
+
+}
+
+
+html,
+body {
+
+    margin:
+        0;
+
+    padding:
+        0;
+
+    background:
+        #ffffff;
+
+}
+
+
+body {
+
+    font-family:
+        Arial,
+        sans-serif;
+
+    color:
+        #000000;
+
+}
+
+
+/* ==========================================
+   PAGE
+========================================== */
+
+.print-page {
+
+    width:
+        100%;
+
+    height:
+        100vh;
+
+    display:
+        grid;
+
+    grid-template-columns:
+        1fr 1fr;
+
+    grid-template-rows:
+        1fr 1fr;
+
+    page-break-after:
+        always;
+
+    break-after:
+        page;
+
+}
+
+
+/* ==========================================
+   LAST PAGE
+========================================== */
+
+.print-page:last-child {
+
+    page-break-after:
+        auto;
+
+    break-after:
+        auto;
+
+}
+
+
+/* ==========================================
+   PAYSLIP
+========================================== */
+
+.payslip {
+
+    width:
+        100%;
+
+    height:
+        100%;
+
+    padding:
+        8px;
+
+    border:
+        1px dashed #555;
+
+    overflow:
+        hidden;
+
+    font-size:
+        8px;
+
+}
+
+
+/* ==========================================
+   HEADER
+========================================== */
+
+.payslip-header {
+
+    text-align:
+        center;
+
+    border-bottom:
+        2px solid #d71920;
+
+    padding-bottom:
+        4px;
+
+    margin-bottom:
+        5px;
+
+}
+
+
+.company {
+
+    font-size:
+        14px;
+
+    font-weight:
+        900;
+
+    color:
+        #d71920;
+
+}
+
+
+.payroll-title {
+
+    font-size:
+        9px;
+
+    font-weight:
+        800;
+
+}
+
+
+/* ==========================================
+   INFO
+========================================== */
+
+.info {
+
+    display:
+        grid;
+
+    gap:
+        2px;
+
+    margin-bottom:
+        4px;
+
+}
+
+
+.info-row {
+
+    display:
+        flex;
+
+    justify-content:
+        space-between;
+
+    gap:
+        5px;
+
+}
+
+
+.info-row span:last-child {
+
+    text-align:
+        right;
+
+    max-width:
+        65%;
+
+}
+
+
+/* ==========================================
+   SECTION
+========================================== */
+
+.section-title {
+
+    background:
+        #ffcc00;
+
+    padding:
+        3px 4px;
+
+    margin-top:
+        3px;
+
+    margin-bottom:
+        2px;
+
+    font-weight:
+        800;
+
+}
+
+
+/* ==========================================
+   ROW
+========================================== */
+
+.row {
+
+    display:
+        flex;
+
+    justify-content:
+        space-between;
+
+    padding:
+        1.5px 3px;
+
+}
+
+
+.row strong {
+
+    white-space:
+        nowrap;
+
+}
+
+
+/* ==========================================
+   TOTAL
+========================================== */
+
+.total {
+
+    display:
+        flex;
+
+    justify-content:
+        space-between;
+
+    border-top:
+        1px solid #555;
+
+    padding:
+        3px;
+
+    font-weight:
+        800;
+
+}
+
+
+/* ==========================================
+   NET PAY
+========================================== */
+
+.net {
+
+    display:
+        flex;
+
+    justify-content:
+        space-between;
+
+    margin-top:
+        4px;
+
+    padding:
+        5px;
+
+    border:
+        2px solid #d71920;
+
+    font-size:
+        11px;
+
+    font-weight:
+        900;
+
+}
+
+
+/* ==========================================
+   SIGNATURE
+========================================== */
+
+.signatures {
+
+    display:
+        grid;
+
+    grid-template-columns:
+        1fr 1fr;
+
+    gap:
+        15px;
+
+    margin-top:
+        12px;
+
+    text-align:
+        center;
+
+    font-size:
+        7px;
+
+}
+
+
+.signature {
+
+    padding-top:
+        12px;
+
+    border-top:
+        1px solid #000;
+
+}
+
+
+/* ==========================================
+   PRINT
+========================================== */
+
+@page {
+
+    size:
+        letter portrait;
+
+    margin:
+        5mm;
+
+}
+
+
+@media print {
+
+    html,
+    body {
+
+        width:
+            100%;
+
+        height:
+            100%;
 
     }
 
+}
 
-    printArea.innerHTML =
-        "";
+</style>
+
+</head>
 
 
-    /* ======================================
-       FOUR PAYSLIPS PER PAGE
-    ====================================== */
+<body>
+`;
+
+
+    /*
+     * Create pages.
+     */
 
     for(
         let i = 0;
@@ -1089,14 +940,11 @@ async function printPayslips(){
         i += 4
     ){
 
-        const page =
-            document.createElement(
-                "div"
-            );
+        html += `
 
+<div class="print-page">
 
-        page.className =
-            "payslip-page";
+`;
 
 
         const pageRecords =
@@ -1109,85 +957,122 @@ async function printPayslips(){
         pageRecords.forEach(
             record => {
 
-                page.appendChild(
-                    createPayslip(
+                html +=
+                    createPayslipHTML(
                         record
-                    )
-                );
+                    );
 
             }
         );
 
 
-        /* ==================================
-           FILL EMPTY POSITIONS
-        ================================== */
+        /*
+         * Fill remaining spaces.
+         */
 
         while(
-            page.children.length < 4
+            pageRecords.length < 4
         ){
 
-            const empty =
-                document.createElement(
-                    "div"
-                );
+            html += `
 
+<div
+    class="payslip"
+    style="
+        visibility:hidden;
+    ">
+</div>
 
-            empty.className =
-                "payslip-card empty-payslip";
+`;
 
-
-            page.appendChild(
-                empty
+            pageRecords.push(
+                null
             );
 
         }
 
 
-        printArea.appendChild(
-            page
-        );
+        html += `
+
+</div>
+
+`;
 
     }
 
 
-    /* ======================================
-       OPEN PRINT
-    ====================================== */
+    html += `
 
-    setTimeout(
-        () => {
+</body>
 
-            window.print();
+</html>
 
-        },
-        200
+`;
+
+
+    /*
+     * Open print window.
+     */
+
+    const printWindow =
+        window.open(
+            "",
+            "_blank",
+            "width=1100,height=800"
+        );
+
+
+    if(!printWindow){
+
+        alert(
+            "The print window was blocked by the browser. " +
+            "Please allow pop-ups for this HRIS site."
+        );
+
+        return;
+
+    }
+
+
+    printWindow.document.open();
+
+    printWindow.document.write(
+        html
     );
+
+    printWindow.document.close();
+
+
+    /*
+     * Wait for the new document to render.
+     */
+
+    printWindow.onload =
+        function(){
+
+            setTimeout(
+                function(){
+
+                    printWindow.focus();
+
+                    printWindow.print();
+
+                },
+                500
+            );
+
+        };
 
 }
 
 
 /* ==========================================
-   CREATE PAYSLIP
+   CREATE PAYSLIP HTML
 ========================================== */
 
-function createPayslip(
+function createPayslipHTML(
     record
 ){
-
-    const card =
-        document.createElement(
-            "div"
-        );
-
-
-    card.className =
-        "payslip-card";
-
-
-    /* ======================================
-       TOTAL LEAVE PAY
-    ====================================== */
 
     const leavePay =
 
@@ -1212,309 +1097,321 @@ function createPayslip(
         );
 
 
-    card.innerHTML = `
+    return `
 
-        <!-- HEADER -->
-
-        <div class="payslip-header">
-
-            <div class="payslip-company">
-
-                PAPPRITO
-
-            </div>
+<div class="payslip">
 
 
-            <div class="payslip-title">
+    <!-- HEADER -->
 
-                EMPLOYEE PAYSLIP
+    <div class="payslip-header">
 
-            </div>
+        <div class="company">
+
+            PAPPRITO
 
         </div>
 
 
-        <!-- EMPLOYEE INFO -->
+        <div class="payroll-title">
 
-        <div class="payslip-info">
-
-
-            <div class="payslip-info-row">
-
-                <strong>
-                    Employee ID:
-                </strong>
-
-                <span>
-
-                    ${escapePrint(
-                        record.empid
-                    )}
-
-                </span>
-
-            </div>
-
-
-            <div class="payslip-info-row">
-
-                <strong>
-                    Employee:
-                </strong>
-
-                <span>
-
-                    ${escapePrint(
-                        record.employee
-                    )}
-
-                </span>
-
-            </div>
-
-
-            <div class="payslip-info-row">
-
-                <strong>
-                    Payroll Date:
-                </strong>
-
-                <span>
-
-                    ${escapePrint(
-                        record.date
-                    )}
-
-                </span>
-
-            </div>
-
+            EMPLOYEE PAYSLIP
 
         </div>
 
-
-        <!-- EARNINGS -->
-
-        <div class="payslip-section-title">
-
-            EARNINGS
-
-        </div>
+    </div>
 
 
-        ${payslipRow(
-            "Basic Pay",
-            record.basicpay
-        )}
+    <!-- EMPLOYEE INFO -->
+
+    <div class="info">
 
 
-        ${payslipRow(
-            "Overtime",
-            record.overtime
-        )}
-
-
-        ${payslipRow(
-            "Holiday Pay",
-            record.holiday
-        )}
-
-
-        ${payslipRow(
-            "Leave Pay",
-            leavePay
-        )}
-
-
-        ${payslipRow(
-            "Allowance",
-            record.allowance
-        )}
-
-
-        <div class="payslip-total">
-
-            <span>
-
-                TOTAL GROSS
-
-            </span>
-
+        <div class="info-row">
 
             <strong>
-
-                ₱
-
-                ${formatMoney(
-                    parseMoney(
-                        record.gross
-                    )
-                )}
-
+                Employee ID:
             </strong>
-
-        </div>
-
-
-        <!-- DEDUCTIONS -->
-
-        <div class="payslip-section-title">
-
-            DEDUCTIONS
-
-        </div>
-
-
-        ${payslipRow(
-            "SSS",
-            record.sss
-        )}
-
-
-        ${payslipRow(
-            "PhilHealth",
-            record.philhealth
-        )}
-
-
-        ${payslipRow(
-            "Pag-IBIG",
-            record.pagibig
-        )}
-
-
-        ${payslipRow(
-            "Health Card",
-            record.healthcard
-        )}
-
-
-        ${payslipRow(
-            "Other Deduction",
-            record.otherdeduction
-        )}
-
-
-        <div class="payslip-total">
 
             <span>
-
-                TOTAL DEDUCTION
-
-            </span>
-
-
-            <strong>
-
-                ₱
-
-                ${formatMoney(
-                    parseMoney(
-                        record.deductions
-                    )
+                ${escapeHTML(
+                    record.empid
                 )}
-
-            </strong>
+            </span>
 
         </div>
 
 
-        <!-- NET PAY -->
+        <div class="info-row">
 
-        <div class="payslip-net">
+            <strong>
+                Employee:
+            </strong>
 
             <span>
-
-                NET PAY
-
+                ${escapeHTML(
+                    record.employee
+                )}
             </span>
 
+        </div>
+
+
+        <div class="info-row">
 
             <strong>
-
-                ₱
-
-                ${formatMoney(
-                    parseMoney(
-                        record.net
-                    )
-                )}
-
+                Total Days:
             </strong>
 
-        </div>
-
-
-        <!-- SIGNATURE -->
-
-        <div class="payslip-signature">
-
-            <div>
-
-                Employee Signature
-
-            </div>
-
-
-            <div>
-
-                Authorized Signature
-
-            </div>
+            <span>
+                ${escapeHTML(
+                    record.totaldays
+                )}
+            </span>
 
         </div>
 
-    `;
+
+        <div class="info-row">
+
+            <strong>
+                Daily Rate:
+            </strong>
+
+            <span>
+                ₱ ${formatMoney(
+                    parseMoney(
+                        record.dailyrate
+                    )
+                )}
+            </span>
+
+        </div>
 
 
-    return card;
+        <div class="info-row">
+
+            <strong>
+                Payroll Date:
+            </strong>
+
+            <span>
+                ${escapeHTML(
+                    record.date
+                )}
+            </span>
+
+        </div>
+
+
+    </div>
+
+
+    <!-- EARNINGS -->
+
+    <div class="section-title">
+
+        EARNINGS
+
+    </div>
+
+
+    ${printRow(
+        "Basic Pay",
+        record.basicpay
+    )}
+
+
+    ${printRow(
+        "Overtime",
+        record.overtime
+    )}
+
+
+    ${printRow(
+        "Holiday Pay",
+        record.holiday
+    )}
+
+
+    ${printRow(
+        "Leave Pay",
+        leavePay
+    )}
+
+
+    ${printRow(
+        "Allowance",
+        record.allowance
+    )}
+
+
+    <div class="total">
+
+        <span>
+            TOTAL GROSS
+        </span>
+
+        <strong>
+
+            ₱ ${formatMoney(
+                parseMoney(
+                    record.gross
+                )
+            )}
+
+        </strong>
+
+    </div>
+
+
+    <!-- DEDUCTIONS -->
+
+    <div class="section-title">
+
+        DEDUCTIONS
+
+    </div>
+
+
+    ${printRow(
+        "SSS",
+        record.sss
+    )}
+
+
+    ${printRow(
+        "PhilHealth",
+        record.philhealth
+    )}
+
+
+    ${printRow(
+        "Pag-IBIG",
+        record.pagibig
+    )}
+
+
+    ${printRow(
+        "Health Card",
+        record.healthcard
+    )}
+
+
+    ${printRow(
+        "Other Deduction",
+        record.otherdeduction
+    )}
+
+
+    <div class="total">
+
+        <span>
+            TOTAL DEDUCTION
+        </span>
+
+        <strong>
+
+            ₱ ${formatMoney(
+                parseMoney(
+                    record.deductions
+                )
+            )}
+
+        </strong>
+
+    </div>
+
+
+    <!-- NET PAY -->
+
+    <div class="net">
+
+        <span>
+            NET PAY
+        </span>
+
+        <strong>
+
+            ₱ ${formatMoney(
+                parseMoney(
+                    record.net
+                )
+            )}
+
+        </strong>
+
+    </div>
+
+
+    <!-- SIGNATURE -->
+
+    <div class="signatures">
+
+        <div class="signature">
+
+            Employee Signature
+
+        </div>
+
+
+        <div class="signature">
+
+            Authorized Signature
+
+        </div>
+
+    </div>
+
+
+</div>
+
+`;
 
 }
 
 
 /* ==========================================
-   PAYSLIP ROW
+   PRINT ROW
 ========================================== */
 
-function payslipRow(
+function printRow(
     label,
     value
 ){
 
     return `
 
-        <div class="payslip-row">
+<div class="row">
 
-            <span>
+    <span>
 
-                ${escapePrint(
-                    label
-                )}
+        ${escapeHTML(
+            label
+        )}
 
-            </span>
+    </span>
 
 
-            <strong>
+    <strong>
 
-                ₱
+        ₱ ${formatMoney(
+            parseMoney(
+                value
+            )
+        )}
 
-                ${formatMoney(
-                    parseMoney(
-                        value
-                    )
-                )}
+    </strong>
 
-            </strong>
+</div>
 
-        </div>
-
-    `;
+`;
 
 }
 
 
 /* ==========================================
-   GET TABLE CELL
+   GET CELL
 ========================================== */
 
 function getCell(
@@ -1613,10 +1510,10 @@ function formatMoney(
 
 
 /* ==========================================
-   ESCAPE TEXT
+   ESCAPE HTML
 ========================================== */
 
-function escapePrint(
+function escapeHTML(
     value
 ){
 
