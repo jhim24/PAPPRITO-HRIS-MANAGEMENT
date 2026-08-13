@@ -1,40 +1,33 @@
 /* ==========================================
    PAPPRITO HRIS
    EMPLOYEE PORTAL JS
-   EXISTING FIREBASE STRUCTURE
 ========================================== */
 
 import {
-    auth,
-    db
+    db,
+    auth
 } from "./firebase.js";
+
+import {
+    collection,
+    getDocs
+} from "https://www.gstatic.com/firebasejs/12.13.0/firebase-firestore.js";
 
 import {
     onAuthStateChanged,
     signOut
 } from "https://www.gstatic.com/firebasejs/12.13.0/firebase-auth.js";
 
-import {
-    collection,
-    getDocs,
-    addDoc,
-    updateDoc,
-    deleteDoc,
-    doc
-} from "https://www.gstatic.com/firebasejs/12.13.0/firebase-firestore.js";
-
 
 /* ==========================================
-   GLOBAL VARIABLES
+   GLOBAL
 ========================================== */
-
-let currentUser = "";
 
 let currentEmployee = null;
 
-let editId = null;
+let employeePayroll = [];
 
-let attendanceEditId = null;
+let currentPayslip = null;
 
 
 /* ==========================================
@@ -47,1107 +40,556 @@ const employeeName =
 const employeeId =
     document.getElementById("employeeId");
 
-const employeePosition =
-    document.getElementById("employeePosition");
+const infoEmployeeId =
+    document.getElementById("infoEmployeeId");
 
-const loggedEmployee =
-    document.getElementById("loggedEmployee");
+const infoName =
+    document.getElementById("infoName");
 
+const infoPosition =
+    document.getElementById("infoPosition");
 
-const requestType =
-    document.getElementById("requestType");
+const infoDepartment =
+    document.getElementById("infoDepartment");
 
-const requestDate =
-    document.getElementById("requestDate");
+const infoEmployment =
+    document.getElementById("infoEmployment");
 
-const requestDays =
-    document.getElementById("requestDays");
+const infoStatus =
+    document.getElementById("infoStatus");
 
-const requestReason =
-    document.getElementById("requestReason");
+const infoMobile =
+    document.getElementById("infoMobile");
 
+const infoEmail =
+    document.getElementById("infoEmail");
 
-const requestBody =
-    document.getElementById("requestBody");
+const payslipSelect =
+    document.getElementById("payslipSelect");
 
+const payslipArea =
+    document.getElementById("payslipArea");
 
-const attendanceBody =
-    document.getElementById("attendanceBody");
-
-const payslipBody =
-    document.getElementById("payslipBody");
-
-
-const requestFormCard =
-    document.getElementById("requestFormCard");
-
-const newRequestBtn =
-    document.getElementById("newRequestBtn");
-
-const cancelRequestBtn =
-    document.getElementById("cancelRequestBtn");
-
-const submitRequestBtn =
-    document.getElementById("submitRequestBtn");
-
-
-const requestTotal =
-    document.getElementById("requestTotal");
-
-const requestPending =
-    document.getElementById("requestPending");
-
-const requestApproved =
-    document.getElementById("requestApproved");
-
-const requestRejected =
-    document.getElementById("requestRejected");
-
-
-const requestModal =
-    document.getElementById("requestModal");
-
-const requestDetails =
-    document.getElementById("requestDetails");
-
-const closeRequestModal =
-    document.getElementById("closeRequestModal");
+const payslipMessage =
+    document.getElementById("payslipMessage");
 
 
 /* ==========================================
-   AUTHENTICATION
+   PAYSLIP ELEMENTS
 ========================================== */
 
-onAuthStateChanged(
-    auth,
-    async function(user){
+const payEmpId =
+    document.getElementById("payEmpId");
 
-        if(!user){
+const payEmp =
+    document.getElementById("payEmp");
 
-            window.location.replace(
-                "login.html"
-            );
+const payDate =
+    document.getElementById("payDate");
 
-            return;
+const payDailyRate =
+    document.getElementById("payDailyRate");
 
-        }
+const payTotalDays =
+    document.getElementById("payTotalDays");
+
+const payBasic =
+    document.getElementById("payBasic");
+
+const payOvertime =
+    document.getElementById("payOvertime");
+
+const payHoliday =
+    document.getElementById("payHoliday");
+
+const paySick =
+    document.getElementById("paySick");
+
+const payVacation =
+    document.getElementById("payVacation");
+
+const payBirthday =
+    document.getElementById("payBirthday");
+
+const payMaternity =
+    document.getElementById("payMaternity");
+
+const payPaternity =
+    document.getElementById("payPaternity");
+
+const payAllowance =
+    document.getElementById("payAllowance");
+
+const payGross =
+    document.getElementById("payGross");
+
+const paySSS =
+    document.getElementById("paySSS");
+
+const payPhilhealth =
+    document.getElementById("payPhilhealth");
+
+const payPagibig =
+    document.getElementById("payPagibig");
+
+const payHealth =
+    document.getElementById("payHealth");
+
+const payOther =
+    document.getElementById("payOther");
+
+const payDeduction =
+    document.getElementById("payDeduction");
+
+const payNet =
+    document.getElementById("payNet");
 
 
-        currentUser =
-            localStorage.getItem(
-                "loggedInUser"
-            ) ||
-            user.email ||
-            "";
+/* ==========================================
+   HELPERS
+========================================== */
+
+function text(value){
+
+    return String(
+        value ?? ""
+    ).trim();
+
+}
 
 
-        await loadEmployee();
+function number(value){
+
+    const n =
+        Number(
+            value || 0
+        );
+
+    return Number.isFinite(n)
+        ? n
+        : 0;
+
+}
+
+
+function money(value){
+
+    return number(value)
+        .toLocaleString(
+            "en-PH",
+            {
+                minimumFractionDigits:2,
+                maximumFractionDigits:2
+            }
+        );
+
+}
+
+
+function rawMoney(value){
+
+    return number(value)
+        .toFixed(2);
+
+}
+
+
+/* ==========================================
+   COMPATIBLE FIELD
+========================================== */
+
+function field(
+    pay,
+    primary,
+    secondary,
+    third
+){
+
+    if(
+        pay[primary] !== undefined &&
+        pay[primary] !== null
+    ){
+
+        return pay[primary];
 
     }
-);
+
+
+    if(
+        secondary &&
+        pay[secondary] !== undefined &&
+        pay[secondary] !== null
+    ){
+
+        return pay[secondary];
+
+    }
+
+
+    if(
+        third &&
+        pay[third] !== undefined &&
+        pay[third] !== null
+    ){
+
+        return pay[third];
+
+    }
+
+
+    return 0;
+
+}
+
+
+/* ==========================================
+   FULL EMPLOYEE NAME
+========================================== */
+
+function getFullName(emp){
+
+    return [
+
+        emp.firstname || "",
+
+        emp.middlename || "",
+
+        emp.lastname || ""
+
+    ]
+
+    .filter(Boolean)
+
+    .join(" ")
+
+    .replace(
+        /\s+/g,
+        " "
+    )
+
+    .trim();
+
+}
+
+
+/* ==========================================
+   FIND EMPLOYEE
+========================================== */
+
+async function findCurrentEmployee(){
+
+    const employeeDocId =
+        text(
+            localStorage.getItem(
+                "employeeDocId"
+            )
+        );
+
+
+    const employeeId =
+        text(
+            localStorage.getItem(
+                "employeeId"
+            )
+        )
+        .toUpperCase();
+
+
+    if(
+        !employeeDocId &&
+        !employeeId
+    ){
+
+        throw new Error(
+            "EMPLOYEE_SESSION_MISSING"
+        );
+
+    }
+
+
+    const snapshot =
+        await getDocs(
+            collection(
+                db,
+                "employees"
+            )
+        );
+
+
+    let found =
+        null;
+
+
+    snapshot.forEach(
+        docSnap => {
+
+            const emp =
+                docSnap.data();
+
+
+            /*
+             * First priority:
+             * Firestore document ID
+             */
+
+            if(
+                employeeDocId &&
+                docSnap.id ===
+                employeeDocId
+            ){
+
+                found = {
+
+                    id:
+                        docSnap.id,
+
+                    ...emp
+
+                };
+
+                return;
+
+            }
+
+
+            /*
+             * Second priority:
+             * Employee ID
+             */
+
+            const empId =
+                text(
+                    emp.employeeid
+                )
+                .toUpperCase();
+
+
+            if(
+                employeeId &&
+                empId ===
+                employeeId
+            ){
+
+                found = {
+
+                    id:
+                        docSnap.id,
+
+                    ...emp
+
+                };
+
+            }
+
+        }
+    );
+
+
+    return found;
+
+}
 
 
 /* ==========================================
    LOAD EMPLOYEE
-   Existing system uses employees
-   collection and employeeid.
 ========================================== */
 
 async function loadEmployee(){
 
-    try{
-
-        const snapshot =
-            await getDocs(
-                collection(
-                    db,
-                    "employees"
-                )
-            );
-
-
-        const loggedId =
-            String(
-                currentUser
-            )
-            .toUpperCase()
-            .trim();
-
-
-        snapshot.forEach(
-            docSnap => {
-
-                const emp =
-                    docSnap.data();
-
-
-                const empId =
-                    String(
-                        emp.employeeid ||
-                        emp.empid ||
-                        ""
-                    )
-                    .toUpperCase()
-                    .trim();
-
-
-                const fullName = [
-
-                    emp.firstname || "",
-
-                    emp.middlename || "",
-
-                    emp.lastname || ""
-
-                ]
-
-                .filter(Boolean)
-
-                .join(" ")
-
-                .replace(
-                    /\s+/g,
-                    " "
-                )
-
-                .trim();
-
-
-                /*
-                   Login may be employee ID
-                   or username.
-                */
-
-                const username =
-                    String(
-                        emp.username ||
-                        ""
-                    )
-                    .toUpperCase()
-                    .trim();
-
-
-                if(
-                    empId === loggedId ||
-                    username === loggedId
-                ){
-
-                    currentEmployee = {
-
-                        id:
-                            emp.employeeid ||
-                            emp.empid ||
-                            "",
-
-                        name:
-                            fullName ||
-                            emp.name ||
-                            "",
-
-                        position:
-                            emp.position ||
-                            "",
-
-                        department:
-                            emp.department ||
-                            ""
-
-                    };
-
-                }
-
-            }
-        );
-
-
-        if(!currentEmployee){
-
-            alert(
-                "Employee account not found in masterlist."
-            );
-
-            await signOut(auth);
-
-            localStorage.removeItem(
-                "loggedInUser"
-            );
-
-            localStorage.removeItem(
-                "userRole"
-            );
-
-            window.location.replace(
-                "login.html"
-            );
-
-            return;
-
-        }
-
-
-        displayEmployee();
-
-
-        await loadRequests();
-
-        await loadAttendanceRequests();
-
-        await loadPayslips();
-
-
-    }catch(error){
-
-        console.error(
-            "Employee Load Error:",
-            error
-        );
-
-        alert(
-            "Failed to load employee."
-        );
-
-    }
-
-}
-
-
-/* ==========================================
-   DISPLAY EMPLOYEE
-========================================== */
-
-function displayEmployee(){
-
-    if(employeeName){
-
-        employeeName.textContent =
-            currentEmployee.name ||
-            "Employee";
-
-    }
-
-
-    if(employeeId){
-
-        employeeId.textContent =
-            "Employee ID: " +
-            (
-                currentEmployee.id ||
-                "-"
-            );
-
-    }
-
-
-    if(employeePosition){
-
-        employeePosition.textContent =
-            "Position: " +
-            (
-                currentEmployee.position ||
-                "-"
-            );
-
-    }
-
-
-    if(loggedEmployee){
-
-        loggedEmployee.textContent =
-            currentEmployee.name ||
-            currentEmployee.id ||
-            "Employee";
-
-    }
-
-}
-
-
-/* ==========================================
-   REQUEST FORM
-========================================== */
-
-if(newRequestBtn){
-
-    newRequestBtn.addEventListener(
-        "click",
-        function(){
-
-            editId = null;
-
-            clearRequestForm();
-
-            requestFormCard.classList.toggle(
-                "hidden"
-            );
-
-        }
-    );
-
-}
-
-
-if(cancelRequestBtn){
-
-    cancelRequestBtn.addEventListener(
-        "click",
-        function(){
-
-            editId = null;
-
-            clearRequestForm();
-
-            requestFormCard.classList.add(
-                "hidden"
-            );
-
-        }
-    );
-
-}
-
-
-if(submitRequestBtn){
-
-    submitRequestBtn.addEventListener(
-        "click",
-        submitRequest
-    );
-
-}
-
-
-/* ==========================================
-   SUBMIT / UPDATE REQUEST
-========================================== */
-
-async function submitRequest(){
-
-    if(!currentEmployee){
-
-        alert(
-            "Employee information not loaded."
-        );
-
-        return;
-
-    }
+    currentEmployee =
+        await findCurrentEmployee();
 
 
     if(
-        !requestType ||
-        requestType.value === ""
+        !currentEmployee
     ){
 
-        alert(
-            "Select Request Type."
+        throw new Error(
+            "EMPLOYEE_NOT_FOUND"
         );
-
-        return;
-
-    }
-
-
-    if(
-        !requestDate ||
-        requestDate.value === ""
-    ){
-
-        alert(
-            "Select Date."
-        );
-
-        return;
-
-    }
-
-
-    if(
-        !requestDays ||
-        requestDays.value === ""
-    ){
-
-        alert(
-            "Enter Number of Days."
-        );
-
-        return;
-
-    }
-
-
-    const days =
-        Number(
-            requestDays.value
-        );
-
-
-    if(
-        !Number.isFinite(days) ||
-        days <= 0
-    ){
-
-        alert(
-            "Enter a valid number of days."
-        );
-
-        return;
-
-    }
-
-
-    try{
-
-        if(editId){
-
-            /*
-               Existing behavior:
-               Employee can update
-               their own request.
-            */
-
-            await updateDoc(
-
-                doc(
-                    db,
-                    "employeeRequests",
-                    editId
-                ),
-
-                {
-
-                    type:
-                        requestType.value,
-
-                    date:
-                        requestDate.value,
-
-                    days:
-                        String(days),
-
-                    reason:
-                        requestReason.value.trim()
-
-                }
-
-            );
-
-
-            alert(
-                "Request Updated"
-            );
-
-
-        }else{
-
-            /*
-               Existing structure:
-               employeeRequests
-            */
-
-            await addDoc(
-
-                collection(
-                    db,
-                    "employeeRequests"
-                ),
-
-                {
-
-                    empid:
-                        currentEmployee.id,
-
-                    employee:
-                        currentEmployee.name,
-
-                    type:
-                        requestType.value,
-
-                    date:
-                        requestDate.value,
-
-                    days:
-                        String(days),
-
-                    reason:
-                        requestReason.value.trim(),
-
-                    status:
-                        "PENDING"
-
-                }
-
-            );
-
-
-            alert(
-                "Request Submitted"
-            );
-
-        }
-
-
-        editId = null;
-
-
-        clearRequestForm();
-
-
-        requestFormCard.classList.add(
-            "hidden"
-        );
-
-
-        await loadRequests();
-
-
-    }catch(error){
-
-        console.error(
-            "Submit Request Error:",
-            error
-        );
-
-        alert(
-            "Submit Error"
-        );
-
-    }
-
-}
-
-
-/* ==========================================
-   LOAD MY REQUESTS
-========================================== */
-
-async function loadRequests(){
-
-    if(!requestBody){
-
-        return;
-
-    }
-
-
-    requestBody.innerHTML = `
-
-        <tr>
-
-            <td
-            colspan="6"
-            class="empty-state">
-
-                <span class="material-icons">
-
-                    sync
-
-                </span>
-
-                Loading requests...
-
-            </td>
-
-        </tr>
-
-    `;
-
-
-    try{
-
-        const snapshot =
-            await getDocs(
-                collection(
-                    db,
-                    "employeeRequests"
-                )
-            );
-
-
-        const myRequests = [];
-
-
-        snapshot.forEach(
-            docSnap => {
-
-                const req =
-                    docSnap.data();
-
-
-                const reqEmployee =
-                    String(
-                        req.empid ||
-                        ""
-                    )
-                    .toUpperCase()
-                    .trim();
-
-
-                const myEmployee =
-                    String(
-                        currentEmployee.id ||
-                        ""
-                    )
-                    .toUpperCase()
-                    .trim();
-
-
-                if(
-                    reqEmployee ===
-                    myEmployee
-                ){
-
-                    myRequests.push({
-
-                        id:
-                            docSnap.id,
-
-                        ...req
-
-                    });
-
-                }
-
-            }
-        );
-
-
-        updateRequestSummary(
-            myRequests
-        );
-
-
-        renderRequests(
-            myRequests
-        );
-
-
-    }catch(error){
-
-        console.error(
-            "Load Requests Error:",
-            error
-        );
-
-
-        requestBody.innerHTML = `
-
-            <tr>
-
-                <td
-                colspan="6"
-                class="empty-state">
-
-                    <span class="material-icons">
-
-                        error_outline
-
-                    </span>
-
-                    Failed to load requests.
-
-                </td>
-
-            </tr>
-
-        `;
-
-    }
-
-}
-
-
-/* ==========================================
-   REQUEST SUMMARY
-========================================== */
-
-function updateRequestSummary(
-    records
-){
-
-    let pending = 0;
-
-    let approved = 0;
-
-    let rejected = 0;
-
-
-    records.forEach(
-        req => {
-
-            const status =
-                String(
-                    req.status ||
-                    "PENDING"
-                )
-                .toUpperCase()
-                .trim();
-
-
-            if(
-                status === "PENDING"
-            ){
-
-                pending++;
-
-            }
-
-
-            else if(
-                status === "APPROVED"
-            ){
-
-                approved++;
-
-            }
-
-
-            else if(
-                status === "REJECTED"
-            ){
-
-                rejected++;
-
-            }
-
-        }
-    );
-
-
-    if(requestTotal){
-
-        requestTotal.textContent =
-            records.length;
-
-    }
-
-
-    if(requestPending){
-
-        requestPending.textContent =
-            pending;
-
-    }
-
-
-    if(requestApproved){
-
-        requestApproved.textContent =
-            approved;
-
-    }
-
-
-    if(requestRejected){
-
-        requestRejected.textContent =
-            rejected;
-
-    }
-
-}
-
-
-/* ==========================================
-   RENDER REQUESTS
-========================================== */
-
-function renderRequests(
-    records
-){
-
-    requestBody.innerHTML = "";
-
-
-    if(records.length === 0){
-
-        requestBody.innerHTML = `
-
-            <tr>
-
-                <td
-                colspan="6"
-                class="empty-state">
-
-                    <span class="material-icons">
-
-                        event_busy
-
-                    </span>
-
-                    <p>
-
-                        No requests found.
-
-                    </p>
-
-                </td>
-
-            </tr>
-
-        `;
-
-        return;
 
     }
 
 
     /*
-       Newest first.
-    */
-
-    records.sort(
-        (a,b) => {
-
-            return String(
-                b.date || ""
-            )
-            .localeCompare(
-                String(
-                    a.date || ""
-                )
-            );
-
-        }
-    );
-
-
-    records.forEach(
-        req => {
-
-            const status =
-                String(
-                    req.status ||
-                    "PENDING"
-                )
-                .toUpperCase()
-                .trim();
-
-
-            const statusClass =
-                status.toLowerCase();
-
-
-            const row =
-                document.createElement(
-                    "tr"
-                );
-
-
-            row.innerHTML = `
-
-                <td>
-
-                    ${escapeHtml(
-                        req.type ||
-                        "-"
-                    )}
-
-                </td>
-
-
-                <td>
-
-                    ${escapeHtml(
-                        req.date ||
-                        "-"
-                    )}
-
-                </td>
-
-
-                <td>
-
-                    ${escapeHtml(
-                        String(
-                            req.days ||
-                            "-"
-                        )
-                    )}
-
-                </td>
-
-
-                <td>
-
-                    ${escapeHtml(
-                        req.reason ||
-                        "-"
-                    )}
-
-                </td>
-
-
-                <td>
-
-                    <span
-                    class="status ${statusClass}">
-
-                        ${escapeHtml(
-                            status
-                        )}
-
-                    </span>
-
-                </td>
-
-
-                <td>
-
-                    <button
-                    class="view-btn"
-                    data-action="view">
-
-                        VIEW
-
-                    </button>
-
-
-                    <button
-                    class="edit-btn"
-                    data-action="edit">
-
-                        EDIT
-
-                    </button>
-
-
-                    <button
-                    class="delete-btn"
-                    data-action="delete">
-
-                        DELETE
-
-                    </button>
-
-                </td>
-
-            `;
-
-
-            const viewBtn =
-                row.querySelector(
-                    '[data-action="view"]'
-                );
-
-
-            const editBtn =
-                row.querySelector(
-                    '[data-action="edit"]'
-                );
-
-
-            const deleteBtn =
-                row.querySelector(
-                    '[data-action="delete"]'
-                );
-
-
-            viewBtn.addEventListener(
-                "click",
-                function(){
-
-                    showRequestDetails(
-                        req
-                    );
-
-                }
-            );
-
-
-            editBtn.addEventListener(
-                "click",
-                function(){
-
-                    editRequest(
-                        req
-                    );
-
-                }
-            );
-
-
-            deleteBtn.addEventListener(
-                "click",
-                function(){
-
-                    deleteRequest(
-                        req.id
-                    );
-
-                }
-            );
-
-
-            requestBody.appendChild(
-                row
-            );
-
-        }
-    );
-
-}
-
-
-/* ==========================================
-   EDIT REQUEST
-========================================== */
-
-function editRequest(
-    request
-){
-
-    editId =
-        request.id;
-
-
-    requestType.value =
-        request.type ||
-        "";
-
-
-    requestDate.value =
-        request.date ||
-        "";
-
-
-    requestDays.value =
-        request.days ||
-        "";
-
-
-    requestReason.value =
-        request.reason ||
-        "";
-
-
-    requestFormCard.classList.remove(
-        "hidden"
-    );
-
-
-    window.scrollTo({
-
-        top:0,
-
-        behavior:"smooth"
-
-    });
-
-}
-
-
-/* ==========================================
-   DELETE REQUEST
-========================================== */
-
-async function deleteRequest(
-    id
-){
+     * Verify portal access
+     */
 
     if(
-        !confirm(
-            "Delete Request?"
+        currentEmployee.portalEnabled !==
+        true
+    ){
+
+        throw new Error(
+            "PORTAL_NOT_ENABLED"
+        );
+
+    }
+
+
+    /*
+     * Verify employee status
+     */
+
+    const status =
+        text(
+            currentEmployee.status ||
+            "Active"
         )
+        .toLowerCase();
+
+
+    if(
+        status !==
+        "active"
+    ){
+
+        throw new Error(
+            "EMPLOYEE_INACTIVE"
+        );
+
+    }
+
+
+    const fullName =
+        getFullName(
+            currentEmployee
+        );
+
+
+    const empId =
+        text(
+            currentEmployee.employeeid
+        );
+
+
+    /*
+     * Welcome
+     */
+
+    if(
+        employeeName
+    ){
+
+        employeeName.innerText =
+            fullName ||
+            empId ||
+            "Employee";
+
+    }
+
+
+    if(
+        employeeId
+    ){
+
+        employeeId.innerText =
+            "Employee ID: " +
+            empId;
+
+    }
+
+
+    /*
+     * Information
+     */
+
+    if(
+        infoEmployeeId
+    ){
+
+        infoEmployeeId.innerText =
+            empId || "-";
+
+    }
+
+
+    if(
+        infoName
+    ){
+
+        infoName.innerText =
+            fullName || "-";
+
+    }
+
+
+    if(
+        infoPosition
+    ){
+
+        infoPosition.innerText =
+            currentEmployee.position ||
+            "-";
+
+    }
+
+
+    if(
+        infoDepartment
+    ){
+
+        infoDepartment.innerText =
+            currentEmployee.department ||
+            "-";
+
+    }
+
+
+    if(
+        infoEmployment
+    ){
+
+        infoEmployment.innerText =
+            currentEmployee.employment ||
+            "-";
+
+    }
+
+
+    if(
+        infoStatus
+    ){
+
+        infoStatus.innerText =
+            currentEmployee.status ||
+            "Active";
+
+    }
+
+
+    if(
+        infoMobile
+    ){
+
+        infoMobile.innerText =
+            currentEmployee.mobile ||
+            "-";
+
+    }
+
+
+    if(
+        infoEmail
+    ){
+
+        infoEmail.innerText =
+            currentEmployee.email ||
+            "-";
+
+    }
+
+}
+
+
+/* ==========================================
+   LOAD EMPLOYEE PAYROLL
+========================================== */
+
+async function loadEmployeePayroll(){
+
+    if(
+        !currentEmployee
     ){
 
         return;
@@ -1155,644 +597,27 @@ async function deleteRequest(
     }
 
 
-    try{
-
-        await deleteDoc(
-
-            doc(
-                db,
-                "employeeRequests",
-                id
-            )
-
-        );
+    employeePayroll = [];
 
 
-        alert(
-            "Request Deleted"
-        );
-
-
-        await loadRequests();
-
-
-    }catch(error){
-
-        console.error(
-            "Delete Request Error:",
-            error
-        );
-
-
-        alert(
-            "Delete Error"
-        );
-
-    }
-
-}
-
-
-/* ==========================================
-   REQUEST DETAILS
-========================================== */
-
-function showRequestDetails(
-    request
-){
-
-    if(!requestModal){
-
-        return;
-
-    }
-
-
-    const status =
-        String(
-            request.status ||
-            "PENDING"
+    const currentId =
+        text(
+            currentEmployee.employeeid
         )
         .toUpperCase();
 
 
-    requestDetails.innerHTML = `
-
-        <div class="detail-row">
-
-            <div class="detail-label">
-
-                Employee ID
-
-            </div>
-
-            <div class="detail-value">
-
-                ${escapeHtml(
-                    request.empid ||
-                    "-"
-                )}
-
-            </div>
-
-        </div>
-
-
-        <div class="detail-row">
-
-            <div class="detail-label">
-
-                Employee
-
-            </div>
-
-            <div class="detail-value">
-
-                ${escapeHtml(
-                    request.employee ||
-                    "-"
-                )}
-
-            </div>
-
-        </div>
-
-
-        <div class="detail-row">
-
-            <div class="detail-label">
-
-                Request
-
-            </div>
-
-            <div class="detail-value">
-
-                ${escapeHtml(
-                    request.type ||
-                    "-"
-                )}
-
-            </div>
-
-        </div>
-
-
-        <div class="detail-row">
-
-            <div class="detail-label">
-
-                Date
-
-            </div>
-
-            <div class="detail-value">
-
-                ${escapeHtml(
-                    request.date ||
-                    "-"
-                )}
-
-            </div>
-
-        </div>
-
-
-        <div class="detail-row">
-
-            <div class="detail-label">
-
-                Days
-
-            </div>
-
-            <div class="detail-value">
-
-                ${escapeHtml(
-                    request.days ||
-                    "-"
-                )}
-
-            </div>
-
-        </div>
-
-
-        <div class="detail-row">
-
-            <div class="detail-label">
-
-                Reason
-
-            </div>
-
-            <div class="detail-value">
-
-                ${escapeHtml(
-                    request.reason ||
-                    "-"
-                )}
-
-            </div>
-
-        </div>
-
-
-        <div class="detail-row">
-
-            <div class="detail-label">
-
-                Status
-
-            </div>
-
-            <div class="detail-value">
-
-                <span
-                class="status ${status.toLowerCase()}">
-
-                    ${escapeHtml(
-                        status
-                    )}
-
-                </span>
-
-            </div>
-
-        </div>
-
-    `;
-
-
-    requestModal.classList.add(
-        "show"
-    );
-
-}
-
-
-/* ==========================================
-   CLOSE REQUEST MODAL
-========================================== */
-
-if(closeRequestModal){
-
-    closeRequestModal.addEventListener(
-        "click",
-        function(){
-
-            requestModal.classList.remove(
-                "show"
-            );
-
-        }
-    );
-
-}
-
-
-if(requestModal){
-
-    requestModal.addEventListener(
-        "click",
-        function(event){
-
-            if(
-                event.target ===
-                requestModal
-            ){
-
-                requestModal.classList.remove(
-                    "show"
-                );
-
-            }
-
-        }
-    );
-
-}
-
-
-/* ==========================================
-   ATTENDANCE REQUESTS
-========================================== */
-
-async function loadAttendanceRequests(){
-
-    if(!attendanceBody){
-
-        return;
-
-    }
-
-
-    attendanceBody.innerHTML = `
-
-        <tr>
-
-            <td
-            colspan="6"
-            class="empty-state">
-
-                <span class="material-icons">
-
-                    sync
-
-                </span>
-
-                Loading attendance...
-
-            </td>
-
-        </tr>
-
-    `;
-
-
-    try{
-
-        const snapshot =
-            await getDocs(
-                collection(
-                    db,
-                    "attendanceRequests"
-                )
-            );
-
-
-        const records = [];
-
-
-        snapshot.forEach(
-            docSnap => {
-
-                const req =
-                    docSnap.data();
-
-
-                const employeeId =
-                    String(
-                        req.employeeid ||
-                        ""
-                    )
-                    .toUpperCase()
-                    .trim();
-
-
-                const myId =
-                    String(
-                        currentEmployee.id ||
-                        ""
-                    )
-                    .toUpperCase()
-                    .trim();
-
-
-                if(
-                    employeeId ===
-                    myId
-                ){
-
-                    records.push({
-
-                        id:
-                            docSnap.id,
-
-                        ...req
-
-                    });
-
-                }
-
-            }
-        );
-
-
-        renderAttendanceRequests(
-            records
-        );
-
-
-    }catch(error){
-
-        console.error(
-            "Attendance Request Error:",
-            error
-        );
-
-
-        attendanceBody.innerHTML = `
-
-            <tr>
-
-                <td
-                colspan="6"
-                class="empty-state">
-
-                    Failed to load attendance requests.
-
-                </td>
-
-            </tr>
-
-        `;
-
-    }
-
-}
-
-
-/* ==========================================
-   RENDER ATTENDANCE
-========================================== */
-
-function renderAttendanceRequests(
-    records
-){
-
-    attendanceBody.innerHTML = "";
-
-
-    if(records.length === 0){
-
-        attendanceBody.innerHTML = `
-
-            <tr>
-
-                <td
-                colspan="6"
-                class="empty-state">
-
-                    <span class="material-icons">
-
-                        event_busy
-
-                    </span>
-
-                    <p>
-
-                        No attendance requests found.
-
-                    </p>
-
-                </td>
-
-            </tr>
-
-        `;
-
-        return;
-
-    }
-
-
-    records.forEach(
-        req => {
-
-            const status =
-                String(
-                    req.status ||
-                    "PENDING"
-                )
-                .toUpperCase();
-
-
-            const row =
-                document.createElement(
-                    "tr"
-                );
-
-
-            row.innerHTML = `
-
-                <td>
-
-                    ${escapeHtml(
-                        req.date ||
-                        "-"
-                    )}
-
-                </td>
-
-
-                <td>
-
-                    ${escapeHtml(
-                        req.requesttype ||
-                        "-"
-                    )}
-
-                </td>
-
-
-                <td>
-
-                    ${escapeHtml(
-                        req.time ||
-                        "-"
-                    )}
-
-                </td>
-
-
-                <td>
-
-                    ${escapeHtml(
-                        req.reason ||
-                        "-"
-                    )}
-
-                </td>
-
-
-                <td>
-
-                    <span
-                    class="status ${status.toLowerCase()}">
-
-                        ${escapeHtml(
-                            status
-                        )}
-
-                    </span>
-
-                </td>
-
-
-                <td>
-
-                    <button
-                    class="delete-btn"
-                    data-id="${req.id}">
-
-                        DELETE
-
-                    </button>
-
-                </td>
-
-            `;
-
-
-            const deleteBtn =
-                row.querySelector(
-                    ".delete-btn"
-                );
-
-
-            deleteBtn.addEventListener(
-                "click",
-                function(){
-
-                    deleteAttendanceRequest(
-                        req.id
-                    );
-
-                }
-            );
-
-
-            attendanceBody.appendChild(
-                row
-            );
-
-        }
-    );
-
-}
-
-
-/* ==========================================
-   DELETE ATTENDANCE REQUEST
-========================================== */
-
-async function deleteAttendanceRequest(
-    id
-){
-
     if(
-        !confirm(
-            "Delete Attendance Request?"
-        )
+        !currentId
     ){
 
-        return;
-
-    }
-
-
-    try{
-
-        await deleteDoc(
-
-            doc(
-                db,
-                "attendanceRequests",
-                id
-            )
-
+        showMessage(
+            "Employee ID is missing."
         );
-
-
-        alert(
-            "Attendance Request Deleted"
-        );
-
-
-        await loadAttendanceRequests();
-
-
-    }catch(error){
-
-        console.error(
-            error
-        );
-
-        alert(
-            "Delete Error"
-        );
-
-    }
-
-}
-
-
-/* ==========================================
-   PAYSLIP
-   Existing payroll collection
-========================================== */
-
-async function loadPayslips(){
-
-    if(!payslipBody){
 
         return;
 
     }
-
-
-    payslipBody.innerHTML = `
-
-        <tr>
-
-            <td
-            colspan="6"
-            class="empty-state">
-
-                <span class="material-icons">
-
-                    sync
-
-                </span>
-
-                Loading payslips...
-
-            </td>
-
-        </tr>
-
-    `;
 
 
     try{
@@ -1806,9 +631,6 @@ async function loadPayslips(){
             );
 
 
-        const records = [];
-
-
         snapshot.forEach(
             docSnap => {
 
@@ -1816,71 +638,80 @@ async function loadPayslips(){
                     docSnap.data();
 
 
-                const payId =
-                    String(
-                        pay.empid ||
-                        ""
-                    )
-                    .toUpperCase()
-                    .trim();
+                /*
+                 * IMPORTANT SECURITY LOGIC
+                 *
+                 * Only payroll with the same
+                 * employee ID is accepted.
+                 */
 
-
-                const myId =
-                    String(
-                        currentEmployee.id ||
-                        ""
+                const payrollId =
+                    text(
+                        pay.empid
                     )
-                    .toUpperCase()
-                    .trim();
+                    .toUpperCase();
 
 
                 if(
-                    payId === myId
+                    payrollId !==
+                    currentId
                 ){
 
-                    records.push({
-
-                        id:
-                            docSnap.id,
-
-                        ...pay
-
-                    });
+                    return;
 
                 }
+
+
+                employeePayroll.push({
+
+                    id:
+                        docSnap.id,
+
+                    ...pay
+
+                });
 
             }
         );
 
 
-        renderPayslips(
-            records
+        /*
+         * Latest payroll first
+         */
+
+        employeePayroll.sort(
+            (
+                a,
+                b
+            ) => {
+
+                return String(
+                    b.date || ""
+                )
+                .localeCompare(
+                    String(
+                        a.date || ""
+                    )
+                );
+
+            }
         );
+
+
+        populatePayslipList();
 
 
     }catch(error){
 
         console.error(
-            "Payslip Error:",
+            "Payroll Load Error:",
             error
         );
 
 
-        payslipBody.innerHTML = `
-
-            <tr>
-
-                <td
-                colspan="6"
-                class="empty-state">
-
-                    Failed to load payslips.
-
-                </td>
-
-            </tr>
-
-        `;
+        showMessage(
+            "Unable to load payslips."
+        );
 
     }
 
@@ -1888,368 +719,1265 @@ async function loadPayslips(){
 
 
 /* ==========================================
-   RENDER PAYSLIPS
+   POPULATE PAYSLIP SELECT
 ========================================== */
 
-function renderPayslips(
-    records
-){
+function populatePayslipList(){
 
-    payslipBody.innerHTML = "";
-
-
-    if(records.length === 0){
-
-        payslipBody.innerHTML = `
-
-            <tr>
-
-                <td
-                colspan="6"
-                class="empty-state">
-
-                    <span class="material-icons">
-
-                        receipt_long
-
-                    </span>
-
-                    <p>
-
-                        No payslip found.
-
-                    </p>
-
-                </td>
-
-            </tr>
-
-        `;
+    if(
+        !payslipSelect
+    ){
 
         return;
 
     }
 
 
-    records.forEach(
-        pay => {
+    payslipSelect.innerHTML = `
 
-            const basic =
-                Number(
-                    pay.basicpay ||
-                    pay.basic ||
-                    0
-                );
+<option value="">
 
+Select Payroll Period
 
-            const overtime =
-                Number(
-                    pay.overtime ||
-                    0
-                );
+</option>
+
+`;
 
 
-            const deductions =
-                Number(
-                    pay.deductions ||
-                    0
-                );
+    if(
+        employeePayroll.length === 0
+    ){
+
+        showMessage(
+            "No payslip available."
+        );
+
+        return;
+
+    }
 
 
-            const net =
-                Number(
-                    pay.net ||
-                    0
-                );
+    employeePayroll.forEach(
+        (
+            pay,
+            index
+        ) => {
 
-
-            const row =
+            const option =
                 document.createElement(
-                    "tr"
+                    "option"
                 );
 
 
-            row.innerHTML = `
-
-                <td>
-
-                    ${escapeHtml(
-                        pay.date ||
-                        "-"
-                    )}
-
-                </td>
+            option.value =
+                pay.id;
 
 
-                <td>
-
-                    ${formatMoney(
-                        basic
-                    )}
-
-                </td>
+            const date =
+                text(
+                    pay.date
+                );
 
 
-                <td>
+            option.textContent =
 
-                    ${formatMoney(
-                        overtime
-                    )}
+                date
 
-                </td>
+                ?
 
+                "Payroll - " +
+                date
 
-                <td>
+                :
 
-                    ${formatMoney(
-                        deductions
-                    )}
-
-                </td>
+                "Payroll Record " +
+                (index + 1);
 
 
-                <td>
-
-                    ${formatMoney(
-                        net
-                    )}
-
-                </td>
-
-
-                <td>
-
-                    <button
-                    class="view-btn"
-                    data-id="${pay.id}">
-
-                        VIEW
-
-                    </button>
-
-                </td>
-
-            `;
-
-
-            row.querySelector(
-                ".view-btn"
-            )
-            .addEventListener(
-                "click",
-                function(){
-
-                    showPayslip(
-                        pay
-                    );
-
-                }
-            );
-
-
-            payslipBody.appendChild(
-                row
+            payslipSelect.appendChild(
+                option
             );
 
         }
     );
 
+
+    /*
+     * Automatically select latest
+     */
+
+    if(
+        employeePayroll.length > 0
+    ){
+
+        payslipSelect.value =
+            employeePayroll[0].id;
+
+    }
+
+
+    showMessage(
+        "Select a payroll period to view your payslip."
+    );
+
 }
 
 
 /* ==========================================
-   SHOW PAYSLIP
+   SHOW MESSAGE
 ========================================== */
 
-function showPayslip(
+function showMessage(
+    message
+){
+
+    if(
+        payslipMessage
+    ){
+
+        payslipMessage.innerText =
+            message;
+
+        payslipMessage.style.display =
+            "block";
+
+    }
+
+}
+
+
+/* ==========================================
+   HIDE MESSAGE
+========================================== */
+
+function hideMessage(){
+
+    if(
+        payslipMessage
+    ){
+
+        payslipMessage.style.display =
+            "none";
+
+    }
+
+}
+
+
+/* ==========================================
+   FIND PAYSLIP BY ID
+========================================== */
+
+function findPayslip(
+    id
+){
+
+    return employeePayroll.find(
+        pay =>
+            pay.id === id
+    );
+
+}
+
+
+/* ==========================================
+   VIEW SELECTED PAYSLIP
+========================================== */
+
+window.viewSelectedPayslip =
+function(){
+
+    if(
+        !payslipSelect
+    ){
+
+        return;
+
+    }
+
+
+    const id =
+        payslipSelect.value;
+
+
+    if(
+        !id
+    ){
+
+        showMessage(
+            "Please select a payroll period."
+        );
+
+        return;
+
+    }
+
+
+    const pay =
+        findPayslip(
+            id
+        );
+
+
+    if(
+        !pay
+    ){
+
+        showMessage(
+            "Payslip not found."
+        );
+
+        return;
+
+    }
+
+
+    currentPayslip =
+        pay;
+
+
+    displayPayslip(
+        pay
+    );
+
+
+    hideMessage();
+
+
+    if(
+        payslipArea
+    ){
+
+        payslipArea.style.display =
+            "block";
+
+
+        setTimeout(
+            () => {
+
+                payslipArea.scrollIntoView({
+
+                    behavior:
+                        "smooth",
+
+                    block:
+                        "center"
+
+                });
+
+            },
+            100
+        );
+
+    }
+
+};
+
+
+/* ==========================================
+   DISPLAY PAYSLIP
+========================================== */
+
+function displayPayslip(
     pay
 ){
 
-    const basic =
-        Number(
-            pay.basicpay ||
-            0
+    const holiday =
+        field(
+            pay,
+            "holiday",
+            "holidaypay"
         );
 
 
-    const overtime =
-        Number(
-            pay.overtime ||
-            0
+    const health =
+        field(
+            pay,
+            "healthcard",
+            "health"
         );
 
 
-    const deductions =
-        Number(
-            pay.deductions ||
-            0
+    const other =
+        field(
+            pay,
+            "otherdeduction",
+            "other"
         );
 
 
-    const net =
-        Number(
-            pay.net ||
-            0
-        );
+    if(
+        payEmpId
+    ){
+
+        payEmpId.innerText =
+            pay.empid || "-";
+
+    }
 
 
-    alert(
+    if(
+        payEmp
+    ){
 
-        "PAPPRITO PAYSLIP\n\n" +
+        payEmp.innerText =
+            pay.employee || "-";
 
-        "Employee ID: " +
-        (pay.empid || "-") +
+    }
 
-        "\nEmployee: " +
-        (pay.employee || "-") +
 
-        "\nDate: " +
-        (pay.date || "-") +
+    if(
+        payDate
+    ){
 
-        "\n\nBasic Pay: " +
-        formatMoney(basic) +
+        payDate.innerText =
+            pay.date || "-";
 
-        "\nOvertime: " +
-        formatMoney(overtime) +
+    }
 
-        "\nDeductions: " +
-        formatMoney(deductions) +
 
-        "\nNet Pay: " +
-        formatMoney(net)
+    if(
+        payDailyRate
+    ){
 
-    );
+        payDailyRate.innerText =
+            rawMoney(
+                pay.dailyrate
+            );
+
+    }
+
+
+    if(
+        payTotalDays
+    ){
+
+        payTotalDays.innerText =
+            number(
+                pay.totaldays
+            );
+
+    }
+
+
+    if(
+        payBasic
+    ){
+
+        payBasic.innerText =
+            rawMoney(
+                pay.basicpay
+            );
+
+    }
+
+
+    if(
+        payOvertime
+    ){
+
+        payOvertime.innerText =
+            rawMoney(
+                pay.overtime
+            );
+
+    }
+
+
+    if(
+        payHoliday
+    ){
+
+        payHoliday.innerText =
+            rawMoney(
+                holiday
+            );
+
+    }
+
+
+    if(
+        paySick
+    ){
+
+        paySick.innerText =
+            rawMoney(
+                pay.sickleave
+            );
+
+    }
+
+
+    if(
+        payVacation
+    ){
+
+        payVacation.innerText =
+            rawMoney(
+                pay.vacationleave
+            );
+
+    }
+
+
+    if(
+        payBirthday
+    ){
+
+        payBirthday.innerText =
+            rawMoney(
+                pay.birthdayleave
+            );
+
+    }
+
+
+    if(
+        payMaternity
+    ){
+
+        payMaternity.innerText =
+            rawMoney(
+                pay.maternityleave
+            );
+
+    }
+
+
+    if(
+        payPaternity
+    ){
+
+        payPaternity.innerText =
+            rawMoney(
+                pay.paternityleave
+            );
+
+    }
+
+
+    if(
+        payAllowance
+    ){
+
+        payAllowance.innerText =
+            rawMoney(
+                pay.allowance
+            );
+
+    }
+
+
+    if(
+        payGross
+    ){
+
+        payGross.innerText =
+            rawMoney(
+                pay.gross
+            );
+
+    }
+
+
+    if(
+        paySSS
+    ){
+
+        paySSS.innerText =
+            rawMoney(
+                pay.sss
+            );
+
+    }
+
+
+    if(
+        payPhilhealth
+    ){
+
+        payPhilhealth.innerText =
+            rawMoney(
+                pay.philhealth
+            );
+
+    }
+
+
+    if(
+        payPagibig
+    ){
+
+        payPagibig.innerText =
+            rawMoney(
+                pay.pagibig
+            );
+
+    }
+
+
+    if(
+        payHealth
+    ){
+
+        payHealth.innerText =
+            rawMoney(
+                health
+            );
+
+    }
+
+
+    if(
+        payOther
+    ){
+
+        payOther.innerText =
+            rawMoney(
+                other
+            );
+
+    }
+
+
+    if(
+        payDeduction
+    ){
+
+        payDeduction.innerText =
+            rawMoney(
+                pay.deductions
+            );
+
+    }
+
+
+    if(
+        payNet
+    ){
+
+        payNet.innerText =
+            rawMoney(
+                pay.net
+            );
+
+    }
 
 }
 
 
 /* ==========================================
-   TABS
+   PRINT SELECTED PAYSLIP
 ========================================== */
 
-const portalCards =
-    document.querySelectorAll(
-        ".portal-card"
-    );
+window.printSelectedPayslip =
+function(){
 
+    if(
+        !currentPayslip
+    ){
 
-portalCards.forEach(
-    card => {
+        /*
+         * If nothing has been viewed yet,
+         * automatically use selected record.
+         */
 
-        card.addEventListener(
-            "click",
-            function(){
+        if(
+            payslipSelect &&
+            payslipSelect.value
+        ){
 
-                const section =
-                    card.dataset.section;
-
-
-                portalCards.forEach(
-                    item => {
-
-                        item.classList.remove(
-                            "active"
-                        );
-
-                    }
+            currentPayslip =
+                findPayslip(
+                    payslipSelect.value
                 );
 
+        }
 
-                card.classList.add(
-                    "active"
-                );
-
-
-                document
-                .querySelectorAll(
-                    ".portal-section"
-                )
-                .forEach(
-                    sectionElement => {
-
-                        sectionElement.classList.add(
-                            "hidden"
-                        );
-
-                    }
-                );
+    }
 
 
-                const target =
-                    document.getElementById(
-                        section +
-                        "Section"
-                    );
+    if(
+        !currentPayslip
+    ){
 
-
-                if(target){
-
-                    target.classList.remove(
-                        "hidden"
-                    );
-
-                }
-
-            }
+        alert(
+            "Please select and view a payslip first."
         );
 
+        return;
+
     }
-);
+
+
+    printPayslip(
+        currentPayslip
+    );
+
+};
 
 
 /* ==========================================
-   CLEAR REQUEST FORM
+   PRINT PAYSLIP
 ========================================== */
 
-function clearRequestForm(){
-
-    if(requestType){
-
-        requestType.value =
-            "";
-
-    }
-
-
-    if(requestDate){
-
-        requestDate.value =
-            "";
-
-    }
-
-
-    if(requestDays){
-
-        requestDays.value =
-            "";
-
-    }
-
-
-    if(requestReason){
-
-        requestReason.value =
-            "";
-
-    }
-
-}
-
-
-/* ==========================================
-   MONEY
-========================================== */
-
-function formatMoney(
-    value
+function printPayslip(
+    pay
 ){
 
-    return "₱ " +
-        Number(
-            value || 0
+    /*
+     * Extra protection:
+     * make sure the payroll belongs
+     * to the logged-in employee.
+     */
+
+    const currentId =
+        text(
+            currentEmployee.employeeid
         )
-        .toFixed(2);
+        .toUpperCase();
+
+
+    const payrollId =
+        text(
+            pay.empid
+        )
+        .toUpperCase();
+
+
+    if(
+        currentId !==
+        payrollId
+    ){
+
+        alert(
+            "You are not authorized to print this payslip."
+        );
+
+        return;
+
+    }
+
+
+    const holiday =
+        field(
+            pay,
+            "holiday",
+            "holidaypay"
+        );
+
+
+    const health =
+        field(
+            pay,
+            "healthcard",
+            "health"
+        );
+
+
+    const other =
+        field(
+            pay,
+            "otherdeduction",
+            "other"
+        );
+
+
+    const printWindow =
+        window.open(
+            "",
+            "_blank",
+            "width=900,height=1200"
+        );
+
+
+    if(
+        !printWindow
+    ){
+
+        alert(
+            "Please allow pop-ups for printing."
+        );
+
+        return;
+
+    }
+
+
+    printWindow.document.write(`
+
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="UTF-8">
+
+<title>
+PAPPRITO Payslip
+</title>
+
+
+<style>
+
+*{
+
+    box-sizing:border-box;
+
+}
+
+
+html,
+body{
+
+    margin:0;
+
+    padding:0;
+
+    background:#fff;
+
+}
+
+
+body{
+
+    font-family:
+        Tahoma,
+        Arial,
+        sans-serif;
+
+}
+
+
+@page{
+
+    size:auto;
+
+    margin:5mm;
+
+}
+
+
+.payslip{
+
+    width:110mm;
+
+    margin:0 auto;
+
+    padding:8px;
+
+    background:#f9f9f9;
+
+    color:#000;
+
+    border:
+        2px solid #ffcc00;
+
+    border-radius:10px;
+
+}
+
+
+.logo{
+
+    width:60px;
+
+    height:60px;
+
+    object-fit:cover;
+
+    border-radius:50%;
+
+    border:
+        2px solid #ffcc00;
+
+    display:block;
+
+    margin:0 auto 5px auto;
+
+}
+
+
+.company{
+
+    text-align:center;
+
+    border-bottom:
+        2px solid #ffcc00;
+
+    padding-bottom:4px;
+
+}
+
+
+.company h2{
+
+    color:#cc0000;
+
+    font-size:18px;
+
+    margin:2px;
+
+}
+
+
+.company p{
+
+    font-size:8px;
+
+    font-weight:bold;
+
+    margin:2px;
+
+}
+
+
+.info{
+
+    font-size:9px;
+
+    line-height:1.5;
+
+    background:#fff8dc;
+
+    border:
+        1px solid #ffcc00;
+
+    padding:5px;
+
+    margin-top:5px;
+
+}
+
+
+table{
+
+    width:100%;
+
+    border-collapse:collapse;
+
+    margin-top:5px;
+
+}
+
+
+th,
+td{
+
+    border:
+        1px solid #999;
+
+    padding:4px;
+
+    font-size:8px;
+
+}
+
+
+th{
+
+    background:#ffcc00;
+
+}
+
+
+td{
+
+    background:#fff;
+
+}
+
+
+.net{
+
+    margin-top:6px;
+
+    padding:7px;
+
+    background:#008000;
+
+    color:#fff;
+
+    font-weight:bold;
+
+    font-size:10px;
+
+    text-align:right;
+
+}
+
+
+.signature{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    margin-top:15px;
+
+    font-size:7px;
+
+}
+
+
+.line{
+
+    border-top:
+        1px solid #000;
+
+    width:70px;
+
+    text-align:center;
+
+    padding-top:3px;
+
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<div class="payslip">
+
+
+<div class="company">
+
+<img
+src="../assets/images/logo.png"
+class="logo"
+alt="PAPPRITO">
+
+<h2>
+PAPPRITO
+</h2>
+
+<p>
+OFFICIAL EMPLOYEE PAYSLIP
+</p>
+
+</div>
+
+
+<div class="info">
+
+<b>ID:</b>
+${escapeHTML(pay.empid)}
+
+<br>
+
+<b>Name:</b>
+${escapeHTML(pay.employee)}
+
+<br>
+
+<b>Date:</b>
+${escapeHTML(pay.date)}
+
+<br>
+
+<b>Daily Rate:</b>
+₱ ${rawMoney(pay.dailyrate)}
+
+<br>
+
+<b>Total Days:</b>
+${number(pay.totaldays)}
+
+</div>
+
+
+<table>
+
+<tr>
+
+<th>
+EARNINGS
+</th>
+
+<th>
+AMOUNT
+</th>
+
+</tr>
+
+
+<tr>
+
+<td>
+Basic Pay
+</td>
+
+<td>
+${rawMoney(pay.basicpay)}
+</td>
+
+</tr>
+
+
+<tr>
+
+<td>
+Overtime
+</td>
+
+<td>
+${rawMoney(pay.overtime)}
+</td>
+
+</tr>
+
+
+<tr>
+
+<td>
+Holiday Pay
+</td>
+
+<td>
+${rawMoney(holiday)}
+</td>
+
+</tr>
+
+
+<tr>
+
+<td>
+Sick Leave
+</td>
+
+<td>
+${rawMoney(pay.sickleave)}
+</td>
+
+</tr>
+
+
+<tr>
+
+<td>
+Vacation Leave
+</td>
+
+<td>
+${rawMoney(pay.vacationleave)}
+</td>
+
+</tr>
+
+
+<tr>
+
+<td>
+Birthday Leave
+</td>
+
+<td>
+${rawMoney(pay.birthdayleave)}
+</td>
+
+</tr>
+
+
+<tr>
+
+<td>
+Maternity Leave
+</td>
+
+<td>
+${rawMoney(pay.maternityleave)}
+</td>
+
+</tr>
+
+
+<tr>
+
+<td>
+Paternity Leave
+</td>
+
+<td>
+${rawMoney(pay.paternityleave)}
+</td>
+
+</tr>
+
+
+<tr>
+
+<td>
+Allowance
+</td>
+
+<td>
+${rawMoney(pay.allowance)}
+</td>
+
+</tr>
+
+
+<tr>
+
+<td>
+<b>TOTAL GROSS</b>
+</td>
+
+<td>
+<b>${rawMoney(pay.gross)}</b>
+</td>
+
+</tr>
+
+</table>
+
+
+<table>
+
+<tr>
+
+<th>
+DEDUCTIONS
+</th>
+
+<th>
+AMOUNT
+</th>
+
+</tr>
+
+
+<tr>
+
+<td>
+SSS
+</td>
+
+<td>
+${rawMoney(pay.sss)}
+</td>
+
+</tr>
+
+
+<tr>
+
+<td>
+PhilHealth
+</td>
+
+<td>
+${rawMoney(pay.philhealth)}
+</td>
+
+</tr>
+
+
+<tr>
+
+<td>
+Pag-IBIG
+</td>
+
+<td>
+${rawMoney(pay.pagibig)}
+</td>
+
+</tr>
+
+
+<tr>
+
+<td>
+Health Card
+</td>
+
+<td>
+${rawMoney(health)}
+</td>
+
+</tr>
+
+
+<tr>
+
+<td>
+Others
+</td>
+
+<td>
+${rawMoney(other)}
+</td>
+
+</tr>
+
+
+<tr>
+
+<td>
+<b>TOTAL DEDUCTION</b>
+</td>
+
+<td>
+<b>${rawMoney(pay.deductions)}</b>
+</td>
+
+</tr>
+
+</table>
+
+
+<div class="net">
+
+NET PAY :
+
+₱ ${rawMoney(pay.net)}
+
+</div>
+
+
+<div class="signature">
+
+<div class="line">
+HR
+</div>
+
+<div class="line">
+Employee
+</div>
+
+</div>
+
+
+</div>
+
+
+</body>
+
+</html>
+
+`);
+
+
+    printWindow.document.close();
+
+    printWindow.focus();
+
+
+    setTimeout(
+        () => {
+
+            printWindow.print();
+
+        },
+        500
+    );
 
 }
 
@@ -2258,12 +1986,12 @@ function formatMoney(
    ESCAPE HTML
 ========================================== */
 
-function escapeHtml(
-    value
+function escapeHTML(
+value
 ){
 
-    return String(
-        value ?? ""
+    return text(
+        value
     )
 
     .replace(
@@ -2301,17 +2029,6 @@ function escapeHtml(
 window.logout =
 async function(){
 
-    if(
-        !confirm(
-            "Are you sure you want to logout?"
-        )
-    ){
-
-        return;
-
-    }
-
-
     try{
 
         await signOut(
@@ -2338,7 +2055,24 @@ async function(){
     );
 
 
-    sessionStorage.clear();
+    localStorage.removeItem(
+        "employeeDocId"
+    );
+
+
+    localStorage.removeItem(
+        "employeeId"
+    );
+
+
+    localStorage.removeItem(
+        "employeeName"
+    );
+
+
+    localStorage.removeItem(
+        "employeePortalEmail"
+    );
 
 
     window.location.replace(
@@ -2349,112 +2083,169 @@ async function(){
 
 
 /* ==========================================
-   MOBILE SIDEBAR
+   INITIALIZE
 ========================================== */
 
-document.addEventListener(
-    "sidebarLoaded",
-    function(){
+async function initializePortal(){
 
-        const menuBtn =
-            document.getElementById(
-                "menuBtn"
-            );
+    try{
 
-
-        const sidebar =
-            document.getElementById(
-                "sidebar"
-            );
-
-
-        const overlay =
-            document.getElementById(
-                "overlay"
-            );
-
+        /*
+         * Make sure user is logged in
+         */
 
         if(
-            !menuBtn ||
-            !sidebar
+            !auth.currentUser
         ){
+
+            /*
+             * Firebase may still be restoring
+             * the session, so this is handled
+             * by onAuthStateChanged below.
+             */
 
             return;
 
         }
 
 
-        menuBtn.addEventListener(
-            "click",
-            function(){
+        /*
+         * Must be employee role
+         */
 
-                sidebar.classList.add(
-                    "show"
-                );
+        const role =
+            text(
+                localStorage.getItem(
+                    "userRole"
+                )
+            )
+            .toLowerCase();
 
 
-                if(overlay){
+        if(
+            role !==
+            "employee"
+        ){
 
-                    overlay.classList.add(
-                        "show"
-                    );
+            alert(
+                "Employee Portal access only."
+            );
 
-                }
 
-            }
+            window.location.replace(
+                "dashboard.html"
+            );
+
+
+            return;
+
+        }
+
+
+        await loadEmployee();
+
+        await loadEmployeePayroll();
+
+
+    }catch(error){
+
+        console.error(
+            "Employee Portal Error:",
+            error
         );
 
 
-        if(overlay){
+        if(
+            error.message ===
+            "EMPLOYEE_SESSION_MISSING"
+        ){
 
-            overlay.addEventListener(
-                "click",
-                function(){
-
-                    sidebar.classList.remove(
-                        "show"
-                    );
-
-
-                    overlay.classList.remove(
-                        "show"
-                    );
-
-                }
+            alert(
+                "Employee session not found. Please login again."
             );
 
         }
 
-    }
-);
 
-
-/* ==========================================
-   ESCAPE KEY
-========================================== */
-
-document.addEventListener(
-    "keydown",
-    function(event){
-
-        if(
-            event.key === "Escape"
+        else if(
+            error.message ===
+            "EMPLOYEE_NOT_FOUND"
         ){
 
-            if(requestModal){
-
-                requestModal.classList.remove(
-                    "show"
-                );
-
-            }
+            alert(
+                "Employee record not found."
+            );
 
         }
 
+
+        else if(
+            error.message ===
+            "PORTAL_NOT_ENABLED"
+        ){
+
+            alert(
+                "Employee Portal access is not enabled."
+            );
+
+        }
+
+
+        else if(
+            error.message ===
+            "EMPLOYEE_INACTIVE"
+        ){
+
+            alert(
+                "Your employee account is inactive."
+            );
+
+        }
+
+
+        else{
+
+            alert(
+                "Unable to load Employee Portal."
+            );
+
+        }
+
+
+        window.location.replace(
+            "login.html"
+        );
+
     }
-);
+
+}
 
 
-console.log(
-    "PAPPRITO HRIS Employee Portal Ready"
+/* ==========================================
+   AUTH STATE
+========================================== */
+
+onAuthStateChanged(
+
+    auth,
+
+    async function(user){
+
+        if(
+            !user
+        ){
+
+            window.location.replace(
+                "login.html"
+            );
+
+            return;
+
+        }
+
+
+        await initializePortal();
+
+    }
+
 );
