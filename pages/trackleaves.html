@@ -6,34 +6,55 @@
 <meta charset="UTF-8">
 
 <meta
-name="viewport"
-content="width=device-width, initial-scale=1.0">
+    name="viewport"
+    content="width=device-width, initial-scale=1.0">
 
-<title>PAPPRITO HRIS - Track Leaves</title>
+<title>PAPPRITO HRIS - Leave Management</title>
 
-<link
-rel="manifest"
-href="../manifest.json">
 
-<link
-rel="icon"
-href="../assets/images/logo.png">
+<!-- ==========================================
+     MANIFEST
+========================================== -->
 
 <link
-rel="apple-touch-icon"
-href="../assets/images/icon-192.png">
+    rel="manifest"
+    href="../manifest.json">
+
 
 <meta
-name="theme-color"
-content="#ffcc00">
+    name="theme-color"
+    content="#ffcc00">
+
+
+<!-- ==========================================
+     ICON
+========================================== -->
 
 <link
-href="https://fonts.googleapis.com/icon?family=Material+Icons"
-rel="stylesheet">
+    rel="icon"
+    href="../assets/images/logo.png">
 
 <link
-rel="stylesheet"
-href="../css/trackleaves.css">
+    rel="apple-touch-icon"
+    href="../assets/images/icon-192.png">
+
+
+<!-- ==========================================
+     MATERIAL ICONS
+========================================== -->
+
+<link
+    href="https://fonts.googleapis.com/icon?family=Material+Icons"
+    rel="stylesheet">
+
+
+<!-- ==========================================
+     CSS
+========================================== -->
+
+<link
+    rel="stylesheet"
+    href="../css/trackleaves.css">
 
 </head>
 
@@ -45,585 +66,575 @@ href="../css/trackleaves.css">
      MAIN CONTAINER
 ========================================== -->
 
-<div class="container">
+<div class="leave-container">
 
 
-    <!-- ======================================
-         HEADER
-    ======================================= -->
+<!-- ==========================================
+     HEADER
+========================================== -->
 
-    <header class="page-header">
+<header class="leave-header">
 
 
-        <div class="header-left">
+<div class="header-left">
 
-            <button
-            class="back-btn"
-            onclick="goToDashboard()">
 
-                <span class="material-icons">
+<img
+    src="../assets/images/logo.png"
+    class="header-logo"
+    alt="PAPPRITO">
 
-                    arrow_back
 
-                </span>
+<div>
 
-                BACK
+<h1>
+PAPPRITO HRIS
+</h1>
 
-            </button>
+<p>
+LEAVE MANAGEMENT
+</p>
 
-        </div>
-
-
-        <div class="header-title">
-
-            <img
-            src="../assets/images/logo.png"
-            class="header-logo"
-            alt="PAPPRITO">
-
-            <div>
-
-                <h1>
-
-                    TRACK LEAVES
-
-                </h1>
-
-                <p>
-
-                    Leave Request Management
-
-                </p>
-
-            </div>
-
-        </div>
-
-
-        <div class="header-right">
-
-            <div class="status-badge">
-
-                <span class="status-dot"></span>
-
-                HR SYSTEM ONLINE
-
-            </div>
-
-        </div>
-
-
-    </header>
-
-
-    <!-- ==========================================
-         SUMMARY CARDS
-    =========================================== -->
-
-    <section class="summary-grid">
-
-
-        <div class="summary-card total">
-
-            <span class="material-icons">
-
-                event_note
-
-            </span>
-
-            <div>
-
-                <strong
-                id="totalLeaves">
-
-                    0
-
-                </strong>
-
-                <span>
-
-                    Total Requests
-
-                </span>
-
-            </div>
-
-        </div>
-
-
-        <div class="summary-card pending">
-
-            <span class="material-icons">
-
-                pending_actions
-
-            </span>
-
-            <div>
-
-                <strong
-                id="pendingLeaves">
-
-                    0
-
-                </strong>
-
-                <span>
-
-                    Pending
-
-                </span>
-
-            </div>
-
-        </div>
-
-
-        <div class="summary-card approved">
-
-            <span class="material-icons">
-
-                check_circle
-
-            </span>
-
-            <div>
-
-                <strong
-                id="approvedLeaves">
-
-                    0
-
-                </strong>
-
-                <span>
-
-                    Approved
-
-                </span>
-
-            </div>
-
-        </div>
-
-
-        <div class="summary-card rejected">
-
-            <span class="material-icons">
-
-                cancel
-
-            </span>
-
-            <div>
-
-                <strong
-                id="rejectedLeaves">
-
-                    0
-
-                </strong>
-
-                <span>
-
-                    Rejected
-
-                </span>
-
-            </div>
-
-        </div>
-
-
-    </section>
-
-
-    <!-- ==========================================
-         FILTER
-    =========================================== -->
-
-    <section class="filter-card">
-
-
-        <div class="filter-title">
-
-            <span class="material-icons">
-
-                filter_alt
-
-            </span>
-
-            FILTER LEAVE REQUESTS
-
-        </div>
-
-
-        <div class="filter-grid">
-
-
-            <div class="field">
-
-                <label>
-                    Employee
-                </label>
-
-                <select
-                id="employeeFilter">
-
-                    <option value="">
-
-                        All Employees
-
-                    </option>
-
-                </select>
-
-            </div>
-
-
-            <div class="field">
-
-                <label>
-                    Leave Type
-                </label>
-
-                <select
-                id="leaveTypeFilter">
-
-                    <option value="">
-
-                        All Leave Types
-
-                    </option>
-
-                    <option value="Vacation Leave">
-
-                        Vacation Leave
-
-                    </option>
-
-                    <option value="Sick Leave">
-
-                        Sick Leave
-
-                    </option>
-
-                    <option value="Emergency Leave">
-
-                        Emergency Leave
-
-                    </option>
-
-                    <option value="Maternity Leave">
-
-                        Maternity Leave
-
-                    </option>
-
-                    <option value="Paternity Leave">
-
-                        Paternity Leave
-
-                    </option>
-
-                </select>
-
-            </div>
-
-
-            <div class="field">
-
-                <label>
-                    Status
-                </label>
-
-                <select
-                id="statusFilter">
-
-                    <option value="">
-
-                        All Status
-
-                    </option>
-
-                    <option value="Pending">
-
-                        Pending
-
-                    </option>
-
-                    <option value="Approved">
-
-                        Approved
-
-                    </option>
-
-                    <option value="Rejected">
-
-                        Rejected
-
-                    </option>
-
-                </select>
-
-            </div>
-
-
-            <div class="field">
-
-                <label>
-                    From Date
-                </label>
-
-                <input
-                type="date"
-                id="fromDate">
-
-            </div>
-
-
-            <div class="field">
-
-                <label>
-                    To Date
-                </label>
-
-                <input
-                type="date"
-                id="toDate">
-
-            </div>
-
-
-            <div class="filter-buttons">
-
-                <button
-                id="filterBtn"
-                class="filter-btn">
-
-                    <span class="material-icons">
-
-                        search
-
-                    </span>
-
-                    FILTER
-
-                </button>
-
-
-                <button
-                id="resetBtn"
-                class="reset-btn">
-
-                    <span class="material-icons">
-
-                        refresh
-
-                    </span>
-
-                    RESET
-
-                </button>
-
-            </div>
-
-        </div>
-
-    </section>
-
-
-    <!-- ==========================================
-         LEAVE TABLE
-    =========================================== -->
-
-    <section class="table-card">
-
-
-        <div class="table-header">
-
-            <div>
-
-                <h2>
-
-                    Leave Requests
-
-                </h2>
-
-                <p>
-
-                    Employee leave request records
-
-                </p>
-
-            </div>
-
-
-            <button
-            id="refreshBtn"
-            class="refresh-btn">
-
-                <span class="material-icons">
-
-                    sync
-
-                </span>
-
-                REFRESH
-
-            </button>
-
-        </div>
-
-
-        <div class="table-wrapper">
-
-            <table>
-
-                <thead>
-
-                    <tr>
-
-                        <th>
-                            DATE FILED
-                        </th>
-
-                        <th>
-                            EMPLOYEE ID
-                        </th>
-
-                        <th>
-                            EMPLOYEE
-                        </th>
-
-                        <th>
-                            LEAVE TYPE
-                        </th>
-
-                        <th>
-                            FROM
-                        </th>
-
-                        <th>
-                            TO
-                        </th>
-
-                        <th>
-                            DAYS
-                        </th>
-
-                        <th>
-                            REASON
-                        </th>
-
-                        <th>
-                            STATUS
-                        </th>
-
-                        <th>
-                            ACTION
-                        </th>
-
-                    </tr>
-
-                </thead>
-
-
-                <tbody
-                id="leaveBody">
-
-                    <tr>
-
-                        <td
-                        colspan="10"
-                        class="empty-state">
-
-                            <span class="material-icons">
-
-                                event_busy
-
-                            </span>
-
-                            <p>
-
-                                Loading leave requests...
-
-                            </p>
-
-                        </td>
-
-                    </tr>
-
-                </tbody>
-
-            </table>
-
-        </div>
-
-    </section>
+</div>
 
 
 </div>
 
 
-<!-- ==========================================
-     DETAILS MODAL
-=========================================== -->
-
-<div
-id="leaveModal"
-class="modal">
+<div class="header-actions">
 
 
-    <div class="modal-box">
+<button
+    class="icon-btn dashboard-btn"
+    onclick="backToDashboard()"
+    title="Dashboard">
+
+<span class="material-icons">
+dashboard
+</span>
+
+</button>
 
 
-        <div class="modal-header">
+<button
+    class="icon-btn refresh-btn"
+    onclick="loadLeaveData()"
+    title="Refresh">
 
-            <h2>
+<span class="material-icons">
+refresh
+</span>
 
-                Leave Request Details
-
-            </h2>
-
-
-            <button
-            id="closeModal">
-
-                ×
-
-            </button>
-
-        </div>
+</button>
 
 
-        <div
-        id="leaveDetails"
-        class="leave-details">
+<button
+    class="icon-btn logout-btn"
+    onclick="logout()"
+    title="Logout">
 
-        </div>
+<span class="material-icons">
+logout
+</span>
 
+</button>
 
-    </div>
 
 </div>
 
 
+</header>
+
+
+
 <!-- ==========================================
-     SCRIPTS
+     SUMMARY
+========================================== -->
+
+<section class="summary-grid">
+
+
+<!-- TOTAL LEAVES -->
+
+<div class="summary-card total-card">
+
+
+<div class="summary-icon">
+
+<span class="material-icons">
+event_available
+</span>
+
+</div>
+
+
+<div>
+
+<strong id="grandTotalLeaves">
+0
+</strong>
+
+<span>
+TOTAL LEAVES
+</span>
+
+</div>
+
+
+</div>
+
+
+
+<!-- TOTAL USED -->
+
+<div class="summary-card used-card">
+
+
+<div class="summary-icon">
+
+<span class="material-icons">
+event_busy
+</span>
+
+</div>
+
+
+<div>
+
+<strong id="grandTotalUsed">
+0
+</strong>
+
+<span>
+TOTAL USED
+</span>
+
+</div>
+
+
+</div>
+
+
+
+<!-- TOTAL UNUSED -->
+
+<div class="summary-card unused-card">
+
+
+<div class="summary-icon">
+
+<span class="material-icons">
+event_note
+</span>
+
+</div>
+
+
+<div>
+
+<strong id="grandTotalUnused">
+0
+</strong>
+
+<span>
+TOTAL UNUSED
+</span>
+
+</div>
+
+
+</div>
+
+
+
+<!-- REMAINING -->
+
+<div class="summary-card remaining-card">
+
+
+<div class="summary-icon">
+
+<span class="material-icons">
+event_available
+</span>
+
+</div>
+
+
+<div>
+
+<strong id="grandRemaining">
+0
+</strong>
+
+<span>
+REMAINING
+</span>
+
+</div>
+
+
+</div>
+
+
+</section>
+
+
+
+<!-- ==========================================
+     SEARCH / FILTER
+========================================== -->
+
+<section class="control-section">
+
+
+<div class="search-area">
+
+
+<span class="material-icons">
+search
+</span>
+
+
+<input
+    type="text"
+    id="leaveSearch"
+    placeholder="Search employee..."
+    oninput="searchLeaves()">
+
+
+</div>
+
+
+<div class="filter-area">
+
+
+<select
+    id="departmentFilter"
+    onchange="filterLeaves()">
+
+<option value="">
+ALL DEPARTMENTS
+</option>
+
+</select>
+
+
+<select
+    id="leaveTypeFilter"
+    onchange="filterLeaves()">
+
+<option value="ALL">
+ALL LEAVE TYPES
+</option>
+
+<option value="VACATION">
+VACATION LEAVE
+</option>
+
+<option value="SICK">
+SICK LEAVE
+</option>
+
+<option value="BIRTHDAY">
+BIRTHDAY LEAVE
+</option>
+
+</select>
+
+
+</div>
+
+
+</section>
+
+
+
+<!-- ==========================================
+     EMPLOYEE LEAVE BALANCE
+========================================== -->
+
+<section class="leave-section">
+
+
+<div class="section-header">
+
+
+<div>
+
+<h2>
+
+<span class="material-icons">
+groups
+</span>
+
+Employee Leave Balance
+
+</h2>
+
+
+<p>
+Leave balance is based on Employee Masterlist
+</p>
+
+
+</div>
+
+
+<div class="record-count">
+
+<span id="employeeCount">
+0
+</span>
+
+Employees
+
+</div>
+
+
+</div>
+
+
+
+<!-- ==========================================
+     TABLE
+========================================== -->
+
+<div class="table-wrapper">
+
+
+<table
+    class="leave-table"
+    id="leaveTable">
+
+
+<thead>
+
+<tr>
+
+
+<th>
+EMPLOYEE ID
+</th>
+
+
+<th>
+EMPLOYEE NAME
+</th>
+
+
+<th>
+DEPARTMENT
+</th>
+
+
+<th>
+VACATION TOTAL
+</th>
+
+
+<th>
+VACATION USED
+</th>
+
+
+<th>
+VACATION REMAINING
+</th>
+
+
+<th>
+SICK TOTAL
+</th>
+
+
+<th>
+SICK USED
+</th>
+
+
+<th>
+SICK REMAINING
+</th>
+
+
+<th>
+BIRTHDAY TOTAL
+</th>
+
+
+<th>
+BIRTHDAY USED
+</th>
+
+
+<th>
+BIRTHDAY REMAINING
+</th>
+
+
+<th>
+TOTAL LEAVES
+</th>
+
+
+<th>
+TOTAL USED
+</th>
+
+
+<th>
+TOTAL UNUSED
+</th>
+
+
+<th>
+REMAINING
+</th>
+
+
+</tr>
+
+</thead>
+
+
+<tbody id="leaveBody">
+
+
+<tr>
+
+<td
+    colspan="16"
+    class="empty-message">
+
+    Loading employee leave data...
+
+</td>
+
+</tr>
+
+
+</tbody>
+
+
+</table>
+
+
+</div>
+
+
+</section>
+
+
+
+<!-- ==========================================
+     LEGEND
+========================================== -->
+
+<section class="legend-section">
+
+
+<div class="legend-title">
+
+<span class="material-icons">
+info
+</span>
+
+Leave Calculation
+
+</div>
+
+
+<div class="legend-grid">
+
+
+<div>
+
+<strong>
+TOTAL LEAVES
+</strong>
+
+<p>
+Employee Masterlist entitlement
+</p>
+
+</div>
+
+
+<div>
+
+<strong>
+TOTAL USED
+</strong>
+
+<p>
+Approved leave requests only
+</p>
+
+</div>
+
+
+<div>
+
+<strong>
+TOTAL UNUSED
+</strong>
+
+<p>
+Total leaves minus approved usage
+</p>
+
+</div>
+
+
+<div>
+
+<strong>
+REMAINING
+</strong>
+
+<p>
+Current available leave balance
+</p>
+
+</div>
+
+
+</div>
+
+
+</section>
+
+
+
+<!-- ==========================================
+     FOOTER
+========================================== -->
+
+<footer class="leave-footer">
+
+<span>
+© 2026 PAPPRITO HRIS
+</span>
+
+<span>
+Leave Management
+</span>
+
+</footer>
+
+
+</div>
+
+
+
+<!-- ==========================================
+     JAVASCRIPT
 ========================================== -->
 
 <script
-type="module"
-src="../js/trackleaves.js">
-
-</script>
-
-
-<script
-type="module"
-src="../js/navigation.js">
-
+    type="module"
+    src="../js/trackleaves.js">
 </script>
 
 
