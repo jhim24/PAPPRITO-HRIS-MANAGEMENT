@@ -1,1 +1,457 @@
+<!DOCTYPE html>
+<html lang="en">
 
+<head>
+
+<meta charset="UTF-8">
+
+<meta
+name="viewport"
+content="width=device-width,initial-scale=1.0">
+
+<title>PAPPRITO Employee Portal</title>
+
+<link
+rel="manifest"
+href="../manifest.json">
+
+<link
+rel="icon"
+href="../assets/images/logo.png">
+
+<link
+rel="apple-touch-icon"
+href="../assets/images/icon-192.png">
+
+<meta
+name="theme-color"
+content="#ffcc00">
+
+<link
+href="https://fonts.googleapis.com/icon?family=Material+Icons"
+rel="stylesheet">
+
+<link
+rel="stylesheet"
+href="../css/employeeportal.css">
+
+</head>
+
+<body>
+
+<!-- ==========================================
+MOBILE MENU
+========================================== -->
+
+<button
+id="menuBtn"
+class="menu-btn">
+
+<span class="material-icons">
+menu
+</span>
+
+</button>
+
+
+<div
+id="overlay"
+class="overlay">
+</div>
+
+
+<!-- ==========================================
+SIDEBAR
+========================================== -->
+
+<aside
+id="sidebar"
+class="sidebar">
+
+<div class="sidebar-header">
+
+<img
+src="../assets/images/logo.png"
+class="logo"
+alt="PAPPRITO Logo">
+
+<h2>
+PAPPRITO
+</h2>
+
+<p>
+EMPLOYEE PORTAL
+</p>
+
+</div>
+
+
+<nav class="menu">
+
+<button
+onclick="openPage('employeeportal.html')">
+
+<span class="material-icons">
+dashboard
+</span>
+
+My Portal
+
+</button>
+
+
+<button
+onclick="openPage('attendance.html')">
+
+<span class="material-icons">
+schedule
+</span>
+
+My Attendance
+
+</button>
+
+
+<button
+onclick="openPage('payslip.html')">
+
+<span class="material-icons">
+receipt_long
+</span>
+
+My Payslip
+
+</button>
+
+
+<button
+onclick="openPage('trackleaves.html')">
+
+<span class="material-icons">
+event_note
+</span>
+
+My Leaves
+
+</button>
+
+
+<button
+class="logout-btn"
+onclick="logout()">
+
+<span class="material-icons">
+logout
+</span>
+
+Logout
+
+</button>
+
+</nav>
+
+</aside>
+
+
+<!-- ==========================================
+MAIN
+========================================== -->
+
+<div class="main">
+
+
+<header class="topbar">
+
+<div class="top-left">
+
+<h1>
+PAPPRITO
+</h1>
+
+<p>
+Employee Portal
+</p>
+
+</div>
+
+
+<div class="top-right">
+
+<div class="clock-box">
+
+<span class="material-icons">
+schedule
+</span>
+
+<div>
+
+<div id="clock">
+00:00:00
+</div>
+
+<div id="dateToday">
+Loading...
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</header>
+
+
+<!-- ==========================================
+CONTENT
+========================================== -->
+
+<div class="portal-content">
+
+
+<div class="welcome-card">
+
+<div>
+
+<h2>
+Welcome
+</h2>
+
+<p id="employeeName">
+Loading...
+</p>
+
+</div>
+
+<span class="material-icons">
+badge
+</span>
+
+</div>
+
+
+<!-- ==========================================
+QUICK CARDS
+========================================== -->
+
+<div class="stats-grid">
+
+
+<div
+class="stat-card"
+onclick="openPage('attendance.html')">
+
+<span class="material-icons">
+schedule
+</span>
+
+<div>
+
+<h3>
+Attendance
+</h3>
+
+<p>
+View attendance
+</p>
+
+</div>
+
+</div>
+
+
+<div
+class="stat-card"
+onclick="openPage('payslip.html')">
+
+<span class="material-icons">
+payments
+</span>
+
+<div>
+
+<h3>
+Payslip
+</h3>
+
+<p>
+View payslip
+</p>
+
+</div>
+
+</div>
+
+
+<div
+class="stat-card"
+onclick="openPage('trackleaves.html')">
+
+<span class="material-icons">
+event_note
+</span>
+
+<div>
+
+<h3>
+Leave
+</h3>
+
+<p>
+Track leaves
+</p>
+
+</div>
+
+</div>
+
+
+<div class="stat-card">
+
+<span class="material-icons">
+person
+</span>
+
+<div>
+
+<h3>
+Profile
+</h3>
+
+<p>
+Employee information
+</p>
+
+</div>
+
+</div>
+
+
+</div>
+
+
+<!-- ==========================================
+RECENT ACTIVITY
+========================================== -->
+
+<div class="portal-card">
+
+<h3>
+
+<span class="material-icons">
+history
+</span>
+
+Recent Activity
+
+</h3>
+
+
+<div id="recentActivity">
+
+<p>
+No recent activity.
+</p>
+
+</div>
+
+</div>
+
+
+<!-- ==========================================
+SYSTEM STATUS
+========================================== -->
+
+<div class="portal-card">
+
+<h3>
+
+<span class="material-icons">
+info
+</span>
+
+System Information
+
+</h3>
+
+
+<div class="system-grid">
+
+
+<div class="system-item">
+
+<strong>
+Employee
+</strong>
+
+<p id="loggedUser">
+Loading...
+</p>
+
+</div>
+
+
+<div class="system-item">
+
+<strong>
+Status
+</strong>
+
+<p>
+🟢 Online
+</p>
+
+</div>
+
+
+<div class="system-item">
+
+<strong>
+System
+</strong>
+
+<p>
+PAPPRITO HRIS
+</p>
+
+</div>
+
+
+</div>
+
+</div>
+
+
+</div>
+
+
+<footer class="footer">
+
+<p>
+© 2026 PAPPRITO HRIS
+</p>
+
+</footer>
+
+
+</div>
+
+
+<!-- ==========================================
+JAVASCRIPT
+========================================== -->
+
+<script
+type="module"
+src="../js/employeeportal.js">
+</script>
+
+
+<script
+src="../js/responsive.js">
+</script>
+
+
+</body>
+
+</html>
