@@ -4,21 +4,21 @@
 ========================================== */
 
 *{
-margin:0;
-padding:0;
-box-sizing:border-box;
-font-family:Tahoma,sans-serif;
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Tahoma,sans-serif;
 }
 
 :root{
 
---primary:#ffcc00;
---primary2:#ff8800;
---danger:#ff3333;
+    --primary:#ffcc00;
+    --primary2:#ff8800;
+    --danger:#ff3333;
 
---glass:rgba(20,20,20,.72);
+    --glass:rgba(20,20,20,.72);
 
---white:#ffffff;
+    --white:#ffffff;
 
 }
 
@@ -26,49 +26,62 @@ font-family:Tahoma,sans-serif;
 BODY
 ========================================== */
 
+html,
 body{
 
-height:100vh;
+    width:100%;
+    min-height:100%;
 
-display:flex;
+    margin:0;
+    padding:0;
 
-justify-content:center;
+}
 
-align-items:center;
+body{
 
-background:
-linear-gradient(
-rgba(0,0,0,.30),
-rgba(0,0,0,.30)
-),
-url("../hrbg.jpg");
+    min-height:100vh;
 
-background-size:cover;
+    display:flex;
 
-background-position:center;
+    justify-content:center;
 
-background-repeat:no-repeat;
+    align-items:center;
 
-overflow:hidden;
+    background:
+    linear-gradient(
+        rgba(0,0,0,.30),
+        rgba(0,0,0,.30)
+    ),
+    url("../hrbg.jpg");
+
+    background-size:cover;
+
+    background-position:center;
+
+    background-repeat:no-repeat;
+
+    overflow:hidden;
+
+    position:relative;
 
 }
 
 body::before{
 
-content:"";
+    content:"";
 
-position:fixed;
+    position:fixed;
 
-inset:0;
+    inset:0;
 
-background:
-linear-gradient(
-135deg,
-rgba(0,0,0,.15),
-rgba(0,0,0,.10)
-);
+    background:
+    linear-gradient(
+        135deg,
+        rgba(0,0,0,.15),
+        rgba(0,0,0,.10)
+    );
 
-z-index:-1;
+    z-index:-1;
 
 }
 
@@ -78,29 +91,36 @@ LOGIN BOX
 
 .login-box{
 
-width:400px;
+    width:400px;
 
-max-width:95%;
+    max-width:95%;
 
-padding:30px;
+    padding:30px;
 
-border-radius:20px;
+    border-radius:20px;
 
-background:var(--glass);
+    background:var(--glass);
 
-backdrop-filter:blur(10px);
+    backdrop-filter:blur(10px);
 
-border:2px solid rgba(255,204,0,.8);
+    border:2px solid rgba(255,204,0,.8);
 
-box-shadow:
+    box-shadow:
 
-0 8px 30px rgba(0,0,0,.70);
+    0 8px 30px rgba(0,0,0,.70);
 
-text-align:center;
+    text-align:center;
 
-color:var(--white);
+    color:var(--white);
 
-animation:fadeIn .5s ease;
+    animation:fadeIn .5s ease;
+
+    /* CENTER FIX */
+
+    margin-left:auto;
+    margin-right:auto;
+
+    position:relative;
 
 }
 
@@ -110,53 +130,53 @@ LOGO
 
 .logo-box{
 
-display:flex;
+    display:flex;
 
-flex-direction:column;
+    flex-direction:column;
 
-align-items:center;
+    align-items:center;
 
-margin-bottom:15px;
+    margin-bottom:15px;
 
 }
 
 .logo{
 
-width:90px;
+    width:90px;
 
-height:90px;
+    height:90px;
 
-border-radius:50%;
+    border-radius:50%;
 
-background:#fff;
+    background:#fff;
 
-padding:5px;
+    padding:5px;
 
-object-fit:cover;
+    object-fit:cover;
 
-border:4px solid var(--primary);
+    border:4px solid var(--primary);
 
-box-shadow:
+    box-shadow:
 
-0 4px 15px rgba(0,0,0,.5);
+    0 4px 15px rgba(0,0,0,.5);
 
 }
 
 .logo-text{
 
-font-size:32px;
+    font-size:32px;
 
-font-weight:bold;
+    font-weight:bold;
 
-color:var(--danger);
+    color:var(--danger);
 
-margin-top:10px;
+    margin-top:10px;
 
-letter-spacing:2px;
+    letter-spacing:2px;
 
-text-shadow:
+    text-shadow:
 
-2px 2px 5px #000;
+    2px 2px 5px #000;
 
 }
 
@@ -166,29 +186,30 @@ TITLE
 
 .title{
 
-font-size:35px;
+    font-size:35px;
 
-font-weight:bold;
+    font-weight:bold;
 
-color:var(--primary);
+    color:var(--primary);
 
-margin-bottom:10px;
+    margin-bottom:10px;
 
-text-shadow:
+    text-shadow:
 
-2px 2px 5px #000;
+    2px 2px 5px #000;
 
 }
 
 .subtitle{
 
-font-size:14px;
+    font-size:14px;
 
-color:#cccccc;
+    color:#cccccc;
 
-margin-bottom:25px;
+    margin-bottom:25px;
 
 }
+
 /* ==========================================
 INPUTS
 ========================================== */
@@ -196,36 +217,36 @@ INPUTS
 input,
 select{
 
-width:100%;
+    width:100%;
 
-padding:14px;
+    padding:14px;
 
-margin-bottom:15px;
+    margin-bottom:15px;
 
-border:none;
+    border:none;
 
-border-radius:12px;
+    border-radius:12px;
 
-background:rgba(0,0,0,.45);
+    background:rgba(0,0,0,.45);
 
-color:#fff;
+    color:#fff;
 
-font-size:14px;
+    font-size:14px;
 
-border:2px solid #555;
+    border:2px solid #555;
 
-transition:.30s;
+    transition:.30s;
 
 }
 
 input:focus,
 select:focus{
 
-outline:none;
+    outline:none;
 
-border-color:#ffcc00;
+    border-color:#ffcc00;
 
-box-shadow:0 0 10px rgba(255,204,0,.40);
+    box-shadow:0 0 10px rgba(255,204,0,.40);
 
 }
 
@@ -235,27 +256,27 @@ PASSWORD
 
 .password-box{
 
-position:relative;
+    position:relative;
 
 }
 
 .show-btn{
 
-position:absolute;
+    position:absolute;
 
-right:12px;
+    right:12px;
 
-top:13px;
+    top:13px;
 
-font-size:13px;
+    font-size:13px;
 
-font-weight:bold;
+    font-weight:bold;
 
-color:#ffcc00;
+    color:#ffcc00;
 
-cursor:pointer;
+    cursor:pointer;
 
-user-select:none;
+    user-select:none;
 
 }
 
@@ -265,27 +286,27 @@ REMEMBER
 
 .remember{
 
-display:flex;
+    display:flex;
 
-align-items:center;
+    align-items:center;
 
-gap:8px;
+    gap:8px;
 
-justify-content:flex-start;
+    justify-content:flex-start;
 
-font-size:13px;
+    font-size:13px;
 
-margin-bottom:20px;
+    margin-bottom:20px;
 
-color:#fff;
+    color:#fff;
 
 }
 
 .remember input{
 
-width:auto;
+    width:auto;
 
-margin:0;
+    margin:0;
 
 }
 
@@ -295,43 +316,43 @@ BUTTONS
 
 .login-btn{
 
-width:100%;
+    width:100%;
 
-padding:14px;
+    padding:14px;
 
-border:none;
+    border:none;
 
-border-radius:12px;
+    border-radius:12px;
 
-cursor:pointer;
+    cursor:pointer;
 
-font-size:15px;
+    font-size:15px;
 
-font-weight:bold;
+    font-weight:bold;
 
-background:
+    background:
 
-linear-gradient(
-135deg,
-#ffcc00,
-#ff8800
-);
+    linear-gradient(
+        135deg,
+        #ffcc00,
+        #ff8800
+    );
 
-color:#000;
+    color:#000;
 
-transition:.30s;
+    transition:.30s;
 
 }
 
 .login-btn:hover{
 
-transform:scale(1.03);
+    transform:scale(1.03);
 
 }
 
 .login-btn:active{
 
-transform:scale(.98);
+    transform:scale(.98);
 
 }
 
@@ -341,87 +362,87 @@ LOADING
 
 #loading{
 
-display:none;
+    display:none;
 
-position:fixed;
+    position:fixed;
 
-top:0;
+    top:0;
 
-left:0;
+    left:0;
 
-width:100%;
+    width:100%;
 
-height:100%;
+    height:100%;
 
-background:rgba(20,20,20,.92);
+    background:rgba(20,20,20,.92);
 
-backdrop-filter:blur(6px);
+    backdrop-filter:blur(6px);
 
-justify-content:center;
+    justify-content:center;
 
-align-items:center;
+    align-items:center;
 
-z-index:9999;
+    z-index:9999;
 
 }
 
 .loader-box{
 
-text-align:center;
+    text-align:center;
 
 }
 
 .loader{
 
-width:80px;
+    width:80px;
 
-height:80px;
+    height:80px;
 
-border:8px solid rgba(255,255,255,.15);
+    border:8px solid rgba(255,255,255,.15);
 
-border-top:8px solid #ffcc00;
+    border-top:8px solid #ffcc00;
 
-border-radius:50%;
+    border-radius:50%;
 
-animation:spin 1s linear infinite;
+    animation:spin 1s linear infinite;
 
-margin:auto;
+    margin:auto;
 
 }
 
 .loader-box h2{
 
-margin-top:20px;
+    margin-top:20px;
 
-font-size:28px;
+    font-size:28px;
 
-color:#ffcc00;
+    color:#ffcc00;
 
 }
 
 .loader-box p{
 
-margin-top:10px;
+    margin-top:10px;
 
-font-size:16px;
+    font-size:16px;
 
-color:#fff;
+    color:#fff;
 
 }
 
 @keyframes spin{
 
-0%{
+    0%{
 
-transform:rotate(0deg);
+        transform:rotate(0deg);
 
-}
+    }
 
-100%{
+    100%{
 
-transform:rotate(360deg);
+        transform:rotate(360deg);
 
-}
+    }
 
 }
 
@@ -431,13 +452,13 @@ FOOTER
 
 .footer{
 
-margin-top:25px;
+    margin-top:25px;
 
-text-align:center;
+    text-align:center;
 
-font-size:12px;
+    font-size:12px;
 
-color:#aaaaaa;
+    color:#aaaaaa;
 
 }
 
@@ -447,116 +468,192 @@ ANIMATION
 
 @keyframes fadeIn{
 
-from{
+    from{
 
-opacity:0;
+        opacity:0;
 
-transform:translateY(20px);
+        transform:translateY(20px);
 
-}
+    }
 
-to{
+    to{
 
-opacity:1;
+        opacity:1;
 
-transform:translateY(0);
+        transform:translateY(0);
 
-}
+    }
 
 }
 
 /* ==========================================
-MOBILE
+MOBILE CENTER FIX
 ========================================== */
 
 @media(max-width:768px){
 
-.login-box{
+    body{
 
-width:95%;
+        width:100vw;
 
-padding:20px;
+        min-height:100vh;
+
+        display:flex;
+
+        justify-content:center;
+
+        align-items:center;
+
+        padding:10px;
+
+        overflow-x:hidden;
+
+        overflow-y:auto;
+
+    }
+
+    .login-box{
+
+        width:95%;
+
+        max-width:480px;
+
+        padding:20px;
+
+        margin:0 auto;
+
+        left:auto;
+
+        right:auto;
+
+        transform:none;
+
+    }
+
+    .logo{
+
+        width:80px;
+
+        height:80px;
+
+    }
+
+    .logo-text{
+
+        font-size:28px;
+
+    }
+
+    .title{
+
+        font-size:28px;
+
+    }
+
+    .subtitle{
+
+        font-size:13px;
+
+    }
+
+    input,
+    select,
+    .login-btn{
+
+        font-size:14px;
+
+        padding:13px;
+
+    }
+
+    .loader{
+
+        width:65px;
+
+        height:65px;
+
+    }
+
+    .loader-box h2{
+
+        font-size:22px;
+
+    }
 
 }
 
-.logo{
-
-width:80px;
-
-height:80px;
-
-}
-
-.logo-text{
-
-font-size:28px;
-
-}
-
-.title{
-
-font-size:28px;
-
-}
-
-.subtitle{
-
-font-size:13px;
-
-}
-
-input,
-select,
-.login-btn{
-
-font-size:14px;
-
-padding:13px;
-
-}
-
-.loader{
-
-width:65px;
-
-height:65px;
-
-}
-
-.loader-box h2{
-
-font-size:22px;
-
-}
-
-}
+/* ==========================================
+SMALL MOBILE CENTER FIX
+========================================== */
 
 @media(max-width:480px){
 
-.login-box{
+    body{
 
-padding:18px;
+        padding:8px;
+
+        justify-content:center;
+
+        align-items:center;
+
+    }
+
+    .login-box{
+
+        width:100%;
+
+        max-width:400px;
+
+        padding:18px;
+
+        margin:0 auto;
+
+    }
+
+    .logo{
+
+        width:70px;
+
+        height:70px;
+
+    }
+
+    .logo-text{
+
+        font-size:24px;
+
+    }
+
+    .title{
+
+        font-size:24px;
+
+    }
 
 }
 
-.logo{
+/* ==========================================
+VERY SMALL SCREEN
+========================================== */
 
-width:70px;
+@media(max-height:700px) and (max-width:480px){
 
-height:70px;
+    body{
 
-}
+        align-items:flex-start;
 
-.logo-text{
+        padding-top:15px;
 
-font-size:24px;
+        padding-bottom:15px;
 
-}
+    }
 
-.title{
+    .login-box{
 
-font-size:24px;
+        margin-top:0;
 
-}
+        margin-bottom:0;
+
+    }
 
 }
