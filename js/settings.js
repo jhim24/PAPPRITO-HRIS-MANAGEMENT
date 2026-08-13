@@ -153,6 +153,7 @@ loadEmployeeSettings();
 loadAttendanceSettings();
 loadPayrollSettings();
 loadLeaveSettings();
+loadHolidaySettings();
        
     }
 );
@@ -4112,6 +4113,644 @@ async function saveLeaveSettings(){
             </span>
 
             SAVE LEAVE SETTINGS
+
+        `;
+
+    }
+
+}
+
+/* ==========================================
+   PAPPRITO HRIS
+   HOLIDAY SETTINGS
+========================================== */
+
+
+/* ==========================================
+   HOLIDAY ELEMENTS
+========================================== */
+
+const enableHolidayCalendar =
+    document.getElementById(
+        "enableHolidayCalendar"
+    );
+
+const recognizeHolidayRestDay =
+    document.getElementById(
+        "recognizeHolidayRestDay"
+    );
+
+const includeHolidayPayroll =
+    document.getElementById(
+        "includeHolidayPayroll"
+    );
+
+
+/* ==========================================
+   REGULAR HOLIDAY
+========================================== */
+
+const regularHolidayRate =
+    document.getElementById(
+        "regularHolidayRate"
+    );
+
+const regularHolidayOtRate =
+    document.getElementById(
+        "regularHolidayOtRate"
+    );
+
+const enableRegularHolidayPay =
+    document.getElementById(
+        "enableRegularHolidayPay"
+    );
+
+
+/* ==========================================
+   SPECIAL HOLIDAY
+========================================== */
+
+const specialHolidayRate =
+    document.getElementById(
+        "specialHolidayRate"
+    );
+
+const specialHolidayOtRate =
+    document.getElementById(
+        "specialHolidayOtRate"
+    );
+
+const enableSpecialHolidayPay =
+    document.getElementById(
+        "enableSpecialHolidayPay"
+    );
+
+
+/* ==========================================
+   CALENDAR
+========================================== */
+
+const holidayYear =
+    document.getElementById(
+        "holidayYear"
+    );
+
+const useHolidayCalendar =
+    document.getElementById(
+        "useHolidayCalendar"
+    );
+
+
+/* ==========================================
+   SAVE BUTTON
+========================================== */
+
+const saveHolidayBtn =
+    document.getElementById(
+        "saveHolidayBtn"
+    );
+
+
+/* ==========================================
+   DEFAULT HOLIDAY SETTINGS
+========================================== */
+
+const DEFAULT_HOLIDAY_SETTINGS = {
+
+    enableHolidayCalendar:
+        true,
+
+    recognizeHolidayRestDay:
+        true,
+
+    includeHolidayPayroll:
+        true,
+
+
+    /* Regular Holiday */
+
+    regularHolidayRate:
+        2.00,
+
+    regularHolidayOtRate:
+        2.60,
+
+    enableRegularHolidayPay:
+        true,
+
+
+    /* Special Holiday */
+
+    specialHolidayRate:
+        1.30,
+
+    specialHolidayOtRate:
+        1.69,
+
+    enableSpecialHolidayPay:
+        true,
+
+
+    /* Calendar */
+
+    holidayYear:
+        2026,
+
+    useHolidayCalendar:
+        true
+
+};
+
+
+/* ==========================================
+   LOAD HOLIDAY SETTINGS
+========================================== */
+
+async function loadHolidaySettings(){
+
+    try{
+
+        const holidaySettingsRef =
+            doc(
+                db,
+                "systemSettings",
+                "holidays"
+            );
+
+
+        const snapshot =
+            await getDoc(
+                holidaySettingsRef
+            );
+
+
+        let data =
+            DEFAULT_HOLIDAY_SETTINGS;
+
+
+        if(
+            snapshot.exists()
+        ){
+
+            data = {
+
+                ...DEFAULT_HOLIDAY_SETTINGS,
+
+                ...snapshot.data()
+
+            };
+
+        }
+
+
+        setHolidaySettingsForm(
+            data
+        );
+
+
+    }catch(error){
+
+        console.error(
+            "Load Holiday Settings Error:",
+            error
+        );
+
+
+        setHolidaySettingsForm(
+            DEFAULT_HOLIDAY_SETTINGS
+        );
+
+    }
+
+}
+
+
+/* ==========================================
+   SET HOLIDAY FORM
+========================================== */
+
+function setHolidaySettingsForm(
+    data
+){
+
+    /* ======================================
+       GENERAL
+    ====================================== */
+
+    if(enableHolidayCalendar){
+
+        enableHolidayCalendar.checked =
+            data.enableHolidayCalendar !== false;
+
+    }
+
+
+    if(recognizeHolidayRestDay){
+
+        recognizeHolidayRestDay.checked =
+            data.recognizeHolidayRestDay !== false;
+
+    }
+
+
+    if(includeHolidayPayroll){
+
+        includeHolidayPayroll.checked =
+            data.includeHolidayPayroll !== false;
+
+    }
+
+
+    /* ======================================
+       REGULAR HOLIDAY
+    ====================================== */
+
+    if(regularHolidayRate){
+
+        regularHolidayRate.value =
+            data.regularHolidayRate ??
+            2.00;
+
+    }
+
+
+    if(regularHolidayOtRate){
+
+        regularHolidayOtRate.value =
+            data.regularHolidayOtRate ??
+            2.60;
+
+    }
+
+
+    if(enableRegularHolidayPay){
+
+        enableRegularHolidayPay.checked =
+            data.enableRegularHolidayPay !== false;
+
+    }
+
+
+    /* ======================================
+       SPECIAL HOLIDAY
+    ====================================== */
+
+    if(specialHolidayRate){
+
+        specialHolidayRate.value =
+            data.specialHolidayRate ??
+            1.30;
+
+    }
+
+
+    if(specialHolidayOtRate){
+
+        specialHolidayOtRate.value =
+            data.specialHolidayOtRate ??
+            1.69;
+
+    }
+
+
+    if(enableSpecialHolidayPay){
+
+        enableSpecialHolidayPay.checked =
+            data.enableSpecialHolidayPay !== false;
+
+    }
+
+
+    /* ======================================
+       CALENDAR
+    ====================================== */
+
+    if(holidayYear){
+
+        holidayYear.value =
+            String(
+                data.holidayYear ??
+                2026
+            );
+
+    }
+
+
+    if(useHolidayCalendar){
+
+        useHolidayCalendar.checked =
+            data.useHolidayCalendar !== false;
+
+    }
+
+}
+
+
+/* ==========================================
+   SAVE BUTTON EVENT
+========================================== */
+
+if(saveHolidayBtn){
+
+    saveHolidayBtn.addEventListener(
+        "click",
+        saveHolidaySettings
+    );
+
+}
+
+
+/* ==========================================
+   SAVE HOLIDAY SETTINGS
+========================================== */
+
+async function saveHolidaySettings(){
+
+    if(!auth.currentUser){
+
+        alert(
+            "You are not logged in."
+        );
+
+        window.location.replace(
+            "login.html"
+        );
+
+        return;
+
+    }
+
+
+    /* ======================================
+       VALIDATE REGULAR HOLIDAY RATE
+    ====================================== */
+
+    const regularRate =
+        Number(
+            regularHolidayRate.value
+        );
+
+
+    if(
+        !Number.isFinite(
+            regularRate
+        ) ||
+        regularRate < 0
+    ){
+
+        alert(
+            "Regular Holiday Rate is invalid."
+        );
+
+        regularHolidayRate.focus();
+
+        return;
+
+    }
+
+
+    /* ======================================
+       VALIDATE REGULAR HOLIDAY OT
+    ====================================== */
+
+    const regularOT =
+        Number(
+            regularHolidayOtRate.value
+        );
+
+
+    if(
+        !Number.isFinite(
+            regularOT
+        ) ||
+        regularOT < 0
+    ){
+
+        alert(
+            "Regular Holiday OT Rate is invalid."
+        );
+
+        regularHolidayOtRate.focus();
+
+        return;
+
+    }
+
+
+    /* ======================================
+       VALIDATE SPECIAL HOLIDAY RATE
+    ====================================== */
+
+    const specialRate =
+        Number(
+            specialHolidayRate.value
+        );
+
+
+    if(
+        !Number.isFinite(
+            specialRate
+        ) ||
+        specialRate < 0
+    ){
+
+        alert(
+            "Special Holiday Rate is invalid."
+        );
+
+        specialHolidayRate.focus();
+
+        return;
+
+    }
+
+
+    /* ======================================
+       VALIDATE SPECIAL HOLIDAY OT
+    ====================================== */
+
+    const specialOT =
+        Number(
+            specialHolidayOtRate.value
+        );
+
+
+    if(
+        !Number.isFinite(
+            specialOT
+        ) ||
+        specialOT < 0
+    ){
+
+        alert(
+            "Special Holiday OT Rate is invalid."
+        );
+
+        specialHolidayOtRate.focus();
+
+        return;
+
+    }
+
+
+    /* ======================================
+       VALIDATE YEAR
+    ====================================== */
+
+    const year =
+        Number(
+            holidayYear.value
+        );
+
+
+    if(
+        !Number.isInteger(
+            year
+        ) ||
+        year < 2000 ||
+        year > 2100
+    ){
+
+        alert(
+            "Please select a valid calendar year."
+        );
+
+        holidayYear.focus();
+
+        return;
+
+    }
+
+
+    /* ======================================
+       DISABLE SAVE BUTTON
+    ====================================== */
+
+    saveHolidayBtn.disabled =
+        true;
+
+
+    saveHolidayBtn.innerHTML = `
+
+        <span class="material-icons">
+            sync
+        </span>
+
+        SAVING...
+
+    `;
+
+
+    try{
+
+        /* ==================================
+           HOLIDAY DATA
+        ================================== */
+
+        const holidayData = {
+
+            enableHolidayCalendar:
+                enableHolidayCalendar.checked,
+
+            recognizeHolidayRestDay:
+                recognizeHolidayRestDay.checked,
+
+            includeHolidayPayroll:
+                includeHolidayPayroll.checked,
+
+
+            /* Regular Holiday */
+
+            regularHolidayRate:
+                regularRate,
+
+            regularHolidayOtRate:
+                regularOT,
+
+            enableRegularHolidayPay:
+                enableRegularHolidayPay.checked,
+
+
+            /* Special Holiday */
+
+            specialHolidayRate:
+                specialRate,
+
+            specialHolidayOtRate:
+                specialOT,
+
+            enableSpecialHolidayPay:
+                enableSpecialHolidayPay.checked,
+
+
+            /* Calendar */
+
+            holidayYear:
+                year,
+
+            useHolidayCalendar:
+                useHolidayCalendar.checked
+
+        };
+
+
+        /* ==================================
+           FIREBASE
+        ================================== */
+
+        const holidaySettingsRef =
+            doc(
+                db,
+                "systemSettings",
+                "holidays"
+            );
+
+
+        await setDoc(
+
+            holidaySettingsRef,
+
+            holidayData,
+
+            {
+                merge:true
+            }
+
+        );
+
+
+        alert(
+            "Holiday Settings Saved Successfully."
+        );
+
+
+    }catch(error){
+
+        console.error(
+            "Save Holiday Settings Error:",
+            error
+        );
+
+
+        alert(
+            "Unable to save Holiday Settings.\n\n" +
+            error.message
+        );
+
+
+    }finally{
+
+        saveHolidayBtn.disabled =
+            false;
+
+
+        saveHolidayBtn.innerHTML = `
+
+            <span class="material-icons">
+                save
+            </span>
+
+            SAVE HOLIDAY SETTINGS
 
         `;
 
