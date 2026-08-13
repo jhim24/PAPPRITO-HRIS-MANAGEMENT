@@ -9,30 +9,11 @@
 name="viewport"
 content="width=device-width, initial-scale=1.0">
 
-<title>Employee Portal</title>
-
-
-<!-- ==========================================
-     MANIFEST
-========================================== -->
+<title>PAPPRITO HRIS - Employee Portal</title>
 
 <link
 rel="manifest"
 href="../manifest.json">
-
-
-<!-- ==========================================
-     THEME
-========================================== -->
-
-<meta
-name="theme-color"
-content="#ffcc00">
-
-
-<!-- ==========================================
-     ICON
-========================================== -->
 
 <link
 rel="icon"
@@ -42,19 +23,13 @@ href="../assets/images/logo.png">
 rel="apple-touch-icon"
 href="../assets/images/icon-192.png">
 
-
-<!-- ==========================================
-     MATERIAL ICONS
-========================================== -->
+<meta
+name="theme-color"
+content="#ffcc00">
 
 <link
 href="https://fonts.googleapis.com/icon?family=Material+Icons"
 rel="stylesheet">
-
-
-<!-- ==========================================
-     EMPLOYEE PORTAL CSS
-========================================== -->
 
 <link
 rel="stylesheet"
@@ -67,805 +42,881 @@ href="../css/employeeportal.css">
 
 
 <!-- ==========================================
-     MAIN CONTAINER
+     SIDEBAR
 ========================================== -->
 
-<div class="container">
+<div id="sidebar-container"></div>
 
 
 <!-- ==========================================
-     HEADER
+     MAIN
 ========================================== -->
 
-<div class="header">
+<main class="portal-container">
 
 
-<div class="title portal-title">
+    <!-- ======================================
+         HEADER
+    ======================================= -->
 
-<span class="material-icons">
+    <header class="portal-header">
 
-badge
+        <div class="header-left">
 
-</span>
+            <button
+            class="mobile-menu-btn"
+            id="menuBtn">
 
-EMPLOYEE PORTAL
+                <span class="material-icons">
 
-</div>
+                    menu
 
+                </span>
 
-<button
-class="btn logout-btn"
-onclick="logout()">
-
-<span class="material-icons">
-
-logout
-
-</span>
-
-LOGOUT
-
-</button>
+            </button>
 
 
-</div>
+            <div class="page-title">
+
+                <span class="material-icons">
+
+                    badge
+
+                </span>
+
+                <div>
+
+                    <h1>
+
+                        EMPLOYEE PORTAL
+
+                    </h1>
+
+                    <p>
+
+                        Employee Self Service
+
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="header-right">
+
+            <div class="employee-display">
+
+                <span class="material-icons">
+
+                    account_circle
+
+                </span>
+
+                <span id="loggedEmployee">
+
+                    Employee
+
+                </span>
+
+            </div>
+
+        </div>
+
+    </header>
+
+
+    <!-- ======================================
+         EMPLOYEE INFORMATION
+    ======================================= -->
+
+    <section class="employee-card">
+
+        <div class="employee-icon">
+
+            <span class="material-icons">
+
+                person
+
+            </span>
+
+        </div>
+
+
+        <div class="employee-info">
+
+            <h2 id="employeeName">
+
+                Employee
+
+            </h2>
+
+            <p id="employeeId">
+
+                Employee ID: -
+
+            </p>
+
+            <p id="employeePosition">
+
+                Position: -
+
+            </p>
+
+        </div>
+
+    </section>
+
+
+    <!-- ======================================
+         PORTAL MENU
+    ======================================= -->
+
+    <section class="portal-menu">
+
+
+        <button
+        class="portal-card active"
+        data-section="requests">
+
+            <span class="material-icons">
+
+                event_note
+
+            </span>
+
+            <div>
+
+                <strong>
+
+                    Requests
+
+                </strong>
+
+                <small>
+
+                    Leave & attendance requests
+
+                </small>
+
+            </div>
+
+        </button>
+
+
+        <button
+        class="portal-card"
+        data-section="attendance">
+
+            <span class="material-icons">
+
+                fingerprint
+
+            </span>
+
+            <div>
+
+                <strong>
+
+                    Attendance
+
+                </strong>
+
+                <small>
+
+                    View attendance records
+
+                </small>
+
+            </div>
+
+        </button>
+
+
+        <button
+        class="portal-card"
+        data-section="payslip">
+
+            <span class="material-icons">
+
+                receipt_long
+
+            </span>
+
+            <div>
+
+                <strong>
+
+                    Payslip
+
+                </strong>
+
+                <small>
+
+                    View payslip records
+
+                </small>
+
+            </div>
+
+        </button>
+
+
+    </section>
+
+
+    <!-- ======================================
+         REQUEST SECTION
+    ======================================= -->
+
+    <section
+    id="requestsSection"
+    class="portal-section">
+
+
+        <div class="section-header">
+
+            <div>
+
+                <h2>
+
+                    My Requests
+
+                </h2>
+
+                <p>
+
+                    Submit and track your requests
+
+                </p>
+
+            </div>
+
+
+            <button
+            id="newRequestBtn"
+            class="primary-btn">
+
+                <span class="material-icons">
+
+                    add
+
+                </span>
+
+                NEW REQUEST
+
+            </button>
+
+        </div>
+
+
+        <!-- ==================================
+             REQUEST FORM
+        =================================== -->
+
+        <div
+        id="requestFormCard"
+        class="form-card hidden">
+
+
+            <div class="form-title">
+
+                <span class="material-icons">
+
+                    edit_calendar
+
+                </span>
+
+                <h3>
+
+                    Request Leave / Day Off
+
+                </h3>
+
+            </div>
+
+
+            <div class="form-grid">
+
+
+                <div class="form-group">
+
+                    <label>
+
+                        Request Type
+
+                    </label>
+
+                    <select
+                    id="requestType">
+
+                        <option value="">
+
+                            Select Request
+
+                        </option>
+
+                        <option value="DAY OFF">
+
+                            DAY OFF
+
+                        </option>
+
+                        <option value="VACATION LEAVE">
+
+                            VACATION LEAVE
+
+                        </option>
+
+                        <option value="BIRTHDAY LEAVE">
+
+                            BIRTHDAY LEAVE
+
+                        </option>
+
+                        <option value="SICK LEAVE">
+
+                            SICK LEAVE
+
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label>
+
+                        Date
+
+                    </label>
+
+                    <input
+                    type="date"
+                    id="requestDate">
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label>
+
+                        Number of Days
+
+                    </label>
+
+                    <input
+                    type="number"
+                    id="requestDays"
+                    min="1"
+                    step="1"
+                    placeholder="Number of days">
+
+                </div>
+
+
+                <div class="form-group full">
+
+                    <label>
+
+                        Reason
+
+                    </label>
+
+                    <textarea
+                    id="requestReason"
+                    rows="4"
+                    placeholder="Enter reason..."></textarea>
+
+                </div>
+
+            </div>
+
+
+            <div class="form-actions">
+
+                <button
+                id="cancelRequestBtn"
+                class="secondary-btn">
+
+                    CANCEL
+
+                </button>
+
+
+                <button
+                id="submitRequestBtn"
+                class="primary-btn">
+
+                    <span class="material-icons">
+
+                        send
+
+                    </span>
+
+                    SUBMIT REQUEST
+
+                </button>
+
+            </div>
+
+        </div>
+
+
+        <!-- ==================================
+             REQUEST SUMMARY
+        =================================== -->
+
+        <div class="request-summary">
+
+
+            <div class="summary-box">
+
+                <span class="material-icons">
+
+                    list_alt
+
+                </span>
+
+                <div>
+
+                    <strong id="requestTotal">
+
+                        0
+
+                    </strong>
+
+                    <small>
+
+                        TOTAL
+
+                    </small>
+
+                </div>
+
+            </div>
+
+
+            <div class="summary-box pending">
+
+                <span class="material-icons">
+
+                    pending_actions
+
+                </span>
+
+                <div>
+
+                    <strong id="requestPending">
+
+                        0
+
+                    </strong>
+
+                    <small>
+
+                        PENDING
+
+                    </small>
+
+                </div>
+
+            </div>
+
+
+            <div class="summary-box approved">
+
+                <span class="material-icons">
+
+                    check_circle
+
+                </span>
+
+                <div>
+
+                    <strong id="requestApproved">
+
+                        0
+
+                    </strong>
+
+                    <small>
+
+                        APPROVED
+
+                    </small>
+
+                </div>
+
+            </div>
+
+
+            <div class="summary-box rejected">
+
+                <span class="material-icons">
+
+                    cancel
+
+                </span>
+
+                <div>
+
+                    <strong id="requestRejected">
+
+                        0
+
+                    </strong>
+
+                    <small>
+
+                        REJECTED
+
+                    </small>
+
+                </div>
+
+            </div>
+
+
+        </div>
+
+
+        <!-- ==================================
+             REQUEST TABLE
+        =================================== -->
+
+        <div class="table-card">
+
+            <div class="table-wrapper">
+
+                <table>
+
+                    <thead>
+
+                        <tr>
+
+                            <th>
+
+                                TYPE
+
+                            </th>
+
+                            <th>
+
+                                DATE
+
+                            </th>
+
+                            <th>
+
+                                DAYS
+
+                            </th>
+
+                            <th>
+
+                                REASON
+
+                            </th>
+
+                            <th>
+
+                                STATUS
+
+                            </th>
+
+                            <th>
+
+                                ACTION
+
+                            </th>
+
+                        </tr>
+
+                    </thead>
+
+
+                    <tbody
+                    id="requestBody">
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- ======================================
+         ATTENDANCE SECTION
+    ======================================= -->
+
+    <section
+    id="attendanceSection"
+    class="portal-section hidden">
+
+
+        <div class="section-header">
+
+            <div>
+
+                <h2>
+
+                    My Attendance
+
+                </h2>
+
+                <p>
+
+                    View your attendance records
+
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="table-card">
+
+            <div class="table-wrapper">
+
+                <table>
+
+                    <thead>
+
+                        <tr>
+
+                            <th>
+
+                                DATE
+
+                            </th>
+
+                            <th>
+
+                                TIME IN
+
+                            </th>
+
+                            <th>
+
+                                BREAK OUT
+
+                            </th>
+
+                            <th>
+
+                                BREAK IN
+
+                            </th>
+
+                            <th>
+
+                                TIME OUT
+
+                            </th>
+
+                            <th>
+
+                                STATUS
+
+                            </th>
+
+                        </tr>
+
+                    </thead>
+
+
+                    <tbody
+                    id="attendanceBody">
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- ======================================
+         PAYSLIP SECTION
+    ======================================= -->
+
+    <section
+    id="payslipSection"
+    class="portal-section hidden">
+
+
+        <div class="section-header">
+
+            <div>
+
+                <h2>
+
+                    My Payslip
+
+                </h2>
+
+                <p>
+
+                    View your payroll records
+
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="table-card">
+
+            <div class="table-wrapper">
+
+                <table>
+
+                    <thead>
+
+                        <tr>
+
+                            <th>
+
+                                PERIOD
+
+                            </th>
+
+                            <th>
+
+                                BASIC PAY
+
+                            </th>
+
+                            <th>
+
+                                OT
+
+                            </th>
+
+                            <th>
+
+                                DEDUCTIONS
+
+                            </th>
+
+                            <th>
+
+                                NET PAY
+
+                            </th>
+
+                            <th>
+
+                                ACTION
+
+                            </th>
+
+                        </tr>
+
+                    </thead>
+
+
+                    <tbody
+                    id="payslipBody">
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+</main>
 
 
 <!-- ==========================================
-     FORM SECTION
+     REQUEST DETAILS MODAL
 ========================================== -->
-
-<div class="form-section">
-
-
-<!-- ======================================
-     EMPLOYEE INFORMATION
-====================================== -->
-
-<div class="emp-info">
-
-
-<div>
-
-<b>EMPLOYEE ID :</b>
-
-<span id="empIdDisplay">
-
--
-
-</span>
-
-</div>
-
-
-<div>
-
-<b>EMPLOYEE NAME :</b>
-
-<span id="empNameDisplay">
-
--
-
-</span>
-
-</div>
-
-
-</div>
-
-
-<!-- ======================================
-     REQUEST FORM
-====================================== -->
-
-<div class="form-grid">
-
-
-<select id="requestType">
-
-<option value="">
-
-Select Request
-
-</option>
-
-<option>
-
-DAY OFF
-
-</option>
-
-<option>
-
-VACATION LEAVE
-
-</option>
-
-<option>
-
-BIRTHDAY LEAVE
-
-</option>
-
-<option>
-
-SICK LEAVE
-
-</option>
-
-</select>
-
-
-<input
-type="date"
-id="requestDate">
-
-
-<input
-type="number"
-id="days"
-placeholder="Days">
-
-
-<textarea
-id="reason"
-placeholder="Reason">
-</textarea>
-
-
-<!-- ==================================
-     ATTENDANCE REQUEST
-================================== -->
-
-<select id="attendanceType">
-
-<option value="">
-
-Select Attendance Request
-
-</option>
-
-<option>
-
-Missing Time In
-
-</option>
-
-<option>
-
-Missing Time Out
-
-</option>
-
-<option>
-
-Late Correction
-
-</option>
-
-</select>
-
-
-<input
-type="date"
-id="attendanceDate">
-
-
-<input
-type="time"
-id="attendanceTime">
-
-
-<textarea
-id="attendanceReason"
-placeholder="Attendance Reason">
-</textarea>
-
-
-</div>
-
-
-<!-- ======================================
-     ACTION BUTTONS
-====================================== -->
-
-<div class="action-buttons">
-
-
-<button
-class="btn submit-btn"
-onclick="submitRequest()">
-
-<span class="material-icons">
-
-send
-
-</span>
-
-SUBMIT REQUEST
-
-</button>
-
-
-<button
-class="btn attendance-btn"
-onclick="submitAttendanceRequest()">
-
-<span class="material-icons">
-
-schedule
-
-</span>
-
-ATTENDANCE REQUEST
-
-</button>
-
-
-<button
-class="btn view-btn"
-onclick="loadPayslip()">
-
-<span class="material-icons">
-
-visibility
-
-</span>
-
-VIEW PAYSLIP
-
-</button>
-
-
-<button
-class="btn close-btn"
-onclick="closePayslip()">
-
-<span class="material-icons">
-
-close
-
-</span>
-
-CLOSE PAYSLIP
-
-</button>
-
-
-<button
-class="btn print-btn"
-onclick="printPayslip()">
-
-<span class="material-icons">
-
-print
-
-</span>
-
-PRINT PAYSLIP
-
-</button>
-
-
-</div>
-
-
-<!-- ======================================
-     REQUEST TABLE
-====================================== -->
-
-<div class="table-wrapper">
-
-
-<table>
-
-
-<thead>
-
-<tr>
-
-<th>
-EMPLOYEE ID
-</th>
-
-<th>
-EMPLOYEE
-</th>
-
-<th>
-REQUEST
-</th>
-
-<th>
-DATE
-</th>
-
-<th>
-DAYS / TIME
-</th>
-
-<th>
-REASON
-</th>
-
-<th>
-STATUS
-</th>
-
-<th>
-ACTION
-</th>
-
-</tr>
-
-</thead>
-
-
-<tbody
-id="requestBody">
-
-</tbody>
-
-
-</table>
-
-
-</div>
-
-
-<!-- ======================================
-     ATTENDANCE REQUEST TABLE
-====================================== -->
-
-<div class="table-wrapper">
-
-
-<table>
-
-
-<thead>
-
-<tr>
-
-<th>
-EMPLOYEE ID
-</th>
-
-<th>
-EMPLOYEE
-</th>
-
-<th>
-ATTENDANCE REQUEST
-</th>
-
-<th>
-DATE
-</th>
-
-<th>
-TIME
-</th>
-
-<th>
-REASON
-</th>
-
-<th>
-STATUS
-</th>
-
-<th>
-ACTION
-</th>
-
-</tr>
-
-</thead>
-
-
-<tbody
-id="attendanceBody">
-
-</tbody>
-
-
-</table>
-
-
-</div>
-
-
-<!-- ======================================
-     PAYSLIP
-====================================== -->
 
 <div
-class="payslip"
-id="payslipArea">
+id="requestModal"
+class="modal">
 
 
-<div class="company">
+    <div class="modal-box">
 
 
-<img
-src="../assets/images/logo.png"
-class="payroll-logo"
-alt="PAPPRITO Logo">
+        <div class="modal-header">
 
+            <h2>
 
-<h2>
+                Request Details
 
-PAPPRITO
+            </h2>
 
-</h2>
 
+            <button
+            id="closeRequestModal">
 
-<p>
+                ×
 
-OFFICIAL EMPLOYEE PAYSLIP
+            </button>
 
-</p>
+        </div>
 
 
-</div>
+        <div
+        id="requestDetails"
+        class="request-details">
 
+        </div>
 
-<!-- ==================================
-     PAYSLIP INFORMATION
-================================== -->
-
-<div class="info">
-
-
-<b>ID:</b>
-
-<span id="payEmpId">
-
--
-
-</span>
-
-
-<br>
-
-
-<b>Name:</b>
-
-<span id="payEmp">
-
--
-
-</span>
-
-
-<br>
-
-
-<b>Date:</b>
-
-<span id="payDate">
-
--
-
-</span>
-
-
-</div>
-
-
-<!-- ==================================
-     EARNINGS
-================================== -->
-
-<table class="payroll-table">
-
-
-<tr>
-
-<th>
-EARNINGS
-</th>
-
-<th>
-AMOUNT
-</th>
-
-</tr>
-
-
-<tr>
-
-<td>
-Daily Rate
-</td>
-
-<td id="payDailyRate">
-0.00
-</td>
-
-</tr>
-
-
-<tr>
-
-<td>
-Total Days
-</td>
-
-<td id="payTotalDays">
-0
-</td>
-
-</tr>
-
-
-<tr>
-
-<td>
-Overtime
-</td>
-
-<td id="payOvertime">
-0.00
-</td>
-
-</tr>
-
-
-<tr>
-
-<td>
-Holiday Pay
-</td>
-
-<td id="payHoliday">
-0.00
-</td>
-
-</tr>
-
-
-<tr>
-
-<td>
-Sick Leave
-</td>
-
-<td id="paySick">
-0.00
-</td>
-
-</tr>
-
-
-<tr>
-
-<td>
-Vacation Leave
-</td>
-
-<td id="payVacation">
-0.00
-</td>
-
-</tr>
-
-
-<tr>
-
-<td>
-Birthday Leave
-</td>
-
-<td id="payBirthday">
-0.00
-</td>
-
-</tr>
-
-
-<tr>
-
-<td>
-Allowance
-</td>
-
-<td id="payAllowance">
-0.00
-</td>
-
-</tr>
-
-
-<tr>
-
-<td>
-
-<b>
-TOTAL GROSS
-</b>
-
-</td>
-
-<td id="payGross">
-
-<b>
-0.00
-</b>
-
-</td>
-
-</tr>
-
-
-</table>
-
-
-<!-- ==================================
-     DEDUCTIONS
-================================== -->
-
-<table class="payroll-table">
-
-
-<tr>
-
-<th>
-DEDUCTIONS
-</th>
-
-<th>
-AMOUNT
-</th>
-
-</tr>
-
-
-<tr>
-
-<td>
-SSS
-</td>
-
-<td id="paySSS">
-0.00
-</td>
-
-</tr>
-
-
-<tr>
-
-<td>
-PhilHealth
-</td>
-
-<td id="payPhilhealth">
-0.00
-</td>
-
-</tr>
-
-
-<tr>
-
-<td>
-Pag-IBIG
-</td>
-
-<td id="payPagibig">
-0.00
-</td>
-
-</tr>
-
-
-<tr>
-
-<td>
-Health Card
-</td>
-
-<td id="payHealth">
-0.00
-</td>
-
-</tr>
-
-
-<tr>
-
-<td>
-Others
-</td>
-
-<td id="payOther">
-0.00
-</td>
-
-</tr>
-
-
-<tr>
-
-<td>
-
-<b>
-Total Deduction
-</b>
-
-</td>
-
-<td id="payDeduction">
-
-<b>
-0.00
-</b>
-
-</td>
-
-</tr>
-
-
-</table>
-
-
-<!-- ==================================
-     NET PAY
-================================== -->
-
-<div class="netpay">
-
-NET PAY :
-
-₱
-
-<span id="payNet">
-
-0.00
-
-</span>
-
-</div>
-
-
-<!-- ==================================
-     SIGNATURE
-================================== -->
-
-<div class="signature">
-
-
-<div class="line">
-
-HR
-
-</div>
-
-
-<div class="line">
-
-Employee
-
-</div>
-
-
-</div>
-
-
-</div>
-
-
-</div>
-
+    </div>
 
 </div>
 
 
 <!-- ==========================================
-     EMPLOYEE PORTAL JAVASCRIPT
+     OVERLAY
 ========================================== -->
+
+<div
+id="overlay"
+class="overlay">
+</div>
+
+
+<!-- ==========================================
+     SCRIPTS
+========================================== -->
+
+<script
+type="module"
+src="../js/components.js">
+
+</script>
+
+
+<script
+type="module"
+src="../js/navigation.js">
+
+</script>
+
 
 <script
 type="module"
