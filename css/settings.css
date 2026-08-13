@@ -1,6 +1,7 @@
 /* ==========================================
    PAPPRITO HRIS
    SETTINGS
+   FULL SCREEN VERSION
 ========================================== */
 
 *{
@@ -53,6 +54,7 @@ body{
 
 /* ==========================================
    MAIN CONTAINER
+   FULL SCREEN
 ========================================== */
 
 .settings-container{
@@ -66,6 +68,7 @@ body{
     padding:20px;
 
 }
+
 
 /* ==========================================
    HEADER
@@ -196,7 +199,7 @@ body{
 
 
 /* ==========================================
-   BACK BUTTON
+   DASHBOARD BUTTON
 ========================================== */
 
 .back-btn{
@@ -254,7 +257,8 @@ body{
 
     display:grid;
 
-    grid-template-columns:280px minmax(0,1fr);
+    grid-template-columns:
+        280px minmax(0,1fr);
 
     gap:20px;
 
@@ -269,6 +273,8 @@ body{
 
 .settings-menu{
 
+    width:100%;
+
     background:var(--card);
 
     border-radius:15px;
@@ -281,7 +287,8 @@ body{
 
     top:20px;
 
-    max-height:calc(100vh - 40px);
+    max-height:
+        calc(100vh - 40px);
 
     overflow-y:auto;
 
@@ -392,12 +399,16 @@ body{
 
     min-width:0;
 
+    width:100%;
+
 }
 
 
 .settings-section{
 
     display:none;
+
+    width:100%;
 
 }
 
@@ -414,6 +425,8 @@ body{
 ========================================== */
 
 .section-title{
+
+    width:100%;
 
     background:#ffffff;
 
@@ -523,10 +536,12 @@ body{
 
 .form-grid{
 
+    width:100%;
+
     display:grid;
 
     grid-template-columns:
-    repeat(2,minmax(0,1fr));
+        repeat(2,minmax(0,1fr));
 
     gap:16px;
 
@@ -536,6 +551,8 @@ body{
 .form-group{
 
     min-width:0;
+
+    width:100%;
 
 }
 
@@ -812,7 +829,6 @@ body{
     padding:9px 16px;
 
     background:
-
         linear-gradient(
             135deg,
             #ffcc00,
@@ -856,11 +872,26 @@ body{
 }
 
 
+.save-btn:disabled{
+
+    opacity:.65;
+
+    cursor:not-allowed;
+
+    transform:none;
+
+    box-shadow:none;
+
+}
+
+
 /* ==========================================
    COMING SOON
 ========================================== */
 
 .coming-soon{
+
+    width:100%;
 
     min-height:400px;
 
@@ -980,10 +1011,10 @@ body::-webkit-scrollbar-thumb:hover{
 
 /* ==========================================
    TABLET
+   FULL SCREEN
 ========================================== */
 
 @media(max-width:1050px){
-
 
     .settings-container{
 
@@ -991,11 +1022,15 @@ body::-webkit-scrollbar-thumb:hover{
 
         margin-left:0;
 
+        padding:15px;
+
     }
+
 
     .settings-layout{
 
-        grid-template-columns:230px minmax(0,1fr);
+        grid-template-columns:
+            230px minmax(0,1fr);
 
     }
 
@@ -1038,6 +1073,7 @@ body::-webkit-scrollbar-thumb:hover{
         padding:10px;
 
     }
+
 
     .settings-header{
 
@@ -1107,6 +1143,8 @@ body::-webkit-scrollbar-thumb:hover{
 
         display:block;
 
+        width:100%;
+
     }
 
 
@@ -1129,6 +1167,8 @@ body::-webkit-scrollbar-thumb:hover{
         padding:7px;
 
         margin-bottom:12px;
+
+        width:100%;
 
     }
 
@@ -1167,6 +1207,13 @@ body::-webkit-scrollbar-thumb:hover{
         width:auto;
 
         font-size:20px;
+
+    }
+
+
+    .settings-content{
+
+        width:100%;
 
     }
 
@@ -1314,6 +1361,8 @@ body::-webkit-scrollbar-thumb:hover{
 @media(max-width:480px){
 
     .settings-container{
+
+        width:100%;
 
         padding:7px;
 
