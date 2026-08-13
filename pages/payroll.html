@@ -79,7 +79,16 @@ flex-wrap:wrap;
 class="btn print-btn"
 onclick="window.print()">
 
-🖨 PRINT
+🖨 PRINT TABLE
+
+</button>
+
+
+<button
+class="btn payslip-print-btn"
+onclick="printPayslips()">
+
+🧾 PRINT 4 PAYSLIPS
 
 </button>
 
@@ -91,6 +100,7 @@ onclick="window.location.href='dashboard.html'">
 ← BACK
 
 </button>
+
 
 </div>
 
@@ -381,6 +391,683 @@ id="payrollBody">
 </div>
 
 
+<!-- ==================================================
+     PRINT-ONLY PAYSLIP AREA
+================================================== -->
+
+<div
+id="payslipPrintArea"
+class="payslip-print-area">
+
+
+<!-- ==========================================
+     PAYSLIP 1
+========================================== -->
+
+<div class="payslip-card">
+
+<div class="payslip-header">
+
+<div class="payslip-company">
+PAPPRITO
+</div>
+
+<div class="payslip-title">
+EMPLOYEE PAYSLIP
+</div>
+
+</div>
+
+
+<div class="payslip-info">
+
+<div>
+
+<strong>
+Employee ID:
+</strong>
+
+<span data-field="empid">
+-
+</span>
+
+</div>
+
+
+<div>
+
+<strong>
+Employee:
+</strong>
+
+<span data-field="employee">
+-
+</span>
+
+</div>
+
+
+<div>
+
+<strong>
+Payroll Date:
+</strong>
+
+<span data-field="date">
+-
+</span>
+
+</div>
+
+</div>
+
+
+<div class="payslip-section-title">
+
+EARNINGS
+
+</div>
+
+
+<div class="payslip-row">
+
+<span>
+Basic Pay
+</span>
+
+<strong>
+₱ <span data-field="basicpay">0.00</span>
+</strong>
+
+</div>
+
+
+<div class="payslip-row">
+
+<span>
+Overtime
+</span>
+
+<strong>
+₱ <span data-field="overtime">0.00</span>
+</strong>
+
+</div>
+
+
+<div class="payslip-row">
+
+<span>
+Holiday Pay
+</span>
+
+<strong>
+₱ <span data-field="holiday">0.00</span>
+</strong>
+
+</div>
+
+
+<div class="payslip-row">
+
+<span>
+Leave Pay
+</span>
+
+<strong>
+₱ <span data-field="leavepay">0.00</span>
+</strong>
+
+</div>
+
+
+<div class="payslip-row">
+
+<span>
+Allowance
+</span>
+
+<strong>
+₱ <span data-field="allowance">0.00</span>
+</strong>
+
+</div>
+
+
+<div class="payslip-total">
+
+<span>
+TOTAL GROSS
+</span>
+
+<strong>
+₱ <span data-field="gross">0.00</span>
+</strong>
+
+</div>
+
+
+<div class="payslip-section-title">
+
+DEDUCTIONS
+
+</div>
+
+
+<div class="payslip-row">
+
+<span>
+SSS
+</span>
+
+<strong>
+₱ <span data-field="sss">0.00</span>
+</strong>
+
+</div>
+
+
+<div class="payslip-row">
+
+<span>
+PhilHealth
+</span>
+
+<strong>
+₱ <span data-field="philhealth">0.00</span>
+</strong>
+
+</div>
+
+
+<div class="payslip-row">
+
+<span>
+Pag-IBIG
+</span>
+
+<strong>
+₱ <span data-field="pagibig">0.00</span>
+</strong>
+
+</div>
+
+
+<div class="payslip-row">
+
+<span>
+Health Card
+</span>
+
+<strong>
+₱ <span data-field="healthcard">0.00</span>
+</strong>
+
+</div>
+
+
+<div class="payslip-row">
+
+<span>
+Other Deduction
+</span>
+
+<strong>
+₱ <span data-field="otherdeduction">0.00</span>
+</strong>
+
+</div>
+
+
+<div class="payslip-total">
+
+<span>
+TOTAL DEDUCTION
+</span>
+
+<strong>
+₱ <span data-field="deductions">0.00</span>
+</strong>
+
+</div>
+
+
+<div class="net-pay">
+
+<span>
+NET PAY
+</span>
+
+<strong>
+₱ <span data-field="net">0.00</span>
+</strong>
+
+</div>
+
+
+<div class="signature-area">
+
+<div>
+Employee Signature
+</div>
+
+<div>
+Authorized Signature
+</div>
+
+</div>
+
+</div>
+
+
+<!-- ==========================================
+     PAYSLIP 2
+========================================== -->
+
+<div class="payslip-card">
+
+<div class="payslip-header">
+
+<div class="payslip-company">
+PAPPRITO
+</div>
+
+<div class="payslip-title">
+EMPLOYEE PAYSLIP
+</div>
+
+</div>
+
+
+<div class="payslip-info">
+
+<div>
+
+<strong>
+Employee ID:
+</strong>
+
+<span data-field="empid">
+-
+</span>
+
+</div>
+
+
+<div>
+
+<strong>
+Employee:
+</strong>
+
+<span data-field="employee">
+-
+</span>
+
+</div>
+
+
+<div>
+
+<strong>
+Payroll Date:
+</strong>
+
+<span data-field="date">
+-
+</span>
+
+</div>
+
+</div>
+
+
+<div class="payslip-section-title">
+EARNINGS
+</div>
+
+
+<div class="payslip-row">
+<span>Basic Pay</span>
+<strong>₱ <span data-field="basicpay">0.00</span></strong>
+</div>
+
+
+<div class="payslip-row">
+<span>Overtime</span>
+<strong>₱ <span data-field="overtime">0.00</span></strong>
+</div>
+
+
+<div class="payslip-row">
+<span>Holiday Pay</span>
+<strong>₱ <span data-field="holiday">0.00</span></strong>
+</div>
+
+
+<div class="payslip-row">
+<span>Leave Pay</span>
+<strong>₱ <span data-field="leavepay">0.00</span></strong>
+</div>
+
+
+<div class="payslip-row">
+<span>Allowance</span>
+<strong>₱ <span data-field="allowance">0.00</span></strong>
+</div>
+
+
+<div class="payslip-total">
+<span>TOTAL GROSS</span>
+<strong>₱ <span data-field="gross">0.00</span></strong>
+</div>
+
+
+<div class="payslip-section-title">
+DEDUCTIONS
+</div>
+
+
+<div class="payslip-row">
+<span>SSS</span>
+<strong>₱ <span data-field="sss">0.00</span></strong>
+</div>
+
+
+<div class="payslip-row">
+<span>PhilHealth</span>
+<strong>₱ <span data-field="philhealth">0.00</span></strong>
+</div>
+
+
+<div class="payslip-row">
+<span>Pag-IBIG</span>
+<strong>₱ <span data-field="pagibig">0.00</span></strong>
+</div>
+
+
+<div class="payslip-row">
+<span>Health Card</span>
+<strong>₱ <span data-field="healthcard">0.00</span></strong>
+</div>
+
+
+<div class="payslip-row">
+<span>Other Deduction</span>
+<strong>₱ <span data-field="otherdeduction">0.00</span></strong>
+</div>
+
+
+<div class="payslip-total">
+<span>TOTAL DEDUCTION</span>
+<strong>₱ <span data-field="deductions">0.00</span></strong>
+</div>
+
+
+<div class="net-pay">
+<span>NET PAY</span>
+<strong>₱ <span data-field="net">0.00</span></strong>
+</div>
+
+
+<div class="signature-area">
+<div>Employee Signature</div>
+<div>Authorized Signature</div>
+</div>
+
+</div>
+
+
+<!-- ==========================================
+     PAYSLIP 3
+========================================== -->
+
+<div class="payslip-card">
+
+<div class="payslip-header">
+
+<div class="payslip-company">
+PAPPRITO
+</div>
+
+<div class="payslip-title">
+EMPLOYEE PAYSLIP
+</div>
+
+</div>
+
+
+<div class="payslip-info">
+
+<div>
+<strong>Employee ID:</strong>
+<span data-field="empid">-</span>
+</div>
+
+<div>
+<strong>Employee:</strong>
+<span data-field="employee">-</span>
+</div>
+
+<div>
+<strong>Payroll Date:</strong>
+<span data-field="date">-</span>
+</div>
+
+</div>
+
+
+<div class="payslip-section-title">
+EARNINGS
+</div>
+
+
+<div class="payslip-row">
+<span>Basic Pay</span>
+<strong>₱ <span data-field="basicpay">0.00</span></strong>
+</div>
+
+<div class="payslip-row">
+<span>Overtime</span>
+<strong>₱ <span data-field="overtime">0.00</span></strong>
+</div>
+
+<div class="payslip-row">
+<span>Holiday Pay</span>
+<strong>₱ <span data-field="holiday">0.00</span></strong>
+</div>
+
+<div class="payslip-row">
+<span>Leave Pay</span>
+<strong>₱ <span data-field="leavepay">0.00</span></strong>
+</div>
+
+<div class="payslip-row">
+<span>Allowance</span>
+<strong>₱ <span data-field="allowance">0.00</span></strong>
+</div>
+
+<div class="payslip-total">
+<span>TOTAL GROSS</span>
+<strong>₱ <span data-field="gross">0.00</span></strong>
+</div>
+
+
+<div class="payslip-section-title">
+DEDUCTIONS
+</div>
+
+
+<div class="payslip-row">
+<span>SSS</span>
+<strong>₱ <span data-field="sss">0.00</span></strong>
+</div>
+
+<div class="payslip-row">
+<span>PhilHealth</span>
+<strong>₱ <span data-field="philhealth">0.00</span></strong>
+</div>
+
+<div class="payslip-row">
+<span>Pag-IBIG</span>
+<strong>₱ <span data-field="pagibig">0.00</span></strong>
+</div>
+
+<div class="payslip-row">
+<span>Health Card</span>
+<strong>₱ <span data-field="healthcard">0.00</span></strong>
+</div>
+
+<div class="payslip-row">
+<span>Other Deduction</span>
+<strong>₱ <span data-field="otherdeduction">0.00</span></strong>
+</div>
+
+<div class="payslip-total">
+<span>TOTAL DEDUCTION</span>
+<strong>₱ <span data-field="deductions">0.00</span></strong>
+</div>
+
+<div class="net-pay">
+<span>NET PAY</span>
+<strong>₱ <span data-field="net">0.00</span></strong>
+</div>
+
+
+<div class="signature-area">
+<div>Employee Signature</div>
+<div>Authorized Signature</div>
+</div>
+
+</div>
+
+
+<!-- ==========================================
+     PAYSLIP 4
+========================================== -->
+
+<div class="payslip-card">
+
+<div class="payslip-header">
+
+<div class="payslip-company">
+PAPPRITO
+</div>
+
+<div class="payslip-title">
+EMPLOYEE PAYSLIP
+</div>
+
+</div>
+
+
+<div class="payslip-info">
+
+<div>
+<strong>Employee ID:</strong>
+<span data-field="empid">-</span>
+</div>
+
+<div>
+<strong>Employee:</strong>
+<span data-field="employee">-</span>
+</div>
+
+<div>
+<strong>Payroll Date:</strong>
+<span data-field="date">-</span>
+</div>
+
+</div>
+
+
+<div class="payslip-section-title">
+EARNINGS
+</div>
+
+
+<div class="payslip-row">
+<span>Basic Pay</span>
+<strong>₱ <span data-field="basicpay">0.00</span></strong>
+</div>
+
+<div class="payslip-row">
+<span>Overtime</span>
+<strong>₱ <span data-field="overtime">0.00</span></strong>
+</div>
+
+<div class="payslip-row">
+<span>Holiday Pay</span>
+<strong>₱ <span data-field="holiday">0.00</span></strong>
+</div>
+
+<div class="payslip-row">
+<span>Leave Pay</span>
+<strong>₱ <span data-field="leavepay">0.00</span></strong>
+</div>
+
+<div class="payslip-row">
+<span>Allowance</span>
+<strong>₱ <span data-field="allowance">0.00</span></strong>
+</div>
+
+<div class="payslip-total">
+<span>TOTAL GROSS</span>
+<strong>₱ <span data-field="gross">0.00</span></strong>
+</div>
+
+
+<div class="payslip-section-title">
+DEDUCTIONS
+</div>
+
+
+<div class="payslip-row">
+<span>SSS</span>
+<strong>₱ <span data-field="sss">0.00</span></strong>
+</div>
+
+<div class="payslip-row">
+<span>PhilHealth</span>
+<strong>₱ <span data-field="philhealth">0.00</span></strong>
+</div>
+
+<div class="payslip-row">
+<span>Pag-IBIG</span>
+<strong>₱ <span data-field="pagibig">0.00</span></strong>
+</div>
+
+<div class="payslip-row">
+<span>Health Card</span>
+<strong>₱ <span data-field="healthcard">0.00</span></strong>
+</div>
+
+<div class="payslip-row">
+<span>Other Deduction</span>
+<strong>₱ <span data-field="otherdeduction">0.00</span></strong>
+</div>
+
+<div class="payslip-total">
+<span>TOTAL DEDUCTION</span>
+<strong>₱ <span data-field="deductions">0.00</span></strong>
+</div>
+
+<div class="net-pay">
+<span>NET PAY</span>
+<strong>₱ <span data-field="net">0.00</span></strong>
+</div>
+
+
+<div class="signature-area">
+<div>Employee Signature</div>
+<div>Authorized Signature</div>
+</div>
+
+</div>
+
+</div>
+
+
 <!-- ==========================================
      PAYROLL JAVASCRIPT
 ========================================== -->
@@ -388,8 +1075,929 @@ id="payrollBody">
 <script
 type="module"
 src="../js/payroll.js">
+</script>
+
+
+<!-- ==========================================
+     PAYSLIP PRINT JAVASCRIPT
+========================================== -->
+
+<script>
+
+function printPayslips(){
+
+    /*
+     * This function uses the payroll records
+     * currently displayed in the payroll table.
+     *
+     * The first four records will be placed
+     * into the four payslip positions.
+     */
+
+    const rows =
+        document.querySelectorAll(
+            "#payrollBody tr"
+        );
+
+
+    if(!rows.length){
+
+        alert(
+            "There are no payroll records to print."
+        );
+
+        return;
+
+    }
+
+
+    const cards =
+        document.querySelectorAll(
+            ".payslip-card"
+        );
+
+
+    cards.forEach(
+        card => {
+
+            card.style.display =
+                "none";
+
+        }
+    );
+
+
+    /*
+     * Read the first four payroll rows.
+     */
+
+    let count = 0;
+
+
+    rows.forEach(
+        row => {
+
+            if(count >= 4){
+
+                return;
+
+            }
+
+
+            const cells =
+                row.querySelectorAll(
+                    "td"
+                );
+
+
+            if(
+                cells.length < 22
+            ){
+
+                return;
+
+            }
+
+
+            const card =
+                cards[count];
+
+
+            if(!card){
+
+                return;
+
+            }
+
+
+            card.style.display =
+                "block";
+
+
+            /*
+             * Employee ID
+             */
+
+            setPayslipField(
+                card,
+                "empid",
+                getCell(
+                    cells,
+                    0
+                )
+            );
+
+
+            /*
+             * Employee
+             */
+
+            setPayslipField(
+                card,
+                "employee",
+                getCell(
+                    cells,
+                    1
+                )
+            );
+
+
+            /*
+             * Date
+             */
+
+            setPayslipField(
+                card,
+                "date",
+                new Date()
+                .toLocaleDateString()
+            );
+
+
+            /*
+             * Basic Pay
+             */
+
+            setPayslipField(
+                card,
+                "basicpay",
+                cleanMoney(
+                    getCell(
+                        cells,
+                        4
+                    )
+                )
+            );
+
+
+            /*
+             * Overtime
+             */
+
+            setPayslipField(
+                card,
+                "overtime",
+                cleanMoney(
+                    getCell(
+                        cells,
+                        5
+                    )
+                )
+            );
+
+
+            /*
+             * Holiday
+             */
+
+            setPayslipField(
+                card,
+                "holiday",
+                cleanMoney(
+                    getCell(
+                        cells,
+                        6
+                    )
+                )
+            );
+
+
+            /*
+             * Leave Pay
+             */
+
+            const sick =
+                parseMoney(
+                    getCell(
+                        cells,
+                        7
+                    )
+                );
+
+
+            const vacation =
+                parseMoney(
+                    getCell(
+                        cells,
+                        8
+                    )
+                );
+
+
+            const birthday =
+                parseMoney(
+                    getCell(
+                        cells,
+                        9
+                    )
+                );
+
+
+            const maternity =
+                parseMoney(
+                    getCell(
+                        cells,
+                        10
+                    )
+                );
+
+
+            const paternity =
+                parseMoney(
+                    getCell(
+                        cells,
+                        11
+                    )
+                );
+
+
+            setPayslipField(
+                card,
+                "leavepay",
+                formatMoney(
+                    sick +
+                    vacation +
+                    birthday +
+                    maternity +
+                    paternity
+                )
+            );
+
+
+            /*
+             * Allowance
+             */
+
+            setPayslipField(
+                card,
+                "allowance",
+                cleanMoney(
+                    getCell(
+                        cells,
+                        12
+                    )
+                )
+            );
+
+
+            /*
+             * SSS
+             */
+
+            setPayslipField(
+                card,
+                "sss",
+                cleanMoney(
+                    getCell(
+                        cells,
+                        13
+                    )
+                )
+            );
+
+
+            /*
+             * PhilHealth
+             */
+
+            setPayslipField(
+                card,
+                "philhealth",
+                cleanMoney(
+                    getCell(
+                        cells,
+                        14
+                    )
+                )
+            );
+
+
+            /*
+             * Pag-IBIG
+             */
+
+            setPayslipField(
+                card,
+                "pagibig",
+                cleanMoney(
+                    getCell(
+                        cells,
+                        15
+                    )
+                )
+            );
+
+
+            /*
+             * Health Card
+             */
+
+            setPayslipField(
+                card,
+                "healthcard",
+                cleanMoney(
+                    getCell(
+                        cells,
+                        16
+                    )
+                )
+            );
+
+
+            /*
+             * Other Deduction
+             */
+
+            setPayslipField(
+                card,
+                "otherdeduction",
+                cleanMoney(
+                    getCell(
+                        cells,
+                        17
+                    )
+                )
+            );
+
+
+            /*
+             * Total Deduction
+             */
+
+            setPayslipField(
+                card,
+                "deductions",
+                cleanMoney(
+                    getCell(
+                        cells,
+                        19
+                    )
+                )
+            );
+
+
+            /*
+             * Gross
+             */
+
+            setPayslipField(
+                card,
+                "gross",
+                cleanMoney(
+                    getCell(
+                        cells,
+                        20
+                    )
+                )
+            );
+
+
+            /*
+             * Net
+             */
+
+            setPayslipField(
+                card,
+                "net",
+                cleanMoney(
+                    getCell(
+                        cells,
+                        21
+                    )
+                )
+            );
+
+
+            count++;
+
+        }
+    );
+
+
+    /*
+     * If fewer than four records exist,
+     * hide unused payslip cards.
+     */
+
+    for(
+        let i = count;
+        i < cards.length;
+        i++
+    ){
+
+        cards[i].style.display =
+            "none";
+
+    }
+
+
+    /*
+     * Open browser print dialog.
+     */
+
+    window.print();
+
+}
+
+
+/* ==========================================
+   GET TABLE CELL
+========================================== */
+
+function getCell(
+    cells,
+    index
+){
+
+    if(
+        !cells ||
+        !cells[index]
+    ){
+
+        return "";
+
+    }
+
+
+    return cells[index]
+        .textContent
+        .trim();
+
+}
+
+
+/* ==========================================
+   SET PAYSLIP FIELD
+========================================== */
+
+function setPayslipField(
+    card,
+    field,
+    value
+){
+
+    const element =
+        card.querySelector(
+            `[data-field="${field}"]`
+        );
+
+
+    if(element){
+
+        element.textContent =
+            value || "0.00";
+
+    }
+
+}
+
+
+/* ==========================================
+   CLEAN MONEY
+========================================== */
+
+function cleanMoney(
+    value
+){
+
+    return formatMoney(
+        parseMoney(
+            value
+        )
+    );
+
+}
+
+
+/* ==========================================
+   PARSE MONEY
+========================================== */
+
+function parseMoney(
+    value
+){
+
+    if(!value){
+
+        return 0;
+
+    }
+
+
+    const cleaned =
+        String(value)
+        .replace(
+            /₱/g,
+            ""
+        )
+        .replace(
+            /,/g,
+            ""
+        )
+        .trim();
+
+
+    const number =
+        Number(
+            cleaned
+        );
+
+
+    return Number.isFinite(
+        number
+    )
+        ? number
+        : 0;
+
+}
+
+
+/* ==========================================
+   FORMAT MONEY
+========================================== */
+
+function formatMoney(
+    value
+){
+
+    return Number(
+        value || 0
+    ).toLocaleString(
+        "en-PH",
+        {
+            minimumFractionDigits:2,
+            maximumFractionDigits:2
+        }
+    );
+
+}
 
 </script>
+
+
+<!-- ==========================================
+     PAYSLIP PRINT CSS
+========================================== -->
+
+<style>
+
+/* ==========================================
+   PAYSLIP PRINT AREA
+========================================== */
+
+.payslip-print-area {
+
+    display:
+        none;
+
+}
+
+
+/* ==========================================
+   PAYSLIP CARD
+========================================== */
+
+.payslip-card {
+
+    background:
+        #ffffff;
+
+    border:
+        1px solid #222;
+
+    padding:
+        10px;
+
+    font-family:
+        Arial,
+        sans-serif;
+
+    font-size:
+        9px;
+
+    color:
+        #000;
+
+}
+
+
+/* ==========================================
+   PAYSLIP HEADER
+========================================== */
+
+.payslip-header {
+
+    text-align:
+        center;
+
+    border-bottom:
+        2px solid #d71920;
+
+    padding-bottom:
+        5px;
+
+    margin-bottom:
+        6px;
+
+}
+
+
+.payslip-company {
+
+    font-size:
+        15px;
+
+    font-weight:
+        900;
+
+    color:
+        #d71920;
+
+}
+
+
+.payslip-title {
+
+    font-size:
+        10px;
+
+    font-weight:
+        800;
+
+}
+
+
+/* ==========================================
+   INFORMATION
+========================================== */
+
+.payslip-info {
+
+    display:
+        grid;
+
+    gap:
+        3px;
+
+    margin-bottom:
+        5px;
+
+}
+
+
+.payslip-info div {
+
+    display:
+        flex;
+
+    justify-content:
+        space-between;
+
+    gap:
+        5px;
+
+}
+
+
+/* ==========================================
+   SECTION TITLE
+========================================== */
+
+.payslip-section-title {
+
+    background:
+        #ffcc00;
+
+    font-weight:
+        800;
+
+    padding:
+        3px 5px;
+
+    margin-top:
+        5px;
+
+    margin-bottom:
+        2px;
+
+}
+
+
+/* ==========================================
+   PAYSLIP ROW
+========================================== */
+
+.payslip-row {
+
+    display:
+        flex;
+
+    justify-content:
+        space-between;
+
+    padding:
+        2px 4px;
+
+}
+
+
+/* ==========================================
+   TOTAL
+========================================== */
+
+.payslip-total {
+
+    display:
+        flex;
+
+    justify-content:
+        space-between;
+
+    border-top:
+        1px solid #555;
+
+    padding:
+        3px 4px;
+
+    font-weight:
+        800;
+
+}
+
+
+/* ==========================================
+   NET PAY
+========================================== */
+
+.net-pay {
+
+    display:
+        flex;
+
+    justify-content:
+        space-between;
+
+    margin-top:
+        6px;
+
+    padding:
+        6px;
+
+    border:
+        2px solid #d71920;
+
+    font-size:
+        12px;
+
+    font-weight:
+        900;
+
+}
+
+
+/* ==========================================
+   SIGNATURE
+========================================== */
+
+.signature-area {
+
+    display:
+        grid;
+
+    grid-template-columns:
+        1fr 1fr;
+
+    gap:
+        15px;
+
+    margin-top:
+        15px;
+
+    text-align:
+        center;
+
+    font-size:
+        8px;
+
+}
+
+
+.signature-area div {
+
+    padding-top:
+        12px;
+
+    border-top:
+        1px solid #000;
+
+}
+
+
+/* ==========================================
+   PRINT
+========================================== */
+
+@media print {
+
+    body {
+
+        margin:
+            0 !important;
+
+        padding:
+            0 !important;
+
+        background:
+            #ffffff !important;
+
+    }
+
+
+    body > *:not(#payslipPrintArea) {
+
+        display:
+            none !important;
+
+    }
+
+
+    #payslipPrintArea {
+
+        display:
+            grid !important;
+
+        grid-template-columns:
+            1fr 1fr;
+
+        grid-template-rows:
+            1fr 1fr;
+
+        width:
+            100%;
+
+        height:
+            100vh;
+
+        gap:
+            0;
+
+        margin:
+            0;
+
+        padding:
+            0;
+
+        page-break-after:
+            always;
+
+    }
+
+
+    .payslip-card {
+
+        display:
+            block !important;
+
+        width:
+            100%;
+
+        height:
+            100%;
+
+        min-height:
+            0;
+
+        border:
+            1px dashed #555;
+
+        border-radius:
+            0;
+
+        padding:
+            8px;
+
+        box-sizing:
+            border-box;
+
+        overflow:
+            hidden;
+
+    }
+
+
+    @page {
+
+        size:
+            letter portrait;
+
+        margin:
+            5mm;
+
+    }
+
+}
+
+</style>
 
 
 </body>
