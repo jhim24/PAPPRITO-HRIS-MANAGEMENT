@@ -9,7 +9,7 @@
     name="viewport"
     content="width=device-width, initial-scale=1.0">
 
-<title>PAPPRITO HRIS - Leave Management</title>
+<title>PAPPRITO HRIS - Track Leaves</title>
 
 
 <!-- ==========================================
@@ -20,6 +20,10 @@
     rel="manifest"
     href="../manifest.json">
 
+
+<!-- ==========================================
+     THEME
+========================================== -->
 
 <meta
     name="theme-color"
@@ -76,72 +80,59 @@
 <header class="leave-header">
 
 
-<div class="header-left">
+    <div class="header-left">
+
+        <img
+            src="../assets/images/logo.png"
+            class="header-logo"
+            alt="PAPPRITO Logo">
 
 
-<img
-    src="../assets/images/logo.png"
-    class="header-logo"
-    alt="PAPPRITO">
+        <div class="header-title">
+
+            <h1>
+                PAPPRITO HRIS
+            </h1>
+
+            <p>
+                Employee Leave Management
+            </p>
+
+        </div>
+
+    </div>
 
 
-<div>
-
-<h1>
-PAPPRITO HRIS
-</h1>
-
-<p>
-LEAVE MANAGEMENT
-</p>
-
-</div>
+    <div class="header-actions">
 
 
-</div>
+        <button
+            class="btn btn-secondary"
+            onclick="window.location.href='dashboard.html'">
+
+            <span class="material-icons">
+                dashboard
+            </span>
+
+            Dashboard
+
+        </button>
 
 
-<div class="header-actions">
+        <button
+            class="btn btn-primary"
+            onclick="window.print()">
+
+            <span class="material-icons">
+                print
+            </span>
+
+            Print
+
+        </button>
 
 
-<button
-    class="icon-btn dashboard-btn"
-    onclick="backToDashboard()"
-    title="Dashboard">
-
-<span class="material-icons">
-dashboard
-</span>
-
-</button>
-
-
-<button
-    class="icon-btn refresh-btn"
-    onclick="loadLeaveData()"
-    title="Refresh">
-
-<span class="material-icons">
-refresh
-</span>
-
-</button>
-
-
-<button
-    class="icon-btn logout-btn"
-    onclick="logout()"
-    title="Logout">
-
-<span class="material-icons">
-logout
-</span>
-
-</button>
-
-
-</div>
-
+    </div>
 
 </header>
 
@@ -151,346 +142,463 @@ logout
      SUMMARY
 ========================================== -->
 
-<section class="summary-grid">
+<div class="summary-grid">
 
 
-<!-- TOTAL LEAVES -->
+    <!-- TOTAL LEAVES -->
 
-<div class="summary-card total-card">
+    <div class="summary-card total">
 
+        <div class="summary-icon">
 
-<div class="summary-icon">
+            <span class="material-icons">
+                event_available
+            </span>
 
-<span class="material-icons">
-event_available
-</span>
-
-</div>
-
-
-<div>
-
-<strong id="grandTotalLeaves">
-0
-</strong>
-
-<span>
-TOTAL LEAVES
-</span>
-
-</div>
+        </div>
 
 
-</div>
+        <div class="summary-label">
+            Total Leaves
+        </div>
 
 
+        <div
+            class="summary-value"
+            id="grandTotalLeaves">
 
-<!-- TOTAL USED -->
+            0
 
-<div class="summary-card used-card">
+        </div>
 
-
-<div class="summary-icon">
-
-<span class="material-icons">
-event_busy
-</span>
-
-</div>
-
-
-<div>
-
-<strong id="grandTotalUsed">
-0
-</strong>
-
-<span>
-TOTAL USED
-</span>
-
-</div>
-
-
-</div>
+    </div>
 
 
 
-<!-- TOTAL UNUSED -->
+    <!-- TOTAL USED -->
 
-<div class="summary-card unused-card">
+    <div class="summary-card used">
 
+        <div class="summary-icon">
 
-<div class="summary-icon">
+            <span class="material-icons">
+                event_busy
+            </span>
 
-<span class="material-icons">
-event_note
-</span>
-
-</div>
-
-
-<div>
-
-<strong id="grandTotalUnused">
-0
-</strong>
-
-<span>
-TOTAL UNUSED
-</span>
-
-</div>
+        </div>
 
 
-</div>
+        <div class="summary-label">
+            Total Used
+        </div>
+
+
+        <div
+            class="summary-value"
+            id="grandTotalUsed">
+
+            0
+
+        </div>
+
+    </div>
 
 
 
-<!-- REMAINING -->
+    <!-- TOTAL UNUSED -->
 
-<div class="summary-card remaining-card">
+    <div class="summary-card unused">
+
+        <div class="summary-icon">
+
+            <span class="material-icons">
+                event_note
+            </span>
+
+        </div>
 
 
-<div class="summary-icon">
-
-<span class="material-icons">
-event_available
-</span>
-
-</div>
+        <div class="summary-label">
+            Total Unused
+        </div>
 
 
-<div>
+        <div
+            class="summary-value"
+            id="grandTotalUnused">
 
-<strong id="grandRemaining">
-0
-</strong>
+            0
 
-<span>
-REMAINING
-</span>
+        </div>
 
-</div>
+    </div>
 
+
+
+    <!-- REMAINING -->
+
+    <div class="summary-card remaining">
+
+        <div class="summary-icon">
+
+            <span class="material-icons">
+                event_available
+            </span>
+
+        </div>
+
+
+        <div class="summary-label">
+            Remaining
+        </div>
+
+
+        <div
+            class="summary-value"
+            id="grandRemaining">
+
+            0
+
+        </div>
+
+    </div>
 
 </div>
-
-
-</section>
 
 
 
 <!-- ==========================================
-     SEARCH / FILTER
+     EMPLOYEE LEAVE TRACKING
 ========================================== -->
 
-<section class="control-section">
+<section class="section-card">
 
 
-<div class="search-area">
+    <div class="section-header">
 
 
-<span class="material-icons">
-search
-</span>
+        <div>
+
+            <h2>
+
+                <span class="material-icons">
+                    groups
+                </span>
+
+                Employee Leave Balance
+
+            </h2>
+
+            <p>
+                Leave balances are based on the Employee Masterlist.
+            </p>
+
+        </div>
 
 
-<input
-    type="text"
-    id="leaveSearch"
-    placeholder="Search employee..."
-    oninput="searchLeaves()">
+        <div>
+
+            <span class="section-note">
+                Total / Used / Unused / Remaining
+            </span>
+
+        </div>
+
+    </div>
 
 
-</div>
 
+<!-- ==========================================
+     FILTER AREA
+========================================== -->
 
 <div class="filter-area">
 
 
-<select
-    id="departmentFilter"
-    onchange="filterLeaves()">
+    <!-- SEARCH -->
 
-<option value="">
-ALL DEPARTMENTS
-</option>
+    <div class="form-group">
 
-</select>
+        <label>
+            Search Employee
+        </label>
 
 
-<select
-    id="leaveTypeFilter"
-    onchange="filterLeaves()">
+        <div class="search-box">
 
-<option value="ALL">
-ALL LEAVE TYPES
-</option>
+            <span class="material-icons">
+                search
+            </span>
 
-<option value="VACATION">
-VACATION LEAVE
-</option>
 
-<option value="SICK">
-SICK LEAVE
-</option>
+            <input
+                type="text"
+                id="leaveSearch"
+                class="form-control"
+                placeholder="Search employee name or ID...">
 
-<option value="BIRTHDAY">
-BIRTHDAY LEAVE
-</option>
+        </div>
 
-</select>
+    </div>
 
+
+
+    <!-- DEPARTMENT -->
+
+    <div class="form-group">
+
+        <label>
+            Department
+        </label>
+
+
+        <select
+            id="departmentFilter"
+            class="form-control">
+
+            <option value="">
+                All Departments
+            </option>
+
+        </select>
+
+    </div>
+
+
+
+    <!-- LEAVE TYPE -->
+
+    <div class="form-group">
+
+        <label>
+            Leave Type
+        </label>
+
+
+        <select
+            id="leaveTypeFilter"
+            class="form-control">
+
+            <option value="ALL">
+                All Leave Types
+            </option>
+
+            <option value="Vacation">
+                Vacation Leave
+            </option>
+
+            <option value="Sick">
+                Sick Leave
+            </option>
+
+            <option value="Birthday">
+                Birthday Leave
+            </option>
+
+        </select>
+
+    </div>
+
+
+
+    <!-- REFRESH -->
+
+    <button
+        class="filter-btn"
+        onclick="loadLeaveData()">
+
+        <span class="material-icons">
+            refresh
+        </span>
+
+        Refresh
+
+    </button>
 
 </div>
 
 
-</section>
-
-
 
 <!-- ==========================================
-     EMPLOYEE LEAVE BALANCE
+     TABLE TOP
 ========================================== -->
 
-<section class="leave-section">
+<div class="table-top">
 
 
-<div class="section-header">
+    <div
+        class="employee-count"
+        id="employeeCount">
+
+        Employees:
+        <strong>0</strong>
+
+    </div>
 
 
-<div>
+    <div class="section-note">
 
-<h2>
+        Based on Employee Masterlist
 
-<span class="material-icons">
-groups
-</span>
-
-Employee Leave Balance
-
-</h2>
-
-
-<p>
-Leave balance is based on Employee Masterlist
-</p>
-
-
-</div>
-
-
-<div class="record-count">
-
-<span id="employeeCount">
-0
-</span>
-
-Employees
-
-</div>
-
+    </div>
 
 </div>
 
 
 
 <!-- ==========================================
-     TABLE
+     LEAVE TABLE
 ========================================== -->
 
 <div class="table-wrapper">
 
 
-<table
-    class="leave-table"
-    id="leaveTable">
+<table class="leave-table">
 
 
 <thead>
 
+
+<!-- GROUP HEADER -->
+
+<tr>
+
+    <th rowspan="2">
+        Employee ID
+    </th>
+
+
+    <th rowspan="2">
+        Employee Name
+    </th>
+
+
+    <th rowspan="2">
+        Department
+    </th>
+
+
+    <th
+        colspan="4"
+        class="group-vacation">
+
+        Vacation Leave
+
+    </th>
+
+
+    <th
+        colspan="4"
+        class="group-sick">
+
+        Sick Leave
+
+    </th>
+
+
+    <th
+        colspan="4"
+        class="group-birthday">
+
+        Birthday Leave
+
+    </th>
+
+
+    <th
+        colspan="4"
+        class="group-total">
+
+        Overall
+
+    </th>
+
+</tr>
+
+
+
+<!-- COLUMN HEADER -->
+
 <tr>
 
 
-<th>
-EMPLOYEE ID
-</th>
+    <!-- VACATION -->
+
+    <th class="group-vacation">
+        Total
+    </th>
+
+    <th class="group-vacation">
+        Used
+    </th>
+
+    <th class="group-vacation">
+        Unused
+    </th>
+
+    <th class="group-vacation">
+        Remaining
+    </th>
 
 
-<th>
-EMPLOYEE NAME
-</th>
+
+    <!-- SICK -->
+
+    <th class="group-sick">
+        Total
+    </th>
+
+    <th class="group-sick">
+        Used
+    </th>
+
+    <th class="group-sick">
+        Unused
+    </th>
+
+    <th class="group-sick">
+        Remaining
+    </th>
 
 
-<th>
-DEPARTMENT
-</th>
+
+    <!-- BIRTHDAY -->
+
+    <th class="group-birthday">
+        Total
+    </th>
+
+    <th class="group-birthday">
+        Used
+    </th>
+
+    <th class="group-birthday">
+        Unused
+    </th>
+
+    <th class="group-birthday">
+        Remaining
+    </th>
 
 
-<th>
-VACATION TOTAL
-</th>
 
+    <!-- OVERALL -->
 
-<th>
-VACATION USED
-</th>
+    <th class="group-total">
+        Total
+    </th>
 
+    <th class="group-total">
+        Used
+    </th>
 
-<th>
-VACATION REMAINING
-</th>
+    <th class="group-total">
+        Unused
+    </th>
 
-
-<th>
-SICK TOTAL
-</th>
-
-
-<th>
-SICK USED
-</th>
-
-
-<th>
-SICK REMAINING
-</th>
-
-
-<th>
-BIRTHDAY TOTAL
-</th>
-
-
-<th>
-BIRTHDAY USED
-</th>
-
-
-<th>
-BIRTHDAY REMAINING
-</th>
-
-
-<th>
-TOTAL LEAVES
-</th>
-
-
-<th>
-TOTAL USED
-</th>
-
-
-<th>
-TOTAL UNUSED
-</th>
-
-
-<th>
-REMAINING
-</th>
+    <th class="group-total">
+        Remaining
+    </th>
 
 
 </tr>
@@ -498,18 +606,19 @@ REMAINING
 </thead>
 
 
+
 <tbody id="leaveBody">
 
 
 <tr>
 
-<td
-    colspan="16"
-    class="empty-message">
+    <td
+        colspan="19"
+        class="empty-message">
 
-    Loading employee leave data...
+        Loading employee leave records...
 
-</td>
+    </td>
 
 </tr>
 
@@ -519,11 +628,7 @@ REMAINING
 
 </table>
 
-
 </div>
-
-
-</section>
 
 
 
@@ -531,73 +636,51 @@ REMAINING
      LEGEND
 ========================================== -->
 
-<section class="legend-section">
+<div class="legend">
 
 
-<div class="legend-title">
+    <div class="legend-item">
 
-<span class="material-icons">
-info
-</span>
+        <span
+            class="legend-box total">
+        </span>
 
-Leave Calculation
+        Total
 
-</div>
-
-
-<div class="legend-grid">
+    </div>
 
 
-<div>
+    <div class="legend-item">
 
-<strong>
-TOTAL LEAVES
-</strong>
+        <span
+            class="legend-box used">
+        </span>
 
-<p>
-Employee Masterlist entitlement
-</p>
+        Used
 
-</div>
+    </div>
 
 
-<div>
+    <div class="legend-item">
 
-<strong>
-TOTAL USED
-</strong>
+        <span
+            class="legend-box unused">
+        </span>
 
-<p>
-Approved leave requests only
-</p>
+        Unused
 
-</div>
+    </div>
 
 
-<div>
+    <div class="legend-item">
 
-<strong>
-TOTAL UNUSED
-</strong>
+        <span
+            class="legend-box remaining">
+        </span>
 
-<p>
-Total leaves minus approved usage
-</p>
+        Remaining
 
-</div>
-
-
-<div>
-
-<strong>
-REMAINING
-</strong>
-
-<p>
-Current available leave balance
-</p>
-
-</div>
+    </div>
 
 
 </div>
@@ -613,16 +696,43 @@ Current available leave balance
 
 <footer class="leave-footer">
 
-<span>
-© 2026 PAPPRITO HRIS
-</span>
+    © 2026
+    <strong>
+        PAPPRITO HRIS
+    </strong>
 
-<span>
-Leave Management
-</span>
+    — Employee Leave Management
 
 </footer>
 
+
+</div>
+
+
+
+<!-- ==========================================
+     LOADING
+========================================== -->
+
+<div
+    class="loading"
+    id="loading">
+
+
+    <div class="loading-box">
+
+
+        <span class="material-icons">
+            sync
+        </span>
+
+
+        <p>
+            Loading leave records...
+        </p>
+
+
+    </div>
 
 </div>
 
