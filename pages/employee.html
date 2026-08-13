@@ -44,12 +44,291 @@ href="../assets/images/logo.png">
 
 
 <!-- ==========================================
+     MATERIAL ICONS
+========================================== -->
+
+<link
+href="https://fonts.googleapis.com/icon?family=Material+Icons"
+rel="stylesheet">
+
+
+<!-- ==========================================
      EMPLOYEE CSS
 ========================================== -->
 
 <link
 rel="stylesheet"
 href="../css/employee.css">
+
+
+<!-- ==========================================
+     PORTAL ACCOUNT CSS
+========================================== -->
+
+<style>
+
+/* ==========================================
+   EMPLOYEE PORTAL ACCOUNT
+========================================== */
+
+.portal-account-section{
+
+    margin-top:20px;
+
+    padding:15px;
+
+    background:#1b1b1b;
+
+    border:2px solid #ffcc00;
+
+    border-radius:10px;
+
+}
+
+
+.portal-account-header{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:8px;
+
+    margin-bottom:15px;
+
+    color:#ffcc00;
+
+    font-size:17px;
+
+    font-weight:900;
+
+}
+
+
+.portal-account-header .material-icons{
+
+    font-size:24px;
+
+}
+
+
+.portal-account-grid{
+
+    display:grid;
+
+    grid-template-columns:
+        1fr 1fr;
+
+    gap:12px;
+
+}
+
+
+.portal-field{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:6px;
+
+}
+
+
+.portal-field label{
+
+    color:#ffffff;
+
+    font-size:13px;
+
+    font-weight:700;
+
+}
+
+
+.portal-field input{
+
+    width:100%;
+
+    padding:11px;
+
+    border:1px solid #555;
+
+    border-radius:7px;
+
+    background:#252525;
+
+    color:#ffffff;
+
+    outline:none;
+
+}
+
+
+.portal-field input:focus{
+
+    border-color:#ffcc00;
+
+}
+
+
+.portal-field input[readonly]{
+
+    color:#ffcc00;
+
+    font-weight:700;
+
+}
+
+
+.password-generator{
+
+    display:flex;
+
+    gap:8px;
+
+}
+
+
+.password-generator input{
+
+    flex:1;
+
+}
+
+
+.generate-password-btn{
+
+    border:none;
+
+    border-radius:7px;
+
+    padding:10px 12px;
+
+    background:#ffcc00;
+
+    color:#111111;
+
+    font-weight:800;
+
+    cursor:pointer;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    gap:5px;
+
+}
+
+
+.generate-password-btn:hover{
+
+    opacity:.9;
+
+}
+
+
+.generate-password-btn .material-icons{
+
+    font-size:18px;
+
+}
+
+
+.portal-toggle{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:8px;
+
+    margin-top:15px;
+
+    color:#ffffff;
+
+    font-weight:700;
+
+    cursor:pointer;
+
+}
+
+
+.portal-toggle input{
+
+    width:18px;
+
+    height:18px;
+
+    accent-color:#ffcc00;
+
+}
+
+
+.portal-note{
+
+    display:flex;
+
+    align-items:flex-start;
+
+    gap:7px;
+
+    margin-top:12px;
+
+    padding:10px;
+
+    background:#252525;
+
+    border-left:4px solid #ffcc00;
+
+    border-radius:6px;
+
+    color:#bbbbbb;
+
+    font-size:12px;
+
+    line-height:1.5;
+
+}
+
+
+.portal-note .material-icons{
+
+    color:#ffcc00;
+
+    font-size:18px;
+
+}
+
+
+@media(max-width:768px){
+
+    .portal-account-grid{
+
+        grid-template-columns:1fr;
+
+    }
+
+
+    .password-generator{
+
+        flex-direction:column;
+
+    }
+
+
+    .generate-password-btn{
+
+        width:100%;
+
+    }
+
+}
+
+</style>
 
 </head>
 
@@ -580,7 +859,8 @@ class="tab-content">
 
 <input
 class="emp-field"
-placeholder="Employee ID">
+placeholder="Employee ID"
+id="employeeId">
 
 
 <input
@@ -595,7 +875,6 @@ placeholder="Department">
 
 <select
 class="emp-field">
-
 
 <option>
 Employment
@@ -619,11 +898,6 @@ Contractual
 
 <select
 class="emp-field">
-
-
-<option>
-Active
-</option>
 
 <option>
 Active
@@ -659,6 +933,148 @@ placeholder="Salary Rate">
 
 
 </div>
+
+
+<!-- ======================================
+     EMPLOYEE PORTAL ACCOUNT
+====================================== -->
+
+<div
+class="portal-account-section">
+
+
+<div
+class="portal-account-header">
+
+<span class="material-icons">
+
+account_circle
+
+</span>
+
+EMPLOYEE PORTAL ACCOUNT
+
+</div>
+
+
+<div
+class="portal-account-grid">
+
+
+<!-- USERNAME -->
+
+<div
+class="portal-field">
+
+
+<label>
+Portal Username
+</label>
+
+
+<input
+type="text"
+id="portalUsername"
+placeholder="Employee ID"
+readonly>
+
+
+</div>
+
+
+<!-- PASSWORD -->
+
+<div
+class="portal-field">
+
+
+<label>
+Temporary Password
+</label>
+
+
+<div
+class="password-generator">
+
+
+<input
+type="text"
+id="portalPassword"
+placeholder="Generate password">
+
+
+<button
+type="button"
+class="generate-password-btn"
+onclick="generatePortalPassword()">
+
+
+<span class="material-icons">
+
+refresh
+
+</span>
+
+
+GENERATE
+
+</button>
+
+
+</div>
+
+
+</div>
+
+
+</div>
+
+
+<!-- ENABLE LOGIN -->
+
+<label
+class="portal-toggle">
+
+
+<input
+type="checkbox"
+id="portalEnabled">
+
+
+<span>
+
+Allow Employee Login
+
+</span>
+
+
+</label>
+
+
+<div
+class="portal-note">
+
+
+<span class="material-icons">
+
+info
+
+</span>
+
+
+<span>
+
+Employee will use the Employee ID and
+temporary password to access the Employee Portal.
+
+</span>
+
+
+</div>
+
+
+</div>
+
 
 </div>
 
