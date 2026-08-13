@@ -1,11 +1,9 @@
 /* ==========================================
    PAPPRITO HRIS
-   ATTENDANCE MANAGEMENT JS
+   EMPLOYEE ATTENDANCE JAVASCRIPT
 ========================================== */
 
-import {
-    db
-} from "./firebase.js";
+import { db } from "./firebase.js";
 
 import {
     collection,
@@ -13,14 +11,24 @@ import {
     addDoc,
     updateDoc,
     deleteDoc,
-    doc,
-    query,
-    orderBy
+    doc
 } from "https://www.gstatic.com/firebasejs/12.13.0/firebase-firestore.js";
 
 
 /* ==========================================
-   GLOBAL VARIABLES
+   CONFIGURATION
+========================================== */
+
+const WORK_START_HOUR = 8;
+const WORK_START_MINUTE = 0;
+
+const REGULAR_HOURS = 8;
+
+const LATE_GRACE_MINUTES = 0;
+
+
+/* ==========================================
+   DATA
 ========================================== */
 
 let employees = [];
@@ -29,118 +37,80 @@ let attendanceRecords = [];
 
 let selectedEmployee = null;
 
-let editingAttendanceId = null;
-
-
-/*
- * Standard work schedule
- */
-
-const WORK_START_HOUR = 8;
-
-const WORK_START_MINUTE = 0;
-
-
-/*
- * Regular working hours
- */
-
-const REGULAR_HOURS = 8;
-
-
-/*
- * Late grace period
- *
- * 08:00 = on time
- * 08:01 = late
- */
-
-const LATE_GRACE_MINUTES = 0;
-
 
 /* ==========================================
    ELEMENTS
 ========================================== */
 
 const employeeSelect =
-    document.getElementById(
-        "employeeSelect"
-    );
-
+    document.getElementById("employeeSelect");
 
 const fromDate =
-    document.getElementById(
-        "fromDate"
-    );
-
+    document.getElementById("fromDate");
 
 const toDate =
-    document.getElementById(
-        "toDate"
-    );
-
-
-const attendanceBody =
-    document.getElementById(
-        "attendanceBody"
-    );
-
+    document.getElementById("toDate");
 
 const employeeIdElement =
-    document.getElementById(
-        "employeeId"
-    );
-
+    document.getElementById("employeeId");
 
 const employeeNameElement =
-    document.getElementById(
-        "employeeName"
-    );
-
+    document.getElementById("employeeName");
 
 const clockElement =
-    document.getElementById(
-        "clock"
-    );
-
+    document.getElementById("clock");
 
 const todayDateElement =
-    document.getElementById(
-        "todayDate"
-    );
-
+    document.getElementById("todayDate");
 
 const todayStatus =
-    document.getElementById(
-        "todayStatus"
-    );
-
+    document.getElementById("todayStatus");
 
 const todayRegularHours =
-    document.getElementById(
-        "todayRegularHours"
-    );
-
+    document.getElementById("todayRegularHours");
 
 const todayOvertime =
-    document.getElementById(
-        "todayOvertime"
-    );
-
+    document.getElementById("todayOvertime");
 
 const todayLate =
-    document.getElementById(
-        "todayLate"
-    );
+    document.getElementById("todayLate");
+
+const attendanceBody =
+    document.getElementById("attendanceBody");
+
+const timeInBtn =
+    document.getElementById("timeInBtn");
+
+const breakOutBtn =
+    document.getElementById("breakOutBtn");
+
+const breakInBtn =
+    document.getElementById("breakInBtn");
+
+const timeOutBtn =
+    document.getElementById("timeOutBtn");
+
+const filterBtn =
+    document.getElementById("filterBtn");
+
+const summaryBtn =
+    document.getElementById("summaryBtn");
+
+const clearFilterBtn =
+    document.getElementById("clearFilterBtn");
+
+const printBtn =
+    document.getElementById("printBtn");
+
+const backBtn =
+    document.getElementById("backBtn");
 
 
 /* ==========================================
    BASIC HELPERS
 ========================================== */
 
-function text(
-    value
-){
+function clean(value){
 
     return String(
         value ?? ""
@@ -149,30 +119,19 @@ function text(
 }
 
 
-function number(
-    value
-){
+function numeric(value){
 
     const result =
-        Number(
-            value || 0
-        );
+        Number(value || 0);
 
-
-    return Number.isFinite(
-        result
-    )
-    ?
-    result
-    :
-    0;
+    return Number.isFinite(result)
+        ? result
+        : 0;
 
 }
 
 
-function escapeHTML(
-    value
-){
+function escapeHTML(value){
 
     return String(
         value ?? ""
@@ -207,7 +166,7 @@ function escapeHTML(
 
 
 /* ==========================================
-   DATE HELPERS
+   DATE
 ========================================== */
 
 function getToday(){
@@ -215,32 +174,68 @@ function getToday(){
     const date =
         new Date();
 
+    return [
 
-    const year =
-        date.getFullYear();
+        date.getFullYear(),
 
-
-    const month =
         String(
             date.getMonth() + 1
-        )
-        .padStart(
-            2,
-            "0"
-        );
+        ).padStart(2, "0"),
 
-
-    const day =
         String(
             date.getDate()
-        )
-        .padStart(
-            2,
-            "0"
+        ).padStart(2, "0")
+
+    ].join("-");
+
+}
+
+
+function formatDate(value){
+
+    const date =
+        clean(value);
+
+    if(!date){
+
+        return "-";
+
+    }
+
+    const parts =
+        date.split("-");
+
+    if(parts.length !== 3){
+
+        return date;
+
+    }
+
+    const result =
+        new Date(
+            Number(parts[0]),
+            Number(parts[1]) - 1,
+            Number(parts[2])
         );
 
+    if(
+        Number.isNaN(
+            result.getTime()
+        )
+    ){
 
-    return `${year}-${month}-${day}`;
+        return date;
+
+    }
+
+    return result.toLocaleDateString(
+        "en-US",
+        {
+            month:"short",
+            day:"2-digit",
+            year:"numeric"
+        }
+    );
 
 }
 
@@ -254,91 +249,29 @@ function getCurrentTime(){
     const date =
         new Date();
 
+    return [
 
-    const hours =
         String(
             date.getHours()
-        )
-        .padStart(
-            2,
-            "0"
-        );
+        ).padStart(2, "0"),
 
-
-    const minutes =
         String(
             date.getMinutes()
-        )
-        .padStart(
-            2,
-            "0"
-        );
+        ).padStart(2, "0"),
 
-
-    const seconds =
         String(
             date.getSeconds()
-        )
-        .padStart(
-            2,
-            "0"
-        );
+        ).padStart(2, "0")
 
-
-    return `${hours}:${minutes}:${seconds}`;
+    ].join(":");
 
 }
 
 
-/* ==========================================
-   DISPLAY CLOCK
-========================================== */
+function timeToMinutes(value){
 
-function updateClock(){
-
-    if(clockElement){
-
-        clockElement.innerText =
-            getCurrentTime();
-
-    }
-
-
-    if(todayDateElement){
-
-        const date =
-            new Date();
-
-
-        todayDateElement.innerText =
-            date.toLocaleDateString(
-                "en-US",
-                {
-                    weekday:"long",
-                    year:"numeric",
-                    month:"long",
-                    day:"numeric"
-                }
-            );
-
-    }
-
-}
-
-
-setInterval(
-    updateClock,
-    1000
-);
-
-
-/* ==========================================
-   TIME TO MINUTES
-========================================== */
-
-function timeToMinutes(
-    time
-){
+    const time =
+        clean(value);
 
     if(!time){
 
@@ -346,13 +279,8 @@ function timeToMinutes(
 
     }
 
-
     const parts =
-        String(
-            time
-        )
-        .split(":");
-
+        time.split(":");
 
     if(parts.length < 2){
 
@@ -360,22 +288,14 @@ function timeToMinutes(
 
     }
 
-
     const hours =
-        Number(
-            parts[0]
-        );
-
+        Number(parts[0]);
 
     const minutes =
-        Number(
-            parts[1]
-        );
-
+        Number(parts[1]);
 
     if(
-        !Number.isFinite(hours)
-        ||
+        !Number.isFinite(hours) ||
         !Number.isFinite(minutes)
     ){
 
@@ -383,58 +303,41 @@ function timeToMinutes(
 
     }
 
-
     return (
         hours * 60
-    )
-    +
-    minutes;
+    ) + minutes;
+
+}
+
+
+function hoursFromMinutes(minutes){
+
+    return numeric(minutes) / 60;
+
+}
+
+
+function formatHours(value){
+
+    return numeric(value)
+        .toFixed(2);
 
 }
 
 
 /* ==========================================
-   MINUTES TO HOURS
+   EMPLOYEE HELPERS
 ========================================== */
 
-function minutesToHours(
-    minutes
-){
+function getEmployeeName(employee){
 
-    return (
-        number(minutes)
-        /
-        60
-    );
+    if(!employee){
 
-}
+        return "";
 
+    }
 
-/* ==========================================
-   FORMAT HOURS
-========================================== */
-
-function formatHours(
-    hours
-){
-
-    return number(
-        hours
-    )
-    .toFixed(2);
-
-}
-
-
-/* ==========================================
-   FULL EMPLOYEE NAME
-========================================== */
-
-function getEmployeeName(
-    employee
-){
-
-    return [
+    const name = [
 
         employee.firstname,
 
@@ -444,7 +347,10 @@ function getEmployeeName(
 
     ]
 
-    .filter(Boolean)
+    .filter(
+        value =>
+            clean(value)
+    )
 
     .join(" ")
 
@@ -455,11 +361,102 @@ function getEmployeeName(
 
     .trim();
 
+    return (
+        name ||
+        employee.name ||
+        employee.fullname ||
+        ""
+    );
+
+}
+
+
+function getRecordEmployeeId(record){
+
+    return clean(
+
+        record.employeeid ??
+        record.empid ??
+        record.employeeId ??
+        ""
+
+    );
+
+}
+
+
+function getRecordEmployeeName(record){
+
+    return clean(
+
+        record.employee ??
+        record.employeeName ??
+        record.name ??
+        ""
+
+    );
+
 }
 
 
 /* ==========================================
-   SET DEFAULT DATES
+   COMPATIBILITY WITH OLD/NEW FIELDS
+========================================== */
+
+function getTimeIn(record){
+
+    return clean(
+
+        record.timeIn ??
+        record.timein ??
+        ""
+
+    );
+
+}
+
+
+function getBreakOut(record){
+
+    return clean(
+
+        record.breakOut ??
+        record.breakout ??
+        ""
+
+    );
+
+}
+
+
+function getBreakIn(record){
+
+    return clean(
+
+        record.breakIn ??
+        record.breakin ??
+        ""
+
+    );
+
+}
+
+
+function getTimeOut(record){
+
+    return clean(
+
+        record.timeOut ??
+        record.timeout ??
+        ""
+
+    );
+
+}
+
+
+/* ==========================================
+   DEFAULT DATE
 ========================================== */
 
 function setDefaultDates(){
@@ -467,14 +464,12 @@ function setDefaultDates(){
     const today =
         getToday();
 
-
     if(fromDate){
 
         fromDate.value =
             today;
 
     }
-
 
     if(toDate){
 
@@ -487,6 +482,53 @@ function setDefaultDates(){
 
 
 /* ==========================================
+   CLOCK
+========================================== */
+
+function updateClock(){
+
+    const now =
+        new Date();
+
+    if(clockElement){
+
+        clockElement.textContent =
+            now.toLocaleTimeString(
+                "en-US",
+                {
+                    hour12:true
+                }
+            );
+
+    }
+
+    if(todayDateElement){
+
+        todayDateElement.textContent =
+            now.toLocaleDateString(
+                "en-US",
+                {
+                    weekday:"long",
+                    month:"long",
+                    day:"numeric",
+                    year:"numeric"
+                }
+            );
+
+    }
+
+}
+
+
+updateClock();
+
+setInterval(
+    updateClock,
+    1000
+);
+
+
+/* ==========================================
    LOAD EMPLOYEES
 ========================================== */
 
@@ -496,7 +538,6 @@ async function loadEmployees(){
 
         employees = [];
 
-
         const snapshot =
             await getDocs(
                 collection(
@@ -505,16 +546,15 @@ async function loadEmployees(){
                 )
             );
 
-
         snapshot.forEach(
-            docSnap => {
+            employeeDoc => {
 
                 employees.push({
 
                     id:
-                        docSnap.id,
+                        employeeDoc.id,
 
-                    ...docSnap.data()
+                    ...employeeDoc.data()
 
                 });
 
@@ -523,24 +563,15 @@ async function loadEmployees(){
 
 
         employees.sort(
-            (
-                a,
-                b
-            ) => {
+            (a,b) => {
 
                 const nameA =
-                    getEmployeeName(
-                        a
-                    )
+                    getEmployeeName(a)
                     .toLowerCase();
-
 
                 const nameB =
-                    getEmployeeName(
-                        b
-                    )
+                    getEmployeeName(b)
                     .toLowerCase();
-
 
                 return nameA.localeCompare(
                     nameB
@@ -550,19 +581,18 @@ async function loadEmployees(){
         );
 
 
-        populateEmployeeSelect();
+        populateEmployees();
 
 
     }catch(error){
 
         console.error(
-            "Employee Load Error:",
+            "LOAD EMPLOYEES ERROR:",
             error
         );
 
-
         alert(
-            "Failed to load employees.\n\n" +
+            "Unable to load employees.\n\n" +
             error.message
         );
 
@@ -575,7 +605,7 @@ async function loadEmployees(){
    POPULATE EMPLOYEE SELECT
 ========================================== */
 
-function populateEmployeeSelect(){
+function populateEmployees(){
 
     if(!employeeSelect){
 
@@ -583,45 +613,43 @@ function populateEmployeeSelect(){
 
     }
 
-
     employeeSelect.innerHTML = `
-
-<option value="">
-
-Select Employee
-
-</option>
-
-`;
+        <option value="">
+            Select Employee
+        </option>
+    `;
 
 
     employees.forEach(
         employee => {
-
-            if(
-                employee.status &&
-                employee.status !== "Active"
-            ){
-
-                return;
-
-            }
-
 
             const option =
                 document.createElement(
                     "option"
                 );
 
-
             option.value =
                 employee.id;
 
+            const employeeID =
+                clean(
+                    employee.employeeid ??
+                    employee.empid ??
+                    ""
+                );
+
+            const employeeName =
+                getEmployeeName(
+                    employee
+                );
+
 
             option.textContent =
-
-                `${employee.employeeid || ""} - ` +
-                `${getEmployeeName(employee)}`;
+                employeeID
+                ?
+                `${employeeID} - ${employeeName}`
+                :
+                employeeName;
 
 
             employeeSelect.appendChild(
@@ -635,94 +663,93 @@ Select Employee
 
 
 /* ==========================================
-   EMPLOYEE SELECT CHANGE
+   SELECT EMPLOYEE
 ========================================== */
 
-if(employeeSelect){
+employeeSelect?.addEventListener(
+    "change",
+    async function(){
 
-    employeeSelect.addEventListener(
-        "change",
-        function(){
-
-            const employeeDocId =
-                this.value;
-
-
-            selectedEmployee =
-                employees.find(
-                    employee =>
-                        employee.id ===
-                        employeeDocId
-                )
-                ||
-                null;
+        selectedEmployee =
+            employees.find(
+                employee =>
+                    employee.id ===
+                    this.value
+            ) || null;
 
 
-            displaySelectedEmployee();
+        displayEmployee();
 
-            loadAttendance();
 
-        }
-    );
+        updateActionButtons();
 
-}
+
+        updateTodaySummary();
+
+
+        renderAttendance();
+
+    }
+);
 
 
 /* ==========================================
-   DISPLAY SELECTED EMPLOYEE
+   DISPLAY EMPLOYEE
 ========================================== */
 
-function displaySelectedEmployee(){
+function displayEmployee(){
 
-    if(
-        !selectedEmployee
-    ){
+    if(!selectedEmployee){
 
         if(employeeIdElement){
 
-            employeeIdElement.innerText =
+            employeeIdElement.textContent =
                 "EMPLOYEE ID : -";
 
         }
 
-
         if(employeeNameElement){
 
-            employeeNameElement.innerText =
+            employeeNameElement.textContent =
                 "EMPLOYEE NAME : -";
 
         }
-
 
         return;
 
     }
 
 
+    const employeeID =
+        clean(
+            selectedEmployee.employeeid ??
+            selectedEmployee.empid ??
+            ""
+        );
+
+
+    const employeeName =
+        getEmployeeName(
+            selectedEmployee
+        );
+
+
     if(employeeIdElement){
 
-        employeeIdElement.innerText =
-            "EMPLOYEE ID : " +
-            (
-                selectedEmployee.employeeid
-                ||
-                "-"
-            );
+        employeeIdElement.textContent =
+            `EMPLOYEE ID : ${
+                employeeID || "-"
+            }`;
 
     }
 
 
     if(employeeNameElement){
 
-        employeeNameElement.innerText =
-            "EMPLOYEE NAME : " +
-            (
-                getEmployeeName(
-                    selectedEmployee
-                )
-                ||
-                "-"
-            );
+        employeeNameElement.textContent =
+            `EMPLOYEE NAME : ${
+                employeeName || "-"
+            }`;
 
     }
 
@@ -744,25 +771,28 @@ async function loadAttendance(){
 
             attendanceBody.innerHTML = `
 
-<tr>
+                <tr>
 
-<td
-    colspan="13"
-    class="empty-row">
+                    <td
+                    colspan="13"
+                    class="empty-row">
 
-    <span class="material-icons">
-        sync
-    </span>
+                        <span
+                        class="material-icons">
 
-    <p>
-        Loading attendance...
-    </p>
+                            sync
 
-</td>
+                        </span>
 
-</tr>
+                        <p>
+                            Loading attendance...
+                        </p>
 
-`;
+                    </td>
+
+                </tr>
+
+            `;
 
         }
 
@@ -777,14 +807,18 @@ async function loadAttendance(){
 
 
         snapshot.forEach(
-            docSnap => {
+            attendanceDoc => {
+
+                const data =
+                    attendanceDoc.data();
+
 
                 attendanceRecords.push({
 
                     id:
-                        docSnap.id,
+                        attendanceDoc.id,
 
-                    ...docSnap.data()
+                    ...data
 
                 });
 
@@ -793,25 +827,18 @@ async function loadAttendance(){
 
 
         attendanceRecords.sort(
-            (
-                a,
-                b
-            ) => {
+            (a,b) => {
 
                 const dateA =
-                    String(
-                        a.date || ""
-                    );
-
+                    clean(a.date);
 
                 const dateB =
-                    String(
-                        b.date || ""
-                    );
+                    clean(b.date);
 
 
                 if(
-                    dateA !== dateB
+                    dateA !==
+                    dateB
                 ){
 
                     return dateB.localeCompare(
@@ -821,12 +848,11 @@ async function loadAttendance(){
                 }
 
 
-                return String(
-                    b.timeIn || ""
-                )
-                .localeCompare(
-                    String(
-                        a.timeIn || ""
+                return clean(
+                    getTimeIn(b)
+                ).localeCompare(
+                    clean(
+                        getTimeIn(a)
                     )
                 );
 
@@ -838,11 +864,13 @@ async function loadAttendance(){
 
         updateTodaySummary();
 
+        updateActionButtons();
+
 
     }catch(error){
 
         console.error(
-            "Attendance Load Error:",
+            "LOAD ATTENDANCE ERROR:",
             error
         );
 
@@ -851,31 +879,34 @@ async function loadAttendance(){
 
             attendanceBody.innerHTML = `
 
-<tr>
+                <tr>
 
-<td
-    colspan="13"
-    class="empty-row">
+                    <td
+                    colspan="13"
+                    class="empty-row error-row">
 
-    <span class="material-icons">
-        error_outline
-    </span>
+                        <span
+                        class="material-icons">
 
-    <p>
-        Failed to load attendance.
-    </p>
+                            error_outline
 
-</td>
+                        </span>
 
-</tr>
+                        <p>
+                            Failed to load attendance.
+                        </p>
 
-`;
+                    </td>
+
+                </tr>
+
+            `;
 
         }
 
 
         alert(
-            "Failed to load attendance.\n\n" +
+            "Unable to load attendance.\n\n" +
             error.message
         );
 
@@ -885,21 +916,106 @@ async function loadAttendance(){
 
 
 /* ==========================================
-   FILTER ATTENDANCE
+   FILTER RECORDS
 ========================================== */
 
-window.filterAttendance =
-function(){
+function getFilteredRecords(){
+
+    const selectedID =
+        selectedEmployee
+        ?
+        clean(
+            selectedEmployee.employeeid ??
+            selectedEmployee.empid ??
+            ""
+        ).toLowerCase()
+        :
+        "";
+
+
+    const from =
+        clean(
+            fromDate?.value
+        );
+
+
+    const to =
+        clean(
+            toDate?.value
+        );
+
+
+    return attendanceRecords.filter(
+        record => {
+
+            const recordID =
+                getRecordEmployeeId(
+                    record
+                ).toLowerCase();
+
+
+            if(
+                selectedID &&
+                recordID !==
+                selectedID
+            ){
+
+                return false;
+
+            }
+
+
+            const recordDate =
+                clean(
+                    record.date
+                );
+
+
+            if(
+                from &&
+                recordDate <
+                from
+            ){
+
+                return false;
+
+            }
+
+
+            if(
+                to &&
+                recordDate >
+                to
+            ){
+
+                return false;
+
+            }
+
+
+            return true;
+
+        }
+    );
+
+}
+
+
+/* ==========================================
+   FILTER
+========================================== */
+
+function filterAttendance(){
 
     renderAttendance();
 
     updateTodaySummary();
 
-};
+}
 
 
 /* ==========================================
-   RENDER ATTENDANCE
+   RENDER TABLE
 ========================================== */
 
 function renderAttendance(){
@@ -911,130 +1027,40 @@ function renderAttendance(){
     }
 
 
+    const records =
+        getFilteredRecords();
+
+
     attendanceBody.innerHTML =
         "";
-
-
-    const selectedId =
-        selectedEmployee
-        ?
-        String(
-            selectedEmployee.employeeid ||
-            ""
-        )
-        .trim()
-        .toUpperCase()
-        :
-        "";
-
-
-    const from =
-        fromDate
-        ?
-        fromDate.value
-        :
-        "";
-
-
-    const to =
-        toDate
-        ?
-        toDate.value
-        :
-        "";
-
-
-    let records =
-        attendanceRecords.filter(
-            record => {
-
-                /*
-                 * EMPLOYEE FILTER
-                 */
-
-                if(selectedId){
-
-                    const recordEmployeeId =
-                        String(
-                            record.employeeid ||
-                            record.empid ||
-                            ""
-                        )
-                        .trim()
-                        .toUpperCase();
-
-
-                    if(
-                        recordEmployeeId !==
-                        selectedId
-                    ){
-
-                        return false;
-
-                    }
-
-                }
-
-
-                /*
-                 * DATE FILTER
-                 */
-
-                const date =
-                    String(
-                        record.date || ""
-                    );
-
-
-                if(
-                    from &&
-                    date < from
-                ){
-
-                    return false;
-
-                }
-
-
-                if(
-                    to &&
-                    date > to
-                ){
-
-                    return false;
-
-                }
-
-
-                return true;
-
-            }
-        );
 
 
     if(records.length === 0){
 
         attendanceBody.innerHTML = `
 
-<tr>
+            <tr>
 
-<td
-    colspan="13"
-    class="empty-row">
+                <td
+                colspan="13"
+                class="empty-row">
 
-    <span class="material-icons">
-        event_busy
-    </span>
+                    <span
+                    class="material-icons">
 
-    <p>
-        No attendance records found.
-    </p>
+                        event_busy
 
-</td>
+                    </span>
 
-</tr>
+                    <p>
+                        No attendance records found.
+                    </p>
 
-`;
+                </td>
+
+            </tr>
+
+        `;
 
         return;
 
@@ -1075,7 +1101,7 @@ function renderAttendance(){
 
 
             const status =
-                getAttendanceStatus(
+                getStatus(
                     record,
                     late
                 );
@@ -1089,130 +1115,179 @@ function renderAttendance(){
 
             row.innerHTML = `
 
-<td>
-    ${escapeHTML(
-        record.date || "-"
-    )}
-</td>
+                <td>
+                    ${
+                        escapeHTML(
+                            formatDate(
+                                record.date
+                            )
+                        )
+                    }
+                </td>
 
 
-<td>
-    ${escapeHTML(
-        record.employeeid ||
-        record.empid ||
-        "-"
-    )}
-</td>
+                <td>
+                    ${
+                        escapeHTML(
+                            getRecordEmployeeId(
+                                record
+                            ) || "-"
+                        )
+                    }
+                </td>
 
 
-<td>
-    ${escapeHTML(
-        record.employee ||
-        record.employeeName ||
-        "-"
-    )}
-</td>
+                <td>
+                    ${
+                        escapeHTML(
+                            getRecordEmployeeName(
+                                record
+                            ) || "-"
+                        )
+                    }
+                </td>
 
 
-<td>
-    ${escapeHTML(
-        record.timeIn ||
-        "-"
-    )}
-</td>
+                <td>
+                    ${
+                        escapeHTML(
+                            getTimeIn(
+                                record
+                            ) || "-"
+                        )
+                    }
+                </td>
 
 
-<td>
-    ${escapeHTML(
-        record.breakOut ||
-        "-"
-    )}
-</td>
+                <td>
+                    ${
+                        escapeHTML(
+                            getBreakOut(
+                                record
+                            ) || "-"
+                        )
+                    }
+                </td>
 
 
-<td>
-    ${escapeHTML(
-        record.breakIn ||
-        "-"
-    )}
-</td>
+                <td>
+                    ${
+                        escapeHTML(
+                            getBreakIn(
+                                record
+                            ) || "-"
+                        )
+                    }
+                </td>
 
 
-<td>
-    ${escapeHTML(
-        record.timeOut ||
-        "-"
-    )}
-</td>
+                <td>
+                    ${
+                        escapeHTML(
+                            getTimeOut(
+                                record
+                            ) || "-"
+                        )
+                    }
+                </td>
 
 
-<td>
-    ${formatHours(
-        breakHours
-    )}
-</td>
+                <td>
+                    ${
+                        formatHours(
+                            breakHours
+                        )
+                    }
+                </td>
 
 
-<td>
-    ${formatHours(
-        regularHours
-    )}
-</td>
+                <td>
+                    ${
+                        formatHours(
+                            regularHours
+                        )
+                    }
+                </td>
 
 
-<td>
-    ${formatHours(
-        overtime
-    )}
-</td>
+                <td>
+                    ${
+                        formatHours(
+                            overtime
+                        )
+                    }
+                </td>
 
 
-<td>
-    ${late}
-</td>
+                <td>
+                    ${late}
+                </td>
 
 
-<td class="${statusClass}">
-    ${escapeHTML(
-        status
-    )}
-</td>
+                <td>
+
+                    <span
+                    class="status-badge ${
+                        statusClass
+                    }">
+
+                        ${
+                            escapeHTML(
+                                status
+                            )
+                        }
+
+                    </span>
+
+                </td>
 
 
-<td>
+                <td class="action-cell">
 
-<button
-    class="table-icon-btn"
-    type="button"
-    title="Edit Attendance"
-    onclick="editAttendance(
-        '${record.id}'
-    )">
+                    <button
+                    type="button"
+                    class="table-icon-btn edit-action"
+                    data-action="edit"
+                    data-id="${
+                        escapeHTML(
+                            record.id
+                        )
+                    }"
+                    title="Edit Attendance">
 
-    <span class="material-icons">
-        edit
-    </span>
+                        <span
+                        class="material-icons">
 
-</button>
+                            edit
+
+                        </span>
+
+                    </button>
 
 
-<button
-    class="table-icon-btn"
-    type="button"
-    title="Delete Attendance"
-    onclick="deleteAttendance(
-        '${record.id}'
-    )">
+                    <button
+                    type="button"
+                    class="table-icon-btn delete-action"
+                    data-action="delete"
+                    data-id="${
+                        escapeHTML(
+                            record.id
+                        )
+                    }"
+                    title="Delete Attendance">
 
-    <span class="material-icons">
-        delete
-    </span>
+                        <span
+                        class="material-icons">
 
-</button>
+                            delete
 
-</td>
+                        </span>
 
-`;
+                    </button>
+
+                </td>
+
+            `;
 
 
             attendanceBody.appendChild(
@@ -1226,7 +1301,55 @@ function renderAttendance(){
 
 
 /* ==========================================
-   CALCULATE BREAK HOURS
+   TABLE ACTIONS
+========================================== */
+
+attendanceBody?.addEventListener(
+    "click",
+    function(event){
+
+        const button =
+            event.target.closest(
+                "button[data-action]"
+            );
+
+
+        if(!button){
+
+            return;
+
+        }
+
+
+        const id =
+            button.dataset.id;
+
+
+        if(
+            button.dataset.action ===
+            "edit"
+        ){
+
+            editAttendance(id);
+
+        }
+
+
+        if(
+            button.dataset.action ===
+            "delete"
+        ){
+
+            deleteAttendance(id);
+
+        }
+
+    }
+);
+
+
+/* ==========================================
+   BREAK HOURS
 ========================================== */
 
 function calculateBreakHours(
@@ -1235,13 +1358,17 @@ function calculateBreakHours(
 
     const breakOut =
         timeToMinutes(
-            record.breakOut
+            getBreakOut(
+                record
+            )
         );
 
 
     const breakIn =
         timeToMinutes(
-            record.breakIn
+            getBreakIn(
+                record
+            )
         );
 
 
@@ -1256,7 +1383,8 @@ function calculateBreakHours(
 
 
     if(
-        breakIn <= breakOut
+        breakIn <=
+        breakOut
     ){
 
         return 0;
@@ -1264,7 +1392,7 @@ function calculateBreakHours(
     }
 
 
-    return minutesToHours(
+    return hoursFromMinutes(
         breakIn -
         breakOut
     );
@@ -1273,7 +1401,7 @@ function calculateBreakHours(
 
 
 /* ==========================================
-   CALCULATE WORK HOURS
+   TOTAL WORK MINUTES
 ========================================== */
 
 function calculateWorkMinutes(
@@ -1282,13 +1410,17 @@ function calculateWorkMinutes(
 
     const timeIn =
         timeToMinutes(
-            record.timeIn
+            getTimeIn(
+                record
+            )
         );
 
 
     const timeOut =
         timeToMinutes(
-            record.timeOut
+            getTimeOut(
+                record
+            )
         );
 
 
@@ -1302,45 +1434,37 @@ function calculateWorkMinutes(
     }
 
 
-    let minutes =
+    let totalMinutes =
         timeOut -
         timeIn;
 
 
-    if(minutes < 0){
+    if(
+        totalMinutes < 0
+    ){
 
-        minutes +=
+        totalMinutes +=
             24 * 60;
 
     }
 
 
-    /*
-     * Remove break
-     */
-
     const breakMinutes =
         Math.round(
             calculateBreakHours(
                 record
-            )
-            *
-            60
+            ) * 60
         );
 
 
-    minutes -=
+    totalMinutes -=
         breakMinutes;
 
 
-    if(minutes < 0){
-
-        minutes = 0;
-
-    }
-
-
-    return minutes;
+    return Math.max(
+        totalMinutes,
+        0
+    );
 
 }
 
@@ -1360,14 +1484,17 @@ function calculateRegularHours(
 
 
     const regularMinutes =
+        REGULAR_HOURS *
+        60;
+
+
+    return hoursFromMinutes(
+
         Math.min(
             totalMinutes,
-            REGULAR_HOURS * 60
-        );
+            regularMinutes
+        )
 
-
-    return minutesToHours(
-        regularMinutes
     );
 
 }
@@ -1388,7 +1515,8 @@ function calculateOvertime(
 
 
     const regularMinutes =
-        REGULAR_HOURS * 60;
+        REGULAR_HOURS *
+        60;
 
 
     if(
@@ -1401,7 +1529,7 @@ function calculateOvertime(
     }
 
 
-    return minutesToHours(
+    return hoursFromMinutes(
 
         totalMinutes -
         regularMinutes
@@ -1412,7 +1540,7 @@ function calculateOvertime(
 
 
 /* ==========================================
-   LATE MINUTES
+   LATE
 ========================================== */
 
 function calculateLateMinutes(
@@ -1421,11 +1549,15 @@ function calculateLateMinutes(
 
     const timeIn =
         timeToMinutes(
-            record.timeIn
+            getTimeIn(
+                record
+            )
         );
 
 
-    if(timeIn === null){
+    if(
+        timeIn === null
+    ){
 
         return 0;
 
@@ -1434,7 +1566,8 @@ function calculateLateMinutes(
 
     const scheduledStart =
         (
-            WORK_START_HOUR * 60
+            WORK_START_HOUR *
+            60
         )
         +
         WORK_START_MINUTE;
@@ -1454,43 +1587,34 @@ function calculateLateMinutes(
 
 
 /* ==========================================
-   ATTENDANCE STATUS
+   STATUS
 ========================================== */
 
-function getAttendanceStatus(
+function getStatus(
     record,
     late
 ){
 
+    const savedStatus =
+        clean(
+            record.status
+        );
+
+
     if(
-        record.status
-        &&
-        record.status !== "Present"
-        &&
-        record.status !== "Late"
+        savedStatus
     ){
 
-        return record.status;
+        return savedStatus;
 
     }
 
 
     if(
-        !record.timeIn
+        !getTimeIn(record)
     ){
 
         return "Absent";
-
-    }
-
-
-    if(
-        record.timeOut
-    ){
-
-        return late > 0
-            ? "Late"
-            : "Present";
 
     }
 
@@ -1510,15 +1634,14 @@ function getStatusClass(
     status
 ){
 
-    const normalized =
-        String(
-            status || ""
-        )
-        .toLowerCase();
+    const value =
+        clean(
+            status
+        ).toLowerCase();
 
 
     if(
-        normalized === "present"
+        value === "present"
     ){
 
         return "status-present";
@@ -1527,7 +1650,7 @@ function getStatusClass(
 
 
     if(
-        normalized === "late"
+        value === "late"
     ){
 
         return "status-late";
@@ -1536,7 +1659,7 @@ function getStatusClass(
 
 
     if(
-        normalized === "absent"
+        value === "absent"
     ){
 
         return "status-absent";
@@ -1545,9 +1668,7 @@ function getStatusClass(
 
 
     if(
-        normalized.includes(
-            "leave"
-        )
+        value.includes("leave")
     ){
 
         return "status-leave";
@@ -1555,7 +1676,7 @@ function getStatusClass(
     }
 
 
-    return "";
+    return "status-default";
 
 }
 
@@ -1566,70 +1687,57 @@ function getStatusClass(
 
 function findTodayRecord(){
 
-    if(
-        !selectedEmployee
-    ){
+    if(!selectedEmployee){
 
         return null;
 
     }
 
 
-    const employeeId =
-        String(
-            selectedEmployee.employeeid ||
+    const selectedID =
+        clean(
+            selectedEmployee.employeeid ??
+            selectedEmployee.empid ??
             ""
-        )
-        .trim()
-        .toUpperCase();
-
-
-    const today =
-        getToday();
+        ).toLowerCase();
 
 
     return attendanceRecords.find(
         record => {
 
-            const recordEmployeeId =
-                String(
-                    record.employeeid ||
-                    record.empid ||
-                    ""
-                )
-                .trim()
-                .toUpperCase();
+            const recordID =
+                getRecordEmployeeId(
+                    record
+                ).toLowerCase();
 
 
             return (
 
-                recordEmployeeId ===
-                employeeId
+                recordID ===
+                selectedID
 
-            )
-            &&
-            (
-                record.date ===
-                today
+                &&
+
+                clean(
+                    record.date
+                ) ===
+                getToday()
+
             );
 
         }
-    )
-    ||
-    null;
+    ) || null;
 
 }
 
 
 /* ==========================================
-   CREATE OR FIND TODAY RECORD
+   CREATE TODAY RECORD
 ========================================== */
 
-async function getOrCreateTodayRecord(){
+async function createTodayRecord(){
 
-    if(
-        !selectedEmployee
-    ){
+    if(!selectedEmployee){
 
         alert(
             "Please select an employee first."
@@ -1640,9 +1748,96 @@ async function getOrCreateTodayRecord(){
     }
 
 
-    const today =
-        getToday();
+    const employeeID =
+        clean(
+            selectedEmployee.employeeid ??
+            selectedEmployee.empid ??
+            ""
+        );
 
+
+    const employeeName =
+        getEmployeeName(
+            selectedEmployee
+        );
+
+
+    const data = {
+
+        date:
+            getToday(),
+
+        employeeid:
+            employeeID,
+
+        empid:
+            employeeID,
+
+        employee:
+            employeeName,
+
+        employeeName:
+            employeeName,
+
+        timeIn:
+            "",
+
+        breakOut:
+            "",
+
+        breakIn:
+            "",
+
+        timeOut:
+            "",
+
+        status:
+            "Present",
+
+        createdAt:
+            Date.now(),
+
+        updatedAt:
+            Date.now()
+
+    };
+
+
+    const reference =
+        await addDoc(
+            collection(
+                db,
+                "attendance"
+            ),
+            data
+        );
+
+
+    const record = {
+
+        id:
+            reference.id,
+
+        ...data
+
+    };
+
+
+    attendanceRecords.push(
+        record
+    );
+
+
+    return record;
+
+}
+
+
+/* ==========================================
+   GET OR CREATE TODAY
+========================================== */
+
+async function getTodayRecord(){
 
     let record =
         findTodayRecord();
@@ -1655,96 +1850,18 @@ async function getOrCreateTodayRecord(){
     }
 
 
-    const employeeName =
-        getEmployeeName(
-            selectedEmployee
-        );
-
-
-    const employeeId =
-        text(
-            selectedEmployee.employeeid
-        );
-
-
     try{
 
-        const newRecord = {
-
-            date:
-                today,
-
-            employeeid:
-                employeeId,
-
-            empid:
-                employeeId,
-
-            employee:
-                employeeName,
-
-            employeeName:
-                employeeName,
-
-            timeIn:
-                "",
-
-            breakOut:
-                "",
-
-            breakIn:
-                "",
-
-            timeOut:
-                "",
-
-            status:
-                "Present",
-
-            createdAt:
-                Date.now(),
-
-            updatedAt:
-                Date.now()
-
-        };
-
-
-        const reference =
-            await addDoc(
-
-                collection(
-                    db,
-                    "attendance"
-                ),
-
-                newRecord
-
-            );
-
-
-        record = {
-
-            id:
-                reference.id,
-
-            ...newRecord
-
-        };
-
-
-        attendanceRecords.push(
-            record
-        );
+        record =
+            await createTodayRecord();
 
 
         return record;
 
-
     }catch(error){
 
         console.error(
-            "Create Attendance Error:",
+            "CREATE TODAY RECORD ERROR:",
             error
         );
 
@@ -1763,10 +1880,10 @@ async function getOrCreateTodayRecord(){
 
 
 /* ==========================================
-   SAVE ATTENDANCE RECORD
+   UPDATE FIREBASE RECORD
 ========================================== */
 
-async function saveAttendanceRecord(
+async function saveAttendance(
     record,
     changes
 ){
@@ -1780,7 +1897,7 @@ async function saveAttendanceRecord(
 
     try{
 
-        const updatedData = {
+        const updateData = {
 
             ...changes,
 
@@ -1798,20 +1915,22 @@ async function saveAttendanceRecord(
                 record.id
             ),
 
-            updatedData
+            updateData
 
         );
 
 
         Object.assign(
             record,
-            updatedData
+            updateData
         );
 
 
         renderAttendance();
 
         updateTodaySummary();
+
+        updateActionButtons();
 
 
         return true;
@@ -1820,13 +1939,13 @@ async function saveAttendanceRecord(
     }catch(error){
 
         console.error(
-            "Attendance Save Error:",
+            "SAVE ATTENDANCE ERROR:",
             error
         );
 
 
         alert(
-            "Failed to save attendance.\n\n" +
+            "Unable to save attendance.\n\n" +
             error.message
         );
 
@@ -1842,12 +1961,9 @@ async function saveAttendanceRecord(
    TIME IN
 ========================================== */
 
-window.timeIn =
-async function(){
+async function timeIn(){
 
-    if(
-        !selectedEmployee
-    ){
+    if(!selectedEmployee){
 
         alert(
             "Please select an employee first."
@@ -1858,8 +1974,8 @@ async function(){
     }
 
 
-    let record =
-        await getOrCreateTodayRecord();
+    const record =
+        await getTodayRecord();
 
 
     if(!record){
@@ -1869,7 +1985,9 @@ async function(){
     }
 
 
-    if(record.timeIn){
+    if(
+        getTimeIn(record)
+    ){
 
         alert(
             "Time In has already been recorded."
@@ -1895,15 +2013,13 @@ async function(){
 
     const status =
         late > 0
-        ? "Late"
-        : "Present";
+            ? "Late"
+            : "Present";
 
 
     const saved =
-        await saveAttendanceRecord(
-
+        await saveAttendance(
             record,
-
             {
 
                 timeIn:
@@ -1913,35 +2029,37 @@ async function(){
                     status
 
             }
-
         );
 
 
     if(saved){
 
         alert(
+
             late > 0
+
             ?
-            `Time In recorded.\nLate: ${late} minute(s)`
+
+            `Time In recorded.\n\nLate: ${late} minute(s).`
+
             :
+
             "Time In recorded successfully."
+
         );
 
     }
 
-};
+}
 
 
 /* ==========================================
    BREAK OUT
 ========================================== */
 
-window.breakOut =
-async function(){
+async function breakOut(){
 
-    if(
-        !selectedEmployee
-    ){
+    if(!selectedEmployee){
 
         alert(
             "Please select an employee first."
@@ -1952,8 +2070,8 @@ async function(){
     }
 
 
-    let record =
-        await getOrCreateTodayRecord();
+    const record =
+        await getTodayRecord();
 
 
     if(!record){
@@ -1963,7 +2081,9 @@ async function(){
     }
 
 
-    if(!record.timeIn){
+    if(
+        !getTimeIn(record)
+    ){
 
         alert(
             "Please record Time In first."
@@ -1974,7 +2094,9 @@ async function(){
     }
 
 
-    if(record.breakOut){
+    if(
+        getBreakOut(record)
+    ){
 
         alert(
             "Break Out has already been recorded."
@@ -1985,7 +2107,9 @@ async function(){
     }
 
 
-    if(record.timeOut){
+    if(
+        getTimeOut(record)
+    ){
 
         alert(
             "Time Out has already been recorded."
@@ -1997,17 +2121,14 @@ async function(){
 
 
     const saved =
-        await saveAttendanceRecord(
-
+        await saveAttendance(
             record,
-
             {
 
                 breakOut:
                     getCurrentTime()
 
             }
-
         );
 
 
@@ -2019,19 +2140,16 @@ async function(){
 
     }
 
-};
+}
 
 
 /* ==========================================
    BREAK IN
 ========================================== */
 
-window.breakIn =
-async function(){
+async function breakIn(){
 
-    if(
-        !selectedEmployee
-    ){
+    if(!selectedEmployee){
 
         alert(
             "Please select an employee first."
@@ -2042,8 +2160,8 @@ async function(){
     }
 
 
-    let record =
-        await getOrCreateTodayRecord();
+    const record =
+        await getTodayRecord();
 
 
     if(!record){
@@ -2053,7 +2171,22 @@ async function(){
     }
 
 
-    if(!record.breakOut){
+    if(
+        !getTimeIn(record)
+    ){
+
+        alert(
+            "Please record Time In first."
+        );
+
+        return;
+
+    }
+
+
+    if(
+        !getBreakOut(record)
+    ){
 
         alert(
             "Please record Break Out first."
@@ -2064,7 +2197,9 @@ async function(){
     }
 
 
-    if(record.breakIn){
+    if(
+        getBreakIn(record)
+    ){
 
         alert(
             "Break In has already been recorded."
@@ -2075,7 +2210,9 @@ async function(){
     }
 
 
-    if(record.timeOut){
+    if(
+        getTimeOut(record)
+    ){
 
         alert(
             "Time Out has already been recorded."
@@ -2087,17 +2224,14 @@ async function(){
 
 
     const saved =
-        await saveAttendanceRecord(
-
+        await saveAttendance(
             record,
-
             {
 
                 breakIn:
                     getCurrentTime()
 
             }
-
         );
 
 
@@ -2109,19 +2243,16 @@ async function(){
 
     }
 
-};
+}
 
 
 /* ==========================================
    TIME OUT
 ========================================== */
 
-window.timeOut =
-async function(){
+async function timeOut(){
 
-    if(
-        !selectedEmployee
-    ){
+    if(!selectedEmployee){
 
         alert(
             "Please select an employee first."
@@ -2132,8 +2263,8 @@ async function(){
     }
 
 
-    let record =
-        await getOrCreateTodayRecord();
+    const record =
+        await getTodayRecord();
 
 
     if(!record){
@@ -2143,7 +2274,9 @@ async function(){
     }
 
 
-    if(!record.timeIn){
+    if(
+        !getTimeIn(record)
+    ){
 
         alert(
             "Please record Time In first."
@@ -2154,7 +2287,9 @@ async function(){
     }
 
 
-    if(record.timeOut){
+    if(
+        getTimeOut(record)
+    ){
 
         alert(
             "Time Out has already been recorded."
@@ -2166,8 +2301,8 @@ async function(){
 
 
     if(
-        record.breakOut &&
-        !record.breakIn
+        getBreakOut(record) &&
+        !getBreakIn(record)
     ){
 
         alert(
@@ -2184,25 +2319,20 @@ async function(){
 
 
     const late =
-        calculateLateMinutes({
-
-            timeIn:
-                record.timeIn
-
-        });
+        calculateLateMinutes(
+            record
+        );
 
 
     const status =
         late > 0
-        ? "Late"
-        : "Present";
+            ? "Late"
+            : "Present";
 
 
     const saved =
-        await saveAttendanceRecord(
-
+        await saveAttendance(
             record,
-
             {
 
                 timeOut:
@@ -2212,7 +2342,6 @@ async function(){
                     status
 
             }
-
         );
 
 
@@ -2238,6 +2367,7 @@ async function(){
             formatHours(
                 regular
             ) +
+
             "\n" +
 
             "Overtime: " +
@@ -2249,11 +2379,11 @@ async function(){
 
     }
 
-};
+}
 
 
 /* ==========================================
-   UPDATE TODAY SUMMARY
+   TODAY SUMMARY
 ========================================== */
 
 function updateTodaySummary(){
@@ -2266,35 +2396,31 @@ function updateTodaySummary(){
 
         if(todayStatus){
 
-            todayStatus.innerText =
+            todayStatus.textContent =
                 "-";
 
         }
 
-
         if(todayRegularHours){
 
-            todayRegularHours.innerText =
+            todayRegularHours.textContent =
                 "0.00";
 
         }
-
 
         if(todayOvertime){
 
-            todayOvertime.innerText =
+            todayOvertime.textContent =
                 "0.00";
 
         }
 
-
         if(todayLate){
 
-            todayLate.innerText =
+            todayLate.textContent =
                 "0";
 
         }
-
 
         return;
 
@@ -2320,7 +2446,7 @@ function updateTodaySummary(){
 
 
     const status =
-        getAttendanceStatus(
+        getStatus(
             record,
             late
         );
@@ -2328,7 +2454,7 @@ function updateTodaySummary(){
 
     if(todayStatus){
 
-        todayStatus.innerText =
+        todayStatus.textContent =
             status;
 
     }
@@ -2336,7 +2462,7 @@ function updateTodaySummary(){
 
     if(todayRegularHours){
 
-        todayRegularHours.innerText =
+        todayRegularHours.textContent =
             formatHours(
                 regular
             );
@@ -2346,7 +2472,7 @@ function updateTodaySummary(){
 
     if(todayOvertime){
 
-        todayOvertime.innerText =
+        todayOvertime.textContent =
             formatHours(
                 overtime
             );
@@ -2356,10 +2482,110 @@ function updateTodaySummary(){
 
     if(todayLate){
 
-        todayLate.innerText =
-            late;
+        todayLate.textContent =
+            String(late);
 
     }
+
+}
+
+
+/* ==========================================
+   BUTTON STATES
+========================================== */
+
+function updateActionButtons(){
+
+    if(!selectedEmployee){
+
+        timeInBtn.disabled =
+            true;
+
+        breakOutBtn.disabled =
+            true;
+
+        breakInBtn.disabled =
+            true;
+
+        timeOutBtn.disabled =
+            true;
+
+        return;
+
+    }
+
+
+    const record =
+        findTodayRecord();
+
+
+    if(!record){
+
+        timeInBtn.disabled =
+            false;
+
+        breakOutBtn.disabled =
+            true;
+
+        breakInBtn.disabled =
+            true;
+
+        timeOutBtn.disabled =
+            true;
+
+        return;
+
+    }
+
+
+    const hasTimeIn =
+        Boolean(
+            getTimeIn(record)
+        );
+
+
+    const hasBreakOut =
+        Boolean(
+            getBreakOut(record)
+        );
+
+
+    const hasBreakIn =
+        Boolean(
+            getBreakIn(record)
+        );
+
+
+    const hasTimeOut =
+        Boolean(
+            getTimeOut(record)
+        );
+
+
+    timeInBtn.disabled =
+        hasTimeIn ||
+        hasTimeOut;
+
+
+    breakOutBtn.disabled =
+        !hasTimeIn ||
+        hasBreakOut ||
+        hasTimeOut;
+
+
+    breakInBtn.disabled =
+        !hasBreakOut ||
+        hasBreakIn ||
+        hasTimeOut;
+
+
+    timeOutBtn.disabled =
+        !hasTimeIn ||
+        hasTimeOut ||
+        (
+            hasBreakOut &&
+            !hasBreakIn
+        );
 
 }
 
@@ -2368,109 +2594,29 @@ function updateTodaySummary(){
    SUMMARY
 ========================================== */
 
-window.showAttendanceSummary =
-function(){
-
-    const selectedId =
-        selectedEmployee
-        ?
-        String(
-            selectedEmployee.employeeid ||
-            ""
-        )
-        .trim()
-        .toUpperCase()
-        :
-        "";
-
-
-    const from =
-        fromDate
-        ?
-        fromDate.value
-        :
-        "";
-
-
-    const to =
-        toDate
-        ?
-        toDate.value
-        :
-        "";
-
+function showSummary(){
 
     const records =
-        attendanceRecords.filter(
-            record => {
-
-                if(selectedId){
-
-                    const id =
-                        String(
-                            record.employeeid ||
-                            record.empid ||
-                            ""
-                        )
-                        .trim()
-                        .toUpperCase();
+        getFilteredRecords();
 
 
-                    if(
-                        id !==
-                        selectedId
-                    ){
+    let present =
+        0;
 
-                        return false;
+    let lateCount =
+        0;
 
-                    }
+    let absent =
+        0;
 
-                }
+    let totalRegular =
+        0;
 
+    let totalOvertime =
+        0;
 
-                const date =
-                    String(
-                        record.date || ""
-                    );
-
-
-                if(
-                    from &&
-                    date < from
-                ){
-
-                    return false;
-
-                }
-
-
-                if(
-                    to &&
-                    date > to
-                ){
-
-                    return false;
-
-                }
-
-
-                return true;
-
-            }
-        );
-
-
-    let present = 0;
-
-    let lateCount = 0;
-
-    let absent = 0;
-
-    let totalRegular = 0;
-
-    let totalOT = 0;
-
-    let totalLate = 0;
+    let totalLate =
+        0;
 
 
     records.forEach(
@@ -2495,15 +2641,14 @@ function(){
 
 
             const status =
-                getAttendanceStatus(
+                getStatus(
                     record,
                     late
-                );
+                ).toLowerCase();
 
 
             if(
-                status ===
-                "Present"
+                status === "present"
             ){
 
                 present++;
@@ -2512,8 +2657,7 @@ function(){
 
 
             if(
-                status ===
-                "Late"
+                status === "late"
             ){
 
                 lateCount++;
@@ -2522,8 +2666,7 @@ function(){
 
 
             if(
-                status ===
-                "Absent"
+                status === "absent"
             ){
 
                 absent++;
@@ -2535,7 +2678,7 @@ function(){
                 regular;
 
 
-            totalOT +=
+            totalOvertime +=
                 overtime;
 
 
@@ -2546,7 +2689,7 @@ function(){
     );
 
 
-    const employeeName =
+    const employee =
         selectedEmployee
         ?
         getEmployeeName(
@@ -2561,47 +2704,42 @@ function(){
         "ATTENDANCE SUMMARY\n\n" +
 
         "Employee: " +
-        employeeName +
-        "\n" +
+        employee +
 
-        "Period: " +
-        (
-            from ||
-            "All"
-        ) +
-        " to " +
-        (
-            to ||
-            "All"
-        ) +
         "\n\n" +
 
         "Records: " +
         records.length +
+
         "\n" +
 
         "Present: " +
         present +
+
         "\n" +
 
         "Late: " +
         lateCount +
+
         "\n" +
 
         "Absent: " +
         absent +
+
         "\n\n" +
 
         "Regular Hours: " +
         formatHours(
             totalRegular
         ) +
+
         "\n" +
 
         "Overtime: " +
         formatHours(
-            totalOT
+            totalOvertime
         ) +
+
         "\n" +
 
         "Late Minutes: " +
@@ -2609,15 +2747,14 @@ function(){
 
     );
 
-};
+}
 
 
 /* ==========================================
    CLEAR FILTER
 ========================================== */
 
-window.clearAttendanceFilter =
-function(){
+function clearFilter(){
 
     if(employeeSelect){
 
@@ -2633,52 +2770,22 @@ function(){
 
     setDefaultDates();
 
-    displaySelectedEmployee();
+    displayEmployee();
 
     renderAttendance();
 
     updateTodaySummary();
 
-};
+    updateActionButtons();
 
-
-/* ==========================================
-   REFRESH
-========================================== */
-
-window.refreshAttendance =
-async function(){
-
-    await loadEmployees();
-
-    await loadAttendance();
-
-
-    /*
-     * Restore selected employee
-     */
-
-    if(
-        employeeSelect &&
-        selectedEmployee
-    ){
-
-        employeeSelect.value =
-            selectedEmployee.id;
-
-    }
-
-};
+}
 
 
 /* ==========================================
    EDIT ATTENDANCE
 ========================================== */
 
-window.editAttendance =
-function(
-    id
-){
+async function editAttendance(id){
 
     const record =
         attendanceRecords.find(
@@ -2698,27 +2805,25 @@ function(
     }
 
 
-    editingAttendanceId =
-        id;
-
-
     const newTimeIn =
         prompt(
-            "TIME IN\n\nCurrent: " +
+
+            "TIME IN\n\n" +
+
+            "Current: " +
             (
-                record.timeIn ||
-                ""
+                getTimeIn(record) ||
+                "-"
             ) +
-            "\n\nEnter new time (HH:MM:SS):",
-            record.timeIn ||
-            ""
+
+            "\n\nEnter new time:",
+
+            getTimeIn(record)
+
         );
 
 
-    if(
-        newTimeIn ===
-        null
-    ){
+    if(newTimeIn === null){
 
         return;
 
@@ -2727,21 +2832,23 @@ function(
 
     const newBreakOut =
         prompt(
-            "BREAK OUT\n\nCurrent: " +
+
+            "BREAK OUT\n\n" +
+
+            "Current: " +
             (
-                record.breakOut ||
-                ""
+                getBreakOut(record) ||
+                "-"
             ) +
+
             "\n\nEnter new time:",
-            record.breakOut ||
-            ""
+
+            getBreakOut(record)
+
         );
 
 
-    if(
-        newBreakOut ===
-        null
-    ){
+    if(newBreakOut === null){
 
         return;
 
@@ -2750,21 +2857,23 @@ function(
 
     const newBreakIn =
         prompt(
-            "BREAK IN\n\nCurrent: " +
+
+            "BREAK IN\n\n" +
+
+            "Current: " +
             (
-                record.breakIn ||
-                ""
+                getBreakIn(record) ||
+                "-"
             ) +
+
             "\n\nEnter new time:",
-            record.breakIn ||
-            ""
+
+            getBreakIn(record)
+
         );
 
 
-    if(
-        newBreakIn ===
-        null
-    ){
+    if(newBreakIn === null){
 
         return;
 
@@ -2773,21 +2882,23 @@ function(
 
     const newTimeOut =
         prompt(
-            "TIME OUT\n\nCurrent: " +
+
+            "TIME OUT\n\n" +
+
+            "Current: " +
             (
-                record.timeOut ||
-                ""
+                getTimeOut(record) ||
+                "-"
             ) +
+
             "\n\nEnter new time:",
-            record.timeOut ||
-            ""
+
+            getTimeOut(record)
+
         );
 
 
-    if(
-        newTimeOut ===
-        null
-    ){
+    if(newTimeOut === null){
 
         return;
 
@@ -2805,60 +2916,58 @@ function(
 
     const status =
         late > 0
-        ? "Late"
-        : "Present";
+            ? "Late"
+            : "Present";
 
 
-    saveAttendanceRecord(
+    const saved =
+        await saveAttendance(
+            record,
+            {
 
-        record,
+                timeIn:
+                    clean(
+                        newTimeIn
+                    ),
 
-        {
+                breakOut:
+                    clean(
+                        newBreakOut
+                    ),
 
-            timeIn:
-                newTimeIn,
+                breakIn:
+                    clean(
+                        newBreakIn
+                    ),
 
-            breakOut:
-                newBreakOut,
+                timeOut:
+                    clean(
+                        newTimeOut
+                    ),
 
-            breakIn:
-                newBreakIn,
-
-            timeOut:
-                newTimeOut,
-
-            status:
-                status
-
-        }
-
-    )
-
-    .then(
-        saved => {
-
-            if(saved){
-
-                alert(
-                    "Attendance updated successfully."
-                );
+                status:
+                    status
 
             }
+        );
 
-        }
-    );
 
-};
+    if(saved){
+
+        alert(
+            "Attendance updated successfully."
+        );
+
+    }
+
+}
 
 
 /* ==========================================
-   DELETE ATTENDANCE
+   DELETE
 ========================================== */
 
-window.deleteAttendance =
-async function(
-    id
-){
+async function deleteAttendance(id){
 
     const record =
         attendanceRecords.find(
@@ -2881,19 +2990,19 @@ async function(
     const confirmed =
         confirm(
 
-            "Delete this attendance record?\n\n" +
+            "DELETE ATTENDANCE?\n\n" +
 
             "Date: " +
             (
                 record.date ||
                 "-"
             ) +
-            "\n" +
 
-            "Employee: " +
+            "\nEmployee: " +
             (
-                record.employee ||
-                record.employeeName ||
+                getRecordEmployeeName(
+                    record
+                ) ||
                 "-"
             )
 
@@ -2931,6 +3040,8 @@ async function(
 
         updateTodaySummary();
 
+        updateActionButtons();
+
 
         alert(
             "Attendance deleted successfully."
@@ -2940,178 +3051,15 @@ async function(
     }catch(error){
 
         console.error(
-            "Delete Attendance Error:",
+            "DELETE ERROR:",
             error
         );
 
 
         alert(
-            "Failed to delete attendance.\n\n" +
+            "Unable to delete attendance.\n\n" +
             error.message
         );
-
-    }
-
-};
-
-
-/* ==========================================
-   PRINT
-========================================== */
-
-window.printAttendance =
-function(){
-
-    window.print();
-
-};
-
-
-/* ==========================================
-   BACK TO DASHBOARD
-========================================== */
-
-window.backToDashboard =
-function(){
-
-    window.location.href =
-        "dashboard.html";
-
-};
-
-
-/* ==========================================
-   BUTTON STATE
-========================================== */
-
-function updateActionButtons(){
-
-    const timeInBtn =
-        document.getElementById(
-            "timeInBtn"
-        );
-
-
-    const breakOutBtn =
-        document.getElementById(
-            "breakOutBtn"
-        );
-
-
-    const breakInBtn =
-        document.getElementById(
-            "breakInBtn"
-        );
-
-
-    const timeOutBtn =
-        document.getElementById(
-            "timeOutBtn"
-        );
-
-
-    if(
-        !selectedEmployee
-    ){
-
-        if(timeInBtn)
-            timeInBtn.disabled = true;
-
-        if(breakOutBtn)
-            breakOutBtn.disabled = true;
-
-        if(breakInBtn)
-            breakInBtn.disabled = true;
-
-        if(timeOutBtn)
-            timeOutBtn.disabled = true;
-
-        return;
-
-    }
-
-
-    const record =
-        findTodayRecord();
-
-
-    if(!record){
-
-        if(timeInBtn)
-            timeInBtn.disabled = false;
-
-        if(breakOutBtn)
-            breakOutBtn.disabled = true;
-
-        if(breakInBtn)
-            breakInBtn.disabled = true;
-
-        if(timeOutBtn)
-            timeOutBtn.disabled = true;
-
-        return;
-
-    }
-
-
-    if(timeInBtn){
-
-        timeInBtn.disabled =
-            Boolean(
-                record.timeIn
-            );
-
-    }
-
-
-    if(breakOutBtn){
-
-        breakOutBtn.disabled =
-            !record.timeIn
-            ||
-            Boolean(
-                record.breakOut
-            )
-            ||
-            Boolean(
-                record.timeOut
-            );
-
-    }
-
-
-    if(breakInBtn){
-
-        breakInBtn.disabled =
-            !record.breakOut
-            ||
-            Boolean(
-                record.breakIn
-            )
-            ||
-            Boolean(
-                record.timeOut
-            );
-
-    }
-
-
-    if(timeOutBtn){
-
-        timeOutBtn.disabled =
-            !record.timeIn
-            ||
-            Boolean(
-                record.timeOut
-            )
-            ||
-            (
-                Boolean(
-                    record.breakOut
-                )
-                &&
-                !record.breakIn
-            );
 
     }
 
@@ -3119,13 +3067,125 @@ function updateActionButtons(){
 
 
 /* ==========================================
-   UPDATE BUTTONS AFTER LOAD
+   PRINT
 ========================================== */
 
-setInterval(
-    updateActionButtons,
-    1000
+function printAttendance(){
+
+    window.print();
+
+}
+
+
+/* ==========================================
+   EVENTS
+========================================== */
+
+timeInBtn?.addEventListener(
+    "click",
+    timeIn
 );
+
+
+breakOutBtn?.addEventListener(
+    "click",
+    breakOut
+);
+
+
+breakInBtn?.addEventListener(
+    "click",
+    breakIn
+);
+
+
+timeOutBtn?.addEventListener(
+    "click",
+    timeOut
+);
+
+
+filterBtn?.addEventListener(
+    "click",
+    filterAttendance
+);
+
+
+summaryBtn?.addEventListener(
+    "click",
+    showSummary
+);
+
+
+clearFilterBtn?.addEventListener(
+    "click",
+    clearFilter
+);
+
+
+printBtn?.addEventListener(
+    "click",
+    printAttendance
+);
+
+
+backBtn?.addEventListener(
+    "click",
+    function(){
+
+        window.location.href =
+            "dashboard.html";
+
+    }
+);
+
+
+fromDate?.addEventListener(
+    "change",
+    filterAttendance
+);
+
+
+toDate?.addEventListener(
+    "change",
+    filterAttendance
+);
+
+
+/* ==========================================
+   GLOBAL FUNCTIONS
+   COMPATIBILITY
+========================================== */
+
+window.timeIn =
+    timeIn;
+
+window.breakOut =
+    breakOut;
+
+window.breakIn =
+    breakIn;
+
+window.timeOut =
+    timeOut;
+
+window.filterAttendance =
+    filterAttendance;
+
+window.showSummary =
+    showSummary;
+
+window.clearFilter =
+    clearFilter;
+
+window.editAttendance =
+    editAttendance;
+
+window.deleteAttendance =
+    deleteAttendance;
+
+window.printAttendance =
+    printAttendance;
 
 
 /* ==========================================
@@ -3134,21 +3194,19 @@ setInterval(
 
 async function initialize(){
 
+    setDefaultDates();
+
     updateClock();
 
-    setDefaultDates();
+    displayEmployee();
+
+    updateActionButtons();
 
     await loadEmployees();
 
     await loadAttendance();
 
-    updateActionButtons();
-
 }
 
-
-/* ==========================================
-   START
-========================================== */
 
 initialize();
