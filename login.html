@@ -11,13 +11,21 @@ content="width=device-width, initial-scale=1.0">
 
 <title>PAPPRITO HR SYSTEM</title>
 
-<link rel="manifest" href="/manifest.json">
+<link
+rel="manifest"
+href="/manifest.json">
 
-<link rel="icon" href="/logo.png">
+<link
+rel="icon"
+href="/logo.png">
 
-<link rel="apple-touch-icon" href="/icon-192.png">
+<link
+rel="apple-touch-icon"
+href="/icon-192.png">
 
-<meta name="theme-color" content="#ffcc00">
+<meta
+name="theme-color"
+content="#ffcc00">
 
 <link
 href="https://fonts.googleapis.com/icon?family=Material+Icons"
@@ -29,180 +37,220 @@ href="css/login.css">
 
 </head>
 
+
 <body>
+
+
+<!-- ==========================================
+LOGIN BOX
+========================================== -->
 
 <div class="login-box">
 
-<div class="logo-box">
 
-<img
-src="/logo.png"
-class="logo"
-alt="Logo">
+    <!-- ======================================
+    LOGO
+    ====================================== -->
 
-<div class="logo-text">
+    <div class="logo-box">
 
-PAPPRITO
+        <img
+        src="/logo.png"
+        class="logo"
+        alt="PAPPRITO Logo">
+
+        <div class="logo-text">
+
+            PAPPRITO
+
+        </div>
+
+    </div>
+
+
+    <!-- ======================================
+    TITLE
+    ====================================== -->
+
+    <div class="title">
+
+        HR SYSTEM
+
+    </div>
+
+
+    <div class="subtitle">
+
+        Professional HR Login System
+
+    </div>
+
+
+    <!-- ======================================
+    ROLE
+    ====================================== -->
+
+    <select id="role">
+
+        <option value="">
+
+            Select Role
+
+        </option>
+
+        <option value="admin">
+
+            ADMIN
+
+        </option>
+
+        <option value="employee">
+
+            EMPLOYEE
+
+        </option>
+
+    </select>
+
+
+    <!-- ======================================
+    EMAIL / EMPLOYEE ID
+    ====================================== -->
+
+    <input
+    type="text"
+    id="email"
+    placeholder="Email or Employee ID"
+    autocomplete="username">
+
+
+    <!-- ======================================
+    PASSWORD
+    ====================================== -->
+
+    <div class="password-box">
+
+        <input
+        type="password"
+        id="password"
+        placeholder="Password"
+        autocomplete="current-password">
+
+        <span
+        class="show-btn"
+        onclick="togglePassword()">
+
+            SHOW
+
+        </span>
+
+    </div>
+
+
+    <!-- ======================================
+    REMEMBER ME
+    ====================================== -->
+
+    <div class="remember">
+
+        <input
+        type="checkbox"
+        id="remember">
+
+        <label for="remember">
+
+            Remember Me
+
+        </label>
+
+    </div>
+
+
+    <!-- ======================================
+    LOGIN
+    ====================================== -->
+
+    <button
+    type="button"
+    class="login-btn"
+    onclick="login()">
+
+        LOGIN
+
+    </button>
+
+
+    <!-- ======================================
+    FINGERPRINT
+    ====================================== -->
+
+    <button
+    type="button"
+    class="login-btn"
+    id="fingerBtn"
+    style="
+    margin-top:10px;
+    background:linear-gradient(135deg,#0066cc,#004499);
+    color:white;
+    ">
+
+        🔐 LOGIN WITH FINGERPRINT
+
+    </button>
+
 
 </div>
 
-</div>
 
-<div class="title">
-
-HR SYSTEM
-
-</div>
-
-<div class="subtitle">
-
-Professional HR Login System
-
-</div>
-
-<select id="role">
-
-<option value="">
-
-Select Role
-
-</option>
-
-<option value="admin">
-
-ADMIN
-
-</option>
-
-<option value="employee">
-
-EMPLOYEE
-
-</option>
-
-</select>
-
-<input
-type="text"
-id="email"
-placeholder="Email or Employee ID">
-
-<div class="password-box">
-
-<input
-type="password"
-id="password"
-placeholder="Password">
-
-<span
-class="show-btn"
-onclick="togglePassword()">
-
-SHOW
-
-</span>
-
-</div>
-
-<div class="remember">
-
-<input
-type="checkbox"
-id="remember">
-
-<label for="remember">
-
-Remember Me
-
-</label>
-
-</div>
-
-<button
-class="login-btn"
-onclick="login()">
-
-LOGIN
-
-</button>
-
-<button
-class="login-btn"
-id="fingerBtn"
-style="
-margin-top:10px;
-background:linear-gradient(135deg,#0066cc,#004499);
-color:white;
-">
-
-🔐 LOGIN WITH FINGERPRINT
-
-</button>
-
-</div>
-
-<!-- FULL SCREEN LOADING -->
+<!-- ==========================================
+FULL SCREEN LOADING
+========================================== -->
 
 <div id="loading">
 
-<div class="loader-box">
+    <div class="loader-box">
 
-<div class="loader"></div>
+        <div class="loader"></div>
 
-<h2>
+        <h2>
 
-Signing In...
+            Signing In...
 
-</h2>
+        </h2>
 
-<p>
+        <p>
 
-Please wait...
+            Please wait...
 
-</p>
+        </p>
+
+    </div>
 
 </div>
 
-</div>
+
+<!-- ==========================================
+FOOTER
+========================================== -->
 
 <div class="footer">
 
-Powered by Firebase HR System
+    Powered by Firebase HR System
 
 </div>
+
+
+<!-- ==========================================
+LOGIN JAVASCRIPT
+========================================== -->
 
 <script
 type="module"
 src="js/login.js">
 
 </script>
-<script type="module">
 
-import { auth } from "./js/firebase.js";
 
-import { onAuthStateChanged }
-
-from "https://www.gstatic.com/firebasejs/12.13.0/firebase-auth.js";
-
-onAuthStateChanged(auth,(user)=>{
-
-    if(user){
-
-        window.location.replace("loading.html");
-
-    }
-
-});
-
-history.pushState(null,null,location.href);
-
-window.onpopstate=function(){
-
-    history.go(1);
-
-};
-
-</script>
 </body>
 
 </html>
