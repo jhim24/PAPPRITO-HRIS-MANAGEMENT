@@ -2335,3 +2335,28 @@ body::-webkit-scrollbar-thumb:hover{
     }
 
 }
+
+/* ==========================================
+   HOLIDAY SETTINGS
+========================================== */
+
+.holiday-rate-note{
+
+    color:#999999;
+
+    font-size:9px;
+
+    margin-top:5px;
+
+}
+
+
+@media(max-width:768px){
+
+    #holidaysSection .form-grid{
+
+        grid-template-columns:1fr;
+
+    }
+
+}
