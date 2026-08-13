@@ -4799,9 +4799,623 @@
             </section>
 
 
-            <section
-                id="holidaysSection"
-                class="settings-section">
+          <!-- ==================================
+     HOLIDAY SETTINGS
+=================================== -->
+
+<section
+    id="holidaysSection"
+    class="settings-section">
+
+
+    <!-- ==================================
+         SECTION TITLE
+    =================================== -->
+
+    <div class="section-title">
+
+        <div>
+
+            <h2>
+                Holiday Settings
+            </h2>
+
+            <p>
+                Configure holidays used by Attendance,
+                Payroll and employee leave calculations.
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <!-- ==================================
+         HOLIDAY CALCULATION
+    =================================== -->
+
+    <div class="settings-card">
+
+        <div class="card-title">
+
+            <span class="material-icons">
+                event
+            </span>
+
+            <div>
+
+                <h3>
+                    Holiday Calculation
+                </h3>
+
+                <p>
+                    Configure how holidays are recognized
+                    by the HRIS.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="form-grid">
+
+
+            <!-- ENABLE HOLIDAYS -->
+
+            <div class="form-group full">
+
+                <label class="toggle-row">
+
+                    <span>
+
+                        <strong>
+                            Enable Holiday Calendar
+                        </strong>
+
+                        <small>
+                            Enable holiday dates for Attendance
+                            and Payroll calculations.
+                        </small>
+
+                    </span>
+
+
+                    <input
+                        type="checkbox"
+                        id="enableHolidayCalendar"
+                        class="toggle-input"
+                        checked>
+
+                    <span class="toggle-switch"></span>
+
+                </label>
+
+            </div>
+
+
+            <!-- INCLUDE REST DAY -->
+
+            <div class="form-group full">
+
+                <label class="toggle-row">
+
+                    <span>
+
+                        <strong>
+                            Recognize Holiday on Rest Day
+                        </strong>
+
+                        <small>
+                            Allow the system to identify holidays
+                            even when the date is a scheduled rest day.
+                        </small>
+
+                    </span>
+
+
+                    <input
+                        type="checkbox"
+                        id="recognizeHolidayRestDay"
+                        class="toggle-input"
+                        checked>
+
+                    <span class="toggle-switch"></span>
+
+                </label>
+
+            </div>
+
+
+            <!-- AUTO PAYROLL -->
+
+            <div class="form-group full">
+
+                <label class="toggle-row">
+
+                    <span>
+
+                        <strong>
+                            Include Holiday in Payroll
+                        </strong>
+
+                        <small>
+                            Allow configured holiday rules to be
+                            considered during payroll calculation.
+                        </small>
+
+                    </span>
+
+
+                    <input
+                        type="checkbox"
+                        id="includeHolidayPayroll"
+                        class="toggle-input"
+                        checked>
+
+                    <span class="toggle-switch"></span>
+
+                </label>
+
+            </div>
+
+
+        </div>
+
+    </div>
+
+
+    <!-- ==================================
+         REGULAR HOLIDAY
+    =================================== -->
+
+    <div class="settings-card">
+
+        <div class="card-title">
+
+            <span class="material-icons">
+                calendar_month
+            </span>
+
+            <div>
+
+                <h3>
+                    Regular Holiday
+                </h3>
+
+                <p>
+                    Configure the default treatment of
+                    regular holidays.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="form-grid">
+
+
+            <div class="form-group">
+
+                <label for="regularHolidayRate">
+
+                    Regular Holiday Rate
+
+                </label>
+
+                <input
+                    type="number"
+                    id="regularHolidayRate"
+                    min="0"
+                    step="0.01"
+                    value="2.00">
+
+                <small class="field-help">
+
+                    Example: 2.00 = 200%
+
+                </small>
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label for="regularHolidayOtRate">
+
+                    Regular Holiday OT Rate
+
+                </label>
+
+                <input
+                    type="number"
+                    id="regularHolidayOtRate"
+                    min="0"
+                    step="0.01"
+                    value="2.60">
+
+                <small class="field-help">
+
+                    Configuration value only.
+
+                </small>
+
+            </div>
+
+
+            <div class="form-group full">
+
+                <label class="toggle-row">
+
+                    <span>
+
+                        <strong>
+                            Enable Regular Holiday Pay
+                        </strong>
+
+                        <small>
+                            Allow regular holiday rules to be
+                            included in payroll.
+                        </small>
+
+                    </span>
+
+
+                    <input
+                        type="checkbox"
+                        id="enableRegularHolidayPay"
+                        class="toggle-input"
+                        checked>
+
+                    <span class="toggle-switch"></span>
+
+                </label>
+
+            </div>
+
+
+        </div>
+
+    </div>
+
+
+    <!-- ==================================
+         SPECIAL HOLIDAY
+    =================================== -->
+
+    <div class="settings-card">
+
+        <div class="card-title">
+
+            <span class="material-icons">
+                celebration
+            </span>
+
+            <div>
+
+                <h3>
+                    Special Holiday
+                </h3>
+
+                <p>
+                    Configure the default treatment of
+                    special holidays.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="form-grid">
+
+
+            <div class="form-group">
+
+                <label for="specialHolidayRate">
+
+                    Special Holiday Rate
+
+                </label>
+
+                <input
+                    type="number"
+                    id="specialHolidayRate"
+                    min="0"
+                    step="0.01"
+                    value="1.30">
+
+                <small class="field-help">
+
+                    Example: 1.30 = 130%
+
+                </small>
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label for="specialHolidayOtRate">
+
+                    Special Holiday OT Rate
+
+                </label>
+
+                <input
+                    type="number"
+                    id="specialHolidayOtRate"
+                    min="0"
+                    step="0.01"
+                    value="1.69">
+
+            </div>
+
+
+            <div class="form-group full">
+
+                <label class="toggle-row">
+
+                    <span>
+
+                        <strong>
+                            Enable Special Holiday Pay
+                        </strong>
+
+                        <small>
+                            Allow special holiday rules to be
+                            included in payroll.
+                        </small>
+
+                    </span>
+
+
+                    <input
+                        type="checkbox"
+                        id="enableSpecialHolidayPay"
+                        class="toggle-input"
+                        checked>
+
+                    <span class="toggle-switch"></span>
+
+                </label>
+
+            </div>
+
+
+        </div>
+
+    </div>
+
+
+    <!-- ==================================
+         HOLIDAY TYPES
+    =================================== -->
+
+    <div class="settings-card">
+
+        <div class="card-title">
+
+            <span class="material-icons">
+                category
+            </span>
+
+            <div>
+
+                <h3>
+                    Holiday Types
+                </h3>
+
+                <p>
+                    Holiday classifications available
+                    in the HRIS calendar.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="status-list">
+
+
+            <div class="status-item">
+
+                <span
+                    class="status-dot active">
+                </span>
+
+                <span>
+                    Regular Holiday
+                </span>
+
+            </div>
+
+
+            <div class="status-item">
+
+                <span
+                    class="status-dot regular">
+                </span>
+
+                <span>
+                    Special Non-Working Holiday
+                </span>
+
+            </div>
+
+
+            <div class="status-item">
+
+                <span
+                    class="status-dot leave">
+                </span>
+
+                <span>
+                    Company Holiday
+                </span>
+
+            </div>
+
+
+            <div class="status-item">
+
+                <span
+                    class="status-dot probationary">
+                </span>
+
+                <span>
+                    Special Working Holiday
+                </span>
+
+            </div>
+
+
+        </div>
+
+    </div>
+
+
+    <!-- ==================================
+         HOLIDAY CALENDAR
+    =================================== -->
+
+    <div class="settings-card">
+
+        <div class="card-title">
+
+            <span class="material-icons">
+                date_range
+            </span>
+
+            <div>
+
+                <h3>
+                    Holiday Calendar
+                </h3>
+
+                <p>
+                    Configure the default calendar year
+                    used when managing holidays.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="form-grid">
+
+
+            <div class="form-group">
+
+                <label for="holidayYear">
+
+                    Calendar Year
+
+                </label>
+
+                <select
+                    id="holidayYear">
+
+                    <option value="2026">
+                        2026
+                    </option>
+
+                    <option value="2027">
+                        2027
+                    </option>
+
+                    <option value="2028">
+                        2028
+                    </option>
+
+                    <option value="2029">
+                        2029
+                    </option>
+
+                    <option value="2030">
+                        2030
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label class="toggle-row">
+
+                    <span>
+
+                        <strong>
+                            Use Holiday Calendar
+                        </strong>
+
+                        <small>
+                            Use the configured holiday calendar
+                            for attendance and payroll.
+                        </small>
+
+                    </span>
+
+
+                    <input
+                        type="checkbox"
+                        id="useHolidayCalendar"
+                        class="toggle-input"
+                        checked>
+
+                    <span class="toggle-switch"></span>
+
+                </label>
+
+            </div>
+
+
+        </div>
+
+    </div>
+
+
+    <!-- ==================================
+         SAVE
+    =================================== -->
+
+    <div class="save-bar">
+
+        <div>
+
+            <span class="material-icons">
+                info
+            </span>
+
+            <span>
+                Holiday settings will be used by
+                Attendance and Payroll.
+            </span>
+
+        </div>
+
+
+        <button
+            id="saveHolidayBtn"
+            class="save-btn">
+
+            <span class="material-icons">
+                save
+            </span>
+
+            SAVE HOLIDAY SETTINGS
+
+        </button>
+
+    </div>
+
+
+</section>
 
                 <div class="coming-soon">
 
