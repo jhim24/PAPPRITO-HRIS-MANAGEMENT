@@ -7,9 +7,9 @@
 
 <meta
 name="viewport"
-content="width=device-width,initial-scale=1.0">
+content="width=device-width, initial-scale=1.0">
 
-<title>PAPPRITO HRIS</title>
+<title>PAPPRITO HRIS - Loading</title>
 
 <link
 rel="stylesheet"
@@ -30,40 +30,29 @@ content="#ffcc00">
 
 
 <!-- ==========================================
-     GRID BACKGROUND
-========================================== -->
-
-<div class="grid-bg"></div>
-
-
-<!-- ==========================================
-     HUD CARD
+     LOADING HUD
 ========================================== -->
 
 <div class="hud-card">
 
 
     <!-- ======================================
-         HEADER
-    ====================================== -->
+         LOGO
+    ======================================= -->
 
     <div class="logo-area">
 
         <img
         src="../assets/images/logo.png"
         class="logo"
-        alt="PAPPRITO Logo">
+        alt="PAPPRITO">
 
         <h1>
-
             PAPPRITO
-
         </h1>
 
         <h2>
-
             HUMAN RESOURCE INFORMATION SYSTEM
-
         </h2>
 
     </div>
@@ -71,21 +60,17 @@ content="#ffcc00">
 
     <!-- ======================================
          MAIN
-    ====================================== -->
+    ======================================= -->
 
     <div class="hud-main">
 
 
         <!-- ==================================
              LEFT
-        ================================== -->
+        =================================== -->
 
         <div class="hud-left">
 
-
-            <!-- ==================================
-                 HUD CIRCLE
-            ================================== -->
 
             <div class="hud-circle">
 
@@ -102,8 +87,8 @@ content="#ffcc00">
                     </circle>
 
                     <circle
-                    class="circle-progress"
                     id="circleProgress"
+                    class="circle-progress"
                     cx="110"
                     cy="110"
                     r="95">
@@ -115,15 +100,11 @@ content="#ffcc00">
                 <div class="circle-text">
 
                     <div id="percent">
-
                         0%
-
                     </div>
 
                     <span>
-
                         LOADING
-
                     </span>
 
                 </div>
@@ -131,29 +112,21 @@ content="#ffcc00">
             </div>
 
 
-            <!-- ==================================
-                 LOADING TITLE
-            ================================== -->
-
             <div
             class="loading-title"
-            id="loadingText">
+            id="loadingTitle">
 
-                Initializing HR System...
+                INITIALIZING SYSTEM...
 
             </div>
 
 
-            <!-- ==================================
-                 PROGRESS BAR
-            ================================== -->
-
-            <div class="progress-container">
+            <div
+            class="progress-container">
 
                 <div
-                class="progress-bar"
-                id="progressBar">
-
+                id="progressBar"
+                class="progress-bar">
                 </div>
 
             </div>
@@ -164,135 +137,144 @@ content="#ffcc00">
 
         <!-- ==================================
              RIGHT PANEL
-        ================================== -->
+        =================================== -->
 
-        <div class="status-box">
+        <div class="hud-right">
 
-            <h3>
-
-                SYSTEM STATUS
-
-            </h3>
+            <div class="status-box">
 
 
-            <div class="status-item">
+                <h3>
+                    SYSTEM STATUS
+                </h3>
 
-                <span>
 
-                    Authentication
+                <div class="status-item">
 
-                </span>
+                    <span>
+                        Authentication
+                    </span>
 
-                <strong
-                class="online">
+                    <strong
+                    class="online"
+                    id="authStatus">
 
-                    SECURE
+                        CHECKING
 
-                </strong>
+                    </strong>
+
+                </div>
+
+
+                <div class="status-item">
+
+                    <span>
+                        Database
+                    </span>
+
+                    <strong
+                    class="online"
+                    id="databaseStatus">
+
+                        CONNECTING
+
+                    </strong>
+
+                </div>
+
+
+                <div class="status-item">
+
+                    <span>
+                        User Role
+                    </span>
+
+                    <strong
+                    id="roleStatus">
+
+                        CHECKING
+
+                    </strong>
+
+                </div>
+
+
+                <div class="status-item">
+
+                    <span>
+                        Session
+                    </span>
+
+                    <strong
+                    class="online"
+                    id="sessionStatus">
+
+                        CHECKING
+
+                    </strong>
+
+                </div>
+
+
+                <div class="status-item">
+
+                    <span>
+                        System
+                    </span>
+
+                    <strong
+                    class="online"
+                    id="systemStatus">
+
+                        ONLINE
+
+                    </strong>
+
+                </div>
+
 
             </div>
 
 
-            <div class="status-item">
-
-                <span>
-
-                    Database
-
-                </span>
-
-                <strong
-                class="online">
-
-                    CONNECTED
-
-                </strong>
-
-            </div>
-
-
-            <div class="status-item">
-
-                <span>
-
-                    HR Modules
-
-                </span>
-
-                <strong
-                class="online">
-
-                    LOADING
-
-                </strong>
-
-            </div>
-
-
-            <div class="status-item">
-
-                <span>
-
-                    System
-
-                </span>
-
-                <strong
-                class="online"
-                id="systemStatus">
-
-                    🟢 Online
-
-                </strong>
-
-            </div>
-
-
-            <!-- ==================================
+            <!-- =================================
                  MODULES
             ================================== -->
 
             <div class="module-list">
 
 
-                <div class="module-item">
+                <div
+                class="module-item"
+                id="moduleAuth">
 
-                    Employee Management
-
-                </div>
-
-
-                <div class="module-item">
-
-                    Attendance
+                    🔐 Authentication
 
                 </div>
 
 
-                <div class="module-item">
+                <div
+                class="module-item"
+                id="moduleDatabase">
 
-                    Payroll
-
-                </div>
-
-
-                <div class="module-item">
-
-                    HR Management
+                    🔥 Firebase Database
 
                 </div>
 
 
-                <div class="module-item">
+                <div
+                class="module-item"
+                id="moduleSession">
 
-                    Leave Management
+                    🛡 Secure Session
 
                 </div>
 
 
-                <div class="module-item">
+                <div
+                class="module-item"
+                id="moduleSystem">
 
-                    Reports
+                    ⚙ HRIS System
 
                 </div>
 
@@ -306,15 +288,16 @@ content="#ffcc00">
 
     <!-- ==========================================
          FOOTER STATUS
-    ========================================== -->
+    =========================================== -->
 
     <div class="system-status">
 
-        <div class="status-dot"></div>
+        <span class="status-dot">
+        </span>
 
-        <span>
+        <span id="footerStatus">
 
-            PAPPRITO HRIS SYSTEM INITIALIZING
+            SYSTEM INITIALIZING...
 
         </span>
 
