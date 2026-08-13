@@ -41,6 +41,10 @@ href="../css/login.css">
 <body>
 
 
+<!-- ==========================================
+     LOGIN BOX
+========================================== -->
+
 <div class="login-box">
 
 
@@ -74,6 +78,8 @@ Professional HR Login System
 </div>
 
 
+<!-- ROLE -->
+
 <select id="role">
 
 <option value="">
@@ -97,12 +103,16 @@ EMPLOYEE
 </select>
 
 
+<!-- USERNAME -->
+
 <input
 type="text"
 id="email"
 placeholder="Email or Employee ID"
 autocomplete="username">
 
+
+<!-- PASSWORD -->
 
 <div class="password-box">
 
@@ -123,6 +133,8 @@ SHOW
 </div>
 
 
+<!-- REMEMBER -->
+
 <div class="remember">
 
 <input
@@ -138,9 +150,11 @@ Remember Me
 </div>
 
 
+<!-- LOGIN -->
+
 <button
-type="button"
 class="login-btn"
+id="loginBtn"
 onclick="login()">
 
 LOGIN
@@ -148,10 +162,12 @@ LOGIN
 </button>
 
 
+<!-- FINGERPRINT -->
+
 <button
-type="button"
 class="login-btn"
 id="fingerBtn"
+type="button"
 style="
 margin-top:10px;
 background:linear-gradient(135deg,#0066cc,#004499);
@@ -167,7 +183,7 @@ color:white;
 
 
 <!-- ==========================================
-FULL SCREEN LOADING
+     FULL SCREEN LOADING
 ========================================== -->
 
 <div id="loading">
@@ -194,7 +210,7 @@ Please wait...
 
 
 <!-- ==========================================
-FOOTER
+     FOOTER
 ========================================== -->
 
 <div class="footer">
@@ -205,7 +221,7 @@ Powered by Firebase HR System
 
 
 <!-- ==========================================
-LOGIN JAVASCRIPT
+     LOGIN JS
 ========================================== -->
 
 <script
