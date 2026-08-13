@@ -1,24 +1,42 @@
 /* ==========================================
    PAPPRITO HRIS
-   ATTENDANCE
+   EMPLOYEE ATTENDANCE
    PREMIUM LIGHT DESIGN
 ========================================== */
 
+
+/* ==========================================
+   RESET
+========================================== */
+
 *{
+
     margin:0;
+
     padding:0;
+
     box-sizing:border-box;
+
 }
+
 
 html{
+
     width:100%;
+
     min-height:100%;
+
     overflow-x:hidden;
+
 }
 
+
 body{
+
     width:100%;
+
     min-height:100vh;
+
     overflow-x:hidden;
 
     font-family:
@@ -38,6 +56,7 @@ body{
     color:#202124;
 
     font-weight:700;
+
 }
 
 
@@ -48,20 +67,26 @@ body{
 :root{
 
     --yellow:#ffcc00;
-    --yellow-dark:#d9aa00;
+
+    --yellow-dark:#d9a900;
 
     --red:#d71920;
+
     --red-dark:#b51218;
 
     --green:#16803c;
+
     --blue:#1769aa;
 
     --white:#ffffff;
 
     --text:#202124;
+
     --muted:#747a80;
 
     --border:#e0e4e8;
+
+    --light:#f7f8f9;
 
     --shadow:
         0 5px 20px
@@ -82,6 +107,7 @@ body{
         );
 
     --radius:14px;
+
 }
 
 
@@ -92,14 +118,16 @@ body{
 #app{
 
     width:100%;
+
     min-height:100vh;
 
     background:transparent;
+
 }
 
 
 /* ==========================================
-   CONTAINER
+   MAIN CONTAINER
 ========================================== */
 
 .container{
@@ -112,6 +140,7 @@ body{
 
     padding:
         18px 22px 30px;
+
 }
 
 
@@ -149,11 +178,12 @@ body{
         var(--shadow);
 
     overflow:hidden;
+
 }
 
 
 /* ==========================================
-   HEADER YELLOW LINE
+   HEADER ACCENT
 ========================================== */
 
 .header::before{
@@ -163,7 +193,9 @@ body{
     position:absolute;
 
     left:0;
+
     top:0;
+
     bottom:0;
 
     width:5px;
@@ -174,6 +206,7 @@ body{
             var(--yellow),
             var(--red)
         );
+
 }
 
 
@@ -184,6 +217,7 @@ body{
 .logo{
 
     width:55px;
+
     height:55px;
 
     min-width:55px;
@@ -191,6 +225,7 @@ body{
     display:flex;
 
     align-items:center;
+
     justify-content:center;
 
     background:#ffffff;
@@ -204,22 +239,27 @@ body{
     padding:3px;
 
     overflow:hidden;
+
 }
 
 
 .logo img{
 
     width:100%;
+
     height:100%;
 
     object-fit:cover;
 
     border-radius:50%;
+
+    display:block;
+
 }
 
 
 /* ==========================================
-   LOGO TEXT
+   BRAND NAME
 ========================================== */
 
 .logo-text{
@@ -233,11 +273,12 @@ body{
     letter-spacing:.5px;
 
     line-height:1;
+
 }
 
 
 /* ==========================================
-   TITLE
+   PAGE TITLE
 ========================================== */
 
 .title{
@@ -248,11 +289,12 @@ body{
 
     font-weight:1000;
 
-    padding-left:5px;
+    padding-left:14px;
 
     border-left:
         1px solid
         #dfe2e5;
+
 }
 
 
@@ -267,6 +309,7 @@ body{
     display:inline-flex;
 
     align-items:center;
+
     justify-content:center;
 
     gap:5px;
@@ -292,7 +335,9 @@ body{
 
     cursor:pointer;
 
-    transition:.18s ease;
+    transition:
+        .18s ease;
+
 }
 
 
@@ -303,23 +348,46 @@ body{
 
     box-shadow:
         0 4px 12px
-        rgba(0,0,0,.07);
+        rgba(
+            0,
+            0,
+            0,
+            .07
+        );
+
 }
 
+
+.top-btn:active{
+
+    transform:
+        translateY(0);
+
+}
+
+
+.top-btn .material-icons{
+
+    font-size:18px;
+
+}
+
+
+/* BACK */
 
 #backBtn{
 
     color:#555b60;
 
-    order:-3;
 }
 
 
+/* PRINT */
+
 #printBtn{
 
-    color:#1769aa;
+    color:var(--blue);
 
-    order:-2;
 }
 
 
@@ -334,10 +402,24 @@ body{
     display:grid;
 
     grid-template-columns:
-        minmax(220px,1.5fr)
-        minmax(150px,1fr)
-        minmax(150px,1fr)
+
+        minmax(
+            220px,
+            1.5fr
+        )
+
+        minmax(
+            150px,
+            1fr
+        )
+
+        minmax(
+            150px,
+            1fr
+        )
+
         auto
+
         auto;
 
     gap:9px;
@@ -357,14 +439,16 @@ body{
 
     box-shadow:
         var(--shadow);
+
 }
 
 
 /* ==========================================
-   INPUTS
+   FILTER INPUTS
 ========================================== */
 
 .filter-section select,
+
 .filter-section input{
 
     width:100%;
@@ -393,10 +477,12 @@ body{
     font-size:11px;
 
     font-weight:900;
+
 }
 
 
 .filter-section select:focus,
+
 .filter-section input:focus{
 
     background:#ffffff;
@@ -412,6 +498,7 @@ body{
             0,
             .12
         );
+
 }
 
 
@@ -420,9 +507,18 @@ body{
 ========================================== */
 
 #filterBtn,
+
 #summaryBtn{
 
     min-height:43px;
+
+    display:inline-flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    gap:5px;
 
     padding:
         9px 15px;
@@ -439,7 +535,9 @@ body{
 
     cursor:pointer;
 
-    transition:.18s ease;
+    transition:
+        .18s ease;
+
 }
 
 
@@ -448,11 +546,12 @@ body{
     background:
         linear-gradient(
             135deg,
-            var(--yellow),
+            #ffcc00,
             #f2b900
         );
 
     color:#222222;
+
 }
 
 
@@ -461,10 +560,12 @@ body{
     background:#202428;
 
     color:#ffffff;
+
 }
 
 
 #filterBtn:hover,
+
 #summaryBtn:hover{
 
     transform:
@@ -472,12 +573,27 @@ body{
 
     box-shadow:
         0 5px 15px
-        rgba(0,0,0,.12);
+        rgba(
+            0,
+            0,
+            0,
+            .12
+        );
+
+}
+
+
+#filterBtn .material-icons,
+
+#summaryBtn .material-icons{
+
+    font-size:17px;
+
 }
 
 
 /* ==========================================
-   EMPLOYEE INFO
+   EMPLOYEE INFORMATION
 ========================================== */
 
 .employee-info{
@@ -487,11 +603,21 @@ body{
     display:grid;
 
     grid-template-columns:
-        1fr 2fr;
+
+        minmax(
+            220px,
+            1fr
+        )
+
+        minmax(
+            300px,
+            2fr
+        );
 
     gap:10px;
 
     margin-top:15px;
+
 }
 
 
@@ -532,11 +658,12 @@ body{
     overflow:hidden;
 
     text-overflow:ellipsis;
+
 }
 
 
 /* ==========================================
-   CLOCK AREA
+   CLOCK
 ========================================== */
 
 .clock-area{
@@ -546,14 +673,14 @@ body{
     display:flex;
 
     align-items:center;
+
     justify-content:center;
 
     flex-direction:column;
 
     margin-top:15px;
 
-    padding:
-        18px;
+    padding:18px;
 
     background:
         linear-gradient(
@@ -571,8 +698,47 @@ body{
 
     box-shadow:
         var(--shadow);
+
 }
 
+
+/* ==========================================
+   CLOCK LABEL
+========================================== */
+
+.clock-label{
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    gap:5px;
+
+    color:#9a7a00;
+
+    font-size:9px;
+
+    font-weight:1000;
+
+    letter-spacing:1.3px;
+
+    margin-bottom:7px;
+
+}
+
+
+.clock-label .material-icons{
+
+    font-size:17px;
+
+}
+
+
+/* ==========================================
+   CLOCK
+========================================== */
 
 .clock{
 
@@ -585,6 +751,7 @@ body{
     letter-spacing:2px;
 
     line-height:1;
+
 }
 
 
@@ -599,11 +766,12 @@ body{
     margin-top:8px;
 
     letter-spacing:1px;
+
 }
 
 
 /* ==========================================
-   ATTENDANCE BUTTONS
+   ATTENDANCE ACTION BUTTONS
 ========================================== */
 
 .button-group{
@@ -613,14 +781,19 @@ body{
     display:grid;
 
     grid-template-columns:
+
         repeat(
             4,
-            minmax(0,1fr)
+            minmax(
+                0,
+                1fr
+            )
         );
 
     gap:10px;
 
     margin-top:15px;
+
 }
 
 
@@ -628,9 +801,15 @@ body{
 
     width:100%;
 
-    min-height:55px;
+    min-height:58px;
 
-    border:none;
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    gap:7px;
 
     border-radius:10px;
 
@@ -642,11 +821,18 @@ body{
 
     cursor:pointer;
 
-    transition:.18s ease;
+    transition:
+        .18s ease;
 
     box-shadow:
         0 4px 10px
-        rgba(0,0,0,.07);
+        rgba(
+            0,
+            0,
+            0,
+            .07
+        );
+
 }
 
 
@@ -657,6 +843,7 @@ body{
 
     box-shadow:
         var(--shadow-hover);
+
 }
 
 
@@ -664,8 +851,26 @@ body{
 
     transform:
         translateY(0);
+
 }
 
+
+.action-btn:disabled{
+
+    opacity:.45;
+
+    cursor:not-allowed;
+
+    transform:none;
+
+    box-shadow:none;
+
+}
+
+
+/* ==========================================
+   TIME IN
+========================================== */
 
 .timein{
 
@@ -676,8 +881,20 @@ body{
     border:
         1px solid
         #bce4cb;
+
 }
 
+
+.timein:hover{
+
+    background:#def2e6;
+
+}
+
+
+/* ==========================================
+   BREAK OUT
+========================================== */
 
 .breakout{
 
@@ -688,8 +905,20 @@ body{
     border:
         1px solid
         #ead47a;
+
 }
 
+
+.breakout:hover{
+
+    background:#fff0ad;
+
+}
+
+
+/* ==========================================
+   BREAK IN
+========================================== */
 
 .breakin{
 
@@ -700,8 +929,20 @@ body{
     border:
         1px solid
         #bfd9ed;
+
 }
 
+
+.breakin:hover{
+
+    background:#dfeefa;
+
+}
+
+
+/* ==========================================
+   TIME OUT
+========================================== */
 
 .timeout{
 
@@ -712,20 +953,33 @@ body{
     border:
         1px solid
         #efc0c2;
+
+}
+
+
+.timeout:hover{
+
+    background:#ffe4e4;
+
+}
+
+
+.action-btn .material-icons{
+
+    font-size:20px;
+
 }
 
 
 /* ==========================================
-   TABLE WRAPPER
+   ATTENDANCE SECTION
 ========================================== */
 
-.table-wrapper{
+.attendance-section{
 
     width:100%;
 
-    overflow-x:auto;
-
-    overflow-y:hidden;
+    min-width:0;
 
     margin-top:17px;
 
@@ -741,12 +995,120 @@ body{
     box-shadow:
         var(--shadow);
 
-    -webkit-overflow-scrolling:touch;
+    overflow:hidden;
+
 }
 
 
 /* ==========================================
-   TABLE
+   SECTION HEADING
+========================================== */
+
+.section-heading{
+
+    width:100%;
+
+    padding:
+        16px 17px;
+
+    border-bottom:
+        1px solid
+        #edf0f2;
+
+}
+
+
+.section-heading-left{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:10px;
+
+}
+
+
+.section-heading-left >
+.material-icons{
+
+    width:42px;
+
+    height:42px;
+
+    min-width:42px;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    background:#fff5c8;
+
+    color:#a77f00;
+
+    border-radius:10px;
+
+    font-size:21px;
+
+}
+
+
+.section-heading-left > div{
+
+    min-width:0;
+
+}
+
+
+.section-heading h2{
+
+    color:#272a2d;
+
+    font-size:15px;
+
+    font-weight:1000;
+
+    letter-spacing:.2px;
+
+}
+
+
+.section-heading p{
+
+    color:#92989d;
+
+    font-size:9px;
+
+    font-weight:800;
+
+    margin-top:3px;
+
+}
+
+
+/* ==========================================
+   TABLE WRAPPER
+========================================== */
+
+.table-wrapper{
+
+    width:100%;
+
+    overflow-x:auto;
+
+    overflow-y:hidden;
+
+    background:#ffffff;
+
+    -webkit-overflow-scrolling:touch;
+
+}
+
+
+/* ==========================================
+   ATTENDANCE TABLE
 ========================================== */
 
 #attendanceTable{
@@ -758,8 +1120,13 @@ body{
     border-collapse:collapse;
 
     table-layout:auto;
+
 }
 
+
+/* ==========================================
+   TABLE HEADER
+========================================== */
 
 #attendanceTable th{
 
@@ -792,8 +1159,13 @@ body{
     white-space:nowrap;
 
     text-align:center;
+
 }
 
+
+/* ==========================================
+   TABLE BODY
+========================================== */
 
 #attendanceTable td{
 
@@ -815,39 +1187,107 @@ body{
     white-space:nowrap;
 
     text-align:center;
+
 }
 
 
 #attendanceTable tbody tr:nth-child(even) td{
 
     background:#fafbfc;
+
 }
 
 
 #attendanceTable tbody tr:hover td{
 
     background:#fffbea;
+
 }
 
 
 /* ==========================================
-   ACTION COLUMN
+   STATUS BADGES
 ========================================== */
 
-#attendanceTable th:last-child,
-#attendanceTable td:last-child{
+.status,
 
-    min-width:100px;
+.badge{
+
+    display:inline-flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    padding:
+        4px 8px;
+
+    border-radius:20px;
+
+    font-size:8px;
+
+    font-weight:1000;
+
+    white-space:nowrap;
+
 }
 
 
 /* ==========================================
-   TABLE BUTTONS
+   COMMON STATUS COLORS
+========================================== */
+
+.present{
+
+    background:#e9f7ef;
+
+    color:#16803c;
+
+}
+
+
+.late{
+
+    background:#fff5c8;
+
+    color:#9b7800;
+
+}
+
+
+.absent{
+
+    background:#fff0f0;
+
+    color:#d71920;
+
+}
+
+
+.leave{
+
+    background:#eaf3fb;
+
+    color:#1769aa;
+
+}
+
+
+/* ==========================================
+   TABLE ACTION BUTTONS
 ========================================== */
 
 #attendanceTable button{
 
     min-height:30px;
+
+    display:inline-flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    gap:4px;
 
     padding:
         6px 9px;
@@ -868,7 +1308,9 @@ body{
 
     cursor:pointer;
 
-    transition:.18s ease;
+    transition:
+        .18s ease;
+
 }
 
 
@@ -878,28 +1320,37 @@ body{
 
     transform:
         translateY(-1px);
+
+}
+
+
+#attendanceTable button:active{
+
+    transform:
+        translateY(0);
+
 }
 
 
 /* ==========================================
-   EMPTY TABLE
+   TABLE LINKS
 ========================================== */
 
-#attendanceBody:empty::after{
+#attendanceTable a{
 
-    content:"NO ATTENDANCE RECORDS";
-
-    display:block;
-
-    padding:30px;
-
-    color:#999ea3;
-
-    font-size:10px;
+    color:var(--blue);
 
     font-weight:1000;
 
-    text-align:center;
+    text-decoration:none;
+
+}
+
+
+#attendanceTable a:hover{
+
+    color:var(--red);
+
 }
 
 
@@ -910,6 +1361,7 @@ body{
 .table-wrapper::-webkit-scrollbar{
 
     height:8px;
+
 }
 
 
@@ -917,7 +1369,6 @@ body{
 
     background:#f1f2f3;
 
-    border-radius:20px;
 }
 
 
@@ -926,59 +1377,113 @@ body{
     background:#c7ccd0;
 
     border-radius:20px;
+
 }
 
 
 .table-wrapper::-webkit-scrollbar-thumb:hover{
 
     background:#aeb4b9;
+
 }
 
 
 /* ==========================================
-   1100px
+   FOOTER
 ========================================== */
 
-@media(max-width:1100px){
+.attendance-footer{
+
+    width:100%;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    gap:7px;
+
+    padding:
+        17px 5px;
+
+    color:#92979c;
+
+    font-size:8px;
+
+    font-weight:800;
+
+    text-align:center;
+
+}
+
+
+.attendance-footer span:first-child{
+
+    color:#555a5f;
+
+    font-weight:1000;
+
+}
+
+
+/* ==========================================
+   1200px
+========================================== */
+
+@media(max-width:1200px){
 
     .container{
 
         padding:
-            14px;
+            15px;
+
     }
 
 
     .filter-section{
 
         grid-template-columns:
+
             repeat(
                 2,
-                minmax(0,1fr)
+                minmax(
+                    0,
+                    1fr
+                )
             );
+
     }
 
 
     #filterBtn,
+
     #summaryBtn{
 
         width:100%;
+
     }
 
 
     .button-group{
 
         grid-template-columns:
+
             repeat(
                 2,
-                minmax(0,1fr)
+                minmax(
+                    0,
+                    1fr
+                )
             );
+
     }
 
 }
 
 
 /* ==========================================
-   768px
+   768px TABLET
 ========================================== */
 
 @media(max-width:768px){
@@ -987,6 +1492,7 @@ body{
 
         padding:
             9px;
+
     }
 
 
@@ -994,27 +1500,30 @@ body{
 
         min-height:70px;
 
-        padding:
-            10px;
+        padding:10px;
 
         gap:8px;
 
         flex-wrap:wrap;
+
     }
 
 
     .logo{
 
         width:45px;
+
         height:45px;
 
         min-width:45px;
+
     }
 
 
     .logo-text{
 
         font-size:18px;
+
     }
 
 
@@ -1022,7 +1531,8 @@ body{
 
         font-size:12px;
 
-        padding-left:7px;
+        padding-left:8px;
+
     }
 
 
@@ -1034,50 +1544,72 @@ body{
             7px 9px;
 
         font-size:8px;
+
+    }
+
+
+    .top-btn .material-icons{
+
+        font-size:16px;
+
     }
 
 
     .filter-section{
 
         grid-template-columns:
+
             repeat(
                 2,
-                minmax(0,1fr)
+                minmax(
+                    0,
+                    1fr
+                )
             );
 
         gap:7px;
 
         padding:9px;
+
     }
 
 
     .filter-section select,
+
     .filter-section input{
 
         height:40px;
 
         font-size:9px;
+
     }
 
 
     #filterBtn,
+
     #summaryBtn{
 
         min-height:40px;
 
         font-size:8px;
+
     }
 
 
     .employee-info{
 
         grid-template-columns:
+
             repeat(
                 2,
-                minmax(0,1fr)
+                minmax(
+                    0,
+                    1fr
+                )
             );
 
         gap:7px;
+
     }
 
 
@@ -1085,16 +1617,17 @@ body{
 
         min-height:58px;
 
-        padding:
-            9px;
+        padding:9px;
 
         font-size:9px;
+
     }
 
 
     .clock-area{
 
         padding:15px;
+
     }
 
 
@@ -1103,24 +1636,31 @@ body{
         font-size:34px;
 
         letter-spacing:1px;
+
     }
 
 
     .today-date{
 
         font-size:8px;
+
     }
 
 
     .button-group{
 
         grid-template-columns:
+
             repeat(
                 2,
-                minmax(0,1fr)
+                minmax(
+                    0,
+                    1fr
+                )
             );
 
         gap:7px;
+
     }
 
 
@@ -1129,27 +1669,58 @@ body{
         min-height:50px;
 
         font-size:9px;
+
+    }
+
+
+    .attendance-section{
+
+        margin-top:12px;
+
+    }
+
+
+    .section-heading{
+
+        padding:
+            13px;
+
+    }
+
+
+    .section-heading h2{
+
+        font-size:13px;
+
+    }
+
+
+    .section-heading p{
+
+        font-size:8px;
+
     }
 
 
     #attendanceTable{
 
         min-width:1200px;
+
     }
 
 }
 
 
 /* ==========================================
-   480px
+   480px MOBILE
 ========================================== */
 
 @media(max-width:480px){
 
     .container{
 
-        padding:
-            6px;
+        padding:6px;
+
     }
 
 
@@ -1158,21 +1729,25 @@ body{
         padding:9px;
 
         border-radius:11px;
+
     }
 
 
     .logo{
 
         width:40px;
+
         height:40px;
 
         min-width:40px;
+
     }
 
 
     .logo-text{
 
         font-size:15px;
+
     }
 
 
@@ -1190,70 +1765,117 @@ body{
             6px 0 0;
 
         font-size:10px;
+
     }
 
 
-    #backBtn,
-    #printBtn{
+    .top-btn{
 
         min-height:34px;
 
-        font-size:7px;
-
         padding:
             6px 8px;
+
+        font-size:7px;
+
     }
 
 
     .filter-section{
 
+        width:100%;
+
         grid-template-columns:
+
             repeat(
                 2,
-                minmax(0,1fr)
+                minmax(
+                    0,
+                    1fr
+                )
             );
+
+        gap:6px;
 
         padding:7px;
 
         border-radius:11px;
+
     }
 
 
     .filter-section select,
+
     .filter-section input{
+
+        width:100%;
 
         height:38px;
 
-        padding:
-            7px;
+        padding:7px;
 
         font-size:8px;
+
     }
 
 
     #filterBtn,
+
     #summaryBtn{
+
+        width:100%;
 
         min-height:38px;
 
-        padding:
-            7px;
+        padding:7px;
 
         font-size:7px;
+
     }
 
 
+    #filterBtn .material-icons,
+
+    #summaryBtn .material-icons{
+
+        font-size:14px;
+
+    }
+
+
+    /* ======================================
+       EMPLOYEE INFO
+       LEFT + RIGHT
+    ====================================== */
+
     .employee-info{
 
+        width:100%;
+
+        display:grid;
+
         grid-template-columns:
+
             repeat(
                 2,
-                minmax(0,1fr)
+                minmax(
+                    0,
+                    1fr
+                )
             );
+
+        gap:6px;
+
+        margin-top:9px;
+
     }
 
 
     .employee-info > div{
+
+        width:100%;
+
+        min-width:0;
 
         min-height:55px;
 
@@ -1262,16 +1884,39 @@ body{
         font-size:7px;
 
         line-height:1.3;
+
     }
 
+
+    /* ======================================
+       CLOCK
+    ====================================== */
 
     .clock-area{
 
         margin-top:9px;
 
-        padding:14px 8px;
+        padding:
+            14px 8px;
 
         border-radius:11px;
+
+    }
+
+
+    .clock-label{
+
+        font-size:7px;
+
+        margin-bottom:5px;
+
+    }
+
+
+    .clock-label .material-icons{
+
+        font-size:14px;
+
     }
 
 
@@ -1280,6 +1925,7 @@ body{
         font-size:27px;
 
         letter-spacing:0;
+
     }
 
 
@@ -1288,6 +1934,7 @@ body{
         font-size:7px;
 
         margin-top:6px;
+
     }
 
 
@@ -1300,33 +1947,121 @@ body{
 
         width:100%;
 
+        display:grid;
+
         grid-template-columns:
+
             repeat(
                 2,
-                minmax(0,1fr)
+                minmax(
+                    0,
+                    1fr
+                )
             );
 
         gap:7px;
 
         margin-top:9px;
+
     }
 
 
     .action-btn{
 
+        width:100%;
+
         min-height:48px;
+
+        padding:7px;
 
         font-size:8px;
 
         border-radius:8px;
+
+    }
+
+
+    .action-btn .material-icons{
+
+        font-size:17px;
+
+    }
+
+
+    /* ======================================
+       RECORDS
+    ====================================== */
+
+    .attendance-section{
+
+        margin-top:10px;
+
+        border-radius:10px;
+
+    }
+
+
+    .section-heading{
+
+        padding:11px;
+
+    }
+
+
+    .section-heading-left{
+
+        gap:8px;
+
+    }
+
+
+    .section-heading-left >
+    .material-icons{
+
+        width:35px;
+
+        height:35px;
+
+        min-width:35px;
+
+        font-size:18px;
+
+        border-radius:8px;
+
+    }
+
+
+    .section-heading h2{
+
+        font-size:11px;
+
+    }
+
+
+    .section-heading p{
+
+        font-size:7px;
+
+        margin-top:2px;
+
     }
 
 
     .table-wrapper{
 
-        margin-top:10px;
+        width:100%;
 
-        border-radius:10px;
+        overflow-x:auto;
+
+        -webkit-overflow-scrolling:touch;
+
+    }
+
+
+    #attendanceTable{
+
+        min-width:1200px;
+
     }
 
 
@@ -1336,6 +2071,7 @@ body{
             9px 7px;
 
         font-size:7px;
+
     }
 
 
@@ -1345,35 +2081,69 @@ body{
             8px 7px;
 
         font-size:7px;
+
+    }
+
+
+    #attendanceTable button{
+
+        min-height:27px;
+
+        padding:
+            5px 7px;
+
+        font-size:7px;
+
+    }
+
+
+    .attendance-footer{
+
+        padding:
+            13px 5px;
+
+        font-size:7px;
+
     }
 
 }
 
 
 /* ==========================================
-   360px
+   360px SMALL MOBILE
 ========================================== */
 
 @media(max-width:360px){
 
+    .container{
+
+        padding:5px;
+
+    }
+
+
     .logo{
 
         width:36px;
+
         height:36px;
 
         min-width:36px;
+
     }
 
 
     .logo-text{
 
         font-size:13px;
+
     }
 
 
     .title{
 
         font-size:9px;
+
     }
 
 
@@ -1383,26 +2153,58 @@ body{
 
         padding:
             5px 7px;
+
+    }
+
+
+    .top-btn .material-icons{
+
+        font-size:14px;
+
     }
 
 
     .employee-info > div{
 
         font-size:6.5px;
+
     }
 
 
     .clock{
 
         font-size:24px;
+
     }
 
 
     .action-btn{
 
+        min-height:45px;
+
         font-size:7px;
 
-        min-height:45px;
+    }
+
+
+    .action-btn .material-icons{
+
+        font-size:15px;
+
+    }
+
+
+    .section-heading h2{
+
+        font-size:10px;
+
+    }
+
+
+    .section-heading p{
+
+        font-size:6px;
+
     }
 
 }
@@ -1417,6 +2219,7 @@ body{
     body{
 
         background:#ffffff !important;
+
     }
 
 
@@ -1425,6 +2228,7 @@ body{
         max-width:none;
 
         padding:0;
+
     }
 
 
@@ -1432,23 +2236,47 @@ body{
 
         box-shadow:none;
 
-        border:1px solid #ccc;
+        border:
+            1px solid
+            #cccccc;
+
     }
 
 
     #backBtn,
+
     #printBtn,
+
     .filter-section,
+
     .clock-area,
-    .button-group{
+
+    .button-group,
+
+    .attendance-footer{
 
         display:none !important;
+
     }
 
 
     .employee-info{
 
         box-shadow:none;
+
+    }
+
+
+    .attendance-section{
+
+        margin-top:10px;
+
+        box-shadow:none;
+
+        border:
+            1px solid
+            #cccccc;
+
     }
 
 
@@ -1457,6 +2285,7 @@ body{
         box-shadow:none;
 
         overflow:visible;
+
     }
 
 
@@ -1465,5 +2294,18 @@ body{
         min-width:100%;
 
         width:100%;
+
     }
+
+
+    #attendanceTable th,
+
+    #attendanceTable td{
+
+        font-size:8px;
+
+        padding:5px;
+
+    }
+
 }
