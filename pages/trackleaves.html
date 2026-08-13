@@ -1,1 +1,632 @@
+<!DOCTYPE html>
+<html lang="en">
 
+<head>
+
+<meta charset="UTF-8">
+
+<meta
+name="viewport"
+content="width=device-width, initial-scale=1.0">
+
+<title>PAPPRITO HRIS - Track Leaves</title>
+
+<link
+rel="manifest"
+href="../manifest.json">
+
+<link
+rel="icon"
+href="../assets/images/logo.png">
+
+<link
+rel="apple-touch-icon"
+href="../assets/images/icon-192.png">
+
+<meta
+name="theme-color"
+content="#ffcc00">
+
+<link
+href="https://fonts.googleapis.com/icon?family=Material+Icons"
+rel="stylesheet">
+
+<link
+rel="stylesheet"
+href="../css/trackleaves.css">
+
+</head>
+
+
+<body>
+
+
+<!-- ==========================================
+     MAIN CONTAINER
+========================================== -->
+
+<div class="container">
+
+
+    <!-- ======================================
+         HEADER
+    ======================================= -->
+
+    <header class="page-header">
+
+
+        <div class="header-left">
+
+            <button
+            class="back-btn"
+            onclick="goToDashboard()">
+
+                <span class="material-icons">
+
+                    arrow_back
+
+                </span>
+
+                BACK
+
+            </button>
+
+        </div>
+
+
+        <div class="header-title">
+
+            <img
+            src="../assets/images/logo.png"
+            class="header-logo"
+            alt="PAPPRITO">
+
+            <div>
+
+                <h1>
+
+                    TRACK LEAVES
+
+                </h1>
+
+                <p>
+
+                    Leave Request Management
+
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="header-right">
+
+            <div class="status-badge">
+
+                <span class="status-dot"></span>
+
+                HR SYSTEM ONLINE
+
+            </div>
+
+        </div>
+
+
+    </header>
+
+
+    <!-- ==========================================
+         SUMMARY CARDS
+    =========================================== -->
+
+    <section class="summary-grid">
+
+
+        <div class="summary-card total">
+
+            <span class="material-icons">
+
+                event_note
+
+            </span>
+
+            <div>
+
+                <strong
+                id="totalLeaves">
+
+                    0
+
+                </strong>
+
+                <span>
+
+                    Total Requests
+
+                </span>
+
+            </div>
+
+        </div>
+
+
+        <div class="summary-card pending">
+
+            <span class="material-icons">
+
+                pending_actions
+
+            </span>
+
+            <div>
+
+                <strong
+                id="pendingLeaves">
+
+                    0
+
+                </strong>
+
+                <span>
+
+                    Pending
+
+                </span>
+
+            </div>
+
+        </div>
+
+
+        <div class="summary-card approved">
+
+            <span class="material-icons">
+
+                check_circle
+
+            </span>
+
+            <div>
+
+                <strong
+                id="approvedLeaves">
+
+                    0
+
+                </strong>
+
+                <span>
+
+                    Approved
+
+                </span>
+
+            </div>
+
+        </div>
+
+
+        <div class="summary-card rejected">
+
+            <span class="material-icons">
+
+                cancel
+
+            </span>
+
+            <div>
+
+                <strong
+                id="rejectedLeaves">
+
+                    0
+
+                </strong>
+
+                <span>
+
+                    Rejected
+
+                </span>
+
+            </div>
+
+        </div>
+
+
+    </section>
+
+
+    <!-- ==========================================
+         FILTER
+    =========================================== -->
+
+    <section class="filter-card">
+
+
+        <div class="filter-title">
+
+            <span class="material-icons">
+
+                filter_alt
+
+            </span>
+
+            FILTER LEAVE REQUESTS
+
+        </div>
+
+
+        <div class="filter-grid">
+
+
+            <div class="field">
+
+                <label>
+                    Employee
+                </label>
+
+                <select
+                id="employeeFilter">
+
+                    <option value="">
+
+                        All Employees
+
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <div class="field">
+
+                <label>
+                    Leave Type
+                </label>
+
+                <select
+                id="leaveTypeFilter">
+
+                    <option value="">
+
+                        All Leave Types
+
+                    </option>
+
+                    <option value="Vacation Leave">
+
+                        Vacation Leave
+
+                    </option>
+
+                    <option value="Sick Leave">
+
+                        Sick Leave
+
+                    </option>
+
+                    <option value="Emergency Leave">
+
+                        Emergency Leave
+
+                    </option>
+
+                    <option value="Maternity Leave">
+
+                        Maternity Leave
+
+                    </option>
+
+                    <option value="Paternity Leave">
+
+                        Paternity Leave
+
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <div class="field">
+
+                <label>
+                    Status
+                </label>
+
+                <select
+                id="statusFilter">
+
+                    <option value="">
+
+                        All Status
+
+                    </option>
+
+                    <option value="Pending">
+
+                        Pending
+
+                    </option>
+
+                    <option value="Approved">
+
+                        Approved
+
+                    </option>
+
+                    <option value="Rejected">
+
+                        Rejected
+
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <div class="field">
+
+                <label>
+                    From Date
+                </label>
+
+                <input
+                type="date"
+                id="fromDate">
+
+            </div>
+
+
+            <div class="field">
+
+                <label>
+                    To Date
+                </label>
+
+                <input
+                type="date"
+                id="toDate">
+
+            </div>
+
+
+            <div class="filter-buttons">
+
+                <button
+                id="filterBtn"
+                class="filter-btn">
+
+                    <span class="material-icons">
+
+                        search
+
+                    </span>
+
+                    FILTER
+
+                </button>
+
+
+                <button
+                id="resetBtn"
+                class="reset-btn">
+
+                    <span class="material-icons">
+
+                        refresh
+
+                    </span>
+
+                    RESET
+
+                </button>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- ==========================================
+         LEAVE TABLE
+    =========================================== -->
+
+    <section class="table-card">
+
+
+        <div class="table-header">
+
+            <div>
+
+                <h2>
+
+                    Leave Requests
+
+                </h2>
+
+                <p>
+
+                    Employee leave request records
+
+                </p>
+
+            </div>
+
+
+            <button
+            id="refreshBtn"
+            class="refresh-btn">
+
+                <span class="material-icons">
+
+                    sync
+
+                </span>
+
+                REFRESH
+
+            </button>
+
+        </div>
+
+
+        <div class="table-wrapper">
+
+            <table>
+
+                <thead>
+
+                    <tr>
+
+                        <th>
+                            DATE FILED
+                        </th>
+
+                        <th>
+                            EMPLOYEE ID
+                        </th>
+
+                        <th>
+                            EMPLOYEE
+                        </th>
+
+                        <th>
+                            LEAVE TYPE
+                        </th>
+
+                        <th>
+                            FROM
+                        </th>
+
+                        <th>
+                            TO
+                        </th>
+
+                        <th>
+                            DAYS
+                        </th>
+
+                        <th>
+                            REASON
+                        </th>
+
+                        <th>
+                            STATUS
+                        </th>
+
+                        <th>
+                            ACTION
+                        </th>
+
+                    </tr>
+
+                </thead>
+
+
+                <tbody
+                id="leaveBody">
+
+                    <tr>
+
+                        <td
+                        colspan="10"
+                        class="empty-state">
+
+                            <span class="material-icons">
+
+                                event_busy
+
+                            </span>
+
+                            <p>
+
+                                Loading leave requests...
+
+                            </p>
+
+                        </td>
+
+                    </tr>
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </section>
+
+
+</div>
+
+
+<!-- ==========================================
+     DETAILS MODAL
+=========================================== -->
+
+<div
+id="leaveModal"
+class="modal">
+
+
+    <div class="modal-box">
+
+
+        <div class="modal-header">
+
+            <h2>
+
+                Leave Request Details
+
+            </h2>
+
+
+            <button
+            id="closeModal">
+
+                ×
+
+            </button>
+
+        </div>
+
+
+        <div
+        id="leaveDetails"
+        class="leave-details">
+
+        </div>
+
+
+    </div>
+
+</div>
+
+
+<!-- ==========================================
+     SCRIPTS
+========================================== -->
+
+<script
+type="module"
+src="../js/trackleaves.js">
+
+</script>
+
+
+<script
+type="module"
+src="../js/navigation.js">
+
+</script>
+
+
+</body>
+
+</html>
