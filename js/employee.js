@@ -1,12 +1,11 @@
 /* ==========================================
    PAPPRITO HRIS
    EMPLOYEE MASTERLIST JS
-   WITH EMPLOYEE USER CREATION
+   ORIGINAL USER LOGIN SYSTEM
 ========================================== */
 
 import {
-    db,
-    auth
+    db
 } from "./firebase.js";
 
 
@@ -22,22 +21,8 @@ from
 "https://www.gstatic.com/firebasejs/12.13.0/firebase-firestore.js";
 
 
-import {
-    createUserWithEmailAndPassword
-}
-from
-"https://www.gstatic.com/firebasejs/12.13.0/firebase-auth.js";
-
-
-import {
-    initializeApp
-}
-from
-"https://www.gstatic.com/firebasejs/12.13.0/firebase-app.js";
-
-
 /* ==========================================
-   GLOBAL
+   GLOBAL VARIABLES
 ========================================== */
 
 let employees = [];
@@ -46,9 +31,7 @@ let editId = null;
 
 let currentStatusFilter = "ALL";
 
-let selectedUserEmployee = null;
-
-let secondaryAuth = null;
+let selectedEmployeeForUser = null;
 
 
 /* ==========================================
@@ -92,66 +75,123 @@ const total =
 
 
 /* ==========================================
-   SECONDARY FIREBASE APP
+   HELPER
 ========================================== */
 
-function getSecondaryAuth(){
+function text(value){
 
-    if(
-        secondaryAuth
-    ){
+    return String(
+        value ?? ""
+    ).trim();
 
-        return secondaryAuth;
-
-    }
+}
 
 
-    /*
-     * Use the existing Firebase
-     * configuration from the
-     * authenticated application.
-     */
+/* ==========================================
+   ESCAPE HTML
+========================================== */
 
-    const primaryOptions =
-        auth.app.options;
+function escapeHTML(value){
 
-
-    const secondaryApp =
-        initializeApp(
-            primaryOptions,
-            "PAPPRITO-EMPLOYEE-AUTH"
-        );
-
-
-    /*
-     * Import Firebase Auth
-     * dynamically so the primary
-     * admin session is not replaced.
-     */
-
-    return import(
-        "https://www.gstatic.com/firebasejs/12.13.0/firebase-auth.js"
+    return String(
+        value ?? ""
     )
 
-    .then(
-        module => {
+    .replace(
+        /&/g,
+        "&amp;"
+    )
 
-            secondaryAuth =
-                module.getAuth(
-                    secondaryApp
-                );
+    .replace(
+        /</g,
+        "&lt;"
+    )
 
+    .replace(
+        />/g,
+        "&gt;"
+    )
 
-            return secondaryAuth;
+    .replace(
+        /"/g,
+        "&quot;"
+    )
 
-        }
+    .replace(
+        /'/g,
+        "&#039;"
     );
 
 }
 
 
 /* ==========================================
-   OPEN MODAL
+   ESCAPE ATTRIBUTE
+========================================== */
+
+function escapeAttribute(value){
+
+    return String(
+        value ?? ""
+    )
+
+    .replace(
+        /\\/g,
+        "\\\\"
+    )
+
+    .replace(
+        /'/g,
+        "\\'"
+    )
+
+    .replace(
+        /\r/g,
+        "\\r"
+    )
+
+    .replace(
+        /\n/g,
+        "\\n"
+    );
+
+}
+
+
+/* ==========================================
+   FULL NAME
+========================================== */
+
+function getFullName(employee){
+
+    return [
+
+        employee.firstname,
+
+        employee.middlename,
+
+        employee.lastname
+
+    ]
+
+    .filter(
+        Boolean
+    )
+
+    .join(" ")
+
+    .replace(
+        /\s+/g,
+        " "
+    )
+
+    .trim();
+
+}
+
+
+/* ==========================================
+   OPEN EMPLOYEE MODAL
 ========================================== */
 
 window.openModal =
@@ -170,7 +210,7 @@ function(){
 
 
 /* ==========================================
-   CLOSE MODAL
+   CLOSE EMPLOYEE MODAL
 ========================================== */
 
 window.closeModal =
@@ -216,17 +256,17 @@ function(
         );
 
 
-    const selected =
+    const selectedTab =
         document.getElementById(
             tabId
         );
 
 
     if(
-        selected
+        selectedTab
     ){
 
-        selected.classList.add(
+        selectedTab.classList.add(
             "active"
         );
 
@@ -296,16 +336,18 @@ function(){
         birth.getFullYear();
 
 
-    const month =
+    const monthDifference =
         today.getMonth()
         -
         birth.getMonth();
 
 
     if(
-        month < 0 ||
+        monthDifference < 0
+        ||
         (
-            month === 0 &&
+            monthDifference === 0
+            &&
             today.getDate()
             <
             birth.getDate()
@@ -324,150 +366,247 @@ function(){
 
 
 /* ==========================================
+   GET EMPLOYEE FORM DATA
+========================================== */
+
+function getEmployeeFormData(){
+
+    const fields =
+        document.querySelectorAll(
+            "#employeeModal .emp-field"
+        );
+
+
+    /*
+     * Original field order:
+     *
+     * 0  First Name
+     * 1  Middle Name
+     * 2  Last Name
+     * 3  Birthdate
+     * 4  Age
+     * 5  Gender
+     *
+     * 6  SSS
+     * 7  PhilHealth
+     * 8  Pag-IBIG
+     * 9  Health Card
+     * 10 Bank
+     * 11 Bank Account
+     * 12 ID Type
+     * 13 ID Number
+     *
+     * 14 Mobile
+     * 15 Email
+     * 16 Current Address
+     * 17 Permanent Address
+     *
+     * 18 Employee ID
+     * 19 Position
+     * 20 Department
+     * 21 Employment
+     * 22 Status
+     * 23 Salary
+     *
+     * 24 Vacation Leave
+     * 25 Sick Leave
+     * 26 Birthday Leave
+     */
+
+
+    const value =
+        index =>
+            fields[index]
+            ?
+            fields[index].value
+            :
+            "";
+
+
+    return {
+
+        firstname:
+            text(
+                value(0)
+            ),
+
+        middlename:
+            text(
+                value(1)
+            ),
+
+        lastname:
+            text(
+                value(2)
+            ),
+
+        birthdate:
+            text(
+                value(3)
+            ),
+
+        age:
+            text(
+                value(4)
+            ),
+
+        gender:
+            text(
+                value(5)
+            ),
+
+
+        sss:
+            text(
+                value(6)
+            ),
+
+        philhealth:
+            text(
+                value(7)
+            ),
+
+        pagibig:
+            text(
+                value(8)
+            ),
+
+        healthcard:
+            text(
+                value(9)
+            ),
+
+        bankname:
+            text(
+                value(10)
+            ),
+
+        bankaccount:
+            text(
+                value(11)
+            ),
+
+        idtype:
+            text(
+                value(12)
+            ),
+
+        idnumber:
+            text(
+                value(13)
+            ),
+
+
+        mobile:
+            text(
+                value(14)
+            ),
+
+        email:
+            text(
+                value(15)
+            ),
+
+        currentaddress:
+            text(
+                value(16)
+            ),
+
+        permanentaddress:
+            text(
+                value(17)
+            ),
+
+
+        employeeid:
+            text(
+                value(18)
+            )
+            .toUpperCase(),
+
+
+        position:
+            text(
+                value(19)
+            ),
+
+        department:
+            text(
+                value(20)
+            ),
+
+        employment:
+            text(
+                value(21)
+            ),
+
+        status:
+            text(
+                value(22)
+            )
+            ||
+            "Active",
+
+        salary:
+            text(
+                value(23)
+            ),
+
+
+        vacationleave:
+            Number(
+                value(24) || 10
+            ),
+
+        sickleave:
+            Number(
+                value(25) || 7
+            ),
+
+        birthdayleave:
+            Number(
+                value(26) || 1
+            )
+
+    };
+
+}
+
+
+/* ==========================================
    SAVE EMPLOYEE
 ========================================== */
 
 window.saveEmployee =
 async function(){
 
-    const fields =
-        document.querySelectorAll(
-            ".emp-field"
+    const employeeData =
+        getEmployeeFormData();
+
+
+    /* ======================================
+       VALIDATION
+    ====================================== */
+
+    if(
+        !employeeData.firstname
+    ){
+
+        alert(
+            "Please enter First Name."
         );
 
+        return;
 
-    const data = [];
-
-
-    fields.forEach(
-        field => {
-
-            data.push(
-                field.value
-            );
-
-        }
-    );
-
-
-    /*
-     * ======================================
-     * FIELD ORDER
-     * ======================================
-     */
-
-    const employeeData = {
-
-        firstname:
-            data[0] || "",
-
-        middlename:
-            data[1] || "",
-
-        lastname:
-            data[2] || "",
-
-        birthdate:
-            data[3] || "",
-
-        age:
-            data[4] || "",
-
-        gender:
-            data[5] || "",
-
-
-        sss:
-            data[6] || "",
-
-        philhealth:
-            data[7] || "",
-
-        pagibig:
-            data[8] || "",
-
-        healthcard:
-            data[9] || "",
-
-        bankname:
-            data[10] || "",
-
-        bankaccount:
-            data[11] || "",
-
-        idtype:
-            data[12] || "",
-
-        idnumber:
-            data[13] || "",
-
-
-        mobile:
-            data[14] || "",
-
-        email:
-            data[15] || "",
-
-        currentaddress:
-            data[16] || "",
-
-        permanentaddress:
-            data[17] || "",
-
-
-        employeeid:
-            (
-                data[18] || ""
-            )
-            .toUpperCase()
-            .trim(),
-
-
-        position:
-            data[19] || "",
-
-        department:
-            data[20] || "",
-
-        employment:
-            data[21] || "",
-
-        status:
-            data[22] || "Active",
-
-        salary:
-            data[23] || "",
-
-
-        /*
-         * LEAVE BALANCES
-         */
-
-        vacationleave:
-            Number(
-                data[24] || 10
-            ),
-
-        sickleave:
-            Number(
-                data[25] || 7
-            ),
-
-        birthdayleave:
-            Number(
-                data[26] || 1
-            )
-
-    };
+    }
 
 
     if(
-        !employeeData.firstname ||
         !employeeData.lastname
     ){
 
         alert(
-            "Please enter First Name and Last Name."
+            "Please enter Last Name."
         );
 
         return;
@@ -489,6 +628,45 @@ async function(){
 
 
     try{
+
+        /* ==================================
+           CHECK DUPLICATE EMPLOYEE ID
+        ================================== */
+
+        const duplicate =
+            employees.find(
+                employee =>
+
+                    employee.employeeid
+                    &&
+                    text(
+                        employee.employeeid
+                    )
+                    .toUpperCase()
+                    ===
+                    employeeData.employeeid
+                    &&
+                    employee.id !==
+                    editId
+            );
+
+
+        if(
+            duplicate
+        ){
+
+            alert(
+                "Employee ID already exists."
+            );
+
+            return;
+
+        }
+
+
+        /* ==================================
+           UPDATE
+        ================================== */
 
         if(
             editId
@@ -512,6 +690,11 @@ async function(){
             );
 
         }
+
+
+        /* ==================================
+           NEW EMPLOYEE
+        ================================== */
 
         else{
 
@@ -548,8 +731,11 @@ async function(){
 
 
         alert(
-            "Save Error\n\n" +
+
+            "Save Employee Error\n\n" +
+
             error.message
+
         );
 
     }
@@ -568,27 +754,14 @@ async function loadEmployees(){
         employees = [];
 
 
-        const table =
-            document.querySelector(
-                "#empTable tbody"
-            );
-
-
-        if(
-            table
-        ){
-
-            table.innerHTML = "";
-
-        }
-
-
         const snapshot =
             await getDocs(
+
                 collection(
                     db,
                     "employees"
                 )
+
             );
 
 
@@ -654,7 +827,12 @@ function renderTable(){
 
 
     employees.forEach(
-        emp => {
+        employee => {
+
+
+            /* =================================
+               STATUS FILTER
+            ================================= */
 
             if(
                 currentStatusFilter ===
@@ -662,7 +840,10 @@ function renderTable(){
             ){
 
                 if(
-                    emp.status !==
+                    text(
+                        employee.status
+                    )
+                    !==
                     "Active"
                 ){
 
@@ -679,7 +860,10 @@ function renderTable(){
             ){
 
                 if(
-                    emp.status ===
+                    text(
+                        employee.status
+                    )
+                    ===
                     "Active"
                 ){
 
@@ -690,43 +874,19 @@ function renderTable(){
             }
 
 
-            const statusClass =
-
-                emp.status ===
-                "Active"
-
-                ?
-
-                "status-active"
-
-                :
-
-                emp.status ===
-                "AWOL"
-
-                ?
-
-                "status-awol"
-
-                :
-
-                emp.status ===
-                "Resigned"
-
-                ?
-
-                "status-resigned"
-
-                :
-
-                "status-other";
-
+            /* =================================
+               USER STATUS
+            ================================= */
 
             const hasUser =
-                !!(
-                    emp.authUid ||
-                    emp.userCreated
-                );
+
+                text(
+                    employee.username
+                ) !== ""
+                &&
+                text(
+                    employee.password
+                ) !== "";
 
 
             const userButton =
@@ -738,7 +898,7 @@ function renderTable(){
                 `
 
 <button
-class="icon-btn user-created"
+class="icon-btn user-active"
 title="User Account Created"
 disabled>
 
@@ -755,10 +915,12 @@ verified_user
                 `
 
 <button
-class="icon-btn create-user"
-title="Create Employee User"
+class="icon-btn create-user-btn"
+title="Create User"
 onclick="openCreateUser(
-'${emp.id}'
+'${escapeAttribute(
+    employee.id
+)}'
 )">
 
 <span class="material-icons">
@@ -770,6 +932,49 @@ person_add
 `;
 
 
+            /* =================================
+               STATUS CLASS
+            ================================= */
+
+            let statusClass =
+                "status-other";
+
+
+            if(
+                employee.status ===
+                "Active"
+            ){
+
+                statusClass =
+                    "status-active";
+
+            }
+
+            else if(
+                employee.status ===
+                "AWOL"
+            ){
+
+                statusClass =
+                    "status-awol";
+
+            }
+
+            else if(
+                employee.status ===
+                "Resigned"
+            ){
+
+                statusClass =
+                    "status-resigned";
+
+            }
+
+
+            /* =================================
+               TABLE ROW
+            ================================= */
+
             table.innerHTML += `
 
 <tr>
@@ -779,13 +984,13 @@ person_add
 
 <button
 class="icon-btn qr-btn"
-title="View QR"
+title="View QR Code"
 onclick="viewQR(
 '${escapeAttribute(
-    emp.employeeid || ""
+    employee.employeeid
 )}',
 '${escapeAttribute(
-    getFullName(emp)
+    getFullName(employee)
 )}'
 )">
 
@@ -800,192 +1005,201 @@ qr_code_2
 
 <td>
 ${escapeHTML(
-    emp.firstname
+    employee.firstname
 )}
 </td>
 
 
 <td>
 ${escapeHTML(
-    emp.middlename
+    employee.middlename
 )}
 </td>
 
 
 <td>
 ${escapeHTML(
-    emp.lastname
+    employee.lastname
 )}
 </td>
 
 
 <td>
 ${escapeHTML(
-    emp.birthdate
+    employee.birthdate
 )}
 </td>
 
 
 <td>
 ${escapeHTML(
-    emp.age
+    employee.age
 )}
 </td>
 
 
 <td>
 ${escapeHTML(
-    emp.gender
+    employee.gender
 )}
 </td>
 
 
 <td>
 ${escapeHTML(
-    emp.sss
+    employee.sss
 )}
 </td>
 
 
 <td>
 ${escapeHTML(
-    emp.philhealth
+    employee.philhealth
 )}
 </td>
 
 
 <td>
 ${escapeHTML(
-    emp.pagibig
+    employee.pagibig
 )}
 </td>
 
 
 <td>
 ${escapeHTML(
-    emp.healthcard
+    employee.healthcard
 )}
 </td>
 
 
 <td>
 ${escapeHTML(
-    emp.bankname
+    employee.bankname
 )}
 </td>
 
 
 <td>
 ${escapeHTML(
-    emp.bankaccount
+    employee.bankaccount
 )}
 </td>
 
 
 <td>
 ${escapeHTML(
-    emp.idtype
+    employee.idtype
 )}
 </td>
 
 
 <td>
 ${escapeHTML(
-    emp.idnumber
+    employee.idnumber
 )}
 </td>
 
 
 <td>
 ${escapeHTML(
-    emp.mobile
+    employee.mobile
 )}
 </td>
 
 
 <td>
 ${escapeHTML(
-    emp.email
+    employee.email
 )}
 </td>
 
 
 <td>
 ${escapeHTML(
-    emp.currentaddress
+    employee.currentaddress
 )}
 </td>
 
 
 <td>
 ${escapeHTML(
-    emp.permanentaddress
+    employee.permanentaddress
 )}
 </td>
 
 
 <td>
 ${escapeHTML(
-    emp.employeeid
+    employee.employeeid
 )}
 </td>
 
 
 <td>
 ${escapeHTML(
-    emp.position
+    employee.position
 )}
 </td>
 
 
 <td>
 ${escapeHTML(
-    emp.department
+    employee.department
 )}
 </td>
 
 
 <td>
 ${escapeHTML(
-    emp.employment
+    employee.employment
 )}
 </td>
 
 
-<td class="${statusClass}">
+<td
+class="${statusClass}">
+
 ${escapeHTML(
-    emp.status || "Active"
+    employee.status ||
+    "Active"
+)}
+
+</td>
+
+
+<td>
+${escapeHTML(
+    employee.salary
 )}
 </td>
 
 
 <td>
 ${escapeHTML(
-    emp.salary
+    employee.vacationleave ??
+    0
 )}
 </td>
 
 
 <td>
 ${escapeHTML(
-    emp.vacationleave ?? 0
+    employee.sickleave ??
+    0
 )}
 </td>
 
 
 <td>
 ${escapeHTML(
-    emp.sickleave ?? 0
+    employee.birthdayleave ??
+    0
 )}
 </td>
 
 
-<td>
-${escapeHTML(
-    emp.birthdayleave ?? 0
-)}
-</td>
-
+<!-- USER -->
 
 <td>
 
@@ -993,6 +1207,8 @@ ${userButton}
 
 </td>
 
+
+<!-- ACTION -->
 
 <td>
 
@@ -1003,7 +1219,9 @@ ${userButton}
 class="icon-btn edit-btn"
 title="Edit Employee"
 onclick="editEmployee(
-'${emp.id}'
+'${escapeAttribute(
+    employee.id
+)}'
 )">
 
 <span class="material-icons">
@@ -1017,7 +1235,9 @@ edit
 class="icon-btn delete-btn"
 title="Delete Employee"
 onclick="deleteEmployee(
-'${emp.id}'
+'${escapeAttribute(
+    employee.id
+)}'
 )">
 
 <span class="material-icons">
@@ -1050,9 +1270,7 @@ delete
 ========================================== */
 
 window.openCreateUser =
-function(
-    id
-){
+function(id){
 
     const employee =
         employees.find(
@@ -1075,9 +1293,18 @@ function(
     }
 
 
+    /* ======================================
+       CHECK EXISTING USER
+    ====================================== */
+
     if(
-        employee.authUid ||
-        employee.userCreated
+        text(
+            employee.username
+        )
+        &&
+        text(
+            employee.password
+        )
     ){
 
         alert(
@@ -1089,45 +1316,45 @@ function(
     }
 
 
-    selectedUserEmployee =
+    selectedEmployeeForUser =
         employee;
 
 
-    const userEmployeeName =
+    const name =
         document.getElementById(
             "userEmployeeName"
         );
 
 
-    const userEmployeeId =
+    const employeeId =
         document.getElementById(
             "userEmployeeId"
         );
 
 
-    const userEmail =
+    const username =
         document.getElementById(
-            "userEmail"
+            "userUsername"
         );
 
 
-    const userPassword =
+    const password =
         document.getElementById(
             "userPassword"
         );
 
 
-    const userConfirmPassword =
+    const confirmPassword =
         document.getElementById(
             "userConfirmPassword"
         );
 
 
     if(
-        userEmployeeName
+        name
     ){
 
-        userEmployeeName.textContent =
+        name.textContent =
             getFullName(
                 employee
             );
@@ -1136,42 +1363,48 @@ function(
 
 
     if(
-        userEmployeeId
+        employeeId
     ){
 
-        userEmployeeId.textContent =
+        employeeId.textContent =
             employee.employeeid ||
             "-";
 
     }
 
 
+    /*
+     * Default username:
+     * Employee ID
+     */
+
     if(
-        userEmail
+        username
     ){
 
-        userEmail.value =
-            employee.email ||
+        username.value =
+            employee.username ||
+            employee.employeeid ||
             "";
 
     }
 
 
     if(
-        userPassword
+        password
     ){
 
-        userPassword.value =
+        password.value =
             "";
 
     }
 
 
     if(
-        userConfirmPassword
+        confirmPassword
     ){
 
-        userConfirmPassword.value =
+        confirmPassword.value =
             "";
 
     }
@@ -1190,7 +1423,7 @@ function(
 
 
 /* ==========================================
-   CLOSE USER MODAL
+   CLOSE CREATE USER
 ========================================== */
 
 window.closeUserModal =
@@ -1206,14 +1439,14 @@ function(){
     }
 
 
-    selectedUserEmployee =
+    selectedEmployeeForUser =
         null;
 
 };
 
 
 /* ==========================================
-   TOGGLE PASSWORD
+   TOGGLE USER PASSWORD
 ========================================== */
 
 window.toggleUserPassword =
@@ -1227,7 +1460,7 @@ function(){
 
     const icon =
         document.getElementById(
-            "passwordIcon"
+            "userPasswordIcon"
         );
 
 
@@ -1281,14 +1514,14 @@ function(){
 
 
 /* ==========================================
-   CREATE FIREBASE USER
+   CREATE USER
 ========================================== */
 
 window.createEmployeeUser =
 async function(){
 
     if(
-        !selectedUserEmployee
+        !selectedEmployeeForUser
     ){
 
         alert(
@@ -1300,9 +1533,9 @@ async function(){
     }
 
 
-    const emailInput =
+    const usernameInput =
         document.getElementById(
-            "userEmail"
+            "userUsername"
         );
 
 
@@ -1318,12 +1551,12 @@ async function(){
         );
 
 
-    const email =
-        emailInput
+    const username =
+        usernameInput
         ?
-        emailInput.value
+        usernameInput.value
             .trim()
-            .toLowerCase()
+            .toUpperCase()
         :
         "";
 
@@ -1349,11 +1582,11 @@ async function(){
     ====================================== */
 
     if(
-        !email
+        !username
     ){
 
         alert(
-            "Please enter the employee email."
+            "Please enter a username."
         );
 
         return;
@@ -1362,11 +1595,11 @@ async function(){
 
 
     if(
-        !email.includes("@")
+        !password
     ){
 
         alert(
-            "Please enter a valid email address."
+            "Please enter a password."
         );
 
         return;
@@ -1375,11 +1608,12 @@ async function(){
 
 
     if(
-        password.length < 6
+        password.length <
+        4
     ){
 
         alert(
-            "Password must contain at least 6 characters."
+            "Password must contain at least 4 characters."
         );
 
         return;
@@ -1403,63 +1637,60 @@ async function(){
 
     try{
 
-        /*
-         * ==================================
-         * SECONDARY AUTH
-         *
-         * This prevents the current
-         * admin account from being
-         * logged out.
-         * ==================================
-         */
+        /* ==================================
+           CHECK DUPLICATE USERNAME
+        ================================== */
 
-        const secondary =
-            await getSecondaryAuth();
+        const duplicate =
+            employees.find(
+                employee =>
 
+                    text(
+                        employee.username
+                    )
+                    .toUpperCase()
+                    ===
+                    username
 
-        const result =
-            await createUserWithEmailAndPassword(
+                    &&
 
-                secondary,
-
-                email,
-
-                password
-
+                    employee.id !==
+                    selectedEmployeeForUser.id
             );
 
 
-        const newUser =
-            result.user;
+        if(
+            duplicate
+        ){
+
+            alert(
+                "Username already exists."
+            );
+
+            return;
+
+        }
 
 
-        /*
-         * ==================================
-         * UPDATE EMPLOYEE RECORD
-         * ==================================
-         */
+        /* ==================================
+           SAVE USER
+        ================================== */
 
         await updateDoc(
 
             doc(
                 db,
                 "employees",
-                selectedUserEmployee.id
+                selectedEmployeeForUser.id
             ),
 
             {
 
-                email:
-                    email,
-
-                authUid:
-                    newUser.uid,
-
-                role:
-                    "employee",
-
                 username:
-                    email,
+                    username,
+
+                password:
+                    password,
 
                 userCreated:
                     true,
@@ -1467,8 +1698,8 @@ async function(){
                 userCreatedAt:
                     Date.now(),
 
-                accountStatus:
-                    "Active"
+                role:
+                    "employee"
 
             }
 
@@ -1476,45 +1707,17 @@ async function(){
 
 
         alert(
-            "Employee User created successfully.\n\n" +
-            "Email: " +
-            email +
-            "\n\n" +
-            "The employee can now use this account to access the Employee Portal."
+
+            "Employee user created successfully.\n\n" +
+
+            "Username: " +
+            username
+
         );
 
 
-        /*
-         * Sign out ONLY secondary auth.
-         */
-
-        try{
-
-            const {
-                signOut:secondarySignOut
-            } =
-                await import(
-                    "https://www.gstatic.com/firebasejs/12.13.0/firebase-auth.js"
-                );
-
-
-            await secondarySignOut(
-                secondary
-            );
-
-        }catch(
-            secondaryError
-        ){
-
-            console.warn(
-                "Secondary logout:",
-                secondaryError
-            );
-
-        }
-
-
         closeUserModal();
+
 
         await loadEmployees();
 
@@ -1527,51 +1730,12 @@ async function(){
         );
 
 
-        if(
-            error.code ===
-            "auth/email-already-in-use"
-        ){
-
-            alert(
-                "This email already has a Firebase account."
-            );
-
-            return;
-
-        }
-
-
-        if(
-            error.code ===
-            "auth/invalid-email"
-        ){
-
-            alert(
-                "Invalid email address."
-            );
-
-            return;
-
-        }
-
-
-        if(
-            error.code ===
-            "auth/weak-password"
-        ){
-
-            alert(
-                "Password is too weak."
-            );
-
-            return;
-
-        }
-
-
         alert(
-            "Failed to create employee user.\n\n" +
+
+            "Failed to create user.\n\n" +
+
             error.message
+
         );
 
     }
@@ -1584,11 +1748,9 @@ async function(){
 ========================================== */
 
 window.editEmployee =
-function(
-    id
-){
+function(id){
 
-    const emp =
+    const employee =
         employees.find(
             item =>
                 item.id ===
@@ -1597,7 +1759,7 @@ function(
 
 
     if(
-        !emp
+        !employee
     ){
 
         return;
@@ -1614,70 +1776,73 @@ function(
 
     const values = [
 
-        emp.firstname,
+        employee.firstname,
 
-        emp.middlename,
+        employee.middlename,
 
-        emp.lastname,
+        employee.lastname,
 
-        emp.birthdate,
+        employee.birthdate,
 
-        emp.age,
+        employee.age,
 
-        emp.gender,
-
-
-        emp.sss,
-
-        emp.philhealth,
-
-        emp.pagibig,
-
-        emp.healthcard,
-
-        emp.bankname,
-
-        emp.bankaccount,
-
-        emp.idtype,
-
-        emp.idnumber,
+        employee.gender,
 
 
-        emp.mobile,
+        employee.sss,
 
-        emp.email,
+        employee.philhealth,
 
-        emp.currentaddress,
+        employee.pagibig,
 
-        emp.permanentaddress,
+        employee.healthcard,
 
+        employee.bankname,
 
-        emp.employeeid,
+        employee.bankaccount,
 
-        emp.position,
+        employee.idtype,
 
-        emp.department,
-
-        emp.employment,
-
-        emp.status,
-
-        emp.salary,
+        employee.idnumber,
 
 
-        emp.vacationleave ?? 10,
+        employee.mobile,
 
-        emp.sickleave ?? 7,
+        employee.email,
 
-        emp.birthdayleave ?? 1
+        employee.currentaddress,
+
+        employee.permanentaddress,
+
+
+        employee.employeeid,
+
+        employee.position,
+
+        employee.department,
+
+        employee.employment,
+
+        employee.status,
+
+        employee.salary,
+
+
+        employee.vacationleave ??
+            10,
+
+        employee.sickleave ??
+            7,
+
+        employee.birthdayleave ??
+            1
 
     ];
 
 
     document
         .querySelectorAll(
-            ".emp-field"
+            "#employeeModal .emp-field"
         )
         .forEach(
             (
@@ -1692,6 +1857,20 @@ function(
             }
         );
 
+
+    /*
+     * Recalculate age if needed
+     */
+
+    if(
+        birthdate &&
+        birthdate.value
+    ){
+
+        calcAge();
+
+    }
+
 };
 
 
@@ -1700,9 +1879,7 @@ function(
 ========================================== */
 
 window.deleteEmployee =
-async function(
-    id
-){
+async function(id){
 
     if(
         !confirm(
@@ -1745,8 +1922,11 @@ async function(
 
 
         alert(
+
             "Delete Error\n\n" +
+
             error.message
+
         );
 
     }
@@ -1755,13 +1935,11 @@ async function(
 
 
 /* ==========================================
-   FILTER
+   FILTER STATUS
 ========================================== */
 
 window.filterStatus =
-function(
-    status
-){
+function(status){
 
     currentStatusFilter =
         status;
@@ -1843,7 +2021,7 @@ function(){
 
 
 /* ==========================================
-   QR
+   VIEW QR
 ========================================== */
 
 window.viewQR =
@@ -1865,7 +2043,7 @@ function(
     ){
 
         alert(
-            "Please allow pop-ups."
+            "Please allow pop-ups to view QR."
         );
 
         return;
@@ -1877,47 +2055,100 @@ function(
 
 <!DOCTYPE html>
 
-<html>
+<html lang="en">
 
 <head>
+
+<meta charset="UTF-8">
 
 <title>
 PAPPRITO Employee QR
 </title>
 
+
 <style>
+
+*{
+
+box-sizing:border-box;
+
+}
+
 
 body{
 
-font-family:Arial,sans-serif;
+font-family:
+Arial,
+sans-serif;
 
 text-align:center;
 
 padding:20px;
 
+background:#ffffff;
+
+color:#111111;
+
 }
+
+
+.logo{
+
+width:70px;
+
+height:70px;
+
+object-fit:cover;
+
+border-radius:50%;
+
+border:3px solid #ffcc00;
+
+}
+
 
 h2{
 
 color:#d71920;
 
+margin:8px 0;
+
 }
+
+
+.info{
+
+margin:15px 0;
+
+font-size:13px;
+
+}
+
+
+#qrcode{
+
+margin:20px auto;
+
+}
+
 
 button{
 
-margin-top:20px;
+margin-top:15px;
 
 padding:10px 20px;
 
 border:none;
 
+border-radius:7px;
+
 background:#ffcc00;
+
+color:#111111;
 
 font-weight:bold;
 
 cursor:pointer;
-
-border-radius:7px;
 
 }
 
@@ -1925,32 +2156,61 @@ border-radius:7px;
 
 </head>
 
+
 <body>
+
+
+<img
+src="../assets/images/logo.png"
+class="logo"
+alt="PAPPRITO">
+
 
 <h2>
 PAPPRITO
 </h2>
 
+
 <h3>
-Employee QR Code
+EMPLOYEE QR CODE
 </h3>
 
-<p>
-<b>ID:</b>
-${escapeHTML(employeeid)}
-</p>
 
-<p>
-<b>Name:</b>
-${escapeHTML(name)}
-</p>
+<div class="info">
 
-<div id="qrcode"></div>
+<b>
+Employee ID:
+</b>
+
+<br>
+
+${escapeHTML(
+    employeeid
+)}
+
+<br><br>
+
+<b>
+Employee:
+</b>
+
+<br>
+
+${escapeHTML(
+    name
+)}
+
+</div>
+
+
+<div id="qrcode">
+</div>
+
 
 <button
 onclick="window.print()">
 
-PRINT
+PRINT QR
 
 </button>
 
@@ -1964,15 +2224,37 @@ src="https://cdn.jsdelivr.net/npm/qrcode/build/qrcode.min.js">
 
 QRCode.toCanvas(
 
-document.createElement("canvas"),
+document.createElement(
+"canvas"
+),
 
 JSON.stringify({
 
 employeeid:
-"${escapeJS(employeeid)}",
+"${String(
+    employeeid
+)
+.replace(
+    /\\/g,
+    "\\\\"
+)
+.replace(
+    /"/g,
+    '\\"'
+)}",
 
 name:
-"${escapeJS(name)}"
+"${String(
+    name
+)
+.replace(
+    /\\/g,
+    "\\\\"
+)
+.replace(
+    /"/g,
+    '\\"'
+)}"
 
 }),
 
@@ -1982,13 +2264,22 @@ width:220
 
 },
 
-function(error,canvas){
+function(
+error,
+canvas
+){
 
-if(!error){
+if(
+!error
+){
 
 document
-.getElementById("qrcode")
-.appendChild(canvas);
+.getElementById(
+"qrcode"
+)
+.appendChild(
+canvas
+);
 
 }
 
@@ -2012,7 +2303,7 @@ document
 
 
 /* ==========================================
-   CLEAR FORM
+   CLEAR EMPLOYEE FORM
 ========================================== */
 
 function clearForm(){
@@ -2023,7 +2314,7 @@ function clearForm(){
 
     document
         .querySelectorAll(
-            ".emp-field"
+            "#employeeModal .emp-field"
         )
         .forEach(
             field => {
@@ -2041,7 +2332,7 @@ function clearForm(){
 
     const fields =
         document.querySelectorAll(
-            ".emp-field"
+            "#employeeModal .emp-field"
         );
 
 
@@ -2075,9 +2366,27 @@ function clearForm(){
     }
 
 
+    /*
+     * Default status
+     */
+
+    if(
+        fields[22]
+    ){
+
+        fields[22].value =
+            "Active";
+
+    }
+
+
+    /*
+     * Return to Personal tab
+     */
+
     document
         .querySelectorAll(
-            ".tab-content"
+            "#employeeModal .tab-content"
         )
         .forEach(
             tab => {
@@ -2109,7 +2418,7 @@ function clearForm(){
 
     document
         .querySelectorAll(
-            ".tab-btn"
+            "#employeeModal .tab-btn"
         )
         .forEach(
             (
@@ -2125,11 +2434,11 @@ function clearForm(){
             }
         );
 
-};
+}
 
 
 /* ==========================================
-   TOTAL
+   UPDATE TOTAL
 ========================================== */
 
 function updateTotal(){
@@ -2174,147 +2483,34 @@ function updateTotal(){
 
 
 /* ==========================================
-   ESCAPE HTML
+   CLOSE MODAL WHEN CLICKING OUTSIDE
 ========================================== */
 
-function escapeHTML(
-    value
-){
+window.addEventListener(
+    "click",
+    function(event){
 
-    return String(
-        value ?? ""
-    )
+        if(
+            event.target ===
+            employeeModal
+        ){
 
-    .replace(
-        /&/g,
-        "&amp;"
-    )
+            closeModal();
 
-    .replace(
-        /</g,
-        "&lt;"
-    )
-
-    .replace(
-        />/g,
-        "&gt;"
-    )
-
-    .replace(
-        /"/g,
-        "&quot;"
-    )
-
-    .replace(
-        /'/g,
-        "&#039;"
-    );
-
-}
+        }
 
 
-/* ==========================================
-   ESCAPE ATTRIBUTE
-========================================== */
+        if(
+            event.target ===
+            userModal
+        ){
 
-function escapeAttribute(
-    value
-){
+            closeUserModal();
 
-    return String(
-        value ?? ""
-    )
+        }
 
-    .replace(
-        /\\/g,
-        "\\\\"
-    )
-
-    .replace(
-        /'/g,
-        "\\'"
-    )
-
-    .replace(
-        /\n/g,
-        "\\n"
-    )
-
-    .replace(
-        /\r/g,
-        "\\r"
-    );
-
-}
-
-
-/* ==========================================
-   ESCAPE JAVASCRIPT
-========================================== */
-
-function escapeJS(
-    value
-){
-
-    return String(
-        value ?? ""
-    )
-
-    .replace(
-        /\\/g,
-        "\\\\"
-    )
-
-    .replace(
-        /"/g,
-        '\\"'
-    )
-
-    .replace(
-        /\n/g,
-        "\\n"
-    )
-
-    .replace(
-        /\r/g,
-        "\\r"
-    );
-
-}
-
-
-/* ==========================================
-   FULL NAME
-========================================== */
-
-function getFullName(
-    employee
-){
-
-    return [
-
-        employee.firstname,
-
-        employee.middlename,
-
-        employee.lastname
-
-    ]
-
-    .filter(
-        Boolean
-    )
-
-    .join(" ")
-
-    .replace(
-        /\s+/g,
-        " "
-    )
-
-    .trim();
-
-}
+    }
+);
 
 
 /* ==========================================
