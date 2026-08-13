@@ -9,15 +9,30 @@
 name="viewport"
 content="width=device-width, initial-scale=1.0">
 
-<title>AUTO PAYROLL SYSTEM</title>
+<title>PAPPRITO HRIS - Auto Payroll</title>
+
+
+<!-- ==========================================
+     MANIFEST
+========================================== -->
 
 <link
 rel="manifest"
 href="../manifest.json">
 
+
+<!-- ==========================================
+     THEME
+========================================== -->
+
 <meta
 name="theme-color"
 content="#ffcc00">
+
+
+<!-- ==========================================
+     APP ICON
+========================================== -->
 
 <link
 rel="apple-touch-icon"
@@ -26,6 +41,20 @@ href="../assets/images/icon-192.png">
 <link
 rel="icon"
 href="../assets/images/logo.png">
+
+
+<!-- ==========================================
+     MATERIAL ICONS
+========================================== -->
+
+<link
+href="https://fonts.googleapis.com/icon?family=Material+Icons"
+rel="stylesheet">
+
+
+<!-- ==========================================
+     CSS
+========================================== -->
 
 <link
 rel="stylesheet"
@@ -38,39 +67,174 @@ href="../css/autopayroll.css">
 
 
 <!-- ==========================================
-     TOP BAR
+     MAIN CONTAINER
 ========================================== -->
 
-<div class="top-bar">
+<div class="auto-payroll-container">
+
+
+<!-- ==========================================
+     HEADER
+========================================== -->
+
+<header class="page-header">
+
+
+<div class="header-left">
+
+
+<div class="brand">
+
+
+<img
+src="../assets/images/logo.png"
+class="header-logo"
+alt="PAPPRITO">
+
+
+<div>
 
 <h1>
-
-🤖 AUTO PAYROLL SYSTEM
-
+PAPPRITO HRIS
 </h1>
 
+<p>
+AUTO PAYROLL SYSTEM
+</p>
 
-<button
-onclick="window.location.href='dashboard.html'">
-
-← BACK
-
-</button>
+</div>
 
 </div>
 
 
+</div>
+
+
+<div class="header-actions">
+
+
+<!-- BACK -->
+
+<button
+type="button"
+class="icon-btn back-btn"
+title="Back to Dashboard"
+onclick="backToDashboard()">
+
+<span class="material-icons">
+arrow_back
+</span>
+
+</button>
+
+
+<!-- REFRESH -->
+
+<button
+type="button"
+class="icon-btn"
+title="Refresh"
+onclick="refreshPayroll()">
+
+<span class="material-icons">
+refresh
+</span>
+
+</button>
+
+
+</div>
+
+
+</header>
+
+
+
 <!-- ==========================================
-     FORM
+     PAGE TITLE
 ========================================== -->
 
-<div class="form-box">
+<section class="page-title">
 
 
-<div class="grid">
+<div>
+
+<h2>
+
+<span class="material-icons">
+smart_toy
+</span>
+
+Auto Payroll
+
+</h2>
 
 
-<select id="employeeName">
+<p>
+
+Automatic payroll computation based on
+employee information and attendance.
+
+</p>
+
+</div>
+
+
+</section>
+
+
+
+<!-- ==========================================
+     PAYROLL FORM
+========================================== -->
+
+<section class="card">
+
+
+<div class="section-header">
+
+
+<div>
+
+<h3>
+
+<span class="material-icons">
+calculate
+</span>
+
+Payroll Computation
+
+</h3>
+
+
+<p>
+Select employee and payroll information.
+</p>
+
+</div>
+
+
+</div>
+
+
+
+<div class="form-grid">
+
+
+<!-- ======================================
+     EMPLOYEE
+====================================== -->
+
+<div class="form-group">
+
+
+<label>
+Employee
+</label>
+
+
+<select
+id="employeeName">
 
 <option value="">
 
@@ -81,31 +245,120 @@ Select Employee
 </select>
 
 
+</div>
+
+
+
+<!-- ======================================
+     EMPLOYEE ID
+====================================== -->
+
+<div class="form-group">
+
+
+<label>
+Employee ID
+</label>
+
+
 <input
 id="employeeId"
+type="text"
 placeholder="Employee ID"
 readonly>
+
+
+</div>
+
+
+
+<!-- ======================================
+     SALARY RATE
+====================================== -->
+
+<div class="form-group">
+
+
+<label>
+Hourly Rate
+</label>
 
 
 <input
 id="salaryRate"
 type="number"
+step="0.01"
+min="0"
 placeholder="Hourly Rate">
+
+
+</div>
+
+
+
+<!-- ======================================
+     REGULAR HOURS
+====================================== -->
+
+<div class="form-group">
+
+
+<label>
+Regular Hours
+</label>
 
 
 <input
 id="totalHours"
 type="number"
+step="0.01"
+min="0"
 placeholder="Regular Hours">
+
+
+</div>
+
+
+
+<!-- ======================================
+     OVERTIME
+====================================== -->
+
+<div class="form-group">
+
+
+<label>
+Overtime Hours
+</label>
 
 
 <input
 id="overtimeHours"
 type="number"
+step="0.01"
+min="0"
 placeholder="Overtime Hours">
 
 
-<select id="holidayType">
+</div>
+
+
+
+<!-- ======================================
+     HOLIDAY TYPE
+====================================== -->
+
+<div class="form-group">
+
+
+<label>
+Holiday Type
+</label>
+
+
+<select
+id="holidayType">
+
 
 <option value="none">
 
@@ -113,11 +366,13 @@ No Holiday
 
 </option>
 
+
 <option value="regular">
 
 Regular Holiday
 
 </option>
+
 
 <option value="special">
 
@@ -125,177 +380,557 @@ Special Holiday
 
 </option>
 
+
 </select>
+
+
+</div>
+
+
+
+<!-- ======================================
+     HOLIDAY HOURS
+====================================== -->
+
+<div class="form-group">
+
+
+<label>
+Holiday Hours
+</label>
 
 
 <input
 id="holidayHours"
 type="number"
+step="0.01"
+min="0"
 placeholder="Holiday Hours">
+
+
+</div>
+
+
+
+<!-- ======================================
+     NIGHT DIFFERENTIAL
+====================================== -->
+
+<div class="form-group">
+
+
+<label>
+Night Differential Hours
+</label>
 
 
 <input
 id="nightHours"
 type="number"
+step="0.01"
+min="0"
 placeholder="Night Differential Hours">
+
+
+</div>
+
+
+</div>
+
+
+
+<!-- ==========================================
+     EARNINGS
+========================================== -->
+
+<div class="sub-section">
+
+
+<h4>
+
+<span class="material-icons">
+payments
+</span>
+
+Earnings
+
+</h4>
+
+
+<div class="form-grid">
+
+
+<div class="form-group">
+
+
+<label>
+Gross Salary
+</label>
+
+
+<input
+id="grossSalary"
+type="number"
+placeholder="Gross Salary"
+readonly>
+
+
+</div>
+
+
+</div>
+
+</div>
+
+
+
+<!-- ==========================================
+     DEDUCTIONS
+========================================== -->
+
+<div class="sub-section">
+
+
+<h4>
+
+<span class="material-icons">
+remove_circle
+</span>
+
+Deductions
+
+</h4>
+
+
+<div class="form-grid">
+
+
+<div class="form-group">
+
+
+<label>
+SSS Deduction
+</label>
 
 
 <input
 id="sss"
 type="number"
+step="0.01"
+min="0"
 placeholder="SSS Deduction">
+
+
+</div>
+
+
+
+<div class="form-group">
+
+
+<label>
+PhilHealth Deduction
+</label>
 
 
 <input
 id="philhealth"
 type="number"
+step="0.01"
+min="0"
 placeholder="PhilHealth Deduction">
+
+
+</div>
+
+
+
+<div class="form-group">
+
+
+<label>
+Pag-IBIG Deduction
+</label>
 
 
 <input
 id="pagibig"
 type="number"
+step="0.01"
+min="0"
 placeholder="Pag-IBIG Deduction">
+
+
+</div>
+
+
+
+<div class="form-group">
+
+
+<label>
+Health Card
+</label>
 
 
 <input
 id="healthcard"
 type="number"
+step="0.01"
+min="0"
 placeholder="Health Card">
+
+
+</div>
+
+
+
+<div class="form-group">
+
+
+<label>
+Other Deduction
+</label>
 
 
 <input
 id="others"
 type="number"
+step="0.01"
+min="0"
 placeholder="Other Deduction">
 
 
-<input
-id="grossSalary"
-placeholder="Gross Salary"
-readonly>
-
-
-<input
-id="netSalary"
-placeholder="Net Salary"
-readonly>
+</div>
 
 
 </div>
 
-
-<br>
-
-
-<button
-onclick="computePayroll()">
-
-🧮 COMPUTE PAYROLL
-
-</button>
-
-
-<button
-onclick="savePayroll()">
-
-💾 SAVE PAYROLL
-
-</button>
-
-
 </div>
+
 
 
 <!-- ==========================================
-     FILTER
+     NET PAY
 ========================================== -->
 
-<br>
+<div class="pay-result">
+
+
+<div>
+
+
+<span>
+NET PAY
+</span>
+
+
+<strong
+id="netSalary">
+
+₱ 0.00
+
+</strong>
+
+</div>
+
+
+</div>
+
+
+
+<!-- ==========================================
+     FORM ACTIONS
+========================================== -->
+
+<div class="form-actions">
+
+
+<button
+type="button"
+class="action-btn compute-btn"
+title="Compute Payroll"
+onclick="computePayroll()">
+
+<span class="material-icons">
+calculate
+</span>
+
+<span class="button-text">
+Compute Payroll
+</span>
+
+</button>
+
+
+
+<button
+type="button"
+class="action-btn save-btn"
+title="Save Payroll"
+onclick="savePayroll()">
+
+<span class="material-icons">
+save
+</span>
+
+<span class="button-text">
+Save Payroll
+</span>
+
+</button>
+
+
+
+<button
+type="button"
+class="action-btn clear-btn"
+title="Clear Form"
+onclick="clearPayrollForm()">
+
+<span class="material-icons">
+clear
+</span>
+
+<span class="button-text">
+Clear
+</span>
+
+</button>
+
+
+</div>
+
+
+</section>
+
+
+
+<!-- ==========================================
+     PAYROLL HISTORY
+========================================== -->
+
+<section class="card">
+
+
+<div class="section-header">
+
+
+<div>
+
+<h3>
+
+<span class="material-icons">
+history
+</span>
+
+Payroll History
+
+</h3>
+
+
+<p>
+View saved payroll records.
+</p>
+
+</div>
+
+
+</div>
+
+
+
+<!-- ==========================================
+     FILTER BAR
+========================================== -->
+
+<div class="filter-bar">
+
+
+<div class="filter-date">
+
+
+<label>
+Payroll Date
+</label>
 
 
 <input
 type="date"
 id="filterDate">
 
+</div>
+
+
 
 <button
+type="button"
+class="icon-btn filter-btn"
+title="Filter Date"
 onclick="filterPayroll()">
 
-🔍 FILTER DATE
+<span class="material-icons">
+filter_alt
+</span>
 
 </button>
+
 
 
 <button
+type="button"
+class="icon-btn show-btn"
+title="Show All Payroll"
 onclick="loadPayroll()">
 
-📋 SHOW ALL
+<span class="material-icons">
+list
+</span>
 
 </button>
 
 
-<div
-class="total-payroll">
 
-TOTAL PAYROLL :
+<button
+type="button"
+class="icon-btn"
+title="Print Payroll"
+onclick="printPayroll()">
 
-₱ <span id="totalPayroll">
+<span class="material-icons">
+print
+</span>
+
+</button>
+
+
+</div>
+
+
+
+<!-- ==========================================
+     TOTAL PAYROLL
+========================================== -->
+
+<div class="total-payroll">
+
+
+<div>
+
+
+<span class="material-icons">
+account_balance_wallet
+</span>
+
+
+<span>
+TOTAL PAYROLL
+</span>
+
+
+</div>
+
+
+<strong>
+
+₱
+
+<span
+id="totalPayroll">
 
 0.00
 
 </span>
 
+</strong>
+
+
 </div>
+
 
 
 <!-- ==========================================
      TABLE
 ========================================== -->
 
-<div class="table-box">
+<div class="table-wrapper">
 
 
-<table id="payrollTable">
+<table
+id="payrollTable">
 
 
 <thead>
 
 <tr>
 
-<th>EMPLOYEE ID</th>
+<th>
+EMPLOYEE ID
+</th>
 
-<th>EMPLOYEE</th>
+<th>
+EMPLOYEE
+</th>
 
-<th>RATE</th>
+<th>
+RATE
+</th>
 
-<th>REG HOURS</th>
+<th>
+REG HOURS
+</th>
 
-<th>OT HOURS</th>
+<th>
+OT HOURS
+</th>
 
-<th>HOLIDAY</th>
+<th>
+HOLIDAY
+</th>
 
-<th>HOLIDAY HOURS</th>
+<th>
+HOLIDAY HOURS
+</th>
 
-<th>NIGHT DIFF</th>
+<th>
+NIGHT DIFF
+</th>
 
-<th>GROSS</th>
+<th>
+GROSS
+</th>
 
-<th>SSS</th>
+<th>
+SSS
+</th>
 
-<th>PHILHEALTH</th>
+<th>
+PHILHEALTH
+</th>
 
-<th>PAGIBIG</th>
+<th>
+PAG-IBIG
+</th>
 
-<th>HEALTH CARD</th>
+<th>
+HEALTH CARD
+</th>
 
-<th>OTHERS</th>
+<th>
+OTHERS
+</th>
 
-<th>NET PAY</th>
+<th>
+NET PAY
+</th>
 
-<th>DATE</th>
+<th>
+DATE
+</th>
 
-<th>ACTION</th>
+<th>
+ACTION
+</th>
 
 </tr>
 
@@ -304,6 +939,24 @@ TOTAL PAYROLL :
 
 <tbody>
 
+<tr>
+
+<td
+colspan="17"
+class="empty-row">
+
+<span class="material-icons">
+receipt_long
+</span>
+
+<p>
+No payroll records available.
+</p>
+
+</td>
+
+</tr>
+
 </tbody>
 
 
@@ -311,6 +964,29 @@ TOTAL PAYROLL :
 
 
 </div>
+
+
+</section>
+
+
+
+<!-- ==========================================
+     FOOTER
+========================================== -->
+
+<footer class="page-footer">
+
+<p>
+
+© 2026 PAPPRITO HRIS
+
+</p>
+
+</footer>
+
+
+</div>
+
 
 
 <!-- ==========================================
