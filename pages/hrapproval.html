@@ -1,1 +1,483 @@
+<!DOCTYPE html>
+<html lang="en">
 
+<head>
+
+<meta charset="UTF-8">
+
+<meta
+name="viewport"
+content="width=device-width, initial-scale=1.0">
+
+<title>PAPPRITO HRIS - HR Approval</title>
+
+<link
+rel="manifest"
+href="../manifest.json">
+
+<link
+rel="icon"
+href="../assets/images/logo.png">
+
+<link
+rel="apple-touch-icon"
+href="../assets/images/icon-192.png">
+
+<meta
+name="theme-color"
+content="#ffcc00">
+
+<link
+href="https://fonts.googleapis.com/icon?family=Material+Icons"
+rel="stylesheet">
+
+<link
+rel="stylesheet"
+href="../css/hrapproval.css">
+
+</head>
+
+
+<body>
+
+
+<!-- ==========================================
+     MAIN CONTAINER
+========================================== -->
+
+<div class="approval-container">
+
+
+<!-- ==========================================
+     HEADER
+========================================== -->
+
+<header class="approval-header">
+
+
+<div class="header-left">
+
+
+<img
+src="../assets/images/logo.png"
+class="header-logo"
+alt="PAPPRITO">
+
+
+<div>
+
+<h1>
+
+HR APPROVAL
+
+</h1>
+
+<p>
+
+Employee Request Management
+
+</p>
+
+</div>
+
+
+</div>
+
+
+<div class="header-actions">
+
+
+<button
+class="icon-btn"
+title="Back to Dashboard"
+onclick="backToDashboard()">
+
+<span class="material-icons">
+
+dashboard
+
+</span>
+
+</button>
+
+
+<button
+class="icon-btn logout-icon"
+title="Logout"
+onclick="logout()">
+
+<span class="material-icons">
+
+logout
+
+</span>
+
+</button>
+
+
+</div>
+
+
+</header>
+
+
+
+<!-- ==========================================
+     SUMMARY
+========================================== -->
+
+<section class="summary-grid">
+
+
+<div class="summary-card">
+
+<span class="material-icons">
+
+pending_actions
+
+</span>
+
+<div>
+
+<strong id="totalPending">
+
+0
+
+</strong>
+
+<span>
+
+Pending
+
+</span>
+
+</div>
+
+</div>
+
+
+<div class="summary-card approved-card">
+
+<span class="material-icons">
+
+check_circle
+
+</span>
+
+<div>
+
+<strong id="totalApproved">
+
+0
+
+</strong>
+
+<span>
+
+Approved
+
+</span>
+
+</div>
+
+</div>
+
+
+<div class="summary-card rejected-card">
+
+<span class="material-icons">
+
+cancel
+
+</span>
+
+<div>
+
+<strong id="totalRejected">
+
+0
+
+</strong>
+
+<span>
+
+Rejected
+
+</span>
+
+</div>
+
+</div>
+
+
+<div class="summary-card total-card">
+
+<span class="material-icons">
+
+list_alt
+
+</span>
+
+<div>
+
+<strong id="totalRequests">
+
+0
+
+</strong>
+
+<span>
+
+Total Requests
+
+</span>
+
+</div>
+
+</div>
+
+
+</section>
+
+
+
+<!-- ==========================================
+     FILTER
+========================================== -->
+
+<section class="filter-section">
+
+
+<div class="filter-buttons">
+
+
+<button
+class="filter-btn active"
+data-filter="ALL"
+onclick="filterRequests('ALL')">
+
+ALL
+
+</button>
+
+
+<button
+class="filter-btn"
+data-filter="PENDING"
+onclick="filterRequests('PENDING')">
+
+PENDING
+
+</button>
+
+
+<button
+class="filter-btn"
+data-filter="APPROVED"
+onclick="filterRequests('APPROVED')">
+
+APPROVED
+
+</button>
+
+
+<button
+class="filter-btn"
+data-filter="REJECTED"
+onclick="filterRequests('REJECTED')">
+
+REJECTED
+
+</button>
+
+
+</div>
+
+
+<div class="refresh-area">
+
+
+<button
+class="refresh-btn"
+onclick="loadRequests()">
+
+<span class="material-icons">
+
+refresh
+
+</span>
+
+REFRESH
+
+</button>
+
+
+</div>
+
+
+</section>
+
+
+
+<!-- ==========================================
+     REQUEST TABLE
+========================================== -->
+
+<section class="table-section">
+
+
+<div class="table-header">
+
+
+<div>
+
+<h2>
+
+<span class="material-icons">
+
+fact_check
+
+</span>
+
+Employee Requests
+
+</h2>
+
+<p>
+
+Review and manage employee leave requests
+
+</p>
+
+</div>
+
+
+<div
+id="loadingText"
+class="loading-text">
+
+Loading...
+
+</div>
+
+
+</div>
+
+
+
+<div class="table-wrapper">
+
+
+<table id="requestTable">
+
+
+<thead>
+
+<tr>
+
+<th>
+
+EMPLOYEE ID
+
+</th>
+
+<th>
+
+EMPLOYEE NAME
+
+</th>
+
+<th>
+
+REQUEST TYPE
+
+</th>
+
+<th>
+
+DATE
+
+</th>
+
+<th>
+
+DAYS
+
+</th>
+
+<th>
+
+REASON
+
+</th>
+
+<th>
+
+STATUS
+
+</th>
+
+<th>
+
+ACTION
+
+</th>
+
+</tr>
+
+</thead>
+
+
+<tbody id="requestBody">
+
+</tbody>
+
+
+</table>
+
+
+</div>
+
+
+
+<div
+id="emptyBox"
+class="empty-box"
+style="display:none;">
+
+<span class="material-icons">
+
+inbox
+
+</span>
+
+<p>
+
+NO REQUEST FOUND
+
+</p>
+
+</div>
+
+
+</section>
+
+
+</div>
+
+
+
+<!-- ==========================================
+     JAVASCRIPT
+========================================== -->
+
+<script
+type="module"
+src="../js/hrapproval.js">
+
+</script>
+
+
+</body>
+
+</html>
