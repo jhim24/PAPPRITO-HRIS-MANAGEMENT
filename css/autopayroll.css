@@ -3,179 +3,1001 @@
    AUTO PAYROLL CSS
 ========================================== */
 
+
+/* ==========================================
+   RESET
+========================================== */
+
 *{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
 
-box-sizing:border-box;
 
-font-family:Tahoma,sans-serif;
+/* ==========================================
+   ROOT
+========================================== */
+
+:root{
+
+    --primary:#ffcc00;
+    --primary-dark:#d9aa00;
+
+    --danger:#d71920;
+    --danger-dark:#b51218;
+
+    --success:#198754;
+    --info:#0d6efd;
+
+    --bg:#f4f6f8;
+    --card:#ffffff;
+
+    --text:#222222;
+    --muted:#777777;
+
+    --border:#dddddd;
+
+    --header:#ffffff;
 
 }
 
+
+/* ==========================================
+   BODY
+========================================== */
 
 body{
 
-margin:0;
+    font-family:
+        "Segoe UI",
+        Tahoma,
+        Arial,
+        sans-serif;
 
-padding:20px;
+    background:
+        linear-gradient(
+            135deg,
+            #f8f9fa,
+            #eef1f4
+        );
 
-background:#1f1f1f;
+    color:var(--text);
 
-color:white;
-
-}
-
-
-/* ==========================================
-   TOP BAR
-========================================== */
-
-.top-bar{
-
-display:flex;
-
-justify-content:space-between;
-
-align-items:center;
-
-margin-bottom:20px;
-
-flex-wrap:wrap;
-
-gap:10px;
-
-}
-
-
-h1{
-
-margin:0;
-
-color:#ffcc00;
-
-text-shadow:
-2px 2px 5px black;
+    min-height:100vh;
 
 }
 
 
 /* ==========================================
-   BUTTON
+   CONTAINER
 ========================================== */
 
-button{
+.auto-payroll-container{
 
-padding:10px 18px;
+    width:100%;
 
-border:none;
+    max-width:1600px;
 
-border-radius:10px;
+    margin:0 auto;
 
-cursor:pointer;
-
-font-weight:bold;
-
-background:
-linear-gradient(
-135deg,
-#ffcc00,
-#ff6600
-);
-
-color:black;
-
-transition:0.3s;
-
-box-shadow:
-0 4px 10px rgba(0,0,0,0.4);
-
-}
-
-
-button:hover{
-
-transform:translateY(-2px);
-
-filter:brightness(1.1);
-
-}
-
-
-.edit-btn{
-
-background:#0099cc;
-
-color:white;
-
-}
-
-
-.delete-btn{
-
-background:#cc0000;
-
-color:white;
+    padding:15px;
 
 }
 
 
 /* ==========================================
-   FORM
+   HEADER
 ========================================== */
 
-.form-box{
+.page-header{
 
-background:#2b2b2b;
+    width:100%;
 
-padding:20px;
+    display:flex;
 
-border-radius:15px;
+    justify-content:space-between;
 
-border:2px solid #ffcc00;
+    align-items:center;
 
-margin-bottom:20px;
+    gap:15px;
 
-}
+    padding:14px 18px;
 
+    margin-bottom:15px;
 
-.grid{
+    background:var(--header);
 
-display:grid;
+    border:
 
-grid-template-columns:
-repeat(
-auto-fit,
-minmax(220px,1fr)
-);
+        1px solid
 
-gap:10px;
+        var(--border);
 
-}
+    border-top:
 
+        4px solid
 
-input,
-select{
+        var(--primary);
 
-width:100%;
+    border-radius:12px;
 
-padding:10px;
+    box-shadow:
 
-border:2px solid #555;
+        0 4px 15px
 
-border-radius:8px;
-
-background:#1f1f1f;
-
-color:white;
+        rgba(
+            0,
+            0,
+            0,
+            .06
+        );
 
 }
 
 
-input:focus,
-select:focus{
+/* ==========================================
+   BRAND
+========================================== */
 
-outline:none;
+.brand{
 
-border-color:#ffcc00;
+    display:flex;
+
+    align-items:center;
+
+    gap:12px;
+
+}
+
+
+.header-logo{
+
+    width:55px;
+
+    height:55px;
+
+    object-fit:cover;
+
+    border-radius:50%;
+
+    background:#ffffff;
+
+    border:
+
+        3px solid
+
+        var(--primary);
+
+    padding:3px;
+
+}
+
+
+.brand h1{
+
+    color:var(--danger);
+
+    font-size:22px;
+
+    font-weight:900;
+
+    line-height:1.1;
+
+}
+
+
+.brand p{
+
+    color:#777777;
+
+    font-size:11px;
+
+    font-weight:700;
+
+    letter-spacing:1px;
+
+    margin-top:4px;
+
+}
+
+
+/* ==========================================
+   HEADER ACTIONS
+========================================== */
+
+.header-actions{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:8px;
+
+}
+
+
+/* ==========================================
+   ICON BUTTON
+========================================== */
+
+.icon-btn{
+
+    width:42px;
+
+    height:42px;
+
+    border:none;
+
+    border-radius:9px;
+
+    display:inline-flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    cursor:pointer;
+
+    background:#eeeeee;
+
+    color:#333333;
+
+    transition:
+        .2s ease;
+
+}
+
+
+.icon-btn:hover{
+
+    transform:
+        translateY(-2px);
+
+    box-shadow:
+
+        0 4px 10px
+
+        rgba(
+            0,
+            0,
+            0,
+            .12
+        );
+
+}
+
+
+.icon-btn:active{
+
+    transform:
+        translateY(0);
+
+}
+
+
+.icon-btn .material-icons{
+
+    font-size:21px;
+
+}
+
+
+/* ==========================================
+   BACK
+========================================== */
+
+.back-btn{
+
+    background:#555555;
+
+    color:#ffffff;
+
+}
+
+
+.back-btn:hover{
+
+    background:#333333;
+
+}
+
+
+/* ==========================================
+   PAGE TITLE
+========================================== */
+
+.page-title{
+
+    background:
+
+        linear-gradient(
+            135deg,
+            #fff8d8,
+            #ffffff
+        );
+
+    border:
+
+        1px solid
+
+        #ead98b;
+
+    border-left:
+
+        5px solid
+
+        var(--primary);
+
+    border-radius:10px;
+
+    padding:16px 18px;
+
+    margin-bottom:15px;
+
+}
+
+
+.page-title h2{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:8px;
+
+    color:#222222;
+
+    font-size:20px;
+
+    font-weight:900;
+
+}
+
+
+.page-title h2 .material-icons{
+
+    color:var(--danger);
+
+    font-size:24px;
+
+}
+
+
+.page-title p{
+
+    color:#777777;
+
+    font-size:12px;
+
+    margin-top:5px;
+
+}
+
+
+/* ==========================================
+   CARD
+========================================== */
+
+.card{
+
+    width:100%;
+
+    background:var(--card);
+
+    border:
+
+        1px solid
+
+        var(--border);
+
+    border-radius:12px;
+
+    padding:18px;
+
+    margin-bottom:15px;
+
+    box-shadow:
+
+        0 4px 15px
+
+        rgba(
+            0,
+            0,
+            0,
+            .05
+        );
+
+}
+
+
+/* ==========================================
+   SECTION HEADER
+========================================== */
+
+.section-header{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    gap:10px;
+
+    padding-bottom:12px;
+
+    margin-bottom:15px;
+
+    border-bottom:
+
+        1px solid
+
+        #e5e5e5;
+
+}
+
+
+.section-header h3{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:7px;
+
+    color:#222222;
+
+    font-size:17px;
+
+    font-weight:900;
+
+}
+
+
+.section-header h3 .material-icons{
+
+    color:var(--danger);
+
+    font-size:22px;
+
+}
+
+
+.section-header p{
+
+    color:#888888;
+
+    font-size:11px;
+
+    margin-top:4px;
+
+}
+
+
+/* ==========================================
+   FORM GRID
+========================================== */
+
+.form-grid{
+
+    display:grid;
+
+    grid-template-columns:
+
+        repeat(
+            3,
+            minmax(
+                0,
+                1fr
+            )
+        );
+
+    gap:13px;
+
+}
+
+
+/* ==========================================
+   FORM GROUP
+========================================== */
+
+.form-group{
+
+    width:100%;
+
+}
+
+
+.form-group label{
+
+    display:block;
+
+    color:#555555;
+
+    font-size:11px;
+
+    font-weight:800;
+
+    margin-bottom:6px;
+
+}
+
+
+/* ==========================================
+   INPUT / SELECT
+========================================== */
+
+.form-group input,
+.form-group select{
+
+    width:100%;
+
+    height:43px;
+
+    padding:
+
+        10px 12px;
+
+    border:
+
+        1px solid
+
+        #cccccc;
+
+    border-radius:7px;
+
+    background:#ffffff;
+
+    color:#222222;
+
+    outline:none;
+
+    font-family:inherit;
+
+    font-size:13px;
+
+    transition:
+
+        .2s ease;
+
+}
+
+
+.form-group input:focus,
+.form-group select:focus{
+
+    border-color:
+
+        var(--primary-dark);
+
+    box-shadow:
+
+        0 0 0 3px
+
+        rgba(
+            255,
+            204,
+            0,
+            .15
+        );
+
+}
+
+
+/* ==========================================
+   READONLY
+========================================== */
+
+.form-group input[readonly]{
+
+    background:#f1f1f1;
+
+    color:#666666;
+
+    cursor:not-allowed;
+
+}
+
+
+/* ==========================================
+   SELECT
+========================================== */
+
+.form-group select{
+
+    cursor:pointer;
+
+}
+
+
+.form-group select option{
+
+    background:#ffffff;
+
+    color:#222222;
+
+}
+
+
+/* ==========================================
+   SUB SECTION
+========================================== */
+
+.sub-section{
+
+    margin-top:20px;
+
+    padding-top:15px;
+
+    border-top:
+
+        1px solid
+
+        #e5e5e5;
+
+}
+
+
+.sub-section h4{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:7px;
+
+    color:#333333;
+
+    font-size:14px;
+
+    font-weight:900;
+
+    margin-bottom:12px;
+
+}
+
+
+.sub-section h4 .material-icons{
+
+    color:var(--danger);
+
+    font-size:19px;
+
+}
+
+
+/* ==========================================
+   PAY RESULT
+========================================== */
+
+.pay-result{
+
+    display:flex;
+
+    justify-content:flex-end;
+
+    align-items:center;
+
+    margin-top:20px;
+
+    padding:14px 18px;
+
+    background:
+
+        linear-gradient(
+            135deg,
+            #eaf8ef,
+            #f8fffa
+        );
+
+    border:
+
+        1px solid
+
+        #b7dfc4;
+
+    border-left:
+
+        5px solid
+
+        var(--success);
+
+    border-radius:9px;
+
+}
+
+
+.pay-result > div{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:18px;
+
+}
+
+
+.pay-result span{
+
+    color:#555555;
+
+    font-size:12px;
+
+    font-weight:900;
+
+}
+
+
+.pay-result strong{
+
+    color:var(--success);
+
+    font-size:22px;
+
+    font-weight:900;
+
+}
+
+
+/* ==========================================
+   FORM ACTIONS
+========================================== */
+
+.form-actions{
+
+    display:flex;
+
+    justify-content:flex-end;
+
+    align-items:center;
+
+    gap:9px;
+
+    margin-top:18px;
+
+    flex-wrap:wrap;
+
+}
+
+
+/* ==========================================
+   ACTION BUTTON
+========================================== */
+
+.action-btn{
+
+    min-height:42px;
+
+    border:none;
+
+    border-radius:8px;
+
+    padding:
+
+        9px 15px;
+
+    display:inline-flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    gap:7px;
+
+    cursor:pointer;
+
+    font-family:inherit;
+
+    font-size:12px;
+
+    font-weight:900;
+
+    transition:
+
+        .2s ease;
+
+}
+
+
+.action-btn:hover{
+
+    transform:
+        translateY(-1px);
+
+    box-shadow:
+
+        0 4px 10px
+
+        rgba(
+            0,
+            0,
+            0,
+            .12
+        );
+
+}
+
+
+.action-btn:active{
+
+    transform:
+        translateY(0);
+
+}
+
+
+.action-btn .material-icons{
+
+    font-size:19px;
+
+}
+
+
+/* ==========================================
+   COMPUTE
+========================================== */
+
+.compute-btn{
+
+    background:var(--primary);
+
+    color:#111111;
+
+}
+
+
+.compute-btn:hover{
+
+    background:#e8b900;
+
+}
+
+
+/* ==========================================
+   SAVE
+========================================== */
+
+.save-btn{
+
+    background:var(--success);
+
+    color:#ffffff;
+
+}
+
+
+.save-btn:hover{
+
+    background:#14733f;
+
+}
+
+
+/* ==========================================
+   CLEAR
+========================================== */
+
+.clear-btn{
+
+    background:#666666;
+
+    color:#ffffff;
+
+}
+
+
+/* ==========================================
+   FILTER BAR
+========================================== */
+
+.filter-bar{
+
+    display:flex;
+
+    align-items:flex-end;
+
+    gap:9px;
+
+    margin-bottom:12px;
+
+    flex-wrap:wrap;
+
+}
+
+
+/* ==========================================
+   FILTER DATE
+========================================== */
+
+.filter-date{
+
+    flex:1;
+
+    min-width:180px;
+
+}
+
+
+.filter-date label{
+
+    display:block;
+
+    color:#555555;
+
+    font-size:11px;
+
+    font-weight:800;
+
+    margin-bottom:5px;
+
+}
+
+
+.filter-date input{
+
+    width:100%;
+
+    height:42px;
+
+    padding:
+
+        9px 11px;
+
+    border:
+
+        1px solid
+
+        #cccccc;
+
+    border-radius:7px;
+
+    background:#ffffff;
+
+    color:#222222;
+
+    font-family:inherit;
+
+    outline:none;
+
+}
+
+
+.filter-date input:focus{
+
+    border-color:
+
+        var(--primary-dark);
+
+}
+
+
+/* ==========================================
+   FILTER BUTTONS
+========================================== */
+
+.filter-btn{
+
+    background:var(--primary);
+
+    color:#111111;
+
+}
+
+
+.show-btn{
+
+    background:#555555;
+
+    color:#ffffff;
+
+}
+
+
+.filter-bar .icon-btn{
+
+    flex-shrink:0;
 
 }
 
@@ -186,13 +1008,96 @@ border-color:#ffcc00;
 
 .total-payroll{
 
-margin-top:10px;
+    display:flex;
 
-font-size:18px;
+    justify-content:space-between;
 
-font-weight:bold;
+    align-items:center;
 
-color:#ffcc00;
+    gap:10px;
+
+    padding:14px 16px;
+
+    margin-bottom:12px;
+
+    background:
+
+        linear-gradient(
+            135deg,
+            #fff8d8,
+            #ffffff
+        );
+
+    border:
+
+        1px solid
+
+        #ead98b;
+
+    border-radius:9px;
+
+}
+
+
+.total-payroll > div{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:8px;
+
+}
+
+
+.total-payroll .material-icons{
+
+    color:var(--danger);
+
+    font-size:21px;
+
+}
+
+
+.total-payroll span{
+
+    font-size:12px;
+
+    font-weight:900;
+
+    color:#444444;
+
+}
+
+
+.total-payroll strong{
+
+    color:var(--danger);
+
+    font-size:20px;
+
+}
+
+
+/* ==========================================
+   TABLE WRAPPER
+========================================== */
+
+.table-wrapper{
+
+    width:100%;
+
+    overflow-x:auto;
+
+    border:
+
+        1px solid
+
+        #dddddd;
+
+    border-radius:8px;
+
+    background:#ffffff;
 
 }
 
@@ -201,69 +1106,254 @@ color:#ffcc00;
    TABLE
 ========================================== */
 
-.table-box{
+#payrollTable{
 
-background:#2b2b2b;
+    width:100%;
 
-border:2px solid #ffcc00;
+    min-width:1450px;
 
-border-radius:12px;
-
-overflow:auto;
-
-height:60vh;
+    border-collapse:collapse;
 
 }
 
 
-table{
+/* ==========================================
+   TABLE HEAD
+========================================== */
 
-width:100%;
+#payrollTable th{
 
-border-collapse:collapse;
+    padding:
 
-min-width:2200px;
+        10px 8px;
 
-}
+    background:
 
+        linear-gradient(
+            180deg,
+            #ffcc00,
+            #edb900
+        );
 
-th,
-td{
+    color:#111111;
 
-border:1px solid #555;
+    border:
 
-padding:8px;
+        1px solid
 
-white-space:nowrap;
+        #d5a900;
 
-text-align:center;
+    font-size:10px;
 
-}
+    font-weight:900;
 
+    white-space:nowrap;
 
-th{
-
-background:#ffcc00;
-
-color:black;
-
-position:sticky;
-
-top:0;
-
-}
-
-
-tr:nth-child(even){
-
-background:#242424;
+    text-align:center;
 
 }
 
 
-tr:hover{
+/* ==========================================
+   TABLE BODY
+========================================== */
 
-background:#3a3a3a;
+#payrollTable td{
+
+    padding:
+
+        9px 8px;
+
+    background:#ffffff;
+
+    color:#333333;
+
+    border:
+
+        1px solid
+
+        #e1e1e1;
+
+    font-size:10px;
+
+    text-align:center;
+
+    white-space:nowrap;
+
+}
+
+
+#payrollTable tbody tr:hover td{
+
+    background:#fffbea;
+
+}
+
+
+/* ==========================================
+   EMPTY ROW
+========================================== */
+
+.empty-row{
+
+    height:130px;
+
+    text-align:center !important;
+
+    color:#999999 !important;
+
+}
+
+
+.empty-row .material-icons{
+
+    font-size:34px;
+
+    color:#cccccc;
+
+}
+
+
+.empty-row p{
+
+    margin-top:7px;
+
+    color:#999999;
+
+    font-size:11px;
+
+}
+
+
+/* ==========================================
+   TABLE ACTION BUTTONS
+========================================== */
+
+.table-icon-btn{
+
+    width:32px;
+
+    height:32px;
+
+    border:none;
+
+    border-radius:6px;
+
+    display:inline-flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    cursor:pointer;
+
+    background:#eeeeee;
+
+    color:#333333;
+
+    margin:2px;
+
+    transition:.2s ease;
+
+}
+
+
+.table-icon-btn:hover{
+
+    transform:
+        translateY(-1px);
+
+}
+
+
+.table-icon-btn.edit{
+
+    background:#fff3cd;
+
+    color:#8a6d00;
+
+}
+
+
+.table-icon-btn.delete{
+
+    background:#fde2e2;
+
+    color:var(--danger);
+
+}
+
+
+.table-icon-btn .material-icons{
+
+    font-size:17px;
+
+}
+
+
+/* ==========================================
+   STATUS
+========================================== */
+
+.status{
+
+    display:inline-flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    padding:
+
+        4px 8px;
+
+    border-radius:20px;
+
+    font-size:9px;
+
+    font-weight:900;
+
+}
+
+
+/* ==========================================
+   FOOTER
+========================================== */
+
+.page-footer{
+
+    text-align:center;
+
+    padding:12px;
+
+    color:#999999;
+
+    font-size:10px;
+
+}
+
+
+/* ==========================================
+   TABLET
+========================================== */
+
+@media(
+    max-width:1100px
+){
+
+    .form-grid{
+
+        grid-template-columns:
+
+            repeat(
+                2,
+                minmax(
+                    0,
+                    1fr
+                )
+            );
+
+    }
 
 }
 
@@ -272,19 +1362,377 @@ background:#3a3a3a;
    MOBILE
 ========================================== */
 
-@media(max-width:768px){
+@media(
+    max-width:768px
+){
 
-.grid{
+    .auto-payroll-container{
 
-grid-template-columns:1fr;
+        padding:8px;
+
+    }
+
+
+    .page-header{
+
+        padding:11px;
+
+    }
+
+
+    .brand{
+
+        gap:8px;
+
+    }
+
+
+    .header-logo{
+
+        width:48px;
+
+        height:48px;
+
+    }
+
+
+    .brand h1{
+
+        font-size:18px;
+
+    }
+
+
+    .brand p{
+
+        font-size:9px;
+
+    }
+
+
+    .icon-btn{
+
+        width:40px;
+
+        height:40px;
+
+    }
+
+
+    .page-title{
+
+        padding:13px;
+
+    }
+
+
+    .page-title h2{
+
+        font-size:17px;
+
+    }
+
+
+    .page-title p{
+
+        font-size:10px;
+
+    }
+
+
+    .card{
+
+        padding:12px;
+
+    }
+
+
+    .section-header{
+
+        align-items:flex-start;
+
+    }
+
+
+    .section-header h3{
+
+        font-size:15px;
+
+    }
+
+
+    .form-grid{
+
+        grid-template-columns:1fr;
+
+    }
+
+
+    .form-actions{
+
+        display:grid;
+
+        grid-template-columns:
+            1fr 1fr;
+
+        width:100%;
+
+    }
+
+
+    .form-actions .action-btn{
+
+        width:100%;
+
+    }
+
+
+    .pay-result{
+
+        justify-content:center;
+
+    }
+
+
+    .pay-result > div{
+
+        width:100%;
+
+        justify-content:space-between;
+
+    }
+
+
+    .pay-result strong{
+
+        font-size:19px;
+
+    }
+
+
+    .filter-bar{
+
+        display:grid;
+
+        grid-template-columns:
+            1fr 42px 42px 42px;
+
+        align-items:end;
+
+    }
+
+
+    .filter-date{
+
+        min-width:0;
+
+    }
+
+
+    .filter-bar .icon-btn{
+
+        width:42px;
+
+        height:42px;
+
+    }
+
+
+    .total-payroll{
+
+        padding:12px;
+
+    }
+
+
+    .total-payroll strong{
+
+        font-size:17px;
+
+    }
 
 }
 
 
-h1{
+/* ==========================================
+   SMALL MOBILE
+========================================== */
 
-font-size:22px;
+@media(
+    max-width:480px
+){
+
+    .auto-payroll-container{
+
+        padding:5px;
+
+    }
+
+
+    .page-header{
+
+        border-radius:8px;
+
+    }
+
+
+    .brand h1{
+
+        font-size:16px;
+
+    }
+
+
+    .brand p{
+
+        font-size:8px;
+
+    }
+
+
+    .header-logo{
+
+        width:43px;
+
+        height:43px;
+
+    }
+
+
+    .page-title h2{
+
+        font-size:16px;
+
+    }
+
+
+    .card{
+
+        padding:9px;
+
+        border-radius:9px;
+
+    }
+
+
+    .form-actions{
+
+        grid-template-columns:
+            1fr;
+
+    }
+
+
+    .filter-bar{
+
+        grid-template-columns:
+            1fr 40px 40px 40px;
+
+        gap:5px;
+
+    }
+
+
+    .filter-bar .icon-btn{
+
+        width:40px;
+
+        height:40px;
+
+    }
+
+
+    .total-payroll{
+
+        flex-direction:column;
+
+        align-items:stretch;
+
+    }
+
+
+    .total-payroll strong{
+
+        text-align:right;
+
+    }
 
 }
+
+
+/* ==========================================
+   PRINT
+========================================== */
+
+@media print{
+
+    body{
+
+        background:#ffffff;
+
+    }
+
+
+    .auto-payroll-container{
+
+        max-width:none;
+
+        padding:0;
+
+    }
+
+
+    .page-header,
+    .page-title,
+    .form-actions,
+    .filter-bar,
+    .page-footer{
+
+        display:none !important;
+
+    }
+
+
+    .card{
+
+        border:none;
+
+        box-shadow:none;
+
+        padding:0;
+
+    }
+
+
+    .section-header{
+
+        display:none;
+
+    }
+
+
+    .total-payroll{
+
+        border:none;
+
+        background:#ffffff;
+
+    }
+
+
+    .table-wrapper{
+
+        overflow:visible;
+
+        border:none;
+
+    }
+
+
+    #payrollTable{
+
+        min-width:100%;
+
+    }
 
 }
