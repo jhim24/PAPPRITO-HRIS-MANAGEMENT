@@ -35,12 +35,16 @@ window.openPage = function(page){
 
 
 /* ==========================================
-   AUTH PROTECTION
+   AUTHENTICATION PROTECTION
 ========================================== */
 
 onAuthStateChanged(
     auth,
     function(user){
+
+        /* ======================================
+           NOT LOGGED IN
+        ====================================== */
 
         if(!user){
 
@@ -53,9 +57,9 @@ onAuthStateChanged(
         }
 
 
-        /* ==================================
-           PROTECT BROWSER BACK
-        ================================== */
+        /* ======================================
+           PROTECT CURRENT SESSION
+        ====================================== */
 
         history.replaceState(
             null,
@@ -70,15 +74,25 @@ onAuthStateChanged(
         );
 
 
+        /* ======================================
+           BROWSER / PHONE BACK BUTTON
+        ====================================== */
+
         window.addEventListener(
             "popstate",
             function(){
 
-                if(auth.currentUser){
+                const currentUser =
+                    auth.currentUser;
+
+
+                if(currentUser){
 
                     /*
-                       Stay inside HRIS.
-                       Do not return to Login.
+                       User is still logged in.
+
+                       Keep the user inside
+                       the HRIS system.
                     */
 
                     history.pushState(
@@ -88,6 +102,10 @@ onAuthStateChanged(
                     );
 
                 }else{
+
+                    /*
+                       User already logged out.
+                    */
 
                     window.location.replace(
                         "login.html"
