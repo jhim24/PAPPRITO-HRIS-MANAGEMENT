@@ -1,389 +1,435 @@
 /* ==========================================
    PAPPRITO HRIS
-   LOADING ENGINE V2
+   LOADING SYSTEM
 ========================================== */
 
-import { auth, db } from "./firebase.js";
+import { auth } from "./firebase.js";
 
 import {
+    onAuthStateChanged
+} from "https://www.gstatic.com/firebasejs/12.13.0/firebase-auth.js";
 
-onAuthStateChanged
-
-}
-
-from "https://www.gstatic.com/firebasejs/12.13.0/firebase-auth.js";
-
-import {
-
-collection,
-getDocs
-
-}
-
-from "https://www.gstatic.com/firebasejs/12.13.0/firebase-firestore.js";
 
 /* ==========================================
-ELEMENTS
+   ELEMENTS
 ========================================== */
-
-const circle =
-document.getElementById("progressCircle");
 
 const progressBar =
-document.getElementById("progressBar");
+    document.getElementById("progressBar");
 
 const percent =
-document.getElementById("percent");
+    document.getElementById("percent");
 
-const title =
-document.getElementById("loadingTitle");
+const loadingText =
+    document.getElementById("loadingText");
 
-const cpu =
-document.getElementById("cpuUsage");
+const systemStatus =
+    document.getElementById("systemStatus");
 
-const ram =
-document.getElementById("ramUsage");
+const moduleItems =
+    document.querySelectorAll(".module-item");
 
-const radius = 95;
-
-const circumference =
-2 * Math.PI * radius;
 
 /* ==========================================
-SVG INIT
+   GLOBAL VARIABLES
 ========================================== */
 
-if(circle){
+let progress = 0;
 
-circle.style.strokeDasharray =
-circumference;
+let authChecked = false;
 
-circle.style.strokeDashoffset =
-circumference;
+let loadingFinished = false;
 
-}
 
 /* ==========================================
-CPU / RAM ANIMATION
+   GET USER ROLE
 ========================================== */
 
-let cpuValue = 15;
-let ramValue = 28;
+function getUserRole(user){
 
-setInterval(()=>{
+    const savedRole =
+        localStorage.getItem("userRole");
 
-cpuValue += Math.floor(Math.random()*6)-2;
-ramValue += Math.floor(Math.random()*6)-2;
+    if(savedRole === "admin"){
 
-cpuValue = Math.max(10,Math.min(cpuValue,45));
-ramValue = Math.max(20,Math.min(ramValue,65));
+        return "admin";
 
-if(cpu){
+    }
 
-cpu.textContent =
-cpuValue + "%";
+    if(savedRole === "employee"){
+
+        return "employee";
+
+    }
+
+
+    /*
+    Fallback:
+    If Firebase user exists but no role
+    was saved, treat as admin.
+    */
+
+    if(user){
+
+        return "admin";
+
+    }
+
+    return null;
 
 }
 
-if(ram){
-
-ram.textContent =
-ramValue + "%";
-
-}
-
-},500);
 
 /* ==========================================
-PROGRESS
+   GET HOME PAGE
+========================================== */
+
+function getHomePage(role){
+
+    if(role === "admin"){
+
+        return "dashboard.html";
+
+    }
+
+    if(role === "employee"){
+
+        return "employeeportal.html";
+
+    }
+
+    return "login.html";
+
+}
+
+
+/* ==========================================
+   UPDATE PROGRESS
 ========================================== */
 
 function updateProgress(value){
 
-if(circle){
+    progress = Math.min(
+        100,
+        Math.max(0,value)
+    );
 
-const offset =
 
-circumference -
+    if(progressBar){
 
-(value/100)*circumference;
+        progressBar.style.width =
+            progress + "%";
 
-circle.style.strokeDashoffset =
-offset;
+    }
 
-}
 
-if(progressBar){
+    if(percent){
 
-progressBar.style.width =
-value + "%";
+        percent.textContent =
+            Math.floor(progress) + "%";
 
-}
-
-if(percent){
-
-percent.textContent =
-value + "%";
+    }
 
 }
 
-}
 
 /* ==========================================
-COMPLETE STEP
+   UPDATE STATUS
 ========================================== */
 
-function completeStep(id,text){
+function updateStatus(text){
 
-const item =
-document.getElementById(id);
+    if(loadingText){
 
-if(!item) return;
+        loadingText.textContent =
+            text;
 
-item.classList.add("done");
-
-item.innerHTML =
-"✔ " + text;
+    }
 
 }
 
+
 /* ==========================================
-WAIT
+   COMPLETE LOADING
 ========================================== */
 
-function wait(ms){
+function completeLoading(role){
 
-return new Promise(resolve=>{
+    if(loadingFinished) return;
 
-setTimeout(resolve,ms);
+    loadingFinished = true;
 
-});
+
+    updateProgress(100);
+
+
+    updateStatus(
+        "SYSTEM READY"
+    );
+
+
+    if(systemStatus){
+
+        systemStatus.textContent =
+            "🟢 Online";
+
+    }
+
+
+    /*
+    Mark all modules as completed.
+    */
+
+    moduleItems.forEach(item=>{
+
+        item.classList.add("done");
+
+    });
+
+
+    /*
+    Give the HUD a short moment to
+    display 100% before redirect.
+    */
+
+    setTimeout(()=>{
+
+        const homePage =
+            getHomePage(role);
+
+
+        window.location.replace(
+            homePage
+        );
+
+    },700);
 
 }
 
+
 /* ==========================================
-INITIALIZE SYSTEM
+   SIMULATED LOADING
 ========================================== */
 
-async function initializeSystem(){
+function startLoading(role){
 
-try{
+    updateProgress(5);
 
-const role =
+    updateStatus(
+        "Initializing HR System..."
+    );
 
-localStorage.getItem("userRole");
 
-if(!role){
+    const steps = [
 
-window.location.replace("login.html");
+        {
+            progress:15,
+            text:"Connecting to Firebase..."
+        },
 
-return;
+        {
+            progress:30,
+            text:"Loading Employee Module..."
+        },
+
+        {
+            progress:45,
+            text:"Loading Attendance Module..."
+        },
+
+        {
+            progress:60,
+            text:"Loading Payroll Module..."
+        },
+
+        {
+            progress:75,
+            text:"Loading HR Modules..."
+        },
+
+        {
+            progress:90,
+            text:"Preparing Dashboard..."
+        },
+
+        {
+            progress:100,
+            text:"System Ready"
+        }
+
+    ];
+
+
+    let index = 0;
+
+
+    const timer =
+        setInterval(()=>{
+
+            if(index >= steps.length){
+
+                clearInterval(timer);
+
+                completeLoading(role);
+
+                return;
+
+            }
+
+
+            const step =
+                steps[index];
+
+
+            updateProgress(
+                step.progress
+            );
+
+
+            updateStatus(
+                step.text
+            );
+
+
+            /*
+            Mark modules progressively.
+            */
+
+            if(
+                moduleItems[index]
+            ){
+
+                moduleItems[index]
+                    .classList.add("done");
+
+            }
+
+
+            index++;
+
+        },350);
 
 }
 
+
 /* ==========================================
-STEP 1
+   AUTHENTICATION
 ========================================== */
 
-title.textContent =
-"Connecting to Firebase...";
+onAuthStateChanged(
+    auth,
+    (user)=>{
 
-updateProgress(10);
+        /*
+        User is NOT logged in.
+        */
 
-await wait(400);
+        if(!user){
 
-completeStep(
+            authChecked = true;
 
-"step1",
 
-"Firebase Connected"
+            updateProgress(100);
 
+
+            updateStatus(
+                "SESSION EXPIRED"
+            );
+
+
+            if(systemStatus){
+
+                systemStatus.textContent =
+                    "🔴 Offline";
+
+            }
+
+
+            setTimeout(()=>{
+
+                window.location.replace(
+                    "login.html"
+                );
+
+            },500);
+
+
+            return;
+
+        }
+
+
+        /*
+        User is authenticated.
+        */
+
+        authChecked = true;
+
+
+        const role =
+            getUserRole(user);
+
+
+        /*
+        Save authenticated user.
+        */
+
+        if(
+            !localStorage.getItem(
+                "loggedInUser"
+            )
+        ){
+
+            localStorage.setItem(
+                "loggedInUser",
+                user.email || ""
+            );
+
+        }
+
+
+        /*
+        If role is missing,
+        use admin fallback.
+        */
+
+        if(!role){
+
+            localStorage.setItem(
+                "userRole",
+                "admin"
+            );
+
+        }
+
+
+        const finalRole =
+            role || "admin";
+
+
+        /*
+        Start loading.
+        */
+
+        startLoading(
+            finalRole
+        );
+
+    }
 );
 
-/* ==========================================
-STEP 2
-========================================== */
-
-title.textContent =
-"Loading Employees...";
-
-const employeeSnap =
-
-await getDocs(
-
-collection(db,"users")
-
-);
-
-updateProgress(30);
-
-completeStep(
-
-"step2",
-
-employeeSnap.size +
-
-" Employees Loaded"
-
-);
-
-await wait(500);
 
 /* ==========================================
-STEP 3
+   PAGE LOAD
 ========================================== */
 
-title.textContent =
-"Loading Attendance...";
+window.addEventListener(
+    "load",
+    ()=>{
 
-const attendanceSnap =
+        console.log(
+            "PAPPRITO HRIS Loading System Ready"
+        );
 
-await getDocs(
-
-collection(db,"attendance")
-
+    }
 );
-
-updateProgress(50);
-
-completeStep(
-
-"step3",
-
-attendanceSnap.size +
-
-" Attendance Loaded"
-
-);
-
-await wait(500);
-   /* ==========================================
-STEP 4
-========================================== */
-
-title.textContent =
-"Loading Payroll...";
-
-const payrollSnap =
-
-await getDocs(
-
-collection(db,"payroll")
-
-);
-
-updateProgress(70);
-
-completeStep(
-
-"step4",
-
-payrollSnap.size +
-
-" Payroll Records Loaded"
-
-);
-
-await wait(500);
-
-/* ==========================================
-STEP 5
-========================================== */
-
-title.textContent =
-"Initializing Dashboard...";
-
-updateProgress(90);
-
-completeStep(
-
-"step5",
-
-"Dashboard Initialized"
-
-);
-
-await wait(700);
-
-/* ==========================================
-STEP 6
-========================================== */
-
-title.textContent =
-"System Ready...";
-
-updateProgress(100);
-
-completeStep(
-
-"step6",
-
-"System Ready"
-
-);
-
-await wait(1000);
-
-/* ==========================================
-REDIRECT
-========================================== */
-
-if(role==="admin"){
-
-window.location.replace("dashboard.html");
-
-}else if(role==="employee"){
-
-window.location.replace("employeeportal.html");
-
-}else{
-
-window.location.replace("login.html");
-
-}
-
-}catch(error){
-
-console.error(error);
-
-title.textContent="Initialization Failed";
-
-alert(error.message);
-
-}
-
-}
-
-/* ==========================================
-AUTH CHECK
-========================================== */
-
-onAuthStateChanged(auth,(user)=>{
-
-if(!user){
-
-window.location.replace("login.html");
-
-return;
-
-}
-
-/* ==========================================
-PREVENT BACK BUTTON
-========================================== */
-
-history.pushState(null,null,location.href);
-
-window.onpopstate=function(){
-
-history.go(1);
-
-};
-
-/* ==========================================
-START INITIALIZATION
-========================================== */
-
-initializeSystem();
-
-});
