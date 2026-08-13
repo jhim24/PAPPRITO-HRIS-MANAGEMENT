@@ -6,34 +6,34 @@
 <meta charset="UTF-8">
 
 <meta
-name="viewport"
-content="width=device-width, initial-scale=1.0">
+    name="viewport"
+    content="width=device-width, initial-scale=1.0">
 
 <title>PAPPRITO HRIS - HR Approval</title>
 
 <link
-rel="manifest"
-href="../manifest.json">
-
-<link
-rel="icon"
-href="../assets/images/logo.png">
-
-<link
-rel="apple-touch-icon"
-href="../assets/images/icon-192.png">
+    rel="manifest"
+    href="../manifest.json">
 
 <meta
-name="theme-color"
-content="#ffcc00">
+    name="theme-color"
+    content="#ffcc00">
 
 <link
-href="https://fonts.googleapis.com/icon?family=Material+Icons"
-rel="stylesheet">
+    rel="icon"
+    href="../assets/images/logo.png">
 
 <link
-rel="stylesheet"
-href="../css/hrapproval.css">
+    rel="apple-touch-icon"
+    href="../assets/images/icon-192.png">
+
+<link
+    href="https://fonts.googleapis.com/icon?family=Material+Icons"
+    rel="stylesheet">
+
+<link
+    rel="stylesheet"
+    href="../css/hrapproval.css">
 
 </head>
 
@@ -57,29 +57,23 @@ href="../css/hrapproval.css">
 
 <div class="header-left">
 
-
 <img
-src="../assets/images/logo.png"
-class="header-logo"
-alt="PAPPRITO">
+    src="../assets/images/logo.png"
+    class="header-logo"
+    alt="PAPPRITO Logo">
 
 
 <div>
 
 <h1>
-
-HR APPROVAL
-
+PAPPRITO HR APPROVAL
 </h1>
 
 <p>
-
 Employee Request Management
-
 </p>
 
 </div>
-
 
 </div>
 
@@ -88,28 +82,24 @@ Employee Request Management
 
 
 <button
-class="icon-btn"
-title="Back to Dashboard"
-onclick="backToDashboard()">
+    class="icon-btn dashboard-btn"
+    onclick="backToDashboard()"
+    title="Back to Dashboard">
 
 <span class="material-icons">
-
 dashboard
-
 </span>
 
 </button>
 
 
 <button
-class="icon-btn logout-icon"
-title="Logout"
-onclick="logout()">
+    class="icon-btn logout-btn"
+    onclick="logout()"
+    title="Logout">
 
 <span class="material-icons">
-
 logout
-
 </span>
 
 </button>
@@ -117,38 +107,35 @@ logout
 
 </div>
 
-
 </header>
 
 
 
 <!-- ==========================================
-     SUMMARY
+     STATISTICS
 ========================================== -->
 
-<section class="summary-grid">
+<section class="stats-grid">
 
 
-<div class="summary-card">
+<div class="stat-card pending-card">
+
+<div class="stat-icon">
 
 <span class="material-icons">
-
 pending_actions
-
 </span>
+
+</div>
 
 <div>
 
-<strong id="totalPending">
-
+<strong id="pendingCount">
 0
-
 </strong>
 
 <span>
-
 Pending
-
 </span>
 
 </div>
@@ -156,26 +143,25 @@ Pending
 </div>
 
 
-<div class="summary-card approved-card">
+
+<div class="stat-card approved-card">
+
+<div class="stat-icon">
 
 <span class="material-icons">
-
 check_circle
-
 </span>
+
+</div>
 
 <div>
 
-<strong id="totalApproved">
-
+<strong id="approvedCount">
 0
-
 </strong>
 
 <span>
-
 Approved
-
 </span>
 
 </div>
@@ -183,26 +169,25 @@ Approved
 </div>
 
 
-<div class="summary-card rejected-card">
+
+<div class="stat-card rejected-card">
+
+<div class="stat-icon">
 
 <span class="material-icons">
-
 cancel
-
 </span>
+
+</div>
 
 <div>
 
-<strong id="totalRejected">
-
+<strong id="rejectedCount">
 0
-
 </strong>
 
 <span>
-
 Rejected
-
 </span>
 
 </div>
@@ -210,26 +195,25 @@ Rejected
 </div>
 
 
-<div class="summary-card total-card">
+
+<div class="stat-card total-card">
+
+<div class="stat-icon">
 
 <span class="material-icons">
-
 list_alt
-
 </span>
+
+</div>
 
 <div>
 
-<strong id="totalRequests">
-
+<strong id="totalCount">
 0
-
 </strong>
 
 <span>
-
 Total Requests
-
 </span>
 
 </div>
@@ -242,7 +226,7 @@ Total Requests
 
 
 <!-- ==========================================
-     FILTER
+     FILTER BAR
 ========================================== -->
 
 <section class="filter-section">
@@ -252,9 +236,9 @@ Total Requests
 
 
 <button
-class="filter-btn active"
-data-filter="ALL"
-onclick="filterRequests('ALL')">
+    class="filter-btn active"
+    data-filter="ALL"
+    onclick="filterRequests('ALL')">
 
 ALL
 
@@ -262,9 +246,9 @@ ALL
 
 
 <button
-class="filter-btn"
-data-filter="PENDING"
-onclick="filterRequests('PENDING')">
+    class="filter-btn"
+    data-filter="PENDING"
+    onclick="filterRequests('PENDING')">
 
 PENDING
 
@@ -272,9 +256,9 @@ PENDING
 
 
 <button
-class="filter-btn"
-data-filter="APPROVED"
-onclick="filterRequests('APPROVED')">
+    class="filter-btn"
+    data-filter="APPROVED"
+    onclick="filterRequests('APPROVED')">
 
 APPROVED
 
@@ -282,29 +266,21 @@ APPROVED
 
 
 <button
-class="filter-btn"
-data-filter="REJECTED"
-onclick="filterRequests('REJECTED')">
+    class="filter-btn"
+    data-filter="REJECTED"
+    onclick="filterRequests('REJECTED')">
 
 REJECTED
 
 </button>
 
 
-</div>
-
-
-<div class="refresh-area">
-
-
 <button
-class="refresh-btn"
-onclick="loadRequests()">
+    class="refresh-btn"
+    onclick="refreshRequests()">
 
 <span class="material-icons">
-
 refresh
-
 </span>
 
 REFRESH
@@ -314,29 +290,25 @@ REFRESH
 
 </div>
 
-
 </section>
 
 
 
 <!-- ==========================================
-     REQUEST TABLE
+     REQUEST SECTION
 ========================================== -->
 
-<section class="table-section">
+<section class="request-section">
 
 
-<div class="table-header">
-
+<div class="section-header">
 
 <div>
 
 <h2>
 
 <span class="material-icons">
-
 fact_check
-
 </span>
 
 Employee Requests
@@ -344,31 +316,23 @@ Employee Requests
 </h2>
 
 <p>
-
 Review and manage employee leave requests
-
 </p>
 
 </div>
 
-
-<div
-id="loadingText"
-class="loading-text">
-
-Loading...
-
 </div>
 
 
-</div>
 
-
+<!-- ==========================================
+     TABLE
+========================================== -->
 
 <div class="table-wrapper">
 
 
-<table id="requestTable">
+<table class="request-table">
 
 
 <thead>
@@ -376,51 +340,35 @@ Loading...
 <tr>
 
 <th>
-
 EMPLOYEE ID
-
 </th>
 
 <th>
-
 EMPLOYEE NAME
-
 </th>
 
 <th>
-
 REQUEST TYPE
-
 </th>
 
 <th>
-
 DATE
-
 </th>
 
 <th>
-
 DAYS
-
 </th>
 
 <th>
-
 REASON
-
 </th>
 
 <th>
-
 STATUS
-
 </th>
 
 <th>
-
 ACTION
-
 </th>
 
 </tr>
@@ -430,37 +378,47 @@ ACTION
 
 <tbody id="requestBody">
 
+
+<tr>
+
+<td
+    colspan="8"
+    class="empty-message">
+
+    Loading requests...
+
+</td>
+
+</tr>
+
+
 </tbody>
 
 
 </table>
 
-
-</div>
-
-
-
-<div
-id="emptyBox"
-class="empty-box"
-style="display:none;">
-
-<span class="material-icons">
-
-inbox
-
-</span>
-
-<p>
-
-NO REQUEST FOUND
-
-</p>
-
 </div>
 
 
 </section>
+
+
+
+<!-- ==========================================
+     FOOTER
+========================================== -->
+
+<footer class="approval-footer">
+
+<span>
+© 2026 PAPPRITO HRIS
+</span>
+
+<span>
+HR Approval System
+</span>
+
+</footer>
 
 
 </div>
@@ -472,9 +430,8 @@ NO REQUEST FOUND
 ========================================== -->
 
 <script
-type="module"
-src="../js/hrapproval.js">
-
+    type="module"
+    src="../js/hrapproval.js">
 </script>
 
 
