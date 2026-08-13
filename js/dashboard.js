@@ -81,23 +81,6 @@ onAuthStateChanged(auth,(user)=>{
 
 
     /* ==========================================
-       PREVENT BACK BUTTON
-    ========================================== */
-
-    history.pushState(
-        null,
-        null,
-        location.href
-    );
-
-    window.onpopstate=function(){
-
-        history.go(1);
-
-    };
-
-
-    /* ==========================================
        LOGGED USER
     ========================================== */
 
@@ -115,7 +98,9 @@ onAuthStateChanged(auth,(user)=>{
 
 
     const userBox =
-        document.getElementById("loggedUser");
+        document.getElementById(
+            "loggedUser"
+        );
 
 
     if(userBox){
@@ -160,21 +145,33 @@ function updateClock(){
 
 
     const clock =
-        document.getElementById("clock");
+        document.getElementById(
+            "clock"
+        );
+
 
     const dateToday =
-        document.getElementById("dateToday");
+        document.getElementById(
+            "dateToday"
+        );
+
 
     const mobileClock =
-        document.getElementById("mobileClock");
+        document.getElementById(
+            "mobileClock"
+        );
+
 
     const mobileDate =
-        document.getElementById("mobileDate");
+        document.getElementById(
+            "mobileDate"
+        );
 
 
     function refreshClock(){
 
-        const now = new Date();
+        const now =
+            new Date();
 
 
         /* ==========================================
@@ -182,6 +179,7 @@ function updateClock(){
         ========================================== */
 
         const timeText =
+
             now.toLocaleTimeString(
                 "en-US",
                 {
@@ -197,6 +195,7 @@ function updateClock(){
         ========================================== */
 
         const dateText =
+
             now.toLocaleDateString(
                 "en-US",
                 {
@@ -442,7 +441,9 @@ async function loadDashboard(){
 
 
             const birth =
-                new Date(emp.birthdate);
+                new Date(
+                    emp.birthdate
+                );
 
 
             if(
