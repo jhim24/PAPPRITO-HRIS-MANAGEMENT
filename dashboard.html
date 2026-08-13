@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+ <!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -6,7 +6,7 @@
 <meta charset="UTF-8">
 
 <meta name="viewport"
-content="width=device-width,initial-scale=1.0">
+content="width=device-width,initial-scale=1.0,viewport-fit=cover">
 
 <title>PAPPRITO HRIS Dashboard</title>
 
@@ -18,10 +18,12 @@ content="width=device-width,initial-scale=1.0">
 
 <meta name="theme-color" content="#ffcc00">
 
-<link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+<link
+href="https://fonts.googleapis.com/icon?family=Material+Icons"
 rel="stylesheet">
 
-<link rel="stylesheet"
+<link
+rel="stylesheet"
 href="css/dashboard.css">
 
 </head>
@@ -29,17 +31,16 @@ href="css/dashboard.css">
 <body>
 
 <!-- ==========================================
-MOBILE MENU
+MOBILE MENU BUTTON
 ========================================== -->
 
 <button
 id="menuBtn"
-class="menu-btn">
+class="menu-btn"
+aria-label="Open Menu">
 
 <span class="material-icons">
-
 menu
-
 </span>
 
 </button>
@@ -47,8 +48,8 @@ menu
 <div
 id="overlay"
 class="overlay">
-
 </div>
+
 
 <!-- ==========================================
 SIDEBAR
@@ -63,187 +64,88 @@ class="sidebar">
 <img
 src="logo.png"
 class="logo"
-alt="Logo">
+alt="PAPPRITO">
 
-<h2>
+<h2>PAPPRITO</h2>
 
-PAPPRITO
-
-</h2>
-
-<p>
-
-HR SYSTEM
-
-</p>
+<p>HR SYSTEM</p>
 
 </div>
+
 
 <nav class="menu">
 
 <button onclick="openPage('dashboard.html')">
-
-<span class="material-icons">
-
-dashboard
-
-</span>
-
+<span class="material-icons">dashboard</span>
 Dashboard
-
 </button>
 
 <button onclick="openPage('employee.html')">
-
-<span class="material-icons">
-
-groups
-
-</span>
-
+<span class="material-icons">groups</span>
 Employees
-
 </button>
 
 <button onclick="openPage('attendance.html')">
-
-<span class="material-icons">
-
-schedule
-
-</span>
-
+<span class="material-icons">schedule</span>
 Attendance
-
 </button>
 
 <button onclick="openPage('qrattendance.html')">
-
-<span class="material-icons">
-
-qr_code_scanner
-
-</span>
-
+<span class="material-icons">qr_code_scanner</span>
 QR Attendance
-
 </button>
 
 <button onclick="openPage('payroll.html')">
-
-<span class="material-icons">
-
-payments
-
-</span>
-
+<span class="material-icons">payments</span>
 Payroll
-
 </button>
 
 <button onclick="openPage('autopayroll.html')">
-
-<span class="material-icons">
-
-smart_toy
-
-</span>
-
+<span class="material-icons">smart_toy</span>
 Auto Payroll
-
 </button>
 
 <button onclick="openPage('autoattendance.html')">
-
-<span class="material-icons">
-
-calculate
-
-</span>
-
+<span class="material-icons">calculate</span>
 Auto Attendance
-
 </button>
 
 <button onclick="openPage('employeeportal.html')">
-
-<span class="material-icons">
-
-badge
-
-</span>
-
+<span class="material-icons">badge</span>
 Employee Portal
-
 </button>
 
 <button onclick="openPage('payslip.html')">
-
-<span class="material-icons">
-
-receipt_long
-
-</span>
-
+<span class="material-icons">receipt_long</span>
 Payslip
-
 </button>
 
 <button onclick="openPage('hrapproval.html')">
-
-<span class="material-icons">
-
-fact_check
-
-</span>
-
+<span class="material-icons">fact_check</span>
 HR Approval
-
 </button>
 
 <button onclick="openPage('attendance-approval.html')">
-
-<span class="material-icons">
-
-assignment_turned_in
-
-</span>
-
+<span class="material-icons">assignment_turned_in</span>
 Attendance Approval
-
 </button>
 
 <button onclick="openPage('trackleaves.html')">
-
-<span class="material-icons">
-
-event_note
-
-</span>
-
+<span class="material-icons">event_note</span>
 Track Leaves
-
 </button>
 
 <button onclick="openPage('settings.html')">
-
-<span class="material-icons">
-
-settings
-
-</span>
-
+<span class="material-icons">settings</span>
 Settings
-
 </button>
 
-<button class="logout-btn"
+<button
+class="logout-btn"
 onclick="logout()">
 
 <span class="material-icons">
-
 logout
-
 </span>
 
 Logout
@@ -254,52 +156,47 @@ Logout
 
 </aside>
 
+
 <!-- ==========================================
-MAIN CONTENT
+MAIN
 ========================================== -->
 
 <div class="main">
+
+
+<!-- ==========================================
+TOP HEADER
+========================================== -->
 
 <header class="topbar">
 
 <div class="top-left">
 
-<h1>
-
-PAPPRITO HRIS
-
-</h1>
+<h1>PAPPRITO HRIS</h1>
 
 <p>
-
 Human Resource Information System
-
 </p>
 
 </div>
+
 
 <div class="top-right">
 
 <div class="clock-box">
 
 <span class="material-icons">
-
 schedule
-
 </span>
 
 <div>
 
 <div id="clock">
-
 00:00:00
-
 </div>
 
 <div id="dateToday">
-
 Loading...
-
 </div>
 
 </div>
@@ -310,142 +207,365 @@ Loading...
 
 </header>
 
-<div class="dashboard-content">
 
- <!-- ==========================================
+<!-- ==========================================
+DASHBOARD CONTENT
+========================================== -->
+
+<main class="dashboard-content">
+
+
+<!-- ==========================================
+COMPACT DATE HEADER
+========================================== -->
+
+<section class="mobile-date-card">
+
+<div class="date-icon">
+
+<span class="material-icons">
+schedule
+</span>
+
+</div>
+
+<div class="date-info">
+
+<strong id="mobileClock">
+00:00:00
+</strong>
+
+<span id="mobileDate">
+Loading...
+</span>
+
+</div>
+
+</section>
+
+
+<!-- ==========================================
 STATISTICS
 ========================================== -->
 
-<div class="stats-grid">
+<section class="stats-grid">
+
+
+<!-- EMPLOYEES -->
 
 <div class="stat-card employees">
 
-<span class="material-icons">groups</span>
+<div class="stat-icon">
+
+<span class="material-icons">
+groups
+</span>
+
+</div>
 
 <div class="stat-info">
 
-<h2 id="totalEmployees">0</h2>
+<h2 id="totalEmployees">
+0
+</h2>
 
-<p>Total Employees</p>
+<p>
+Total Employees
+</p>
 
 </div>
 
 </div>
+
+
+<!-- ATTENDANCE -->
 
 <div class="stat-card attendance">
 
-<span class="material-icons">schedule</span>
+<div class="stat-icon">
+
+<span class="material-icons">
+schedule
+</span>
+
+</div>
 
 <div class="stat-info">
 
-<h2 id="totalAttendance">0</h2>
+<h2 id="totalAttendance">
+0
+</h2>
 
-<p>Attendance Today</p>
+<p>
+Attendance Today
+</p>
 
 </div>
 
 </div>
+
+
+<!-- PAYROLL -->
 
 <div class="stat-card payroll">
 
-<span class="material-icons">payments</span>
+<div class="stat-icon">
+
+<span class="material-icons">
+payments
+</span>
+
+</div>
 
 <div class="stat-info">
 
-<h2 id="totalPayroll">0</h2>
+<h2 id="totalPayroll">
+0
+</h2>
 
-<p>Payroll Records</p>
+<p>
+Payroll Records
+</p>
 
 </div>
 
 </div>
+
+
+<!-- REQUESTS -->
 
 <div class="stat-card requests">
 
-<span class="material-icons">mail</span>
+<div class="stat-icon">
+
+<span class="material-icons">
+mail
+</span>
+
+</div>
 
 <div class="stat-info">
 
-<h2 id="totalRequests">0</h2>
+<h2 id="totalRequests">
+0
+</h2>
 
-<p>Pending Requests</p>
+<p>
+Pending Requests
+</p>
 
 </div>
 
 </div>
+
+
+<!-- BIRTHDAYS -->
 
 <div class="stat-card birthday">
 
-<span class="material-icons">cake</span>
+<div class="stat-icon">
+
+<span class="material-icons">
+cake
+</span>
+
+</div>
 
 <div class="stat-info">
 
-<h2 id="upcomingBirthdays">0</h2>
+<h2 id="upcomingBirthdays">
+0
+</h2>
 
-<p>Birthdays</p>
+<p>
+Birthdays
+</p>
 
 </div>
 
 </div>
+
+
+<!-- PRESENT -->
 
 <div class="stat-card present">
 
-<span class="material-icons">how_to_reg</span>
+<div class="stat-icon">
+
+<span class="material-icons">
+how_to_reg
+</span>
+
+</div>
 
 <div class="stat-info">
 
-<h2 id="presentToday">0</h2>
+<h2 id="presentToday">
+0
+</h2>
 
-<p>Present Today</p>
+<p>
+Present Today
+</p>
 
 </div>
 
 </div>
+
+
+<!-- LATE -->
 
 <div class="stat-card late">
 
-<span class="material-icons">timer</span>
+<div class="stat-icon">
+
+<span class="material-icons">
+timer
+</span>
+
+</div>
 
 <div class="stat-info">
 
-<h2 id="lateToday">0</h2>
+<h2 id="lateToday">
+0
+</h2>
 
-<p>Late Today</p>
+<p>
+Late Today
+</p>
 
 </div>
 
 </div>
+
+
+<!-- LEAVE -->
 
 <div class="stat-card leave">
 
-<span class="material-icons">event_busy</span>
+<div class="stat-icon">
+
+<span class="material-icons">
+event_busy
+</span>
+
+</div>
 
 <div class="stat-info">
 
-<h2 id="leaveToday">0</h2>
+<h2 id="leaveToday">
+0
+</h2>
 
-<p>On Leave</p>
+<p>
+On Leave
+</p>
 
 </div>
 
 </div>
 
-</div>
+</section>
+
 
 <!-- ==========================================
-MAIN DASHBOARD
+ATTENDANCE SUMMARY
 ========================================== -->
 
-<div class="dashboard-grid">
-
-<div class="dashboard-card">
+<section class="dashboard-card attendance-summary">
 
 <h3>
 
 <span class="material-icons">
+today
+</span>
 
+Today's Attendance
+
+</h3>
+
+
+<div class="attendance-summary-grid">
+
+
+<div class="attendance-summary-item">
+
+<span class="material-icons">
+how_to_reg
+</span>
+
+<div>
+
+<strong id="summaryPresent">
+0
+</strong>
+
+<span>
+Present
+</span>
+
+</div>
+
+</div>
+
+
+<div class="attendance-summary-item">
+
+<span class="material-icons">
+timer
+</span>
+
+<div>
+
+<strong id="summaryLate">
+0
+</strong>
+
+<span>
+Late
+</span>
+
+</div>
+
+</div>
+
+
+<div class="attendance-summary-item">
+
+<span class="material-icons">
+event_busy
+</span>
+
+<div>
+
+<strong id="summaryLeave">
+0
+</strong>
+
+<span>
+Leave
+</span>
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+
+<!-- ==========================================
+UPCOMING BIRTHDAYS
+========================================== -->
+
+<section class="dashboard-card">
+
+<h3>
+
+<span class="material-icons">
 cake
-
 </span>
 
 Upcoming Birthdays
@@ -454,20 +574,25 @@ Upcoming Birthdays
 
 <div id="birthdayList">
 
-<p>No upcoming birthdays.</p>
+<p>
+No upcoming birthdays.
+</p>
 
 </div>
 
-</div>
+</section>
 
-<div class="dashboard-card">
+
+<!-- ==========================================
+ANNOUNCEMENTS
+========================================== -->
+
+<section class="dashboard-card">
 
 <h3>
 
 <span class="material-icons">
-
 campaign
-
 </span>
 
 Announcements
@@ -476,28 +601,25 @@ Announcements
 
 <div id="announcementList">
 
-<p>No announcements available.</p>
+<p>
+No announcements available.
+</p>
 
 </div>
 
-</div>
+</section>
 
-</div>
 
 <!-- ==========================================
 RECENT ACTIVITY
 ========================================== -->
 
-<div class="dashboard-grid">
-
-<div class="dashboard-card">
+<section class="dashboard-card">
 
 <h3>
 
 <span class="material-icons">
-
 history
-
 </span>
 
 Recent Activity
@@ -506,212 +628,369 @@ Recent Activity
 
 <div id="recentActivity">
 
-<p>No recent activity.</p>
+<p>
+No recent activity.
+</p>
 
 </div>
 
-</div>
+</section>
 
-<div class="dashboard-card">
+
+<!-- ==========================================
+QUICK ACTIONS
+========================================== -->
+
+<section class="dashboard-card">
 
 <h3>
 
 <span class="material-icons">
-
 bolt
-
 </span>
 
 Quick Actions
 
 </h3>
 
+
 <div class="quick-actions">
+
 
 <button onclick="openPage('employee.html')">
 
 <span class="material-icons">
-
 person_add
-
 </span>
 
+<span>
 Add Employee
+</span>
 
 </button>
+
 
 <button onclick="openPage('attendance.html')">
 
 <span class="material-icons">
-
 schedule
-
 </span>
 
+<span>
 Attendance
+</span>
 
 </button>
+
 
 <button onclick="openPage('payroll.html')">
 
 <span class="material-icons">
-
 payments
-
 </span>
 
+<span>
 Payroll
+</span>
 
 </button>
+
 
 <button onclick="openPage('autopayroll.html')">
 
 <span class="material-icons">
-
 smart_toy
-
 </span>
 
+<span>
 Auto Payroll
+</span>
 
 </button>
+
 
 <button onclick="openPage('settings.html')">
 
 <span class="material-icons">
-
 settings
-
 </span>
 
+<span>
 Settings
+</span>
 
 </button>
 
-</div>
 
 </div>
 
-</div> 
-  <!-- ==========================================
+</section>
+
+
+<!-- ==========================================
 SYSTEM INFORMATION
 ========================================== -->
 
-<div class="dashboard-card system-card">
+<section class="dashboard-card system-card">
 
 <h3>
 
 <span class="material-icons">
-
 info
-
 </span>
 
 System Information
 
 </h3>
 
+
 <div class="system-grid">
 
+
 <div class="system-item">
 
-<strong>System</strong>
+<strong>
+System
+</strong>
 
-<p>PAPPRITO HRIS v2.0</p>
+<p>
+PAPPRITO HRIS v2.0
+</p>
 
 </div>
 
+
 <div class="system-item">
 
-<strong>Status</strong>
+<strong>
+Status
+</strong>
 
 <p id="systemStatus">
-
 🟢 Online
-
 </p>
 
 </div>
 
+
 <div class="system-item">
 
-<strong>Database</strong>
+<strong>
+Database
+</strong>
 
 <p>
-
 Firebase Firestore
-
 </p>
 
 </div>
 
+
 <div class="system-item">
 
-<strong>User</strong>
+<strong>
+User
+</strong>
 
 <p id="loggedUser">
-
 Loading...
-
 </p>
 
 </div>
 
+
 <div class="system-item">
 
-<strong>Version</strong>
+<strong>
+Version
+</strong>
 
 <p>
-
 Version 2.0
-
 </p>
 
 </div>
+
 
 <div class="system-item">
 
-<strong>Build</strong>
+<strong>
+Build
+</strong>
 
 <p>
-
 August 2026
-
 </p>
 
 </div>
 
-</div>
 
 </div>
 
-</div>
+</section>
 
-</div>
+
+</main>
+
+
+<!-- ==========================================
+BOTTOM MOBILE NAVIGATION
+========================================== -->
+
+<nav class="mobile-bottom-nav">
+
+
+<button
+class="active"
+onclick="openPage('dashboard.html')">
+
+<span class="material-icons">
+home
+</span>
+
+<span>
+Home
+</span>
+
+</button>
+
+
+<button
+onclick="openPage('employee.html')">
+
+<span class="material-icons">
+groups
+</span>
+
+<span>
+Employees
+</span>
+
+</button>
+
+
+<button
+onclick="openPage('attendance.html')">
+
+<span class="material-icons">
+schedule
+</span>
+
+<span>
+Attendance
+</span>
+
+</button>
+
+
+<button
+onclick="openPage('payroll.html')">
+
+<span class="material-icons">
+payments
+</span>
+
+<span>
+Payroll
+</span>
+
+</button>
+
+
+<button
+onclick="openPage('settings.html')">
+
+<span class="material-icons">
+settings
+</span>
+
+<span>
+More
+</span>
+
+</button>
+
+
+</nav>
+
+
+<!-- ==========================================
+FOOTER
+========================================== -->
 
 <footer class="footer">
 
 <p>
-
 © 2026 PAPPRITO HRIS
-
 </p>
 
 </footer>
 
+
 </div>
+
 
 <!-- ==========================================
 JAVASCRIPT
 ========================================== -->
 
-<script type="module"
+<script
+type="module"
 src="js/dashboard.js">
-
 </script>
 
 <script
 src="js/responsive.js">
+</script>
+
+
+<!-- ==========================================
+MOBILE CLOCK SYNC
+========================================== -->
+
+<script>
+
+function updateMobileClock(){
+
+const clock =
+document.getElementById("clock");
+
+const date =
+document.getElementById("dateToday");
+
+const mobileClock =
+document.getElementById("mobileClock");
+
+const mobileDate =
+document.getElementById("mobileDate");
+
+if(!clock || !date) return;
+
+if(mobileClock){
+
+mobileClock.textContent =
+clock.textContent;
+
+}
+
+if(mobileDate){
+
+mobileDate.textContent =
+date.textContent;
+
+}
+
+}
+
+setInterval(
+updateMobileClock,
+1000
+);
+
+setTimeout(
+updateMobileClock,
+500
+);
 
 </script>
 
