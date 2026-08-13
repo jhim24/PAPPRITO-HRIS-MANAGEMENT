@@ -18,18 +18,10 @@ PAPPRITO HRIS - Dashboard
 </title>
 
 
-<!-- ==========================================
-     MANIFEST
-========================================== -->
-
 <link
     rel="manifest"
     href="../manifest.json">
 
-
-<!-- ==========================================
-     ICON
-========================================== -->
 
 <link
     rel="apple-touch-icon"
@@ -40,18 +32,10 @@ PAPPRITO HRIS - Dashboard
     href="../assets/images/logo.png">
 
 
-<!-- ==========================================
-     MATERIAL ICONS
-========================================== -->
-
 <link
     rel="stylesheet"
     href="https://fonts.googleapis.com/icon?family=Material+Icons">
 
-
-<!-- ==========================================
-     DASHBOARD CSS
-========================================== -->
 
 <link
     rel="stylesheet"
@@ -62,10 +46,6 @@ PAPPRITO HRIS - Dashboard
 
 <body>
 
-
-<!-- ==========================================
-     APP
-========================================== -->
 
 <div class="dashboard-app">
 
@@ -78,8 +58,6 @@ PAPPRITO HRIS - Dashboard
     id="sidebar"
     class="sidebar">
 
-
-<!-- BRAND -->
 
 <div class="sidebar-brand">
 
@@ -105,11 +83,9 @@ HR INFORMATION SYSTEM
 
 </div>
 
-
 </div>
 
 
-<!-- PROFILE -->
 
 <div class="sidebar-profile">
 
@@ -125,11 +101,8 @@ person
 
 <div class="profile-details">
 
-<strong
-    id="sidebarUser">
-
+<strong id="sidebarUser">
 Admin
-
 </strong>
 
 <span>
@@ -138,13 +111,9 @@ Administrator
 
 </div>
 
-
 </div>
 
 
-<!-- ==========================================
-     NAVIGATION
-========================================== -->
 
 <nav class="sidebar-nav">
 
@@ -199,6 +168,7 @@ Attendance
 </a>
 
 
+
 <div class="nav-label">
 PAYROLL
 </div>
@@ -234,6 +204,7 @@ Payroll
 </a>
 
 
+
 <div class="nav-label">
 LEAVE MANAGEMENT
 </div>
@@ -267,7 +238,7 @@ HR Approval
 </span>
 
 <span
-    id="notificationBadge"
+    id="sidebarNotificationBadge"
     class="notification-badge">
 
 0
@@ -275,6 +246,7 @@ HR Approval
 </span>
 
 </a>
+
 
 
 <div class="nav-label">
@@ -312,6 +284,7 @@ Payroll Report
 </a>
 
 
+
 <div class="nav-label">
 SYSTEM
 </div>
@@ -335,9 +308,6 @@ Settings
 </nav>
 
 
-<!-- ==========================================
-     SIDEBAR BOTTOM
-========================================== -->
 
 <div class="sidebar-bottom">
 
@@ -364,9 +334,6 @@ Logout
 </aside>
 
 
-<!-- ==========================================
-     MOBILE OVERLAY
-========================================== -->
 
 <div
     id="sidebarOverlay"
@@ -374,16 +341,13 @@ Logout
 </div>
 
 
+
 <!-- ==========================================
-     MAIN CONTENT
+     MAIN
 ========================================== -->
 
 <main class="main-content">
 
-
-<!-- ==========================================
-     HEADER
-========================================== -->
 
 <header class="dashboard-header">
 
@@ -420,6 +384,7 @@ Dashboard
 </div>
 
 
+
 <div class="header-right">
 
 
@@ -437,11 +402,8 @@ calendar_today
 TODAY
 </span>
 
-<strong
-    id="currentDate">
-
+<strong id="currentDate">
 Loading...
-
 </strong>
 
 </div>
@@ -459,9 +421,8 @@ Loading...
 notifications
 </span>
 
-
 <span
-    id="notificationBadge"
+    id="headerNotificationBadge"
     class="notification-badge">
 
 0
@@ -490,8 +451,9 @@ logout
 </header>
 
 
+
 <!-- ==========================================
-     WELCOME BANNER
+     WELCOME
 ========================================== -->
 
 <section class="welcome-banner">
@@ -530,13 +492,11 @@ from one place.
 <div class="welcome-visual">
 
 
-<div
-    class="visual-ring ring-one">
+<div class="visual-ring ring-one">
 </div>
 
 
-<div
-    class="visual-ring ring-two">
+<div class="visual-ring ring-two">
 </div>
 
 
@@ -555,14 +515,13 @@ business_center
 </section>
 
 
+
 <!-- ==========================================
-     KPI STATISTICS
+     STATISTICS
 ========================================== -->
 
 <section class="stats-grid">
 
-
-<!-- TOTAL EMPLOYEES -->
 
 <div class="stat-card">
 
@@ -582,11 +541,8 @@ groups
 TOTAL EMPLOYEES
 </span>
 
-<strong
-    id="totalEmployees">
-
+<strong id="totalEmployees">
 0
-
 </strong>
 
 <small>
@@ -599,7 +555,6 @@ Registered employees
 </div>
 
 
-<!-- ACTIVE EMPLOYEES -->
 
 <div class="stat-card">
 
@@ -607,7 +562,7 @@ Registered employees
 <div class="stat-icon active-icon">
 
 <span class="material-icons">
-person_check
+person
 </span>
 
 </div>
@@ -619,11 +574,8 @@ person_check
 ACTIVE EMPLOYEES
 </span>
 
-<strong
-    id="activeEmployees">
-
+<strong id="activeEmployees">
 0
-
 </strong>
 
 <small>
@@ -636,7 +588,6 @@ Currently active
 </div>
 
 
-<!-- TODAY ATTENDANCE -->
 
 <div class="stat-card">
 
@@ -656,11 +607,8 @@ schedule
 TODAY ATTENDANCE
 </span>
 
-<strong
-    id="todayAttendance">
-
+<strong id="todayAttendance">
 0
-
 </strong>
 
 <small>
@@ -673,7 +621,6 @@ Attendance records
 </div>
 
 
-<!-- PENDING LEAVES -->
 
 <div class="stat-card">
 
@@ -693,11 +640,8 @@ event_available
 PENDING LEAVES
 </span>
 
-<strong
-    id="pendingLeaves">
-
+<strong id="pendingLeaves">
 0
-
 </strong>
 
 <small>
@@ -713,16 +657,15 @@ Waiting for approval
 </section>
 
 
+
 <!-- ==========================================
-     MAIN DASHBOARD GRID
+     DASHBOARD GRID
 ========================================== -->
 
 <section class="dashboard-grid">
 
 
-<!-- ==========================================
-     QUICK ACTIONS
-========================================== -->
+<!-- QUICK ACTIONS -->
 
 <div class="dashboard-card">
 
@@ -747,14 +690,12 @@ Quick Actions
 bolt
 </span>
 
-
 </div>
+
 
 
 <div class="quick-actions">
 
-
-<!-- EMPLOYEE -->
 
 <button
     type="button"
@@ -792,7 +733,6 @@ chevron_right
 </button>
 
 
-<!-- ATTENDANCE -->
 
 <button
     type="button"
@@ -830,7 +770,6 @@ chevron_right
 </button>
 
 
-<!-- AUTO PAYROLL -->
 
 <button
     type="button"
@@ -868,7 +807,6 @@ chevron_right
 </button>
 
 
-<!-- TRACK LEAVES -->
 
 <button
     type="button"
@@ -912,9 +850,8 @@ chevron_right
 </div>
 
 
-<!-- ==========================================
-     TODAY'S STATUS
-========================================== -->
+
+<!-- TODAY STATUS -->
 
 <div class="dashboard-card">
 
@@ -939,14 +876,12 @@ Today's Status
 analytics
 </span>
 
-
 </div>
+
 
 
 <div class="overview-list">
 
-
-<!-- PRESENT -->
 
 <div class="overview-row">
 
@@ -991,7 +926,6 @@ Employees with attendance
 </div>
 
 
-<!-- LATE -->
 
 <div class="overview-row">
 
@@ -1036,7 +970,6 @@ Late attendance
 </div>
 
 
-<!-- ON LEAVE -->
 
 <div class="overview-row">
 
@@ -1081,7 +1014,6 @@ Approved leave
 </div>
 
 
-<!-- ABSENT -->
 
 <div class="overview-row">
 
@@ -1132,9 +1064,8 @@ No attendance record
 </div>
 
 
-<!-- ==========================================
-     RECENT LEAVE REQUESTS
-========================================== -->
+
+<!-- RECENT LEAVES -->
 
 <div class="dashboard-card leave-card">
 
@@ -1179,7 +1110,6 @@ chevron_right
 
 <div class="empty-state">
 
-
 <span class="material-icons">
 hourglass_empty
 </span>
@@ -1188,7 +1118,6 @@ hourglass_empty
 Loading requests...
 </p>
 
-
 </div>
 
 
@@ -1198,9 +1127,8 @@ Loading requests...
 </div>
 
 
-<!-- ==========================================
-     SYSTEM MODULES
-========================================== -->
+
+<!-- HRIS MODULES -->
 
 <div class="dashboard-card modules-card">
 
@@ -1225,8 +1153,8 @@ HRIS Modules
 apps
 </span>
 
-
 </div>
+
 
 
 <div class="module-grid">
@@ -1235,7 +1163,6 @@ apps
 <a
     href="employee.html"
     class="module-item">
-
 
 <span class="material-icons">
 badge
@@ -1252,10 +1179,10 @@ Masterlist
 </a>
 
 
+
 <a
     href="attendance.html"
     class="module-item">
-
 
 <span class="material-icons">
 schedule
@@ -1272,10 +1199,10 @@ Time records
 </a>
 
 
+
 <a
     href="autopayroll.html"
     class="module-item">
-
 
 <span class="material-icons">
 calculate
@@ -1292,10 +1219,10 @@ Hourly computation
 </a>
 
 
+
 <a
     href="payroll.html"
     class="module-item">
-
 
 <span class="material-icons">
 payments
@@ -1312,10 +1239,10 @@ Payroll records
 </a>
 
 
+
 <a
     href="track-leaves.html"
     class="module-item">
-
 
 <span class="material-icons">
 event_available
@@ -1332,10 +1259,10 @@ Leave balances
 </a>
 
 
+
 <a
     href="hrapproval.html"
     class="module-item">
-
 
 <span class="material-icons">
 fact_check
@@ -1358,9 +1285,8 @@ Requests
 </div>
 
 
-<!-- ==========================================
-     SYSTEM INFORMATION
-========================================== -->
+
+<!-- SYSTEM -->
 
 <div class="dashboard-card system-card">
 
@@ -1387,6 +1313,7 @@ verified
 
 
 </div>
+
 
 
 <div class="system-info-grid">
@@ -1461,9 +1388,8 @@ Operational
 </section>
 
 
-<!-- ==========================================
-     FOOTER
-========================================== -->
+
+<!-- FOOTER -->
 
 <footer class="dashboard-footer">
 
@@ -1499,9 +1425,6 @@ Employee Management System
 </div>
 
 
-<!-- ==========================================
-     JAVASCRIPT
-========================================== -->
 
 <script
     type="module"
