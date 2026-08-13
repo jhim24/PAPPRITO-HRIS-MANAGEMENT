@@ -1090,3 +1090,633 @@ if(auth.currentUser){
     loadCompanySettings();
 
 }
+/* ==========================================
+   PAPPRITO HRIS
+   EMPLOYEE SETTINGS
+========================================== */
+
+
+/* ==========================================
+   EMPLOYEE SETTINGS ELEMENTS
+========================================== */
+
+const autoGenerateId =
+    document.getElementById(
+        "autoGenerateId"
+    );
+
+const idPrefix =
+    document.getElementById(
+        "idPrefix"
+    );
+
+const startingNumber =
+    document.getElementById(
+        "startingNumber"
+    );
+
+const idDigits =
+    document.getElementById(
+        "idDigits"
+    );
+
+const employeeIdPreview =
+    document.getElementById(
+        "employeeIdPreview"
+    );
+
+const defaultEmploymentType =
+    document.getElementById(
+        "defaultEmploymentType"
+    );
+
+const defaultStatus =
+    document.getElementById(
+        "defaultStatus"
+    );
+
+const defaultDepartment =
+    document.getElementById(
+        "defaultDepartment"
+    );
+
+const defaultPosition =
+    document.getElementById(
+        "defaultPosition"
+    );
+
+const allowEmployeeLogin =
+    document.getElementById(
+        "allowEmployeeLogin"
+    );
+
+const allowLeaveRequest =
+    document.getElementById(
+        "allowLeaveRequest"
+    );
+
+const allowAttendanceView =
+    document.getElementById(
+        "allowAttendanceView"
+    );
+
+const allowPayslipView =
+    document.getElementById(
+        "allowPayslipView"
+    );
+
+const saveEmployeeBtn =
+    document.getElementById(
+        "saveEmployeeBtn"
+    );
+
+
+/* ==========================================
+   DEFAULT EMPLOYEE SETTINGS
+========================================== */
+
+const DEFAULT_EMPLOYEE_SETTINGS = {
+
+    autoGenerateId:true,
+
+    idPrefix:"EMP-",
+
+    startingNumber:1,
+
+    idDigits:4,
+
+    defaultEmploymentType:"Full Time",
+
+    defaultStatus:"Active",
+
+    defaultDepartment:"",
+
+    defaultPosition:"",
+
+    allowEmployeeLogin:true,
+
+    allowLeaveRequest:true,
+
+    allowAttendanceView:true,
+
+    allowPayslipView:true
+
+};
+
+
+/* ==========================================
+   LOAD EMPLOYEE SETTINGS
+========================================== */
+
+async function loadEmployeeSettings(){
+
+    try{
+
+        const employeeSettingsRef =
+            doc(
+                db,
+                "systemSettings",
+                "employees"
+            );
+
+
+        const snapshot =
+            await getDoc(
+                employeeSettingsRef
+            );
+
+
+        let data =
+            DEFAULT_EMPLOYEE_SETTINGS;
+
+
+        if(snapshot.exists()){
+
+            data = {
+
+                ...DEFAULT_EMPLOYEE_SETTINGS,
+
+                ...snapshot.data()
+
+            };
+
+        }
+
+
+        setEmployeeSettingsForm(
+            data
+        );
+
+
+    }catch(error){
+
+        console.error(
+            "Load Employee Settings Error:",
+            error
+        );
+
+
+        setEmployeeSettingsForm(
+            DEFAULT_EMPLOYEE_SETTINGS
+        );
+
+    }
+
+}
+
+
+/* ==========================================
+   SET EMPLOYEE FORM VALUES
+========================================== */
+
+function setEmployeeSettingsForm(
+    data
+){
+
+    if(autoGenerateId){
+
+        autoGenerateId.checked =
+            data.autoGenerateId !== false;
+
+    }
+
+
+    if(idPrefix){
+
+        idPrefix.value =
+            data.idPrefix ||
+            "EMP-";
+
+    }
+
+
+    if(startingNumber){
+
+        startingNumber.value =
+            Number(
+                data.startingNumber || 1
+            );
+
+    }
+
+
+    if(idDigits){
+
+        idDigits.value =
+            String(
+                data.idDigits || 4
+            );
+
+    }
+
+
+    if(defaultEmploymentType){
+
+        defaultEmploymentType.value =
+            data.defaultEmploymentType ||
+            "Full Time";
+
+    }
+
+
+    if(defaultStatus){
+
+        defaultStatus.value =
+            data.defaultStatus ||
+            "Active";
+
+    }
+
+
+    if(defaultDepartment){
+
+        defaultDepartment.value =
+            data.defaultDepartment ||
+            "";
+
+    }
+
+
+    if(defaultPosition){
+
+        defaultPosition.value =
+            data.defaultPosition ||
+            "";
+
+    }
+
+
+    if(allowEmployeeLogin){
+
+        allowEmployeeLogin.checked =
+            data.allowEmployeeLogin !== false;
+
+    }
+
+
+    if(allowLeaveRequest){
+
+        allowLeaveRequest.checked =
+            data.allowLeaveRequest !== false;
+
+    }
+
+
+    if(allowAttendanceView){
+
+        allowAttendanceView.checked =
+            data.allowAttendanceView !== false;
+
+    }
+
+
+    if(allowPayslipView){
+
+        allowPayslipView.checked =
+            data.allowPayslipView !== false;
+
+    }
+
+
+    updateEmployeeIdPreview();
+
+}
+
+
+/* ==========================================
+   EMPLOYEE ID PREVIEW
+========================================== */
+
+function updateEmployeeIdPreview(){
+
+    if(
+        !employeeIdPreview ||
+        !idPrefix ||
+        !startingNumber ||
+        !idDigits
+    ){
+
+        return;
+
+    }
+
+
+    const prefix =
+        idPrefix.value ||
+        "EMP-";
+
+
+    let number =
+        parseInt(
+            startingNumber.value,
+            10
+        );
+
+
+    if(
+        isNaN(number) ||
+        number < 1
+    ){
+
+        number = 1;
+
+    }
+
+
+    let digits =
+        parseInt(
+            idDigits.value,
+            10
+        );
+
+
+    if(
+        isNaN(digits) ||
+        digits < 1
+    ){
+
+        digits = 4;
+
+    }
+
+
+    const formattedNumber =
+        String(number)
+            .padStart(
+                digits,
+                "0"
+            );
+
+
+    employeeIdPreview.textContent =
+        prefix +
+        formattedNumber;
+
+}
+
+
+/* ==========================================
+   EMPLOYEE ID EVENTS
+========================================== */
+
+if(idPrefix){
+
+    idPrefix.addEventListener(
+        "input",
+        updateEmployeeIdPreview
+    );
+
+}
+
+
+if(startingNumber){
+
+    startingNumber.addEventListener(
+        "input",
+        updateEmployeeIdPreview
+    );
+
+}
+
+
+if(idDigits){
+
+    idDigits.addEventListener(
+        "change",
+        updateEmployeeIdPreview
+    );
+
+}
+
+
+/* ==========================================
+   SAVE EMPLOYEE SETTINGS
+========================================== */
+
+if(saveEmployeeBtn){
+
+    saveEmployeeBtn.addEventListener(
+        "click",
+        saveEmployeeSettings
+    );
+
+}
+
+
+async function saveEmployeeSettings(){
+
+    if(!auth.currentUser){
+
+        alert(
+            "You are not logged in."
+        );
+
+        window.location.replace(
+            "login.html"
+        );
+
+        return;
+
+    }
+
+
+    /*
+       Validate Employee ID prefix
+    */
+
+    const prefix =
+        idPrefix.value.trim();
+
+
+    if(!prefix){
+
+        alert(
+            "Employee ID Prefix is required."
+        );
+
+        idPrefix.focus();
+
+        return;
+
+    }
+
+
+    /*
+       Validate starting number
+    */
+
+    let startNumber =
+        parseInt(
+            startingNumber.value,
+            10
+        );
+
+
+    if(
+        isNaN(startNumber) ||
+        startNumber < 1
+    ){
+
+        alert(
+            "Starting Number must be 1 or higher."
+        );
+
+        startingNumber.focus();
+
+        return;
+
+    }
+
+
+    /*
+       Disable button
+    */
+
+    saveEmployeeBtn.disabled =
+        true;
+
+
+    saveEmployeeBtn.innerHTML = `
+
+        <span class="material-icons">
+            sync
+        </span>
+
+        SAVING...
+
+    `;
+
+
+    try{
+
+        const employeeData = {
+
+            autoGenerateId:
+                autoGenerateId.checked,
+
+            idPrefix:
+                prefix,
+
+            startingNumber:
+                startNumber,
+
+            idDigits:
+                parseInt(
+                    idDigits.value,
+                    10
+                ),
+
+            defaultEmploymentType:
+                defaultEmploymentType.value,
+
+            defaultStatus:
+                defaultStatus.value,
+
+            defaultDepartment:
+                defaultDepartment.value.trim(),
+
+            defaultPosition:
+                defaultPosition.value.trim(),
+
+            allowEmployeeLogin:
+                allowEmployeeLogin.checked,
+
+            allowLeaveRequest:
+                allowLeaveRequest.checked,
+
+            allowAttendanceView:
+                allowAttendanceView.checked,
+
+            allowPayslipView:
+                allowPayslipView.checked
+
+        };
+
+
+        const employeeSettingsRef =
+            doc(
+                db,
+                "systemSettings",
+                "employees"
+            );
+
+
+        await setDoc(
+            employeeSettingsRef,
+            employeeData,
+            {
+                merge:true
+            }
+        );
+
+
+        alert(
+            "Employee Settings Saved Successfully."
+        );
+
+
+    }catch(error){
+
+        console.error(
+            "Save Employee Settings Error:",
+            error
+        );
+
+
+        alert(
+            "Unable to save Employee Settings.\n\n" +
+            error.message
+        );
+
+
+    }finally{
+
+        saveEmployeeBtn.disabled =
+            false;
+
+
+        saveEmployeeBtn.innerHTML = `
+
+            <span class="material-icons">
+                save
+            </span>
+
+            SAVE EMPLOYEE SETTINGS
+
+        `;
+
+    }
+
+}
+
+
+/* ==========================================
+   LOAD WHEN USER IS AUTHENTICATED
+========================================== */
+
+if(auth.currentUser){
+
+    loadEmployeeSettings();
+
+}
+
+
+/* ==========================================
+   UPDATE AUTH STATE
+========================================== */
+
+onAuthStateChanged(
+    auth,
+    function(user){
+
+        if(!user){
+
+            return;
+
+        }
+
+
+        loadEmployeeSettings();
+
+    }
+);
