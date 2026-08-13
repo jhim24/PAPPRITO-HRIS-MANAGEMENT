@@ -6,31 +6,38 @@
 <meta charset="UTF-8">
 
 <meta
-name="viewport"
-content="width=device-width, initial-scale=1.0">
+    name="viewport"
+    content="width=device-width, initial-scale=1.0">
 
-<title>PAPPRITO HRIS - Dashboard</title>
+<meta
+    name="theme-color"
+    content="#ffcc00">
+
+<title>
+PAPPRITO HRIS - Dashboard
+</title>
 
 
 <!-- ==========================================
-     PWA
+     MANIFEST
 ========================================== -->
 
 <link
-rel="manifest"
-href="../manifest.json">
+    rel="manifest"
+    href="../manifest.json">
 
-<meta
-name="theme-color"
-content="#ffcc00">
 
-<link
-rel="apple-touch-icon"
-href="../assets/images/icon-192.png">
+<!-- ==========================================
+     ICON
+========================================== -->
 
 <link
-rel="icon"
-href="../assets/images/logo.png">
+    rel="apple-touch-icon"
+    href="../assets/images/icon-192.png">
+
+<link
+    rel="icon"
+    href="../assets/images/logo.png">
 
 
 <!-- ==========================================
@@ -38,8 +45,8 @@ href="../assets/images/logo.png">
 ========================================== -->
 
 <link
-rel="stylesheet"
-href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    rel="stylesheet"
+    href="https://fonts.googleapis.com/icon?family=Material+Icons">
 
 
 <!-- ==========================================
@@ -47,8 +54,8 @@ href="https://fonts.googleapis.com/icon?family=Material+Icons">
 ========================================== -->
 
 <link
-rel="stylesheet"
-href="../css/dashboard.css">
+    rel="stylesheet"
+    href="../css/dashboard.css">
 
 </head>
 
@@ -68,9 +75,11 @@ href="../css/dashboard.css">
 ========================================== -->
 
 <aside
-id="sidebar"
-class="sidebar">
+    id="sidebar"
+    class="sidebar">
 
+
+<!-- BRAND -->
 
 <div class="sidebar-brand">
 
@@ -78,8 +87,8 @@ class="sidebar">
 <div class="brand-logo">
 
 <img
-src="../assets/images/logo.png"
-alt="PAPPRITO">
+    src="../assets/images/logo.png"
+    alt="PAPPRITO">
 
 </div>
 
@@ -91,7 +100,7 @@ PAPPRITO
 </strong>
 
 <span>
-HRIS
+HR INFORMATION SYSTEM
 </span>
 
 </div>
@@ -99,6 +108,8 @@ HRIS
 
 </div>
 
+
+<!-- PROFILE -->
 
 <div class="sidebar-profile">
 
@@ -106,7 +117,7 @@ HRIS
 <div class="profile-icon">
 
 <span class="material-icons">
-admin_panel_settings
+person
 </span>
 
 </div>
@@ -114,12 +125,15 @@ admin_panel_settings
 
 <div class="profile-details">
 
-<strong id="sidebarUser">
-ADMIN
+<strong
+    id="sidebarUser">
+
+Admin
+
 </strong>
 
 <span>
-Human Resources
+Administrator
 </span>
 
 </div>
@@ -128,17 +142,21 @@ Human Resources
 </div>
 
 
+<!-- ==========================================
+     NAVIGATION
+========================================== -->
+
 <nav class="sidebar-nav">
 
 
-<p class="nav-label">
+<div class="nav-label">
 MAIN MENU
-</p>
+</div>
 
 
 <a
-href="dashboard.html"
-class="nav-item active">
+    href="dashboard.html"
+    class="nav-item active">
 
 <span class="material-icons">
 dashboard
@@ -152,11 +170,11 @@ Dashboard
 
 
 <a
-href="employee.html"
-class="nav-item">
+    href="employee.html"
+    class="nav-item">
 
 <span class="material-icons">
-groups
+badge
 </span>
 
 <span>
@@ -167,8 +185,8 @@ Employee Masterlist
 
 
 <a
-href="attendance.html"
-class="nav-item">
+    href="attendance.html"
+    class="nav-item">
 
 <span class="material-icons">
 schedule
@@ -181,12 +199,17 @@ Attendance
 </a>
 
 
+<div class="nav-label">
+PAYROLL
+</div>
+
+
 <a
-href="autopayroll.html"
-class="nav-item">
+    href="autopayroll.html"
+    class="nav-item">
 
 <span class="material-icons">
-payments
+calculate
 </span>
 
 <span>
@@ -196,32 +219,32 @@ Auto Payroll
 </a>
 
 
-<p class="nav-label">
-EMPLOYEE SERVICES
-</p>
-
-
 <a
-href="leave.html"
-class="nav-item">
+    href="payroll.html"
+    class="nav-item">
 
 <span class="material-icons">
-event_available
+payments
 </span>
 
 <span>
-Leave Requests
+Payroll
 </span>
 
 </a>
 
 
+<div class="nav-label">
+LEAVE MANAGEMENT
+</div>
+
+
 <a
-href="track-leaves.html"
-class="nav-item">
+    href="track-leaves.html"
+    class="nav-item">
 
 <span class="material-icons">
-beach_access
+event_available
 </span>
 
 <span>
@@ -231,17 +254,40 @@ Track Leaves
 </a>
 
 
-<p class="nav-label">
+<a
+    href="hrapproval.html"
+    class="nav-item">
+
+<span class="material-icons">
+fact_check
+</span>
+
+<span>
+HR Approval
+</span>
+
+<span
+    id="notificationBadge"
+    class="notification-badge">
+
+0
+
+</span>
+
+</a>
+
+
+<div class="nav-label">
 REPORTS
-</p>
+</div>
 
 
 <a
-href="attendance-report.html"
-class="nav-item">
+    href="attendance.html"
+    class="nav-item">
 
 <span class="material-icons">
-assessment
+assignment
 </span>
 
 <span>
@@ -252,11 +298,11 @@ Attendance Report
 
 
 <a
-href="payroll-report.html"
-class="nav-item">
+    href="payroll.html"
+    class="nav-item">
 
 <span class="material-icons">
-receipt_long
+description
 </span>
 
 <span>
@@ -266,16 +312,40 @@ Payroll Report
 </a>
 
 
+<div class="nav-label">
+SYSTEM
+</div>
+
+
+<a
+    href="settings.html"
+    class="nav-item">
+
+<span class="material-icons">
+settings
+</span>
+
+<span>
+Settings
+</span>
+
+</a>
+
+
 </nav>
 
+
+<!-- ==========================================
+     SIDEBAR BOTTOM
+========================================== -->
 
 <div class="sidebar-bottom">
 
 
 <button
-class="sidebar-logout"
-title="Logout"
-onclick="logout()">
+    type="button"
+    class="sidebar-logout"
+    onclick="logout()">
 
 <span class="material-icons">
 logout
@@ -295,14 +365,24 @@ Logout
 
 
 <!-- ==========================================
-     MAIN
+     MOBILE OVERLAY
+========================================== -->
+
+<div
+    id="sidebarOverlay"
+    class="sidebar-overlay">
+</div>
+
+
+<!-- ==========================================
+     MAIN CONTENT
 ========================================== -->
 
 <main class="main-content">
 
 
 <!-- ==========================================
-     TOP HEADER
+     HEADER
 ========================================== -->
 
 <header class="dashboard-header">
@@ -312,9 +392,10 @@ Logout
 
 
 <button
-id="menuBtn"
-class="icon-button menu-button"
-title="Menu">
+    type="button"
+    id="menuBtn"
+    class="icon-button menu-button"
+    aria-label="Open Menu">
 
 <span class="material-icons">
 menu
@@ -325,9 +406,9 @@ menu
 
 <div>
 
-<p class="header-label">
+<span class="header-label">
 PAPPRITO HRIS
-</p>
+</span>
 
 <h1>
 Dashboard
@@ -344,9 +425,11 @@ Dashboard
 
 <div class="header-date">
 
+
 <span class="material-icons">
 calendar_today
 </span>
+
 
 <div>
 
@@ -354,26 +437,32 @@ calendar_today
 TODAY
 </span>
 
-<strong id="currentDate">
+<strong
+    id="currentDate">
+
 Loading...
+
 </strong>
 
 </div>
+
 
 </div>
 
 
 <button
-class="icon-button notification-button"
-title="Notifications">
+    type="button"
+    class="icon-button notification-button"
+    aria-label="Notifications">
 
 <span class="material-icons">
 notifications
 </span>
 
+
 <span
-id="notificationBadge"
-class="notification-badge">
+    id="notificationBadge"
+    class="notification-badge">
 
 0
 
@@ -383,9 +472,10 @@ class="notification-badge">
 
 
 <button
-class="icon-button logout-icon"
-title="Logout"
-onclick="logout()">
+    type="button"
+    class="icon-button logout-icon"
+    onclick="logout()"
+    aria-label="Logout">
 
 <span class="material-icons">
 logout
@@ -396,11 +486,12 @@ logout
 
 </div>
 
+
 </header>
 
 
 <!-- ==========================================
-     WELCOME
+     WELCOME BANNER
 ========================================== -->
 
 <section class="welcome-banner">
@@ -409,22 +500,27 @@ logout
 <div class="welcome-content">
 
 
-<div class="welcome-small">
+<span class="welcome-small">
 WELCOME BACK
-</div>
+</span>
 
 
 <h2>
-Good Day,
+
+Hello,
 <span id="welcomeUser">
 Admin
 </span>
+
 </h2>
 
 
 <p>
-Manage your employees, attendance,
-payroll and leave requests from one place.
+
+Manage employees, attendance,
+payroll and leave requests
+from one place.
+
 </p>
 
 
@@ -434,9 +530,15 @@ payroll and leave requests from one place.
 <div class="welcome-visual">
 
 
-<div class="visual-ring ring-one"></div>
+<div
+    class="visual-ring ring-one">
+</div>
 
-<div class="visual-ring ring-two"></div>
+
+<div
+    class="visual-ring ring-two">
+</div>
+
 
 <div class="visual-icon">
 
@@ -449,17 +551,18 @@ business_center
 
 </div>
 
+
 </section>
 
 
 <!-- ==========================================
-     KPI CARDS
+     KPI STATISTICS
 ========================================== -->
 
 <section class="stats-grid">
 
 
-<!-- EMPLOYEES -->
+<!-- TOTAL EMPLOYEES -->
 
 <div class="stat-card">
 
@@ -479,8 +582,11 @@ groups
 TOTAL EMPLOYEES
 </span>
 
-<strong id="totalEmployees">
+<strong
+    id="totalEmployees">
+
 0
+
 </strong>
 
 <small>
@@ -493,7 +599,7 @@ Registered employees
 </div>
 
 
-<!-- ACTIVE -->
+<!-- ACTIVE EMPLOYEES -->
 
 <div class="stat-card">
 
@@ -501,7 +607,7 @@ Registered employees
 <div class="stat-icon active-icon">
 
 <span class="material-icons">
-person
+person_check
 </span>
 
 </div>
@@ -513,8 +619,11 @@ person
 ACTIVE EMPLOYEES
 </span>
 
-<strong id="activeEmployees">
+<strong
+    id="activeEmployees">
+
 0
+
 </strong>
 
 <small>
@@ -527,7 +636,7 @@ Currently active
 </div>
 
 
-<!-- ATTENDANCE -->
+<!-- TODAY ATTENDANCE -->
 
 <div class="stat-card">
 
@@ -547,8 +656,11 @@ schedule
 TODAY ATTENDANCE
 </span>
 
-<strong id="todayAttendance">
+<strong
+    id="todayAttendance">
+
 0
+
 </strong>
 
 <small>
@@ -561,7 +673,7 @@ Attendance records
 </div>
 
 
-<!-- LEAVE -->
+<!-- PENDING LEAVES -->
 
 <div class="stat-card">
 
@@ -581,8 +693,11 @@ event_available
 PENDING LEAVES
 </span>
 
-<strong id="pendingLeaves">
+<strong
+    id="pendingLeaves">
+
 0
+
 </strong>
 
 <small>
@@ -599,17 +714,17 @@ Waiting for approval
 
 
 <!-- ==========================================
-     MAIN GRID
+     MAIN DASHBOARD GRID
 ========================================== -->
 
 <section class="dashboard-grid">
 
 
-<!-- ======================================
+<!-- ==========================================
      QUICK ACTIONS
-====================================== -->
+========================================== -->
 
-<div class="dashboard-card quick-card">
+<div class="dashboard-card">
 
 
 <div class="card-header">
@@ -632,15 +747,20 @@ Quick Actions
 bolt
 </span>
 
+
 </div>
 
 
 <div class="quick-actions">
 
 
+<!-- EMPLOYEE -->
+
 <button
-class="quick-action"
-onclick="window.location.href='employee.html'">
+    type="button"
+    class="quick-action"
+    onclick="window.location.href='employee.html'">
+
 
 <div class="quick-icon yellow">
 
@@ -650,28 +770,35 @@ person_add
 
 </div>
 
+
 <div>
 
 <strong>
-Add Employee
+Employee Record
 </strong>
 
 <span>
-Create employee record
+Manage employee information
 </span>
 
 </div>
+
 
 <span class="material-icons arrow">
 chevron_right
 </span>
 
+
 </button>
 
 
+<!-- ATTENDANCE -->
+
 <button
-class="quick-action"
-onclick="window.location.href='attendance.html'">
+    type="button"
+    class="quick-action"
+    onclick="window.location.href='attendance.html'">
+
 
 <div class="quick-icon blue">
 
@@ -680,6 +807,7 @@ schedule
 </span>
 
 </div>
+
 
 <div>
 
@@ -693,24 +821,31 @@ View attendance records
 
 </div>
 
+
 <span class="material-icons arrow">
 chevron_right
 </span>
 
+
 </button>
 
 
+<!-- AUTO PAYROLL -->
+
 <button
-class="quick-action"
-onclick="window.location.href='autopayroll.html'">
+    type="button"
+    class="quick-action"
+    onclick="window.location.href='autopayroll.html'">
+
 
 <div class="quick-icon green">
 
 <span class="material-icons">
-payments
+calculate
 </span>
 
 </div>
+
 
 <div>
 
@@ -719,29 +854,36 @@ Auto Payroll
 </strong>
 
 <span>
-Compute payroll
+Compute hourly payroll
 </span>
 
 </div>
+
 
 <span class="material-icons arrow">
 chevron_right
 </span>
 
+
 </button>
 
 
+<!-- TRACK LEAVES -->
+
 <button
-class="quick-action"
-onclick="window.location.href='track-leaves.html'">
+    type="button"
+    class="quick-action"
+    onclick="window.location.href='track-leaves.html'">
+
 
 <div class="quick-icon red">
 
 <span class="material-icons">
-beach_access
+event_available
 </span>
 
 </div>
+
 
 <div>
 
@@ -755,23 +897,26 @@ View leave balances
 
 </div>
 
+
 <span class="material-icons arrow">
 chevron_right
 </span>
+
 
 </button>
 
 
 </div>
 
+
 </div>
 
 
-<!-- ======================================
-     TODAY OVERVIEW
-====================================== -->
+<!-- ==========================================
+     TODAY'S STATUS
+========================================== -->
 
-<div class="dashboard-card overview-card">
+<div class="dashboard-card">
 
 
 <div class="card-header">
@@ -791,14 +936,17 @@ Today's Status
 
 
 <span class="material-icons card-header-icon">
-insights
+analytics
 </span>
+
 
 </div>
 
 
 <div class="overview-list">
 
+
+<!-- PRESENT -->
 
 <div class="overview-row">
 
@@ -809,7 +957,7 @@ insights
 <div class="mini-icon green-bg">
 
 <span class="material-icons">
-login
+how_to_reg
 </span>
 
 </div>
@@ -832,15 +980,18 @@ Employees with attendance
 
 
 <strong
-id="presentCount"
-class="overview-number">
+    id="presentCount"
+    class="overview-number">
 
 0
 
 </strong>
 
+
 </div>
 
+
+<!-- LATE -->
 
 <div class="overview-row">
 
@@ -869,19 +1020,23 @@ Late attendance
 
 </div>
 
+
 </div>
 
 
 <strong
-id="lateCount"
-class="overview-number">
+    id="lateCount"
+    class="overview-number">
 
 0
 
 </strong>
 
+
 </div>
 
+
+<!-- ON LEAVE -->
 
 <div class="overview-row">
 
@@ -910,19 +1065,23 @@ Approved leave
 
 </div>
 
+
 </div>
 
 
 <strong
-id="onLeaveCount"
-class="overview-number">
+    id="onLeaveCount"
+    class="overview-number">
 
 0
 
 </strong>
 
+
 </div>
 
+
+<!-- ABSENT -->
 
 <div class="overview-row">
 
@@ -951,28 +1110,31 @@ No attendance record
 
 </div>
 
+
 </div>
 
 
 <strong
-id="absentCount"
-class="overview-number">
+    id="absentCount"
+    class="overview-number">
 
 0
 
 </strong>
 
+
+</div>
+
+
 </div>
 
 
 </div>
 
-</div>
 
-
-<!-- ======================================
-     LEAVE REQUESTS
-====================================== -->
+<!-- ==========================================
+     RECENT LEAVE REQUESTS
+========================================== -->
 
 <div class="dashboard-card leave-card">
 
@@ -983,37 +1145,40 @@ class="overview-number">
 <div>
 
 <span class="card-kicker">
-REQUESTS
+LEAVE MANAGEMENT
 </span>
 
 <h3>
-Recent Leave Requests
+Recent Requests
 </h3>
 
 </div>
 
 
 <button
-class="text-button"
-onclick="window.location.href='track-leaves.html'">
+    type="button"
+    class="text-button"
+    onclick="window.location.href='hrapproval.html'">
 
 View All
 
 <span class="material-icons">
-arrow_forward
+chevron_right
 </span>
 
 </button>
+
 
 </div>
 
 
 <div
-id="recentLeaves"
-class="recent-list">
+    id="recentLeaves"
+    class="recent-list">
 
 
 <div class="empty-state">
+
 
 <span class="material-icons">
 hourglass_empty
@@ -1023,17 +1188,19 @@ hourglass_empty
 Loading requests...
 </p>
 
+
+</div>
+
+
 </div>
 
 
 </div>
 
-</div>
 
-
-<!-- ======================================
+<!-- ==========================================
      SYSTEM MODULES
-====================================== -->
+========================================== -->
 
 <div class="dashboard-card modules-card">
 
@@ -1048,7 +1215,7 @@ SYSTEM
 </span>
 
 <h3>
-HR Modules
+HRIS Modules
 </h3>
 
 </div>
@@ -1058,6 +1225,7 @@ HR Modules
 apps
 </span>
 
+
 </div>
 
 
@@ -1065,11 +1233,12 @@ apps
 
 
 <a
-href="employee.html"
-class="module-item">
+    href="employee.html"
+    class="module-item">
+
 
 <span class="material-icons">
-groups
+badge
 </span>
 
 <strong>
@@ -1084,8 +1253,9 @@ Masterlist
 
 
 <a
-href="attendance.html"
-class="module-item">
+    href="attendance.html"
+    class="module-item">
+
 
 <span class="material-icons">
 schedule
@@ -1103,15 +1273,16 @@ Time records
 
 
 <a
-href="autopayroll.html"
-class="module-item">
+    href="autopayroll.html"
+    class="module-item">
+
 
 <span class="material-icons">
-payments
+calculate
 </span>
 
 <strong>
-Payroll
+Auto Payroll
 </strong>
 
 <small>
@@ -1122,57 +1293,60 @@ Hourly computation
 
 
 <a
-href="track-leaves.html"
-class="module-item">
+    href="payroll.html"
+    class="module-item">
+
 
 <span class="material-icons">
-beach_access
+payments
 </span>
 
 <strong>
-Leaves
+Payroll
 </strong>
 
 <small>
-Leave tracking
+Payroll records
 </small>
 
 </a>
 
 
 <a
-href="attendance-report.html"
-class="module-item">
+    href="track-leaves.html"
+    class="module-item">
+
 
 <span class="material-icons">
-assessment
+event_available
 </span>
 
 <strong>
-Reports
+Track Leaves
 </strong>
 
 <small>
-Attendance reports
+Leave balances
 </small>
 
 </a>
 
 
 <a
-href="settings.html"
-class="module-item">
+    href="hrapproval.html"
+    class="module-item">
+
 
 <span class="material-icons">
-settings
+fact_check
 </span>
 
 <strong>
-Settings
+HR Approval
 </strong>
 
 <small>
-System settings
+Requests
 </small>
 
 </a>
@@ -1180,12 +1354,13 @@ System settings
 
 </div>
 
+
 </div>
 
 
-<!-- ======================================
+<!-- ==========================================
      SYSTEM INFORMATION
-====================================== -->
+========================================== -->
 
 <div class="dashboard-card system-card">
 
@@ -1196,11 +1371,11 @@ System settings
 <div>
 
 <span class="card-kicker">
-SYSTEM
+SYSTEM STATUS
 </span>
 
 <h3>
-System Information
+PAPPRITO HRIS
 </h3>
 
 </div>
@@ -1209,6 +1384,7 @@ System Information
 <span class="material-icons card-header-icon">
 verified
 </span>
+
 
 </div>
 
@@ -1236,7 +1412,7 @@ VERSION
 </span>
 
 <strong>
-V3.0
+HRIS 1.0
 </strong>
 
 </div>
@@ -1245,11 +1421,15 @@ V3.0
 <div class="system-info-item">
 
 <span>
-ACCESS
+DATABASE
 </span>
 
-<strong>
-Administrator
+<strong class="online">
+
+<span></span>
+
+Connected
+
 </strong>
 
 </div>
@@ -1265,7 +1445,7 @@ STATUS
 
 <span></span>
 
-ONLINE
+Operational
 
 </strong>
 
@@ -1273,6 +1453,7 @@ ONLINE
 
 
 </div>
+
 
 </div>
 
@@ -1286,6 +1467,7 @@ ONLINE
 
 <footer class="dashboard-footer">
 
+
 <div>
 
 <strong>
@@ -1293,15 +1475,20 @@ PAPPRITO HRIS
 </strong>
 
 <span>
-Human Resource Information System
+Employee Management System
 </span>
 
 </div>
 
 
+<div>
+
 <span>
 © 2026 PAPPRITO
 </span>
+
+</div>
+
 
 </footer>
 
@@ -1309,13 +1496,6 @@ Human Resource Information System
 </main>
 
 
-<!-- ==========================================
-     MOBILE OVERLAY
-========================================== -->
-
-<div
-id="sidebarOverlay"
-class="sidebar-overlay">
 </div>
 
 
@@ -1324,12 +1504,10 @@ class="sidebar-overlay">
 ========================================== -->
 
 <script
-type="module"
-src="../js/dashboard.js">
+    type="module"
+    src="../js/dashboard.js">
 </script>
 
-
-</div>
 
 </body>
 
