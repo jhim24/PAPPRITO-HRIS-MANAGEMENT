@@ -1,1 +1,398 @@
+<!DOCTYPE html>
+<html lang="en">
 
+<head>
+
+<meta charset="UTF-8">
+
+<meta
+name="viewport"
+content="width=device-width, initial-scale=1.0">
+
+<title>Payroll Management</title>
+
+
+<!-- ==========================================
+     MANIFEST
+========================================== -->
+
+<link
+rel="manifest"
+href="../manifest.json">
+
+
+<meta
+name="theme-color"
+content="#ffcc00">
+
+
+<link
+rel="apple-touch-icon"
+href="../assets/images/icon-192.png">
+
+
+<link
+rel="icon"
+href="../assets/images/logo.png">
+
+
+<!-- ==========================================
+     PAYROLL CSS
+========================================== -->
+
+<link
+rel="stylesheet"
+href="../css/payroll.css">
+
+</head>
+
+
+<body>
+
+
+<div class="container">
+
+
+<!-- ==========================================
+     HEADER
+========================================== -->
+
+<div class="header">
+
+
+<div class="title">
+
+💰 PAYROLL MANAGEMENT
+
+</div>
+
+
+<div
+style="
+display:flex;
+gap:10px;
+flex-wrap:wrap;
+">
+
+
+<button
+class="btn print-btn"
+onclick="window.print()">
+
+🖨 PRINT
+
+</button>
+
+
+<button
+class="btn back-btn"
+onclick="window.location.href='dashboard.html'">
+
+← BACK
+
+</button>
+
+
+</div>
+
+</div>
+
+
+<!-- ==========================================
+     FORM
+========================================== -->
+
+<div class="form-section">
+
+
+<div class="form-grid">
+
+
+<select id="employeeSelect">
+
+<option value="">
+
+Select Employee
+
+</option>
+
+</select>
+
+
+<input
+type="number"
+id="totaldays"
+placeholder="Total Days">
+
+
+<input
+type="number"
+id="dailyrate"
+placeholder="Daily Rate">
+
+
+<input
+type="number"
+id="overtime"
+placeholder="Overtime">
+
+
+<input
+type="number"
+id="holiday"
+placeholder="Holiday Pay">
+
+
+<input
+type="number"
+id="sickleave"
+placeholder="Sick Leave">
+
+
+<input
+type="number"
+id="vacationleave"
+placeholder="Vacation Leave">
+
+
+<input
+type="number"
+id="birthdayleave"
+placeholder="Birthday Leave">
+
+
+<input
+type="number"
+id="maternityleave"
+placeholder="Maternity Leave">
+
+
+<input
+type="number"
+id="paternityleave"
+placeholder="Paternity Leave">
+
+
+<input
+type="number"
+id="allowance"
+placeholder="Allowance">
+
+
+<input
+type="number"
+id="sss"
+placeholder="SSS">
+
+
+<input
+type="number"
+id="philhealth"
+placeholder="PhilHealth">
+
+
+<input
+type="number"
+id="pagibig"
+placeholder="Pag-IBIG">
+
+
+<input
+type="number"
+id="healthcard"
+placeholder="Health Card">
+
+
+<input
+type="number"
+id="otherdeduction"
+placeholder="Other Deduction">
+
+
+<input
+type="text"
+id="deductionreason"
+placeholder="Reason for Deduction">
+
+
+</div>
+
+
+<br>
+
+
+<!-- ==========================================
+     SAVE PAYROLL
+========================================== -->
+
+<button
+class="btn save-btn"
+onclick="savePayroll()">
+
+💾 SAVE PAYROLL
+
+</button>
+
+
+<!-- ==========================================
+     TOTAL
+========================================== -->
+
+<div class="total-box">
+
+TOTAL NET PAY :
+
+₱
+
+<span id="totalNet">
+
+0.00
+
+</span>
+
+</div>
+
+
+<!-- ==========================================
+     PAYROLL TABLE
+========================================== -->
+
+<div class="table-wrapper">
+
+
+<table>
+
+
+<thead>
+
+<tr>
+
+<th>
+EMPLOYEE ID
+</th>
+
+<th>
+EMPLOYEE
+</th>
+
+<th>
+TOTAL DAYS
+</th>
+
+<th>
+DAILY RATE
+</th>
+
+<th>
+BASIC PAY
+</th>
+
+<th>
+OVERTIME
+</th>
+
+<th>
+HOLIDAY
+</th>
+
+<th>
+SICK LEAVE
+</th>
+
+<th>
+VACATION LEAVE
+</th>
+
+<th>
+BIRTHDAY LEAVE
+</th>
+
+<th>
+MATERNITY LEAVE
+</th>
+
+<th>
+PATERNITY LEAVE
+</th>
+
+<th>
+ALLOWANCE
+</th>
+
+<th>
+SSS
+</th>
+
+<th>
+PHILHEALTH
+</th>
+
+<th>
+PAG-IBIG
+</th>
+
+<th>
+HEALTH CARD
+</th>
+
+<th>
+OTHER DEDUCTION
+</th>
+
+<th>
+DEDUCTION REASON
+</th>
+
+<th>
+TOTAL DEDUCTION
+</th>
+
+<th>
+TOTAL GROSS
+</th>
+
+<th>
+NET PAY
+</th>
+
+<th>
+ACTION
+</th>
+
+</tr>
+
+</thead>
+
+
+<tbody
+id="payrollBody">
+
+</tbody>
+
+
+</table>
+
+
+</div>
+
+
+</div>
+
+
+</div>
+
+
+<!-- ==========================================
+     PAYROLL JAVASCRIPT
+========================================== -->
+
+<script
+type="module"
+src="../js/payroll.js">
+
+</script>
+
+
+</body>
+
+</html>
