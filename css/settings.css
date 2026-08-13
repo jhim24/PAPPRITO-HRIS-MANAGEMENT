@@ -1,7 +1,8 @@
 /* ==========================================
    PAPPRITO HRIS
    SETTINGS
-   FULL SCREEN VERSION
+   RED + YELLOW THEME
+   FULL SCREEN
 ========================================== */
 
 *{
@@ -13,37 +14,65 @@
 
 :root{
 
-    --primary:#ffcc00;
-    --primary-dark:#e0aa00;
+    /* ======================================
+       PAPPRITO BRAND COLORS
+    ====================================== */
 
-    --background:#f3f4f6;
+    --primary:#c8102e;
+    --primary-dark:#a9001f;
+    --primary-light:#ffe8ec;
+
+    --yellow:#ffcc00;
+    --yellow-dark:#e6b800;
+    --yellow-light:#fff7cc;
+
+    --background:#f4f5f7;
     --card:#ffffff;
 
     --text:#222222;
     --muted:#777777;
 
-    --border:#dddddd;
+    --border:#e2e2e2;
 
-    --success:#28a745;
+    --success:#198754;
     --danger:#dc3545;
+    --info:#0d6efd;
 
-    --shadow:0 4px 15px rgba(0,0,0,.08);
+    --shadow:
+        0 4px 18px
+        rgba(0,0,0,.08);
+
+    --shadow-hover:
+        0 8px 25px
+        rgba(0,0,0,.12);
 
 }
+
+
+/* ==========================================
+   HTML / BODY
+========================================== */
 
 html,
 body{
 
     width:100%;
+
     min-height:100%;
 
 }
+
 
 body{
 
     min-height:100vh;
 
-    background:var(--background);
+    background:
+        linear-gradient(
+            180deg,
+            #f7f7f7 0%,
+            #f1f2f4 100%
+        );
 
     color:var(--text);
 
@@ -54,7 +83,6 @@ body{
 
 /* ==========================================
    MAIN CONTAINER
-   FULL SCREEN
 ========================================== */
 
 .settings-container{
@@ -78,15 +106,22 @@ body{
 
     width:100%;
 
-    min-height:75px;
+    min-height:78px;
 
     padding:15px 20px;
 
-    background:var(--card);
+    background:
+        linear-gradient(
+            135deg,
+            #ffffff 0%,
+            #fffdf5 100%
+        );
 
     border-radius:15px;
 
-    border-bottom:4px solid var(--primary);
+    border-top:4px solid var(--primary);
+
+    border-bottom:4px solid var(--yellow);
 
     box-shadow:var(--shadow);
 
@@ -116,13 +151,18 @@ body{
 
 .header-icon{
 
-    width:48px;
+    width:50px;
 
-    height:48px;
+    height:50px;
 
     border-radius:12px;
 
-    background:var(--primary);
+    background:
+        linear-gradient(
+            135deg,
+            var(--yellow),
+            #f2b900
+        );
 
     display:flex;
 
@@ -130,12 +170,16 @@ body{
 
     justify-content:center;
 
+    box-shadow:
+        0 4px 10px
+        rgba(255,204,0,.25);
+
 }
 
 
 .header-icon .material-icons{
 
-    font-size:28px;
+    font-size:29px;
 
     color:#222222;
 
@@ -144,7 +188,11 @@ body{
 
 .settings-header h1{
 
-    font-size:22px;
+    color:var(--primary);
+
+    font-size:23px;
+
+    font-weight:800;
 
     letter-spacing:.5px;
 
@@ -153,7 +201,7 @@ body{
 
 .settings-header p{
 
-    margin-top:3px;
+    margin-top:4px;
 
     color:var(--muted);
 
@@ -178,7 +226,7 @@ body{
 
     border-radius:9px;
 
-    background:#333333;
+    background:var(--primary);
 
     color:#ffffff;
 
@@ -187,6 +235,13 @@ body{
     align-items:center;
 
     justify-content:center;
+
+}
+
+
+.mobile-menu-btn:hover{
+
+    background:var(--primary-dark);
 
 }
 
@@ -204,15 +259,15 @@ body{
 
 .back-btn{
 
-    min-height:42px;
+    min-height:43px;
 
     border:none;
 
     border-radius:9px;
 
-    padding:9px 14px;
+    padding:9px 15px;
 
-    background:#333333;
+    background:var(--primary);
 
     color:#ffffff;
 
@@ -228,14 +283,26 @@ body{
 
     font-size:11px;
 
-    font-weight:700;
+    font-weight:800;
+
+    box-shadow:
+        0 4px 10px
+        rgba(200,16,46,.20);
+
+    transition:.2s;
 
 }
 
 
 .back-btn:hover{
 
-    background:#222222;
+    background:var(--primary-dark);
+
+    transform:translateY(-1px);
+
+    box-shadow:
+        0 6px 15px
+        rgba(200,16,46,.25);
 
 }
 
@@ -292,6 +359,8 @@ body{
 
     overflow-y:auto;
 
+    border-top:3px solid var(--primary);
+
 }
 
 
@@ -299,13 +368,15 @@ body{
 
     width:100%;
 
+    min-height:62px;
+
     border:none;
 
     background:transparent;
 
     border-radius:10px;
 
-    padding:12px;
+    padding:11px 12px;
 
     display:flex;
 
@@ -321,6 +392,8 @@ body{
 
     margin-bottom:4px;
 
+    position:relative;
+
 }
 
 
@@ -333,16 +406,28 @@ body{
 
 .settings-menu-item:hover{
 
-    background:#fffbea;
+    background:
+        linear-gradient(
+            90deg,
+            var(--primary-light),
+            #ffffff
+        );
 
 }
 
 
 .settings-menu-item.active{
 
-    background:#fff5c7;
+    background:
+        linear-gradient(
+            90deg,
+            var(--yellow-light),
+            #fffdf0
+        );
 
-    border-left:4px solid var(--primary-dark);
+    border-left:5px solid var(--primary);
+
+    padding-left:7px;
 
 }
 
@@ -351,16 +436,18 @@ body{
 
     width:30px;
 
+    min-width:30px;
+
     font-size:22px;
 
-    color:#666666;
+    color:var(--primary);
 
 }
 
 
 .settings-menu-item.active > .material-icons{
 
-    color:#b88a00;
+    color:var(--primary);
 
 }
 
@@ -371,7 +458,16 @@ body{
 
     font-size:12px;
 
-    color:#333333;
+    color:#222222;
+
+    font-weight:700;
+
+}
+
+
+.settings-menu-item.active strong{
+
+    color:var(--primary);
 
 }
 
@@ -428,7 +524,12 @@ body{
 
     width:100%;
 
-    background:#ffffff;
+    background:
+        linear-gradient(
+            135deg,
+            #ffffff,
+            #fffdf5
+        );
 
     border-radius:15px;
 
@@ -440,12 +541,18 @@ body{
 
     border-left:5px solid var(--primary);
 
+    border-bottom:3px solid var(--yellow);
+
 }
 
 
 .section-title h2{
 
+    color:var(--primary);
+
     font-size:20px;
+
+    font-weight:800;
 
 }
 
@@ -479,6 +586,17 @@ body{
 
     margin-bottom:15px;
 
+    border:1px solid #eeeeee;
+
+    transition:.2s;
+
+}
+
+
+.settings-card:hover{
+
+    box-shadow:var(--shadow-hover);
+
 }
 
 
@@ -505,16 +623,36 @@ body{
 
 .card-title > .material-icons{
 
-    color:#b88a00;
+    width:38px;
 
-    font-size:25px;
+    height:38px;
+
+    min-width:38px;
+
+    border-radius:9px;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    background:var(--yellow);
+
+    color:#222222;
+
+    font-size:22px;
 
 }
 
 
 .card-title h3{
 
+    color:var(--primary);
+
     font-size:16px;
+
+    font-weight:800;
 
 }
 
@@ -570,7 +708,7 @@ body{
 
     margin-bottom:7px;
 
-    color:#555555;
+    color:#333333;
 
     font-size:12px;
 
@@ -631,15 +769,35 @@ body{
 }
 
 
+.form-group input:hover,
+.form-group select:hover,
+.form-group textarea:hover{
+
+    border-color:#bbbbbb;
+
+}
+
+
 .form-group input:focus,
 .form-group select:focus,
 .form-group textarea:focus{
 
-    border-color:var(--primary-dark);
+    border-color:var(--primary);
 
     box-shadow:
         0 0 0 3px
-        rgba(255,204,0,.15);
+        rgba(200,16,46,.10);
+
+}
+
+
+/* ==========================================
+   SELECT
+========================================== */
+
+.form-group select{
+
+    cursor:pointer;
 
 }
 
@@ -661,15 +819,15 @@ body{
 
 .logo-preview{
 
-    width:130px;
+    width:270px;
 
-    height:100px;
+    height:145px;
 
-    border:2px dashed #cccccc;
+    border:2px solid var(--primary);
 
     border-radius:12px;
 
-    background:#fafafa;
+    background:#ffffff;
 
     display:flex;
 
@@ -678,6 +836,27 @@ body{
     justify-content:center;
 
     overflow:hidden;
+
+    position:relative;
+
+}
+
+
+.logo-preview::after{
+
+    content:"";
+
+    position:absolute;
+
+    left:0;
+
+    right:0;
+
+    bottom:0;
+
+    height:5px;
+
+    background:var(--yellow);
 
 }
 
@@ -717,11 +896,11 @@ body{
 
     min-height:42px;
 
-    padding:9px 14px;
+    padding:9px 15px;
 
     border-radius:9px;
 
-    background:#333333;
+    background:var(--primary);
 
     color:#ffffff;
 
@@ -737,14 +916,18 @@ body{
 
     font-size:11px;
 
-    font-weight:700;
+    font-weight:800;
+
+    transition:.2s;
 
 }
 
 
 .upload-btn:hover{
 
-    background:#222222;
+    background:var(--primary-dark);
+
+    transform:translateY(-1px);
 
 }
 
@@ -773,15 +956,22 @@ body{
 
     width:100%;
 
-    min-height:65px;
+    min-height:68px;
 
     padding:12px 15px;
 
-    background:#ffffff;
+    background:
+        linear-gradient(
+            90deg,
+            var(--yellow-light),
+            #fffdf1
+        );
 
     border-radius:12px;
 
     box-shadow:var(--shadow);
+
+    border-top:3px solid var(--yellow);
 
     display:flex;
 
@@ -802,7 +992,7 @@ body{
 
     gap:7px;
 
-    color:#777777;
+    color:#555555;
 
     font-size:11px;
 
@@ -811,31 +1001,31 @@ body{
 
 .save-bar > div .material-icons{
 
-    color:#b88a00;
+    color:var(--primary);
 
-    font-size:18px;
+    font-size:19px;
 
 }
 
 
 .save-btn{
 
-    min-height:42px;
+    min-height:43px;
 
     border:none;
 
     border-radius:9px;
 
-    padding:9px 16px;
+    padding:9px 17px;
 
     background:
         linear-gradient(
             135deg,
-            #ffcc00,
-            #f1b900
+            var(--primary),
+            var(--primary-dark)
         );
 
-    color:#111111;
+    color:#ffffff;
 
     display:flex;
 
@@ -851,6 +1041,12 @@ body{
 
     font-weight:800;
 
+    box-shadow:
+        0 4px 10px
+        rgba(200,16,46,.20);
+
+    transition:.2s;
+
 }
 
 
@@ -859,8 +1055,8 @@ body{
     transform:translateY(-1px);
 
     box-shadow:
-        0 5px 14px
-        rgba(0,0,0,.12);
+        0 6px 15px
+        rgba(200,16,46,.25);
 
 }
 
@@ -901,6 +1097,10 @@ body{
 
     box-shadow:var(--shadow);
 
+    border-top:4px solid var(--primary);
+
+    border-bottom:4px solid var(--yellow);
+
     display:flex;
 
     flex-direction:column;
@@ -920,7 +1120,7 @@ body{
 
     font-size:55px;
 
-    color:#d3ad00;
+    color:var(--primary);
 
     margin-bottom:15px;
 
@@ -928,6 +1128,8 @@ body{
 
 
 .coming-soon h2{
+
+    color:var(--primary);
 
     font-size:21px;
 
@@ -959,7 +1161,7 @@ body{
 
     z-index:1500;
 
-    background:rgba(0,0,0,.5);
+    background:rgba(0,0,0,.55);
 
 }
 
@@ -994,24 +1196,29 @@ body::-webkit-scrollbar-track{
 .settings-menu::-webkit-scrollbar-thumb,
 body::-webkit-scrollbar-thumb{
 
-    background:#bbbbbb;
+    background:var(--primary);
 
     border-radius:20px;
 
 }
 
 
-.settings-menu::-webkit-scrollbar-thumb:hover,
+.settings-menu::-webkit-scrollbar-thumb:hover{
+
+    background:var(--primary-dark);
+
+}
+
+
 body::-webkit-scrollbar-thumb:hover{
 
-    background:#999999;
+    background:var(--primary-dark);
 
 }
 
 
 /* ==========================================
    TABLET
-   FULL SCREEN
 ========================================== */
 
 @media(max-width:1050px){
@@ -1052,6 +1259,13 @@ body::-webkit-scrollbar-thumb:hover{
     .settings-menu-item small{
 
         font-size:8px;
+
+    }
+
+
+    .logo-preview{
+
+        width:220px;
 
     }
 
@@ -1170,6 +1384,8 @@ body::-webkit-scrollbar-thumb:hover{
 
         width:100%;
 
+        border-top:3px solid var(--primary);
+
     }
 
 
@@ -1184,6 +1400,17 @@ body::-webkit-scrollbar-thumb:hover{
         margin:0;
 
         padding:9px 11px;
+
+    }
+
+
+    .settings-menu-item.active{
+
+        border-left:0;
+
+        border-bottom:4px solid var(--primary);
+
+        padding-left:11px;
 
     }
 
@@ -1205,6 +1432,8 @@ body::-webkit-scrollbar-thumb:hover{
     .settings-menu-item > .material-icons{
 
         width:auto;
+
+        min-width:auto;
 
         font-size:20px;
 
@@ -1266,6 +1495,19 @@ body::-webkit-scrollbar-thumb:hover{
     }
 
 
+    .card-title > .material-icons{
+
+        width:34px;
+
+        height:34px;
+
+        min-width:34px;
+
+        font-size:20px;
+
+    }
+
+
     .card-title h3{
 
         font-size:14px;
@@ -1309,9 +1551,25 @@ body::-webkit-scrollbar-thumb:hover{
 
     .logo-preview{
 
-        width:120px;
+        width:100%;
 
-        height:90px;
+        max-width:280px;
+
+        height:120px;
+
+    }
+
+
+    .logo-upload{
+
+        width:100%;
+
+    }
+
+
+    .upload-btn{
+
+        width:100%;
 
     }
 
@@ -1438,6 +1696,26 @@ body::-webkit-scrollbar-thumb:hover{
     .form-group select{
 
         height:42px;
+
+    }
+
+
+    .card-title > .material-icons{
+
+        width:32px;
+
+        height:32px;
+
+        min-width:32px;
+
+        font-size:18px;
+
+    }
+
+
+    .save-bar > div{
+
+        font-size:9px;
 
     }
 
