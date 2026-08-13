@@ -1,0 +1,1406 @@
+/* ==========================================
+   PAPPRITO HRIS
+   TRACK LEAVES / LEAVE MANAGEMENT JS
+========================================== */
+
+import {
+    db,
+    auth
+} from "./firebase.js";
+
+import {
+    collection,
+    getDocs
+} from "https://www.gstatic.com/firebasejs/12.13.0/firebase-firestore.js";
+
+import {
+    onAuthStateChanged,
+    signOut
+} from "https://www.gstatic.com/firebasejs/12.13.0/firebase-auth.js";
+
+
+/* ==========================================
+   GLOBAL
+========================================== */
+
+let employees = [];
+
+let approvedRequests = [];
+
+let leaveRecords = [];
+
+let currentSearch = "";
+
+let currentDepartment = "";
+
+let currentLeaveType = "ALL";
+
+
+/* ==========================================
+   ELEMENTS
+========================================== */
+
+const leaveBody =
+    document.getElementById(
+        "leaveBody"
+    );
+
+
+const leaveSearch =
+    document.getElementById(
+        "leaveSearch"
+    );
+
+
+const departmentFilter =
+    document.getElementById(
+        "departmentFilter"
+    );
+
+
+const leaveTypeFilter =
+    document.getElementById(
+        "leaveTypeFilter"
+    );
+
+
+/* ==========================================
+   HELPERS
+========================================== */
+
+function text(value){
+
+    return String(
+        value ?? ""
+    ).trim();
+
+}
+
+
+function number(value){
+
+    const result =
+        Number(
+            value || 0
+        );
+
+
+    return Number.isFinite(
+        result
+    )
+        ? result
+        : 0;
+
+}
+
+
+function escapeHTML(value){
+
+    return text(
+        value
+    )
+
+    .replace(
+        /&/g,
+        "&amp;"
+    )
+
+    .replace(
+        /</g,
+        "&lt;"
+    )
+
+    .replace(
+        />/g,
+        "&gt;"
+    )
+
+    .replace(
+        /"/g,
+        "&quot;"
+    )
+
+    .replace(
+        /'/g,
+        "&#039;"
+    );
+
+}
+
+
+function getFullName(employee){
+
+    return [
+
+        employee.firstname,
+
+        employee.middlename,
+
+        employee.lastname
+
+    ]
+
+    .filter(
+        value =>
+            text(value) !== ""
+    )
+
+    .join(" ")
+
+    .replace(
+        /\s+/g,
+        " "
+    )
+
+    .trim();
+
+}
+
+
+/* ==========================================
+   NORMALIZE EMPLOYEE ID
+========================================== */
+
+function normalizeEmployeeId(
+    value
+){
+
+    return text(
+        value
+    )
+    .toUpperCase();
+
+}
+
+
+/* ==========================================
+   NORMALIZE LEAVE TYPE
+========================================== */
+
+function normalizeLeaveType(
+    value
+){
+
+    const type =
+        text(
+            value
+        )
+        .toUpperCase();
+
+
+    if(
+        type.includes(
+            "VACATION"
+        )
+    ){
+
+        return "VACATION";
+
+    }
+
+
+    if(
+        type.includes(
+            "SICK"
+        )
+    ){
+
+        return "SICK";
+
+    }
+
+
+    if(
+        type.includes(
+            "BIRTHDAY"
+        )
+    ){
+
+        return "BIRTHDAY";
+
+    }
+
+
+    return "OTHER";
+
+}
+
+
+/* ==========================================
+   LOAD EMPLOYEES
+========================================== */
+
+async function loadEmployees(){
+
+    const snapshot =
+        await getDocs(
+            collection(
+                db,
+                "employees"
+            )
+        );
+
+
+    employees = [];
+
+
+    snapshot.forEach(
+        docSnap => {
+
+            const employee =
+                docSnap.data();
+
+
+            /*
+             * Leave entitlement comes
+             * directly from Employee
+             * Masterlist.
+             */
+
+            employees.push({
+
+                id:
+                    docSnap.id,
+
+                ...employee
+
+            });
+
+        }
+    );
+
+}
+
+
+/* ==========================================
+   LOAD APPROVED REQUESTS
+========================================== */
+
+async function loadApprovedRequests(){
+
+    const snapshot =
+        await getDocs(
+            collection(
+                db,
+                "employeeRequests"
+            )
+        );
+
+
+    approvedRequests = [];
+
+
+    snapshot.forEach(
+        docSnap => {
+
+            const request =
+                docSnap.data();
+
+
+            const status =
+                text(
+                    request.status
+                )
+                .toUpperCase();
+
+
+            /*
+             * ONLY APPROVED REQUESTS
+             */
+
+            if(
+                status !==
+                "APPROVED"
+            ){
+
+                return;
+
+            }
+
+
+            approvedRequests.push({
+
+                id:
+                    docSnap.id,
+
+                ...request
+
+            });
+
+        }
+    );
+
+}
+
+
+/* ==========================================
+   CALCULATE LEAVE DATA
+========================================== */
+
+function calculateLeaveData(){
+
+    leaveRecords = [];
+
+
+    employees.forEach(
+        employee => {
+
+            const employeeId =
+                normalizeEmployeeId(
+                    employee.employeeid
+                );
+
+
+            if(
+                !employeeId
+            ){
+
+                return;
+
+            }
+
+
+            /*
+             * ==================================
+             * MASTERLIST ENTITLEMENT
+             * ==================================
+             */
+
+            const vacationTotal =
+                number(
+                    employee.vacationleave
+                );
+
+
+            const sickTotal =
+                number(
+                    employee.sickleave
+                );
+
+
+            const birthdayTotal =
+                number(
+                    employee.birthdayleave
+                );
+
+
+            /*
+             * ==================================
+             * APPROVED USED
+             * ==================================
+             */
+
+            let vacationUsed = 0;
+
+            let sickUsed = 0;
+
+            let birthdayUsed = 0;
+
+
+            approvedRequests.forEach(
+                request => {
+
+                    const requestEmployeeId =
+                        normalizeEmployeeId(
+                            request.empid
+                        );
+
+
+                    if(
+                        requestEmployeeId !==
+                        employeeId
+                    ){
+
+                        return;
+
+                    }
+
+
+                    const type =
+                        normalizeLeaveType(
+                            request.type
+                        );
+
+
+                    const days =
+                        number(
+                            request.days
+                        );
+
+
+                    if(
+                        days <= 0
+                    ){
+
+                        return;
+
+                    }
+
+
+                    if(
+                        type ===
+                        "VACATION"
+                    ){
+
+                        vacationUsed +=
+                            days;
+
+                    }
+
+
+                    else if(
+                        type ===
+                        "SICK"
+                    ){
+
+                        sickUsed +=
+                            days;
+
+                    }
+
+
+                    else if(
+                        type ===
+                        "BIRTHDAY"
+                    ){
+
+                        birthdayUsed +=
+                            days;
+
+                    }
+
+                }
+            );
+
+
+            /*
+             * ==================================
+             * REMAINING
+             * ==================================
+             */
+
+            const vacationRemaining =
+                Math.max(
+                    0,
+                    vacationTotal -
+                    vacationUsed
+                );
+
+
+            const sickRemaining =
+                Math.max(
+                    0,
+                    sickTotal -
+                    sickUsed
+                );
+
+
+            const birthdayRemaining =
+                Math.max(
+                    0,
+                    birthdayTotal -
+                    birthdayUsed
+                );
+
+
+            /*
+             * ==================================
+             * TOTALS
+             * ==================================
+             */
+
+            const totalLeaves =
+
+                vacationTotal +
+
+                sickTotal +
+
+                birthdayTotal;
+
+
+            const totalUsed =
+
+                vacationUsed +
+
+                sickUsed +
+
+                birthdayUsed;
+
+
+            const totalUnused =
+
+                Math.max(
+                    0,
+                    totalLeaves -
+                    totalUsed
+                );
+
+
+            const remaining =
+
+                vacationRemaining +
+
+                sickRemaining +
+
+                birthdayRemaining;
+
+
+            leaveRecords.push({
+
+                id:
+                    employee.id,
+
+                employeeid:
+                    employeeId,
+
+                name:
+                    getFullName(
+                        employee
+                    ),
+
+                department:
+                    text(
+                        employee.department
+                    ),
+
+                status:
+                    text(
+                        employee.status
+                    ) || "Active",
+
+
+                vacationTotal,
+
+                vacationUsed,
+
+                vacationRemaining,
+
+
+                sickTotal,
+
+                sickUsed,
+
+                sickRemaining,
+
+
+                birthdayTotal,
+
+                birthdayUsed,
+
+                birthdayRemaining,
+
+
+                totalLeaves,
+
+                totalUsed,
+
+                totalUnused,
+
+                remaining
+
+            });
+
+        }
+    );
+
+}
+
+
+/* ==========================================
+   LOAD EVERYTHING
+========================================== */
+
+window.loadLeaveData =
+async function(){
+
+    try{
+
+        showLoading();
+
+
+        await loadEmployees();
+
+
+        await loadApprovedRequests();
+
+
+        calculateLeaveData();
+
+
+        populateDepartments();
+
+
+        renderLeaveTable();
+
+
+        updateSummary();
+
+
+    }catch(error){
+
+        console.error(
+            "Leave Management Error:",
+            error
+        );
+
+
+        if(leaveBody){
+
+            leaveBody.innerHTML = `
+
+<tr>
+
+<td
+    colspan="16"
+    class="empty-message">
+
+    Failed to load leave data.
+
+</td>
+
+</tr>
+
+`;
+
+        }
+
+    }finally{
+
+        hideLoading();
+
+    }
+
+};
+
+
+/* ==========================================
+   RENDER TABLE
+========================================== */
+
+function renderLeaveTable(){
+
+    if(!leaveBody){
+
+        return;
+
+    }
+
+
+    leaveBody.innerHTML = "";
+
+
+    let filtered =
+        leaveRecords;
+
+
+    /*
+     * SEARCH
+     */
+
+    if(
+        currentSearch
+    ){
+
+        const searchValue =
+            currentSearch
+            .toLowerCase();
+
+
+        filtered =
+            filtered.filter(
+                record =>
+
+                    record.name
+                        .toLowerCase()
+                        .includes(
+                            searchValue
+                        )
+
+                    ||
+
+                    record.employeeid
+                        .toLowerCase()
+                        .includes(
+                            searchValue
+                        )
+
+                    ||
+
+                    record.department
+                        .toLowerCase()
+                        .includes(
+                            searchValue
+                        )
+
+            );
+
+    }
+
+
+    /*
+     * DEPARTMENT
+     */
+
+    if(
+        currentDepartment
+    ){
+
+        filtered =
+            filtered.filter(
+                record =>
+
+                    record.department
+                    ===
+                    currentDepartment
+
+            );
+
+    }
+
+
+    /*
+     * LEAVE TYPE
+     */
+
+    /*
+     * We keep all columns visible.
+     *
+     * The filter highlights the
+     * relevant leave category by
+     * showing employees with usage
+     * or entitlement in that category.
+     */
+
+    if(
+        currentLeaveType ===
+        "VACATION"
+    ){
+
+        filtered =
+            filtered.filter(
+                record =>
+
+                    record.vacationTotal > 0
+
+                    ||
+
+                    record.vacationUsed > 0
+
+            );
+
+    }
+
+
+    if(
+        currentLeaveType ===
+        "SICK"
+    ){
+
+        filtered =
+            filtered.filter(
+                record =>
+
+                    record.sickTotal > 0
+
+                    ||
+
+                    record.sickUsed > 0
+
+            );
+
+    }
+
+
+    if(
+        currentLeaveType ===
+        "BIRTHDAY"
+    ){
+
+        filtered =
+            filtered.filter(
+                record =>
+
+                    record.birthdayTotal > 0
+
+                    ||
+
+                    record.birthdayUsed > 0
+
+            );
+
+    }
+
+
+    /*
+     * COUNT
+     */
+
+    setText(
+        "employeeCount",
+        filtered.length
+    );
+
+
+    if(
+        filtered.length === 0
+    ){
+
+        leaveBody.innerHTML = `
+
+<tr>
+
+<td
+    colspan="16"
+    class="empty-message">
+
+    NO EMPLOYEE LEAVE RECORD FOUND
+
+</td>
+
+</tr>
+
+`;
+
+        return;
+
+    }
+
+
+    /*
+     * ROWS
+     */
+
+    filtered.forEach(
+        record => {
+
+            const row =
+                document.createElement(
+                    "tr"
+                );
+
+
+            row.innerHTML = `
+
+<td>
+    ${escapeHTML(
+        record.employeeid
+    )}
+</td>
+
+
+<td>
+    ${escapeHTML(
+        record.name ||
+        "-"
+    )}
+</td>
+
+
+<td>
+    ${escapeHTML(
+        record.department ||
+        "-"
+    )}
+</td>
+
+
+<!-- VACATION -->
+
+<td>
+    ${record.vacationTotal}
+</td>
+
+
+<td>
+    ${record.vacationUsed}
+</td>
+
+
+<td class="remaining-cell">
+
+    ${record.vacationRemaining}
+
+</td>
+
+
+<!-- SICK -->
+
+<td>
+    ${record.sickTotal}
+</td>
+
+
+<td>
+    ${record.sickUsed}
+</td>
+
+
+<td class="remaining-cell">
+
+    ${record.sickRemaining}
+
+</td>
+
+
+<!-- BIRTHDAY -->
+
+<td>
+    ${record.birthdayTotal}
+</td>
+
+
+<td>
+    ${record.birthdayUsed}
+</td>
+
+
+<td class="remaining-cell">
+
+    ${record.birthdayRemaining}
+
+</td>
+
+
+<!-- OVERALL -->
+
+<td class="total-cell">
+
+    ${record.totalLeaves}
+
+</td>
+
+
+<td class="used-cell">
+
+    ${record.totalUsed}
+
+</td>
+
+
+<td class="unused-cell">
+
+    ${record.totalUnused}
+
+</td>
+
+
+<td class="remaining-cell overall">
+
+    ${record.remaining}
+
+</td>
+
+`;
+
+
+            leaveBody.appendChild(
+                row
+            );
+
+        }
+    );
+
+}
+
+
+/* ==========================================
+   UPDATE SUMMARY
+========================================== */
+
+function updateSummary(){
+
+    let totalLeaves = 0;
+
+    let totalUsed = 0;
+
+    let totalUnused = 0;
+
+    let remaining = 0;
+
+
+    leaveRecords.forEach(
+        record => {
+
+            totalLeaves +=
+                record.totalLeaves;
+
+
+            totalUsed +=
+                record.totalUsed;
+
+
+            totalUnused +=
+                record.totalUnused;
+
+
+            remaining +=
+                record.remaining;
+
+        }
+    );
+
+
+    setText(
+        "grandTotalLeaves",
+        totalLeaves
+    );
+
+
+    setText(
+        "grandTotalUsed",
+        totalUsed
+    );
+
+
+    setText(
+        "grandTotalUnused",
+        totalUnused
+    );
+
+
+    setText(
+        "grandRemaining",
+        remaining
+    );
+
+}
+
+
+/* ==========================================
+   SEARCH
+========================================== */
+
+window.searchLeaves =
+function(){
+
+    currentSearch =
+        leaveSearch
+        ?
+        text(
+            leaveSearch.value
+        )
+        :
+        "";
+
+
+    renderLeaveTable();
+
+};
+
+
+/* ==========================================
+   FILTER
+========================================== */
+
+window.filterLeaves =
+function(){
+
+    currentDepartment =
+        departmentFilter
+        ?
+        text(
+            departmentFilter.value
+        )
+        :
+        "";
+
+
+    currentLeaveType =
+        leaveTypeFilter
+        ?
+        text(
+            leaveTypeFilter.value
+        )
+        :
+        "ALL";
+
+
+    renderLeaveTable();
+
+};
+
+
+/* ==========================================
+   DEPARTMENT LIST
+========================================== */
+
+function populateDepartments(){
+
+    if(
+        !departmentFilter
+    ){
+
+        return;
+
+    }
+
+
+    const currentValue =
+        departmentFilter.value;
+
+
+    const departments =
+        [
+            ...new Set(
+
+                leaveRecords
+
+                .map(
+                    record =>
+                        text(
+                            record.department
+                        )
+                )
+
+                .filter(Boolean)
+
+            )
+        ]
+        .sort();
+
+
+    departmentFilter.innerHTML = `
+
+<option value="">
+ALL DEPARTMENTS
+</option>
+
+`;
+
+
+    departments.forEach(
+        department => {
+
+            const option =
+                document.createElement(
+                    "option"
+                );
+
+
+            option.value =
+                department;
+
+
+            option.textContent =
+                department;
+
+
+            departmentFilter.appendChild(
+                option
+            );
+
+        }
+    );
+
+
+    if(
+        departments.includes(
+            currentValue
+        )
+    ){
+
+        departmentFilter.value =
+            currentValue;
+
+    }
+
+}
+
+
+/* ==========================================
+   LOADING MESSAGE
+========================================== */
+
+function showLoading(){
+
+    if(!leaveBody){
+
+        return;
+
+    }
+
+
+    leaveBody.innerHTML = `
+
+<tr>
+
+<td
+    colspan="16"
+    class="empty-message">
+
+    Loading leave data...
+
+</td>
+
+</tr>
+
+`;
+
+}
+
+
+function hideLoading(){
+
+    /*
+     * Render happens after loading.
+     * This function is intentionally
+     * empty so it does not overwrite
+     * the rendered table.
+     */
+
+}
+
+
+/* ==========================================
+   SET TEXT
+========================================== */
+
+function setText(
+    id,
+    value
+){
+
+    const element =
+        document.getElementById(
+            id
+        );
+
+
+    if(element){
+
+        element.textContent =
+            value;
+
+    }
+
+}
+
+
+/* ==========================================
+   BACK TO DASHBOARD
+========================================== */
+
+window.backToDashboard =
+function(){
+
+    window.location.href =
+        "dashboard.html";
+
+};
+
+
+/* ==========================================
+   LOGOUT
+========================================== */
+
+window.logout =
+async function(){
+
+    try{
+
+        await signOut(
+            auth
+        );
+
+    }catch(error){
+
+        console.error(
+            "Logout Error:",
+            error
+        );
+
+    }
+
+
+    localStorage.removeItem(
+        "loggedInUser"
+    );
+
+
+    localStorage.removeItem(
+        "userRole"
+    );
+
+
+    localStorage.removeItem(
+        "employeeDocId"
+    );
+
+
+    localStorage.removeItem(
+        "employeeId"
+    );
+
+
+    localStorage.removeItem(
+        "employeeName"
+    );
+
+
+    window.location.replace(
+        "login.html"
+    );
+
+};
+
+
+/* ==========================================
+   AUTHORIZATION
+========================================== */
+
+onAuthStateChanged(
+
+    auth,
+
+    async function(user){
+
+        if(!user){
+
+            window.location.replace(
+                "login.html"
+            );
+
+            return;
+
+        }
+
+
+        const role =
+            text(
+                localStorage.getItem(
+                    "userRole"
+                )
+            )
+            .toLowerCase();
+
+
+        /*
+         * Leave Management is
+         * HR/Admin only.
+         */
+
+        if(
+            role !==
+            "admin"
+        ){
+
+            alert(
+                "Leave Management is for HR/Admin only."
+            );
+
+
+            window.location.replace(
+                "employeeportal.html"
+            );
+
+
+            return;
+
+        }
+
+
+        await loadLeaveData();
+
+    }
+
+);
