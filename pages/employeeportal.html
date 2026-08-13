@@ -7,13 +7,32 @@
 
 <meta
 name="viewport"
-content="width=device-width,initial-scale=1.0">
+content="width=device-width, initial-scale=1.0">
 
-<title>PAPPRITO Employee Portal</title>
+<title>Employee Portal</title>
+
+
+<!-- ==========================================
+     MANIFEST
+========================================== -->
 
 <link
 rel="manifest"
 href="../manifest.json">
+
+
+<!-- ==========================================
+     THEME
+========================================== -->
+
+<meta
+name="theme-color"
+content="#ffcc00">
+
+
+<!-- ==========================================
+     ICON
+========================================== -->
 
 <link
 rel="icon"
@@ -23,13 +42,19 @@ href="../assets/images/logo.png">
 rel="apple-touch-icon"
 href="../assets/images/icon-192.png">
 
-<meta
-name="theme-color"
-content="#ffcc00">
+
+<!-- ==========================================
+     MATERIAL ICONS
+========================================== -->
 
 <link
 href="https://fonts.googleapis.com/icon?family=Material+Icons"
 rel="stylesheet">
+
+
+<!-- ==========================================
+     EMPLOYEE PORTAL CSS
+========================================== -->
 
 <link
 rel="stylesheet"
@@ -37,387 +62,791 @@ href="../css/employeeportal.css">
 
 </head>
 
+
 <body>
 
+
 <!-- ==========================================
-MOBILE MENU
+     MAIN CONTAINER
 ========================================== -->
 
-<button
-id="menuBtn"
-class="menu-btn">
+<div class="container">
+
+
+<!-- ==========================================
+     HEADER
+========================================== -->
+
+<div class="header">
+
+
+<div class="title portal-title">
 
 <span class="material-icons">
-menu
+
+badge
+
 </span>
 
-</button>
-
-
-<div
-id="overlay"
-class="overlay">
-</div>
-
-
-<!-- ==========================================
-SIDEBAR
-========================================== -->
-
-<aside
-id="sidebar"
-class="sidebar">
-
-<div class="sidebar-header">
-
-<img
-src="../assets/images/logo.png"
-class="logo"
-alt="PAPPRITO Logo">
-
-<h2>
-PAPPRITO
-</h2>
-
-<p>
 EMPLOYEE PORTAL
-</p>
 
 </div>
 
 
-<nav class="menu">
-
 <button
-onclick="openPage('employeeportal.html')">
-
-<span class="material-icons">
-dashboard
-</span>
-
-My Portal
-
-</button>
-
-
-<button
-onclick="openPage('attendance.html')">
-
-<span class="material-icons">
-schedule
-</span>
-
-My Attendance
-
-</button>
-
-
-<button
-onclick="openPage('payslip.html')">
-
-<span class="material-icons">
-receipt_long
-</span>
-
-My Payslip
-
-</button>
-
-
-<button
-onclick="openPage('trackleaves.html')">
-
-<span class="material-icons">
-event_note
-</span>
-
-My Leaves
-
-</button>
-
-
-<button
-class="logout-btn"
+class="btn logout-btn"
 onclick="logout()">
 
 <span class="material-icons">
+
 logout
+
 </span>
 
-Logout
+LOGOUT
 
 </button>
 
-</nav>
-
-</aside>
-
-
-<!-- ==========================================
-MAIN
-========================================== -->
-
-<div class="main">
-
-
-<header class="topbar">
-
-<div class="top-left">
-
-<h1>
-PAPPRITO
-</h1>
-
-<p>
-Employee Portal
-</p>
 
 </div>
 
 
-<div class="top-right">
+<!-- ==========================================
+     FORM SECTION
+========================================== -->
 
-<div class="clock-box">
+<div class="form-section">
 
-<span class="material-icons">
-schedule
+
+<!-- ======================================
+     EMPLOYEE INFORMATION
+====================================== -->
+
+<div class="emp-info">
+
+
+<div>
+
+<b>EMPLOYEE ID :</b>
+
+<span id="empIdDisplay">
+
+-
+
 </span>
 
+</div>
+
+
 <div>
 
-<div id="clock">
-00:00:00
-</div>
+<b>EMPLOYEE NAME :</b>
 
-<div id="dateToday">
-Loading...
-</div>
+<span id="empNameDisplay">
 
-</div>
+-
+
+</span>
 
 </div>
 
+
 </div>
 
-</header>
+
+<!-- ======================================
+     REQUEST FORM
+====================================== -->
+
+<div class="form-grid">
 
 
-<!-- ==========================================
-CONTENT
-========================================== -->
+<select id="requestType">
 
-<div class="portal-content">
+<option value="">
+
+Select Request
+
+</option>
+
+<option>
+
+DAY OFF
+
+</option>
+
+<option>
+
+VACATION LEAVE
+
+</option>
+
+<option>
+
+BIRTHDAY LEAVE
+
+</option>
+
+<option>
+
+SICK LEAVE
+
+</option>
+
+</select>
 
 
-<div class="welcome-card">
+<input
+type="date"
+id="requestDate">
 
-<div>
+
+<input
+type="number"
+id="days"
+placeholder="Days">
+
+
+<textarea
+id="reason"
+placeholder="Reason">
+</textarea>
+
+
+<!-- ==================================
+     ATTENDANCE REQUEST
+================================== -->
+
+<select id="attendanceType">
+
+<option value="">
+
+Select Attendance Request
+
+</option>
+
+<option>
+
+Missing Time In
+
+</option>
+
+<option>
+
+Missing Time Out
+
+</option>
+
+<option>
+
+Late Correction
+
+</option>
+
+</select>
+
+
+<input
+type="date"
+id="attendanceDate">
+
+
+<input
+type="time"
+id="attendanceTime">
+
+
+<textarea
+id="attendanceReason"
+placeholder="Attendance Reason">
+</textarea>
+
+
+</div>
+
+
+<!-- ======================================
+     ACTION BUTTONS
+====================================== -->
+
+<div class="action-buttons">
+
+
+<button
+class="btn submit-btn"
+onclick="submitRequest()">
+
+<span class="material-icons">
+
+send
+
+</span>
+
+SUBMIT REQUEST
+
+</button>
+
+
+<button
+class="btn attendance-btn"
+onclick="submitAttendanceRequest()">
+
+<span class="material-icons">
+
+schedule
+
+</span>
+
+ATTENDANCE REQUEST
+
+</button>
+
+
+<button
+class="btn view-btn"
+onclick="loadPayslip()">
+
+<span class="material-icons">
+
+visibility
+
+</span>
+
+VIEW PAYSLIP
+
+</button>
+
+
+<button
+class="btn close-btn"
+onclick="closePayslip()">
+
+<span class="material-icons">
+
+close
+
+</span>
+
+CLOSE PAYSLIP
+
+</button>
+
+
+<button
+class="btn print-btn"
+onclick="printPayslip()">
+
+<span class="material-icons">
+
+print
+
+</span>
+
+PRINT PAYSLIP
+
+</button>
+
+
+</div>
+
+
+<!-- ======================================
+     REQUEST TABLE
+====================================== -->
+
+<div class="table-wrapper">
+
+
+<table>
+
+
+<thead>
+
+<tr>
+
+<th>
+EMPLOYEE ID
+</th>
+
+<th>
+EMPLOYEE
+</th>
+
+<th>
+REQUEST
+</th>
+
+<th>
+DATE
+</th>
+
+<th>
+DAYS / TIME
+</th>
+
+<th>
+REASON
+</th>
+
+<th>
+STATUS
+</th>
+
+<th>
+ACTION
+</th>
+
+</tr>
+
+</thead>
+
+
+<tbody
+id="requestBody">
+
+</tbody>
+
+
+</table>
+
+
+</div>
+
+
+<!-- ======================================
+     ATTENDANCE REQUEST TABLE
+====================================== -->
+
+<div class="table-wrapper">
+
+
+<table>
+
+
+<thead>
+
+<tr>
+
+<th>
+EMPLOYEE ID
+</th>
+
+<th>
+EMPLOYEE
+</th>
+
+<th>
+ATTENDANCE REQUEST
+</th>
+
+<th>
+DATE
+</th>
+
+<th>
+TIME
+</th>
+
+<th>
+REASON
+</th>
+
+<th>
+STATUS
+</th>
+
+<th>
+ACTION
+</th>
+
+</tr>
+
+</thead>
+
+
+<tbody
+id="attendanceBody">
+
+</tbody>
+
+
+</table>
+
+
+</div>
+
+
+<!-- ======================================
+     PAYSLIP
+====================================== -->
+
+<div
+class="payslip"
+id="payslipArea">
+
+
+<div class="company">
+
+
+<img
+src="../assets/images/logo.png"
+class="payroll-logo"
+alt="PAPPRITO Logo">
+
 
 <h2>
-Welcome
+
+PAPPRITO
+
 </h2>
 
-<p id="employeeName">
-Loading...
-</p>
-
-</div>
-
-<span class="material-icons">
-badge
-</span>
-
-</div>
-
-
-<!-- ==========================================
-QUICK CARDS
-========================================== -->
-
-<div class="stats-grid">
-
-
-<div
-class="stat-card"
-onclick="openPage('attendance.html')">
-
-<span class="material-icons">
-schedule
-</span>
-
-<div>
-
-<h3>
-Attendance
-</h3>
 
 <p>
-View attendance
+
+OFFICIAL EMPLOYEE PAYSLIP
+
 </p>
 
-</div>
 
 </div>
 
 
-<div
-class="stat-card"
-onclick="openPage('payslip.html')">
+<!-- ==================================
+     PAYSLIP INFORMATION
+================================== -->
 
-<span class="material-icons">
-payments
+<div class="info">
+
+
+<b>ID:</b>
+
+<span id="payEmpId">
+
+-
+
 </span>
 
-<div>
 
-<h3>
-Payslip
-</h3>
-
-<p>
-View payslip
-</p>
-
-</div>
-
-</div>
+<br>
 
 
-<div
-class="stat-card"
-onclick="openPage('trackleaves.html')">
+<b>Name:</b>
 
-<span class="material-icons">
-event_note
+<span id="payEmp">
+
+-
+
 </span>
 
-<div>
 
-<h3>
-Leave
-</h3>
-
-<p>
-Track leaves
-</p>
-
-</div>
-
-</div>
+<br>
 
 
-<div class="stat-card">
+<b>Date:</b>
 
-<span class="material-icons">
-person
+<span id="payDate">
+
+-
+
 </span>
 
-<div>
-
-<h3>
-Profile
-</h3>
-
-<p>
-Employee information
-</p>
-
-</div>
 
 </div>
 
 
-</div>
+<!-- ==================================
+     EARNINGS
+================================== -->
+
+<table class="payroll-table">
 
 
-<!-- ==========================================
-RECENT ACTIVITY
-========================================== -->
+<tr>
 
-<div class="portal-card">
+<th>
+EARNINGS
+</th>
 
-<h3>
+<th>
+AMOUNT
+</th>
 
-<span class="material-icons">
-history
+</tr>
+
+
+<tr>
+
+<td>
+Daily Rate
+</td>
+
+<td id="payDailyRate">
+0.00
+</td>
+
+</tr>
+
+
+<tr>
+
+<td>
+Total Days
+</td>
+
+<td id="payTotalDays">
+0
+</td>
+
+</tr>
+
+
+<tr>
+
+<td>
+Overtime
+</td>
+
+<td id="payOvertime">
+0.00
+</td>
+
+</tr>
+
+
+<tr>
+
+<td>
+Holiday Pay
+</td>
+
+<td id="payHoliday">
+0.00
+</td>
+
+</tr>
+
+
+<tr>
+
+<td>
+Sick Leave
+</td>
+
+<td id="paySick">
+0.00
+</td>
+
+</tr>
+
+
+<tr>
+
+<td>
+Vacation Leave
+</td>
+
+<td id="payVacation">
+0.00
+</td>
+
+</tr>
+
+
+<tr>
+
+<td>
+Birthday Leave
+</td>
+
+<td id="payBirthday">
+0.00
+</td>
+
+</tr>
+
+
+<tr>
+
+<td>
+Allowance
+</td>
+
+<td id="payAllowance">
+0.00
+</td>
+
+</tr>
+
+
+<tr>
+
+<td>
+
+<b>
+TOTAL GROSS
+</b>
+
+</td>
+
+<td id="payGross">
+
+<b>
+0.00
+</b>
+
+</td>
+
+</tr>
+
+
+</table>
+
+
+<!-- ==================================
+     DEDUCTIONS
+================================== -->
+
+<table class="payroll-table">
+
+
+<tr>
+
+<th>
+DEDUCTIONS
+</th>
+
+<th>
+AMOUNT
+</th>
+
+</tr>
+
+
+<tr>
+
+<td>
+SSS
+</td>
+
+<td id="paySSS">
+0.00
+</td>
+
+</tr>
+
+
+<tr>
+
+<td>
+PhilHealth
+</td>
+
+<td id="payPhilhealth">
+0.00
+</td>
+
+</tr>
+
+
+<tr>
+
+<td>
+Pag-IBIG
+</td>
+
+<td id="payPagibig">
+0.00
+</td>
+
+</tr>
+
+
+<tr>
+
+<td>
+Health Card
+</td>
+
+<td id="payHealth">
+0.00
+</td>
+
+</tr>
+
+
+<tr>
+
+<td>
+Others
+</td>
+
+<td id="payOther">
+0.00
+</td>
+
+</tr>
+
+
+<tr>
+
+<td>
+
+<b>
+Total Deduction
+</b>
+
+</td>
+
+<td id="payDeduction">
+
+<b>
+0.00
+</b>
+
+</td>
+
+</tr>
+
+
+</table>
+
+
+<!-- ==================================
+     NET PAY
+================================== -->
+
+<div class="netpay">
+
+NET PAY :
+
+₱
+
+<span id="payNet">
+
+0.00
+
 </span>
 
-Recent Activity
-
-</h3>
-
-
-<div id="recentActivity">
-
-<p>
-No recent activity.
-</p>
-
-</div>
-
 </div>
 
 
-<!-- ==========================================
-SYSTEM STATUS
-========================================== -->
+<!-- ==================================
+     SIGNATURE
+================================== -->
 
-<div class="portal-card">
-
-<h3>
-
-<span class="material-icons">
-info
-</span>
-
-System Information
-
-</h3>
+<div class="signature">
 
 
-<div class="system-grid">
+<div class="line">
+
+HR
+
+</div>
 
 
-<div class="system-item">
+<div class="line">
 
-<strong>
 Employee
-</strong>
-
-<p id="loggedUser">
-Loading...
-</p>
-
-</div>
-
-
-<div class="system-item">
-
-<strong>
-Status
-</strong>
-
-<p>
-🟢 Online
-</p>
-
-</div>
-
-
-<div class="system-item">
-
-<strong>
-System
-</strong>
-
-<p>
-PAPPRITO HRIS
-</p>
-
-</div>
-
-
-</div>
 
 </div>
 
@@ -425,30 +854,23 @@ PAPPRITO HRIS
 </div>
 
 
-<footer class="footer">
+</div>
 
-<p>
-© 2026 PAPPRITO HRIS
-</p>
 
-</footer>
+</div>
 
 
 </div>
 
 
 <!-- ==========================================
-JAVASCRIPT
+     EMPLOYEE PORTAL JAVASCRIPT
 ========================================== -->
 
 <script
 type="module"
 src="../js/employeeportal.js">
-</script>
 
-
-<script
-src="../js/responsive.js">
 </script>
 
 
