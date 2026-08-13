@@ -9,9 +9,7 @@
     name="viewport"
     content="width=device-width,initial-scale=1.0">
 
-<title>
-PAPPRITO HRIS - Payslip
-</title>
+<title>PAPPRITO HRIS - Payslip</title>
 
 <link
     href="https://fonts.googleapis.com/icon?family=Material+Icons"
@@ -25,22 +23,15 @@ PAPPRITO HRIS - Payslip
     name="theme-color"
     content="#ffcc00">
 
-<!-- ==========================================
-     PAYSLIP CSS
-========================================== -->
-
 <link
     rel="stylesheet"
-    href="css/payslip.css">
+    href="../css/payslip.css">
 
 </head>
 
-
 <body>
 
-
 <div class="container">
-
 
 <!-- ==========================================
      HEADER
@@ -48,41 +39,34 @@ PAPPRITO HRIS - Payslip
 
 <div class="header">
 
-
     <div
         class="title"
         id="pageTitle">
-
 
         <span class="material-icons">
             receipt_long
         </span>
 
-
         PAYSLIP
-
 
     </div>
 
-
     <button
-        class="btn logout-btn"
-        onclick="logout()">
+        class="btn back-btn"
+        id="headerActionBtn"
+        onclick="headerAction()">
 
-
-        <span class="material-icons">
-            logout
+        <span class="material-icons" id="headerActionIcon">
+            dashboard
         </span>
 
-
-        LOGOUT
-
+        <span id="headerActionText">
+            BACK TO DASHBOARD
+        </span>
 
     </button>
 
-
 </div>
-
 
 
 <!-- ==========================================
@@ -93,88 +77,60 @@ PAPPRITO HRIS - Payslip
     class="admin-controls"
     id="adminControls">
 
-
     <div class="admin-title">
-
         ADMIN PAYSLIP MANAGEMENT
-
     </div>
 
-
     <div class="filter-grid">
-
 
         <input
             type="text"
             id="searchEmployee"
             placeholder="Search Employee ID or Name">
 
-
         <input
             type="date"
             id="filterDate">
-
 
         <button
             class="btn view-btn"
             onclick="applyFilter()">
 
-
             <span class="material-icons">
                 search
             </span>
 
-
             SEARCH
 
-
         </button>
-
 
         <button
             class="btn print-all-btn"
             onclick="printAllPayslips()">
 
-
             <span class="material-icons">
                 print
             </span>
 
-
             PRINT ALL
-
 
         </button>
 
-
     </div>
 
-
-    <div
-        style="
-        margin-top:10px;
-        display:flex;
-        gap:8px;
-        flex-wrap:wrap;
-        ">
-
+    <div class="show-all-row">
 
         <button
             class="btn close-btn"
             onclick="showAllPayslips()">
 
-
             SHOW ALL
-
 
         </button>
 
-
     </div>
 
-
 </section>
-
 
 
 <!-- ==========================================
@@ -185,78 +141,43 @@ PAPPRITO HRIS - Payslip
     class="summary"
     id="adminSummary">
 
-
     <div class="summary-card">
-
 
         <small>
             TOTAL PAYSLIPS
         </small>
 
-
-        <strong
-            id="totalRecords">
-
+        <strong id="totalRecords">
             0
-
         </strong>
-
 
     </div>
 
-
     <div class="summary-card">
-
 
         <small>
             TOTAL GROSS
         </small>
 
-
         <strong>
-
-            ₱
-
-            <span
-                id="totalGross">
-
-                0.00
-
-            </span>
-
+            ₱ <span id="totalGross">0.00</span>
         </strong>
-
 
     </div>
 
-
     <div class="summary-card">
-
 
         <small>
             TOTAL NET PAY
         </small>
 
-
         <strong>
-
-            ₱
-
-            <span
-                id="totalNet">
-
-                0.00
-
-            </span>
-
+            ₱ <span id="totalNet">0.00</span>
         </strong>
-
 
     </div>
 
-
 </div>
-
 
 
 <!-- ==========================================
@@ -267,65 +188,32 @@ PAPPRITO HRIS - Payslip
     class="admin-table-wrapper"
     id="adminTableWrapper">
 
+    <table class="admin-table">
 
-<table
-    class="admin-table">
+        <thead>
 
+        <tr>
 
-<thead>
+            <th>EMPLOYEE ID</th>
+            <th>EMPLOYEE</th>
+            <th>DATE</th>
+            <th>BASIC PAY</th>
+            <th>GROSS</th>
+            <th>DEDUCTIONS</th>
+            <th>NET PAY</th>
+            <th>ACTION</th>
 
+        </tr>
 
-<tr>
+        </thead>
 
-    <th>
-        EMPLOYEE ID
-    </th>
+        <tbody id="adminPayslipBody">
 
-    <th>
-        EMPLOYEE
-    </th>
+        </tbody>
 
-    <th>
-        DATE
-    </th>
-
-    <th>
-        BASIC PAY
-    </th>
-
-    <th>
-        GROSS
-    </th>
-
-    <th>
-        DEDUCTIONS
-    </th>
-
-    <th>
-        NET PAY
-    </th>
-
-    <th>
-        ACTION
-    </th>
-
-</tr>
-
-
-</thead>
-
-
-<tbody
-    id="adminPayslipBody">
-
-</tbody>
-
-
-</table>
-
+    </table>
 
 </div>
-
 
 
 <!-- ==========================================
@@ -336,94 +224,64 @@ PAPPRITO HRIS - Payslip
     class="employee-section"
     id="employeeSection">
 
-
 <div class="form-section">
-
-
-    <!-- EMPLOYEE INFO -->
-
 
     <div class="emp-info">
 
-
         <div>
 
-            <b>
-                EMPLOYEE ID :
-            </b>
+            <b>EMPLOYEE ID :</b>
 
-            <span
-                id="empIdDisplay">
-
+            <span id="empIdDisplay">
                 -
-
             </span>
 
         </div>
 
-
         <div>
 
-            <b>
-                EMPLOYEE NAME :
-            </b>
+            <b>EMPLOYEE NAME :</b>
 
-            <span
-                id="empNameDisplay">
-
+            <span id="empNameDisplay">
                 -
-
             </span>
 
         </div>
-
 
     </div>
 
 
-
-    <!-- REQUEST FORM -->
-
+    <!-- LEAVE REQUEST -->
 
     <div class="form-grid">
 
-
-        <select
-            id="requestType">
-
+        <select id="requestType">
 
             <option value="">
                 Select Request
             </option>
 
-
             <option>
                 DAY OFF
             </option>
-
 
             <option>
                 VACATION LEAVE
             </option>
 
-
             <option>
                 BIRTHDAY LEAVE
             </option>
-
 
             <option>
                 SICK LEAVE
             </option>
 
-
         </select>
-
 
         <input
             type="date"
             id="requestDate">
-
 
         <input
             type="number"
@@ -432,288 +290,181 @@ PAPPRITO HRIS - Payslip
             step="0.5"
             placeholder="Days">
 
-
         <textarea
             id="reason"
             placeholder="Reason"></textarea>
 
 
-
         <!-- ATTENDANCE REQUEST -->
 
-
-        <select
-            id="attendanceType">
-
+        <select id="attendanceType">
 
             <option value="">
                 Select Attendance Request
             </option>
 
-
             <option>
                 Missing Time In
             </option>
-
 
             <option>
                 Missing Time Out
             </option>
 
-
             <option>
                 Late Correction
             </option>
 
-
         </select>
-
 
         <input
             type="date"
             id="attendanceDate">
 
-
         <input
             type="time"
             id="attendanceTime">
-
 
         <textarea
             id="attendanceReason"
             placeholder="Attendance Reason"></textarea>
 
-
     </div>
 
 
-
-    <!-- ACTIONS -->
-
+    <!-- ACTION BUTTONS -->
 
     <div class="action-buttons">
-
 
         <button
             class="btn submit-btn"
             onclick="submitRequest()">
 
-
             <span class="material-icons">
                 send
             </span>
 
-
             SUBMIT REQUEST
 
-
         </button>
-
 
         <button
             class="btn attendance-btn"
             onclick="submitAttendanceRequest()">
 
-
             <span class="material-icons">
                 schedule
             </span>
 
-
             ATTENDANCE REQUEST
 
-
         </button>
-
 
         <button
             class="btn view-btn"
             onclick="loadPayslip()">
 
-
             <span class="material-icons">
                 visibility
             </span>
 
-
             VIEW PAYSLIP
 
-
         </button>
-
 
         <button
             class="btn close-btn"
             onclick="closePayslip()">
 
-
             <span class="material-icons">
                 close
             </span>
 
-
             CLOSE PAYSLIP
 
-
         </button>
-
 
         <button
             class="btn print-btn"
             onclick="printPayslip()">
 
-
             <span class="material-icons">
                 print
             </span>
 
-
             PRINT PAYSLIP
-
 
         </button>
 
-
     </div>
 
 
-
-    <!-- LEAVE REQUESTS -->
-
+    <!-- LEAVE REQUEST TABLE -->
 
     <div class="table-wrapper">
 
-
-        <table
-            class="request-table">
-
+        <table class="request-table">
 
             <thead>
 
-
             <tr>
 
-                <th>
-                    EMPLOYEE ID
-                </th>
-
-                <th>
-                    EMPLOYEE
-                </th>
-
-                <th>
-                    REQUEST
-                </th>
-
-                <th>
-                    DATE
-                </th>
-
-                <th>
-                    DAYS
-                </th>
-
-                <th>
-                    REASON
-                </th>
-
-                <th>
-                    STATUS
-                </th>
-
-                <th>
-                    ACTION
-                </th>
+                <th>EMPLOYEE ID</th>
+                <th>EMPLOYEE</th>
+                <th>REQUEST</th>
+                <th>DATE</th>
+                <th>DAYS</th>
+                <th>REASON</th>
+                <th>STATUS</th>
+                <th>ACTION</th>
 
             </tr>
 
-
             </thead>
 
-
-            <tbody
-                id="requestBody">
+            <tbody id="requestBody">
 
             </tbody>
 
-
         </table>
-
 
     </div>
 
 
-
-    <!-- ATTENDANCE REQUESTS -->
-
+    <!-- ATTENDANCE REQUEST TABLE -->
 
     <div class="table-wrapper">
 
-
-        <table
-            class="request-table">
-
+        <table class="request-table">
 
             <thead>
 
-
             <tr>
 
-                <th>
-                    EMPLOYEE ID
-                </th>
-
-                <th>
-                    EMPLOYEE
-                </th>
-
-                <th>
-                    REQUEST
-                </th>
-
-                <th>
-                    DATE
-                </th>
-
-                <th>
-                    TIME
-                </th>
-
-                <th>
-                    REASON
-                </th>
-
-                <th>
-                    STATUS
-                </th>
-
-                <th>
-                    ACTION
-                </th>
+                <th>EMPLOYEE ID</th>
+                <th>EMPLOYEE</th>
+                <th>REQUEST</th>
+                <th>DATE</th>
+                <th>TIME</th>
+                <th>REASON</th>
+                <th>STATUS</th>
+                <th>ACTION</th>
 
             </tr>
 
-
             </thead>
 
-
-            <tbody
-                id="attendanceBody">
+            <tbody id="attendanceBody">
 
             </tbody>
 
-
         </table>
 
-
     </div>
-
 
 </div>
 
-
 </section>
-
 
 
 <!-- ==========================================
@@ -724,156 +475,99 @@ PAPPRITO HRIS - Payslip
     class="payslip"
     id="payslipArea">
 
-
     <div class="payslip-actions">
-
 
         <button
             class="btn print-btn"
             onclick="printPayslip()">
 
-
             <span class="material-icons">
                 print
             </span>
 
-
             PRINT PAYSLIP
 
-
         </button>
-
 
         <button
             class="btn close-btn"
             onclick="closePayslip()">
 
-
             <span class="material-icons">
                 close
             </span>
 
-
             CLOSE
 
-
         </button>
-
 
     </div>
 
 
-
     <div class="company">
 
-
         <img
-            src="logo.png"
-            class="payroll-logo">
-
+            src="../logo.png"
+            class="payroll-logo"
+            alt="PAPPRITO Logo">
 
         <h2>
             PAPPRITO
         </h2>
 
-
         <p>
             OFFICIAL EMPLOYEE PAYSLIP
         </p>
 
-
     </div>
-
 
 
     <div class="info">
 
+        <b>ID:</b>
 
-        <b>
-            ID:
-        </b>
-
-        <span
-            id="payEmpId">
-
+        <span id="payEmpId">
             -
-
         </span>
-
 
         <br>
 
+        <b>Name:</b>
 
-        <b>
-            Name:
-        </b>
-
-        <span
-            id="payEmp">
-
+        <span id="payEmp">
             -
-
         </span>
-
 
         <br>
 
+        <b>Date:</b>
 
-        <b>
-            Date:
-        </b>
-
-        <span
-            id="payDate">
-
+        <span id="payDate">
             -
-
         </span>
-
 
         <br>
 
+        <b>Daily Rate:</b>
 
-        <b>
-            Daily Rate:
-        </b>
-
-        ₱
-
-        <span
-            id="payDailyRate">
-
+        ₱ <span id="payDailyRate">
             0.00
-
         </span>
-
 
         <br>
 
+        <b>Total Days:</b>
 
-        <b>
-            Total Days:
-        </b>
-
-        <span
-            id="payTotalDays">
-
+        <span id="payTotalDays">
             0
-
         </span>
-
 
     </div>
 
 
+    <!-- EARNINGS -->
 
-    <!-- ======================================
-         EARNINGS
-    ======================================= -->
-
-    <table
-        class="payroll-table">
-
+    <table class="payroll-table">
 
         <tr>
 
@@ -887,186 +581,69 @@ PAPPRITO HRIS - Payslip
 
         </tr>
 
+        <tr>
+            <td>Basic Pay</td>
+            <td id="payBasic">0.00</td>
+        </tr>
+
+        <tr>
+            <td>Overtime</td>
+            <td id="payOvertime">0.00</td>
+        </tr>
+
+        <tr>
+            <td>Holiday Pay</td>
+            <td id="payHoliday">0.00</td>
+        </tr>
+
+        <tr>
+            <td>Sick Leave</td>
+            <td id="paySick">0.00</td>
+        </tr>
+
+        <tr>
+            <td>Vacation Leave</td>
+            <td id="payVacation">0.00</td>
+        </tr>
+
+        <tr>
+            <td>Birthday Leave</td>
+            <td id="payBirthday">0.00</td>
+        </tr>
+
+        <tr>
+            <td>Maternity Leave</td>
+            <td id="payMaternity">0.00</td>
+        </tr>
+
+        <tr>
+            <td>Paternity Leave</td>
+            <td id="payPaternity">0.00</td>
+        </tr>
+
+        <tr>
+            <td>Allowance</td>
+            <td id="payAllowance">0.00</td>
+        </tr>
 
         <tr>
 
             <td>
-                Basic Pay
-            </td>
-
-            <td
-                id="payBasic">
-
-                0.00
-
-            </td>
-
-        </tr>
-
-
-        <tr>
-
-            <td>
-                Overtime
-            </td>
-
-            <td
-                id="payOvertime">
-
-                0.00
-
-            </td>
-
-        </tr>
-
-
-        <tr>
-
-            <td>
-                Holiday Pay
-            </td>
-
-            <td
-                id="payHoliday">
-
-                0.00
-
-            </td>
-
-        </tr>
-
-
-        <tr>
-
-            <td>
-                Sick Leave
-            </td>
-
-            <td
-                id="paySick">
-
-                0.00
-
-            </td>
-
-        </tr>
-
-
-        <tr>
-
-            <td>
-                Vacation Leave
-            </td>
-
-            <td
-                id="payVacation">
-
-                0.00
-
-            </td>
-
-        </tr>
-
-
-        <tr>
-
-            <td>
-                Birthday Leave
-            </td>
-
-            <td
-                id="payBirthday">
-
-                0.00
-
-            </td>
-
-        </tr>
-
-
-        <tr>
-
-            <td>
-                Maternity Leave
-            </td>
-
-            <td
-                id="payMaternity">
-
-                0.00
-
-            </td>
-
-        </tr>
-
-
-        <tr>
-
-            <td>
-                Paternity Leave
-            </td>
-
-            <td
-                id="payPaternity">
-
-                0.00
-
-            </td>
-
-        </tr>
-
-
-        <tr>
-
-            <td>
-                Allowance
-            </td>
-
-            <td
-                id="payAllowance">
-
-                0.00
-
-            </td>
-
-        </tr>
-
-
-        <tr>
-
-            <td>
-
-                <b>
-                    TOTAL GROSS
-                </b>
-
+                <b>TOTAL GROSS</b>
             </td>
 
             <td>
-
-                <b
-                    id="payGross">
-
-                    0.00
-
-                </b>
-
+                <b id="payGross">0.00</b>
             </td>
 
         </tr>
-
 
     </table>
 
 
+    <!-- DEDUCTIONS -->
 
-    <!-- ======================================
-         DEDUCTIONS
-    ======================================= -->
-
-    <table
-        class="payroll-table">
-
+    <table class="payroll-table">
 
         <tr>
 
@@ -1080,172 +657,82 @@ PAPPRITO HRIS - Payslip
 
         </tr>
 
+        <tr>
+            <td>SSS</td>
+            <td id="paySSS">0.00</td>
+        </tr>
+
+        <tr>
+            <td>PhilHealth</td>
+            <td id="payPhilhealth">0.00</td>
+        </tr>
+
+        <tr>
+            <td>Pag-IBIG</td>
+            <td id="payPagibig">0.00</td>
+        </tr>
+
+        <tr>
+            <td>Health Card</td>
+            <td id="payHealth">0.00</td>
+        </tr>
+
+        <tr>
+            <td>Others</td>
+            <td id="payOther">0.00</td>
+        </tr>
 
         <tr>
 
             <td>
-                SSS
-            </td>
-
-            <td
-                id="paySSS">
-
-                0.00
-
-            </td>
-
-        </tr>
-
-
-        <tr>
-
-            <td>
-                PhilHealth
-            </td>
-
-            <td
-                id="payPhilhealth">
-
-                0.00
-
-            </td>
-
-        </tr>
-
-
-        <tr>
-
-            <td>
-                Pag-IBIG
-            </td>
-
-            <td
-                id="payPagibig">
-
-                0.00
-
-            </td>
-
-        </tr>
-
-
-        <tr>
-
-            <td>
-                Health Card
-            </td>
-
-            <td
-                id="payHealth">
-
-                0.00
-
-            </td>
-
-        </tr>
-
-
-        <tr>
-
-            <td>
-                Others
-            </td>
-
-            <td
-                id="payOther">
-
-                0.00
-
-            </td>
-
-        </tr>
-
-
-        <tr>
-
-            <td>
-
-                <b>
-                    TOTAL DEDUCTION
-                </b>
-
+                <b>TOTAL DEDUCTION</b>
             </td>
 
             <td>
-
-                <b
-                    id="payDeduction">
-
-                    0.00
-
-                </b>
-
+                <b id="payDeduction">0.00</b>
             </td>
 
         </tr>
-
 
     </table>
 
 
-
     <!-- NET PAY -->
-
 
     <div class="netpay">
 
-
         NET PAY :
 
-        ₱
-
-        <span
-            id="payNet">
-
+        ₱ <span id="payNet">
             0.00
-
         </span>
-
 
     </div>
 
 
-
     <!-- SIGNATURE -->
 
-
     <div class="signature">
-
 
         <div class="line">
             HR
         </div>
 
-
         <div class="line">
             Employee
         </div>
 
-
     </div>
 
+</div>
 
 </div>
 
-
-</div>
-
-
-
-<!-- ==========================================
-     PAYSLIP JAVASCRIPT
-========================================== -->
 
 <script
     type="module"
-    src="js/payslip.js">
+    src="../js/payslip.js">
 </script>
-
 
 </body>
 
