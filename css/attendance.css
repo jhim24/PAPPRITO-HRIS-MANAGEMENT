@@ -1,6 +1,6 @@
 /* ==========================================
    PAPPRITO HRIS
-   EMPLOYEE ATTENDANCE
+   EMPLOYEE ATTENDANCE CSS
    PREMIUM LIGHT DESIGN
 ========================================== */
 
@@ -20,73 +20,47 @@
 }
 
 
-html{
-
-    width:100%;
-
-    min-height:100%;
-
-    overflow-x:hidden;
-
-}
-
-
-body{
-
-    width:100%;
-
-    min-height:100vh;
-
-    overflow-x:hidden;
-
-    font-family:
-        "Segoe UI",
-        Tahoma,
-        Arial,
-        sans-serif;
-
-    background:
-        linear-gradient(
-            135deg,
-            #f7f9fb 0%,
-            #eef2f5 50%,
-            #ffffff 100%
-        );
-
-    color:#202124;
-
-    font-weight:700;
-
-}
-
-
 /* ==========================================
    ROOT
 ========================================== */
 
 :root{
 
-    --yellow:#ffcc00;
+    --primary:#ffcc00;
 
-    --yellow-dark:#d9a900;
+    --primary-dark:#d9aa00;
 
-    --red:#d71920;
+    --danger:#d71920;
 
-    --red-dark:#b51218;
+    --danger-dark:#b51218;
 
-    --green:#16803c;
+    --success:#16803c;
 
-    --blue:#1769aa;
+    --success-light:#e9f7ef;
 
-    --white:#ffffff;
+    --info:#1769aa;
+
+    --info-light:#eaf3fb;
+
+    --warning:#9b7800;
+
+    --warning-light:#fff5c8;
+
+    --dark:#202428;
+
+    --dark-2:#303438;
 
     --text:#202124;
 
     --muted:#747a80;
 
+    --light:#f7f9fb;
+
+    --white:#ffffff;
+
     --border:#e0e4e8;
 
-    --light:#f7f8f9;
+    --border-dark:#cdd2d6;
 
     --shadow:
         0 5px 20px
@@ -112,6 +86,51 @@ body{
 
 
 /* ==========================================
+   BODY
+========================================== */
+
+html{
+
+    width:100%;
+
+    min-height:100%;
+
+    overflow-x:hidden;
+
+}
+
+
+body{
+
+    width:100%;
+
+    min-height:100vh;
+
+    font-family:
+        "Segoe UI",
+        Tahoma,
+        Arial,
+        sans-serif;
+
+    background:
+
+        linear-gradient(
+            135deg,
+            #f7f9fb 0%,
+            #eef2f5 50%,
+            #ffffff 100%
+        );
+
+    color:var(--text);
+
+    font-weight:700;
+
+    overflow-x:hidden;
+
+}
+
+
+/* ==========================================
    APP
 ========================================== */
 
@@ -121,13 +140,11 @@ body{
 
     min-height:100vh;
 
-    background:transparent;
-
 }
 
 
 /* ==========================================
-   MAIN CONTAINER
+   CONTAINER
 ========================================== */
 
 .container{
@@ -139,7 +156,9 @@ body{
     margin:0 auto;
 
     padding:
-        18px 22px 30px;
+        18px
+        22px
+        30px;
 
 }
 
@@ -163,7 +182,8 @@ body{
     gap:14px;
 
     padding:
-        13px 16px;
+        13px
+        16px;
 
     background:#ffffff;
 
@@ -171,20 +191,14 @@ body{
         1px solid
         var(--border);
 
-    border-radius:
-        var(--radius);
+    border-radius:var(--radius);
 
-    box-shadow:
-        var(--shadow);
+    box-shadow:var(--shadow);
 
     overflow:hidden;
 
 }
 
-
-/* ==========================================
-   HEADER ACCENT
-========================================== */
 
 .header::before{
 
@@ -201,10 +215,11 @@ body{
     width:5px;
 
     background:
+
         linear-gradient(
             to bottom,
-            var(--yellow),
-            var(--red)
+            var(--primary),
+            var(--danger)
         );
 
 }
@@ -232,7 +247,7 @@ body{
 
     border:
         3px solid
-        var(--yellow);
+        var(--primary);
 
     border-radius:50%;
 
@@ -259,12 +274,12 @@ body{
 
 
 /* ==========================================
-   BRAND NAME
+   LOGO TEXT
 ========================================== */
 
 .logo-text{
 
-    color:var(--red);
+    color:var(--danger);
 
     font-size:22px;
 
@@ -272,13 +287,11 @@ body{
 
     letter-spacing:.5px;
 
-    line-height:1;
-
 }
 
 
 /* ==========================================
-   PAGE TITLE
+   TITLE
 ========================================== */
 
 .title{
@@ -299,7 +312,7 @@ body{
 
 
 /* ==========================================
-   TOP BUTTONS
+   TOP BUTTON
 ========================================== */
 
 .top-btn{
@@ -315,7 +328,8 @@ body{
     gap:5px;
 
     padding:
-        9px 13px;
+        9px
+        13px;
 
     border:
         1px solid
@@ -335,8 +349,7 @@ body{
 
     cursor:pointer;
 
-    transition:
-        .18s ease;
+    transition:.18s ease;
 
 }
 
@@ -373,20 +386,9 @@ body{
 }
 
 
-/* BACK */
-
-#backBtn{
-
-    color:#555b60;
-
-}
-
-
-/* PRINT */
-
 #printBtn{
 
-    color:var(--blue);
+    color:var(--info);
 
 }
 
@@ -434,11 +436,9 @@ body{
         1px solid
         var(--border);
 
-    border-radius:
-        var(--radius);
+    border-radius:var(--radius);
 
-    box-shadow:
-        var(--shadow);
+    box-shadow:var(--shadow);
 
 }
 
@@ -448,7 +448,6 @@ body{
 ========================================== */
 
 .filter-section select,
-
 .filter-section input{
 
     width:100%;
@@ -458,7 +457,8 @@ body{
     height:43px;
 
     padding:
-        9px 11px;
+        9px
+        11px;
 
     border:
         1px solid
@@ -482,16 +482,17 @@ body{
 
 
 .filter-section select:focus,
-
 .filter-section input:focus{
 
     background:#ffffff;
 
     border-color:
-        var(--yellow);
+        var(--primary);
 
     box-shadow:
+
         0 0 0 3px
+
         rgba(
             255,
             204,
@@ -507,7 +508,6 @@ body{
 ========================================== */
 
 #filterBtn,
-
 #summaryBtn{
 
     min-height:43px;
@@ -521,7 +521,8 @@ body{
     gap:5px;
 
     padding:
-        9px 15px;
+        9px
+        15px;
 
     border:none;
 
@@ -535,8 +536,7 @@ body{
 
     cursor:pointer;
 
-    transition:
-        .18s ease;
+    transition:.18s ease;
 
 }
 
@@ -544,6 +544,7 @@ body{
 #filterBtn{
 
     background:
+
         linear-gradient(
             135deg,
             #ffcc00,
@@ -565,14 +566,15 @@ body{
 
 
 #filterBtn:hover,
-
 #summaryBtn:hover{
 
     transform:
         translateY(-1px);
 
     box-shadow:
+
         0 5px 15px
+
         rgba(
             0,
             0,
@@ -583,9 +585,16 @@ body{
 }
 
 
-#filterBtn .material-icons,
+#filterBtn:active,
+#summaryBtn:active{
 
-#summaryBtn .material-icons{
+    transform:
+        translateY(0);
+
+}
+
+
+.filter-section .material-icons{
 
     font-size:17px;
 
@@ -632,7 +641,8 @@ body{
     align-items:center;
 
     padding:
-        12px 15px;
+        12px
+        15px;
 
     background:#ffffff;
 
@@ -642,7 +652,7 @@ body{
 
     border-left:
         4px solid
-        var(--yellow);
+        var(--primary);
 
     border-radius:10px;
 
@@ -652,8 +662,7 @@ body{
 
     font-weight:1000;
 
-    box-shadow:
-        var(--shadow);
+    box-shadow:var(--shadow);
 
     overflow:hidden;
 
@@ -683,6 +692,7 @@ body{
     padding:18px;
 
     background:
+
         linear-gradient(
             135deg,
             #ffffff,
@@ -693,11 +703,9 @@ body{
         1px solid
         #e9dfb4;
 
-    border-radius:
-        var(--radius);
+    border-radius:var(--radius);
 
-    box-shadow:
-        var(--shadow);
+    box-shadow:var(--shadow);
 
 }
 
@@ -771,7 +779,128 @@ body{
 
 
 /* ==========================================
-   ATTENDANCE ACTION BUTTONS
+   TODAY PANEL
+========================================== */
+
+.today-panel{
+
+    width:100%;
+
+    display:grid;
+
+    grid-template-columns:
+
+        repeat(
+            4,
+            minmax(
+                0,
+                1fr
+            )
+        );
+
+    gap:10px;
+
+    margin-top:12px;
+
+}
+
+
+.today-item{
+
+    min-width:0;
+
+    display:flex;
+
+    align-items:center;
+
+    gap:9px;
+
+    padding:11px;
+
+    background:#ffffff;
+
+    border:
+        1px solid
+        var(--border);
+
+    border-radius:10px;
+
+    box-shadow:var(--shadow);
+
+}
+
+
+.today-item >
+.material-icons{
+
+    width:36px;
+
+    height:36px;
+
+    min-width:36px;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    background:var(--warning-light);
+
+    color:#a77f00;
+
+    border-radius:9px;
+
+    font-size:19px;
+
+}
+
+
+.today-item div{
+
+    min-width:0;
+
+    display:flex;
+
+    flex-direction:column;
+
+}
+
+
+.today-item small{
+
+    color:#92989d;
+
+    font-size:7px;
+
+    font-weight:1000;
+
+    letter-spacing:.6px;
+
+}
+
+
+.today-item strong{
+
+    color:#292d30;
+
+    font-size:13px;
+
+    font-weight:1000;
+
+    margin-top:3px;
+
+    white-space:nowrap;
+
+    overflow:hidden;
+
+    text-overflow:ellipsis;
+
+}
+
+
+/* ==========================================
+   ACTION BUTTON GROUP
 ========================================== */
 
 .button-group{
@@ -797,6 +926,10 @@ body{
 }
 
 
+/* ==========================================
+   ACTION BUTTON
+========================================== */
+
 .action-btn{
 
     width:100%;
@@ -821,11 +954,12 @@ body{
 
     cursor:pointer;
 
-    transition:
-        .18s ease;
+    transition:.18s ease;
 
     box-shadow:
+
         0 4px 10px
+
         rgba(
             0,
             0,
@@ -836,7 +970,7 @@ body{
 }
 
 
-.action-btn:hover{
+.action-btn:hover:not(:disabled){
 
     transform:
         translateY(-2px);
@@ -847,7 +981,7 @@ body{
 }
 
 
-.action-btn:active{
+.action-btn:active:not(:disabled){
 
     transform:
         translateY(0);
@@ -857,7 +991,7 @@ body{
 
 .action-btn:disabled{
 
-    opacity:.45;
+    opacity:.42;
 
     cursor:not-allowed;
 
@@ -874,20 +1008,14 @@ body{
 
 .timein{
 
-    background:#e9f7ef;
+    background:
+        var(--success-light);
 
-    color:#16803c;
+    color:var(--success);
 
     border:
         1px solid
         #bce4cb;
-
-}
-
-
-.timein:hover{
-
-    background:#def2e6;
 
 }
 
@@ -898,20 +1026,14 @@ body{
 
 .breakout{
 
-    background:#fff5c8;
+    background:
+        var(--warning-light);
 
-    color:#9b7800;
+    color:var(--warning);
 
     border:
         1px solid
         #ead47a;
-
-}
-
-
-.breakout:hover{
-
-    background:#fff0ad;
 
 }
 
@@ -922,20 +1044,14 @@ body{
 
 .breakin{
 
-    background:#eaf3fb;
+    background:
+        var(--info-light);
 
-    color:#1769aa;
+    color:var(--info);
 
     border:
         1px solid
         #bfd9ed;
-
-}
-
-
-.breakin:hover{
-
-    background:#dfeefa;
 
 }
 
@@ -948,18 +1064,11 @@ body{
 
     background:#fff0f0;
 
-    color:#d71920;
+    color:var(--danger);
 
     border:
         1px solid
         #efc0c2;
-
-}
-
-
-.timeout:hover{
-
-    background:#ffe4e4;
 
 }
 
@@ -989,11 +1098,9 @@ body{
         1px solid
         var(--border);
 
-    border-radius:
-        var(--radius);
+    border-radius:var(--radius);
 
-    box-shadow:
-        var(--shadow);
+    box-shadow:var(--shadow);
 
     overflow:hidden;
 
@@ -1008,8 +1115,17 @@ body{
 
     width:100%;
 
+    display:flex;
+
+    align-items:center;
+
+    justify-content:space-between;
+
+    gap:10px;
+
     padding:
-        16px 17px;
+        16px
+        17px;
 
     border-bottom:
         1px solid
@@ -1044,20 +1160,13 @@ body{
 
     justify-content:center;
 
-    background:#fff5c8;
+    background:var(--warning-light);
 
     color:#a77f00;
 
     border-radius:10px;
 
     font-size:21px;
-
-}
-
-
-.section-heading-left > div{
-
-    min-width:0;
 
 }
 
@@ -1069,8 +1178,6 @@ body{
     font-size:15px;
 
     font-weight:1000;
-
-    letter-spacing:.2px;
 
 }
 
@@ -1084,6 +1191,65 @@ body{
     font-weight:800;
 
     margin-top:3px;
+
+}
+
+
+/* ==========================================
+   CLEAR FILTER
+========================================== */
+
+.clear-filter-btn{
+
+    min-height:35px;
+
+    display:inline-flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    gap:4px;
+
+    padding:
+        7px
+        10px;
+
+    border:
+        1px solid
+        var(--border);
+
+    border-radius:8px;
+
+    background:#fafbfc;
+
+    color:#666d72;
+
+    font-family:inherit;
+
+    font-size:8px;
+
+    font-weight:1000;
+
+    cursor:pointer;
+
+    transition:.18s ease;
+
+}
+
+
+.clear-filter-btn:hover{
+
+    background:#fff0f0;
+
+    color:var(--danger);
+
+}
+
+
+.clear-filter-btn .material-icons{
+
+    font-size:15px;
 
 }
 
@@ -1108,7 +1274,7 @@ body{
 
 
 /* ==========================================
-   ATTENDANCE TABLE
+   TABLE
 ========================================== */
 
 #attendanceTable{
@@ -1137,9 +1303,11 @@ body{
     z-index:2;
 
     padding:
-        11px 9px;
+        11px
+        9px;
 
     background:
+
         linear-gradient(
             135deg,
             #ffcc00,
@@ -1164,13 +1332,14 @@ body{
 
 
 /* ==========================================
-   TABLE BODY
+   TABLE DATA
 ========================================== */
 
 #attendanceTable td{
 
     padding:
-        10px 9px;
+        10px
+        9px;
 
     background:#ffffff;
 
@@ -1206,12 +1375,10 @@ body{
 
 
 /* ==========================================
-   STATUS BADGES
+   STATUS BADGE
 ========================================== */
 
-.status,
-
-.badge{
+.status-badge{
 
     display:inline-flex;
 
@@ -1219,8 +1386,11 @@ body{
 
     justify-content:center;
 
+    min-width:54px;
+
     padding:
-        4px 8px;
+        4px
+        8px;
 
     border-radius:20px;
 
@@ -1234,10 +1404,10 @@ body{
 
 
 /* ==========================================
-   COMMON STATUS COLORS
+   PRESENT
 ========================================== */
 
-.present{
+.status-present{
 
     background:#e9f7ef;
 
@@ -1246,7 +1416,11 @@ body{
 }
 
 
-.late{
+/* ==========================================
+   LATE
+========================================== */
+
+.status-late{
 
     background:#fff5c8;
 
@@ -1255,7 +1429,11 @@ body{
 }
 
 
-.absent{
+/* ==========================================
+   ABSENT
+========================================== */
+
+.status-absent{
 
     background:#fff0f0;
 
@@ -1264,7 +1442,11 @@ body{
 }
 
 
-.leave{
+/* ==========================================
+   LEAVE
+========================================== */
+
+.status-leave{
 
     background:#eaf3fb;
 
@@ -1274,12 +1456,38 @@ body{
 
 
 /* ==========================================
-   TABLE ACTION BUTTONS
+   DEFAULT
 ========================================== */
 
-#attendanceTable button{
+.status-default{
 
-    min-height:30px;
+    background:#f0f1f2;
+
+    color:#666d72;
+
+}
+
+
+/* ==========================================
+   ACTION CELL
+========================================== */
+
+.action-cell{
+
+    min-width:105px;
+
+}
+
+
+/* ==========================================
+   TABLE ICON BUTTON
+========================================== */
+
+.table-icon-btn{
+
+    width:30px;
+
+    height:30px;
 
     display:inline-flex;
 
@@ -1287,69 +1495,115 @@ body{
 
     justify-content:center;
 
-    gap:4px;
-
-    padding:
-        6px 9px;
+    margin:1px;
 
     border:none;
 
-    border-radius:6px;
-
-    background:#202428;
-
-    color:#ffffff;
-
-    font-family:inherit;
-
-    font-size:8px;
-
-    font-weight:1000;
+    border-radius:7px;
 
     cursor:pointer;
 
-    transition:
-        .18s ease;
+    transition:.18s ease;
 
 }
 
 
-#attendanceTable button:hover{
+.table-icon-btn .material-icons{
 
-    background:var(--red);
+    font-size:16px;
+
+}
+
+
+.table-icon-btn:hover{
 
     transform:
         translateY(-1px);
 
-}
+    box-shadow:
 
+        0 3px 8px
 
-#attendanceTable button:active{
-
-    transform:
-        translateY(0);
+        rgba(
+            0,
+            0,
+            0,
+            .12
+        );
 
 }
 
 
 /* ==========================================
-   TABLE LINKS
+   EDIT
 ========================================== */
 
-#attendanceTable a{
+.edit-action{
 
-    color:var(--blue);
+    background:#eaf3fb;
 
-    font-weight:1000;
-
-    text-decoration:none;
+    color:#1769aa;
 
 }
 
 
-#attendanceTable a:hover{
+/* ==========================================
+   DELETE
+========================================== */
 
-    color:var(--red);
+.delete-action{
+
+    background:#fff0f0;
+
+    color:#d71920;
+
+}
+
+
+/* ==========================================
+   EMPTY
+========================================== */
+
+.empty-row{
+
+    height:150px;
+
+    text-align:center !important;
+
+    color:#999ea3 !important;
+
+}
+
+
+.empty-row .material-icons{
+
+    display:block;
+
+    font-size:30px;
+
+    color:#c7ccd0;
+
+    margin-bottom:6px;
+
+}
+
+
+.empty-row p{
+
+    margin:0;
+
+    color:#999ea3;
+
+    font-size:10px;
+
+    font-weight:900;
+
+}
+
+
+.error-row .material-icons{
+
+    color:#d71920;
 
 }
 
@@ -1405,7 +1659,8 @@ body{
     gap:7px;
 
     padding:
-        17px 5px;
+        17px
+        5px;
 
     color:#92979c;
 
@@ -1428,18 +1683,12 @@ body{
 
 
 /* ==========================================
-   1200px
+   1100px
 ========================================== */
 
-@media(max-width:1200px){
-
-    .container{
-
-        padding:
-            15px;
-
-    }
-
+@media(
+    max-width:1100px
+){
 
     .filter-section{
 
@@ -1457,10 +1706,24 @@ body{
 
 
     #filterBtn,
-
     #summaryBtn{
 
         width:100%;
+
+    }
+
+
+    .today-panel{
+
+        grid-template-columns:
+
+            repeat(
+                2,
+                minmax(
+                    0,
+                    1fr
+                )
+            );
 
     }
 
@@ -1483,10 +1746,12 @@ body{
 
 
 /* ==========================================
-   768px TABLET
+   768px
 ========================================== */
 
-@media(max-width:768px){
+@media(
+    max-width:768px
+){
 
     .container{
 
@@ -1541,16 +1806,10 @@ body{
         min-height:37px;
 
         padding:
-            7px 9px;
+            7px
+            9px;
 
         font-size:8px;
-
-    }
-
-
-    .top-btn .material-icons{
-
-        font-size:16px;
 
     }
 
@@ -1575,7 +1834,6 @@ body{
 
 
     .filter-section select,
-
     .filter-section input{
 
         height:40px;
@@ -1586,7 +1844,6 @@ body{
 
 
     #filterBtn,
-
     #summaryBtn{
 
         min-height:40px;
@@ -1647,6 +1904,23 @@ body{
     }
 
 
+    .today-panel{
+
+        grid-template-columns:
+
+            repeat(
+                2,
+                minmax(
+                    0,
+                    1fr
+                )
+            );
+
+        gap:7px;
+
+    }
+
+
     .button-group{
 
         grid-template-columns:
@@ -1682,8 +1956,7 @@ body{
 
     .section-heading{
 
-        padding:
-            13px;
+        padding:13px;
 
     }
 
@@ -1712,10 +1985,12 @@ body{
 
 
 /* ==========================================
-   480px MOBILE
+   480px
 ========================================== */
 
-@media(max-width:480px){
+@media(
+    max-width:480px
+){
 
     .container{
 
@@ -1762,7 +2037,9 @@ body{
             #e2e5e8;
 
         padding:
-            6px 0 0;
+            6px
+            0
+            0;
 
         font-size:10px;
 
@@ -1774,7 +2051,8 @@ body{
         min-height:34px;
 
         padding:
-            6px 8px;
+            6px
+            8px;
 
         font-size:7px;
 
@@ -1805,10 +2083,7 @@ body{
 
 
     .filter-section select,
-
     .filter-section input{
-
-        width:100%;
 
         height:38px;
 
@@ -1820,10 +2095,7 @@ body{
 
 
     #filterBtn,
-
     #summaryBtn{
-
-        width:100%;
 
         min-height:38px;
 
@@ -1834,25 +2106,9 @@ body{
     }
 
 
-    #filterBtn .material-icons,
-
-    #summaryBtn .material-icons{
-
-        font-size:14px;
-
-    }
-
-
-    /* ======================================
-       EMPLOYEE INFO
-       LEFT + RIGHT
-    ====================================== */
-
     .employee-info{
 
         width:100%;
-
-        display:grid;
 
         grid-template-columns:
 
@@ -1873,10 +2129,6 @@ body{
 
     .employee-info > div{
 
-        width:100%;
-
-        min-width:0;
-
         min-height:55px;
 
         padding:8px;
@@ -1888,16 +2140,13 @@ body{
     }
 
 
-    /* ======================================
-       CLOCK
-    ====================================== */
-
     .clock-area{
 
         margin-top:9px;
 
         padding:
-            14px 8px;
+            14px
+            8px;
 
         border-radius:11px;
 
@@ -1938,16 +2187,67 @@ body{
     }
 
 
-    /* ======================================
-       ATTENDANCE BUTTONS
-       LEFT + RIGHT
-    ====================================== */
+    .today-panel{
+
+        grid-template-columns:
+
+            repeat(
+                2,
+                minmax(
+                    0,
+                    1fr
+                )
+            );
+
+        gap:6px;
+
+        margin-top:8px;
+
+    }
+
+
+    .today-item{
+
+        min-height:53px;
+
+        padding:7px;
+
+        gap:6px;
+
+    }
+
+
+    .today-item >
+    .material-icons{
+
+        width:30px;
+
+        height:30px;
+
+        min-width:30px;
+
+        font-size:15px;
+
+    }
+
+
+    .today-item small{
+
+        font-size:5.5px;
+
+    }
+
+
+    .today-item strong{
+
+        font-size:9px;
+
+    }
+
 
     .button-group{
 
         width:100%;
-
-        display:grid;
 
         grid-template-columns:
 
@@ -1968,8 +2268,6 @@ body{
 
     .action-btn{
 
-        width:100%;
-
         min-height:48px;
 
         padding:7px;
@@ -1987,10 +2285,6 @@ body{
 
     }
 
-
-    /* ======================================
-       RECORDS
-    ====================================== */
 
     .attendance-section{
 
@@ -2042,18 +2336,26 @@ body{
 
         font-size:7px;
 
-        margin-top:2px;
+    }
+
+
+    .clear-filter-btn{
+
+        min-height:32px;
+
+        padding:
+            5px
+            7px;
+
+        font-size:6.5px;
 
     }
 
 
-    .table-wrapper{
+    .clear-filter-btn
+    .material-icons{
 
-        width:100%;
-
-        overflow-x:auto;
-
-        -webkit-overflow-scrolling:touch;
+        font-size:13px;
 
     }
 
@@ -2068,7 +2370,8 @@ body{
     #attendanceTable th{
 
         padding:
-            9px 7px;
+            9px
+            7px;
 
         font-size:7px;
 
@@ -2078,21 +2381,27 @@ body{
     #attendanceTable td{
 
         padding:
-            8px 7px;
+            8px
+            7px;
 
         font-size:7px;
 
     }
 
 
-    #attendanceTable button{
+    .table-icon-btn{
 
-        min-height:27px;
+        width:27px;
 
-        padding:
-            5px 7px;
+        height:27px;
 
-        font-size:7px;
+    }
+
+
+    .table-icon-btn
+    .material-icons{
+
+        font-size:14px;
 
     }
 
@@ -2100,7 +2409,8 @@ body{
     .attendance-footer{
 
         padding:
-            13px 5px;
+            13px
+            5px;
 
         font-size:7px;
 
@@ -2110,10 +2420,12 @@ body{
 
 
 /* ==========================================
-   360px SMALL MOBILE
+   360px
 ========================================== */
 
-@media(max-width:360px){
+@media(
+    max-width:360px
+){
 
     .container{
 
@@ -2152,14 +2464,8 @@ body{
         font-size:6.5px;
 
         padding:
-            5px 7px;
-
-    }
-
-
-    .top-btn .material-icons{
-
-        font-size:14px;
+            5px
+            7px;
 
     }
 
@@ -2187,23 +2493,10 @@ body{
     }
 
 
-    .action-btn .material-icons{
+    .action-btn
+    .material-icons{
 
         font-size:15px;
-
-    }
-
-
-    .section-heading h2{
-
-        font-size:10px;
-
-    }
-
-
-    .section-heading p{
-
-        font-size:6px;
 
     }
 
@@ -2244,16 +2537,13 @@ body{
 
 
     #backBtn,
-
     #printBtn,
-
     .filter-section,
-
     .clock-area,
-
+    .today-panel,
     .button-group,
-
-    .attendance-footer{
+    .attendance-footer,
+    .clear-filter-btn{
 
         display:none !important;
 
@@ -2282,8 +2572,6 @@ body{
 
     .table-wrapper{
 
-        box-shadow:none;
-
         overflow:visible;
 
     }
@@ -2299,12 +2587,18 @@ body{
 
 
     #attendanceTable th,
-
     #attendanceTable td{
 
         font-size:8px;
 
         padding:5px;
+
+    }
+
+
+    .action-cell{
+
+        display:none !important;
 
     }
 
