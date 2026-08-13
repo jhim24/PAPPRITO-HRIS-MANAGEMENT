@@ -7,28 +7,19 @@
 
 <meta
     name="viewport"
-    content="width=device-width, initial-scale=1.0">
+    content="width=device-width,initial-scale=1.0">
 
-<title>PAPPRITO Employee Portal</title>
-
-
-<!-- ==========================================
-     MATERIAL ICONS
-========================================== -->
+<title>
+PAPPRITO HRIS - Payslip
+</title>
 
 <link
     href="https://fonts.googleapis.com/icon?family=Material+Icons"
     rel="stylesheet">
 
-
-<!-- ==========================================
-     MANIFEST
-========================================== -->
-
 <link
     rel="manifest"
     href="../manifest.json">
-
 
 <meta
     name="theme-color"
@@ -42,13 +33,9 @@
 ========================================== */
 
 *{
-
     margin:0;
-
     padding:0;
-
     box-sizing:border-box;
-
 }
 
 
@@ -64,14 +51,11 @@ body{
         Arial,
         sans-serif;
 
-    background:
-        #111111;
+    background:#111111;
 
-    color:
-        #ffffff;
+    color:#ffffff;
 
-    min-height:
-        100vh;
+    min-height:100vh;
 
 }
 
@@ -82,17 +66,13 @@ body{
 
 .container{
 
-    width:
-        100%;
+    width:100%;
 
-    max-width:
-        1400px;
+    max-width:1500px;
 
-    margin:
-        0 auto;
+    margin:auto;
 
-    padding:
-        15px;
+    padding:15px;
 
 }
 
@@ -103,63 +83,51 @@ body{
 
 .header{
 
-    display:
-        flex;
+    display:flex;
 
-    justify-content:
-        space-between;
+    justify-content:space-between;
 
-    align-items:
-        center;
+    align-items:center;
 
-    gap:
-        15px;
+    gap:15px;
 
-    padding:
-        15px;
+    padding:15px;
 
-    margin-bottom:
-        15px;
+    margin-bottom:15px;
 
-    background:
-        #1b1b1b;
+    background:#1b1b1b;
 
-    border:
-        2px solid #ffcc00;
+    border:2px solid #ffcc00;
 
-    border-radius:
-        12px;
+    border-radius:12px;
 
     box-shadow:
-        0 0 15px rgba(
-            255,
-            204,
-            0,
-            .15
-        );
+        0 0 15px
+        rgba(255,204,0,.12);
 
 }
 
 
-.portal-title{
+.title{
 
-    display:
-        flex;
+    display:flex;
 
-    align-items:
-        center;
+    align-items:center;
 
-    gap:
-        8px;
+    gap:8px;
 
-    color:
-        #ffcc00;
+    color:#ffcc00;
 
-    font-size:
-        24px;
+    font-size:24px;
 
-    font-weight:
-        900;
+    font-weight:900;
+
+}
+
+
+.title .material-icons{
+
+    font-size:30px;
 
 }
 
@@ -170,85 +138,337 @@ body{
 
 .btn{
 
-    border:
-        none;
+    border:none;
 
-    border-radius:
-        7px;
+    border-radius:7px;
 
-    padding:
-        10px 15px;
+    padding:10px 15px;
 
-    color:
-        #ffffff;
+    font-weight:700;
 
-    font-weight:
-        700;
+    cursor:pointer;
 
-    cursor:
-        pointer;
+    display:inline-flex;
 
-    display:
-        inline-flex;
+    align-items:center;
 
-    align-items:
-        center;
+    justify-content:center;
 
-    justify-content:
-        center;
+    gap:5px;
 
-    gap:
-        5px;
-
-    transition:
-        .2s;
+    transition:.2s;
 
 }
 
 
 .btn:hover{
 
-    transform:
-        translateY(-1px);
+    transform:translateY(-1px);
 
-    opacity:
-        .9;
+    opacity:.9;
 
 }
 
-
-/* ==========================================
-   LOGOUT
-========================================== */
 
 .logout-btn{
 
-    background:
-        #d71920;
+    background:#d71920;
+
+    color:#ffffff;
+
+}
+
+
+.back-btn{
+
+    background:#555555;
+
+    color:#ffffff;
+
+}
+
+
+.print-btn{
+
+    background:#0066cc;
+
+    color:#ffffff;
+
+}
+
+
+.print-all-btn{
+
+    background:#008000;
+
+    color:#ffffff;
+
+}
+
+
+.view-btn{
+
+    background:#ffcc00;
+
+    color:#111111;
+
+}
+
+
+.close-btn{
+
+    background:#d71920;
+
+    color:#ffffff;
+
+}
+
+
+.edit-btn{
+
+    background:#ffcc00;
+
+    color:#111111;
+
+}
+
+
+.delete-btn{
+
+    background:#d71920;
+
+    color:#ffffff;
 
 }
 
 
 /* ==========================================
-   FORM SECTION
+   ADMIN CONTROLS
 ========================================== */
+
+.admin-controls{
+
+    display:none;
+
+    background:#1b1b1b;
+
+    border:2px solid #ffcc00;
+
+    border-radius:12px;
+
+    padding:15px;
+
+    margin-bottom:15px;
+
+}
+
+
+.admin-title{
+
+    color:#ffcc00;
+
+    font-size:18px;
+
+    font-weight:900;
+
+    margin-bottom:12px;
+
+}
+
+
+.filter-grid{
+
+    display:grid;
+
+    grid-template-columns:
+        2fr
+        1fr
+        auto
+        auto;
+
+    gap:10px;
+
+}
+
+
+.filter-grid input{
+
+    width:100%;
+
+    padding:11px;
+
+    border:1px solid #555;
+
+    border-radius:7px;
+
+    background:#252525;
+
+    color:#ffffff;
+
+    outline:none;
+
+}
+
+
+.filter-grid input:focus{
+
+    border-color:#ffcc00;
+
+}
+
+
+/* ==========================================
+   ADMIN SUMMARY
+========================================== */
+
+.summary{
+
+    display:none;
+
+    grid-template-columns:
+        repeat(3,1fr);
+
+    gap:10px;
+
+    margin-bottom:15px;
+
+}
+
+
+.summary-card{
+
+    background:#1b1b1b;
+
+    border:1px solid #444;
+
+    border-left:5px solid #ffcc00;
+
+    border-radius:8px;
+
+    padding:12px;
+
+}
+
+
+.summary-card small{
+
+    color:#bbbbbb;
+
+}
+
+
+.summary-card strong{
+
+    display:block;
+
+    margin-top:5px;
+
+    color:#ffcc00;
+
+    font-size:20px;
+
+}
+
+
+/* ==========================================
+   ADMIN PAYROLL TABLE
+========================================== */
+
+.admin-table-wrapper{
+
+    display:none;
+
+    width:100%;
+
+    overflow-x:auto;
+
+    background:#1b1b1b;
+
+    border:2px solid #ffcc00;
+
+    border-radius:12px;
+
+    padding:8px;
+
+    margin-bottom:15px;
+
+}
+
+
+.admin-table{
+
+    width:100%;
+
+    min-width:1050px;
+
+    border-collapse:collapse;
+
+}
+
+
+.admin-table th,
+.admin-table td{
+
+    border:1px solid #444;
+
+    padding:8px;
+
+    text-align:center;
+
+    white-space:nowrap;
+
+    font-size:12px;
+
+}
+
+
+.admin-table th{
+
+    background:#ffcc00;
+
+    color:#111111;
+
+    font-weight:900;
+
+}
+
+
+.admin-table td{
+
+    background:#222222;
+
+}
+
+
+.admin-table tr:hover td{
+
+    background:#303030;
+
+}
+
+
+/* ==========================================
+   EMPLOYEE SECTION
+========================================== */
+
+.employee-section{
+
+    display:none;
+
+}
+
 
 .form-section{
 
-    background:
-        #1b1b1b;
+    background:#1b1b1b;
 
-    border:
-        2px solid #ffcc00;
+    border:2px solid #ffcc00;
 
-    border-radius:
-        12px;
+    border-radius:12px;
 
-    padding:
-        15px;
+    padding:15px;
 
-    margin-bottom:
-        15px;
+    margin-bottom:15px;
 
 }
 
@@ -259,66 +479,52 @@ body{
 
 .emp-info{
 
-    display:
-        grid;
+    display:grid;
 
     grid-template-columns:
         1fr 1fr;
 
-    gap:
-        10px;
+    gap:10px;
 
-    margin-bottom:
-        15px;
+    margin-bottom:15px;
 
 }
 
 
 .emp-info > div{
 
-    background:
-        #252525;
+    background:#252525;
 
-    border:
-        1px solid #444;
+    border:1px solid #444;
 
-    border-left:
-        4px solid #ffcc00;
+    border-left:4px solid #ffcc00;
 
-    padding:
-        10px;
+    padding:10px;
 
-    border-radius:
-        7px;
+    border-radius:7px;
 
 }
 
 
 .emp-info span{
 
-    color:
-        #ffcc00;
+    color:#ffcc00;
 
 }
 
 
 /* ==========================================
-   FORM GRID
+   REQUEST FORM
 ========================================== */
 
 .form-grid{
 
-    display:
-        grid;
+    display:grid;
 
     grid-template-columns:
-        repeat(
-            4,
-            1fr
-        );
+        repeat(4,1fr);
 
-    gap:
-        10px;
+    gap:10px;
 
 }
 
@@ -327,37 +533,28 @@ body{
 .form-grid select,
 .form-grid textarea{
 
-    width:
-        100%;
+    width:100%;
 
-    padding:
-        11px;
+    padding:11px;
 
-    border:
-        1px solid #555;
+    border:1px solid #555;
 
-    border-radius:
-        7px;
+    border-radius:7px;
 
-    background:
-        #252525;
+    background:#252525;
 
-    color:
-        #ffffff;
+    color:#ffffff;
 
-    outline:
-        none;
+    outline:none;
 
 }
 
 
 .form-grid textarea{
 
-    min-height:
-        70px;
+    min-height:70px;
 
-    resize:
-        vertical;
+    resize:vertical;
 
 }
 
@@ -366,16 +563,7 @@ body{
 .form-grid select:focus,
 .form-grid textarea:focus{
 
-    border-color:
-        #ffcc00;
-
-    box-shadow:
-        0 0 5px rgba(
-            255,
-            204,
-            0,
-            .25
-        );
+    border-color:#ffcc00;
 
 }
 
@@ -386,331 +574,248 @@ body{
 
 .action-buttons{
 
-    display:
-        flex;
+    display:flex;
 
-    gap:
-        10px;
+    gap:10px;
 
-    flex-wrap:
-        wrap;
+    flex-wrap:wrap;
 
-    margin-top:
-        15px;
+    margin-top:15px;
 
 }
 
 
 .submit-btn{
 
-    background:
-        #d71920;
+    background:#d71920;
+
+    color:#ffffff;
 
 }
 
 
 .attendance-btn{
 
-    background:
-        #cc8a00;
+    background:#cc8a00;
 
-}
-
-
-.view-btn{
-
-    background:
-        #008000;
-
-}
-
-
-.close-btn{
-
-    background:
-        #666666;
-
-}
-
-
-.print-btn{
-
-    background:
-        #0066cc;
+    color:#ffffff;
 
 }
 
 
 /* ==========================================
-   TABLE WRAPPER
+   REQUEST TABLE
 ========================================== */
 
 .table-wrapper{
 
-    width:
-        100%;
+    width:100%;
 
-    overflow:
-        auto;
+    overflow-x:auto;
 
-    margin-top:
-        15px;
+    background:#1b1b1b;
 
-    background:
-        #222222;
+    border:1px solid #444;
 
-    border:
-        1px solid #444;
+    border-radius:8px;
 
-    border-radius:
-        8px;
+    margin-top:15px;
 
 }
 
 
-/* ==========================================
-   TABLE
-========================================== */
+.request-table{
 
-table{
+    width:100%;
 
-    width:
-        100%;
+    min-width:900px;
 
-    min-width:
-        900px;
-
-    border-collapse:
-        collapse;
+    border-collapse:collapse;
 
 }
 
 
-th,
-td{
+.request-table th,
+.request-table td{
 
-    border:
-        1px solid #444;
+    border:1px solid #444;
 
-    padding:
-        9px;
+    padding:8px;
 
-    text-align:
-        center;
+    text-align:center;
 
-    font-size:
-        12px;
+    font-size:12px;
 
 }
 
 
-th{
+.request-table th{
 
-    background:
-        #ffcc00;
+    background:#ffcc00;
 
-    color:
-        #111111;
+    color:#111111;
 
 }
 
 
-tr:nth-child(even){
+.request-table td{
 
-    background:
-        #252525;
-
-}
-
-
-tr:hover{
-
-    background:
-        #333333;
+    background:#222222;
 
 }
 
-
-/* ==========================================
-   STATUS
-========================================== */
 
 .pending{
 
-    color:
-        #ffcc00;
+    color:#ffcc00;
 
-    font-weight:
-        bold;
+    font-weight:bold;
 
 }
 
 
 .approved{
 
-    color:
-        #00cc66;
+    color:#00cc66;
 
-    font-weight:
-        bold;
+    font-weight:bold;
 
 }
 
 
 .rejected{
 
-    color:
-        #ff4444;
+    color:#ff4444;
 
-    font-weight:
-        bold;
+    font-weight:bold;
 
 }
 
 
 /* ==========================================
-   PAYSLIP
+   PAYSLIP AREA
 ========================================== */
 
 .payslip{
 
-    display:
-        none;
+    display:none;
 
-    width:
-        100%;
+    width:100%;
 
-    max-width:
-        700px;
+    max-width:700px;
 
-    margin:
-        25px auto;
+    margin:20px auto;
 
-    padding:
-        15px;
+    padding:12px;
 
-    background:
-        #f9f9f9;
+    background:#f9f9f9;
 
-    color:
-        #000000;
+    color:#000000;
 
-    border:
-        3px solid #ffcc00;
+    border:3px solid #ffcc00;
 
-    border-radius:
-        12px;
+    border-radius:12px;
+
+}
+
+
+.payslip-actions{
+
+    display:flex;
+
+    justify-content:flex-end;
+
+    gap:8px;
+
+    flex-wrap:wrap;
+
+    margin-bottom:10px;
 
 }
 
 
 .payroll-logo{
 
-    width:
-        75px;
+    width:70px;
 
-    height:
-        75px;
+    height:70px;
 
-    object-fit:
-        cover;
+    object-fit:cover;
 
-    border-radius:
-        50%;
+    border-radius:50%;
 
-    border:
-        3px solid #ffcc00;
+    border:3px solid #ffcc00;
 
-    background:
-        #ffffff;
+    background:#ffffff;
 
-    padding:
-        4px;
+    padding:4px;
 
-    display:
-        block;
+    display:block;
 
-    margin:
-        0 auto 8px auto;
+    margin:0 auto 8px auto;
 
 }
 
 
 .company{
 
-    text-align:
-        center;
+    text-align:center;
 
-    margin-bottom:
-        10px;
+    margin-bottom:6px;
+
+    padding-bottom:5px;
+
+    border-bottom:2px solid #ffcc00;
 
 }
 
 
 .company h2{
 
-    color:
-        #cc0000;
+    font-size:20px;
 
-    font-size:
-        22px;
-
-    margin:
-        3px;
+    color:#cc0000;
 
 }
 
 
 .company p{
 
-    font-size:
-        11px;
+    font-size:9px;
 
-    font-weight:
-        bold;
+    font-weight:bold;
 
 }
 
 
 .info{
 
-    background:
-        #fff8dc;
+    font-size:10px;
 
-    border:
-        1px solid #ffcc00;
+    line-height:1.6;
 
-    border-radius:
-        7px;
+    margin-bottom:6px;
 
-    padding:
-        10px;
+    background:#fff8dc;
 
-    margin-bottom:
-        10px;
+    padding:6px;
 
-    line-height:
-        1.7;
+    border-radius:6px;
 
-    font-size:
-        12px;
+    border:1px solid #ffcc00;
 
 }
 
 
 .payroll-table{
 
-    width:
-        100%;
+    width:100%;
 
-    min-width:
-        0;
+    border-collapse:collapse;
 
-    border-collapse:
-        collapse;
+    margin-top:5px;
 
-    margin-top:
-        8px;
+    table-layout:fixed;
 
 }
 
@@ -718,135 +823,78 @@ tr:hover{
 .payroll-table th,
 .payroll-table td{
 
-    border:
-        1px solid #999;
+    border:1px solid #999;
 
-    padding:
-        6px;
+    padding:5px;
 
-    font-size:
-        11px;
+    font-size:10px;
 
 }
 
 
 .payroll-table th{
 
-    background:
-        #ffcc00;
+    background:#ffcc00;
 
-    color:
-        #000000;
+    color:#000000;
 
 }
 
 
 .payroll-table td{
 
-    background:
-        #ffffff;
+    background:#ffffff;
 
-    color:
-        #000000;
+    color:#000000;
 
 }
 
 
 .netpay{
 
-    margin-top:
-        10px;
+    margin-top:8px;
 
-    padding:
-        10px;
+    padding:8px;
 
-    background:
-        #008000;
+    background:#008000;
 
-    color:
-        #ffffff;
+    color:#ffffff;
 
-    font-weight:
-        900;
+    border-radius:6px;
 
-    text-align:
-        right;
+    font-size:12px;
 
-    border-radius:
-        6px;
+    font-weight:bold;
 
-    font-size:
-        15px;
+    text-align:right;
 
 }
 
 
 .signature{
 
-    display:
-        flex;
+    margin-top:20px;
 
-    justify-content:
-        space-between;
+    display:flex;
 
-    gap:
-        30px;
+    justify-content:space-between;
 
-    margin-top:
-        35px;
-
-    text-align:
-        center;
+    font-size:8px;
 
 }
 
 
 .line{
 
-    border-top:
-        1px solid #000000;
+    margin-top:12px;
 
-    width:
-        150px;
+    border-top:1px solid #000000;
 
-    padding-top:
-        5px;
+    width:90px;
 
-    font-size:
-        9px;
+    text-align:center;
 
-}
-
-
-/* ==========================================
-   PRINT SINGLE PAYSLIP
-========================================== */
-
-@media print{
-
-    body{
-
-        background:
-            #ffffff;
-
-    }
-
-
-    .container{
-
-        display:
-            none !important;
-
-    }
-
-
-    .payslip{
-
-        display:
-            block !important;
-
-    }
-
+    padding-top:3px;
 
 }
 
@@ -855,87 +903,96 @@ tr:hover{
    MOBILE
 ========================================== */
 
-@media(
-    max-width:768px
-){
+@media(max-width:768px){
 
     .container{
 
-        padding:
-            8px;
+        padding:8px;
 
     }
 
 
     .header{
 
-        flex-direction:
-            column;
+        flex-direction:column;
 
-        align-items:
-            stretch;
+        align-items:stretch;
 
     }
 
 
-    .portal-title{
+    .title{
 
-        justify-content:
-            center;
+        justify-content:center;
 
-        font-size:
-            20px;
+        font-size:20px;
 
     }
 
 
-    .logout-btn{
+    .header > button{
 
-        width:
-            100%;
+        width:100%;
+
+    }
+
+
+    .filter-grid{
+
+        grid-template-columns:1fr;
+
+    }
+
+
+    .filter-grid .btn{
+
+        width:100%;
+
+    }
+
+
+    .summary{
+
+        grid-template-columns:1fr;
 
     }
 
 
     .emp-info{
 
-        grid-template-columns:
-            1fr;
+        grid-template-columns:1fr;
 
     }
 
 
     .form-grid{
 
-        grid-template-columns:
-            1fr;
+        grid-template-columns:1fr;
 
     }
 
 
     .action-buttons{
 
-        flex-direction:
-            column;
+        flex-direction:column;
 
     }
 
 
     .action-buttons .btn{
 
-        width:
-            100%;
+        width:100%;
 
     }
 
 
     .payslip{
 
-        margin:
-            15px auto;
+        width:100%;
 
-        padding:
-            8px;
+        margin:15px auto;
+
+        padding:8px;
 
     }
 
@@ -943,27 +1000,31 @@ tr:hover{
     .payroll-table th,
     .payroll-table td{
 
-        font-size:
-            9px;
+        font-size:8px;
 
-        padding:
-            4px;
+        padding:3px;
 
     }
 
 
-    .signature{
+    .netpay{
 
-        margin-top:
-            20px;
+        font-size:10px;
 
     }
 
+}
 
-    .line{
 
-        width:
-            110px;
+/* ==========================================
+   PRINT
+========================================== */
+
+@media print{
+
+    body{
+
+        background:#ffffff;
 
     }
 
@@ -987,17 +1048,17 @@ tr:hover{
 <div class="header">
 
 
-    <div class="portal-title">
+    <div
+        class="title"
+        id="pageTitle">
 
 
         <span class="material-icons">
-
-            badge
-
+            receipt_long
         </span>
 
 
-        EMPLOYEE PORTAL
+        PAYSLIP
 
 
     </div>
@@ -1009,9 +1070,7 @@ tr:hover{
 
 
         <span class="material-icons">
-
             logout
-
         </span>
 
 
@@ -1026,13 +1085,262 @@ tr:hover{
 
 
 <!-- ==========================================
-     MAIN FORM
+     ADMIN CONTROLS
 ========================================== -->
+
+<section
+    class="admin-controls"
+    id="adminControls">
+
+
+    <div class="admin-title">
+
+        ADMIN PAYSLIP MANAGEMENT
+
+    </div>
+
+
+    <div class="filter-grid">
+
+
+        <input
+            type="text"
+            id="searchEmployee"
+            placeholder="Search Employee ID or Name">
+
+
+        <input
+            type="date"
+            id="filterDate">
+
+
+        <button
+            class="btn view-btn"
+            onclick="applyFilter()">
+
+
+            <span class="material-icons">
+                search
+            </span>
+
+
+            SEARCH
+
+
+        </button>
+
+
+        <button
+            class="btn print-all-btn"
+            onclick="printAllPayslips()">
+
+
+            <span class="material-icons">
+                print
+            </span>
+
+
+            PRINT ALL
+
+
+        </button>
+
+
+    </div>
+
+
+    <div
+        style="
+        margin-top:10px;
+        display:flex;
+        gap:8px;
+        flex-wrap:wrap;
+        ">
+
+
+        <button
+            class="btn close-btn"
+            onclick="showAllPayslips()">
+
+
+            SHOW ALL
+
+
+        </button>
+
+
+    </div>
+
+
+</section>
+
+
+
+<!-- ==========================================
+     ADMIN SUMMARY
+========================================== -->
+
+<div
+    class="summary"
+    id="adminSummary">
+
+
+    <div class="summary-card">
+
+
+        <small>
+            TOTAL PAYSLIPS
+        </small>
+
+
+        <strong
+            id="totalRecords">
+
+            0
+
+        </strong>
+
+
+    </div>
+
+
+    <div class="summary-card">
+
+
+        <small>
+            TOTAL GROSS
+        </small>
+
+
+        <strong>
+
+            ₱
+
+            <span
+                id="totalGross">
+
+                0.00
+
+            </span>
+
+        </strong>
+
+
+    </div>
+
+
+    <div class="summary-card">
+
+
+        <small>
+            TOTAL NET PAY
+        </small>
+
+
+        <strong>
+
+            ₱
+
+            <span
+                id="totalNet">
+
+                0.00
+
+            </span>
+
+        </strong>
+
+
+    </div>
+
+
+</div>
+
+
+
+<!-- ==========================================
+     ADMIN TABLE
+========================================== -->
+
+<div
+    class="admin-table-wrapper"
+    id="adminTableWrapper">
+
+
+<table
+    class="admin-table">
+
+
+<thead>
+
+
+<tr>
+
+    <th>
+        EMPLOYEE ID
+    </th>
+
+    <th>
+        EMPLOYEE
+    </th>
+
+    <th>
+        DATE
+    </th>
+
+    <th>
+        BASIC PAY
+    </th>
+
+    <th>
+        GROSS
+    </th>
+
+    <th>
+        DEDUCTIONS
+    </th>
+
+    <th>
+        NET PAY
+    </th>
+
+    <th>
+        ACTION
+    </th>
+
+</tr>
+
+
+</thead>
+
+
+<tbody
+    id="adminPayslipBody">
+
+</tbody>
+
+
+</table>
+
+
+</div>
+
+
+
+<!-- ==========================================
+     EMPLOYEE SECTION
+========================================== -->
+
+<section
+    class="employee-section"
+    id="employeeSection">
+
 
 <div class="form-section">
 
 
-    <!-- EMPLOYEE INFORMATION -->
+    <!-- EMPLOYEE INFO -->
+
 
     <div class="emp-info">
 
@@ -1073,9 +1381,8 @@ tr:hover{
 
 
 
-    <!-- ======================================
-         REQUEST FORM
-    ======================================= -->
+    <!-- REQUEST FORM -->
+
 
     <div class="form-grid">
 
@@ -1085,9 +1392,7 @@ tr:hover{
 
 
             <option value="">
-
                 Select Request
-
             </option>
 
 
@@ -1141,9 +1446,7 @@ tr:hover{
 
 
             <option value="">
-
                 Select Attendance Request
-
             </option>
 
 
@@ -1184,9 +1487,8 @@ tr:hover{
 
 
 
-    <!-- ======================================
-         BUTTONS
-    ======================================= -->
+    <!-- ACTIONS -->
+
 
     <div class="action-buttons">
 
@@ -1197,9 +1499,7 @@ tr:hover{
 
 
             <span class="material-icons">
-
                 send
-
             </span>
 
 
@@ -1215,9 +1515,7 @@ tr:hover{
 
 
             <span class="material-icons">
-
                 schedule
-
             </span>
 
 
@@ -1233,9 +1531,7 @@ tr:hover{
 
 
             <span class="material-icons">
-
                 visibility
-
             </span>
 
 
@@ -1251,9 +1547,7 @@ tr:hover{
 
 
             <span class="material-icons">
-
                 close
-
             </span>
 
 
@@ -1269,9 +1563,7 @@ tr:hover{
 
 
             <span class="material-icons">
-
                 print
-
             </span>
 
 
@@ -1285,54 +1577,54 @@ tr:hover{
 
 
 
-    <!-- ======================================
-         LEAVE REQUEST TABLE
-    ======================================= -->
+    <!-- LEAVE REQUESTS -->
+
 
     <div class="table-wrapper">
 
 
-        <table>
+        <table
+            class="request-table">
 
 
             <thead>
 
 
-                <tr>
+            <tr>
 
-                    <th>
-                        EMPLOYEE ID
-                    </th>
+                <th>
+                    EMPLOYEE ID
+                </th>
 
-                    <th>
-                        EMPLOYEE
-                    </th>
+                <th>
+                    EMPLOYEE
+                </th>
 
-                    <th>
-                        REQUEST
-                    </th>
+                <th>
+                    REQUEST
+                </th>
 
-                    <th>
-                        DATE
-                    </th>
+                <th>
+                    DATE
+                </th>
 
-                    <th>
-                        DAYS
-                    </th>
+                <th>
+                    DAYS
+                </th>
 
-                    <th>
-                        REASON
-                    </th>
+                <th>
+                    REASON
+                </th>
 
-                    <th>
-                        STATUS
-                    </th>
+                <th>
+                    STATUS
+                </th>
 
-                    <th>
-                        ACTION
-                    </th>
+                <th>
+                    ACTION
+                </th>
 
-                </tr>
+            </tr>
 
 
             </thead>
@@ -1351,54 +1643,54 @@ tr:hover{
 
 
 
-    <!-- ======================================
-         ATTENDANCE REQUEST TABLE
-    ======================================= -->
+    <!-- ATTENDANCE REQUESTS -->
+
 
     <div class="table-wrapper">
 
 
-        <table>
+        <table
+            class="request-table">
 
 
             <thead>
 
 
-                <tr>
+            <tr>
 
-                    <th>
-                        EMPLOYEE ID
-                    </th>
+                <th>
+                    EMPLOYEE ID
+                </th>
 
-                    <th>
-                        EMPLOYEE
-                    </th>
+                <th>
+                    EMPLOYEE
+                </th>
 
-                    <th>
-                        ATTENDANCE REQUEST
-                    </th>
+                <th>
+                    REQUEST
+                </th>
 
-                    <th>
-                        DATE
-                    </th>
+                <th>
+                    DATE
+                </th>
 
-                    <th>
-                        TIME
-                    </th>
+                <th>
+                    TIME
+                </th>
 
-                    <th>
-                        REASON
-                    </th>
+                <th>
+                    REASON
+                </th>
 
-                    <th>
-                        STATUS
-                    </th>
+                <th>
+                    STATUS
+                </th>
 
-                    <th>
-                        ACTION
-                    </th>
+                <th>
+                    ACTION
+                </th>
 
-                </tr>
+            </tr>
 
 
             </thead>
@@ -1416,488 +1708,521 @@ tr:hover{
     </div>
 
 
+</div>
+
+
+</section>
+
+
+
+<!-- ==========================================
+     EXISTING PAYSLIP
+========================================== -->
+
+<div
+    class="payslip"
+    id="payslipArea">
+
+
+    <div class="payslip-actions">
+
+
+        <button
+            class="btn print-btn"
+            onclick="printPayslip()">
+
+
+            <span class="material-icons">
+                print
+            </span>
+
+
+            PRINT PAYSLIP
+
+
+        </button>
+
+
+        <button
+            class="btn close-btn"
+            onclick="closePayslip()">
+
+
+            <span class="material-icons">
+                close
+            </span>
+
+
+            CLOSE
+
+
+        </button>
+
+
+    </div>
+
+
+
+    <div class="company">
+
+
+        <img
+            src="logo.png"
+            class="payroll-logo">
+
+
+        <h2>
+            PAPPRITO
+        </h2>
+
+
+        <p>
+            OFFICIAL EMPLOYEE PAYSLIP
+        </p>
+
+
+    </div>
+
+
+
+    <div class="info">
+
+
+        <b>
+            ID:
+        </b>
+
+        <span
+            id="payEmpId">
+
+            -
+
+        </span>
+
+
+        <br>
+
+
+        <b>
+            Name:
+        </b>
+
+        <span
+            id="payEmp">
+
+            -
+
+        </span>
+
+
+        <br>
+
+
+        <b>
+            Date:
+        </b>
+
+        <span
+            id="payDate">
+
+            -
+
+        </span>
+
+
+        <br>
+
+
+        <b>
+            Daily Rate:
+        </b>
+
+        ₱
+
+        <span
+            id="payDailyRate">
+
+            0.00
+
+        </span>
+
+
+        <br>
+
+
+        <b>
+            Total Days:
+        </b>
+
+        <span
+            id="payTotalDays">
+
+            0
+
+        </span>
+
+
+    </div>
+
+
 
     <!-- ======================================
-         PAYSLIP
+         EARNINGS
     ======================================= -->
 
-    <div
-        class="payslip"
-        id="payslipArea">
+    <table
+        class="payroll-table">
 
 
-        <!-- COMPANY -->
+        <tr>
 
+            <th>
+                EARNINGS
+            </th>
 
-        <div class="company">
+            <th>
+                AMOUNT
+            </th>
 
+        </tr>
 
-            <img
-                src="logo.png"
-                class="payroll-logo">
 
+        <tr>
 
-            <h2>
-                PAPPRITO
-            </h2>
+            <td>
+                Basic Pay
+            </td>
 
-
-            <p>
-                OFFICIAL EMPLOYEE PAYSLIP
-            </p>
-
-
-        </div>
-
-
-
-        <!-- EMPLOYEE INFO -->
-
-
-        <div class="info">
-
-
-            <b>
-                ID:
-            </b>
-
-
-            <span
-                id="payEmpId">
-
-                -
-
-            </span>
-
-
-            <br>
-
-
-            <b>
-                Name:
-            </b>
-
-
-            <span
-                id="payEmp">
-
-                -
-
-            </span>
-
-
-            <br>
-
-
-            <b>
-                Date:
-            </b>
-
-
-            <span
-                id="payDate">
-
-                -
-
-            </span>
-
-
-        </div>
-
-
-
-        <!-- ==================================
-             EARNINGS
-        =================================== -->
-
-        <table
-            class="payroll-table">
-
-
-            <tr>
-
-                <th>
-                    EARNINGS
-                </th>
-
-                <th>
-                    AMOUNT
-                </th>
-
-            </tr>
-
-
-            <tr>
-
-                <td>
-                    Daily Rate
-                </td>
-
-                <td
-                    id="payDailyRate">
-
-                    0.00
-
-                </td>
-
-            </tr>
-
-
-            <tr>
-
-                <td>
-                    Total Days
-                </td>
-
-                <td
-                    id="payTotalDays">
-
-                    0
-
-                </td>
-
-            </tr>
-
-
-            <tr>
-
-                <td>
-                    Basic Pay
-                </td>
-
-                <td
-                    id="payBasic">
-
-                    0.00
-
-                </td>
-
-            </tr>
-
-
-            <tr>
-
-                <td>
-                    Overtime
-                </td>
-
-                <td
-                    id="payOvertime">
-
-                    0.00
-
-                </td>
-
-            </tr>
-
-
-            <tr>
-
-                <td>
-                    Holiday Pay
-                </td>
-
-                <td
-                    id="payHoliday">
-
-                    0.00
-
-                </td>
-
-            </tr>
-
-
-            <tr>
-
-                <td>
-                    Sick Leave
-                </td>
-
-                <td
-                    id="paySick">
-
-                    0.00
-
-                </td>
-
-            </tr>
-
-
-            <tr>
-
-                <td>
-                    Vacation Leave
-                </td>
-
-                <td
-                    id="payVacation">
-
-                    0.00
-
-                </td>
-
-            </tr>
-
-
-            <tr>
-
-                <td>
-                    Birthday Leave
-                </td>
-
-                <td
-                    id="payBirthday">
-
-                    0.00
-
-                </td>
-
-            </tr>
-
-
-            <tr>
-
-                <td>
-                    Maternity Leave
-                </td>
-
-                <td
-                    id="payMaternity">
-
-                    0.00
-
-                </td>
-
-            </tr>
-
-
-            <tr>
-
-                <td>
-                    Paternity Leave
-                </td>
-
-                <td
-                    id="payPaternity">
-
-                    0.00
-
-                </td>
-
-            </tr>
-
-
-            <tr>
-
-                <td>
-                    Allowance
-                </td>
-
-                <td
-                    id="payAllowance">
-
-                    0.00
-
-                </td>
-
-            </tr>
-
-
-            <tr>
-
-                <td>
-
-                    <b>
-                        TOTAL GROSS
-                    </b>
-
-                </td>
-
-                <td
-                    id="payGross">
-
-                    <b>
-                        0.00
-                    </b>
-
-                </td>
-
-            </tr>
-
-
-        </table>
-
-
-
-        <!-- ==================================
-             DEDUCTIONS
-        =================================== -->
-
-        <table
-            class="payroll-table">
-
-
-            <tr>
-
-                <th>
-                    DEDUCTIONS
-                </th>
-
-                <th>
-                    AMOUNT
-                </th>
-
-            </tr>
-
-
-            <tr>
-
-                <td>
-                    SSS
-                </td>
-
-                <td
-                    id="paySSS">
-
-                    0.00
-
-                </td>
-
-            </tr>
-
-
-            <tr>
-
-                <td>
-                    PhilHealth
-                </td>
-
-                <td
-                    id="payPhilhealth">
-
-                    0.00
-
-                </td>
-
-            </tr>
-
-
-            <tr>
-
-                <td>
-                    Pag-IBIG
-                </td>
-
-                <td
-                    id="payPagibig">
-
-                    0.00
-
-                </td>
-
-            </tr>
-
-
-            <tr>
-
-                <td>
-                    Health Card
-                </td>
-
-                <td
-                    id="payHealth">
-
-                    0.00
-
-                </td>
-
-            </tr>
-
-
-            <tr>
-
-                <td>
-                    Others
-                </td>
-
-                <td
-                    id="payOther">
-
-                    0.00
-
-                </td>
-
-            </tr>
-
-
-            <tr>
-
-                <td>
-
-                    <b>
-                        Total Deduction
-                    </b>
-
-                </td>
-
-                <td
-                    id="payDeduction">
-
-                    <b>
-                        0.00
-                    </b>
-
-                </td>
-
-            </tr>
-
-
-        </table>
-
-
-
-        <!-- NET PAY -->
-
-
-        <div class="netpay">
-
-
-            NET PAY :
-
-            ₱
-
-            <span
-                id="payNet">
+            <td
+                id="payBasic">
 
                 0.00
 
-            </span>
+            </td>
+
+        </tr>
 
 
+        <tr>
+
+            <td>
+                Overtime
+            </td>
+
+            <td
+                id="payOvertime">
+
+                0.00
+
+            </td>
+
+        </tr>
+
+
+        <tr>
+
+            <td>
+                Holiday Pay
+            </td>
+
+            <td
+                id="payHoliday">
+
+                0.00
+
+            </td>
+
+        </tr>
+
+
+        <tr>
+
+            <td>
+                Sick Leave
+            </td>
+
+            <td
+                id="paySick">
+
+                0.00
+
+            </td>
+
+        </tr>
+
+
+        <tr>
+
+            <td>
+                Vacation Leave
+            </td>
+
+            <td
+                id="payVacation">
+
+                0.00
+
+            </td>
+
+        </tr>
+
+
+        <tr>
+
+            <td>
+                Birthday Leave
+            </td>
+
+            <td
+                id="payBirthday">
+
+                0.00
+
+            </td>
+
+        </tr>
+
+
+        <tr>
+
+            <td>
+                Maternity Leave
+            </td>
+
+            <td
+                id="payMaternity">
+
+                0.00
+
+            </td>
+
+        </tr>
+
+
+        <tr>
+
+            <td>
+                Paternity Leave
+            </td>
+
+            <td
+                id="payPaternity">
+
+                0.00
+
+            </td>
+
+        </tr>
+
+
+        <tr>
+
+            <td>
+                Allowance
+            </td>
+
+            <td
+                id="payAllowance">
+
+                0.00
+
+            </td>
+
+        </tr>
+
+
+        <tr>
+
+            <td>
+
+                <b>
+                    TOTAL GROSS
+                </b>
+
+            </td>
+
+            <td>
+
+                <b
+                    id="payGross">
+
+                    0.00
+
+                </b>
+
+            </td>
+
+        </tr>
+
+
+    </table>
+
+
+
+    <!-- ======================================
+         DEDUCTIONS
+    ======================================= -->
+
+    <table
+        class="payroll-table">
+
+
+        <tr>
+
+            <th>
+                DEDUCTIONS
+            </th>
+
+            <th>
+                AMOUNT
+            </th>
+
+        </tr>
+
+
+        <tr>
+
+            <td>
+                SSS
+            </td>
+
+            <td
+                id="paySSS">
+
+                0.00
+
+            </td>
+
+        </tr>
+
+
+        <tr>
+
+            <td>
+                PhilHealth
+            </td>
+
+            <td
+                id="payPhilhealth">
+
+                0.00
+
+            </td>
+
+        </tr>
+
+
+        <tr>
+
+            <td>
+                Pag-IBIG
+            </td>
+
+            <td
+                id="payPagibig">
+
+                0.00
+
+            </td>
+
+        </tr>
+
+
+        <tr>
+
+            <td>
+                Health Card
+            </td>
+
+            <td
+                id="payHealth">
+
+                0.00
+
+            </td>
+
+        </tr>
+
+
+        <tr>
+
+            <td>
+                Others
+            </td>
+
+            <td
+                id="payOther">
+
+                0.00
+
+            </td>
+
+        </tr>
+
+
+        <tr>
+
+            <td>
+
+                <b>
+                    TOTAL DEDUCTION
+                </b>
+
+            </td>
+
+            <td>
+
+                <b
+                    id="payDeduction">
+
+                    0.00
+
+                </b>
+
+            </td>
+
+        </tr>
+
+
+    </table>
+
+
+
+    <!-- NET PAY -->
+
+
+    <div class="netpay">
+
+
+        NET PAY :
+
+        ₱
+
+        <span
+            id="payNet">
+
+            0.00
+
+        </span>
+
+
+    </div>
+
+
+
+    <!-- SIGNATURE -->
+
+
+    <div class="signature">
+
+
+        <div class="line">
+            HR
         </div>
 
 
-
-        <!-- SIGNATURE -->
-
-
-        <div class="signature">
-
-
-            <div class="line">
-
-                HR
-
-            </div>
-
-
-            <div class="line">
-
-                Employee
-
-            </div>
-
-
+        <div class="line">
+            Employee
         </div>
 
 
@@ -1931,17 +2256,11 @@ from
 import {
 
     getFirestore,
-
     collection,
-
     getDocs,
-
     addDoc,
-
     updateDoc,
-
     deleteDoc,
-
     doc
 
 }
@@ -1950,318 +2269,294 @@ from
 "https://www.gstatic.com/firebasejs/12.13.0/firebase-firestore.js";
 
 
-
 /* ==========================================
-   CONFIG
+   FIREBASE CONFIG
 ========================================== */
 
 const firebaseConfig = {
 
     apiKey:
-    "AIzaSyAehoq0teVYHiJ4bkKOgBqIgJZrQpce3k8",
+        "AIzaSyAehoq0teVYHiJ4bkKOgBqIgJZrQpce3k8",
 
     authDomain:
-    "hr-system-38fc3.firebaseapp.com",
+        "hr-system-38fc3.firebaseapp.com",
 
     projectId:
-    "hr-system-38fc3",
+        "hr-system-38fc3",
 
     storageBucket:
-    "hr-system-38fc3.firebasestorage.app",
+        "hr-system-38fc3.firebasestorage.app",
 
     messagingSenderId:
-    "615471610834",
+        "615471610834",
 
     appId:
-    "1:615471610834:web:a0d671d4e3f4c1b57b660b"
+        "1:615471610834:web:a0d671d4e3f4c1b57b660b"
 
 };
 
 
 const app =
-initializeApp(
-    firebaseConfig
-);
+    initializeApp(
+        firebaseConfig
+    );
 
 
 const db =
-getFirestore(
-    app
-);
-
+    getFirestore(
+        app
+    );
 
 
 /* ==========================================
-   CURRENT USER
+   LOGIN
 ========================================== */
 
-let currentUser =
-localStorage.getItem(
-    "loggedInUser"
-) || "";
+const loggedInUser =
+    String(
+        localStorage.getItem(
+            "loggedInUser"
+        ) || ""
+    )
+    .trim();
 
+
+const userRole =
+    String(
+        localStorage.getItem(
+            "userRole"
+        ) || ""
+    )
+    .trim()
+    .toLowerCase();
+
+
+/* ==========================================
+   GLOBAL DATA
+========================================== */
 
 let currentEmployee =
-null;
+    null;
+
+
+let currentPayroll =
+    null;
+
+
+let allPayroll =
+    [];
+
+
+let filteredPayroll =
+    [];
 
 
 let editId =
-null;
+    null;
 
 
 let attendanceEditId =
-null;
-
-
-
-/* ==========================================
-   LOGIN CHECK
-========================================== */
-
-if(
-    !currentUser
-){
-
-    window.location.href =
-        "login.html";
-
-}
-
+    null;
 
 
 /* ==========================================
    ELEMENTS
 ========================================== */
 
-const empIdDisplay =
-document.getElementById(
-    "empIdDisplay"
-);
+const pageTitle =
+    document.getElementById(
+        "pageTitle"
+    );
 
 
-const empNameDisplay =
-document.getElementById(
-    "empNameDisplay"
-);
+const adminControls =
+    document.getElementById(
+        "adminControls"
+    );
 
 
-const requestType =
-document.getElementById(
-    "requestType"
-);
+const adminSummary =
+    document.getElementById(
+        "adminSummary"
+    );
 
 
-const requestDate =
-document.getElementById(
-    "requestDate"
-);
+const adminTableWrapper =
+    document.getElementById(
+        "adminTableWrapper"
+    );
 
 
-const days =
-document.getElementById(
-    "days"
-);
+const adminPayslipBody =
+    document.getElementById(
+        "adminPayslipBody"
+    );
 
 
-const reason =
-document.getElementById(
-    "reason"
-);
-
-
-const attendanceType =
-document.getElementById(
-    "attendanceType"
-);
-
-
-const attendanceDate =
-document.getElementById(
-    "attendanceDate"
-);
-
-
-const attendanceTime =
-document.getElementById(
-    "attendanceTime"
-);
-
-
-const attendanceReason =
-document.getElementById(
-    "attendanceReason"
-);
-
-
-const requestBody =
-document.getElementById(
-    "requestBody"
-);
-
-
-const attendanceBody =
-document.getElementById(
-    "attendanceBody"
-);
+const employeeSection =
+    document.getElementById(
+        "employeeSection"
+    );
 
 
 const payslipArea =
-document.getElementById(
-    "payslipArea"
-);
+    document.getElementById(
+        "payslipArea"
+    );
 
+
+/* ==========================================
+   PAYSLIP ELEMENTS
+========================================== */
 
 const payEmpId =
-document.getElementById(
-    "payEmpId"
-);
+    document.getElementById(
+        "payEmpId"
+    );
 
 
 const payEmp =
-document.getElementById(
-    "payEmp"
-);
+    document.getElementById(
+        "payEmp"
+    );
 
 
 const payDate =
-document.getElementById(
-    "payDate"
-);
+    document.getElementById(
+        "payDate"
+    );
 
 
 const payDailyRate =
-document.getElementById(
-    "payDailyRate"
-);
+    document.getElementById(
+        "payDailyRate"
+    );
 
 
 const payTotalDays =
-document.getElementById(
-    "payTotalDays"
-);
+    document.getElementById(
+        "payTotalDays"
+    );
 
 
 const payBasic =
-document.getElementById(
-    "payBasic"
-);
+    document.getElementById(
+        "payBasic"
+    );
 
 
 const payOvertime =
-document.getElementById(
-    "payOvertime"
-);
+    document.getElementById(
+        "payOvertime"
+    );
 
 
 const payHoliday =
-document.getElementById(
-    "payHoliday"
-);
+    document.getElementById(
+        "payHoliday"
+    );
 
 
 const paySick =
-document.getElementById(
-    "paySick"
-);
+    document.getElementById(
+        "paySick"
+    );
 
 
 const payVacation =
-document.getElementById(
-    "payVacation"
-);
+    document.getElementById(
+        "payVacation"
+    );
 
 
 const payBirthday =
-document.getElementById(
-    "payBirthday"
-);
+    document.getElementById(
+        "payBirthday"
+    );
 
 
 const payMaternity =
-document.getElementById(
-    "payMaternity"
-);
+    document.getElementById(
+        "payMaternity"
+    );
 
 
 const payPaternity =
-document.getElementById(
-    "payPaternity"
-);
+    document.getElementById(
+        "payPaternity"
+    );
 
 
 const payAllowance =
-document.getElementById(
-    "payAllowance"
-);
+    document.getElementById(
+        "payAllowance"
+    );
 
 
 const payGross =
-document.getElementById(
-    "payGross"
-);
+    document.getElementById(
+        "payGross"
+    );
 
 
 const paySSS =
-document.getElementById(
-    "paySSS"
-);
+    document.getElementById(
+        "paySSS"
+    );
 
 
 const payPhilhealth =
-document.getElementById(
-    "payPhilhealth"
-);
+    document.getElementById(
+        "payPhilhealth"
+    );
 
 
 const payPagibig =
-document.getElementById(
-    "payPagibig"
-);
+    document.getElementById(
+        "payPagibig"
+    );
 
 
 const payHealth =
-document.getElementById(
-    "payHealth"
-);
+    document.getElementById(
+        "payHealth"
+    );
 
 
 const payOther =
-document.getElementById(
-    "payOther"
-);
+    document.getElementById(
+        "payOther"
+    );
 
 
 const payDeduction =
-document.getElementById(
-    "payDeduction"
-);
+    document.getElementById(
+        "payDeduction"
+    );
 
 
 const payNet =
-document.getElementById(
-    "payNet"
-);
-
+    document.getElementById(
+        "payNet"
+    );
 
 
 /* ==========================================
    HELPERS
 ========================================== */
 
-function numberValue(
+function num(
     value
 ){
 
-    const number =
+    const n =
         Number(
             value || 0
         );
 
 
-    return Number.isFinite(
-        number
-    )
-        ? number
+    return Number.isFinite(n)
+        ? n
         : 0;
 
 }
@@ -2271,10 +2566,36 @@ function money(
     value
 ){
 
-    return numberValue(
+    return num(
         value
-    ).toFixed(
-        2
+    ).toLocaleString(
+        "en-PH",
+        {
+            minimumFractionDigits:2,
+            maximumFractionDigits:2
+        }
+    );
+
+}
+
+
+function rawMoney(
+    value
+){
+
+    return num(
+        value
+    ).toFixed(2);
+
+}
+
+
+function text(
+    value
+){
+
+    return String(
+        value ?? ""
     );
 
 }
@@ -2284,8 +2605,8 @@ function escapeHTML(
     value
 ){
 
-    return String(
-        value ?? ""
+    return text(
+        value
     )
 
     .replace(
@@ -2320,8 +2641,8 @@ function escapeJS(
     value
 ){
 
-    return String(
-        value ?? ""
+    return text(
+        value
     )
 
     .replace(
@@ -2353,33 +2674,44 @@ function escapeJS(
 
 
 /* ==========================================
-   GET PAYROLL FIELD
-   Supports OLD + NEW names
+   COMPATIBLE FIELD
 ========================================== */
 
-function payrollField(
+function field(
     pay,
-    newName,
-    oldName
+    primary,
+    secondary,
+    third
 ){
 
     if(
-        pay[newName] !== undefined &&
-        pay[newName] !== null
+        pay[primary] !== undefined &&
+        pay[primary] !== null
     ){
 
-        return pay[newName];
+        return pay[primary];
 
     }
 
 
     if(
-        oldName &&
-        pay[oldName] !== undefined &&
-        pay[oldName] !== null
+        secondary &&
+        pay[secondary] !== undefined &&
+        pay[secondary] !== null
     ){
 
-        return pay[oldName];
+        return pay[secondary];
+
+    }
+
+
+    if(
+        third &&
+        pay[third] !== undefined &&
+        pay[third] !== null
+    ){
+
+        return pay[third];
 
     }
 
@@ -2388,6 +2720,592 @@ function payrollField(
 
 }
 
+
+/* ==========================================
+   INITIALIZE PAGE
+========================================== */
+
+async function initializePage(){
+
+    if(
+        !loggedInUser
+    ){
+
+        window.location.href =
+            "login.html";
+
+        return;
+
+    }
+
+
+    /*
+     * ADMIN
+     */
+
+    if(
+        userRole === "admin" ||
+        userRole === "hr" ||
+        userRole === "administrator"
+    ){
+
+        initializeAdmin();
+
+        return;
+
+    }
+
+
+    /*
+     * EMPLOYEE
+     */
+
+    initializeEmployee();
+
+}
+
+
+/* ==========================================
+   ADMIN MODE
+========================================== */
+
+function initializeAdmin(){
+
+    pageTitle.innerHTML = `
+
+<span class="material-icons">
+    receipt_long
+</span>
+
+ADMIN PAYSLIP
+
+`;
+
+
+    adminControls.style.display =
+        "block";
+
+
+    adminSummary.style.display =
+        "grid";
+
+
+    adminTableWrapper.style.display =
+        "block";
+
+
+    employeeSection.style.display =
+        "none";
+
+
+    loadAdminPayroll();
+
+}
+
+
+/* ==========================================
+   LOAD ADMIN PAYROLL
+========================================== */
+
+async function loadAdminPayroll(){
+
+    try{
+
+        const snapshot =
+            await getDocs(
+                collection(
+                    db,
+                    "payroll"
+                )
+            );
+
+
+        allPayroll = [];
+
+
+        snapshot.forEach(
+            docSnap => {
+
+                allPayroll.push({
+
+                    id:
+                        docSnap.id,
+
+                    ...docSnap.data()
+
+                });
+
+            }
+        );
+
+
+        /*
+         * Latest date first
+         */
+
+        allPayroll.sort(
+            (a,b) => {
+
+                return String(
+                    b.date || ""
+                ).localeCompare(
+                    String(
+                        a.date || ""
+                    )
+                );
+
+            }
+        );
+
+
+        filteredPayroll =
+            [...allPayroll];
+
+
+        renderAdminPayroll();
+
+
+    }catch(error){
+
+        console.error(
+            "Admin Payroll Error:",
+            error
+        );
+
+
+        adminPayslipBody.innerHTML = `
+
+<tr>
+
+<td
+    colspan="8"
+    style="
+    padding:30px;
+    color:#ff4444;
+    ">
+
+    FAILED TO LOAD PAYROLL
+
+</td>
+
+</tr>
+
+`;
+
+    }
+
+}
+
+
+/* ==========================================
+   RENDER ADMIN PAYROLL
+========================================== */
+
+function renderAdminPayroll(){
+
+    adminPayslipBody.innerHTML =
+        "";
+
+
+    let grossTotal =
+        0;
+
+
+    let netTotal =
+        0;
+
+
+    if(
+        filteredPayroll.length === 0
+    ){
+
+        adminPayslipBody.innerHTML = `
+
+<tr>
+
+<td
+    colspan="8"
+    style="padding:30px;">
+
+    NO PAYSLIP FOUND
+
+</td>
+
+</tr>
+
+`;
+
+
+        document.getElementById(
+            "totalRecords"
+        ).innerText =
+            "0";
+
+
+        document.getElementById(
+            "totalGross"
+        ).innerText =
+            "0.00";
+
+
+        document.getElementById(
+            "totalNet"
+        ).innerText =
+            "0.00";
+
+
+        return;
+
+    }
+
+
+    filteredPayroll.forEach(
+        pay => {
+
+            const gross =
+                num(
+                    pay.gross
+                );
+
+
+            const deductions =
+                num(
+                    pay.deductions
+                );
+
+
+            const net =
+                num(
+                    pay.net
+                );
+
+
+            grossTotal +=
+                gross;
+
+
+            netTotal +=
+                net;
+
+
+            adminPayslipBody.innerHTML += `
+
+<tr>
+
+<td>
+
+${escapeHTML(
+    pay.empid || ""
+)}
+
+</td>
+
+
+<td>
+
+${escapeHTML(
+    pay.employee || ""
+)}
+
+</td>
+
+
+<td>
+
+${escapeHTML(
+    pay.date || ""
+)}
+
+</td>
+
+
+<td>
+
+₱ ${money(
+    pay.basicpay
+)}
+
+</td>
+
+
+<td>
+
+₱ ${money(
+    gross
+)}
+
+</td>
+
+
+<td>
+
+₱ ${money(
+    deductions
+)}
+
+</td>
+
+
+<td>
+
+<strong>
+
+₱ ${money(
+    net
+)}
+
+</strong>
+
+</td>
+
+
+<td>
+
+
+<button
+class="btn view-btn"
+onclick="
+viewAdminPayslip(
+'${escapeJS(pay.id)}'
+)">
+
+
+<span class="material-icons">
+    visibility
+</span>
+
+
+VIEW
+
+
+</button>
+
+
+</td>
+
+</tr>
+
+`;
+
+        }
+    );
+
+
+    document.getElementById(
+        "totalRecords"
+    ).innerText =
+        filteredPayroll.length;
+
+
+    document.getElementById(
+        "totalGross"
+    ).innerText =
+        money(
+            grossTotal
+        );
+
+
+    document.getElementById(
+        "totalNet"
+    ).innerText =
+        money(
+            netTotal
+        );
+
+}
+
+
+/* ==========================================
+   ADMIN SEARCH / FILTER
+========================================== */
+
+window.applyFilter =
+function(){
+
+    const search =
+        document.getElementById(
+            "searchEmployee"
+        )
+        .value
+        .trim()
+        .toUpperCase();
+
+
+    const date =
+        document.getElementById(
+            "filterDate"
+        )
+        .value;
+
+
+    filteredPayroll =
+        allPayroll.filter(
+            pay => {
+
+                const id =
+                    text(
+                        pay.empid
+                    )
+                    .toUpperCase();
+
+
+                const name =
+                    text(
+                        pay.employee
+                    )
+                    .toUpperCase();
+
+
+                const searchMatch =
+                    !search ||
+                    id.includes(search) ||
+                    name.includes(search);
+
+
+                const dateMatch =
+                    !date ||
+                    pay.date === date;
+
+
+                return
+                    searchMatch &&
+                    dateMatch;
+
+            }
+        );
+
+
+    renderAdminPayroll();
+
+};
+
+
+/* ==========================================
+   SHOW ALL
+========================================== */
+
+window.showAllPayslips =
+function(){
+
+    document.getElementById(
+        "searchEmployee"
+    ).value =
+        "";
+
+
+    document.getElementById(
+        "filterDate"
+    ).value =
+        "";
+
+
+    filteredPayroll =
+        [...allPayroll];
+
+
+    renderAdminPayroll();
+
+};
+
+
+/* ==========================================
+   ADMIN VIEW PAYSLIP
+========================================== */
+
+window.viewAdminPayslip =
+function(
+    id
+){
+
+    const pay =
+        allPayroll.find(
+            item =>
+                item.id === id
+        );
+
+
+    if(
+        !pay
+    ){
+
+        alert(
+            "Payslip not found."
+        );
+
+        return;
+
+    }
+
+
+    currentPayroll =
+        pay;
+
+
+    displayPayslip(
+        pay
+    );
+
+
+    payslipArea.style.display =
+        "block";
+
+
+    setTimeout(
+        () => {
+
+            payslipArea.scrollIntoView({
+
+                behavior:
+                    "smooth",
+
+                block:
+                    "center"
+
+            });
+
+        },
+        200
+    );
+
+};
+
+
+/* ==========================================
+   EMPLOYEE MODE
+========================================== */
+
+async function initializeEmployee(){
+
+    pageTitle.innerHTML = `
+
+<span class="material-icons">
+    badge
+</span>
+
+EMPLOYEE PORTAL
+
+`;
+
+
+    adminControls.style.display =
+        "none";
+
+
+    adminSummary.style.display =
+        "none";
+
+
+    adminTableWrapper.style.display =
+        "none";
+
+
+    employeeSection.style.display =
+        "block";
+
+
+    await loadEmployee();
+
+}
 
 
 /* ==========================================
@@ -2398,7 +3316,6 @@ async function loadEmployee(){
 
     try{
 
-
         const snapshot =
             await getDocs(
                 collection(
@@ -2408,33 +3325,44 @@ async function loadEmployee(){
             );
 
 
-        const userId =
-            String(
-                currentUser
-            )
-            .toUpperCase()
-            .trim();
+        const loginValue =
+            loggedInUser
+            .trim()
+            .toUpperCase();
+
+
+        currentEmployee =
+            null;
 
 
         snapshot.forEach(
             docSnap => {
 
-
                 const emp =
                     docSnap.data();
 
 
-                const empId =
-                    String(
-                        emp.employeeid || ""
+                const employeeId =
+                    text(
+                        emp.employeeid
                     )
-                    .toUpperCase()
-                    .trim();
+                    .trim()
+                    .toUpperCase();
 
 
-                const fullname = [
+                const username =
+                    text(
+                        emp.username
+                    )
+                    .trim()
+                    .toUpperCase();
+
+
+                const fullName = [
 
                     emp.firstname || "",
+
+                    emp.middlename || "",
 
                     emp.lastname || ""
 
@@ -2446,11 +3374,24 @@ async function loadEmployee(){
 
                 .join(" ")
 
+                .replace(
+                    /\s+/g,
+                    " "
+                )
+
                 .trim();
 
 
                 if(
-                    empId === userId
+
+                    employeeId ===
+                    loginValue
+
+                    ||
+
+                    username ===
+                    loginValue
+
                 ){
 
                     currentEmployee = {
@@ -2459,7 +3400,13 @@ async function loadEmployee(){
                             emp.employeeid || "",
 
                         name:
-                            fullname
+                            fullName,
+
+                        username:
+                            emp.username || "",
+
+                        firestoreId:
+                            docSnap.id
 
                     };
 
@@ -2477,21 +3424,20 @@ async function loadEmployee(){
                 "Employee account not found in masterlist."
             );
 
-
-            window.location.href =
-                "login.html";
-
-
             return;
 
         }
 
 
-        empIdDisplay.innerText =
+        document.getElementById(
+            "empIdDisplay"
+        ).innerText =
             currentEmployee.id;
 
 
-        empNameDisplay.innerText =
+        document.getElementById(
+            "empNameDisplay"
+        ).innerText =
             currentEmployee.name;
 
 
@@ -2503,13 +3449,14 @@ async function loadEmployee(){
     }catch(error){
 
         console.error(
-            "Load Employee Error:",
+            "Employee Error:",
             error
         );
 
 
         alert(
-            "Failed to load employee."
+            "Failed to load employee.\n\n" +
+            error.message
         );
 
     }
@@ -2517,1029 +3464,8 @@ async function loadEmployee(){
 }
 
 
-
 /* ==========================================
-   SUBMIT LEAVE REQUEST
-========================================== */
-
-window.submitRequest =
-async function(){
-
-    if(
-        !requestType.value
-    ){
-
-        alert(
-            "Select Request Type."
-        );
-
-        return;
-
-    }
-
-
-    if(
-        !requestDate.value
-    ){
-
-        alert(
-            "Select Request Date."
-        );
-
-        return;
-
-    }
-
-
-    try{
-
-
-        const data = {
-
-            type:
-                requestType.value,
-
-            date:
-                requestDate.value,
-
-            days:
-                days.value,
-
-            reason:
-                reason.value.trim()
-
-        };
-
-
-        if(
-            editId
-        ){
-
-            await updateDoc(
-
-                doc(
-                    db,
-                    "employeeRequests",
-                    editId
-                ),
-
-                data
-
-            );
-
-
-            alert(
-                "Request Updated."
-            );
-
-
-            editId =
-                null;
-
-
-        }else{
-
-
-            await addDoc(
-
-                collection(
-                    db,
-                    "employeeRequests"
-                ),
-
-                {
-
-                    empid:
-                        currentEmployee.id,
-
-                    employee:
-                        currentEmployee.name,
-
-                    type:
-                        data.type,
-
-                    date:
-                        data.date,
-
-                    days:
-                        data.days,
-
-                    reason:
-                        data.reason,
-
-                    status:
-                        "PENDING"
-
-                }
-
-            );
-
-
-            alert(
-                "Request Submitted."
-            );
-
-        }
-
-
-        clearLeaveForm();
-
-        await loadRequests();
-
-
-    }catch(error){
-
-        console.error(
-            "Submit Request Error:",
-            error
-        );
-
-
-        alert(
-            "Submit Error."
-        );
-
-    }
-
-};
-
-
-
-/* ==========================================
-   SUBMIT ATTENDANCE REQUEST
-========================================== */
-
-window.submitAttendanceRequest =
-async function(){
-
-    if(
-        !attendanceType.value
-    ){
-
-        alert(
-            "Select Attendance Request."
-        );
-
-        return;
-
-    }
-
-
-    if(
-        !attendanceDate.value
-    ){
-
-        alert(
-            "Select Date."
-        );
-
-        return;
-
-    }
-
-
-    if(
-        !attendanceTime.value
-    ){
-
-        alert(
-            "Select Time."
-        );
-
-        return;
-
-    }
-
-
-    if(
-        !attendanceReason.value.trim()
-    ){
-
-        alert(
-            "Enter Reason."
-        );
-
-        return;
-
-    }
-
-
-    try{
-
-
-        if(
-            attendanceEditId
-        ){
-
-            await updateDoc(
-
-                doc(
-                    db,
-                    "attendanceRequests",
-                    attendanceEditId
-                ),
-
-                {
-
-                    requesttype:
-                        attendanceType.value,
-
-                    date:
-                        attendanceDate.value,
-
-                    time:
-                        attendanceTime.value,
-
-                    reason:
-                        attendanceReason.value.trim()
-
-                }
-
-            );
-
-
-            alert(
-                "Attendance Request Updated."
-            );
-
-
-            attendanceEditId =
-                null;
-
-
-        }else{
-
-
-            await addDoc(
-
-                collection(
-                    db,
-                    "attendanceRequests"
-                ),
-
-                {
-
-                    employeeid:
-                        currentEmployee.id,
-
-                    employee:
-                        currentEmployee.name,
-
-                    requesttype:
-                        attendanceType.value,
-
-                    date:
-                        attendanceDate.value,
-
-                    time:
-                        attendanceTime.value,
-
-                    reason:
-                        attendanceReason.value.trim(),
-
-                    status:
-                        "PENDING",
-
-                    timestamp:
-                        Date.now()
-
-                }
-
-            );
-
-
-            alert(
-                "Attendance Request Submitted."
-            );
-
-        }
-
-
-        clearAttendanceForm();
-
-        await loadAttendanceRequests();
-
-
-    }catch(error){
-
-        console.error(
-            "Attendance Request Error:",
-            error
-        );
-
-
-        alert(
-            "Attendance Request Error."
-        );
-
-    }
-
-};
-
-
-
-/* ==========================================
-   LOAD LEAVE REQUESTS
-========================================== */
-
-async function loadRequests(){
-
-    requestBody.innerHTML =
-        "";
-
-
-    try{
-
-
-        const snapshot =
-            await getDocs(
-                collection(
-                    db,
-                    "employeeRequests"
-                )
-            );
-
-
-        let found =
-            false;
-
-
-        snapshot.forEach(
-            docSnap => {
-
-
-                const req =
-                    docSnap.data();
-
-
-                const reqEmployee =
-                    String(
-                        req.empid || ""
-                    )
-                    .toUpperCase()
-                    .trim();
-
-
-                const currentId =
-                    String(
-                        currentEmployee.id || ""
-                    )
-                    .toUpperCase()
-                    .trim();
-
-
-                if(
-                    reqEmployee !== currentId
-                ){
-
-                    return;
-
-                }
-
-
-                found =
-                    true;
-
-
-                const status =
-                    String(
-                        req.status || "PENDING"
-                    )
-                    .toLowerCase();
-
-
-                requestBody.innerHTML += `
-
-<tr>
-
-
-<td>
-
-    ${escapeHTML(
-        req.empid
-    )}
-
-</td>
-
-
-<td>
-
-    ${escapeHTML(
-        req.employee
-    )}
-
-</td>
-
-
-<td>
-
-    ${escapeHTML(
-        req.type
-    )}
-
-</td>
-
-
-<td>
-
-    ${escapeHTML(
-        req.date
-    )}
-
-</td>
-
-
-<td>
-
-    ${escapeHTML(
-        req.days
-    )}
-
-</td>
-
-
-<td>
-
-    ${escapeHTML(
-        req.reason
-    )}
-
-</td>
-
-
-<td class="${escapeHTML(status)}">
-
-    ${escapeHTML(
-        req.status
-    )}
-
-</td>
-
-
-<td>
-
-
-    <button
-        class="btn"
-        style="
-        background:#ffcc00;
-        color:#111;
-        padding:6px 9px;
-        "
-        onclick="
-        editRequest(
-            '${escapeJS(docSnap.id)}',
-            '${escapeJS(req.type)}',
-            '${escapeJS(req.date)}',
-            '${escapeJS(req.days)}',
-            '${escapeJS(req.reason)}'
-        )">
-
-        EDIT
-
-    </button>
-
-
-    <button
-        class="btn"
-        style="
-        background:#d71920;
-        padding:6px 9px;
-        "
-        onclick="
-        deleteRequest(
-            '${escapeJS(docSnap.id)}'
-        )">
-
-        DELETE
-
-    </button>
-
-
-</td>
-
-
-</tr>
-
-`;
-
-            }
-        );
-
-
-        if(
-            !found
-        ){
-
-            requestBody.innerHTML = `
-
-<tr>
-
-<td
-    colspan="8"
-    style="padding:20px;">
-
-    No leave requests yet.
-
-</td>
-
-</tr>
-
-`;
-
-        }
-
-
-    }catch(error){
-
-        console.error(
-            "Load Requests Error:",
-            error
-        );
-
-    }
-
-}
-
-
-
-/* ==========================================
-   LOAD ATTENDANCE REQUESTS
-========================================== */
-
-async function loadAttendanceRequests(){
-
-    attendanceBody.innerHTML =
-        "";
-
-
-    try{
-
-
-        const snapshot =
-            await getDocs(
-                collection(
-                    db,
-                    "attendanceRequests"
-                )
-            );
-
-
-        let found =
-            false;
-
-
-        snapshot.forEach(
-            docSnap => {
-
-
-                const req =
-                    docSnap.data();
-
-
-                const reqEmployee =
-                    String(
-                        req.employeeid || ""
-                    )
-                    .toUpperCase()
-                    .trim();
-
-
-                const currentId =
-                    String(
-                        currentEmployee.id || ""
-                    )
-                    .toUpperCase()
-                    .trim();
-
-
-                if(
-                    reqEmployee !== currentId
-                ){
-
-                    return;
-
-                }
-
-
-                found =
-                    true;
-
-
-                const status =
-                    String(
-                        req.status || "PENDING"
-                    )
-                    .toLowerCase();
-
-
-                attendanceBody.innerHTML += `
-
-<tr>
-
-
-<td>
-
-    ${escapeHTML(
-        req.employeeid
-    )}
-
-</td>
-
-
-<td>
-
-    ${escapeHTML(
-        req.employee
-    )}
-
-</td>
-
-
-<td>
-
-    ${escapeHTML(
-        req.requesttype
-    )}
-
-</td>
-
-
-<td>
-
-    ${escapeHTML(
-        req.date
-    )}
-
-</td>
-
-
-<td>
-
-    ${escapeHTML(
-        req.time
-    )}
-
-</td>
-
-
-<td>
-
-    ${escapeHTML(
-        req.reason
-    )}
-
-</td>
-
-
-<td class="${escapeHTML(status)}">
-
-    ${escapeHTML(
-        req.status
-    )}
-
-</td>
-
-
-<td>
-
-
-    <button
-        class="btn"
-        style="
-        background:#ffcc00;
-        color:#111;
-        padding:6px 9px;
-        "
-        onclick="
-        editAttendanceRequest(
-            '${escapeJS(docSnap.id)}',
-            '${escapeJS(req.requesttype)}',
-            '${escapeJS(req.date)}',
-            '${escapeJS(req.time)}',
-            '${escapeJS(req.reason)}'
-        )">
-
-        EDIT
-
-    </button>
-
-
-    <button
-        class="btn"
-        style="
-        background:#d71920;
-        padding:6px 9px;
-        "
-        onclick="
-        deleteAttendanceRequest(
-            '${escapeJS(docSnap.id)}'
-        )">
-
-        DELETE
-
-    </button>
-
-
-</td>
-
-
-</tr>
-
-`;
-
-            }
-        );
-
-
-        if(
-            !found
-        ){
-
-            attendanceBody.innerHTML = `
-
-<tr>
-
-<td
-    colspan="8"
-    style="padding:20px;">
-
-    No attendance requests yet.
-
-</td>
-
-</tr>
-
-`;
-
-        }
-
-
-    }catch(error){
-
-        console.error(
-            "Load Attendance Requests Error:",
-            error
-        );
-
-    }
-
-}
-
-
-
-/* ==========================================
-   EDIT LEAVE
-========================================== */
-
-window.editRequest =
-function(
-    id,
-    type,
-    date,
-    daysValue,
-    reasonText
-){
-
-    editId =
-        id;
-
-
-    requestType.value =
-        type;
-
-
-    requestDate.value =
-        date;
-
-
-    days.value =
-        daysValue;
-
-
-    reason.value =
-        reasonText;
-
-
-    window.scrollTo({
-
-        top:0,
-
-        behavior:
-            "smooth"
-
-    });
-
-};
-
-
-
-/* ==========================================
-   DELETE LEAVE
-========================================== */
-
-window.deleteRequest =
-async function(
-    id
-){
-
-    if(
-        !confirm(
-            "Delete Leave Request?"
-        )
-    ){
-
-        return;
-
-    }
-
-
-    try{
-
-
-        await deleteDoc(
-
-            doc(
-                db,
-                "employeeRequests",
-                id
-            )
-
-        );
-
-
-        await loadRequests();
-
-
-    }catch(error){
-
-        console.error(
-            error
-        );
-
-
-        alert(
-            "Delete Request Error."
-        );
-
-    }
-
-};
-
-
-
-/* ==========================================
-   EDIT ATTENDANCE REQUEST
-========================================== */
-
-window.editAttendanceRequest =
-function(
-    id,
-    type,
-    date,
-    time,
-    reasonText
-){
-
-    attendanceEditId =
-        id;
-
-
-    attendanceType.value =
-        type;
-
-
-    attendanceDate.value =
-        date;
-
-
-    attendanceTime.value =
-        time;
-
-
-    attendanceReason.value =
-        reasonText;
-
-
-    window.scrollTo({
-
-        top:0,
-
-        behavior:
-            "smooth"
-
-    });
-
-};
-
-
-
-/* ==========================================
-   DELETE ATTENDANCE REQUEST
-========================================== */
-
-window.deleteAttendanceRequest =
-async function(
-    id
-){
-
-    if(
-        !confirm(
-            "Delete Attendance Request?"
-        )
-    ){
-
-        return;
-
-    }
-
-
-    try{
-
-
-        await deleteDoc(
-
-            doc(
-                db,
-                "attendanceRequests",
-                id
-            )
-
-        );
-
-
-        await loadAttendanceRequests();
-
-
-    }catch(error){
-
-        console.error(
-            error
-        );
-
-
-        alert(
-            "Delete Attendance Request Error."
-        );
-
-    }
-
-};
-
-
-
-/* ==========================================
-   CLEAR LEAVE FORM
-========================================== */
-
-function clearLeaveForm(){
-
-    requestType.value =
-        "";
-
-    requestDate.value =
-        "";
-
-    days.value =
-        "";
-
-    reason.value =
-        "";
-
-    editId =
-        null;
-
-}
-
-
-
-/* ==========================================
-   CLEAR ATTENDANCE FORM
-========================================== */
-
-function clearAttendanceForm(){
-
-    attendanceType.value =
-        "";
-
-    attendanceDate.value =
-        "";
-
-    attendanceTime.value =
-        "";
-
-    attendanceReason.value =
-        "";
-
-    attendanceEditId =
-        null;
-
-}
-
-
-
-/* ==========================================
-   LOAD PAYSLIP
+   EMPLOYEE LOAD PAYSLIP
 ========================================== */
 
 window.loadPayslip =
@@ -3560,7 +3486,6 @@ async function(){
 
     try{
 
-
         const snapshot =
             await getDocs(
                 collection(
@@ -3570,59 +3495,45 @@ async function(){
             );
 
 
-        let found =
-            false;
-
-
-        /*
-         * Keep the latest matching
-         * payroll record.
-         */
-
-        let selectedPay =
-            null;
+        let foundPayroll = [];
 
 
         snapshot.forEach(
             docSnap => {
 
-
                 const pay =
                     docSnap.data();
 
 
-                const empId =
-                    String(
-                        pay.empid || ""
+                const payrollEmployeeId =
+                    text(
+                        pay.empid
                     )
-                    .toUpperCase()
-                    .trim();
+                    .trim()
+                    .toUpperCase();
 
 
                 const currentId =
-                    String(
-                        currentEmployee.id || ""
+                    text(
+                        currentEmployee.id
                     )
-                    .toUpperCase()
-                    .trim();
+                    .trim()
+                    .toUpperCase();
 
 
                 if(
-                    empId === currentId
+                    payrollEmployeeId ===
+                    currentId
                 ){
 
-                    found =
-                        true;
-
-
-                    selectedPay = {
+                    foundPayroll.push({
 
                         id:
                             docSnap.id,
 
                         ...pay
 
-                    };
+                    });
 
                 }
 
@@ -3631,8 +3542,7 @@ async function(){
 
 
         if(
-            !found ||
-            !selectedPay
+            foundPayroll.length === 0
         ){
 
             alert(
@@ -3644,8 +3554,31 @@ async function(){
         }
 
 
+        /*
+         * Latest payroll record
+         */
+
+        foundPayroll.sort(
+            (a,b) => {
+
+                return String(
+                    b.date || ""
+                ).localeCompare(
+                    String(
+                        a.date || ""
+                    )
+                );
+
+            }
+        );
+
+
+        currentPayroll =
+            foundPayroll[0];
+
+
         displayPayslip(
-            selectedPay
+            currentPayroll
         );
 
 
@@ -3654,7 +3587,7 @@ async function(){
 
 
         setTimeout(
-            function(){
+            () => {
 
                 payslipArea.scrollIntoView({
 
@@ -3674,7 +3607,7 @@ async function(){
     }catch(error){
 
         console.error(
-            "Load Payslip Error:",
+            "Payslip Error:",
             error
         );
 
@@ -3688,7 +3621,6 @@ async function(){
 };
 
 
-
 /* ==========================================
    DISPLAY PAYSLIP
 ========================================== */
@@ -3698,7 +3630,7 @@ function displayPayslip(
 ){
 
     const holiday =
-        payrollField(
+        field(
             pay,
             "holiday",
             "holidaypay"
@@ -3706,7 +3638,7 @@ function displayPayslip(
 
 
     const health =
-        payrollField(
+        field(
             pay,
             "healthcard",
             "health"
@@ -3714,7 +3646,7 @@ function displayPayslip(
 
 
     const other =
-        payrollField(
+        field(
             pay,
             "otherdeduction",
             "other"
@@ -3734,120 +3666,119 @@ function displayPayslip(
 
 
     payDailyRate.innerText =
-        money(
+        rawMoney(
             pay.dailyrate
         );
 
 
     payTotalDays.innerText =
-        numberValue(
+        num(
             pay.totaldays
         );
 
 
     payBasic.innerText =
-        money(
+        rawMoney(
             pay.basicpay
         );
 
 
     payOvertime.innerText =
-        money(
+        rawMoney(
             pay.overtime
         );
 
 
     payHoliday.innerText =
-        money(
+        rawMoney(
             holiday
         );
 
 
     paySick.innerText =
-        money(
+        rawMoney(
             pay.sickleave
         );
 
 
     payVacation.innerText =
-        money(
+        rawMoney(
             pay.vacationleave
         );
 
 
     payBirthday.innerText =
-        money(
+        rawMoney(
             pay.birthdayleave
         );
 
 
     payMaternity.innerText =
-        money(
+        rawMoney(
             pay.maternityleave
         );
 
 
     payPaternity.innerText =
-        money(
+        rawMoney(
             pay.paternityleave
         );
 
 
     payAllowance.innerText =
-        money(
+        rawMoney(
             pay.allowance
         );
 
 
     payGross.innerText =
-        money(
+        rawMoney(
             pay.gross
         );
 
 
     paySSS.innerText =
-        money(
+        rawMoney(
             pay.sss
         );
 
 
     payPhilhealth.innerText =
-        money(
+        rawMoney(
             pay.philhealth
         );
 
 
     payPagibig.innerText =
-        money(
+        rawMoney(
             pay.pagibig
         );
 
 
     payHealth.innerText =
-        money(
+        rawMoney(
             health
         );
 
 
     payOther.innerText =
-        money(
+        rawMoney(
             other
         );
 
 
     payDeduction.innerText =
-        money(
+        rawMoney(
             pay.deductions
         );
 
 
     payNet.innerText =
-        money(
+        rawMoney(
             pay.net
         );
 
 }
-
 
 
 /* ==========================================
@@ -3863,17 +3794,15 @@ function(){
 };
 
 
-
 /* ==========================================
-   PRINT SINGLE PAYSLIP
+   PRINT CURRENT PAYSLIP
 ========================================== */
 
 window.printPayslip =
 function(){
 
     if(
-        payslipArea.style.display ===
-        "none"
+        !currentPayroll
     ){
 
         alert(
@@ -3885,23 +3814,50 @@ function(){
     }
 
 
-    const printable =
-        createSinglePrintablePayslip();
+    const html =
+        createPrintablePayslip(
+            currentPayroll
+        );
 
 
     openPrintWindow(
-        printable
+        html
     );
 
 };
-
 
 
 /* ==========================================
    CREATE SINGLE PRINT
 ========================================== */
 
-function createSinglePrintablePayslip(){
+function createPrintablePayslip(
+    pay
+){
+
+    const holiday =
+        field(
+            pay,
+            "holiday",
+            "holidaypay"
+        );
+
+
+    const health =
+        field(
+            pay,
+            "healthcard",
+            "health"
+        );
+
+
+    const other =
+        field(
+            pay,
+            "otherdeduction",
+            "other"
+        );
+
 
     return `
 
@@ -3921,12 +3877,11 @@ PAPPRITO Payslip
 <style>
 
 *{
-
     box-sizing:border-box;
-
 }
 
 
+html,
 body{
 
     margin:0;
@@ -3935,8 +3890,12 @@ body{
 
     background:#ffffff;
 
+}
+
+
+body{
+
     font-family:
-        "Segoe UI",
         Tahoma,
         Arial,
         sans-serif;
@@ -3953,7 +3912,7 @@ body{
 }
 
 
-.print-payslip{
+.payslip{
 
     width:110mm;
 
@@ -3961,16 +3920,19 @@ body{
 
     padding:8px;
 
-    border:2px solid #ffcc00;
-
     background:#f9f9f9;
 
-    color:#000;
+    color:#000000;
+
+    border:
+        2px solid #ffcc00;
+
+    border-radius:10px;
 
 }
 
 
-.logo{
+.payroll-logo{
 
     width:70px;
 
@@ -3980,7 +3942,12 @@ body{
 
     border-radius:50%;
 
-    border:3px solid #ffcc00;
+    border:
+        3px solid #ffcc00;
+
+    background:#ffffff;
+
+    padding:4px;
 
     display:block;
 
@@ -3993,12 +3960,19 @@ body{
 
     text-align:center;
 
-    margin-bottom:8px;
+    margin-bottom:6px;
+
+    padding-bottom:5px;
+
+    border-bottom:
+        2px solid #ffcc00;
 
 }
 
 
 .company h2{
+
+    font-size:18px;
 
     color:#cc0000;
 
@@ -4018,15 +3992,20 @@ body{
 
 .info{
 
-    background:#fff8dc;
+    font-size:10px;
 
-    border:1px solid #ffcc00;
+    line-height:1.6;
+
+    margin-bottom:6px;
+
+    background:#fff8dc;
 
     padding:6px;
 
-    font-size:9px;
+    border-radius:6px;
 
-    line-height:1.5;
+    border:
+        1px solid #ffcc00;
 
 }
 
@@ -4037,7 +4016,7 @@ table{
 
     border-collapse:collapse;
 
-    margin-top:6px;
+    margin-top:5px;
 
 }
 
@@ -4045,11 +4024,12 @@ table{
 th,
 td{
 
-    border:1px solid #999;
+    border:
+        1px solid #999;
 
-    padding:3px;
+    padding:4px;
 
-    font-size:8px;
+    font-size:9px;
 
 }
 
@@ -4058,48 +4038,64 @@ th{
 
     background:#ffcc00;
 
+    color:#000000;
+
 }
 
 
-.net{
+td{
 
-    margin-top:6px;
+    background:#ffffff;
 
-    padding:6px;
+    color:#000000;
+
+}
+
+
+.netpay{
+
+    margin-top:8px;
+
+    padding:8px;
 
     background:#008000;
 
-    color:white;
+    color:#ffffff;
 
     font-weight:bold;
 
     text-align:right;
+
+    font-size:10px;
 
 }
 
 
 .signature{
 
+    margin-top:15px;
+
     display:flex;
 
     justify-content:space-between;
 
-    margin-top:20px;
-
-    font-size:7px;
+    font-size:8px;
 
 }
 
 
 .line{
 
-    border-top:1px solid black;
+    margin-top:12px;
 
-    width:70px;
+    border-top:
+        1px solid #000000;
 
-    padding-top:3px;
+    width:75px;
 
     text-align:center;
+
+    padding-top:3px;
 
 }
 
@@ -4111,87 +4107,417 @@ th{
 <body>
 
 
-<div class="print-payslip">
+<div class="payslip">
 
 
-    <div class="company">
+<div class="company">
 
 
-        <img
-            src="logo.png"
-            class="logo">
+<img
+src="logo.png"
+class="payroll-logo">
 
 
-        <h2>
-            PAPPRITO
-        </h2>
+<h2>
+PAPPRITO
+</h2>
 
 
-        <p>
-            OFFICIAL EMPLOYEE PAYSLIP
-        </p>
+<p>
+OFFICIAL EMPLOYEE PAYSLIP
+</p>
 
 
-    </div>
+</div>
 
 
-    <div class="info">
+<div class="info">
 
 
-        <b>ID:</b>
-        ${escapeHTML(
-            payEmpId.innerText
-        )}
+<b>
+ID:
+</b>
 
-        <br>
-
-
-        <b>Name:</b>
-        ${escapeHTML(
-            payEmp.innerText
-        )}
-
-        <br>
+${escapeHTML(
+    pay.empid || ""
+)}
 
 
-        <b>Date:</b>
-        ${escapeHTML(
-            payDate.innerText
-        )}
-
-    </div>
+<br><br>
 
 
-    ${getPayslipTablesHTML()}
+<b>
+Name:
+</b>
+
+${escapeHTML(
+    pay.employee || ""
+)}
 
 
-    <div class="net">
-
-        NET PAY :
-
-        ₱
-
-        ${escapeHTML(
-            payNet.innerText
-        )}
-
-    </div>
+<br><br>
 
 
-    <div class="signature">
+<b>
+Date:
+</b>
+
+${escapeHTML(
+    pay.date || ""
+)}
 
 
-        <div class="line">
-            HR
-        </div>
+<br><br>
 
 
-        <div class="line">
-            Employee
-        </div>
+<b>
+Daily Rate:
+</b>
+
+₱ ${rawMoney(
+    pay.dailyrate
+)}
 
 
-    </div>
+<br><br>
+
+
+<b>
+Total Days:
+</b>
+
+${num(
+    pay.totaldays
+)}
+
+</div>
+
+
+<table>
+
+
+<tr>
+
+<th>
+EARNINGS
+</th>
+
+<th>
+AMOUNT
+</th>
+
+</tr>
+
+
+<tr>
+
+<td>
+Basic Pay
+</td>
+
+<td>
+${rawMoney(
+    pay.basicpay
+)}
+</td>
+
+</tr>
+
+
+<tr>
+
+<td>
+Overtime
+</td>
+
+<td>
+${rawMoney(
+    pay.overtime
+)}
+</td>
+
+</tr>
+
+
+<tr>
+
+<td>
+Holiday Pay
+</td>
+
+<td>
+${rawMoney(
+    holiday
+)}
+</td>
+
+</tr>
+
+
+<tr>
+
+<td>
+Sick Leave
+</td>
+
+<td>
+${rawMoney(
+    pay.sickleave
+)}
+</td>
+
+</tr>
+
+
+<tr>
+
+<td>
+Vacation Leave
+</td>
+
+<td>
+${rawMoney(
+    pay.vacationleave
+)}
+</td>
+
+</tr>
+
+
+<tr>
+
+<td>
+Birthday Leave
+</td>
+
+<td>
+${rawMoney(
+    pay.birthdayleave
+)}
+</td>
+
+</tr>
+
+
+<tr>
+
+<td>
+Maternity Leave
+</td>
+
+<td>
+${rawMoney(
+    pay.maternityleave
+)}
+</td>
+
+</tr>
+
+
+<tr>
+
+<td>
+Paternity Leave
+</td>
+
+<td>
+${rawMoney(
+    pay.paternityleave
+)}
+</td>
+
+</tr>
+
+
+<tr>
+
+<td>
+Allowance
+</td>
+
+<td>
+${rawMoney(
+    pay.allowance
+)}
+</td>
+
+</tr>
+
+
+<tr>
+
+<td>
+
+<b>
+TOTAL GROSS
+</b>
+
+</td>
+
+<td>
+
+<b>
+
+${rawMoney(
+    pay.gross
+)}
+
+</b>
+
+</td>
+
+</tr>
+
+
+</table>
+
+
+<table>
+
+
+<tr>
+
+<th>
+DEDUCTIONS
+</th>
+
+<th>
+AMOUNT
+</th>
+
+</tr>
+
+
+<tr>
+
+<td>
+SSS
+</td>
+
+<td>
+${rawMoney(
+    pay.sss
+)}
+</td>
+
+</tr>
+
+
+<tr>
+
+<td>
+PhilHealth
+</td>
+
+<td>
+${rawMoney(
+    pay.philhealth
+)}
+</td>
+
+</tr>
+
+
+<tr>
+
+<td>
+Pag-IBIG
+</td>
+
+<td>
+${rawMoney(
+    pay.pagibig
+)}
+</td>
+
+</tr>
+
+
+<tr>
+
+<td>
+Health Card
+</td>
+
+<td>
+${rawMoney(
+    health
+)}
+</td>
+
+</tr>
+
+
+<tr>
+
+<td>
+Others
+</td>
+
+<td>
+${rawMoney(
+    other
+)}
+</td>
+
+</tr>
+
+
+<tr>
+
+<td>
+
+<b>
+TOTAL DEDUCTION
+</b>
+
+</td>
+
+<td>
+
+<b>
+
+${rawMoney(
+    pay.deductions
+)}
+
+</b>
+
+</td>
+
+</tr>
+
+
+</table>
+
+
+<div class="netpay">
+
+
+NET PAY :
+
+₱ ${rawMoney(
+    pay.net
+)}
+
+
+</div>
+
+
+<div class="signature">
+
+
+<div class="line">
+HR
+</div>
+
+
+<div class="line">
+Employee
+</div>
+
+
+</div>
 
 
 </div>
@@ -4206,39 +4532,6 @@ th{
 }
 
 
-
-/* ==========================================
-   GET CURRENT PAYSLIP TABLES
-========================================== */
-
-function getPayslipTablesHTML(){
-
-    const tables =
-        payslipArea.querySelectorAll(
-            ".payroll-table"
-        );
-
-
-    let result =
-        "";
-
-
-    tables.forEach(
-        table => {
-
-            result +=
-                table.outerHTML;
-
-        }
-    );
-
-
-    return result;
-
-}
-
-
-
 /* ==========================================
    OPEN PRINT WINDOW
 ========================================== */
@@ -4250,7 +4543,7 @@ function openPrintWindow(
     const printWindow =
         window.open(
             "",
-            "_blank",
+            "",
             "width=900,height=1200"
         );
 
@@ -4279,10 +4572,11 @@ function openPrintWindow(
     printWindow.document.close();
 
 
-    setTimeout(
-        function(){
+    printWindow.focus();
 
-            printWindow.focus();
+
+    setTimeout(
+        () => {
 
             printWindow.print();
 
@@ -4293,127 +4587,103 @@ function openPrintWindow(
 }
 
 
-
 /* ==========================================
-   PRINT ALL PAYSLIPS
+   ADMIN PRINT ALL
+   FOUR PAYSLIPS PER BOND PAPER
 ========================================== */
 
 window.printAllPayslips =
-async function(){
+function(){
 
-    try{
+    if(
+        userRole !== "admin" &&
+        userRole !== "hr" &&
+        userRole !== "administrator"
+    ){
 
+        return;
 
-        const snapshot =
-            await getDocs(
-                collection(
-                    db,
-                    "payroll"
-                )
-            );
-
-
-        const records = [];
+    }
 
 
-        snapshot.forEach(
-            docSnap => {
+    if(
+        filteredPayroll.length === 0
+    ){
 
-                records.push({
-
-                    id:
-                        docSnap.id,
-
-                    ...docSnap.data()
-
-                });
-
-            }
+        alert(
+            "No Payslips Found."
         );
 
+        return;
 
-        if(
-            records.length === 0
-        ){
+    }
 
-            alert(
-                "No payroll records found."
+
+    let pages =
+        "";
+
+
+    for(
+        let i = 0;
+
+        i < filteredPayroll.length;
+
+        i += 4
+    ){
+
+        const group =
+            filteredPayroll.slice(
+                i,
+                i + 4
             );
 
-            return;
 
-        }
-
-
-        let pages =
-            "";
-
-
-        /*
-         * FOUR PAYSLIPS PER PAGE
-         */
-
-        for(
-            let i = 0;
-            i < records.length;
-            i += 4
-        ){
-
-            const group =
-                records.slice(
-                    i,
-                    i + 4
-                );
-
-
-            pages += `
+        pages += `
 
 <div class="print-page">
 
 `;
 
 
-            group.forEach(
-                pay => {
+        group.forEach(
+            pay => {
 
-                    pages +=
-                        createAllPrintablePayslip(
-                            pay
-                        );
-
-                }
-            );
-
-
-            while(
-                group.length < 4
-            ){
-
-                pages += `
-
-<div
-    class="all-payslip empty">
-</div>
-
-`;
-
-                group.push(
-                    null
-                );
+                pages +=
+                    createFourPayslip(
+                        pay
+                    );
 
             }
+        );
 
+
+        while(
+            group.length < 4
+        ){
 
             pages += `
 
-</div>
+<div class="empty-slot"></div>
 
 `;
+
+            group.push(
+                null
+            );
 
         }
 
 
-        const html = `
+        pages += `
+
+</div>
+
+`;
+
+    }
+
+
+    const html = `
 
 <!DOCTYPE html>
 
@@ -4452,17 +4722,12 @@ body{
 body{
 
     font-family:
-        "Segoe UI",
         Tahoma,
         Arial,
         sans-serif;
 
 }
 
-
-/* ======================================
-   BOND PAPER
-====================================== */
 
 .print-page{
 
@@ -4498,41 +4763,31 @@ body{
 }
 
 
-/* ======================================
-   PAYSLIP
-====================================== */
-
-.all-payslip{
+.four-payslip{
 
     width:100%;
 
     height:100%;
 
-    padding:7px;
+    padding:6px;
 
     border:
-        1px dashed #555;
+        1px dashed #555555;
+
+    overflow:hidden;
 
     background:#f9f9f9;
 
     color:#000000;
 
-    overflow:hidden;
-
-    font-size:7px;
-
 }
 
 
-/* ======================================
-   LOGO
-====================================== */
-
 .logo{
 
-    width:40px;
+    width:38px;
 
-    height:40px;
+    height:38px;
 
     object-fit:cover;
 
@@ -4543,25 +4798,19 @@ body{
 
     display:block;
 
-    margin:0 auto 3px auto;
+    margin:0 auto 2px auto;
 
 }
 
-
-/* ======================================
-   COMPANY
-====================================== */
 
 .company{
 
     text-align:center;
 
-    margin-bottom:3px;
-
-    padding-bottom:3px;
-
     border-bottom:
-        2px solid #ffcc00;
+        1px solid #ffcc00;
+
+    padding-bottom:2px;
 
 }
 
@@ -4570,7 +4819,7 @@ body{
 
     color:#cc0000;
 
-    font-size:12px;
+    font-size:11px;
 
     margin:1px;
 
@@ -4579,7 +4828,7 @@ body{
 
 .company p{
 
-    font-size:6px;
+    font-size:5px;
 
     font-weight:bold;
 
@@ -4588,10 +4837,6 @@ body{
 }
 
 
-/* ======================================
-   INFO
-====================================== */
-
 .info{
 
     background:#fff8dc;
@@ -4599,18 +4844,16 @@ body{
     border:
         1px solid #ffcc00;
 
-    padding:3px;
+    padding:2px;
 
-    font-size:7px;
+    font-size:6px;
 
-    line-height:1.35;
+    line-height:1.25;
+
+    margin-top:2px;
 
 }
 
-
-/* ======================================
-   TABLE
-====================================== */
 
 table{
 
@@ -4618,9 +4861,7 @@ table{
 
     border-collapse:collapse;
 
-    margin-top:3px;
-
-    table-layout:fixed;
+    margin-top:2px;
 
 }
 
@@ -4629,13 +4870,11 @@ th,
 td{
 
     border:
-        1px solid #999;
+        1px solid #999999;
 
-    padding:
-        2px;
+    padding:1.5px;
 
-    font-size:
-        6.5px;
+    font-size:5.5px;
 
 }
 
@@ -4644,46 +4883,38 @@ th{
 
     background:#ffcc00;
 
-    color:#000;
+    color:#000000;
 
 }
 
 
 td{
 
-    background:#fff;
+    background:#ffffff;
 
-    color:#000;
+    color:#000000;
 
 }
 
 
-/* ======================================
-   NET
-====================================== */
-
 .net{
 
-    margin-top:3px;
+    margin-top:2px;
 
-    padding:4px;
+    padding:3px;
 
     background:#008000;
 
-    color:#fff;
+    color:#ffffff;
+
+    font-size:7px;
 
     font-weight:bold;
 
     text-align:right;
 
-    font-size:8px;
-
 }
 
-
-/* ======================================
-   SIGNATURE
-====================================== */
 
 .signature{
 
@@ -4691,9 +4922,9 @@ td{
 
     justify-content:space-between;
 
-    margin-top:7px;
+    margin-top:5px;
 
-    font-size:5.5px;
+    font-size:4.5px;
 
 }
 
@@ -4701,31 +4932,23 @@ td{
 .line{
 
     border-top:
-        1px solid #000;
+        1px solid #000000;
 
-    width:45px;
-
-    padding-top:2px;
+    width:40px;
 
     text-align:center;
+
+    padding-top:1px;
 
 }
 
 
-/* ======================================
-   EMPTY
-====================================== */
-
-.empty{
+.empty-slot{
 
     visibility:hidden;
 
 }
 
-
-/* ======================================
-   PAGE
-====================================== */
 
 @page{
 
@@ -4751,40 +4974,23 @@ ${pages}
 `;
 
 
-        openPrintWindow(
-            html
-        );
-
-
-    }catch(error){
-
-        console.error(
-            "Print All Payslips Error:",
-            error
-        );
-
-
-        alert(
-            "Unable to print all payslips.\n\n" +
-            error.message
-        );
-
-    }
+    openPrintWindow(
+        html
+    );
 
 };
 
 
-
 /* ==========================================
-   CREATE ALL PRINTABLE PAYSLIP
+   FOUR-UP PAYSLIP
 ========================================== */
 
-function createAllPrintablePayslip(
+function createFourPayslip(
     pay
 ){
 
     const holiday =
-        payrollField(
+        field(
             pay,
             "holiday",
             "holidaypay"
@@ -4792,7 +4998,7 @@ function createAllPrintablePayslip(
 
 
     const health =
-        payrollField(
+        field(
             pay,
             "healthcard",
             "health"
@@ -4800,7 +5006,7 @@ function createAllPrintablePayslip(
 
 
     const other =
-        payrollField(
+        field(
             pay,
             "otherdeduction",
             "other"
@@ -4809,407 +5015,417 @@ function createAllPrintablePayslip(
 
     return `
 
-<div class="all-payslip">
+<div class="four-payslip">
 
 
-    <div class="company">
+<div class="company">
 
 
-        <img
-            src="logo.png"
-            class="logo">
+<img
+src="logo.png"
+class="logo">
 
 
-        <h2>
-            PAPPRITO
-        </h2>
+<h2>
+PAPPRITO
+</h2>
 
 
-        <p>
-            OFFICIAL EMPLOYEE PAYSLIP
-        </p>
+<p>
+OFFICIAL EMPLOYEE PAYSLIP
+</p>
 
 
-    </div>
+</div>
 
 
-    <div class="info">
+<div class="info">
 
 
-        <b>ID:</b>
+<b>
+ID:
+</b>
 
-        ${escapeHTML(
-            pay.empid || ""
-        )}
+${escapeHTML(
+    pay.empid || ""
+)}
 
-        <br>
 
+<br>
 
-        <b>Name:</b>
 
-        ${escapeHTML(
-            pay.employee || ""
-        )}
+<b>
+Name:
+</b>
 
-        <br>
+${escapeHTML(
+    pay.employee || ""
+)}
 
 
-        <b>Date:</b>
+<br>
 
-        ${escapeHTML(
-            pay.date || ""
-        )}
 
-        <br>
+<b>
+Date:
+</b>
 
+${escapeHTML(
+    pay.date || ""
+)}
 
-        <b>Daily Rate:</b>
 
-        ₱ ${money(
-            pay.dailyrate
-        )}
+<br>
 
-        <br>
 
+<b>
+Rate:
+</b>
 
-        <b>Total Days:</b>
+₱ ${rawMoney(
+    pay.dailyrate
+)}
 
-        ${numberValue(
-            pay.totaldays
-        )}
 
-    </div>
+&nbsp;
 
 
+<b>
+Days:
+</b>
 
-    <!-- EARNINGS -->
+${num(
+    pay.totaldays
+)}
 
-    <table>
+</div>
 
 
-        <tr>
+<table>
 
-            <th>
-                EARNINGS
-            </th>
 
-            <th>
-                AMOUNT
-            </th>
+<tr>
 
-        </tr>
+<th>
+EARNINGS
+</th>
 
+<th>
+AMOUNT
+</th>
 
-        <tr>
+</tr>
 
-            <td>
-                Basic Pay
-            </td>
 
-            <td>
-                ${money(
-                    pay.basicpay
-                )}
-            </td>
+<tr>
 
-        </tr>
+<td>
+Basic Pay
+</td>
 
+<td>
+${rawMoney(
+    pay.basicpay
+)}
+</td>
 
-        <tr>
+</tr>
 
-            <td>
-                Overtime
-            </td>
 
-            <td>
-                ${money(
-                    pay.overtime
-                )}
-            </td>
+<tr>
 
-        </tr>
+<td>
+Overtime
+</td>
 
+<td>
+${rawMoney(
+    pay.overtime
+)}
+</td>
 
-        <tr>
+</tr>
 
-            <td>
-                Holiday Pay
-            </td>
 
-            <td>
-                ${money(
-                    holiday
-                )}
-            </td>
+<tr>
 
-        </tr>
+<td>
+Holiday
+</td>
 
+<td>
+${rawMoney(
+    holiday
+)}
+</td>
 
-        <tr>
+</tr>
 
-            <td>
-                Sick Leave
-            </td>
 
-            <td>
-                ${money(
-                    pay.sickleave
-                )}
-            </td>
+<tr>
 
-        </tr>
+<td>
+Sick Leave
+</td>
 
+<td>
+${rawMoney(
+    pay.sickleave
+)}
+</td>
 
-        <tr>
+</tr>
 
-            <td>
-                Vacation Leave
-            </td>
 
-            <td>
-                ${money(
-                    pay.vacationleave
-                )}
-            </td>
+<tr>
 
-        </tr>
+<td>
+Vacation Leave
+</td>
 
+<td>
+${rawMoney(
+    pay.vacationleave
+)}
+</td>
 
-        <tr>
+</tr>
 
-            <td>
-                Birthday Leave
-            </td>
 
-            <td>
-                ${money(
-                    pay.birthdayleave
-                )}
-            </td>
+<tr>
 
-        </tr>
+<td>
+Birthday Leave
+</td>
 
+<td>
+${rawMoney(
+    pay.birthdayleave
+)}
+</td>
 
-        <tr>
+</tr>
 
-            <td>
-                Maternity Leave
-            </td>
 
-            <td>
-                ${money(
-                    pay.maternityleave
-                )}
-            </td>
+<tr>
 
-        </tr>
+<td>
+Maternity Leave
+</td>
 
+<td>
+${rawMoney(
+    pay.maternityleave
+)}
+</td>
 
-        <tr>
+</tr>
 
-            <td>
-                Paternity Leave
-            </td>
 
-            <td>
-                ${money(
-                    pay.paternityleave
-                )}
-            </td>
+<tr>
 
-        </tr>
+<td>
+Paternity Leave
+</td>
 
+<td>
+${rawMoney(
+    pay.paternityleave
+)}
+</td>
 
-        <tr>
+</tr>
 
-            <td>
-                Allowance
-            </td>
 
-            <td>
-                ${money(
-                    pay.allowance
-                )}
-            </td>
+<tr>
 
-        </tr>
+<td>
+Allowance
+</td>
 
+<td>
+${rawMoney(
+    pay.allowance
+)}
+</td>
 
-        <tr>
+</tr>
 
-            <td>
-                <b>
-                    TOTAL GROSS
-                </b>
-            </td>
 
-            <td>
-                <b>
-                    ${money(
-                        pay.gross
-                    )}
-                </b>
-            </td>
+<tr>
 
-        </tr>
+<td>
 
+<b>
+GROSS
+</b>
 
-    </table>
+</td>
 
+<td>
 
+<b>
 
-    <!-- DEDUCTIONS -->
+${rawMoney(
+    pay.gross
+)}
 
-    <table>
+</b>
 
+</td>
 
-        <tr>
+</tr>
 
-            <th>
-                DEDUCTIONS
-            </th>
 
-            <th>
-                AMOUNT
-            </th>
+</table>
 
-        </tr>
 
+<table>
 
-        <tr>
 
-            <td>
-                SSS
-            </td>
+<tr>
 
-            <td>
-                ${money(
-                    pay.sss
-                )}
-            </td>
+<th>
+DEDUCTIONS
+</th>
 
-        </tr>
+<th>
+AMOUNT
+</th>
 
+</tr>
 
-        <tr>
 
-            <td>
-                PhilHealth
-            </td>
+<tr>
 
-            <td>
-                ${money(
-                    pay.philhealth
-                )}
-            </td>
+<td>
+SSS
+</td>
 
-        </tr>
+<td>
+${rawMoney(
+    pay.sss
+)}
+</td>
 
+</tr>
 
-        <tr>
 
-            <td>
-                Pag-IBIG
-            </td>
+<tr>
 
-            <td>
-                ${money(
-                    pay.pagibig
-                )}
-            </td>
+<td>
+PhilHealth
+</td>
 
-        </tr>
+<td>
+${rawMoney(
+    pay.philhealth
+)}
+</td>
 
+</tr>
 
-        <tr>
 
-            <td>
-                Health Card
-            </td>
+<tr>
 
-            <td>
-                ${money(
-                    health
-                )}
-            </td>
+<td>
+Pag-IBIG
+</td>
 
-        </tr>
+<td>
+${rawMoney(
+    pay.pagibig
+)}
+</td>
 
+</tr>
 
-        <tr>
 
-            <td>
-                Others
-            </td>
+<tr>
 
-            <td>
-                ${money(
-                    other
-                )}
-            </td>
+<td>
+Health Card
+</td>
 
-        </tr>
+<td>
+${rawMoney(
+    health
+)}
+</td>
 
+</tr>
 
-        <tr>
 
-            <td>
-                <b>
-                    TOTAL DEDUCTION
-                </b>
-            </td>
+<tr>
 
-            <td>
-                <b>
-                    ${money(
-                        pay.deductions
-                    )}
-                </b>
-            </td>
+<td>
+Others
+</td>
 
-        </tr>
+<td>
+${rawMoney(
+    other
+)}
+</td>
 
+</tr>
 
-    </table>
 
+<tr>
 
+<td>
 
-    <!-- NET PAY -->
+<b>
+DEDUCTION
+</b>
 
-    <div class="net">
+</td>
 
-        NET PAY :
+<td>
 
-        ₱
+<b>
 
-        ${money(
-            pay.net
-        )}
+${rawMoney(
+    pay.deductions
+)}
 
-    </div>
+</b>
 
+</td>
 
+</tr>
 
-    <!-- SIGNATURE -->
 
-    <div class="signature">
+</table>
 
 
-        <div class="line">
+<div class="net">
 
-            HR
 
-        </div>
+NET PAY :
 
+₱ ${rawMoney(
+    pay.net
+)}
 
-        <div class="line">
 
-            Employee
+</div>
 
-        </div>
 
+<div class="signature">
 
-    </div>
+
+<div class="line">
+HR
+</div>
+
+
+<div class="line">
+Employee
+</div>
+
+
+</div>
 
 
 </div>
@@ -5218,6 +5434,994 @@ function createAllPrintablePayslip(
 
 }
 
+
+/* ==========================================
+   EMPLOYEE REQUESTS
+========================================== */
+
+async function loadRequests(){
+
+    const body =
+        document.getElementById(
+            "requestBody"
+        );
+
+
+    if(
+        !body ||
+        !currentEmployee
+    ){
+
+        return;
+
+    }
+
+
+    body.innerHTML =
+        "";
+
+
+    try{
+
+        const snapshot =
+            await getDocs(
+                collection(
+                    db,
+                    "employeeRequests"
+                )
+            );
+
+
+        let found =
+            false;
+
+
+        snapshot.forEach(
+            docSnap => {
+
+                const req =
+                    docSnap.data();
+
+
+                if(
+
+                    text(
+                        req.empid
+                    )
+                    .trim()
+                    .toUpperCase()
+
+                    !==
+
+                    text(
+                        currentEmployee.id
+                    )
+                    .trim()
+                    .toUpperCase()
+
+                ){
+
+                    return;
+
+                }
+
+
+                found =
+                    true;
+
+
+                const status =
+                    text(
+                        req.status ||
+                        "PENDING"
+                    )
+                    .toLowerCase();
+
+
+                body.innerHTML += `
+
+<tr>
+
+<td>
+${escapeHTML(
+    req.empid
+)}
+</td>
+
+<td>
+${escapeHTML(
+    req.employee
+)}
+</td>
+
+<td>
+${escapeHTML(
+    req.type
+)}
+</td>
+
+<td>
+${escapeHTML(
+    req.date
+)}
+</td>
+
+<td>
+${escapeHTML(
+    req.days
+)}
+</td>
+
+<td>
+${escapeHTML(
+    req.reason
+)}
+</td>
+
+<td class="${escapeHTML(status)}">
+${escapeHTML(
+    req.status
+)}
+</td>
+
+<td>
+
+
+<button
+class="btn edit-btn"
+onclick="
+editRequest(
+'${escapeJS(docSnap.id)}',
+'${escapeJS(req.type)}',
+'${escapeJS(req.date)}',
+'${escapeJS(req.days)}',
+'${escapeJS(req.reason)}'
+)">
+
+EDIT
+
+</button>
+
+
+<button
+class="btn delete-btn"
+onclick="
+deleteRequest(
+'${escapeJS(docSnap.id)}'
+)">
+
+DELETE
+
+</button>
+
+
+</td>
+
+</tr>
+
+`;
+
+            }
+        );
+
+
+        if(
+            !found
+        ){
+
+            body.innerHTML = `
+
+<tr>
+
+<td
+colspan="8"
+style="padding:20px;">
+
+NO LEAVE REQUESTS YET
+
+</td>
+
+</tr>
+
+`;
+
+        }
+
+
+    }catch(error){
+
+        console.error(
+            "Requests Error:",
+            error
+        );
+
+    }
+
+}
+
+
+/* ==========================================
+   SUBMIT LEAVE REQUEST
+========================================== */
+
+window.submitRequest =
+async function(){
+
+    if(
+        !currentEmployee
+    ){
+
+        return;
+
+    }
+
+
+    const type =
+        document.getElementById(
+            "requestType"
+        ).value;
+
+
+    const date =
+        document.getElementById(
+            "requestDate"
+        ).value;
+
+
+    const days =
+        document.getElementById(
+            "days"
+        ).value;
+
+
+    const reason =
+        document.getElementById(
+            "reason"
+        ).value.trim();
+
+
+    if(
+        !type ||
+        !date
+    ){
+
+        alert(
+            "Please complete the leave request."
+        );
+
+        return;
+
+    }
+
+
+    try{
+
+        if(
+            editId
+        ){
+
+            await updateDoc(
+
+                doc(
+                    db,
+                    "employeeRequests",
+                    editId
+                ),
+
+                {
+
+                    type,
+                    date,
+                    days,
+                    reason
+
+                }
+
+            );
+
+
+            alert(
+                "Request Updated."
+            );
+
+
+            editId =
+                null;
+
+        }else{
+
+            await addDoc(
+
+                collection(
+                    db,
+                    "employeeRequests"
+                ),
+
+                {
+
+                    empid:
+                        currentEmployee.id,
+
+                    employee:
+                        currentEmployee.name,
+
+                    type,
+                    date,
+                    days,
+                    reason,
+
+                    status:
+                        "PENDING"
+
+                }
+
+            );
+
+
+            alert(
+                "Request Submitted."
+            );
+
+        }
+
+
+        clearLeaveForm();
+
+        await loadRequests();
+
+
+    }catch(error){
+
+        console.error(
+            error
+        );
+
+
+        alert(
+            "Request Error."
+        );
+
+    }
+
+};
+
+
+/* ==========================================
+   EDIT REQUEST
+========================================== */
+
+window.editRequest =
+function(
+    id,
+    type,
+    date,
+    daysValue,
+    reasonText
+){
+
+    editId =
+        id;
+
+
+    document.getElementById(
+        "requestType"
+    ).value =
+        type;
+
+
+    document.getElementById(
+        "requestDate"
+    ).value =
+        date;
+
+
+    document.getElementById(
+        "days"
+    ).value =
+        daysValue;
+
+
+    document.getElementById(
+        "reason"
+    ).value =
+        reasonText;
+
+
+    window.scrollTo({
+
+        top:0,
+
+        behavior:"smooth"
+
+    });
+
+};
+
+
+/* ==========================================
+   DELETE REQUEST
+========================================== */
+
+window.deleteRequest =
+async function(
+    id
+){
+
+    if(
+        !confirm(
+            "Delete Request?"
+        )
+    ){
+
+        return;
+
+    }
+
+
+    try{
+
+        await deleteDoc(
+
+            doc(
+                db,
+                "employeeRequests",
+                id
+            )
+
+        );
+
+
+        await loadRequests();
+
+
+    }catch(error){
+
+        console.error(
+            error
+        );
+
+        alert(
+            "Delete Error."
+        );
+
+    }
+
+};
+
+
+/* ==========================================
+   CLEAR LEAVE FORM
+========================================== */
+
+function clearLeaveForm(){
+
+    document.getElementById(
+        "requestType"
+    ).value =
+        "";
+
+
+    document.getElementById(
+        "requestDate"
+    ).value =
+        "";
+
+
+    document.getElementById(
+        "days"
+    ).value =
+        "";
+
+
+    document.getElementById(
+        "reason"
+    ).value =
+        "";
+
+
+    editId =
+        null;
+
+}
+
+
+/* ==========================================
+   ATTENDANCE REQUESTS
+========================================== */
+
+async function loadAttendanceRequests(){
+
+    const body =
+        document.getElementById(
+            "attendanceBody"
+        );
+
+
+    if(
+        !body ||
+        !currentEmployee
+    ){
+
+        return;
+
+    }
+
+
+    body.innerHTML =
+        "";
+
+
+    try{
+
+        const snapshot =
+            await getDocs(
+                collection(
+                    db,
+                    "attendanceRequests"
+                )
+            );
+
+
+        let found =
+            false;
+
+
+        snapshot.forEach(
+            docSnap => {
+
+                const req =
+                    docSnap.data();
+
+
+                if(
+
+                    text(
+                        req.employeeid
+                    )
+                    .trim()
+                    .toUpperCase()
+
+                    !==
+
+                    text(
+                        currentEmployee.id
+                    )
+                    .trim()
+                    .toUpperCase()
+
+                ){
+
+                    return;
+
+                }
+
+
+                found =
+                    true;
+
+
+                const status =
+                    text(
+                        req.status ||
+                        "PENDING"
+                    )
+                    .toLowerCase();
+
+
+                body.innerHTML += `
+
+<tr>
+
+<td>
+${escapeHTML(
+    req.employeeid
+)}
+</td>
+
+<td>
+${escapeHTML(
+    req.employee
+)}
+</td>
+
+<td>
+${escapeHTML(
+    req.requesttype
+)}
+</td>
+
+<td>
+${escapeHTML(
+    req.date
+)}
+</td>
+
+<td>
+${escapeHTML(
+    req.time
+)}
+</td>
+
+<td>
+${escapeHTML(
+    req.reason
+)}
+</td>
+
+<td class="${escapeHTML(status)}">
+${escapeHTML(
+    req.status
+)}
+</td>
+
+<td>
+
+
+<button
+class="btn edit-btn"
+onclick="
+editAttendanceRequest(
+'${escapeJS(docSnap.id)}',
+'${escapeJS(req.requesttype)}',
+'${escapeJS(req.date)}',
+'${escapeJS(req.time)}',
+'${escapeJS(req.reason)}'
+)">
+
+EDIT
+
+</button>
+
+
+<button
+class="btn delete-btn"
+onclick="
+deleteAttendanceRequest(
+'${escapeJS(docSnap.id)}'
+)">
+
+DELETE
+
+</button>
+
+
+</td>
+
+</tr>
+
+`;
+
+            }
+        );
+
+
+        if(
+            !found
+        ){
+
+            body.innerHTML = `
+
+<tr>
+
+<td
+colspan="8"
+style="padding:20px;">
+
+NO ATTENDANCE REQUESTS YET
+
+</td>
+
+</tr>
+
+`;
+
+        }
+
+
+    }catch(error){
+
+        console.error(
+            error
+        );
+
+    }
+
+}
+
+
+/* ==========================================
+   SUBMIT ATTENDANCE REQUEST
+========================================== */
+
+window.submitAttendanceRequest =
+async function(){
+
+    if(
+        !currentEmployee
+    ){
+
+        return;
+
+    }
+
+
+    const type =
+        document.getElementById(
+            "attendanceType"
+        ).value;
+
+
+    const date =
+        document.getElementById(
+            "attendanceDate"
+        ).value;
+
+
+    const time =
+        document.getElementById(
+            "attendanceTime"
+        ).value;
+
+
+    const reason =
+        document.getElementById(
+            "attendanceReason"
+        ).value.trim();
+
+
+    if(
+        !type ||
+        !date ||
+        !time ||
+        !reason
+    ){
+
+        alert(
+            "Please complete the attendance request."
+        );
+
+        return;
+
+    }
+
+
+    try{
+
+        if(
+            attendanceEditId
+        ){
+
+            await updateDoc(
+
+                doc(
+                    db,
+                    "attendanceRequests",
+                    attendanceEditId
+                ),
+
+                {
+
+                    requesttype:
+                        type,
+
+                    date,
+                    time,
+                    reason
+
+                }
+
+            );
+
+
+            alert(
+                "Attendance Request Updated."
+            );
+
+
+            attendanceEditId =
+                null;
+
+        }else{
+
+            await addDoc(
+
+                collection(
+                    db,
+                    "attendanceRequests"
+                ),
+
+                {
+
+                    employeeid:
+                        currentEmployee.id,
+
+                    employee:
+                        currentEmployee.name,
+
+                    requesttype:
+                        type,
+
+                    date,
+                    time,
+                    reason,
+
+                    status:
+                        "PENDING",
+
+                    timestamp:
+                        Date.now()
+
+                }
+
+            );
+
+
+            alert(
+                "Attendance Request Submitted."
+            );
+
+        }
+
+
+        clearAttendanceForm();
+
+        await loadAttendanceRequests();
+
+
+    }catch(error){
+
+        console.error(
+            error
+        );
+
+
+        alert(
+            "Attendance Request Error."
+        );
+
+    }
+
+};
+
+
+/* ==========================================
+   EDIT ATTENDANCE
+========================================== */
+
+window.editAttendanceRequest =
+function(
+    id,
+    type,
+    date,
+    time,
+    reasonText
+){
+
+    attendanceEditId =
+        id;
+
+
+    document.getElementById(
+        "attendanceType"
+    ).value =
+        type;
+
+
+    document.getElementById(
+        "attendanceDate"
+    ).value =
+        date;
+
+
+    document.getElementById(
+        "attendanceTime"
+    ).value =
+        time;
+
+
+    document.getElementById(
+        "attendanceReason"
+    ).value =
+        reasonText;
+
+
+    window.scrollTo({
+
+        top:0,
+
+        behavior:"smooth"
+
+    });
+
+};
+
+
+/* ==========================================
+   DELETE ATTENDANCE
+========================================== */
+
+window.deleteAttendanceRequest =
+async function(
+    id
+){
+
+    if(
+        !confirm(
+            "Delete Attendance Request?"
+        )
+    ){
+
+        return;
+
+    }
+
+
+    try{
+
+        await deleteDoc(
+
+            doc(
+                db,
+                "attendanceRequests",
+                id
+            )
+
+        );
+
+
+        await loadAttendanceRequests();
+
+
+    }catch(error){
+
+        console.error(
+            error
+        );
+
+
+        alert(
+            "Delete Error."
+        );
+
+    }
+
+};
+
+
+/* ==========================================
+   CLEAR ATTENDANCE
+========================================== */
+
+function clearAttendanceForm(){
+
+    document.getElementById(
+        "attendanceType"
+    ).value =
+        "";
+
+
+    document.getElementById(
+        "attendanceDate"
+    ).value =
+        "";
+
+
+    document.getElementById(
+        "attendanceTime"
+    ).value =
+        "";
+
+
+    document.getElementById(
+        "attendanceReason"
+    ).value =
+        "";
+
+
+    attendanceEditId =
+        null;
+
+}
 
 
 /* ==========================================
@@ -5243,40 +6447,11 @@ function(){
 };
 
 
-
 /* ==========================================
    START
 ========================================== */
 
-loadEmployee();
-
-
-/* ==========================================
-   OPTIONAL PRINT-ALL MODE
-========================================== */
-
-const urlParams =
-    new URLSearchParams(
-        window.location.search
-    );
-
-
-if(
-    urlParams.get(
-        "printAll"
-    ) === "1"
-){
-
-    setTimeout(
-        function(){
-
-            printAllPayslips();
-
-        },
-        1000
-    );
-
-}
+initializePage();
 
 </script>
 
