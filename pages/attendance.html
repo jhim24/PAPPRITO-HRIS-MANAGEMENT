@@ -6,12 +6,10 @@
 <meta charset="UTF-8">
 
 <meta
-    name="viewport"
-    content="width=device-width, initial-scale=1.0">
+name="viewport"
+content="width=device-width, initial-scale=1.0">
 
-<title>
-PAPPRITO HRIS - Attendance
-</title>
+<title>PAPPRITO HRIS - Attendance</title>
 
 
 <!-- ==========================================
@@ -19,8 +17,8 @@ PAPPRITO HRIS - Attendance
 ========================================== -->
 
 <link
-    rel="manifest"
-    href="../manifest.json">
+rel="manifest"
+href="../manifest.json">
 
 
 <!-- ==========================================
@@ -28,8 +26,8 @@ PAPPRITO HRIS - Attendance
 ========================================== -->
 
 <meta
-    name="theme-color"
-    content="#ffcc00">
+name="theme-color"
+content="#ffcc00">
 
 
 <!-- ==========================================
@@ -37,12 +35,12 @@ PAPPRITO HRIS - Attendance
 ========================================== -->
 
 <link
-    rel="apple-touch-icon"
-    href="../assets/images/icon-192.png">
+rel="apple-touch-icon"
+href="../assets/images/icon-192.png">
 
 <link
-    rel="icon"
-    href="../assets/images/logo.png">
+rel="icon"
+href="../assets/images/logo.png">
 
 
 <!-- ==========================================
@@ -50,8 +48,8 @@ PAPPRITO HRIS - Attendance
 ========================================== -->
 
 <link
-    href="https://fonts.googleapis.com/icon?family=Material+Icons"
-    rel="stylesheet">
+rel="stylesheet"
+href="https://fonts.googleapis.com/icon?family=Material+Icons">
 
 
 <!-- ==========================================
@@ -59,8 +57,8 @@ PAPPRITO HRIS - Attendance
 ========================================== -->
 
 <link
-    rel="stylesheet"
-    href="../css/attendance.css">
+rel="stylesheet"
+href="../css/attendance.css">
 
 </head>
 
@@ -68,419 +66,209 @@ PAPPRITO HRIS - Attendance
 <body>
 
 
-<!-- ==========================================
-     MAIN APP
-========================================== -->
-
 <div id="app">
 
 
-<div class="attendance-container">
+<div class="container">
 
 
 <!-- ==========================================
      HEADER
 ========================================== -->
 
-<header class="attendance-header">
+<div class="header">
 
 
-<div class="header-brand">
-
-
-<img
-    src="../assets/images/logo.png"
-    class="header-logo"
-    alt="PAPPRITO Logo">
-
-
-<div>
-
-<h1>
-PAPPRITO HRIS
-</h1>
-
-<p>
-EMPLOYEE ATTENDANCE
-</p>
-
-</div>
-
-
-</div>
-
-
-
-<!-- ==========================================
-     HEADER ACTIONS
-========================================== -->
-
-<div class="header-actions">
-
+<!-- BACK BUTTON -->
 
 <button
-    id="backBtn"
-    class="icon-action secondary"
-    type="button"
-    onclick="backToDashboard()"
-    title="Back to Dashboard"
-    aria-label="Back to Dashboard">
+id="backBtn"
+class="top-btn"
+type="button"
+onclick="window.location.href='dashboard.html'">
 
 <span class="material-icons">
-    dashboard
+arrow_back
 </span>
-
-</button>
-
-
-<button
-    id="refreshBtn"
-    class="icon-action blue"
-    type="button"
-    onclick="refreshAttendance()"
-    title="Refresh Attendance"
-    aria-label="Refresh Attendance">
-
-<span class="material-icons">
-    refresh
-</span>
-
-</button>
-
-
-<button
-    id="printBtn"
-    class="icon-action green"
-    type="button"
-    onclick="printAttendance()"
-    title="Print Attendance"
-    aria-label="Print Attendance">
-
-<span class="material-icons">
-    print
-</span>
-
-</button>
-
-
-</div>
-
-
-</header>
-
-
-
-<!-- ==========================================
-     PAGE TITLE
-========================================== -->
-
-<section class="page-heading">
-
-
-<div>
-
-<h2>
-Attendance Management
-</h2>
-
-<p>
-Record, monitor and review employee attendance.
-</p>
-
-</div>
-
-
-<div class="live-status">
-
-<span class="status-dot"></span>
 
 <span>
-System Online
-</span>
-
-</div>
-
-
-</section>
-
-
-
-<!-- ==========================================
-     FILTER CARD
-========================================== -->
-
-<section class="control-card">
-
-
-<div class="section-heading">
-
-
-<div>
-
-<h3>
-
-<span class="material-icons">
-filter_alt
-</span>
-
-Attendance Filter
-
-</h3>
-
-
-<p>
-Select employee and attendance period.
-</p>
-
-</div>
-
-
-<button
-    id="clearFilterBtn"
-    class="small-btn gray"
-    type="button"
-    onclick="clearAttendanceFilter()"
-    title="Clear Filter">
-
-<span class="material-icons">
-    clear
+BACK
 </span>
 
 </button>
 
 
+<!-- PRINT BUTTON -->
+
+<button
+id="printBtn"
+class="top-btn"
+type="button">
+
+<span class="material-icons">
+print
+</span>
+
+<span>
+PRINT
+</span>
+
+</button>
+
+
+<!-- LOGO -->
+
+<div class="logo">
+
+<img
+src="../assets/images/logo.png"
+alt="PAPPRITO Logo">
+
 </div>
 
 
+<!-- LOGO TEXT -->
 
-<div class="filter-grid">
+<div class="logo-text">
 
+PAPPRITO
 
-<!-- EMPLOYEE -->
-
-<div class="form-group">
-
-
-<label for="employeeSelect">
-
-Employee
-
-</label>
+</div>
 
 
-<div class="input-icon">
+<!-- PAGE TITLE -->
+
+<div class="title">
+
+EMPLOYEE ATTENDANCE
+
+</div>
 
 
-<span class="material-icons">
-person
-</span>
+</div>
 
+
+<!-- ==========================================
+     FILTER SECTION
+========================================== -->
+
+<div class="filter-section">
+
+
+<!-- EMPLOYEE SELECT -->
 
 <select
-    id="employeeSelect">
+id="employeeSelect">
 
 <option value="">
-    Select Employee
+
+Select Employee
+
 </option>
 
 </select>
 
 
-</div>
-
-</div>
-
-
-
-<!-- FROM -->
-
-<div class="form-group">
-
-
-<label for="fromDate">
-
-From Date
-
-</label>
-
-
-<div class="input-icon">
-
-
-<span class="material-icons">
-calendar_month
-</span>
-
+<!-- FROM DATE -->
 
 <input
-    type="date"
-    id="fromDate">
-
-</div>
-
-</div>
+type="date"
+id="fromDate">
 
 
-
-<!-- TO -->
-
-<div class="form-group">
-
-
-<label for="toDate">
-
-To Date
-
-</label>
-
-
-<div class="input-icon">
-
-
-<span class="material-icons">
-event
-</span>
-
+<!-- TO DATE -->
 
 <input
-    type="date"
-    id="toDate">
-
-</div>
-
-</div>
+type="date"
+id="toDate">
 
 
-
-<!-- FILTER -->
-
-<div class="filter-action">
-
+<!-- FILTER BUTTON -->
 
 <button
-    id="filterBtn"
-    class="main-btn yellow"
-    type="button"
-    onclick="filterAttendance()">
+id="filterBtn"
+type="button">
 
 <span class="material-icons">
-    search
+filter_alt
 </span>
 
+<span>
 FILTER
-
-</button>
-
-
-<button
-    id="summaryBtn"
-    class="main-btn red"
-    type="button"
-    onclick="showAttendanceSummary()">
-
-<span class="material-icons">
-    analytics
 </span>
 
+</button>
+
+
+<!-- SUMMARY BUTTON -->
+
+<button
+id="summaryBtn"
+type="button">
+
+<span class="material-icons">
+analytics
+</span>
+
+<span>
 SUMMARY
+</span>
 
 </button>
 
-</div>
-
 
 </div>
-
-
-</section>
-
 
 
 <!-- ==========================================
      EMPLOYEE INFORMATION
 ========================================== -->
 
-<section class="employee-card">
-
-
-<div class="employee-avatar">
-
-
-<span class="material-icons">
-    badge
-</span>
-
-
-</div>
-
-
-<div class="employee-details">
-
-
-<div class="employee-field">
-
-
-<span>
-Employee ID
-</span>
-
-
-<strong id="employeeId">
--
-</strong>
-
-
-</div>
-
-
-
-<div class="employee-field">
-
-
-<span>
-Employee Name
-</span>
-
-
-<strong id="employeeName">
--
-</strong>
-
-
-</div>
-
-
-</div>
-
-
-</section>
-
-
-
-<!-- ==========================================
-     LIVE CLOCK
-========================================== -->
-
-<section class="clock-card">
-
-
-<div class="clock-icon">
-
-
-<span class="material-icons">
-    schedule
-</span>
-
-
-</div>
-
-
-<div>
+<div class="employee-info">
 
 
 <div
-    id="clock"
-    class="clock">
+id="employeeId">
+
+EMPLOYEE ID :
+
+</div>
+
+
+<div
+id="employeeName">
+
+EMPLOYEE NAME :
+
+</div>
+
+
+</div>
+
+
+<!-- ==========================================
+     CLOCK
+========================================== -->
+
+<div class="clock-area">
+
+
+<div class="clock-label">
+
+<span class="material-icons">
+schedule
+</span>
+
+<span>
+CURRENT TIME
+</span>
+
+</div>
+
+
+<div
+id="clock"
+class="clock">
 
 00:00:00
 
@@ -488,179 +276,92 @@ Employee Name
 
 
 <div
-    id="todayDate"
-    class="today-date">
+id="todayDate"
+class="today-date">
 
-Loading date...
-
-</div>
-
+DATE
 
 </div>
 
 
-<div class="clock-label">
-
-LIVE TIME
-
 </div>
-
-
-</section>
-
 
 
 <!-- ==========================================
-     ATTENDANCE ACTIONS
+     ATTENDANCE BUTTONS
 ========================================== -->
 
-<section class="attendance-action-card">
-
-
-<div class="section-heading">
-
-
-<div>
-
-<h3>
-
-<span class="material-icons">
-touch_app
-</span>
-
-Attendance Actions
-
-</h3>
-
-
-<p>
-Record today's attendance.
-</p>
-
-</div>
-
-
-</div>
-
-
-
-<div class="attendance-buttons">
+<div class="button-group">
 
 
 <!-- TIME IN -->
 
 <button
-    id="timeInBtn"
-    class="attendance-btn timein"
-    type="button"
-    onclick="timeIn()"
-    title="Time In">
+id="timeInBtn"
+class="action-btn timein"
+type="button">
 
 <span class="material-icons">
-    login
+login
 </span>
 
-
-<div>
-
-<strong>
+<span>
 TIME IN
-</strong>
-
-<small>
-Start Work
-</small>
-
-</div>
+</span>
 
 </button>
-
 
 
 <!-- BREAK OUT -->
 
 <button
-    id="breakOutBtn"
-    class="attendance-btn breakout"
-    type="button"
-    onclick="breakOut()"
-    title="Break Out">
+id="breakOutBtn"
+class="action-btn breakout"
+type="button">
 
 <span class="material-icons">
-    free_breakfast
+free_breakfast
 </span>
 
-
-<div>
-
-<strong>
+<span>
 BREAK OUT
-</strong>
-
-<small>
-Start Break
-</small>
-
-</div>
+</span>
 
 </button>
-
 
 
 <!-- BREAK IN -->
 
 <button
-    id="breakInBtn"
-    class="attendance-btn breakin"
-    type="button"
-    onclick="breakIn()"
-    title="Break In">
+id="breakInBtn"
+class="action-btn breakin"
+type="button">
 
 <span class="material-icons">
-    play_circle
+restart_alt
 </span>
 
-
-<div>
-
-<strong>
+<span>
 BREAK IN
-</strong>
-
-<small>
-Return From Break
-</small>
-
-</div>
+</span>
 
 </button>
-
 
 
 <!-- TIME OUT -->
 
 <button
-    id="timeOutBtn"
-    class="attendance-btn timeout"
-    type="button"
-    onclick="timeOut()"
-    title="Time Out">
+id="timeOutBtn"
+class="action-btn timeout"
+type="button">
 
 <span class="material-icons">
-    logout
+logout
 </span>
 
-
-<div>
-
-<strong>
+<span>
 TIME OUT
-</strong>
-
-<small>
-End Work</small>
-
-</div>
+</span>
 
 </button>
 
@@ -668,173 +369,59 @@ End Work</small>
 </div>
 
 
-</section>
+<!-- ==========================================
+     ATTENDANCE RECORDS SECTION
+========================================== -->
 
+<div class="attendance-section">
 
 
 <!-- ==========================================
-     TODAY SUMMARY
+     SECTION HEADER
 ========================================== -->
 
-<section class="summary-grid">
+<div class="section-heading">
 
 
-<div class="summary-box present">
+<div class="section-heading-left">
 
 
 <span class="material-icons">
-    how_to_reg
+event_note
 </span>
 
 
 <div>
 
-<span>
-STATUS
-</span>
+
+<h2>
+ATTENDANCE RECORDS
+</h2>
 
 
-<strong id="todayStatus">
--
-</strong>
+<p>
+Employee attendance and working hours
+</p>
 
-</div>
-
-</div>
-
-
-
-<div class="summary-box hours">
-
-
-<span class="material-icons">
-    access_time
-</span>
-
-
-<div>
-
-<span>
-REGULAR HOURS
-</span>
-
-
-<strong id="todayRegularHours">
-0.00
-</strong>
-
-</div>
 
 </div>
 
 
-
-<div class="summary-box overtime">
-
-
-<span class="material-icons">
-    more_time
-</span>
-
-
-<div>
-
-<span>
-OVERTIME
-</span>
-
-
-<strong id="todayOvertime">
-0.00
-</strong>
-
-</div>
-
 </div>
 
 
-
-<div class="summary-box late">
-
-
-<span class="material-icons">
-    timer
-</span>
-
-
-<div>
-
-<span>
-LATE
-</span>
-
-
-<strong id="todayLate">
-0
-</strong>
-
 </div>
-
-</div>
-
-
-</section>
-
 
 
 <!-- ==========================================
      ATTENDANCE TABLE
 ========================================== -->
 
-<section class="table-card">
-
-
-<div class="table-heading">
-
-
-<div>
-
-<h3>
-
-<span class="material-icons">
-    list_alt
-</span>
-
-Attendance Records
-
-</h3>
-
-
-<p>
-Employee attendance history.
-</p>
-
-</div>
-
-
-<button
-    id="tableRefreshBtn"
-    class="small-btn blue"
-    type="button"
-    onclick="refreshAttendance()"
-    title="Refresh Records">
-
-<span class="material-icons">
-    refresh
-</span>
-
-</button>
-
-
-</div>
-
-
-
 <div class="table-wrapper">
 
 
 <table
-    id="attendanceTable">
+id="attendanceTable">
 
 
 <thead>
@@ -913,28 +500,7 @@ ACTION
 
 
 <tbody
-    id="attendanceBody">
-
-
-<tr>
-
-<td
-    colspan="13"
-    class="empty-row">
-
-<span class="material-icons">
-    event_busy
-</span>
-
-
-<p>
-No attendance records found.
-</p>
-
-</td>
-
-</tr>
-
+id="attendanceBody">
 
 </tbody>
 
@@ -945,15 +511,14 @@ No attendance records found.
 </div>
 
 
-</section>
-
+</div>
 
 
 <!-- ==========================================
      FOOTER
 ========================================== -->
 
-<footer class="attendance-footer">
+<div class="attendance-footer">
 
 
 <span>
@@ -962,26 +527,13 @@ PAPPRITO HRIS
 
 
 <span>
-|
+•
 </span>
 
 
 <span>
-Attendance Management
+Employee Attendance Management
 </span>
-
-
-<span>
-|
-</span>
-
-
-<span>
-© 2026
-</span>
-
-
-</footer>
 
 
 </div>
@@ -989,6 +541,8 @@ Attendance Management
 
 </div>
 
+
+</div>
 
 
 <!-- ==========================================
@@ -996,8 +550,9 @@ Attendance Management
 ========================================== -->
 
 <script
-    type="module"
-    src="../js/attendance.js">
+type="module"
+src="../js/attendance.js">
+
 </script>
 
 
