@@ -3815,9 +3815,921 @@
             </section>
 
 
-            <section
-                id="leavesSection"
-                class="settings-section">
+           <!-- ==================================
+     LEAVE SETTINGS
+=================================== -->
+
+<section
+    id="leavesSection"
+    class="settings-section">
+
+
+    <!-- ==================================
+         SECTION TITLE
+    =================================== -->
+
+    <div class="section-title">
+
+        <div>
+
+            <h2>
+                Leave Settings
+            </h2>
+
+            <p>
+                Configure leave types, request rules,
+                approval workflow and employee leave access.
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <!-- ==================================
+         LEAVE REQUEST SETTINGS
+    =================================== -->
+
+    <div class="settings-card">
+
+        <div class="card-title">
+
+            <span class="material-icons">
+                event_available
+            </span>
+
+            <div>
+
+                <h3>
+                    Leave Request Settings
+                </h3>
+
+                <p>
+                    Configure how employees submit
+                    and manage leave requests.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="form-grid">
+
+
+            <!-- ENABLE LEAVE REQUEST -->
+
+            <div class="form-group full">
+
+                <label class="toggle-row">
+
+                    <span>
+
+                        <strong>
+                            Enable Employee Leave Requests
+                        </strong>
+
+                        <small>
+                            Allow employees to submit leave
+                            requests through the Employee Portal.
+                        </small>
+
+                    </span>
+
+
+                    <input
+                        type="checkbox"
+                        id="enableLeaveRequest"
+                        class="toggle-input"
+                        checked>
+
+                    <span class="toggle-switch"></span>
+
+                </label>
+
+            </div>
+
+
+            <!-- ADVANCE DAYS -->
+
+            <div class="form-group">
+
+                <label for="leaveAdvanceDays">
+
+                    Minimum Advance Request
+
+                </label>
+
+                <input
+                    type="number"
+                    id="leaveAdvanceDays"
+                    min="0"
+                    max="365"
+                    value="1">
+
+                <small class="field-help">
+
+                    Number of days before the leave date
+                    that a request should normally be submitted.
+
+                </small>
+
+            </div>
+
+
+            <!-- MAX DAYS -->
+
+            <div class="form-group">
+
+                <label for="maxLeaveDaysPerRequest">
+
+                    Maximum Days Per Request
+
+                </label>
+
+                <input
+                    type="number"
+                    id="maxLeaveDaysPerRequest"
+                    min="1"
+                    max="365"
+                    value="30">
+
+            </div>
+
+
+            <!-- HALF DAY -->
+
+            <div class="form-group full">
+
+                <label class="toggle-row">
+
+                    <span>
+
+                        <strong>
+                            Allow Half-Day Leave
+                        </strong>
+
+                        <small>
+                            Employees can request a half-day
+                            leave when applicable.
+                        </small>
+
+                    </span>
+
+
+                    <input
+                        type="checkbox"
+                        id="allowHalfDayLeave"
+                        class="toggle-input"
+                        checked>
+
+                    <span class="toggle-switch"></span>
+
+                </label>
+
+            </div>
+
+
+            <!-- BACKDATED -->
+
+            <div class="form-group full">
+
+                <label class="toggle-row">
+
+                    <span>
+
+                        <strong>
+                            Allow Backdated Leave Requests
+                        </strong>
+
+                        <small>
+                            Allow employees to submit requests
+                            for previous dates.
+                        </small>
+
+                    </span>
+
+
+                    <input
+                        type="checkbox"
+                        id="allowBackdatedLeave"
+                        class="toggle-input">
+
+                    <span class="toggle-switch"></span>
+
+                </label>
+
+            </div>
+
+
+        </div>
+
+    </div>
+
+
+    <!-- ==================================
+         LEAVE TYPES
+    =================================== -->
+
+    <div class="settings-card">
+
+        <div class="card-title">
+
+            <span class="material-icons">
+                category
+            </span>
+
+            <div>
+
+                <h3>
+                    Leave Types
+                </h3>
+
+                <p>
+                    Leave categories available to employees.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="leave-type-list">
+
+
+            <!-- ANNUAL -->
+
+            <div class="leave-type-item">
+
+                <div class="leave-type-icon">
+
+                    <span class="material-icons">
+                        beach_access
+                    </span>
+
+                </div>
+
+
+                <div class="leave-type-info">
+
+                    <strong>
+                        Annual Leave
+                    </strong>
+
+                    <small>
+                        Regular vacation / annual leave.
+                    </small>
+
+                </div>
+
+
+                <label class="mini-toggle">
+
+                    <input
+                        type="checkbox"
+                        id="leaveAnnual"
+                        checked>
+
+                    <span></span>
+
+                </label>
+
+            </div>
+
+
+            <!-- SICK -->
+
+            <div class="leave-type-item">
+
+                <div class="leave-type-icon">
+
+                    <span class="material-icons">
+                        medical_services
+                    </span>
+
+                </div>
+
+
+                <div class="leave-type-info">
+
+                    <strong>
+                        Sick Leave
+                    </strong>
+
+                    <small>
+                        Leave due to illness or medical reasons.
+                    </small>
+
+                </div>
+
+
+                <label class="mini-toggle">
+
+                    <input
+                        type="checkbox"
+                        id="leaveSick"
+                        checked>
+
+                    <span></span>
+
+                </label>
+
+            </div>
+
+
+            <!-- EMERGENCY -->
+
+            <div class="leave-type-item">
+
+                <div class="leave-type-icon">
+
+                    <span class="material-icons">
+                        emergency
+                    </span>
+
+                </div>
+
+
+                <div class="leave-type-info">
+
+                    <strong>
+                        Emergency Leave
+                    </strong>
+
+                    <small>
+                        Leave for urgent personal circumstances.
+                    </small>
+
+                </div>
+
+
+                <label class="mini-toggle">
+
+                    <input
+                        type="checkbox"
+                        id="leaveEmergency"
+                        checked>
+
+                    <span></span>
+
+                </label>
+
+            </div>
+
+
+            <!-- UNPAID -->
+
+            <div class="leave-type-item">
+
+                <div class="leave-type-icon">
+
+                    <span class="material-icons">
+                        money_off
+                    </span>
+
+                </div>
+
+
+                <div class="leave-type-info">
+
+                    <strong>
+                        Unpaid Leave
+                    </strong>
+
+                    <small>
+                        Leave without salary payment.
+                    </small>
+
+                </div>
+
+
+                <label class="mini-toggle">
+
+                    <input
+                        type="checkbox"
+                        id="leaveUnpaid"
+                        checked>
+
+                    <span></span>
+
+                </label>
+
+            </div>
+
+
+            <!-- OTHER -->
+
+            <div class="leave-type-item">
+
+                <div class="leave-type-icon">
+
+                    <span class="material-icons">
+                        more_horiz
+                    </span>
+
+                </div>
+
+
+                <div class="leave-type-info">
+
+                    <strong>
+                        Other Leave
+                    </strong>
+
+                    <small>
+                        Other company-approved leave categories.
+                    </small>
+
+                </div>
+
+
+                <label class="mini-toggle">
+
+                    <input
+                        type="checkbox"
+                        id="leaveOther"
+                        checked>
+
+                    <span></span>
+
+                </label>
+
+            </div>
+
+
+        </div>
+
+    </div>
+
+
+    <!-- ==================================
+         LEAVE APPROVAL
+    =================================== -->
+
+    <div class="settings-card">
+
+        <div class="card-title">
+
+            <span class="material-icons">
+                approval
+            </span>
+
+            <div>
+
+                <h3>
+                    Leave Approval Workflow
+                </h3>
+
+                <p>
+                    Configure how submitted leave requests
+                    move through the approval process.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="form-grid">
+
+
+            <!-- REQUIRE APPROVAL -->
+
+            <div class="form-group full">
+
+                <label class="toggle-row">
+
+                    <span>
+
+                        <strong>
+                            Require Approval
+                        </strong>
+
+                        <small>
+                            Leave requests must be approved
+                            before becoming official.
+                        </small>
+
+                    </span>
+
+
+                    <input
+                        type="checkbox"
+                        id="requireLeaveApproval"
+                        class="toggle-input"
+                        checked>
+
+                    <span class="toggle-switch"></span>
+
+                </label>
+
+            </div>
+
+
+            <!-- APPROVAL LEVEL -->
+
+            <div class="form-group">
+
+                <label for="leaveApprovalLevel">
+
+                    Approval Level
+
+                </label>
+
+                <select
+                    id="leaveApprovalLevel">
+
+                    <option value="hr">
+                        HR Approval
+                    </option>
+
+                    <option value="manager">
+                        Manager Approval
+                    </option>
+
+                    <option value="manager-hr">
+                        Manager + HR
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <!-- AUTO REJECT -->
+
+            <div class="form-group">
+
+                <label class="toggle-row">
+
+                    <span>
+
+                        <strong>
+                            Auto Reject Invalid Requests
+                        </strong>
+
+                        <small>
+                            Automatically reject requests that
+                            fail configured validation rules.
+                        </small>
+
+                    </span>
+
+
+                    <input
+                        type="checkbox"
+                        id="autoRejectInvalidLeave"
+                        class="toggle-input">
+
+                    <span class="toggle-switch"></span>
+
+                </label>
+
+            </div>
+
+
+        </div>
+
+    </div>
+
+
+    <!-- ==================================
+         LEAVE BALANCE
+    =================================== -->
+
+    <div class="settings-card">
+
+        <div class="card-title">
+
+            <span class="material-icons">
+                account_balance_wallet
+            </span>
+
+            <div>
+
+                <h3>
+                    Leave Balance
+                </h3>
+
+                <p>
+                    Configure how employee leave balances
+                    are managed.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="form-grid">
+
+
+            <!-- BALANCE TRACKING -->
+
+            <div class="form-group full">
+
+                <label class="toggle-row">
+
+                    <span>
+
+                        <strong>
+                            Enable Leave Balance Tracking
+                        </strong>
+
+                        <small>
+                            Track available, used and remaining
+                            leave balances for employees.
+                        </small>
+
+                    </span>
+
+
+                    <input
+                        type="checkbox"
+                        id="enableLeaveBalance"
+                        class="toggle-input"
+                        checked>
+
+                    <span class="toggle-switch"></span>
+
+                </label>
+
+            </div>
+
+
+            <!-- DEFAULT ANNUAL -->
+
+            <div class="form-group">
+
+                <label for="defaultAnnualLeave">
+
+                    Default Annual Leave
+
+                </label>
+
+                <input
+                    type="number"
+                    id="defaultAnnualLeave"
+                    min="0"
+                    max="365"
+                    step="0.5"
+                    value="30">
+
+                <small class="field-help">
+
+                    Default annual leave allocation.
+
+                </small>
+
+            </div>
+
+
+            <!-- DEFAULT SICK -->
+
+            <div class="form-group">
+
+                <label for="defaultSickLeave">
+
+                    Default Sick Leave
+
+                </label>
+
+                <input
+                    type="number"
+                    id="defaultSickLeave"
+                    min="0"
+                    max="365"
+                    step="0.5"
+                    value="15">
+
+            </div>
+
+
+            <!-- CARRY FORWARD -->
+
+            <div class="form-group full">
+
+                <label class="toggle-row">
+
+                    <span>
+
+                        <strong>
+                            Allow Leave Carry Forward
+                        </strong>
+
+                        <small>
+                            Allow unused leave balance to be
+                            carried to the next leave period.
+                        </small>
+
+                    </span>
+
+
+                    <input
+                        type="checkbox"
+                        id="allowLeaveCarryForward"
+                        class="toggle-input">
+
+                    <span class="toggle-switch"></span>
+
+                </label>
+
+            </div>
+
+
+        </div>
+
+    </div>
+
+
+    <!-- ==================================
+         EMPLOYEE PORTAL LEAVE ACCESS
+    =================================== -->
+
+    <div class="settings-card">
+
+        <div class="card-title">
+
+            <span class="material-icons">
+                person
+            </span>
+
+            <div>
+
+                <h3>
+                    Employee Portal
+                </h3>
+
+                <p>
+                    Configure what employees can do
+                    with their leave records.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="portal-options">
+
+
+            <!-- REQUEST -->
+
+            <label class="toggle-row">
+
+                <span>
+
+                    <strong>
+                        Submit Leave Request
+                    </strong>
+
+                    <small>
+                        Employees can submit new
+                        leave requests.
+                    </small>
+
+                </span>
+
+
+                <input
+                    type="checkbox"
+                    id="portalLeaveRequest"
+                    class="toggle-input"
+                    checked>
+
+                <span class="toggle-switch"></span>
+
+            </label>
+
+
+            <!-- VIEW -->
+
+            <label class="toggle-row">
+
+                <span>
+
+                    <strong>
+                        View Leave History
+                    </strong>
+
+                    <small>
+                        Employees can view their
+                        previous leave requests.
+                    </small>
+
+                </span>
+
+
+                <input
+                    type="checkbox"
+                    id="portalLeaveHistory"
+                    class="toggle-input"
+                    checked>
+
+                <span class="toggle-switch"></span>
+
+            </label>
+
+
+            <!-- BALANCE -->
+
+            <label class="toggle-row">
+
+                <span>
+
+                    <strong>
+                        View Leave Balance
+                    </strong>
+
+                    <small>
+                        Employees can see their available,
+                        used and remaining leave.
+                    </small>
+
+                </span>
+
+
+                <input
+                    type="checkbox"
+                    id="portalLeaveBalance"
+                    class="toggle-input"
+                    checked>
+
+                <span class="toggle-switch"></span>
+
+            </label>
+
+
+            <!-- CANCEL -->
+
+            <label class="toggle-row">
+
+                <span>
+
+                    <strong>
+                        Allow Cancel Request
+                    </strong>
+
+                    <small>
+                        Employees can request cancellation
+                        of pending leave requests.
+                    </small>
+
+                </span>
+
+
+                <input
+                    type="checkbox"
+                    id="portalLeaveCancel"
+                    class="toggle-input"
+                    checked>
+
+                <span class="toggle-switch"></span>
+
+            </label>
+
+
+        </div>
+
+    </div>
+
+
+    <!-- ==================================
+         SAVE LEAVE SETTINGS
+    =================================== -->
+
+    <div class="save-bar">
+
+        <div>
+
+            <span class="material-icons">
+                info
+            </span>
+
+            <span>
+                These settings control the Leave module
+                and Employee Portal leave requests.
+            </span>
+
+        </div>
+
+
+        <button
+            id="saveLeaveBtn"
+            class="save-btn">
+
+            <span class="material-icons">
+                save
+            </span>
+
+            SAVE LEAVE SETTINGS
+
+        </button>
+
+    </div>
+
+
+</section>
 
                 <div class="coming-soon">
 
