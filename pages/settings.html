@@ -1213,9 +1213,682 @@
             </section>
 
 
-            <section
-                id="employeesSection"
-                class="settings-section">
+           <!-- ==================================
+     EMPLOYEE SETTINGS
+=================================== -->
+
+<section
+    id="employeesSection"
+    class="settings-section">
+
+
+    <!-- ==================================
+         SECTION TITLE
+    =================================== -->
+
+    <div class="section-title">
+
+        <div>
+
+            <h2>
+                Employee Settings
+            </h2>
+
+            <p>
+                Configure employee IDs, employment
+                status, employment types and portal access.
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <!-- ==================================
+         EMPLOYEE ID SETTINGS
+    =================================== -->
+
+    <div class="settings-card">
+
+        <div class="card-title">
+
+            <span class="material-icons">
+                badge
+            </span>
+
+            <div>
+
+                <h3>
+                    Employee ID Settings
+                </h3>
+
+                <p>
+                    Configure how employee IDs are
+                    automatically generated.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="form-grid">
+
+
+            <!-- AUTO GENERATE -->
+
+            <div class="form-group full">
+
+                <label class="toggle-row">
+
+                    <span>
+
+                        <strong>
+                            Auto Generate Employee ID
+                        </strong>
+
+                        <small>
+                            Automatically create an employee
+                            ID when adding a new employee.
+                        </small>
+
+                    </span>
+
+
+                    <input
+                        type="checkbox"
+                        id="autoGenerateId"
+                        class="toggle-input">
+
+                    <span class="toggle-switch"></span>
+
+                </label>
+
+            </div>
+
+
+            <!-- PREFIX -->
+
+            <div class="form-group">
+
+                <label for="idPrefix">
+
+                    Employee ID Prefix
+
+                </label>
+
+                <input
+                    type="text"
+                    id="idPrefix"
+                    placeholder="EMP-"
+                    maxlength="10">
+
+                <small class="field-help">
+
+                    Example:
+                    EMP-0001
+
+                </small>
+
+            </div>
+
+
+            <!-- STARTING NUMBER -->
+
+            <div class="form-group">
+
+                <label for="startingNumber">
+
+                    Starting Number
+
+                </label>
+
+                <input
+                    type="number"
+                    id="startingNumber"
+                    min="1"
+                    value="1">
+
+                <small class="field-help">
+
+                    Example:
+                    1
+
+                </small>
+
+            </div>
+
+
+            <!-- DIGITS -->
+
+            <div class="form-group">
+
+                <label for="idDigits">
+
+                    Number of Digits
+
+                </label>
+
+                <select id="idDigits">
+
+                    <option value="3">
+                        3 Digits — 001
+                    </option>
+
+                    <option
+                        value="4"
+                        selected>
+                        4 Digits — 0001
+                    </option>
+
+                    <option value="5">
+                        5 Digits — 00001
+                    </option>
+
+                    <option value="6">
+                        6 Digits — 000001
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <!-- PREVIEW -->
+
+            <div class="form-group">
+
+                <label>
+
+                    Employee ID Preview
+
+                </label>
+
+                <div
+                    id="employeeIdPreview"
+                    class="id-preview">
+
+                    EMP-0001
+
+                </div>
+
+            </div>
+
+
+        </div>
+
+    </div>
+
+
+    <!-- ==================================
+         EMPLOYMENT STATUS
+    =================================== -->
+
+    <div class="settings-card">
+
+        <div class="card-title">
+
+            <span class="material-icons">
+                work_history
+            </span>
+
+            <div>
+
+                <h3>
+                    Employment Status
+                </h3>
+
+                <p>
+                    Status options available when
+                    creating or updating employees.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="status-list">
+
+
+            <div class="status-item">
+
+                <span class="status-dot active"></span>
+
+                <span>
+                    Active
+                </span>
+
+            </div>
+
+
+            <div class="status-item">
+
+                <span class="status-dot probationary"></span>
+
+                <span>
+                    Probationary
+                </span>
+
+            </div>
+
+
+            <div class="status-item">
+
+                <span class="status-dot regular"></span>
+
+                <span>
+                    Regular
+                </span>
+
+            </div>
+
+
+            <div class="status-item">
+
+                <span class="status-dot leave"></span>
+
+                <span>
+                    On Leave
+                </span>
+
+            </div>
+
+
+            <div class="status-item">
+
+                <span class="status-dot resigned"></span>
+
+                <span>
+                    Resigned
+                </span>
+
+            </div>
+
+
+            <div class="status-item">
+
+                <span class="status-dot terminated"></span>
+
+                <span>
+                    Terminated
+                </span>
+
+            </div>
+
+
+            <div class="status-item">
+
+                <span class="status-dot inactive"></span>
+
+                <span>
+                    Inactive
+                </span>
+
+            </div>
+
+
+        </div>
+
+    </div>
+
+
+    <!-- ==================================
+         EMPLOYMENT TYPE
+    =================================== -->
+
+    <div class="settings-card">
+
+        <div class="card-title">
+
+            <span class="material-icons">
+                assignment_ind
+            </span>
+
+            <div>
+
+                <h3>
+                    Employment Type
+                </h3>
+
+                <p>
+                    Default employment classification
+                    for new employees.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="form-grid">
+
+
+            <div class="form-group">
+
+                <label for="defaultEmploymentType">
+
+                    Default Employment Type
+
+                </label>
+
+                <select
+                    id="defaultEmploymentType">
+
+                    <option value="Full Time">
+                        Full Time
+                    </option>
+
+                    <option value="Part Time">
+                        Part Time
+                    </option>
+
+                    <option value="Contract">
+                        Contract
+                    </option>
+
+                    <option value="Temporary">
+                        Temporary
+                    </option>
+
+                    <option value="Casual">
+                        Casual
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label for="defaultStatus">
+
+                    Default Employee Status
+
+                </label>
+
+                <select
+                    id="defaultStatus">
+
+                    <option value="Active">
+                        Active
+                    </option>
+
+                    <option value="Probationary">
+                        Probationary
+                    </option>
+
+                    <option value="Regular">
+                        Regular
+                    </option>
+
+                </select>
+
+            </div>
+
+
+        </div>
+
+    </div>
+
+
+    <!-- ==================================
+         DEFAULT EMPLOYEE INFORMATION
+    =================================== -->
+
+    <div class="settings-card">
+
+        <div class="card-title">
+
+            <span class="material-icons">
+                account_tree
+            </span>
+
+            <div>
+
+                <h3>
+                    Employee Defaults
+                </h3>
+
+                <p>
+                    Default department and position
+                    for newly created employees.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="form-grid">
+
+
+            <div class="form-group">
+
+                <label for="defaultDepartment">
+
+                    Default Department
+
+                </label>
+
+                <input
+                    type="text"
+                    id="defaultDepartment"
+                    placeholder="Example: Administration">
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label for="defaultPosition">
+
+                    Default Position
+
+                </label>
+
+                <input
+                    type="text"
+                    id="defaultPosition"
+                    placeholder="Example: Staff">
+
+            </div>
+
+
+        </div>
+
+    </div>
+
+
+    <!-- ==================================
+         EMPLOYEE PORTAL
+    =================================== -->
+
+    <div class="settings-card">
+
+        <div class="card-title">
+
+            <span class="material-icons">
+                manage_accounts
+            </span>
+
+            <div>
+
+                <h3>
+                    Employee Portal Access
+                </h3>
+
+                <p>
+                    Control which functions employees
+                    can access from their portal.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="portal-options">
+
+
+            <!-- EMPLOYEE LOGIN -->
+
+            <label class="toggle-row">
+
+                <span>
+
+                    <strong>
+                        Allow Employee Login
+                    </strong>
+
+                    <small>
+                        Allow employees to access
+                        their employee portal.
+                    </small>
+
+                </span>
+
+
+                <input
+                    type="checkbox"
+                    id="allowEmployeeLogin"
+                    class="toggle-input"
+                    checked>
+
+                <span class="toggle-switch"></span>
+
+            </label>
+
+
+            <!-- LEAVE REQUEST -->
+
+            <label class="toggle-row">
+
+                <span>
+
+                    <strong>
+                        Allow Leave Requests
+                    </strong>
+
+                    <small>
+                        Employees can submit leave
+                        requests from their portal.
+                    </small>
+
+                </span>
+
+
+                <input
+                    type="checkbox"
+                    id="allowLeaveRequest"
+                    class="toggle-input"
+                    checked>
+
+                <span class="toggle-switch"></span>
+
+            </label>
+
+
+            <!-- ATTENDANCE VIEW -->
+
+            <label class="toggle-row">
+
+                <span>
+
+                    <strong>
+                        Allow Attendance Viewing
+                    </strong>
+
+                    <small>
+                        Employees can view their
+                        attendance records.
+                    </small>
+
+                </span>
+
+
+                <input
+                    type="checkbox"
+                    id="allowAttendanceView"
+                    class="toggle-input"
+                    checked>
+
+                <span class="toggle-switch"></span>
+
+            </label>
+
+
+            <!-- PAYSLIP VIEW -->
+
+            <label class="toggle-row">
+
+                <span>
+
+                    <strong>
+                        Allow Payslip Viewing
+                    </strong>
+
+                    <small>
+                        Employees can view their
+                        payslips from the portal.
+                    </small>
+
+                </span>
+
+
+                <input
+                    type="checkbox"
+                    id="allowPayslipView"
+                    class="toggle-input"
+                    checked>
+
+                <span class="toggle-switch"></span>
+
+            </label>
+
+
+        </div>
+
+    </div>
+
+
+    <!-- ==================================
+         SAVE EMPLOYEE SETTINGS
+    =================================== -->
+
+    <div class="save-bar">
+
+        <div>
+
+            <span class="material-icons">
+                info
+            </span>
+
+            <span>
+                These settings will be used when
+                creating employee accounts.
+            </span>
+
+        </div>
+
+
+        <button
+            id="saveEmployeeBtn"
+            class="save-btn">
+
+            <span class="material-icons">
+                save
+            </span>
+
+            SAVE EMPLOYEE SETTINGS
+
+        </button>
+
+    </div>
+
+
+</section>
 
                 <div class="coming-soon">
 
