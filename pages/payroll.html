@@ -46,8 +46,11 @@
 
 <div class="header">
 
+
     <div class="title">
+
         💰 PAYROLL MANAGEMENT
+
     </div>
 
 
@@ -59,23 +62,29 @@
         ">
 
 
+        <!-- PRINT TABLE -->
+
         <button
             class="btn print-btn"
-            onclick="window.print()">
+            onclick="printPayrollTable()">
 
             🖨 PRINT TABLE
 
         </button>
 
 
+        <!-- PRINT ALL PAYSLIPS -->
+
         <button
             class="btn payslip-print-btn"
-            onclick="printPayslips()">
+            onclick="printAllPayslips()">
 
             🧾 PRINT ALL PAYSLIPS
 
         </button>
 
+
+        <!-- BACK -->
 
         <button
             class="btn back-btn"
@@ -94,7 +103,7 @@
 
 
 <!-- ==========================================
-     PAYROLL FORM
+     FORM
 ========================================== -->
 
 <div class="form-section">
@@ -106,7 +115,9 @@
         <select id="employeeSelect">
 
             <option value="">
+
                 Select Employee
+
             </option>
 
         </select>
@@ -213,6 +224,8 @@
     <br>
 
 
+    <!-- SAVE -->
+
     <button
         class="btn save-btn"
         onclick="savePayroll()">
@@ -222,9 +235,7 @@
     </button>
 
 
-    <!-- ======================================
-         TOTAL
-    ======================================= -->
+    <!-- TOTAL -->
 
     <div class="total-box">
 
@@ -233,7 +244,9 @@
         ₱
 
         <span id="totalNet">
+
             0.00
+
         </span>
 
     </div>
@@ -246,100 +259,160 @@
 
     <div class="table-wrapper">
 
+
         <table>
+
 
             <thead>
 
                 <tr>
 
-                    <th>EMPLOYEE ID</th>
+                    <th>
+                        EMPLOYEE ID
+                    </th>
 
-                    <th>EMPLOYEE</th>
+                    <th>
+                        EMPLOYEE
+                    </th>
 
-                    <th>TOTAL DAYS</th>
+                    <th>
+                        TOTAL DAYS
+                    </th>
 
-                    <th>DAILY RATE</th>
+                    <th>
+                        DAILY RATE
+                    </th>
 
-                    <th>BASIC PAY</th>
+                    <th>
+                        BASIC PAY
+                    </th>
 
-                    <th>OVERTIME</th>
+                    <th>
+                        OVERTIME
+                    </th>
 
-                    <th>HOLIDAY</th>
+                    <th>
+                        HOLIDAY
+                    </th>
 
-                    <th>SICK LEAVE</th>
+                    <th>
+                        SICK LEAVE
+                    </th>
 
-                    <th>VACATION LEAVE</th>
+                    <th>
+                        VACATION LEAVE
+                    </th>
 
-                    <th>BIRTHDAY LEAVE</th>
+                    <th>
+                        BIRTHDAY LEAVE
+                    </th>
 
-                    <th>MATERNITY LEAVE</th>
+                    <th>
+                        MATERNITY LEAVE
+                    </th>
 
-                    <th>PATERNITY LEAVE</th>
+                    <th>
+                        PATERNITY LEAVE
+                    </th>
 
-                    <th>ALLOWANCE</th>
+                    <th>
+                        ALLOWANCE
+                    </th>
 
-                    <th>SSS</th>
+                    <th>
+                        SSS
+                    </th>
 
-                    <th>PHILHEALTH</th>
+                    <th>
+                        PHILHEALTH
+                    </th>
 
-                    <th>PAG-IBIG</th>
+                    <th>
+                        PAG-IBIG
+                    </th>
 
-                    <th>HEALTH CARD</th>
+                    <th>
+                        HEALTH CARD
+                    </th>
 
-                    <th>OTHER DEDUCTION</th>
+                    <th>
+                        OTHER DEDUCTION
+                    </th>
 
-                    <th>DEDUCTION REASON</th>
+                    <th>
+                        DEDUCTION REASON
+                    </th>
 
-                    <th>TOTAL DEDUCTION</th>
+                    <th>
+                        TOTAL DEDUCTION
+                    </th>
 
-                    <th>TOTAL GROSS</th>
+                    <th>
+                        TOTAL GROSS
+                    </th>
 
-                    <th>NET PAY</th>
+                    <th>
+                        NET PAY
+                    </th>
 
-                    <th>ACTION</th>
+                    <th>
+                        ACTION
+                    </th>
 
                 </tr>
 
             </thead>
 
 
-            <tbody id="payrollBody">
+            <tbody
+                id="payrollBody">
 
             </tbody>
 
+
         </table>
+
 
     </div>
 
+
 </div>
+
 
 </div>
 
 
 
 <!-- ==========================================
-     PAYROLL JS
+     PAYROLL JAVASCRIPT
 ========================================== -->
 
 <script
     type="module"
     src="../js/payroll.js">
+
 </script>
 
 
 
-<!-- ==========================================
-     PAYSLIP PRINT SYSTEM
-========================================== -->
-
 <script>
+
+/* ==========================================
+   PRINT PAYROLL TABLE ONLY
+========================================== */
+
+function printPayrollTable(){
+
+    window.print();
+
+}
 
 
 /* ==========================================
    PRINT ALL PAYSLIPS
 ========================================== */
 
-function printPayslips(){
+function printAllPayslips(){
 
     const rows =
         document.querySelectorAll(
@@ -347,7 +420,7 @@ function printPayslips(){
         );
 
 
-    const records = [];
+    let validRecords = 0;
 
 
     rows.forEach(
@@ -359,172 +432,24 @@ function printPayslips(){
                 );
 
 
-            /*
-             * Valid payroll row has
-             * 23 columns.
-             */
-
             if(
-                cells.length < 22
+                cells.length >= 22
             ){
 
-                return;
+                validRecords++;
 
             }
-
-
-            records.push({
-
-                empid:
-                    getCell(
-                        cells,
-                        0
-                    ),
-
-                employee:
-                    getCell(
-                        cells,
-                        1
-                    ),
-
-                totaldays:
-                    getCell(
-                        cells,
-                        2
-                    ),
-
-                dailyrate:
-                    getCell(
-                        cells,
-                        3
-                    ),
-
-                basicpay:
-                    getCell(
-                        cells,
-                        4
-                    ),
-
-                overtime:
-                    getCell(
-                        cells,
-                        5
-                    ),
-
-                holiday:
-                    getCell(
-                        cells,
-                        6
-                    ),
-
-                sickleave:
-                    getCell(
-                        cells,
-                        7
-                    ),
-
-                vacationleave:
-                    getCell(
-                        cells,
-                        8
-                    ),
-
-                birthdayleave:
-                    getCell(
-                        cells,
-                        9
-                    ),
-
-                maternityleave:
-                    getCell(
-                        cells,
-                        10
-                    ),
-
-                paternityleave:
-                    getCell(
-                        cells,
-                        11
-                    ),
-
-                allowance:
-                    getCell(
-                        cells,
-                        12
-                    ),
-
-                sss:
-                    getCell(
-                        cells,
-                        13
-                    ),
-
-                philhealth:
-                    getCell(
-                        cells,
-                        14
-                    ),
-
-                pagibig:
-                    getCell(
-                        cells,
-                        15
-                    ),
-
-                healthcard:
-                    getCell(
-                        cells,
-                        16
-                    ),
-
-                otherdeduction:
-                    getCell(
-                        cells,
-                        17
-                    ),
-
-                deductionreason:
-                    getCell(
-                        cells,
-                        18
-                    ),
-
-                deductions:
-                    getCell(
-                        cells,
-                        19
-                    ),
-
-                gross:
-                    getCell(
-                        cells,
-                        20
-                    ),
-
-                net:
-                    getCell(
-                        cells,
-                        21
-                    ),
-
-                date:
-                    new Date()
-                    .toLocaleDateString(
-                        "en-PH"
-                    )
-
-            });
 
         }
     );
 
 
     if(
-        records.length === 0
+        validRecords === 0
     ){
 
         alert(
-            "There are no payroll records to print."
+            "No payroll records available."
         );
 
         return;
@@ -533,1013 +458,34 @@ function printPayslips(){
 
 
     /*
-     * Create complete print HTML.
+     * Open the EXISTING payslip page.
+     *
+     * That page will handle:
+     *
+     * 4 payslips per page
+     * all payroll records
+     * existing payslip design
      */
 
-    let html = `
+    const url =
+        "payslip.html?printAll=1";
 
-<!DOCTYPE html>
-
-<html>
-
-<head>
-
-<meta charset="UTF-8">
-
-<title>
-PAPPRITO Payslips
-</title>
-
-
-<style>
-
-* {
-
-    box-sizing:
-        border-box;
-
-}
-
-
-html,
-body {
-
-    margin:
-        0;
-
-    padding:
-        0;
-
-    background:
-        #ffffff;
-
-}
-
-
-body {
-
-    font-family:
-        Arial,
-        sans-serif;
-
-    color:
-        #000000;
-
-}
-
-
-/* ==========================================
-   PAGE
-========================================== */
-
-.print-page {
-
-    width:
-        100%;
-
-    height:
-        100vh;
-
-    display:
-        grid;
-
-    grid-template-columns:
-        1fr 1fr;
-
-    grid-template-rows:
-        1fr 1fr;
-
-    page-break-after:
-        always;
-
-    break-after:
-        page;
-
-}
-
-
-/* ==========================================
-   LAST PAGE
-========================================== */
-
-.print-page:last-child {
-
-    page-break-after:
-        auto;
-
-    break-after:
-        auto;
-
-}
-
-
-/* ==========================================
-   PAYSLIP
-========================================== */
-
-.payslip {
-
-    width:
-        100%;
-
-    height:
-        100%;
-
-    padding:
-        8px;
-
-    border:
-        1px dashed #555;
-
-    overflow:
-        hidden;
-
-    font-size:
-        8px;
-
-}
-
-
-/* ==========================================
-   HEADER
-========================================== */
-
-.payslip-header {
-
-    text-align:
-        center;
-
-    border-bottom:
-        2px solid #d71920;
-
-    padding-bottom:
-        4px;
-
-    margin-bottom:
-        5px;
-
-}
-
-
-.company {
-
-    font-size:
-        14px;
-
-    font-weight:
-        900;
-
-    color:
-        #d71920;
-
-}
-
-
-.payroll-title {
-
-    font-size:
-        9px;
-
-    font-weight:
-        800;
-
-}
-
-
-/* ==========================================
-   INFO
-========================================== */
-
-.info {
-
-    display:
-        grid;
-
-    gap:
-        2px;
-
-    margin-bottom:
-        4px;
-
-}
-
-
-.info-row {
-
-    display:
-        flex;
-
-    justify-content:
-        space-between;
-
-    gap:
-        5px;
-
-}
-
-
-.info-row span:last-child {
-
-    text-align:
-        right;
-
-    max-width:
-        65%;
-
-}
-
-
-/* ==========================================
-   SECTION
-========================================== */
-
-.section-title {
-
-    background:
-        #ffcc00;
-
-    padding:
-        3px 4px;
-
-    margin-top:
-        3px;
-
-    margin-bottom:
-        2px;
-
-    font-weight:
-        800;
-
-}
-
-
-/* ==========================================
-   ROW
-========================================== */
-
-.row {
-
-    display:
-        flex;
-
-    justify-content:
-        space-between;
-
-    padding:
-        1.5px 3px;
-
-}
-
-
-.row strong {
-
-    white-space:
-        nowrap;
-
-}
-
-
-/* ==========================================
-   TOTAL
-========================================== */
-
-.total {
-
-    display:
-        flex;
-
-    justify-content:
-        space-between;
-
-    border-top:
-        1px solid #555;
-
-    padding:
-        3px;
-
-    font-weight:
-        800;
-
-}
-
-
-/* ==========================================
-   NET PAY
-========================================== */
-
-.net {
-
-    display:
-        flex;
-
-    justify-content:
-        space-between;
-
-    margin-top:
-        4px;
-
-    padding:
-        5px;
-
-    border:
-        2px solid #d71920;
-
-    font-size:
-        11px;
-
-    font-weight:
-        900;
-
-}
-
-
-/* ==========================================
-   SIGNATURE
-========================================== */
-
-.signatures {
-
-    display:
-        grid;
-
-    grid-template-columns:
-        1fr 1fr;
-
-    gap:
-        15px;
-
-    margin-top:
-        12px;
-
-    text-align:
-        center;
-
-    font-size:
-        7px;
-
-}
-
-
-.signature {
-
-    padding-top:
-        12px;
-
-    border-top:
-        1px solid #000;
-
-}
-
-
-/* ==========================================
-   PRINT
-========================================== */
-
-@page {
-
-    size:
-        letter portrait;
-
-    margin:
-        5mm;
-
-}
-
-
-@media print {
-
-    html,
-    body {
-
-        width:
-            100%;
-
-        height:
-            100%;
-
-    }
-
-}
-
-</style>
-
-</head>
-
-
-<body>
-`;
-
-
-    /*
-     * Create pages.
-     */
-
-    for(
-        let i = 0;
-        i < records.length;
-        i += 4
-    ){
-
-        html += `
-
-<div class="print-page">
-
-`;
-
-
-        const pageRecords =
-            records.slice(
-                i,
-                i + 4
-            );
-
-
-        pageRecords.forEach(
-            record => {
-
-                html +=
-                    createPayslipHTML(
-                        record
-                    );
-
-            }
-        );
-
-
-        /*
-         * Fill remaining spaces.
-         */
-
-        while(
-            pageRecords.length < 4
-        ){
-
-            html += `
-
-<div
-    class="payslip"
-    style="
-        visibility:hidden;
-    ">
-</div>
-
-`;
-
-            pageRecords.push(
-                null
-            );
-
-        }
-
-
-        html += `
-
-</div>
-
-`;
-
-    }
-
-
-    html += `
-
-</body>
-
-</html>
-
-`;
-
-
-    /*
-     * Open print window.
-     */
 
     const printWindow =
         window.open(
-            "",
-            "_blank",
-            "width=1100,height=800"
+            url,
+            "_blank"
         );
 
 
     if(!printWindow){
 
         alert(
-            "The print window was blocked by the browser. " +
-            "Please allow pop-ups for this HRIS site."
+            "Pop-up blocked.\n\n" +
+            "Please allow pop-ups for this HRIS website."
         );
 
-        return;
-
     }
-
-
-    printWindow.document.open();
-
-    printWindow.document.write(
-        html
-    );
-
-    printWindow.document.close();
-
-
-    /*
-     * Wait for the new document to render.
-     */
-
-    printWindow.onload =
-        function(){
-
-            setTimeout(
-                function(){
-
-                    printWindow.focus();
-
-                    printWindow.print();
-
-                },
-                500
-            );
-
-        };
-
-}
-
-
-/* ==========================================
-   CREATE PAYSLIP HTML
-========================================== */
-
-function createPayslipHTML(
-    record
-){
-
-    const leavePay =
-
-        parseMoney(
-            record.sickleave
-        ) +
-
-        parseMoney(
-            record.vacationleave
-        ) +
-
-        parseMoney(
-            record.birthdayleave
-        ) +
-
-        parseMoney(
-            record.maternityleave
-        ) +
-
-        parseMoney(
-            record.paternityleave
-        );
-
-
-    return `
-
-<div class="payslip">
-
-
-    <!-- HEADER -->
-
-    <div class="payslip-header">
-
-        <div class="company">
-
-            PAPPRITO
-
-        </div>
-
-
-        <div class="payroll-title">
-
-            EMPLOYEE PAYSLIP
-
-        </div>
-
-    </div>
-
-
-    <!-- EMPLOYEE INFO -->
-
-    <div class="info">
-
-
-        <div class="info-row">
-
-            <strong>
-                Employee ID:
-            </strong>
-
-            <span>
-                ${escapeHTML(
-                    record.empid
-                )}
-            </span>
-
-        </div>
-
-
-        <div class="info-row">
-
-            <strong>
-                Employee:
-            </strong>
-
-            <span>
-                ${escapeHTML(
-                    record.employee
-                )}
-            </span>
-
-        </div>
-
-
-        <div class="info-row">
-
-            <strong>
-                Total Days:
-            </strong>
-
-            <span>
-                ${escapeHTML(
-                    record.totaldays
-                )}
-            </span>
-
-        </div>
-
-
-        <div class="info-row">
-
-            <strong>
-                Daily Rate:
-            </strong>
-
-            <span>
-                ₱ ${formatMoney(
-                    parseMoney(
-                        record.dailyrate
-                    )
-                )}
-            </span>
-
-        </div>
-
-
-        <div class="info-row">
-
-            <strong>
-                Payroll Date:
-            </strong>
-
-            <span>
-                ${escapeHTML(
-                    record.date
-                )}
-            </span>
-
-        </div>
-
-
-    </div>
-
-
-    <!-- EARNINGS -->
-
-    <div class="section-title">
-
-        EARNINGS
-
-    </div>
-
-
-    ${printRow(
-        "Basic Pay",
-        record.basicpay
-    )}
-
-
-    ${printRow(
-        "Overtime",
-        record.overtime
-    )}
-
-
-    ${printRow(
-        "Holiday Pay",
-        record.holiday
-    )}
-
-
-    ${printRow(
-        "Leave Pay",
-        leavePay
-    )}
-
-
-    ${printRow(
-        "Allowance",
-        record.allowance
-    )}
-
-
-    <div class="total">
-
-        <span>
-            TOTAL GROSS
-        </span>
-
-        <strong>
-
-            ₱ ${formatMoney(
-                parseMoney(
-                    record.gross
-                )
-            )}
-
-        </strong>
-
-    </div>
-
-
-    <!-- DEDUCTIONS -->
-
-    <div class="section-title">
-
-        DEDUCTIONS
-
-    </div>
-
-
-    ${printRow(
-        "SSS",
-        record.sss
-    )}
-
-
-    ${printRow(
-        "PhilHealth",
-        record.philhealth
-    )}
-
-
-    ${printRow(
-        "Pag-IBIG",
-        record.pagibig
-    )}
-
-
-    ${printRow(
-        "Health Card",
-        record.healthcard
-    )}
-
-
-    ${printRow(
-        "Other Deduction",
-        record.otherdeduction
-    )}
-
-
-    <div class="total">
-
-        <span>
-            TOTAL DEDUCTION
-        </span>
-
-        <strong>
-
-            ₱ ${formatMoney(
-                parseMoney(
-                    record.deductions
-                )
-            )}
-
-        </strong>
-
-    </div>
-
-
-    <!-- NET PAY -->
-
-    <div class="net">
-
-        <span>
-            NET PAY
-        </span>
-
-        <strong>
-
-            ₱ ${formatMoney(
-                parseMoney(
-                    record.net
-                )
-            )}
-
-        </strong>
-
-    </div>
-
-
-    <!-- SIGNATURE -->
-
-    <div class="signatures">
-
-        <div class="signature">
-
-            Employee Signature
-
-        </div>
-
-
-        <div class="signature">
-
-            Authorized Signature
-
-        </div>
-
-    </div>
-
-
-</div>
-
-`;
-
-}
-
-
-/* ==========================================
-   PRINT ROW
-========================================== */
-
-function printRow(
-    label,
-    value
-){
-
-    return `
-
-<div class="row">
-
-    <span>
-
-        ${escapeHTML(
-            label
-        )}
-
-    </span>
-
-
-    <strong>
-
-        ₱ ${formatMoney(
-            parseMoney(
-                value
-            )
-        )}
-
-    </strong>
-
-</div>
-
-`;
-
-}
-
-
-/* ==========================================
-   GET CELL
-========================================== */
-
-function getCell(
-    cells,
-    index
-){
-
-    if(
-        !cells ||
-        !cells[index]
-    ){
-
-        return "";
-
-    }
-
-
-    return cells[index]
-        .textContent
-        .trim();
-
-}
-
-
-/* ==========================================
-   PARSE MONEY
-========================================== */
-
-function parseMoney(
-    value
-){
-
-    if(
-        value === null ||
-        value === undefined ||
-        value === ""
-    ){
-
-        return 0;
-
-    }
-
-
-    const cleaned =
-        String(value)
-        .replace(
-            /₱/g,
-            ""
-        )
-        .replace(
-            /,/g,
-            ""
-        )
-        .trim();
-
-
-    const number =
-        Number(
-            cleaned
-        );
-
-
-    return Number.isFinite(
-        number
-    )
-        ? number
-        : 0;
-
-}
-
-
-/* ==========================================
-   FORMAT MONEY
-========================================== */
-
-function formatMoney(
-    value
-){
-
-    return Number(
-        value || 0
-    ).toLocaleString(
-        "en-PH",
-        {
-
-            minimumFractionDigits:
-                2,
-
-            maximumFractionDigits:
-                2
-
-        }
-    );
-
-}
-
-
-/* ==========================================
-   ESCAPE HTML
-========================================== */
-
-function escapeHTML(
-    value
-){
-
-    return String(
-        value ?? ""
-    )
-    .replace(
-        /&/g,
-        "&amp;"
-    )
-    .replace(
-        /</g,
-        "&lt;"
-    )
-    .replace(
-        />/g,
-        "&gt;"
-    )
-    .replace(
-        /"/g,
-        "&quot;"
-    )
-    .replace(
-        /'/g,
-        "&#039;"
-    );
 
 }
 
