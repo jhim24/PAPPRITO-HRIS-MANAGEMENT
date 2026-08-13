@@ -3,17 +3,28 @@
    DASHBOARD V3
 ========================================== */
 
-import { auth, db } from "./firebase.js";
+import {
+    auth,
+    db
+} from "./firebase.js";
 
 import {
+
     onAuthStateChanged,
     signOut
-} from "https://www.gstatic.com/firebasejs/12.13.0/firebase-auth.js";
+
+}
+from
+"https://www.gstatic.com/firebasejs/12.13.0/firebase-auth.js";
 
 import {
+
     collection,
     getDocs
-} from "https://www.gstatic.com/firebasejs/12.13.0/firebase-firestore.js";
+
+}
+from
+"https://www.gstatic.com/firebasejs/12.13.0/firebase-firestore.js";
 
 
 /* ==========================================
@@ -31,8 +42,6 @@ let clockStarted = false;
 
 window.openPage = function(page){
 
-    if(!page) return;
-
     window.location.href = page;
 
 };
@@ -44,11 +53,14 @@ window.openPage = function(page){
 
 window.logout = async function(){
 
-    if(
-        !confirm(
+    const confirmLogout =
+
+        confirm(
             "Are you sure you want to logout?"
-        )
-    ){
+        );
+
+
+    if(!confirmLogout){
 
         return;
 
@@ -60,10 +72,36 @@ window.logout = async function(){
         await signOut(auth);
 
 
-        localStorage.clear();
+        /* Clear application session */
 
-        sessionStorage.clear();
+        localStorage.removeItem(
+            "userRole"
+        );
 
+        localStorage.removeItem(
+            "loggedInUser"
+        );
+
+        localStorage.removeItem(
+            "employeeDocId"
+        );
+
+        localStorage.removeItem(
+            "employeeId"
+        );
+
+        localStorage.removeItem(
+            "employeeName"
+        );
+
+
+        /*
+           Keep rememberUser only if
+           you want the username remembered.
+        */
+
+
+        /* Replace current history */
 
         window.location.replace(
             "login.html"
@@ -72,10 +110,13 @@ window.logout = async function(){
 
     }catch(error){
 
-        console.error(error);
+        console.error(
+            "Logout Error:",
+            error
+        );
 
         alert(
-            error.message
+            "Logout failed."
         );
 
     }
@@ -89,7 +130,11 @@ window.logout = async function(){
 
 onAuthStateChanged(
     auth,
-    (user)=>{
+    function(user){
+
+        /* ======================================
+           NOT LOGGED IN
+        ====================================== */
 
         if(!user){
 
@@ -103,32 +148,104 @@ onAuthStateChanged(
 
 
         /* ======================================
-           ADMIN ROLE CHECK
+           CHECK ROLE
         ====================================== */
 
-        const role =
+        const userRole =
+
             localStorage.getItem(
                 "userRole"
             );
 
 
         /*
-        Dashboard is ADMIN only.
-
-        If an employee somehow opens
-        dashboard.html directly, send them
-        to their Employee Portal.
+           Dashboard is ADMIN area.
+           Employee should not access it.
         */
 
-        if(role === "employee"){
+        if(
+            userRole !== "admin"
+        ){
 
-            window.location.replace(
-                "employeeportal.html"
-            );
+            if(
+                userRole === "employee"
+            ){
+
+                window.location.replace(
+                    "employeeportal.html"
+                );
+
+            }else{
+
+                window.location.replace(
+                    "login.html"
+                );
+
+            }
 
             return;
 
         }
+
+
+        /* ======================================
+           PREVENT BACK TO LOGIN
+        ====================================== */
+
+        history.replaceState(
+            null,
+            "",
+            location.href
+        );
+
+
+        history.pushState(
+            null,
+            "",
+            location.href
+        );
+
+
+        window.addEventListener(
+            "popstate",
+            function(){
+
+                /*
+                   Check Firebase session again.
+                */
+
+                const currentUser =
+                    auth.currentUser;
+
+
+                if(currentUser){
+
+                    /*
+                       Keep Dashboard in history
+                       instead of going to Login.
+                    */
+
+                    history.pushState(
+                        null,
+                        "",
+                        location.href
+                    );
+
+                }else{
+
+                    /*
+                       Session is gone.
+                       Allow Login.
+                    */
+
+                    window.location.replace(
+                        "login.html"
+                    );
+
+                }
+
+            }
+        );
 
 
         /* ======================================
@@ -151,6 +268,7 @@ onAuthStateChanged(
 
 
         const userBox =
+
             document.getElementById(
                 "loggedUser"
             );
@@ -178,7 +296,7 @@ onAuthStateChanged(
 
 
         /* ======================================
-           START CLOCK
+           CLOCK
         ====================================== */
 
         updateClock();
@@ -193,121 +311,83 @@ onAuthStateChanged(
 
 function updateClock(){
 
-    if(clockStarted) return;
+    if(clockStarted){
+
+        return;
+
+    }
+
 
     clockStarted = true;
 
 
     const clock =
+
         document.getElementById(
             "clock"
         );
 
 
     const dateToday =
+
         document.getElementById(
             "dateToday"
         );
 
 
-    const mobileClock =
-        document.getElementById(
-            "mobileClock"
-        );
+    if(
+        !clock ||
+        !dateToday
+    ){
+
+        return;
+
+    }
 
 
-    const mobileDate =
-        document.getElementById(
-            "mobileDate"
-        );
-
-
-    function refreshClock(){
+    function update(){
 
         const now =
             new Date();
 
 
-        /* ======================================
-           TIME
-        ====================================== */
+        clock.textContent =
 
-        const timeText =
-
-            now.toLocaleTimeString(
-                "en-US",
-                {
-                    hour:"numeric",
-                    minute:"2-digit",
-                    second:"2-digit"
-                }
-            );
+            now.toLocaleTimeString();
 
 
-        /* ======================================
-           DATE
-        ====================================== */
-
-        const dateText =
+        dateToday.textContent =
 
             now.toLocaleDateString(
+
                 "en-US",
+
                 {
-                    weekday:"long",
-                    year:"numeric",
-                    month:"long",
-                    day:"numeric"
+
+                    weekday:
+                        "long",
+
+                    year:
+                        "numeric",
+
+                    month:
+                        "long",
+
+                    day:
+                        "numeric"
+
                 }
+
             );
-
-
-        /* ======================================
-           DESKTOP CLOCK
-        ====================================== */
-
-        if(clock){
-
-            clock.textContent =
-                timeText;
-
-        }
-
-
-        if(dateToday){
-
-            dateToday.textContent =
-                dateText;
-
-        }
-
-
-        /* ======================================
-           MOBILE CLOCK
-        ====================================== */
-
-        if(mobileClock){
-
-            mobileClock.textContent =
-                timeText;
-
-        }
-
-
-        if(mobileDate){
-
-            mobileDate.textContent =
-                dateText;
-
-        }
 
     }
 
 
-    refreshClock();
+    update();
 
 
     setInterval(
-        refreshClock,
+        update,
         1000
     );
 
@@ -322,7 +402,6 @@ async function loadDashboard(){
 
     try{
 
-
         /* ======================================
            EMPLOYEES
         ====================================== */
@@ -330,30 +409,31 @@ async function loadDashboard(){
         const employeeSnap =
 
             await getDocs(
+
                 collection(
                     db,
                     "users"
                 )
+
             );
 
 
         const employees = [];
 
 
-        employeeSnap.forEach(doc=>{
+        employeeSnap.forEach(
+            function(doc){
 
-            employees.push({
+                employees.push(
+                    doc.data()
+                );
 
-                id:doc.id,
-
-                ...doc.data()
-
-            });
-
-        });
+            }
+        );
 
 
         const totalEmployees =
+
             document.getElementById(
                 "totalEmployees"
             );
@@ -374,14 +454,17 @@ async function loadDashboard(){
         const attendanceSnap =
 
             await getDocs(
+
                 collection(
                     db,
                     "attendance"
                 )
+
             );
 
 
         const totalAttendance =
+
             document.getElementById(
                 "totalAttendance"
             );
@@ -402,14 +485,17 @@ async function loadDashboard(){
         const payrollSnap =
 
             await getDocs(
+
                 collection(
                     db,
                     "payroll"
                 )
+
             );
 
 
         const totalPayroll =
+
             document.getElementById(
                 "totalPayroll"
             );
@@ -430,14 +516,17 @@ async function loadDashboard(){
         const requestSnap =
 
             await getDocs(
+
                 collection(
                     db,
                     "requests"
                 )
+
             );
 
 
         const totalRequests =
+
             document.getElementById(
                 "totalRequests"
             );
@@ -456,12 +545,14 @@ async function loadDashboard(){
         ====================================== */
 
         const birthdayList =
+
             document.getElementById(
                 "birthdayList"
             );
 
 
         const birthdayCount =
+
             document.getElementById(
                 "upcomingBirthdays"
             );
@@ -469,8 +560,7 @@ async function loadDashboard(){
 
         if(birthdayList){
 
-            birthdayList.innerHTML =
-                "";
+            birthdayList.innerHTML = "";
 
         }
 
@@ -483,69 +573,73 @@ async function loadDashboard(){
 
 
         const currentMonth =
+
             today.getMonth() + 1;
 
 
-        employees.forEach(emp=>{
+        employees.forEach(
+            function(emp){
 
-            if(!emp.birthdate){
+                if(!emp.birthdate){
 
-                return;
+                    return;
 
-            }
-
-
-            const birth =
-                new Date(
-                    emp.birthdate
-                );
+                }
 
 
-            if(
-                birth.getMonth() + 1
-                ===
-                currentMonth
-            ){
+                const birth =
 
-                count++;
+                    new Date(
+                        emp.birthdate
+                    );
 
 
-                if(birthdayList){
+                if(
+                    birth.getMonth() + 1
+                    ===
+                    currentMonth
+                ){
 
-                    birthdayList.innerHTML += `
+                    count++;
 
-                        <div class="birthday-item">
 
-                            <strong>
+                    if(birthdayList){
 
-                                ${emp.firstname || ""}
+                        birthdayList.innerHTML += `
 
-                                ${emp.lastname || ""}
+                            <div class="birthday-item">
 
-                            </strong>
+                                <strong>
 
-                            <br>
+                                    ${emp.firstname || ""}
 
-                            ${birth.toLocaleDateString()}
+                                    ${emp.lastname || ""}
 
-                        </div>
+                                </strong>
 
-                    `;
+                                <br>
+
+                                ${birth.toLocaleDateString()}
+
+                            </div>
+
+                        `;
+
+                    }
 
                 }
 
             }
-
-        });
+        );
 
 
         if(
-            count === 0
-            &&
+            count === 0 &&
             birthdayList
         ){
 
             birthdayList.innerHTML =
+
                 "<p>No upcoming birthdays.</p>";
 
         }
@@ -560,18 +654,27 @@ async function loadDashboard(){
 
 
         /* ======================================
-           PRESENT
+           PRESENT / LATE / LEAVE
         ====================================== */
 
         const present =
+
             document.getElementById(
                 "presentToday"
             );
 
 
-        const summaryPresent =
+        const late =
+
             document.getElementById(
-                "summaryPresent"
+                "lateToday"
+            );
+
+
+        const leave =
+
+            document.getElementById(
+                "leaveToday"
             );
 
 
@@ -583,60 +686,12 @@ async function loadDashboard(){
         }
 
 
-        if(summaryPresent){
-
-            summaryPresent.textContent =
-                attendanceSnap.size;
-
-        }
-
-
-        /* ======================================
-           LATE
-        ====================================== */
-
-        const late =
-            document.getElementById(
-                "lateToday"
-            );
-
-
-        const summaryLate =
-            document.getElementById(
-                "summaryLate"
-            );
-
-
         if(late){
 
             late.textContent =
                 "0";
 
         }
-
-
-        if(summaryLate){
-
-            summaryLate.textContent =
-                "0";
-
-        }
-
-
-        /* ======================================
-           LEAVE
-        ====================================== */
-
-        const leave =
-            document.getElementById(
-                "leaveToday"
-            );
-
-
-        const summaryLeave =
-            document.getElementById(
-                "summaryLeave"
-            );
 
 
         if(leave){
@@ -647,44 +702,12 @@ async function loadDashboard(){
         }
 
 
-        if(summaryLeave){
-
-            summaryLeave.textContent =
-                "0";
-
-        }
-
-
-        /* ======================================
-           SYSTEM STATUS
-        ====================================== */
-
-        const systemStatus =
-            document.getElementById(
-                "systemStatus"
-            );
-
-
-        if(systemStatus){
-
-            systemStatus.textContent =
-                "🟢 Online";
-
-        }
-
-
-        console.log(
-            "PAPPRITO HRIS Dashboard Updated"
-        );
-
-
     }catch(error){
 
         console.error(
-            "Dashboard loading failed:",
+            "Dashboard Error:",
             error
         );
-
 
         alert(
             "Dashboard loading failed."
@@ -702,12 +725,17 @@ async function loadDashboard(){
 function loadRecentActivity(){
 
     const activity =
+
         document.getElementById(
             "recentActivity"
         );
 
 
-    if(!activity) return;
+    if(!activity){
+
+        return;
+
+    }
 
 
     activity.innerHTML = `
@@ -736,12 +764,17 @@ function loadRecentActivity(){
 function loadAnnouncements(){
 
     const announcement =
+
         document.getElementById(
             "announcementList"
         );
 
 
-    if(!announcement) return;
+    if(!announcement){
+
+        return;
+
+    }
 
 
     announcement.innerHTML = `
@@ -762,34 +795,31 @@ function loadAnnouncements(){
 ========================================== */
 
 const menuBtn =
+
     document.getElementById(
         "menuBtn"
     );
 
 
 const sidebar =
+
     document.getElementById(
         "sidebar"
     );
 
 
 const overlay =
+
     document.getElementById(
         "overlay"
     );
 
 
 if(
-    menuBtn
-    &&
-    sidebar
-    &&
+    menuBtn &&
+    sidebar &&
     overlay
 ){
-
-    /* ======================================
-       OPEN SIDEBAR
-    ====================================== */
 
     menuBtn.onclick = function(){
 
@@ -804,10 +834,6 @@ if(
     };
 
 
-    /* ======================================
-       CLOSE SIDEBAR
-    ====================================== */
-
     overlay.onclick = function(){
 
         sidebar.classList.remove(
@@ -821,13 +847,9 @@ if(
     };
 
 
-    /* ======================================
-       CLOSE ON DESKTOP
-    ====================================== */
-
     window.addEventListener(
         "resize",
-        ()=>{
+        function(){
 
             if(
                 window.innerWidth > 768
@@ -853,15 +875,18 @@ if(
    AUTO REFRESH
 ========================================== */
 
-setInterval(()=>{
+setInterval(
+    function(){
 
-    if(dashboardLoaded){
+        if(dashboardLoaded){
 
-        loadDashboard();
+            loadDashboard();
 
-    }
+        }
 
-},60000);
+    },
+    60000
+);
 
 
 /* ==========================================
@@ -870,13 +895,11 @@ setInterval(()=>{
 
 window.addEventListener(
     "load",
-    ()=>{
+    function(){
 
         loadRecentActivity();
 
         loadAnnouncements();
-
-        updateClock();
 
         console.log(
             "PAPPRITO HRIS Dashboard Ready"
