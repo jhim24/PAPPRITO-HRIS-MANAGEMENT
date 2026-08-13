@@ -44,15 +44,6 @@ href="../assets/images/logo.png">
 
 
 <!-- ==========================================
-     MATERIAL ICONS
-========================================== -->
-
-<link
-href="https://fonts.googleapis.com/icon?family=Material+Icons"
-rel="stylesheet">
-
-
-<!-- ==========================================
      EMPLOYEE CSS
 ========================================== -->
 
@@ -60,275 +51,6 @@ rel="stylesheet">
 rel="stylesheet"
 href="../css/employee.css">
 
-
-<!-- ==========================================
-     PORTAL ACCOUNT CSS
-========================================== -->
-
-<style>
-
-/* ==========================================
-   EMPLOYEE PORTAL ACCOUNT
-========================================== */
-
-.portal-account-section{
-
-    margin-top:20px;
-
-    padding:15px;
-
-    background:#1b1b1b;
-
-    border:2px solid #ffcc00;
-
-    border-radius:10px;
-
-}
-
-
-.portal-account-header{
-
-    display:flex;
-
-    align-items:center;
-
-    gap:8px;
-
-    margin-bottom:15px;
-
-    color:#ffcc00;
-
-    font-size:17px;
-
-    font-weight:900;
-
-}
-
-
-.portal-account-header .material-icons{
-
-    font-size:24px;
-
-}
-
-
-.portal-account-grid{
-
-    display:grid;
-
-    grid-template-columns:
-        1fr 1fr;
-
-    gap:12px;
-
-}
-
-
-.portal-field{
-
-    display:flex;
-
-    flex-direction:column;
-
-    gap:6px;
-
-}
-
-
-.portal-field label{
-
-    color:#ffffff;
-
-    font-size:13px;
-
-    font-weight:700;
-
-}
-
-
-.portal-field input{
-
-    width:100%;
-
-    padding:11px;
-
-    border:1px solid #555;
-
-    border-radius:7px;
-
-    background:#252525;
-
-    color:#ffffff;
-
-    outline:none;
-
-}
-
-
-.portal-field input:focus{
-
-    border-color:#ffcc00;
-
-}
-
-
-.portal-field input[readonly]{
-
-    color:#ffcc00;
-
-    font-weight:700;
-
-}
-
-
-.password-generator{
-
-    display:flex;
-
-    gap:8px;
-
-}
-
-
-.password-generator input{
-
-    flex:1;
-
-}
-
-
-.generate-password-btn{
-
-    border:none;
-
-    border-radius:7px;
-
-    padding:10px 12px;
-
-    background:#ffcc00;
-
-    color:#111111;
-
-    font-weight:800;
-
-    cursor:pointer;
-
-    display:flex;
-
-    align-items:center;
-
-    justify-content:center;
-
-    gap:5px;
-
-}
-
-
-.generate-password-btn:hover{
-
-    opacity:.9;
-
-}
-
-
-.generate-password-btn .material-icons{
-
-    font-size:18px;
-
-}
-
-
-.portal-toggle{
-
-    display:flex;
-
-    align-items:center;
-
-    gap:8px;
-
-    margin-top:15px;
-
-    color:#ffffff;
-
-    font-weight:700;
-
-    cursor:pointer;
-
-}
-
-
-.portal-toggle input{
-
-    width:18px;
-
-    height:18px;
-
-    accent-color:#ffcc00;
-
-}
-
-
-.portal-note{
-
-    display:flex;
-
-    align-items:flex-start;
-
-    gap:7px;
-
-    margin-top:12px;
-
-    padding:10px;
-
-    background:#252525;
-
-    border-left:4px solid #ffcc00;
-
-    border-radius:6px;
-
-    color:#bbbbbb;
-
-    font-size:12px;
-
-    line-height:1.5;
-
-}
-
-
-.portal-note .material-icons{
-
-    color:#ffcc00;
-
-    font-size:18px;
-
-}
-
-
-@media(max-width:768px){
-
-    .portal-account-grid{
-
-        grid-template-columns:1fr;
-
-    }
-
-
-    .password-generator{
-
-        flex-direction:column;
-
-    }
-
-
-    .generate-password-btn{
-
-        width:100%;
-
-    }
-
-}
-
-</style>
 
 </head>
 
@@ -353,7 +75,9 @@ onclick="window.location.href='dashboard.html'">
 
 
 <h2>
+
 Employee Masterlist
+
 </h2>
 
 
@@ -473,38 +197,65 @@ INACTIVE
 <th>QR</th>
 
 <th>First Name</th>
+
 <th>Middle Name</th>
+
 <th>Last Name</th>
+
 <th>Birthdate</th>
+
 <th>Age</th>
+
 <th>Gender</th>
 
+
 <th>SSS Number</th>
+
 <th>PhilHealth Number</th>
+
 <th>Pag-IBIG Number</th>
+
 <th>Health Card Number</th>
 
+
 <th>Bank Name</th>
+
 <th>Bank Account Number</th>
 
+
 <th>ID Type</th>
+
 <th>ID Number</th>
 
+
 <th>Mobile</th>
+
 <th>Email</th>
+
 <th>Current Address</th>
+
 <th>Permanent Address</th>
 
+
 <th>Employee ID</th>
+
 <th>Position</th>
+
 <th>Department</th>
+
 <th>Employment</th>
+
 <th>Status</th>
+
 <th>Salary Rate</th>
 
+
 <th>Vacation Leave</th>
+
 <th>Sick Leave</th>
+
 <th>Birthday Leave</th>
+
 
 <th>Action</th>
 
@@ -545,7 +296,9 @@ X
 
 
 <h3>
+
 Employee Information
+
 </h3>
 
 
@@ -639,16 +392,22 @@ readonly>
 <select
 class="emp-field">
 
-<option>
+<option value="">
+
 Gender
+
 </option>
 
-<option>
+<option value="Male">
+
 Male
+
 </option>
 
-<option>
+<option value="Female">
+
 Female
+
 </option>
 
 </select>
@@ -695,49 +454,80 @@ placeholder="Health Card Number">
 class="emp-field">
 
 
-<option>
+<option value="">
+
 Select Bank
+
 </option>
 
 
-<option>
+<option value="BDO Unibank">
+
 BDO Unibank
+
 </option>
 
-<option>
+
+<option value="BPI">
+
 BPI
+
 </option>
 
-<option>
+
+<option value="Metrobank">
+
 Metrobank
+
 </option>
 
-<option>
+
+<option value="Landbank">
+
 Landbank
+
 </option>
 
-<option>
+
+<option value="PNB">
+
 PNB
+
 </option>
 
-<option>
+
+<option value="Security Bank">
+
 Security Bank
+
 </option>
 
-<option>
+
+<option value="China Bank">
+
 China Bank
+
 </option>
 
-<option>
+
+<option value="RCBC">
+
 RCBC
+
 </option>
 
-<option>
+
+<option value="UnionBank">
+
 UnionBank
+
 </option>
 
-<option>
+
+<option value="EastWest">
+
 EastWest
+
 </option>
 
 
@@ -753,45 +543,73 @@ placeholder="Bank Account Number">
 class="emp-field">
 
 
-<option>
+<option value="">
+
 Select ID
+
 </option>
 
 
-<option>
+<option value="National ID">
+
 National ID
+
 </option>
 
-<option>
+
+<option value="Passport">
+
 Passport
+
 </option>
 
-<option>
+
+<option value="Driver's License">
+
 Driver's License
+
 </option>
 
-<option>
+
+<option value="UMID">
+
 UMID
+
 </option>
 
-<option>
+
+<option value="SSS ID">
+
 SSS ID
+
 </option>
 
-<option>
+
+<option value="PhilHealth ID">
+
 PhilHealth ID
+
 </option>
 
-<option>
+
+<option value="Pag-IBIG ID">
+
 Pag-IBIG ID
+
 </option>
 
-<option>
+
+<option value="Postal ID">
+
 Postal ID
+
 </option>
 
-<option>
+
+<option value="PRC ID">
+
 PRC ID
+
 </option>
 
 
@@ -859,8 +677,7 @@ class="tab-content">
 
 <input
 class="emp-field"
-placeholder="Employee ID"
-id="employeeId">
+placeholder="Employee ID">
 
 
 <input
@@ -876,20 +693,32 @@ placeholder="Department">
 <select
 class="emp-field">
 
-<option>
+
+<option value="">
+
 Employment
+
 </option>
 
-<option>
+
+<option value="Regular">
+
 Regular
+
 </option>
 
-<option>
+
+<option value="Probationary">
+
 Probationary
+
 </option>
 
-<option>
+
+<option value="Contractual">
+
 Contractual
+
 </option>
 
 
@@ -899,28 +728,46 @@ Contractual
 <select
 class="emp-field">
 
-<option>
+
+<option value="Active">
+
 Active
+
 </option>
 
-<option>
+
+<option value="Resigned">
+
 Resigned
+
 </option>
 
-<option>
+
+<option value="AWOL">
+
 AWOL
+
 </option>
 
-<option>
+
+<option value="Terminated">
+
 Terminated
+
 </option>
 
-<option>
+
+<option value="End Contract">
+
 End Contract
+
 </option>
 
-<option>
+
+<option value="On Leave">
+
 On Leave
+
 </option>
 
 
@@ -936,104 +783,38 @@ placeholder="Salary Rate">
 
 
 <!-- ======================================
-     EMPLOYEE PORTAL ACCOUNT
+     EMPLOYEE PORTAL ACCESS
 ====================================== -->
 
 <div
-class="portal-account-section">
+class="portal-access-box"
+style="
+margin-top:20px;
+padding:18px;
+border:1px solid #ddd;
+border-radius:10px;
+background:#f8f8f8;
+">
 
 
-<div
-class="portal-account-header">
+<h4
+style="
+margin:0 0 12px 0;
+">
 
-<span class="material-icons">
+EMPLOYEE PORTAL ACCESS
 
-account_circle
+</h4>
 
-</span>
-
-EMPLOYEE PORTAL ACCOUNT
-
-</div>
-
-
-<div
-class="portal-account-grid">
-
-
-<!-- USERNAME -->
-
-<div
-class="portal-field">
-
-
-<label>
-Portal Username
-</label>
-
-
-<input
-type="text"
-id="portalUsername"
-placeholder="Employee ID"
-readonly>
-
-
-</div>
-
-
-<!-- PASSWORD -->
-
-<div
-class="portal-field">
-
-
-<label>
-Temporary Password
-</label>
-
-
-<div
-class="password-generator">
-
-
-<input
-type="text"
-id="portalPassword"
-placeholder="Generate password">
-
-
-<button
-type="button"
-class="generate-password-btn"
-onclick="generatePortalPassword()">
-
-
-<span class="material-icons">
-
-refresh
-
-</span>
-
-
-GENERATE
-
-</button>
-
-
-</div>
-
-
-</div>
-
-
-</div>
-
-
-<!-- ENABLE LOGIN -->
 
 <label
-class="portal-toggle">
+style="
+display:flex;
+align-items:center;
+gap:10px;
+font-weight:bold;
+cursor:pointer;
+">
 
 
 <input
@@ -1041,36 +822,48 @@ type="checkbox"
 id="portalEnabled">
 
 
-<span>
-
-Allow Employee Login
-
-</span>
+Allow Employee Portal Login
 
 
 </label>
 
 
 <div
-class="portal-note">
+style="
+margin-top:15px;
+">
 
 
-<span class="material-icons">
-
-info
-
-</span>
-
-
-<span>
-
-Employee will use the Employee ID and
-temporary password to access the Employee Portal.
-
-</span>
+<input
+class="emp-field"
+id="portalPassword"
+type="password"
+placeholder="Temporary Password"
+autocomplete="new-password">
 
 
 </div>
+
+
+<small
+style="
+display:block;
+margin-top:8px;
+color:#666;
+line-height:1.5;
+">
+
+Employee will use the Employee ID and this temporary password to access the Employee Portal.
+
+<br>
+
+Password must contain at least 6 characters.
+
+<br>
+
+The password will not be saved in Firestore.
+
+</small>
 
 
 </div>
@@ -1083,7 +876,7 @@ temporary password to access the Employee Portal.
 
 
 <!-- ======================================
-     SAVE
+     SAVE EMPLOYEE
 ====================================== -->
 
 <button
