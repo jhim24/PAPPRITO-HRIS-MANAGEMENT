@@ -1193,23 +1193,7 @@
 
 </section>
 
-                <div class="coming-soon">
-
-                    <span class="material-icons">
-                        business
-                    </span>
-
-                    <h2>
-                        Company Settings
-                    </h2>
-
-                    <p>
-                        This section will be configured
-                        next.
-                    </p>
-
-                </div>
-
+        
             </section>
 
 
@@ -1890,22 +1874,7 @@
 
 </section>
 
-                <div class="coming-soon">
-
-                    <span class="material-icons">
-                        groups
-                    </span>
-
-                    <h2>
-                        Employee Settings
-                    </h2>
-
-                    <p>
-                        This section will be configured
-                        next.
-                    </p>
-
-                </div>
+              
 
             </section>
 
@@ -2825,22 +2794,7 @@
 
 </section>
 
-                <div class="coming-soon">
-
-                    <span class="material-icons">
-                        schedule
-                    </span>
-
-                    <h2>
-                        Attendance Settings
-                    </h2>
-
-                    <p>
-                        This section will be configured
-                        next.
-                    </p>
-
-                </div>
+              
 
             </section>
 
@@ -4731,22 +4685,7 @@
 
 </section>
 
-                <div class="coming-soon">
-
-                    <span class="material-icons">
-                        event_available
-                    </span>
-
-                    <h2>
-                        Leave Settings
-                    </h2>
-
-                    <p>
-                        This section will be configured
-                        next.
-                    </p>
-
-                </div>
+              
 
             </section>
 
@@ -5417,23 +5356,7 @@
 
 </section>
 
-                <div class="coming-soon">
-
-                    <span class="material-icons">
-                        calendar_month
-                    </span>
-
-                    <h2>
-                        Holiday Settings
-                    </h2>
-
-                    <p>
-                        This section will be configured
-                        next.
-                    </p>
-
-                </div>
-
+                
             </section>
 
 
@@ -5461,28 +5384,868 @@
             </section>
 
 
-            <section
-                id="usersSection"
-                class="settings-section">
+            <!-- ==================================
+     USERS & ROLES
+================================== -->
 
-                <div class="coming-soon">
+<section
+    id="usersSection"
+    class="settings-section">
 
-                    <span class="material-icons">
-                        admin_panel_settings
+
+    <!-- SECTION TITLE -->
+
+    <div class="section-title">
+
+        <div>
+
+            <h2>
+                Users & Roles
+            </h2>
+
+            <p>
+                Manage HRIS user access, roles,
+                permissions and employee portal accounts.
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <!-- ==================================
+         USER ACCESS
+    ================================== -->
+
+    <div class="settings-card">
+
+        <div class="card-title">
+
+            <span class="material-icons">
+                admin_panel_settings
+            </span>
+
+            <div>
+
+                <h3>
+                    User Access
+                </h3>
+
+                <p>
+                    Configure which account types
+                    can access the HRIS.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="form-grid">
+
+
+            <!-- ADMIN -->
+
+            <div class="form-group full">
+
+                <label class="toggle-row">
+
+                    <span>
+
+                        <strong>
+                            Administrator Access
+                        </strong>
+
+                        <small>
+                            Administrators have full
+                            access to the HRIS.
+                        </small>
+
                     </span>
 
-                    <h2>
-                        Users & Roles
-                    </h2>
+                    <input
+                        type="checkbox"
+                        id="allowAdminAccess"
+                        class="toggle-input"
+                        checked
+                        disabled>
 
-                    <p>
-                        This section will be configured
-                        next.
-                    </p>
+                    <span class="toggle-switch"></span>
 
-                </div>
+                </label>
 
-            </section>
+            </div>
+
+
+            <!-- HR -->
+
+            <div class="form-group full">
+
+                <label class="toggle-row">
+
+                    <span>
+
+                        <strong>
+                            HR Access
+                        </strong>
+
+                        <small>
+                            HR users can manage employees,
+                            attendance, leaves and payroll.
+                        </small>
+
+                    </span>
+
+                    <input
+                        type="checkbox"
+                        id="allowHrAccess"
+                        class="toggle-input"
+                        checked>
+
+                    <span class="toggle-switch"></span>
+
+                </label>
+
+            </div>
+
+
+            <!-- MANAGER -->
+
+            <div class="form-group full">
+
+                <label class="toggle-row">
+
+                    <span>
+
+                        <strong>
+                            Manager Access
+                        </strong>
+
+                        <small>
+                            Managers can view assigned
+                            employees and approve requests.
+                        </small>
+
+                    </span>
+
+                    <input
+                        type="checkbox"
+                        id="allowManagerAccess"
+                        class="toggle-input"
+                        checked>
+
+                    <span class="toggle-switch"></span>
+
+                </label>
+
+            </div>
+
+
+            <!-- EMPLOYEE -->
+
+            <div class="form-group full">
+
+                <label class="toggle-row">
+
+                    <span>
+
+                        <strong>
+                            Employee Portal Access
+                        </strong>
+
+                        <small>
+                            Employees can access their
+                            personal HR portal.
+                        </small>
+
+                    </span>
+
+                    <input
+                        type="checkbox"
+                        id="allowEmployeePortal"
+                        class="toggle-input"
+                        checked>
+
+                    <span class="toggle-switch"></span>
+
+                </label>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- ==================================
+         ROLE PERMISSIONS
+    ================================== -->
+
+    <div class="settings-card">
+
+        <div class="card-title">
+
+            <span class="material-icons">
+                security
+            </span>
+
+            <div>
+
+                <h3>
+                    Role Permissions
+                </h3>
+
+                <p>
+                    Set the default permission level
+                    for each role.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="form-grid">
+
+
+            <!-- HR -->
+
+            <div class="form-group">
+
+                <label for="hrPermissionLevel">
+
+                    HR Permission
+
+                </label>
+
+                <select
+                    id="hrPermissionLevel">
+
+                    <option value="full">
+                        Full HR Access
+                    </option>
+
+                    <option
+                        value="standard"
+                        selected>
+                        Standard HR Access
+                    </option>
+
+                    <option value="limited">
+                        Limited HR Access
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <!-- MANAGER -->
+
+            <div class="form-group">
+
+                <label for="managerPermissionLevel">
+
+                    Manager Permission
+
+                </label>
+
+                <select
+                    id="managerPermissionLevel">
+
+                    <option value="full">
+                        Full Manager Access
+                    </option>
+
+                    <option
+                        value="standard"
+                        selected>
+                        Standard Manager Access
+                    </option>
+
+                    <option value="limited">
+                        Limited Manager Access
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <!-- EMPLOYEE -->
+
+            <div class="form-group">
+
+                <label for="employeePermissionLevel">
+
+                    Employee Permission
+
+                </label>
+
+                <select
+                    id="employeePermissionLevel">
+
+                    <option
+                        value="standard"
+                        selected>
+                        Standard Employee Access
+                    </option>
+
+                    <option value="limited">
+                        Limited Employee Access
+                    </option>
+
+                </select>
+
+            </div>
+
+
+        </div>
+
+    </div>
+
+
+    <!-- ==================================
+         EMPLOYEE PORTAL
+    ================================== -->
+
+    <div class="settings-card">
+
+        <div class="card-title">
+
+            <span class="material-icons">
+                person
+            </span>
+
+            <div>
+
+                <h3>
+                    Employee Portal
+                </h3>
+
+                <p>
+                    Control the modules available
+                    to employee accounts.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="portal-options">
+
+
+            <!-- PROFILE -->
+
+            <label class="toggle-row">
+
+                <span>
+
+                    <strong>
+                        View Own Profile
+                    </strong>
+
+                    <small>
+                        Employees can view their
+                        personal information.
+                    </small>
+
+                </span>
+
+                <input
+                    type="checkbox"
+                    id="portalProfile"
+                    class="toggle-input"
+                    checked>
+
+                <span class="toggle-switch"></span>
+
+            </label>
+
+
+            <!-- ATTENDANCE -->
+
+            <label class="toggle-row">
+
+                <span>
+
+                    <strong>
+                        View Own Attendance
+                    </strong>
+
+                    <small>
+                        Employees can view their
+                        attendance records.
+                    </small>
+
+                </span>
+
+                <input
+                    type="checkbox"
+                    id="portalAttendance"
+                    class="toggle-input"
+                    checked>
+
+                <span class="toggle-switch"></span>
+
+            </label>
+
+
+            <!-- LEAVES -->
+
+            <label class="toggle-row">
+
+                <span>
+
+                    <strong>
+                        Leave Management
+                    </strong>
+
+                    <small>
+                        Employees can submit and
+                        track leave requests.
+                    </small>
+
+                </span>
+
+                <input
+                    type="checkbox"
+                    id="portalLeaves"
+                    class="toggle-input"
+                    checked>
+
+                <span class="toggle-switch"></span>
+
+            </label>
+
+
+            <!-- PAYSLIP -->
+
+            <label class="toggle-row">
+
+                <span>
+
+                    <strong>
+                        View Payslips
+                    </strong>
+
+                    <small>
+                        Employees can view their
+                        published payslips.
+                    </small>
+
+                </span>
+
+                <input
+                    type="checkbox"
+                    id="portalPayslip"
+                    class="toggle-input"
+                    checked>
+
+                <span class="toggle-switch"></span>
+
+            </label>
+
+
+        </div>
+
+    </div>
+
+
+    <!-- ==================================
+         SESSION SECURITY
+    ================================== -->
+
+    <div class="settings-card">
+
+        <div class="card-title">
+
+            <span class="material-icons">
+                lock_clock
+            </span>
+
+            <div>
+
+                <h3>
+                    Session Security
+                </h3>
+
+                <p>
+                    Configure automatic session
+                    expiration.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="form-grid">
+
+
+            <div class="form-group">
+
+                <label for="sessionTimeout">
+
+                    Session Timeout
+
+                </label>
+
+                <select
+                    id="sessionTimeout">
+
+                    <option value="15">
+                        15 Minutes
+                    </option>
+
+                    <option
+                        value="30"
+                        selected>
+                        30 Minutes
+                    </option>
+
+                    <option value="60">
+                        1 Hour
+                    </option>
+
+                    <option value="120">
+                        2 Hours
+                    </option>
+
+                    <option value="240">
+                        4 Hours
+                    </option>
+
+                    <option value="0">
+                        No Automatic Timeout
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label class="toggle-row">
+
+                    <span>
+
+                        <strong>
+                            Allow Multiple Sessions
+                        </strong>
+
+                        <small>
+                            Allow the same account to remain
+                            logged in on multiple devices.
+                        </small>
+
+                    </span>
+
+                    <input
+                        type="checkbox"
+                        id="allowMultipleSessions"
+                        class="toggle-input"
+                        checked>
+
+                    <span class="toggle-switch"></span>
+
+                </label>
+
+            </div>
+
+
+        </div>
+
+    </div>
+
+
+    <!-- ==================================
+         PASSWORD SECURITY
+    ================================== -->
+
+    <div class="settings-card">
+
+        <div class="card-title">
+
+            <span class="material-icons">
+                password
+            </span>
+
+            <div>
+
+                <h3>
+                    Password Security
+                </h3>
+
+                <p>
+                    Configure basic password
+                    requirements.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="form-grid">
+
+
+            <div class="form-group">
+
+                <label for="minimumPasswordLength">
+
+                    Minimum Password Length
+
+                </label>
+
+                <input
+                    type="number"
+                    id="minimumPasswordLength"
+                    min="6"
+                    max="32"
+                    value="8">
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label class="toggle-row">
+
+                    <span>
+
+                        <strong>
+                            Require Uppercase
+                        </strong>
+
+                    </span>
+
+                    <input
+                        type="checkbox"
+                        id="requireUppercase"
+                        class="toggle-input"
+                        checked>
+
+                    <span class="toggle-switch"></span>
+
+                </label>
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label class="toggle-row">
+
+                    <span>
+
+                        <strong>
+                            Require Number
+                        </strong>
+
+                    </span>
+
+                    <input
+                        type="checkbox"
+                        id="requireNumber"
+                        class="toggle-input"
+                        checked>
+
+                    <span class="toggle-switch"></span>
+
+                </label>
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label class="toggle-row">
+
+                    <span>
+
+                        <strong>
+                            Require Special Character
+                        </strong>
+
+                    </span>
+
+                    <input
+                        type="checkbox"
+                        id="requireSpecialCharacter"
+                        class="toggle-input"
+                        checked>
+
+                    <span class="toggle-switch"></span>
+
+                </label>
+
+            </div>
+
+
+        </div>
+
+    </div>
+
+
+    <!-- ==================================
+         LOGIN SECURITY
+    ================================== -->
+
+    <div class="settings-card">
+
+        <div class="card-title">
+
+            <span class="material-icons">
+                shield
+            </span>
+
+            <div>
+
+                <h3>
+                    Login Security
+                </h3>
+
+                <p>
+                    Configure protection for
+                    HRIS login accounts.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="form-grid">
+
+
+            <div class="form-group">
+
+                <label for="maxLoginAttempts">
+
+                    Maximum Login Attempts
+
+                </label>
+
+                <input
+                    type="number"
+                    id="maxLoginAttempts"
+                    min="3"
+                    max="20"
+                    value="5">
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label for="lockoutMinutes">
+
+                    Lockout Duration
+
+                </label>
+
+                <select
+                    id="lockoutMinutes">
+
+                    <option value="5">
+                        5 Minutes
+                    </option>
+
+                    <option
+                        value="10"
+                        selected>
+                        10 Minutes
+                    </option>
+
+                    <option value="15">
+                        15 Minutes
+                    </option>
+
+                    <option value="30">
+                        30 Minutes
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <div class="form-group full">
+
+                <label class="toggle-row">
+
+                    <span>
+
+                        <strong>
+                            Remember Login Session
+                        </strong>
+
+                        <small>
+                            Keep the authenticated session
+                            according to browser settings.
+                        </small>
+
+                    </span>
+
+                    <input
+                        type="checkbox"
+                        id="rememberLogin"
+                        class="toggle-input"
+                        checked>
+
+                    <span class="toggle-switch"></span>
+
+                </label>
+
+            </div>
+
+
+        </div>
+
+    </div>
+
+
+    <!-- ==================================
+         SAVE
+    ================================== -->
+
+    <div class="save-bar">
+
+        <div>
+
+            <span class="material-icons">
+                info
+            </span>
+
+            <span>
+                Security settings affect user
+                access and account behavior.
+            </span>
+
+        </div>
+
+
+        <button
+            id="saveSecurityBtn"
+            class="save-btn">
+
+            <span class="material-icons">
+                save
+            </span>
+
+            SAVE SECURITY SETTINGS
+
+        </button>
+
+    </div>
+
+
+</section>
+
+        
 
 
             <section
