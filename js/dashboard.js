@@ -31,6 +31,8 @@ let clockStarted = false;
 
 window.openPage = function(page){
 
+    if(!page) return;
+
     window.location.href = page;
 
 };
@@ -42,23 +44,39 @@ window.openPage = function(page){
 
 window.logout = async function(){
 
-    if(!confirm("Are you sure you want to logout?")) return;
+    if(
+        !confirm(
+            "Are you sure you want to logout?"
+        )
+    ){
+
+        return;
+
+    }
+
 
     try{
 
         await signOut(auth);
 
+
         localStorage.clear();
 
         sessionStorage.clear();
 
-        window.location.replace("login.html");
+
+        window.location.replace(
+            "login.html"
+        );
+
 
     }catch(error){
 
         console.error(error);
 
-        alert(error.message);
+        alert(
+            error.message
+        );
 
     }
 
@@ -69,68 +87,104 @@ window.logout = async function(){
    AUTH PROTECTION
 ========================================== */
 
-onAuthStateChanged(auth,(user)=>{
+onAuthStateChanged(
+    auth,
+    (user)=>{
 
-    if(!user){
+        if(!user){
 
-        window.location.replace("login.html");
+            window.location.replace(
+                "login.html"
+            );
 
-        return;
+            return;
+
+        }
+
+
+        /* ======================================
+           ADMIN ROLE CHECK
+        ====================================== */
+
+        const role =
+            localStorage.getItem(
+                "userRole"
+            );
+
+
+        /*
+        Dashboard is ADMIN only.
+
+        If an employee somehow opens
+        dashboard.html directly, send them
+        to their Employee Portal.
+        */
+
+        if(role === "employee"){
+
+            window.location.replace(
+                "employeeportal.html"
+            );
+
+            return;
+
+        }
+
+
+        /* ======================================
+           LOGGED USER
+        ====================================== */
+
+        const loggedUser =
+
+            localStorage.getItem(
+                "loggedInUser"
+            )
+
+            ||
+
+            user.email
+
+            ||
+
+            "Administrator";
+
+
+        const userBox =
+            document.getElementById(
+                "loggedUser"
+            );
+
+
+        if(userBox){
+
+            userBox.textContent =
+                loggedUser;
+
+        }
+
+
+        /* ======================================
+           LOAD DASHBOARD
+        ====================================== */
+
+        if(!dashboardLoaded){
+
+            dashboardLoaded = true;
+
+            loadDashboard();
+
+        }
+
+
+        /* ======================================
+           START CLOCK
+        ====================================== */
+
+        updateClock();
 
     }
-
-
-    /* ==========================================
-       LOGGED USER
-    ========================================== */
-
-    const loggedUser =
-
-        localStorage.getItem("loggedInUser")
-
-        ||
-
-        user.email
-
-        ||
-
-        "Administrator";
-
-
-    const userBox =
-        document.getElementById(
-            "loggedUser"
-        );
-
-
-    if(userBox){
-
-        userBox.textContent =
-            loggedUser;
-
-    }
-
-
-    /* ==========================================
-       LOAD DASHBOARD
-    ========================================== */
-
-    if(!dashboardLoaded){
-
-        dashboardLoaded = true;
-
-        loadDashboard();
-
-    }
-
-
-    /* ==========================================
-       START CLOCK
-    ========================================== */
-
-    updateClock();
-
-});
+);
 
 
 /* ==========================================
@@ -174,9 +228,9 @@ function updateClock(){
             new Date();
 
 
-        /* ==========================================
+        /* ======================================
            TIME
-        ========================================== */
+        ====================================== */
 
         const timeText =
 
@@ -190,9 +244,9 @@ function updateClock(){
             );
 
 
-        /* ==========================================
+        /* ======================================
            DATE
-        ========================================== */
+        ====================================== */
 
         const dateText =
 
@@ -207,9 +261,9 @@ function updateClock(){
             );
 
 
-        /* ==========================================
+        /* ======================================
            DESKTOP CLOCK
-        ========================================== */
+        ====================================== */
 
         if(clock){
 
@@ -227,9 +281,9 @@ function updateClock(){
         }
 
 
-        /* ==========================================
+        /* ======================================
            MOBILE CLOCK
-        ========================================== */
+        ====================================== */
 
         if(mobileClock){
 
@@ -249,12 +303,8 @@ function updateClock(){
     }
 
 
-    /* Run immediately */
-
     refreshClock();
 
-
-    /* Update every second */
 
     setInterval(
         refreshClock,
@@ -273,9 +323,9 @@ async function loadDashboard(){
     try{
 
 
-        /* ==========================================
+        /* ======================================
            EMPLOYEES
-        ========================================== */
+        ====================================== */
 
         const employeeSnap =
 
@@ -292,12 +342,13 @@ async function loadDashboard(){
 
         employeeSnap.forEach(doc=>{
 
-            employees.push(
-                {
-                    id:doc.id,
-                    ...doc.data()
-                }
-            );
+            employees.push({
+
+                id:doc.id,
+
+                ...doc.data()
+
+            });
 
         });
 
@@ -316,9 +367,9 @@ async function loadDashboard(){
         }
 
 
-        /* ==========================================
+        /* ======================================
            ATTENDANCE
-        ========================================== */
+        ====================================== */
 
         const attendanceSnap =
 
@@ -344,9 +395,9 @@ async function loadDashboard(){
         }
 
 
-        /* ==========================================
+        /* ======================================
            PAYROLL
-        ========================================== */
+        ====================================== */
 
         const payrollSnap =
 
@@ -372,9 +423,9 @@ async function loadDashboard(){
         }
 
 
-        /* ==========================================
+        /* ======================================
            REQUESTS
-        ========================================== */
+        ====================================== */
 
         const requestSnap =
 
@@ -400,9 +451,9 @@ async function loadDashboard(){
         }
 
 
-        /* ==========================================
+        /* ======================================
            UPCOMING BIRTHDAYS
-        ========================================== */
+        ====================================== */
 
         const birthdayList =
             document.getElementById(
@@ -418,7 +469,8 @@ async function loadDashboard(){
 
         if(birthdayList){
 
-            birthdayList.innerHTML = "";
+            birthdayList.innerHTML =
+                "";
 
         }
 
@@ -436,8 +488,11 @@ async function loadDashboard(){
 
         employees.forEach(emp=>{
 
+            if(!emp.birthdate){
 
-            if(!emp.birthdate) return;
+                return;
+
+            }
 
 
             const birth =
@@ -504,9 +559,9 @@ async function loadDashboard(){
         }
 
 
-        /* ==========================================
+        /* ======================================
            PRESENT
-        ========================================== */
+        ====================================== */
 
         const present =
             document.getElementById(
@@ -536,9 +591,9 @@ async function loadDashboard(){
         }
 
 
-        /* ==========================================
+        /* ======================================
            LATE
-        ========================================== */
+        ====================================== */
 
         const late =
             document.getElementById(
@@ -568,9 +623,9 @@ async function loadDashboard(){
         }
 
 
-        /* ==========================================
+        /* ======================================
            LEAVE
-        ========================================== */
+        ====================================== */
 
         const leave =
             document.getElementById(
@@ -600,9 +655,9 @@ async function loadDashboard(){
         }
 
 
-        /* ==========================================
+        /* ======================================
            SYSTEM STATUS
-        ========================================== */
+        ====================================== */
 
         const systemStatus =
             document.getElementById(
@@ -629,6 +684,7 @@ async function loadDashboard(){
             "Dashboard loading failed:",
             error
         );
+
 
         alert(
             "Dashboard loading failed."
@@ -731,9 +787,9 @@ if(
     overlay
 ){
 
-    /* ==========================================
+    /* ======================================
        OPEN SIDEBAR
-    ========================================== */
+    ====================================== */
 
     menuBtn.onclick = function(){
 
@@ -748,9 +804,9 @@ if(
     };
 
 
-    /* ==========================================
+    /* ======================================
        CLOSE SIDEBAR
-    ========================================== */
+    ====================================== */
 
     overlay.onclick = function(){
 
@@ -765,9 +821,9 @@ if(
     };
 
 
-    /* ==========================================
+    /* ======================================
        CLOSE ON DESKTOP
-    ========================================== */
+    ====================================== */
 
     window.addEventListener(
         "resize",
