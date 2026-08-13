@@ -1,6 +1,7 @@
 /* ==========================================
    PAPPRITO HRIS
-   EMPLOYEE PORTAL
+   EMPLOYEE PORTAL JS
+   EXISTING FIREBASE STRUCTURE
 ========================================== */
 
 import {
@@ -24,114 +25,10 @@ import {
 
 
 /* ==========================================
-   ELEMENTS
-========================================== */
-
-const empIdDisplay =
-    document.getElementById("empIdDisplay");
-
-const empNameDisplay =
-    document.getElementById("empNameDisplay");
-
-const requestType =
-    document.getElementById("requestType");
-
-const requestDate =
-    document.getElementById("requestDate");
-
-const days =
-    document.getElementById("days");
-
-const reason =
-    document.getElementById("reason");
-
-const attendanceType =
-    document.getElementById("attendanceType");
-
-const attendanceDate =
-    document.getElementById("attendanceDate");
-
-const attendanceTime =
-    document.getElementById("attendanceTime");
-
-const attendanceReason =
-    document.getElementById("attendanceReason");
-
-const requestBody =
-    document.getElementById("requestBody");
-
-const attendanceBody =
-    document.getElementById("attendanceBody");
-
-const payslipArea =
-    document.getElementById("payslipArea");
-
-const payEmpId =
-    document.getElementById("payEmpId");
-
-const payEmp =
-    document.getElementById("payEmp");
-
-const payDate =
-    document.getElementById("payDate");
-
-const payDailyRate =
-    document.getElementById("payDailyRate");
-
-const payTotalDays =
-    document.getElementById("payTotalDays");
-
-const payOvertime =
-    document.getElementById("payOvertime");
-
-const payHoliday =
-    document.getElementById("payHoliday");
-
-const paySick =
-    document.getElementById("paySick");
-
-const payVacation =
-    document.getElementById("payVacation");
-
-const payBirthday =
-    document.getElementById("payBirthday");
-
-const payAllowance =
-    document.getElementById("payAllowance");
-
-const payGross =
-    document.getElementById("payGross");
-
-const paySSS =
-    document.getElementById("paySSS");
-
-const payPhilhealth =
-    document.getElementById("payPhilhealth");
-
-const payPagibig =
-    document.getElementById("payPagibig");
-
-const payHealth =
-    document.getElementById("payHealth");
-
-const payOther =
-    document.getElementById("payOther");
-
-const payDeduction =
-    document.getElementById("payDeduction");
-
-const payNet =
-    document.getElementById("payNet");
-
-
-/* ==========================================
    GLOBAL VARIABLES
 ========================================== */
 
-let currentUser =
-    localStorage.getItem(
-        "loggedInUser"
-    ) || "";
+let currentUser = "";
 
 let currentEmployee = null;
 
@@ -141,16 +38,89 @@ let attendanceEditId = null;
 
 
 /* ==========================================
+   ELEMENTS
+========================================== */
+
+const employeeName =
+    document.getElementById("employeeName");
+
+const employeeId =
+    document.getElementById("employeeId");
+
+const employeePosition =
+    document.getElementById("employeePosition");
+
+const loggedEmployee =
+    document.getElementById("loggedEmployee");
+
+
+const requestType =
+    document.getElementById("requestType");
+
+const requestDate =
+    document.getElementById("requestDate");
+
+const requestDays =
+    document.getElementById("requestDays");
+
+const requestReason =
+    document.getElementById("requestReason");
+
+
+const requestBody =
+    document.getElementById("requestBody");
+
+
+const attendanceBody =
+    document.getElementById("attendanceBody");
+
+const payslipBody =
+    document.getElementById("payslipBody");
+
+
+const requestFormCard =
+    document.getElementById("requestFormCard");
+
+const newRequestBtn =
+    document.getElementById("newRequestBtn");
+
+const cancelRequestBtn =
+    document.getElementById("cancelRequestBtn");
+
+const submitRequestBtn =
+    document.getElementById("submitRequestBtn");
+
+
+const requestTotal =
+    document.getElementById("requestTotal");
+
+const requestPending =
+    document.getElementById("requestPending");
+
+const requestApproved =
+    document.getElementById("requestApproved");
+
+const requestRejected =
+    document.getElementById("requestRejected");
+
+
+const requestModal =
+    document.getElementById("requestModal");
+
+const requestDetails =
+    document.getElementById("requestDetails");
+
+const closeRequestModal =
+    document.getElementById("closeRequestModal");
+
+
+/* ==========================================
    AUTHENTICATION
 ========================================== */
 
 onAuthStateChanged(
     auth,
-    (user)=>{
-
-        /*
-        User must be authenticated.
-        */
+    async function(user){
 
         if(!user){
 
@@ -163,41 +133,15 @@ onAuthStateChanged(
         }
 
 
-        /*
-        Employee portal only.
-        */
-
-        const role =
+        currentUser =
             localStorage.getItem(
-                "userRole"
-            );
+                "loggedInUser"
+            ) ||
+            user.email ||
+            "";
 
 
-        if(role === "admin"){
-
-            window.location.replace(
-                "dashboard.html"
-            );
-
-            return;
-
-        }
-
-
-        /*
-        Employee login is identified
-        using the stored Employee ID.
-        */
-
-        if(!currentUser){
-
-            currentUser =
-                user.email || "";
-
-        }
-
-
-        loadEmployee();
+        await loadEmployee();
 
     }
 );
@@ -205,13 +149,15 @@ onAuthStateChanged(
 
 /* ==========================================
    LOAD EMPLOYEE
+   Existing system uses employees
+   collection and employeeid.
 ========================================== */
 
 async function loadEmployee(){
 
     try{
 
-        let querySnapshot =
+        const snapshot =
             await getDocs(
                 collection(
                     db,
@@ -220,44 +166,91 @@ async function loadEmployee(){
             );
 
 
-        currentUser =
-            (currentUser || "")
-                .toString()
-                .toUpperCase()
-                .trim();
+        const loggedId =
+            String(
+                currentUser
+            )
+            .toUpperCase()
+            .trim();
 
 
-        querySnapshot.forEach(
-            docSnap=>{
+        snapshot.forEach(
+            docSnap => {
 
                 const emp =
                     docSnap.data();
 
 
                 const empId =
-                    (emp.employeeid || "")
-                        .toString()
-                        .toUpperCase()
-                        .trim();
+                    String(
+                        emp.employeeid ||
+                        emp.empid ||
+                        ""
+                    )
+                    .toUpperCase()
+                    .trim();
 
 
-                const fullname =
-                    (emp.firstname || "") +
-                    " " +
-                    (emp.lastname || "");
+                const fullName = [
+
+                    emp.firstname || "",
+
+                    emp.middlename || "",
+
+                    emp.lastname || ""
+
+                ]
+
+                .filter(Boolean)
+
+                .join(" ")
+
+                .replace(
+                    /\s+/g,
+                    " "
+                )
+
+                .trim();
+
+
+                /*
+                   Login may be employee ID
+                   or username.
+                */
+
+                const username =
+                    String(
+                        emp.username ||
+                        ""
+                    )
+                    .toUpperCase()
+                    .trim();
 
 
                 if(
-                    empId === currentUser
+                    empId === loggedId ||
+                    username === loggedId
                 ){
 
                     currentEmployee = {
 
                         id:
-                            emp.employeeid || "",
+                            emp.employeeid ||
+                            emp.empid ||
+                            "",
 
                         name:
-                            fullname
+                            fullName ||
+                            emp.name ||
+                            "",
+
+                        position:
+                            emp.position ||
+                            "",
+
+                        department:
+                            emp.department ||
+                            ""
 
                     };
 
@@ -267,47 +260,50 @@ async function loadEmployee(){
         );
 
 
-        if(currentEmployee){
-
-            if(empIdDisplay){
-
-                empIdDisplay.innerText =
-                    currentEmployee.id;
-
-            }
-
-
-            if(empNameDisplay){
-
-                empNameDisplay.innerText =
-                    currentEmployee.name;
-
-            }
-
-
-            await loadRequests();
-
-            await loadAttendanceRequests();
-
-        }else{
+        if(!currentEmployee){
 
             alert(
-                "Employee account not found in masterlist"
+                "Employee account not found in masterlist."
             );
 
+            await signOut(auth);
+
+            localStorage.removeItem(
+                "loggedInUser"
+            );
+
+            localStorage.removeItem(
+                "userRole"
+            );
 
             window.location.replace(
                 "login.html"
             );
 
+            return;
+
         }
+
+
+        displayEmployee();
+
+
+        await loadRequests();
+
+        await loadAttendanceRequests();
+
+        await loadPayslips();
+
 
     }catch(error){
 
-        console.error(error);
+        console.error(
+            "Employee Load Error:",
+            error
+        );
 
         alert(
-            "Failed to load employee"
+            "Failed to load employee."
         );
 
     }
@@ -316,11 +312,115 @@ async function loadEmployee(){
 
 
 /* ==========================================
-   SUBMIT REQUEST
+   DISPLAY EMPLOYEE
 ========================================== */
 
-window.submitRequest =
-async function(){
+function displayEmployee(){
+
+    if(employeeName){
+
+        employeeName.textContent =
+            currentEmployee.name ||
+            "Employee";
+
+    }
+
+
+    if(employeeId){
+
+        employeeId.textContent =
+            "Employee ID: " +
+            (
+                currentEmployee.id ||
+                "-"
+            );
+
+    }
+
+
+    if(employeePosition){
+
+        employeePosition.textContent =
+            "Position: " +
+            (
+                currentEmployee.position ||
+                "-"
+            );
+
+    }
+
+
+    if(loggedEmployee){
+
+        loggedEmployee.textContent =
+            currentEmployee.name ||
+            currentEmployee.id ||
+            "Employee";
+
+    }
+
+}
+
+
+/* ==========================================
+   REQUEST FORM
+========================================== */
+
+if(newRequestBtn){
+
+    newRequestBtn.addEventListener(
+        "click",
+        function(){
+
+            editId = null;
+
+            clearRequestForm();
+
+            requestFormCard.classList.toggle(
+                "hidden"
+            );
+
+        }
+    );
+
+}
+
+
+if(cancelRequestBtn){
+
+    cancelRequestBtn.addEventListener(
+        "click",
+        function(){
+
+            editId = null;
+
+            clearRequestForm();
+
+            requestFormCard.classList.add(
+                "hidden"
+            );
+
+        }
+    );
+
+}
+
+
+if(submitRequestBtn){
+
+    submitRequestBtn.addEventListener(
+        "click",
+        submitRequest
+    );
+
+}
+
+
+/* ==========================================
+   SUBMIT / UPDATE REQUEST
+========================================== */
+
+async function submitRequest(){
 
     if(!currentEmployee){
 
@@ -339,7 +439,55 @@ async function(){
     ){
 
         alert(
-            "Select Request Type"
+            "Select Request Type."
+        );
+
+        return;
+
+    }
+
+
+    if(
+        !requestDate ||
+        requestDate.value === ""
+    ){
+
+        alert(
+            "Select Date."
+        );
+
+        return;
+
+    }
+
+
+    if(
+        !requestDays ||
+        requestDays.value === ""
+    ){
+
+        alert(
+            "Enter Number of Days."
+        );
+
+        return;
+
+    }
+
+
+    const days =
+        Number(
+            requestDays.value
+        );
+
+
+    if(
+        !Number.isFinite(days) ||
+        days <= 0
+    ){
+
+        alert(
+            "Enter a valid number of days."
         );
 
         return;
@@ -350,6 +498,12 @@ async function(){
     try{
 
         if(editId){
+
+            /*
+               Existing behavior:
+               Employee can update
+               their own request.
+            */
 
             await updateDoc(
 
@@ -368,10 +522,10 @@ async function(){
                         requestDate.value,
 
                     days:
-                        days.value,
+                        String(days),
 
                     reason:
-                        reason.value
+                        requestReason.value.trim()
 
                 }
 
@@ -383,9 +537,12 @@ async function(){
             );
 
 
-            editId = null;
-
         }else{
+
+            /*
+               Existing structure:
+               employeeRequests
+            */
 
             await addDoc(
 
@@ -409,10 +566,10 @@ async function(){
                         requestDate.value,
 
                     days:
-                        days.value,
+                        String(days),
 
                     reason:
-                        reason.value,
+                        requestReason.value.trim(),
 
                     status:
                         "PENDING"
@@ -429,13 +586,26 @@ async function(){
         }
 
 
-        clearForm();
+        editId = null;
+
+
+        clearRequestForm();
+
+
+        requestFormCard.classList.add(
+            "hidden"
+        );
+
 
         await loadRequests();
 
+
     }catch(error){
 
-        console.error(error);
+        console.error(
+            "Submit Request Error:",
+            error
+        );
 
         alert(
             "Submit Error"
@@ -443,194 +613,11 @@ async function(){
 
     }
 
-};
+}
 
 
 /* ==========================================
-   SUBMIT ATTENDANCE REQUEST
-========================================== */
-
-window.submitAttendanceRequest =
-async function(){
-
-    if(!currentEmployee){
-
-        alert(
-            "Employee information not loaded."
-        );
-
-        return;
-
-    }
-
-
-    if(
-        !attendanceType ||
-        attendanceType.value === ""
-    ){
-
-        alert(
-            "Select Attendance Request"
-        );
-
-        return;
-
-    }
-
-
-    if(
-        !attendanceDate ||
-        attendanceDate.value === ""
-    ){
-
-        alert(
-            "Select Date"
-        );
-
-        return;
-
-    }
-
-
-    if(
-        !attendanceTime ||
-        attendanceTime.value === ""
-    ){
-
-        alert(
-            "Select Time"
-        );
-
-        return;
-
-    }
-
-
-    if(
-        !attendanceReason ||
-        attendanceReason.value === ""
-    ){
-
-        alert(
-            "Enter Reason"
-        );
-
-        return;
-
-    }
-
-
-    try{
-
-        if(attendanceEditId){
-
-            await updateDoc(
-
-                doc(
-                    db,
-                    "attendanceRequests",
-                    attendanceEditId
-                ),
-
-                {
-
-                    requesttype:
-                        attendanceType.value,
-
-                    date:
-                        attendanceDate.value,
-
-                    time:
-                        attendanceTime.value,
-
-                    reason:
-                        attendanceReason.value
-
-                }
-
-            );
-
-
-            alert(
-                "Attendance Request Updated"
-            );
-
-
-            attendanceEditId = null;
-
-        }else{
-
-            await addDoc(
-
-                collection(
-                    db,
-                    "attendanceRequests"
-                ),
-
-                {
-
-                    employeeid:
-                        currentEmployee.id,
-
-                    employee:
-                        currentEmployee.name,
-
-                    requesttype:
-                        attendanceType.value,
-
-                    date:
-                        attendanceDate.value,
-
-                    time:
-                        attendanceTime.value,
-
-                    reason:
-                        attendanceReason.value,
-
-                    status:
-                        "PENDING",
-
-                    timestamp:
-                        Date.now()
-
-                }
-
-            );
-
-
-            alert(
-                "Attendance Request Submitted"
-            );
-
-        }
-
-
-        attendanceType.value = "";
-
-        attendanceDate.value = "";
-
-        attendanceTime.value = "";
-
-        attendanceReason.value = "";
-
-
-        await loadAttendanceRequests();
-
-    }catch(error){
-
-        console.error(error);
-
-        alert(
-            "Attendance Request Error"
-        );
-
-    }
-
-};
-
-
-/* ==========================================
-   LOAD REQUESTS
+   LOAD MY REQUESTS
 ========================================== */
 
 async function loadRequests(){
@@ -642,124 +629,127 @@ async function loadRequests(){
     }
 
 
-    requestBody.innerHTML = "";
+    requestBody.innerHTML = `
+
+        <tr>
+
+            <td
+            colspan="6"
+            class="empty-state">
+
+                <span class="material-icons">
+
+                    sync
+
+                </span>
+
+                Loading requests...
+
+            </td>
+
+        </tr>
+
+    `;
 
 
     try{
 
-        const querySnapshot =
+        const snapshot =
             await getDocs(
-
                 collection(
                     db,
                     "employeeRequests"
                 )
-
             );
 
 
-        querySnapshot.forEach(
-            docSnap=>{
+        const myRequests = [];
+
+
+        snapshot.forEach(
+            docSnap => {
 
                 const req =
                     docSnap.data();
 
-                const id =
-                    docSnap.id;
+
+                const reqEmployee =
+                    String(
+                        req.empid ||
+                        ""
+                    )
+                    .toUpperCase()
+                    .trim();
+
+
+                const myEmployee =
+                    String(
+                        currentEmployee.id ||
+                        ""
+                    )
+                    .toUpperCase()
+                    .trim();
 
 
                 if(
-
-                    (req.empid || "")
-                        .toString()
-                        .toUpperCase()
-                        .trim()
-
-                    ===
-
-                    (currentEmployee.id || "")
-                        .toString()
-                        .toUpperCase()
-                        .trim()
-
+                    reqEmployee ===
+                    myEmployee
                 ){
 
-                    const statusClass =
-                        (req.status || "")
-                            .toLowerCase();
+                    myRequests.push({
 
+                        id:
+                            docSnap.id,
 
-                    requestBody.innerHTML += `
+                        ...req
 
-                        <tr>
-
-                            <td>
-                                ${req.empid || ""}
-                            </td>
-
-                            <td>
-                                ${req.employee || ""}
-                            </td>
-
-                            <td>
-                                ${req.type || ""}
-                            </td>
-
-                            <td>
-                                ${req.date || ""}
-                            </td>
-
-                            <td>
-                                ${req.days || ""}
-                            </td>
-
-                            <td>
-                                ${req.reason || ""}
-                            </td>
-
-                            <td class="${statusClass}">
-                                ${req.status || ""}
-                            </td>
-
-                            <td>
-
-                                <button
-                                class="btn edit-btn"
-                                onclick="editRequest(
-                                    '${id}',
-                                    '${req.type || ""}',
-                                    '${req.date || ""}',
-                                    '${req.days || ""}',
-                                    '${req.reason || ""}'
-                                )">
-
-                                    EDIT
-
-                                </button>
-
-
-                                <button
-                                class="btn delete-btn"
-                                onclick="deleteRequest('${id}')">
-
-                                    DELETE
-
-                                </button>
-
-                            </td>
-
-                        </tr>
-
-                    `;
+                    });
 
                 }
 
             }
         );
 
+
+        updateRequestSummary(
+            myRequests
+        );
+
+
+        renderRequests(
+            myRequests
+        );
+
+
     }catch(error){
 
-        console.error(error);
+        console.error(
+            "Load Requests Error:",
+            error
+        );
+
+
+        requestBody.innerHTML = `
+
+            <tr>
+
+                <td
+                colspan="6"
+                class="empty-state">
+
+                    <span class="material-icons">
+
+                        error_outline
+
+                    </span>
+
+                    Failed to load requests.
+
+                </td>
+
+            </tr>
+
+        `;
 
     }
 
@@ -767,262 +757,372 @@ async function loadRequests(){
 
 
 /* ==========================================
-   LOAD ATTENDANCE REQUESTS
+   REQUEST SUMMARY
 ========================================== */
 
-async function loadAttendanceRequests(){
-
-    if(!attendanceBody){
-
-        return;
-
-    }
-
-
-    attendanceBody.innerHTML = "";
-
-
-    try{
-
-        const querySnapshot =
-            await getDocs(
-
-                collection(
-                    db,
-                    "attendanceRequests"
-                )
-
-            );
-
-
-        querySnapshot.forEach(
-            docSnap=>{
-
-                const req =
-                    docSnap.data();
-
-
-                if(
-
-                    (req.employeeid || "")
-                        .toString()
-                        .toUpperCase()
-                        .trim()
-
-                    ===
-
-                    (currentEmployee.id || "")
-                        .toString()
-                        .toUpperCase()
-                        .trim()
-
-                ){
-
-                    const statusClass =
-                        (req.status || "")
-                            .toLowerCase();
-
-
-                    attendanceBody.innerHTML += `
-
-                        <tr>
-
-                            <td>
-                                ${req.employeeid || ""}
-                            </td>
-
-                            <td>
-                                ${req.employee || ""}
-                            </td>
-
-                            <td>
-                                ${req.requesttype || ""}
-                            </td>
-
-                            <td>
-                                ${req.date || ""}
-                            </td>
-
-                            <td>
-                                ${req.time || ""}
-                            </td>
-
-                            <td>
-                                ${req.reason || ""}
-                            </td>
-
-                            <td class="${statusClass}">
-                                ${req.status || ""}
-                            </td>
-
-                            <td>
-
-                                <button
-                                class="btn edit-btn"
-                                onclick="editAttendanceRequest(
-                                    '${docSnap.id}',
-                                    '${req.requesttype || ""}',
-                                    '${req.date || ""}',
-                                    '${req.time || ""}',
-                                    '${req.reason || ""}'
-                                )">
-
-                                    EDIT
-
-                                </button>
-
-
-                                <button
-                                class="btn delete-btn"
-                                onclick="deleteAttendanceRequest(
-                                    '${docSnap.id}'
-                                )">
-
-                                    DELETE
-
-                                </button>
-
-                            </td>
-
-                        </tr>
-
-                    `;
-
-                }
-
-            }
-        );
-
-    }catch(error){
-
-        console.error(error);
-
-    }
-
-}
-
-
-/* ==========================================
-   EDIT ATTENDANCE REQUEST
-========================================== */
-
-window.editAttendanceRequest =
-function(
-    id,
-    type,
-    date,
-    time,
-    reasonText
+function updateRequestSummary(
+    records
 ){
 
-    attendanceEditId =
-        id;
+    let pending = 0;
+
+    let approved = 0;
+
+    let rejected = 0;
 
 
-    attendanceType.value =
-        type;
+    records.forEach(
+        req => {
+
+            const status =
+                String(
+                    req.status ||
+                    "PENDING"
+                )
+                .toUpperCase()
+                .trim();
 
 
-    attendanceDate.value =
-        date;
+            if(
+                status === "PENDING"
+            ){
+
+                pending++;
+
+            }
 
 
-    attendanceTime.value =
-        time;
+            else if(
+                status === "APPROVED"
+            ){
+
+                approved++;
+
+            }
 
 
-    attendanceReason.value =
-        reasonText;
+            else if(
+                status === "REJECTED"
+            ){
+
+                rejected++;
+
+            }
+
+        }
+    );
 
 
-    window.scrollTo({
+    if(requestTotal){
 
-        top:0,
+        requestTotal.textContent =
+            records.length;
 
-        behavior:"smooth"
+    }
 
-    });
 
-};
+    if(requestPending){
+
+        requestPending.textContent =
+            pending;
+
+    }
+
+
+    if(requestApproved){
+
+        requestApproved.textContent =
+            approved;
+
+    }
+
+
+    if(requestRejected){
+
+        requestRejected.textContent =
+            rejected;
+
+    }
+
+}
 
 
 /* ==========================================
-   DELETE ATTENDANCE REQUEST
+   RENDER REQUESTS
 ========================================== */
 
-window.deleteAttendanceRequest =
-async function(id){
+function renderRequests(
+    records
+){
 
-    if(
-        !confirm(
-            "Delete Attendance Request?"
-        )
-    ){
+    requestBody.innerHTML = "";
+
+
+    if(records.length === 0){
+
+        requestBody.innerHTML = `
+
+            <tr>
+
+                <td
+                colspan="6"
+                class="empty-state">
+
+                    <span class="material-icons">
+
+                        event_busy
+
+                    </span>
+
+                    <p>
+
+                        No requests found.
+
+                    </p>
+
+                </td>
+
+            </tr>
+
+        `;
 
         return;
 
     }
 
 
-    try{
+    /*
+       Newest first.
+    */
 
-        await deleteDoc(
+    records.sort(
+        (a,b) => {
 
-            doc(
-                db,
-                "attendanceRequests",
-                id
+            return String(
+                b.date || ""
             )
+            .localeCompare(
+                String(
+                    a.date || ""
+                )
+            );
 
-        );
+        }
+    );
 
 
-        await loadAttendanceRequests();
+    records.forEach(
+        req => {
 
-    }catch(error){
+            const status =
+                String(
+                    req.status ||
+                    "PENDING"
+                )
+                .toUpperCase()
+                .trim();
 
-        console.error(error);
 
-        alert(
-            "Delete Error"
-        );
+            const statusClass =
+                status.toLowerCase();
 
-    }
 
-};
+            const row =
+                document.createElement(
+                    "tr"
+                );
+
+
+            row.innerHTML = `
+
+                <td>
+
+                    ${escapeHtml(
+                        req.type ||
+                        "-"
+                    )}
+
+                </td>
+
+
+                <td>
+
+                    ${escapeHtml(
+                        req.date ||
+                        "-"
+                    )}
+
+                </td>
+
+
+                <td>
+
+                    ${escapeHtml(
+                        String(
+                            req.days ||
+                            "-"
+                        )
+                    )}
+
+                </td>
+
+
+                <td>
+
+                    ${escapeHtml(
+                        req.reason ||
+                        "-"
+                    )}
+
+                </td>
+
+
+                <td>
+
+                    <span
+                    class="status ${statusClass}">
+
+                        ${escapeHtml(
+                            status
+                        )}
+
+                    </span>
+
+                </td>
+
+
+                <td>
+
+                    <button
+                    class="view-btn"
+                    data-action="view">
+
+                        VIEW
+
+                    </button>
+
+
+                    <button
+                    class="edit-btn"
+                    data-action="edit">
+
+                        EDIT
+
+                    </button>
+
+
+                    <button
+                    class="delete-btn"
+                    data-action="delete">
+
+                        DELETE
+
+                    </button>
+
+                </td>
+
+            `;
+
+
+            const viewBtn =
+                row.querySelector(
+                    '[data-action="view"]'
+                );
+
+
+            const editBtn =
+                row.querySelector(
+                    '[data-action="edit"]'
+                );
+
+
+            const deleteBtn =
+                row.querySelector(
+                    '[data-action="delete"]'
+                );
+
+
+            viewBtn.addEventListener(
+                "click",
+                function(){
+
+                    showRequestDetails(
+                        req
+                    );
+
+                }
+            );
+
+
+            editBtn.addEventListener(
+                "click",
+                function(){
+
+                    editRequest(
+                        req
+                    );
+
+                }
+            );
+
+
+            deleteBtn.addEventListener(
+                "click",
+                function(){
+
+                    deleteRequest(
+                        req.id
+                    );
+
+                }
+            );
+
+
+            requestBody.appendChild(
+                row
+            );
+
+        }
+    );
+
+}
 
 
 /* ==========================================
    EDIT REQUEST
 ========================================== */
 
-window.editRequest =
-function(
-    id,
-    type,
-    date,
-    daysValue,
-    reasonText
+function editRequest(
+    request
 ){
 
     editId =
-        id;
+        request.id;
 
 
     requestType.value =
-        type;
+        request.type ||
+        "";
 
 
     requestDate.value =
-        date;
+        request.date ||
+        "";
 
 
-    days.value =
-        daysValue;
+    requestDays.value =
+        request.days ||
+        "";
 
 
-    reason.value =
-        reasonText;
+    requestReason.value =
+        request.reason ||
+        "";
+
+
+    requestFormCard.classList.remove(
+        "hidden"
+    );
 
 
     window.scrollTo({
@@ -1033,15 +1133,16 @@ function(
 
     });
 
-};
+}
 
 
 /* ==========================================
    DELETE REQUEST
 ========================================== */
 
-window.deleteRequest =
-async function(id){
+async function deleteRequest(
+    id
+){
 
     if(
         !confirm(
@@ -1067,11 +1168,21 @@ async function(id){
         );
 
 
+        alert(
+            "Request Deleted"
+        );
+
+
         await loadRequests();
+
 
     }catch(error){
 
-        console.error(error);
+        console.error(
+            "Delete Request Error:",
+            error
+        );
+
 
         alert(
             "Delete Error"
@@ -1079,36 +1190,353 @@ async function(id){
 
     }
 
-};
+}
 
 
 /* ==========================================
-   CLEAR REQUEST FORM
+   REQUEST DETAILS
 ========================================== */
 
-function clearForm(){
+function showRequestDetails(
+    request
+){
 
-    if(requestType){
+    if(!requestModal){
 
-        requestType.value = "";
-
-    }
-
-    if(requestDate){
-
-        requestDate.value = "";
+        return;
 
     }
 
-    if(days){
 
-        days.value = "";
+    const status =
+        String(
+            request.status ||
+            "PENDING"
+        )
+        .toUpperCase();
+
+
+    requestDetails.innerHTML = `
+
+        <div class="detail-row">
+
+            <div class="detail-label">
+
+                Employee ID
+
+            </div>
+
+            <div class="detail-value">
+
+                ${escapeHtml(
+                    request.empid ||
+                    "-"
+                )}
+
+            </div>
+
+        </div>
+
+
+        <div class="detail-row">
+
+            <div class="detail-label">
+
+                Employee
+
+            </div>
+
+            <div class="detail-value">
+
+                ${escapeHtml(
+                    request.employee ||
+                    "-"
+                )}
+
+            </div>
+
+        </div>
+
+
+        <div class="detail-row">
+
+            <div class="detail-label">
+
+                Request
+
+            </div>
+
+            <div class="detail-value">
+
+                ${escapeHtml(
+                    request.type ||
+                    "-"
+                )}
+
+            </div>
+
+        </div>
+
+
+        <div class="detail-row">
+
+            <div class="detail-label">
+
+                Date
+
+            </div>
+
+            <div class="detail-value">
+
+                ${escapeHtml(
+                    request.date ||
+                    "-"
+                )}
+
+            </div>
+
+        </div>
+
+
+        <div class="detail-row">
+
+            <div class="detail-label">
+
+                Days
+
+            </div>
+
+            <div class="detail-value">
+
+                ${escapeHtml(
+                    request.days ||
+                    "-"
+                )}
+
+            </div>
+
+        </div>
+
+
+        <div class="detail-row">
+
+            <div class="detail-label">
+
+                Reason
+
+            </div>
+
+            <div class="detail-value">
+
+                ${escapeHtml(
+                    request.reason ||
+                    "-"
+                )}
+
+            </div>
+
+        </div>
+
+
+        <div class="detail-row">
+
+            <div class="detail-label">
+
+                Status
+
+            </div>
+
+            <div class="detail-value">
+
+                <span
+                class="status ${status.toLowerCase()}">
+
+                    ${escapeHtml(
+                        status
+                    )}
+
+                </span>
+
+            </div>
+
+        </div>
+
+    `;
+
+
+    requestModal.classList.add(
+        "show"
+    );
+
+}
+
+
+/* ==========================================
+   CLOSE REQUEST MODAL
+========================================== */
+
+if(closeRequestModal){
+
+    closeRequestModal.addEventListener(
+        "click",
+        function(){
+
+            requestModal.classList.remove(
+                "show"
+            );
+
+        }
+    );
+
+}
+
+
+if(requestModal){
+
+    requestModal.addEventListener(
+        "click",
+        function(event){
+
+            if(
+                event.target ===
+                requestModal
+            ){
+
+                requestModal.classList.remove(
+                    "show"
+                );
+
+            }
+
+        }
+    );
+
+}
+
+
+/* ==========================================
+   ATTENDANCE REQUESTS
+========================================== */
+
+async function loadAttendanceRequests(){
+
+    if(!attendanceBody){
+
+        return;
 
     }
 
-    if(reason){
 
-        reason.value = "";
+    attendanceBody.innerHTML = `
+
+        <tr>
+
+            <td
+            colspan="6"
+            class="empty-state">
+
+                <span class="material-icons">
+
+                    sync
+
+                </span>
+
+                Loading attendance...
+
+            </td>
+
+        </tr>
+
+    `;
+
+
+    try{
+
+        const snapshot =
+            await getDocs(
+                collection(
+                    db,
+                    "attendanceRequests"
+                )
+            );
+
+
+        const records = [];
+
+
+        snapshot.forEach(
+            docSnap => {
+
+                const req =
+                    docSnap.data();
+
+
+                const employeeId =
+                    String(
+                        req.employeeid ||
+                        ""
+                    )
+                    .toUpperCase()
+                    .trim();
+
+
+                const myId =
+                    String(
+                        currentEmployee.id ||
+                        ""
+                    )
+                    .toUpperCase()
+                    .trim();
+
+
+                if(
+                    employeeId ===
+                    myId
+                ){
+
+                    records.push({
+
+                        id:
+                            docSnap.id,
+
+                        ...req
+
+                    });
+
+                }
+
+            }
+        );
+
+
+        renderAttendanceRequests(
+            records
+        );
+
+
+    }catch(error){
+
+        console.error(
+            "Attendance Request Error:",
+            error
+        );
+
+
+        attendanceBody.innerHTML = `
+
+            <tr>
+
+                <td
+                colspan="6"
+                class="empty-state">
+
+                    Failed to load attendance requests.
+
+                </td>
+
+            </tr>
+
+        `;
 
     }
 
@@ -1116,17 +1544,178 @@ function clearForm(){
 
 
 /* ==========================================
-   LOAD PAYSLIP
+   RENDER ATTENDANCE
 ========================================== */
 
-window.loadPayslip =
-async function(){
+function renderAttendanceRequests(
+    records
+){
 
-    if(!currentEmployee){
+    attendanceBody.innerHTML = "";
 
-        alert(
-            "Employee information not loaded."
-        );
+
+    if(records.length === 0){
+
+        attendanceBody.innerHTML = `
+
+            <tr>
+
+                <td
+                colspan="6"
+                class="empty-state">
+
+                    <span class="material-icons">
+
+                        event_busy
+
+                    </span>
+
+                    <p>
+
+                        No attendance requests found.
+
+                    </p>
+
+                </td>
+
+            </tr>
+
+        `;
+
+        return;
+
+    }
+
+
+    records.forEach(
+        req => {
+
+            const status =
+                String(
+                    req.status ||
+                    "PENDING"
+                )
+                .toUpperCase();
+
+
+            const row =
+                document.createElement(
+                    "tr"
+                );
+
+
+            row.innerHTML = `
+
+                <td>
+
+                    ${escapeHtml(
+                        req.date ||
+                        "-"
+                    )}
+
+                </td>
+
+
+                <td>
+
+                    ${escapeHtml(
+                        req.requesttype ||
+                        "-"
+                    )}
+
+                </td>
+
+
+                <td>
+
+                    ${escapeHtml(
+                        req.time ||
+                        "-"
+                    )}
+
+                </td>
+
+
+                <td>
+
+                    ${escapeHtml(
+                        req.reason ||
+                        "-"
+                    )}
+
+                </td>
+
+
+                <td>
+
+                    <span
+                    class="status ${status.toLowerCase()}">
+
+                        ${escapeHtml(
+                            status
+                        )}
+
+                    </span>
+
+                </td>
+
+
+                <td>
+
+                    <button
+                    class="delete-btn"
+                    data-id="${req.id}">
+
+                        DELETE
+
+                    </button>
+
+                </td>
+
+            `;
+
+
+            const deleteBtn =
+                row.querySelector(
+                    ".delete-btn"
+                );
+
+
+            deleteBtn.addEventListener(
+                "click",
+                function(){
+
+                    deleteAttendanceRequest(
+                        req.id
+                    );
+
+                }
+            );
+
+
+            attendanceBody.appendChild(
+                row
+            );
+
+        }
+    );
+
+}
+
+
+/* ==========================================
+   DELETE ATTENDANCE REQUEST
+========================================== */
+
+async function deleteAttendanceRequest(
+    id
+){
+
+    if(
+        !confirm(
+            "Delete Attendance Request?"
+        )
+    ){
 
         return;
 
@@ -1135,173 +1724,128 @@ async function(){
 
     try{
 
-        const querySnapshot =
-            await getDocs(
+        await deleteDoc(
 
+            doc(
+                db,
+                "attendanceRequests",
+                id
+            )
+
+        );
+
+
+        alert(
+            "Attendance Request Deleted"
+        );
+
+
+        await loadAttendanceRequests();
+
+
+    }catch(error){
+
+        console.error(
+            error
+        );
+
+        alert(
+            "Delete Error"
+        );
+
+    }
+
+}
+
+
+/* ==========================================
+   PAYSLIP
+   Existing payroll collection
+========================================== */
+
+async function loadPayslips(){
+
+    if(!payslipBody){
+
+        return;
+
+    }
+
+
+    payslipBody.innerHTML = `
+
+        <tr>
+
+            <td
+            colspan="6"
+            class="empty-state">
+
+                <span class="material-icons">
+
+                    sync
+
+                </span>
+
+                Loading payslips...
+
+            </td>
+
+        </tr>
+
+    `;
+
+
+    try{
+
+        const snapshot =
+            await getDocs(
                 collection(
                     db,
                     "payroll"
                 )
-
             );
 
 
-        let found = false;
+        const records = [];
 
 
-        querySnapshot.forEach(
-            docSnap=>{
+        snapshot.forEach(
+            docSnap => {
 
                 const pay =
                     docSnap.data();
 
 
+                const payId =
+                    String(
+                        pay.empid ||
+                        ""
+                    )
+                    .toUpperCase()
+                    .trim();
+
+
+                const myId =
+                    String(
+                        currentEmployee.id ||
+                        ""
+                    )
+                    .toUpperCase()
+                    .trim();
+
+
                 if(
-
-                    (pay.empid || "")
-                        .toString()
-                        .toUpperCase()
-                        .trim()
-
-                    ===
-
-                    (currentEmployee.id || "")
-                        .toString()
-                        .toUpperCase()
-                        .trim()
-
+                    payId === myId
                 ){
 
-                    found = true;
+                    records.push({
 
+                        id:
+                            docSnap.id,
 
-                    if(payslipArea){
+                        ...pay
 
-                        payslipArea.style.display =
-                            "block";
-
-
-                        setTimeout(()=>{
-
-                            payslipArea.scrollIntoView({
-
-                                behavior:"smooth",
-
-                                block:"center"
-
-                            });
-
-                        },300);
-
-                    }
-
-
-                    payEmpId.innerText =
-                        pay.empid || "";
-
-
-                    payEmp.innerText =
-                        pay.employee || "";
-
-
-                    payDate.innerText =
-                        pay.date || "";
-
-
-                    payDailyRate.innerText =
-                        Number(
-                            pay.dailyrate || 0
-                        ).toFixed(2);
-
-
-                    payTotalDays.innerText =
-                        Number(
-                            pay.totaldays || 0
-                        );
-
-
-                    payOvertime.innerText =
-                        Number(
-                            pay.overtime || 0
-                        ).toFixed(2);
-
-
-                    payHoliday.innerText =
-                        Number(
-                            pay.holidaypay || 0
-                        ).toFixed(2);
-
-
-                    paySick.innerText =
-                        Number(
-                            pay.sickleave || 0
-                        ).toFixed(2);
-
-
-                    payVacation.innerText =
-                        Number(
-                            pay.vacationleave || 0
-                        ).toFixed(2);
-
-
-                    payBirthday.innerText =
-                        Number(
-                            pay.birthdayleave || 0
-                        ).toFixed(2);
-
-
-                    payAllowance.innerText =
-                        Number(
-                            pay.allowance || 0
-                        ).toFixed(2);
-
-
-                    payGross.innerText =
-                        Number(
-                            pay.gross || 0
-                        ).toFixed(2);
-
-
-                    paySSS.innerText =
-                        Number(
-                            pay.sss || 0
-                        ).toFixed(2);
-
-
-                    payPhilhealth.innerText =
-                        Number(
-                            pay.philhealth || 0
-                        ).toFixed(2);
-
-
-                    payPagibig.innerText =
-                        Number(
-                            pay.pagibig || 0
-                        ).toFixed(2);
-
-
-                    payHealth.innerText =
-                        Number(
-                            pay.health || 0
-                        ).toFixed(2);
-
-
-                    payOther.innerText =
-                        Number(
-                            pay.other || 0
-                        ).toFixed(2);
-
-
-                    payDeduction.innerText =
-                        Number(
-                            pay.deductions || 0
-                        ).toFixed(2);
-
-
-                    payNet.innerText =
-                        Number(
-                            pay.net || 0
-                        ).toFixed(2);
+                    });
 
                 }
 
@@ -1309,373 +1853,445 @@ async function(){
         );
 
 
-        if(!found){
+        renderPayslips(
+            records
+        );
 
-            alert(
-                "No Payslip Found"
-            );
-
-        }
 
     }catch(error){
 
-        console.error(error);
-
-        alert(
-            "Failed To Load Payslip"
+        console.error(
+            "Payslip Error:",
+            error
         );
+
+
+        payslipBody.innerHTML = `
+
+            <tr>
+
+                <td
+                colspan="6"
+                class="empty-state">
+
+                    Failed to load payslips.
+
+                </td>
+
+            </tr>
+
+        `;
 
     }
 
-};
+}
 
 
 /* ==========================================
-   CLOSE PAYSLIP
+   RENDER PAYSLIPS
 ========================================== */
 
-window.closePayslip =
-function(){
+function renderPayslips(
+    records
+){
 
-    if(payslipArea){
-
-        payslipArea.style.display =
-            "none";
-
-    }
-
-};
+    payslipBody.innerHTML = "";
 
 
-/* ==========================================
-   PRINT PAYSLIP
-========================================== */
+    if(records.length === 0){
 
-window.printPayslip =
-function(){
+        payslipBody.innerHTML = `
 
-    const payslip =
-        document.getElementById(
-            "payslipArea"
-        );
+            <tr>
 
+                <td
+                colspan="6"
+                class="empty-state">
 
-    if(
-        !payslip
-        ||
-        payslip.style.display === "none"
-        ||
-        payslip.innerHTML.trim() === ""
-    ){
+                    <span class="material-icons">
 
-        alert(
-            "Load Payslip First"
-        );
+                        receipt_long
+
+                    </span>
+
+                    <p>
+
+                        No payslip found.
+
+                    </p>
+
+                </td>
+
+            </tr>
+
+        `;
 
         return;
 
     }
 
 
-    const printWindow =
-        window.open(
-            "",
-            "",
-            "width=900,height=1200"
+    records.forEach(
+        pay => {
+
+            const basic =
+                Number(
+                    pay.basicpay ||
+                    pay.basic ||
+                    0
+                );
+
+
+            const overtime =
+                Number(
+                    pay.overtime ||
+                    0
+                );
+
+
+            const deductions =
+                Number(
+                    pay.deductions ||
+                    0
+                );
+
+
+            const net =
+                Number(
+                    pay.net ||
+                    0
+                );
+
+
+            const row =
+                document.createElement(
+                    "tr"
+                );
+
+
+            row.innerHTML = `
+
+                <td>
+
+                    ${escapeHtml(
+                        pay.date ||
+                        "-"
+                    )}
+
+                </td>
+
+
+                <td>
+
+                    ${formatMoney(
+                        basic
+                    )}
+
+                </td>
+
+
+                <td>
+
+                    ${formatMoney(
+                        overtime
+                    )}
+
+                </td>
+
+
+                <td>
+
+                    ${formatMoney(
+                        deductions
+                    )}
+
+                </td>
+
+
+                <td>
+
+                    ${formatMoney(
+                        net
+                    )}
+
+                </td>
+
+
+                <td>
+
+                    <button
+                    class="view-btn"
+                    data-id="${pay.id}">
+
+                        VIEW
+
+                    </button>
+
+                </td>
+
+            `;
+
+
+            row.querySelector(
+                ".view-btn"
+            )
+            .addEventListener(
+                "click",
+                function(){
+
+                    showPayslip(
+                        pay
+                    );
+
+                }
+            );
+
+
+            payslipBody.appendChild(
+                row
+            );
+
+        }
+    );
+
+}
+
+
+/* ==========================================
+   SHOW PAYSLIP
+========================================== */
+
+function showPayslip(
+    pay
+){
+
+    const basic =
+        Number(
+            pay.basicpay ||
+            0
         );
 
 
-    if(!printWindow){
-
-        alert(
-            "Please allow pop-ups to print the payslip."
+    const overtime =
+        Number(
+            pay.overtime ||
+            0
         );
 
-        return;
+
+    const deductions =
+        Number(
+            pay.deductions ||
+            0
+        );
+
+
+    const net =
+        Number(
+            pay.net ||
+            0
+        );
+
+
+    alert(
+
+        "PAPPRITO PAYSLIP\n\n" +
+
+        "Employee ID: " +
+        (pay.empid || "-") +
+
+        "\nEmployee: " +
+        (pay.employee || "-") +
+
+        "\nDate: " +
+        (pay.date || "-") +
+
+        "\n\nBasic Pay: " +
+        formatMoney(basic) +
+
+        "\nOvertime: " +
+        formatMoney(overtime) +
+
+        "\nDeductions: " +
+        formatMoney(deductions) +
+
+        "\nNet Pay: " +
+        formatMoney(net)
+
+    );
+
+}
+
+
+/* ==========================================
+   TABS
+========================================== */
+
+const portalCards =
+    document.querySelectorAll(
+        ".portal-card"
+    );
+
+
+portalCards.forEach(
+    card => {
+
+        card.addEventListener(
+            "click",
+            function(){
+
+                const section =
+                    card.dataset.section;
+
+
+                portalCards.forEach(
+                    item => {
+
+                        item.classList.remove(
+                            "active"
+                        );
+
+                    }
+                );
+
+
+                card.classList.add(
+                    "active"
+                );
+
+
+                document
+                .querySelectorAll(
+                    ".portal-section"
+                )
+                .forEach(
+                    sectionElement => {
+
+                        sectionElement.classList.add(
+                            "hidden"
+                        );
+
+                    }
+                );
+
+
+                const target =
+                    document.getElementById(
+                        section +
+                        "Section"
+                    );
+
+
+                if(target){
+
+                    target.classList.remove(
+                        "hidden"
+                    );
+
+                }
+
+            }
+        );
+
+    }
+);
+
+
+/* ==========================================
+   CLEAR REQUEST FORM
+========================================== */
+
+function clearRequestForm(){
+
+    if(requestType){
+
+        requestType.value =
+            "";
 
     }
 
 
-    printWindow.document.write(`
+    if(requestDate){
 
-        <html>
+        requestDate.value =
+            "";
 
-        <head>
+    }
 
-        <title>
-            Print Payslip
-        </title>
 
-        <style>
+    if(requestDays){
 
-        body{
+        requestDays.value =
+            "";
 
-            font-family:
-                Tahoma,sans-serif;
+    }
 
-            padding:0;
 
-            margin:0;
+    if(requestReason){
 
-            background:white;
+        requestReason.value =
+            "";
 
-            display:flex;
+    }
 
-            justify-content:center;
+}
 
-            align-items:flex-start;
 
-        }
+/* ==========================================
+   MONEY
+========================================== */
 
+function formatMoney(
+    value
+){
 
-        html,
-        body{
+    return "₱ " +
+        Number(
+            value || 0
+        )
+        .toFixed(2);
 
-            height:auto;
+}
 
-            overflow:hidden;
 
-        }
+/* ==========================================
+   ESCAPE HTML
+========================================== */
 
+function escapeHtml(
+    value
+){
 
-        @page{
+    return String(
+        value ?? ""
+    )
 
-            size:auto;
+    .replace(
+        /&/g,
+        "&amp;"
+    )
 
-            margin:5mm;
+    .replace(
+        /</g,
+        "&lt;"
+    )
 
-        }
+    .replace(
+        />/g,
+        "&gt;"
+    )
 
+    .replace(
+        /"/g,
+        "&quot;"
+    )
 
-        .payroll-logo{
+    .replace(
+        /'/g,
+        "&#039;"
+    );
 
-            width:70px;
-
-            height:70px;
-
-            object-fit:cover;
-
-            border-radius:50%;
-
-            border:3px solid #ffcc00;
-
-            background:white;
-
-            padding:4px;
-
-            margin-bottom:8px;
-
-            display:block;
-
-            margin-left:auto;
-
-            margin-right:auto;
-
-        }
-
-
-        .payslip{
-
-            display:block !important;
-
-            width:110mm;
-
-            height:auto;
-
-            background:#f9f9f9;
-
-            color:black;
-
-            padding:8px;
-
-            border:2px solid #ffcc00;
-
-            border-radius:10px;
-
-            margin:0 auto;
-
-            box-sizing:border-box;
-
-        }
-
-
-        table{
-
-            width:100%;
-
-            border-collapse:collapse;
-
-            margin-top:5px;
-
-        }
-
-
-        th,
-        td{
-
-            border:1px solid #999;
-
-            padding:4px;
-
-            font-size:10px;
-
-        }
-
-
-        th{
-
-            background:#ffcc00;
-
-            color:black;
-
-        }
-
-
-        .netpay{
-
-            margin-top:10px;
-
-            padding:8px;
-
-            background:#008000;
-
-            color:white;
-
-            font-weight:bold;
-
-            text-align:right;
-
-        }
-
-
-        .signature{
-
-            margin-top:15px;
-
-            display:flex;
-
-            justify-content:space-between;
-
-            font-size:8px;
-
-        }
-
-
-        .line{
-
-            margin-top:12px;
-
-            border-top:1px solid black;
-
-            width:75px;
-
-            text-align:center;
-
-            padding-top:3px;
-
-        }
-
-        </style>
-
-        </head>
-
-
-        <body>
-
-
-        <div class="payslip">
-
-
-            <div class="company">
-
-                <img
-                src="../assets/images/logo.png"
-                class="payroll-logo">
-
-
-                <h2>
-                    PAPPRITO
-                </h2>
-
-
-                <p>
-                    OFFICIAL EMPLOYEE PAYSLIP
-                </p>
-
-            </div>
-
-
-            <div class="info">
-
-                <b>ID:</b>
-                ${payEmpId.innerText}
-
-                <br><br>
-
-                <b>Name:</b>
-                ${payEmp.innerText}
-
-                <br><br>
-
-                <b>Date:</b>
-                ${payDate.innerText}
-
-            </div>
-
-
-            ${payslip.querySelectorAll("table")[0].outerHTML}
-
-
-            ${payslip.querySelectorAll("table")[1].outerHTML}
-
-
-            <div class="netpay">
-
-                NET PAY :
-
-                ₱ ${payNet.innerText}
-
-            </div>
-
-
-            <div class="signature">
-
-                <div class="line">
-                    HR
-                </div>
-
-
-                <div class="line">
-                    Employee
-                </div>
-
-            </div>
-
-
-        </div>
-
-
-        </body>
-
-        </html>
-
-    `);
-
-
-    printWindow.document.close();
-
-    printWindow.focus();
-
-
-    setTimeout(()=>{
-
-        printWindow.print();
-
-        printWindow.close();
-
-    },500);
-
-};
+}
 
 
 /* ==========================================
@@ -1685,9 +2301,22 @@ function(){
 window.logout =
 async function(){
 
+    if(
+        !confirm(
+            "Are you sure you want to logout?"
+        )
+    ){
+
+        return;
+
+    }
+
+
     try{
 
-        await signOut(auth);
+        await signOut(
+            auth
+        );
 
     }catch(error){
 
@@ -1717,3 +2346,115 @@ async function(){
     );
 
 };
+
+
+/* ==========================================
+   MOBILE SIDEBAR
+========================================== */
+
+document.addEventListener(
+    "sidebarLoaded",
+    function(){
+
+        const menuBtn =
+            document.getElementById(
+                "menuBtn"
+            );
+
+
+        const sidebar =
+            document.getElementById(
+                "sidebar"
+            );
+
+
+        const overlay =
+            document.getElementById(
+                "overlay"
+            );
+
+
+        if(
+            !menuBtn ||
+            !sidebar
+        ){
+
+            return;
+
+        }
+
+
+        menuBtn.addEventListener(
+            "click",
+            function(){
+
+                sidebar.classList.add(
+                    "show"
+                );
+
+
+                if(overlay){
+
+                    overlay.classList.add(
+                        "show"
+                    );
+
+                }
+
+            }
+        );
+
+
+        if(overlay){
+
+            overlay.addEventListener(
+                "click",
+                function(){
+
+                    sidebar.classList.remove(
+                        "show"
+                    );
+
+
+                    overlay.classList.remove(
+                        "show"
+                    );
+
+                }
+            );
+
+        }
+
+    }
+);
+
+
+/* ==========================================
+   ESCAPE KEY
+========================================== */
+
+document.addEventListener(
+    "keydown",
+    function(event){
+
+        if(
+            event.key === "Escape"
+        ){
+
+            if(requestModal){
+
+                requestModal.classList.remove(
+                    "show"
+                );
+
+            }
+
+        }
+
+    }
+);
+
+
+console.log(
+    "PAPPRITO HRIS Employee Portal Ready"
+);
