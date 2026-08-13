@@ -743,3 +743,349 @@ document.addEventListener(
 console.log(
     "PAPPRITO HRIS Settings Ready"
 );
+/* ==========================================
+   COMPANY SETTINGS ELEMENTS
+========================================== */
+
+const legalName =
+    document.getElementById(
+        "legalName"
+    );
+
+const tradeName =
+    document.getElementById(
+        "tradeName"
+    );
+
+const registrationNumber =
+    document.getElementById(
+        "registrationNumber"
+    );
+
+const taxNumber =
+    document.getElementById(
+        "taxNumber"
+    );
+
+const branch =
+    document.getElementById(
+        "branch"
+    );
+
+const hrContactPerson =
+    document.getElementById(
+        "hrContactPerson"
+    );
+
+const hrContactNumber =
+    document.getElementById(
+        "hrContactNumber"
+    );
+
+const hrEmail =
+    document.getElementById(
+        "hrEmail"
+    );
+
+const payrollContact =
+    document.getElementById(
+        "payrollContact"
+    );
+
+const authorizedSignatory =
+    document.getElementById(
+        "authorizedSignatory"
+    );
+
+const signatoryPosition =
+    document.getElementById(
+        "signatoryPosition"
+    );
+
+const saveCompanyBtn =
+    document.getElementById(
+        "saveCompanyBtn"
+    );
+
+
+/* ==========================================
+   LOAD COMPANY SETTINGS
+========================================== */
+
+async function loadCompanySettings(){
+
+    try{
+
+        const companyRef =
+            doc(
+                db,
+                "systemSettings",
+                "company"
+            );
+
+
+        const snapshot =
+            await getDoc(
+                companyRef
+            );
+
+
+        if(!snapshot.exists()){
+
+            return;
+
+        }
+
+
+        const data =
+            snapshot.data();
+
+
+        if(legalName){
+
+            legalName.value =
+                data.legalName || "";
+
+        }
+
+
+        if(tradeName){
+
+            tradeName.value =
+                data.tradeName || "";
+
+        }
+
+
+        if(registrationNumber){
+
+            registrationNumber.value =
+                data.registrationNumber || "";
+
+        }
+
+
+        if(taxNumber){
+
+            taxNumber.value =
+                data.taxNumber || "";
+
+        }
+
+
+        if(branch){
+
+            branch.value =
+                data.branch || "";
+
+        }
+
+
+        if(hrContactPerson){
+
+            hrContactPerson.value =
+                data.hrContactPerson || "";
+
+        }
+
+
+        if(hrContactNumber){
+
+            hrContactNumber.value =
+                data.hrContactNumber || "";
+
+        }
+
+
+        if(hrEmail){
+
+            hrEmail.value =
+                data.hrEmail || "";
+
+        }
+
+
+        if(payrollContact){
+
+            payrollContact.value =
+                data.payrollContact || "";
+
+        }
+
+
+        if(authorizedSignatory){
+
+            authorizedSignatory.value =
+                data.authorizedSignatory || "";
+
+        }
+
+
+        if(signatoryPosition){
+
+            signatoryPosition.value =
+                data.signatoryPosition || "";
+
+        }
+
+
+    }catch(error){
+
+        console.error(
+            "Load Company Settings Error:",
+            error
+        );
+
+    }
+
+}
+
+
+/* ==========================================
+   SAVE COMPANY SETTINGS
+========================================== */
+
+if(saveCompanyBtn){
+
+    saveCompanyBtn.addEventListener(
+        "click",
+        saveCompanySettings
+    );
+
+}
+
+
+async function saveCompanySettings(){
+
+    if(!auth.currentUser){
+
+        alert(
+            "You are not logged in."
+        );
+
+        return;
+
+    }
+
+
+    saveCompanyBtn.disabled =
+        true;
+
+
+    saveCompanyBtn.innerHTML = `
+
+        <span class="material-icons">
+            sync
+        </span>
+
+        SAVING...
+
+    `;
+
+
+    try{
+
+        const companyData = {
+
+            legalName:
+                legalName.value.trim(),
+
+            tradeName:
+                tradeName.value.trim(),
+
+            registrationNumber:
+                registrationNumber.value.trim(),
+
+            taxNumber:
+                taxNumber.value.trim(),
+
+            branch:
+                branch.value.trim(),
+
+            hrContactPerson:
+                hrContactPerson.value.trim(),
+
+            hrContactNumber:
+                hrContactNumber.value.trim(),
+
+            hrEmail:
+                hrEmail.value.trim(),
+
+            payrollContact:
+                payrollContact.value.trim(),
+
+            authorizedSignatory:
+                authorizedSignatory.value.trim(),
+
+            signatoryPosition:
+                signatoryPosition.value.trim()
+
+        };
+
+
+        await setDoc(
+
+            doc(
+                db,
+                "systemSettings",
+                "company"
+            ),
+
+            companyData,
+
+            {
+                merge:true
+            }
+
+        );
+
+
+        alert(
+            "Company Settings Saved Successfully."
+        );
+
+
+    }catch(error){
+
+        console.error(
+            "Save Company Settings Error:",
+            error
+        );
+
+
+        alert(
+            "Unable to save company settings.\n\n" +
+            error.message
+        );
+
+
+    }finally{
+
+        saveCompanyBtn.disabled =
+            false;
+
+
+        saveCompanyBtn.innerHTML = `
+
+            <span class="material-icons">
+                save
+            </span>
+
+            SAVE COMPANY SETTINGS
+
+        `;
+
+    }
+
+}
+
+
+/* ==========================================
+   LOAD COMPANY SETTINGS AFTER LOGIN
+========================================== */
+
+if(auth.currentUser){
+
+    loadCompanySettings();
+
+}
