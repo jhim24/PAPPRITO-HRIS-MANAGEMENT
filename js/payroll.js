@@ -1,33 +1,44 @@
 /* ==========================================
    PAPPRITO HRIS
    PAYROLL MANAGEMENT
-   FULL JAVASCRIPT
 ========================================== */
 
 
 /* ==========================================
-   FIREBASE
+   FIREBASE IMPORT
 ========================================== */
 
 import {
 
     initializeApp
 
-} from
+}
+
+from
 "https://www.gstatic.com/firebasejs/12.2.1/firebase-app.js";
 
 
 import {
 
     getFirestore,
+
     collection,
+
     getDocs,
+
     addDoc,
+
+    updateDoc,
+
     deleteDoc,
+
     doc
 
-} from
+}
+
+from
 "https://www.gstatic.com/firebasejs/12.2.1/firebase-firestore.js";
+
 
 
 /* ==========================================
@@ -37,40 +48,37 @@ import {
 const firebaseConfig = {
 
     apiKey:
-        "AIzaSyAehoq0teVYHiJ4bkKOgBqIgJZrQpce3k8",
+    "AIzaSyAehoq0teVYHiJ4bkKOgBqIgJZrQpce3k8",
 
     authDomain:
-        "hr-system-38fc3.firebaseapp.com",
+    "hr-system-38fc3.firebaseapp.com",
 
     projectId:
-        "hr-system-38fc3",
+    "hr-system-38fc3",
 
     storageBucket:
-        "hr-system-38fc3.firebasestorage.app",
+    "hr-system-38fc3.firebasestorage.app",
 
     messagingSenderId:
-        "615471610834",
+    "615471610834",
 
     appId:
-        "1:615471610834:web:a0d671d4e3f4c1b57b660b"
+    "1:615471610834:web:a0d671d4e3f4c1b57b660b"
 
 };
 
 
-/* ==========================================
-   INITIALIZE FIREBASE
-========================================== */
-
 const app =
-    initializeApp(
-        firebaseConfig
-    );
+initializeApp(
+    firebaseConfig
+);
 
 
 const db =
-    getFirestore(
-        app
-    );
+getFirestore(
+    app
+);
+
 
 
 /* ==========================================
@@ -78,154 +86,174 @@ const db =
 ========================================== */
 
 const employeeSelect =
-    document.getElementById(
-        "employeeSelect"
-    );
+document.getElementById(
+    "employeeSelect"
+);
 
 
 const totaldays =
-    document.getElementById(
-        "totaldays"
-    );
+document.getElementById(
+    "totaldays"
+);
 
 
 const dailyrate =
-    document.getElementById(
-        "dailyrate"
-    );
+document.getElementById(
+    "dailyrate"
+);
 
 
 const overtime =
-    document.getElementById(
-        "overtime"
-    );
+document.getElementById(
+    "overtime"
+);
 
 
 const holiday =
-    document.getElementById(
-        "holiday"
-    );
+document.getElementById(
+    "holiday"
+);
 
 
 const sickleave =
-    document.getElementById(
-        "sickleave"
-    );
+document.getElementById(
+    "sickleave"
+);
 
 
 const vacationleave =
-    document.getElementById(
-        "vacationleave"
-    );
+document.getElementById(
+    "vacationleave"
+);
 
 
 const birthdayleave =
-    document.getElementById(
-        "birthdayleave"
-    );
+document.getElementById(
+    "birthdayleave"
+);
 
 
 const maternityleave =
-    document.getElementById(
-        "maternityleave"
-    );
+document.getElementById(
+    "maternityleave"
+);
 
 
 const paternityleave =
-    document.getElementById(
-        "paternityleave"
-    );
+document.getElementById(
+    "paternityleave"
+);
 
 
 const allowance =
-    document.getElementById(
-        "allowance"
-    );
+document.getElementById(
+    "allowance"
+);
 
 
 const sss =
-    document.getElementById(
-        "sss"
-    );
+document.getElementById(
+    "sss"
+);
 
 
 const philhealth =
-    document.getElementById(
-        "philhealth"
-    );
+document.getElementById(
+    "philhealth"
+);
 
 
 const pagibig =
-    document.getElementById(
-        "pagibig"
-    );
+document.getElementById(
+    "pagibig"
+);
 
 
 const healthcard =
-    document.getElementById(
-        "healthcard"
-    );
+document.getElementById(
+    "healthcard"
+);
 
 
 const otherdeduction =
-    document.getElementById(
-        "otherdeduction"
-    );
+document.getElementById(
+    "otherdeduction"
+);
 
 
 const deductionreason =
-    document.getElementById(
-        "deductionreason"
-    );
+document.getElementById(
+    "deductionreason"
+);
 
 
 const payrollBody =
-    document.getElementById(
-        "payrollBody"
-    );
+document.getElementById(
+    "payrollBody"
+);
 
 
 const totalNet =
-    document.getElementById(
-        "totalNet"
-    );
+document.getElementById(
+    "totalNet"
+);
+
+
+const filterDate =
+document.getElementById(
+    "filterDate"
+);
+
+
+const editingLabel =
+document.getElementById(
+    "editingLabel"
+);
+
+
+const cancelEditBtn =
+document.getElementById(
+    "cancelEditBtn"
+);
+
+
+
+/* ==========================================
+   EDIT STATE
+========================================== */
+
+let editId = null;
+
+
+
+/* ==========================================
+   EMPLOYEES CACHE
+========================================== */
+
+let employees = [];
+
 
 
 /* ==========================================
    NUMBER HELPER
 ========================================== */
 
-function numberValue(
-    element
+function num(
+    value
 ){
 
-    if(!element){
-
-        return 0;
-
-    }
-
-
-    const value =
-        Number(
-            element.value
-        );
+    const n =
+    Number(
+        value || 0
+    );
 
 
-    if(
-        !Number.isFinite(
-            value
-        )
-    ){
-
-        return 0;
-
-    }
-
-
-    return value;
+    return Number.isFinite(n)
+        ? n
+        : 0;
 
 }
+
 
 
 /* ==========================================
@@ -236,25 +264,27 @@ function money(
     value
 ){
 
-    const amount =
-        Number(
-            value || 0
-        );
-
-
-    return amount.toLocaleString(
+    return num(
+        value
+    ).toLocaleString(
         "en-PH",
         {
-            minimumFractionDigits:2,
-            maximumFractionDigits:2
+
+            minimumFractionDigits:
+            2,
+
+            maximumFractionDigits:
+            2
+
         }
     );
 
 }
 
 
+
 /* ==========================================
-   ESCAPE HTML
+   HTML ESCAPE
 ========================================== */
 
 function escapeHTML(
@@ -264,22 +294,27 @@ function escapeHTML(
     return String(
         value ?? ""
     )
+
     .replace(
         /&/g,
         "&amp;"
     )
+
     .replace(
         /</g,
         "&lt;"
     )
+
     .replace(
         />/g,
         "&gt;"
     )
+
     .replace(
         /"/g,
         "&quot;"
     )
+
     .replace(
         /'/g,
         "&#039;"
@@ -288,154 +323,101 @@ function escapeHTML(
 }
 
 
+
 /* ==========================================
    LOAD EMPLOYEES
 ========================================== */
 
 async function loadEmployees(){
 
-    if(!employeeSelect){
-
-        return;
-
-    }
-
-
-    employeeSelect.innerHTML = `
-
-        <option value="">
-            Select Employee
-        </option>
-
-    `;
-
-
     try{
 
+
+        employees = [];
+
+
+        employeeSelect.innerHTML = `
+
+            <option value="">
+
+                Select Employee
+
+            </option>
+
+        `;
+
+
         const snapshot =
-            await getDocs(
-                collection(
-                    db,
-                    "employees"
-                )
-            );
+        await getDocs(
+            collection(
+                db,
+                "employees"
+            )
+        );
 
 
         snapshot.forEach(
-            employeeDoc => {
-
-                const employee =
-                    employeeDoc.data();
+            docSnap => {
 
 
-                /* ==========================
-                   EMPLOYEE ID
-                ========================== */
+                const emp = {
+
+                    id:
+                    docSnap.id,
+
+                    ...docSnap.data()
+
+                };
+
+
+                employees.push(
+                    emp
+                );
+
+
+                const fullname = [
+
+                    emp.firstname,
+
+                    emp.middlename,
+
+                    emp.lastname
+
+                ]
+
+                .filter(
+                    Boolean
+                )
+
+                .join(" ")
+
+                .replace(
+                    /\s+/g,
+                    " "
+                )
+
+                .trim();
+
 
                 const employeeId =
-                    employee.employeeid ||
-                    employee.employeeId ||
-                    employee.empid ||
-                    employee.id ||
-                    employeeDoc.id;
+                emp.employeeid ||
+                "";
 
 
-                /* ==========================
-                   NAME
-                ========================== */
+                employeeSelect.innerHTML += `
 
-                let fullName =
-                    employee.fullname ||
-                    employee.fullName ||
-                    employee.name ||
-                    "";
+                    <option
+                        value="${escapeHTML(fullname)}"
+                        data-id="${escapeHTML(employeeId)}">
 
+                        ${escapeHTML(employeeId)}
+                        -
+                        ${escapeHTML(fullname)}
 
-                if(!fullName){
+                    </option>
 
-                    fullName = [
+                `;
 
-                        employee.firstname ||
-                        employee.firstName ||
-                        "",
-
-                        employee.middlename ||
-                        employee.middleName ||
-                        "",
-
-                        employee.lastname ||
-                        employee.lastName ||
-                        ""
-
-                    ]
-                    .filter(Boolean)
-                    .join(" ");
-
-                }
-
-
-                fullName =
-                    fullName
-                    .replace(
-                        /\s+/g,
-                        " "
-                    )
-                    .trim();
-
-
-                if(!fullName){
-
-                    fullName =
-                        "Unnamed Employee";
-
-                }
-
-
-                /* ==========================
-                   RATE
-                ========================== */
-
-                const rate =
-                    employee.dailyrate ??
-                    employee.dailyRate ??
-                    employee.rate ??
-                    employee.salary ??
-                    employee.basicSalary ??
-                    "";
-
-
-                const option =
-                    document.createElement(
-                        "option"
-                    );
-
-
-                option.value =
-                    employeeDoc.id;
-
-
-                option.dataset.employeeId =
-                    employeeId;
-
-
-                option.dataset.name =
-                    fullName;
-
-
-                option.dataset.rate =
-                    rate;
-
-
-                option.textContent =
-
-                    employeeId +
-                    " - " +
-                    fullName;
-
-
-                employeeSelect.appendChild(
-                    option
-                );
 
             }
         );
@@ -450,8 +432,7 @@ async function loadEmployees(){
 
 
         alert(
-            "Unable to load employees.\n\n" +
-            error.message
+            "Unable to load employees."
         );
 
     }
@@ -459,137 +440,270 @@ async function loadEmployees(){
 }
 
 
+
 /* ==========================================
-   EMPLOYEE SELECT
+   EMPLOYEE CHANGE
 ========================================== */
 
-if(employeeSelect){
+employeeSelect.addEventListener(
+    "change",
+    function(){
 
-    employeeSelect.addEventListener(
-        "change",
-        function(){
+        /*
+         * Automatically load employee
+         * default salary if available.
+         */
 
-            const selected =
-                employeeSelect.options[
-                    employeeSelect.selectedIndex
-                ];
+        const selected =
+        employeeSelect.options[
+            employeeSelect.selectedIndex
+        ];
 
 
-            if(!selected){
+        if(
+            !selected ||
+            !selected.value
+        ){
 
-                return;
+            return;
 
-            }
+        }
 
+
+        const employeeId =
+        selected.dataset.id;
+
+
+        const employee =
+        employees.find(
+            emp =>
+            String(
+                emp.employeeid || ""
+            ).trim()
+            ===
+            String(
+                employeeId || ""
+            ).trim()
+        );
+
+
+        if(
+            employee &&
+            employee.salary !== undefined &&
+            employee.salary !== ""
+        ){
 
             /*
-             * Auto-fill daily rate only if
-             * employee record contains a rate.
-             *
-             * Existing manually entered rate
-             * will otherwise remain untouched.
+             * Only suggest salary.
+             * Do not overwrite if user
+             * already entered a rate.
              */
 
-            const employeeRate =
-                selected.dataset.rate;
-
-
             if(
-                employeeRate !== undefined &&
-                employeeRate !== ""
+                dailyrate.value === ""
             ){
 
                 dailyrate.value =
-                    employeeRate;
+                num(
+                    employee.salary
+                );
 
             }
 
         }
-    );
 
-}
+    }
+);
+
 
 
 /* ==========================================
-   CALCULATE PAYROLL
+   SAVE PAYROLL
 ========================================== */
 
-function calculatePayroll(){
+window.savePayroll =
+async function(){
 
-    const days =
-        numberValue(
-            totaldays
+    try{
+
+
+        /* ==================================
+           VALIDATE EMPLOYEE
+        ================================== */
+
+        if(
+            !employeeSelect.value
+        ){
+
+            alert(
+                "Please select an employee."
+            );
+
+            return;
+
+        }
+
+
+        const selected =
+        employeeSelect.options[
+            employeeSelect.selectedIndex
+        ];
+
+
+        const empid =
+        selected.dataset.id || "";
+
+
+        const employee =
+        employeeSelect.value;
+
+
+        if(
+            !empid
+        ){
+
+            alert(
+                "Employee ID was not found."
+            );
+
+            return;
+
+        }
+
+
+
+        /* ==================================
+           READ INPUTS
+        ================================== */
+
+        const totalDays =
+        num(
+            totaldays.value
         );
 
 
-    const dailyRate =
-        numberValue(
-            dailyrate
+        const dailyRate =
+        num(
+            dailyrate.value
         );
 
 
-    const overtimePay =
-        numberValue(
-            overtime
+        const overtimePay =
+        num(
+            overtime.value
         );
 
 
-    const holidayPay =
-        numberValue(
-            holiday
+        const holidayPay =
+        num(
+            holiday.value
         );
 
 
-    const sickLeave =
-        numberValue(
-            sickleave
+        const sickLeave =
+        num(
+            sickleave.value
         );
 
 
-    const vacationLeave =
-        numberValue(
-            vacationleave
+        const vacationLeave =
+        num(
+            vacationleave.value
         );
 
 
-    const birthdayLeave =
-        numberValue(
-            birthdayleave
+        const birthdayLeave =
+        num(
+            birthdayleave.value
         );
 
 
-    const maternityLeave =
-        numberValue(
-            maternityleave
+        const maternityLeave =
+        num(
+            maternityleave.value
         );
 
 
-    const paternityLeave =
-        numberValue(
-            paternityleave
+        const paternityLeave =
+        num(
+            paternityleave.value
         );
 
 
-    const allowancePay =
-        numberValue(
-            allowance
+        const allowancePay =
+        num(
+            allowance.value
         );
 
 
-    /* ======================================
-       BASIC PAY
-    ====================================== */
+        const sssDed =
+        num(
+            sss.value
+        );
 
-    const basicPay =
-        days *
+
+        const philhealthDed =
+        num(
+            philhealth.value
+        );
+
+
+        const pagibigDed =
+        num(
+            pagibig.value
+        );
+
+
+        const healthCardDed =
+        num(
+            healthcard.value
+        );
+
+
+        const otherDed =
+        num(
+            otherdeduction.value
+        );
+
+
+        const deductionReason =
+        deductionreason.value.trim();
+
+
+
+        /* ==================================
+           BASIC PAY
+        ================================== */
+
+        const basicPay =
+        totalDays *
         dailyRate;
 
 
-    /* ======================================
-       GROSS PAY
-    ====================================== */
 
-    const gross =
+        /* ==================================
+           TOTAL DEDUCTION
+        ================================== */
+
+        const deductions =
+
+        sssDed +
+
+        philhealthDed +
+
+        pagibigDed +
+
+        healthCardDed +
+
+        otherDed;
+
+
+
+        /* ==================================
+           GROSS PAY
+        ================================== */
+
+        const gross =
 
         basicPay +
 
@@ -610,314 +724,42 @@ function calculatePayroll(){
         allowancePay;
 
 
-    /* ======================================
-       DEDUCTIONS
-    ====================================== */
 
-    const sssDed =
-        numberValue(
-            sss
-        );
+        /* ==================================
+           NET PAY
+        ================================== */
 
-
-    const philhealthDed =
-        numberValue(
-            philhealth
-        );
-
-
-    const pagibigDed =
-        numberValue(
-            pagibig
-        );
-
-
-    const healthCardDed =
-        numberValue(
-            healthcard
-        );
-
-
-    const otherDed =
-        numberValue(
-            otherdeduction
-        );
-
-
-    const deductions =
-
-        sssDed +
-
-        philhealthDed +
-
-        pagibigDed +
-
-        healthCardDed +
-
-        otherDed;
-
-
-    /* ======================================
-       NET PAY
-    ====================================== */
-
-    const net =
+        const net =
         gross -
         deductions;
 
 
-    return {
 
-        days,
+        /* ==================================
+           PREVENT NEGATIVE NET
+        ================================== */
 
-        dailyRate,
+        if(
+            net < 0
+        ){
 
-        basicPay,
-
-        overtimePay,
-
-        holidayPay,
-
-        sickLeave,
-
-        vacationLeave,
-
-        birthdayLeave,
-
-        maternityLeave,
-
-        paternityLeave,
-
-        allowancePay,
-
-        sssDed,
-
-        philhealthDed,
-
-        pagibigDed,
-
-        healthCardDed,
-
-        otherDed,
-
-        deductions,
-
-        gross,
-
-        net
-
-    };
-
-}
-
-
-/* ==========================================
-   DISPLAY TOTAL NET
-========================================== */
-
-function updateTotalPreview(){
-
-    const payroll =
-        calculatePayroll();
-
-
-    if(totalNet){
-
-        totalNet.textContent =
-            money(
-                payroll.net
-            );
-
-    }
-
-}
-
-
-/* ==========================================
-   AUTO UPDATE TOTAL
-========================================== */
-
-const calculationInputs = [
-
-    totaldays,
-    dailyrate,
-    overtime,
-    holiday,
-    sickleave,
-    vacationleave,
-    birthdayleave,
-    maternityleave,
-    paternityleave,
-    allowance,
-    sss,
-    philhealth,
-    pagibig,
-    healthcard,
-    otherdeduction
-
-];
-
-
-calculationInputs.forEach(
-    input => {
-
-        if(!input){
-
-            return;
-
-        }
-
-
-        input.addEventListener(
-            "input",
-            updateTotalPreview
-        );
-
-    }
-);
-
-
-/* ==========================================
-   SAVE PAYROLL
-========================================== */
-
-window.savePayroll =
-async function(){
-
-    /* ======================================
-       EMPLOYEE CHECK
-    ====================================== */
-
-    if(
-        !employeeSelect ||
-        employeeSelect.value === ""
-    ){
-
-        alert(
-            "Please select an employee."
-        );
-
-        return;
-
-    }
-
-
-    const selected =
-        employeeSelect.options[
-            employeeSelect.selectedIndex
-        ];
-
-
-    if(!selected){
-
-        alert(
-            "Please select an employee."
-        );
-
-        return;
-
-    }
-
-
-    /* ======================================
-       CALCULATE
-    ====================================== */
-
-    const payroll =
-        calculatePayroll();
-
-
-    /* ======================================
-       VALIDATION
-    ====================================== */
-
-    if(
-        payroll.days < 0
-    ){
-
-        alert(
-            "Total Days cannot be negative."
-        );
-
-        totaldays.focus();
-
-        return;
-
-    }
-
-
-    if(
-        payroll.dailyRate < 0
-    ){
-
-        alert(
-            "Daily Rate cannot be negative."
-        );
-
-        dailyrate.focus();
-
-        return;
-
-    }
-
-
-    if(
-        payroll.net < 0
-    ){
-
-        const proceed =
+            const proceed =
             confirm(
-                "The calculated Net Pay is negative.\n\n" +
-                "Do you want to continue saving this payroll?"
+                "Total deductions are greater than gross pay.\n\n" +
+                "Net Pay will be negative.\n\n" +
+                "Continue?"
             );
 
 
-        if(!proceed){
+            if(!proceed){
 
-            return;
+                return;
+
+            }
 
         }
 
-    }
 
-
-    /* ======================================
-       EMPLOYEE DATA
-    ====================================== */
-
-    const employeeId =
-        selected.dataset.employeeId ||
-        "";
-
-
-    const employeeName =
-        selected.dataset.name ||
-        selected.textContent ||
-        "";
-
-
-    /* ======================================
-       DISABLE SAVE BUTTON
-    ====================================== */
-
-    const saveButton =
-        document.querySelector(
-            ".save-btn"
-        );
-
-
-    if(saveButton){
-
-        saveButton.disabled =
-            true;
-
-        saveButton.textContent =
-            "SAVING...";
-
-    }
-
-
-    try{
 
         /* ==================================
            PAYROLL DATA
@@ -926,117 +768,167 @@ async function(){
         const payrollData = {
 
             empid:
-                employeeId,
+            empid,
 
             employee:
-                employeeName,
-
-            employeeDocId:
-                employeeSelect.value,
+            employee,
 
             totaldays:
-                payroll.days,
+            totalDays,
 
             dailyrate:
-                payroll.dailyRate,
+            dailyRate,
 
             basicpay:
-                payroll.basicPay,
+            Number(
+                basicPay.toFixed(2)
+            ),
 
             overtime:
-                payroll.overtimePay,
+            Number(
+                overtimePay.toFixed(2)
+            ),
 
             holiday:
-                payroll.holidayPay,
+            Number(
+                holidayPay.toFixed(2)
+            ),
 
             sickleave:
-                payroll.sickLeave,
+            Number(
+                sickLeave.toFixed(2)
+            ),
 
             vacationleave:
-                payroll.vacationLeave,
+            Number(
+                vacationLeave.toFixed(2)
+            ),
 
             birthdayleave:
-                payroll.birthdayLeave,
+            Number(
+                birthdayLeave.toFixed(2)
+            ),
 
             maternityleave:
-                payroll.maternityLeave,
+            Number(
+                maternityLeave.toFixed(2)
+            ),
 
             paternityleave:
-                payroll.paternityLeave,
+            Number(
+                paternityLeave.toFixed(2)
+            ),
 
             allowance:
-                payroll.allowancePay,
+            Number(
+                allowancePay.toFixed(2)
+            ),
 
             sss:
-                payroll.sssDed,
+            Number(
+                sssDed.toFixed(2)
+            ),
 
             philhealth:
-                payroll.philhealthDed,
+            Number(
+                philhealthDed.toFixed(2)
+            ),
 
             pagibig:
-                payroll.pagibigDed,
+            Number(
+                pagibigDed.toFixed(2)
+            ),
 
             healthcard:
-                payroll.healthCardDed,
+            Number(
+                healthCardDed.toFixed(2)
+            ),
 
             otherdeduction:
-                payroll.otherDed,
+            Number(
+                otherDed.toFixed(2)
+            ),
 
             deductionreason:
-                deductionreason.value.trim(),
+            deductionReason,
 
             deductions:
-                payroll.deductions,
+            Number(
+                deductions.toFixed(2)
+            ),
 
             gross:
-                payroll.gross,
+            Number(
+                gross.toFixed(2)
+            ),
 
             net:
-                payroll.net,
+            Number(
+                net.toFixed(2)
+            ),
 
             date:
-                new Date()
-                .toISOString()
-                .split("T")[0],
-
-            createdAt:
-                new Date()
-                .toISOString()
+            getToday()
 
         };
 
 
+
         /* ==================================
-           SAVE TO FIREBASE
+           UPDATE OR ADD
         ================================== */
 
-        await addDoc(
+        if(
+            editId
+        ){
 
-            collection(
-                db,
-                "payroll"
-            ),
+            await updateDoc(
 
-            payrollData
+                doc(
+                    db,
+                    "payroll",
+                    editId
+                ),
 
-        );
+                payrollData
+
+            );
 
 
-        alert(
-            "Payroll Saved Successfully."
-        );
+            alert(
+                "Payroll Updated Successfully."
+            );
+
+
+        }else{
+
+
+            await addDoc(
+
+                collection(
+                    db,
+                    "payroll"
+                ),
+
+                payrollData
+
+            );
+
+
+            alert(
+                "Payroll Saved Successfully."
+            );
+
+        }
+
 
 
         /* ==================================
-           CLEAR
+           RESET
         ================================== */
 
         clearForm();
 
-
-        /* ==================================
-           RELOAD
-        ================================== */
 
         await loadPayroll();
 
@@ -1054,77 +946,60 @@ async function(){
             error.message
         );
 
-
-    }finally{
-
-        if(saveButton){
-
-            saveButton.disabled =
-                false;
-
-            saveButton.textContent =
-                "💾 SAVE PAYROLL";
-
-        }
-
     }
 
 };
+
+
+
+/* ==========================================
+   TODAY
+========================================== */
+
+function getToday(){
+
+    const now =
+    new Date();
+
+
+    return now
+        .toLocaleDateString(
+            "en-CA"
+        );
+
+}
+
 
 
 /* ==========================================
    LOAD PAYROLL
 ========================================== */
 
-async function loadPayroll(){
-
-    if(!payrollBody){
-
-        return;
-
-    }
-
-
-    payrollBody.innerHTML = `
-
-        <tr>
-
-            <td
-                colspan="23"
-                style="
-                    text-align:center;
-                    padding:25px;
-                ">
-
-                Loading payroll...
-
-            </td>
-
-        </tr>
-
-    `;
-
+window.loadPayroll =
+async function(){
 
     try{
 
-        const snapshot =
-            await getDocs(
-                collection(
-                    db,
-                    "payroll"
-                )
-            );
 
-
-        payrollBody.innerHTML =
-            "";
+        payrollBody.innerHTML = "";
 
 
         let total =
-            0;
+        0;
 
 
-        if(snapshot.empty){
+        const snapshot =
+        await getDocs(
+            collection(
+                db,
+                "payroll"
+            )
+        );
+
+
+        if(
+            snapshot.empty
+        ){
 
             payrollBody.innerHTML = `
 
@@ -1133,11 +1008,11 @@ async function loadPayroll(){
                     <td
                         colspan="23"
                         style="
-                            text-align:center;
-                            padding:25px;
+                        text-align:center;
+                        padding:20px;
                         ">
 
-                        NO PAYROLL RECORDS FOUND
+                        NO PAYROLL RECORDS
 
                     </td>
 
@@ -1146,12 +1021,8 @@ async function loadPayroll(){
             `;
 
 
-            if(totalNet){
-
-                totalNet.textContent =
-                    "0.00";
-
-            }
+            totalNet.innerText =
+            "0.00";
 
 
             return;
@@ -1159,191 +1030,36 @@ async function loadPayroll(){
         }
 
 
+
         snapshot.forEach(
-            payrollDoc => {
+            docSnap => {
+
 
                 const pay =
-                    payrollDoc.data();
-
-
-                const net =
-                    Number(
-                        pay.net || 0
-                    );
+                docSnap.data();
 
 
                 total +=
-                    net;
+                num(
+                    pay.net
+                );
 
 
-                payrollBody.innerHTML += `
+                payrollBody.innerHTML +=
+                createPayrollRow(
+                    pay,
+                    docSnap.id
+                );
 
-                    <tr>
-
-                        <td>
-                            ${escapeHTML(
-                                pay.empid || ""
-                            )}
-                        </td>
-
-                        <td>
-                            ${escapeHTML(
-                                pay.employee || ""
-                            )}
-                        </td>
-
-                        <td>
-                            ${Number(
-                                pay.totaldays || 0
-                            )}
-                        </td>
-
-                        <td>
-                            ₱ ${money(
-                                pay.dailyrate
-                            )}
-                        </td>
-
-                        <td>
-                            ₱ ${money(
-                                pay.basicpay
-                            )}
-                        </td>
-
-                        <td>
-                            ₱ ${money(
-                                pay.overtime
-                            )}
-                        </td>
-
-                        <td>
-                            ₱ ${money(
-                                pay.holiday
-                            )}
-                        </td>
-
-                        <td>
-                            ₱ ${money(
-                                pay.sickleave
-                            )}
-                        </td>
-
-                        <td>
-                            ₱ ${money(
-                                pay.vacationleave
-                            )}
-                        </td>
-
-                        <td>
-                            ₱ ${money(
-                                pay.birthdayleave
-                            )}
-                        </td>
-
-                        <td>
-                            ₱ ${money(
-                                pay.maternityleave
-                            )}
-                        </td>
-
-                        <td>
-                            ₱ ${money(
-                                pay.paternityleave
-                            )}
-                        </td>
-
-                        <td>
-                            ₱ ${money(
-                                pay.allowance
-                            )}
-                        </td>
-
-                        <td>
-                            ₱ ${money(
-                                pay.sss
-                            )}
-                        </td>
-
-                        <td>
-                            ₱ ${money(
-                                pay.philhealth
-                            )}
-                        </td>
-
-                        <td>
-                            ₱ ${money(
-                                pay.pagibig
-                            )}
-                        </td>
-
-                        <td>
-                            ₱ ${money(
-                                pay.healthcard
-                            )}
-                        </td>
-
-                        <td>
-                            ₱ ${money(
-                                pay.otherdeduction
-                            )}
-                        </td>
-
-                        <td>
-                            ${escapeHTML(
-                                pay.deductionreason || ""
-                            )}
-                        </td>
-
-                        <td>
-                            ₱ ${money(
-                                pay.deductions
-                            )}
-                        </td>
-
-                        <td>
-                            ₱ ${money(
-                                pay.gross
-                            )}
-                        </td>
-
-                        <td>
-                            ₱ ${money(
-                                pay.net
-                            )}
-                        </td>
-
-                        <td>
-
-                            <button
-                                class="btn delete-btn"
-                                onclick="
-                                    deletePayroll(
-                                        '${payrollDoc.id}'
-                                    )
-                                ">
-
-                                DELETE
-
-                            </button>
-
-                        </td>
-
-                    </tr>
-
-                `;
 
             }
         );
 
 
-        if(totalNet){
-
-            totalNet.textContent =
-                money(
-                    total
-                );
-
-        }
+        totalNet.innerText =
+        money(
+            total
+        );
 
 
     }catch(error){
@@ -1361,8 +1077,9 @@ async function loadPayroll(){
                 <td
                     colspan="23"
                     style="
-                        text-align:center;
-                        padding:25px;
+                    text-align:center;
+                    padding:20px;
+                    color:red;
                     ">
 
                     ERROR LOADING PAYROLL
@@ -1381,7 +1098,521 @@ async function loadPayroll(){
 
     }
 
+};
+
+
+
+/* ==========================================
+   CREATE TABLE ROW
+========================================== */
+
+function createPayrollRow(
+    pay,
+    id
+){
+
+    return `
+
+<tr>
+
+
+<td>
+
+    ${escapeHTML(
+        pay.empid || ""
+    )}
+
+</td>
+
+
+<td>
+
+    ${escapeHTML(
+        pay.employee || ""
+    )}
+
+</td>
+
+
+<td>
+
+    ${num(
+        pay.totaldays
+    )}
+
+</td>
+
+
+<td>
+
+    ₱ ${money(
+        pay.dailyrate
+    )}
+
+</td>
+
+
+<td>
+
+    ₱ ${money(
+        pay.basicpay
+    )}
+
+</td>
+
+
+<td>
+
+    ₱ ${money(
+        pay.overtime
+    )}
+
+</td>
+
+
+<td>
+
+    ₱ ${money(
+        pay.holiday
+    )}
+
+</td>
+
+
+<td>
+
+    ₱ ${money(
+        pay.sickleave
+    )}
+
+</td>
+
+
+<td>
+
+    ₱ ${money(
+        pay.vacationleave
+    )}
+
+</td>
+
+
+<td>
+
+    ₱ ${money(
+        pay.birthdayleave
+    )}
+
+</td>
+
+
+<td>
+
+    ₱ ${money(
+        pay.maternityleave
+    )}
+
+</td>
+
+
+<td>
+
+    ₱ ${money(
+        pay.paternityleave
+    )}
+
+</td>
+
+
+<td>
+
+    ₱ ${money(
+        pay.allowance
+    )}
+
+</td>
+
+
+<td>
+
+    ₱ ${money(
+        pay.sss
+    )}
+
+</td>
+
+
+<td>
+
+    ₱ ${money(
+        pay.philhealth
+    )}
+
+</td>
+
+
+<td>
+
+    ₱ ${money(
+        pay.pagibig
+    )}
+
+</td>
+
+
+<td>
+
+    ₱ ${money(
+        pay.healthcard
+    )}
+
+</td>
+
+
+<td>
+
+    ₱ ${money(
+        pay.otherdeduction
+    )}
+
+</td>
+
+
+<td>
+
+    ${escapeHTML(
+        pay.deductionreason || ""
+    )}
+
+</td>
+
+
+<td>
+
+    ₱ ${money(
+        pay.deductions
+    )}
+
+</td>
+
+
+<td>
+
+    ₱ ${money(
+        pay.gross
+    )}
+
+</td>
+
+
+<td>
+
+    <strong>
+
+        ₱ ${money(
+            pay.net
+        )}
+
+    </strong>
+
+</td>
+
+
+<td>
+
+
+    <button
+        class="edit-btn"
+        onclick="
+        editPayroll(
+            '${escapeJS(id)}'
+        )">
+
+        EDIT
+
+    </button>
+
+
+    <button
+        class="delete-btn"
+        onclick="
+        deletePayroll(
+            '${escapeJS(id)}'
+        )">
+
+        DELETE
+
+    </button>
+
+
+</td>
+
+
+</tr>
+
+`;
+
 }
+
+
+
+/* ==========================================
+   ESCAPE JS
+========================================== */
+
+function escapeJS(
+    value
+){
+
+    return String(
+        value || ""
+    )
+    .replace(
+        /\\/g,
+        "\\\\"
+    )
+    .replace(
+        /'/g,
+        "\\'"
+    )
+    .replace(
+        /\n/g,
+        "\\n"
+    )
+    .replace(
+        /\r/g,
+        "\\r"
+    );
+
+}
+
+
+
+/* ==========================================
+   EDIT PAYROLL
+========================================== */
+
+window.editPayroll =
+async function(
+    id
+){
+
+    try{
+
+
+        const snapshot =
+        await getDocs(
+            collection(
+                db,
+                "payroll"
+            )
+        );
+
+
+        let selectedPay =
+        null;
+
+
+        snapshot.forEach(
+            docSnap => {
+
+                if(
+                    docSnap.id === id
+                ){
+
+                    selectedPay = {
+
+                        id:
+                        docSnap.id,
+
+                        ...docSnap.data()
+
+                    };
+
+                }
+
+            }
+        );
+
+
+        if(
+            !selectedPay
+        ){
+
+            alert(
+                "Payroll record not found."
+            );
+
+            return;
+
+        }
+
+
+        editId =
+        id;
+
+
+        /* ==================================
+           SELECT EMPLOYEE
+        ================================== */
+
+        const employeeOption =
+        Array.from(
+            employeeSelect.options
+        ).find(
+            option =>
+            option.dataset.id ===
+            String(
+                selectedPay.empid || ""
+            )
+        );
+
+
+        if(
+            employeeOption
+        ){
+
+            employeeSelect.value =
+            employeeOption.value;
+
+        }
+
+
+
+        /* ==================================
+           LOAD VALUES
+        ================================== */
+
+        totaldays.value =
+        selectedPay.totaldays ?? "";
+
+
+        dailyrate.value =
+        selectedPay.dailyrate ?? "";
+
+
+        overtime.value =
+        selectedPay.overtime ?? "";
+
+
+        holiday.value =
+        selectedPay.holiday ?? "";
+
+
+        sickleave.value =
+        selectedPay.sickleave ?? "";
+
+
+        vacationleave.value =
+        selectedPay.vacationleave ?? "";
+
+
+        birthdayleave.value =
+        selectedPay.birthdayleave ?? "";
+
+
+        maternityleave.value =
+        selectedPay.maternityleave ?? "";
+
+
+        paternityleave.value =
+        selectedPay.paternityleave ?? "";
+
+
+        allowance.value =
+        selectedPay.allowance ?? "";
+
+
+        sss.value =
+        selectedPay.sss ?? "";
+
+
+        philhealth.value =
+        selectedPay.philhealth ?? "";
+
+
+        pagibig.value =
+        selectedPay.pagibig ?? "";
+
+
+        healthcard.value =
+        selectedPay.healthcard ?? "";
+
+
+        otherdeduction.value =
+        selectedPay.otherdeduction ?? "";
+
+
+        deductionreason.value =
+        selectedPay.deductionreason ?? "";
+
+
+
+        /* ==================================
+           EDIT UI
+        ================================== */
+
+        editingLabel.style.display =
+        "block";
+
+
+        cancelEditBtn.style.display =
+        "inline-block";
+
+
+        window.scrollTo({
+
+            top:0,
+
+            behavior:"smooth"
+
+        });
+
+
+    }catch(error){
+
+        console.error(
+            "Edit Payroll Error:",
+            error
+        );
+
+
+        alert(
+            "Unable to edit payroll.\n\n" +
+            error.message
+        );
+
+    }
+
+};
+
+
+
+/* ==========================================
+   CANCEL EDIT
+========================================== */
+
+window.cancelEdit =
+function(){
+
+    editId =
+    null;
+
+
+    editingLabel.style.display =
+    "none";
+
+
+    cancelEditBtn.style.display =
+    "none";
+
+
+    clearForm(
+        false
+    );
+
+};
+
 
 
 /* ==========================================
@@ -1389,22 +1620,19 @@ async function loadPayroll(){
 ========================================== */
 
 window.deletePayroll =
-async function(id){
+async function(
+    id
+){
 
-    if(!id){
-
-        return;
-
-    }
-
-
-    const confirmDelete =
-        confirm(
-            "Delete this payroll record?"
-        );
+    const confirmed =
+    confirm(
+        "Delete this payroll record?"
+    );
 
 
-    if(!confirmDelete){
+    if(
+        !confirmed
+    ){
 
         return;
 
@@ -1412,6 +1640,7 @@ async function(id){
 
 
     try{
+
 
         await deleteDoc(
 
@@ -1429,7 +1658,30 @@ async function(id){
         );
 
 
+        if(
+            editId === id
+        ){
+
+            editId =
+            null;
+
+        }
+
+
         await loadPayroll();
+
+
+        if(
+            editId === null
+        ){
+
+            editingLabel.style.display =
+            "none";
+
+            cancelEditBtn.style.display =
+            "none";
+
+        }
 
 
     }catch(error){
@@ -1450,170 +1702,265 @@ async function(id){
 };
 
 
+
+/* ==========================================
+   FILTER PAYROLL BY DATE
+========================================== */
+
+window.filterPayroll =
+async function(){
+
+    const selectedDate =
+    filterDate.value;
+
+
+    if(
+        !selectedDate
+    ){
+
+        alert(
+            "Please select a date first."
+        );
+
+        return;
+
+    }
+
+
+    try{
+
+
+        payrollBody.innerHTML =
+        "";
+
+
+        let total =
+        0;
+
+
+        const snapshot =
+        await getDocs(
+            collection(
+                db,
+                "payroll"
+            )
+        );
+
+
+        let found =
+        false;
+
+
+        snapshot.forEach(
+            docSnap => {
+
+
+                const pay =
+                docSnap.data();
+
+
+                if(
+                    pay.date ===
+                    selectedDate
+                ){
+
+                    found =
+                    true;
+
+
+                    total +=
+                    num(
+                        pay.net
+                    );
+
+
+                    payrollBody.innerHTML +=
+                    createPayrollRow(
+                        pay,
+                        docSnap.id
+                    );
+
+                }
+
+            }
+        );
+
+
+        if(
+            !found
+        ){
+
+            payrollBody.innerHTML = `
+
+                <tr>
+
+                    <td
+                        colspan="23"
+                        style="
+                        text-align:center;
+                        padding:20px;
+                        ">
+
+                        NO PAYROLL FOUND FOR
+                        ${escapeHTML(
+                            selectedDate
+                        )}
+
+                    </td>
+
+                </tr>
+
+            `;
+
+        }
+
+
+        totalNet.innerText =
+        money(
+            total
+        );
+
+
+    }catch(error){
+
+        console.error(
+            "Filter Payroll Error:",
+            error
+        );
+
+
+        alert(
+            "Unable to filter payroll.\n\n" +
+            error.message
+        );
+
+    }
+
+};
+
+
+
 /* ==========================================
    CLEAR FORM
 ========================================== */
 
-function clearForm(){
+function clearForm(
+    resetEdit = true
+){
 
-    if(employeeSelect){
-
-        employeeSelect.value =
-            "";
-
-    }
+    employeeSelect.value =
+    "";
 
 
-    if(totaldays){
-
-        totaldays.value =
-            "";
-
-    }
+    totaldays.value =
+    "";
 
 
-    if(dailyrate){
-
-        dailyrate.value =
-            "";
-
-    }
+    dailyrate.value =
+    "";
 
 
-    if(overtime){
-
-        overtime.value =
-            "";
-
-    }
+    overtime.value =
+    "";
 
 
-    if(holiday){
-
-        holiday.value =
-            "";
-
-    }
+    holiday.value =
+    "";
 
 
-    if(sickleave){
-
-        sickleave.value =
-            "";
-
-    }
+    sickleave.value =
+    "";
 
 
-    if(vacationleave){
-
-        vacationleave.value =
-            "";
-
-    }
+    vacationleave.value =
+    "";
 
 
-    if(birthdayleave){
-
-        birthdayleave.value =
-            "";
-
-    }
+    birthdayleave.value =
+    "";
 
 
-    if(maternityleave){
-
-        maternityleave.value =
-            "";
-
-    }
+    maternityleave.value =
+    "";
 
 
-    if(paternityleave){
-
-        paternityleave.value =
-            "";
-
-    }
+    paternityleave.value =
+    "";
 
 
-    if(allowance){
-
-        allowance.value =
-            "";
-
-    }
+    allowance.value =
+    "";
 
 
-    if(sss){
+    sss.value =
+    "";
 
-        sss.value =
-            "";
+
+    philhealth.value =
+    "";
+
+
+    pagibig.value =
+    "";
+
+
+    healthcard.value =
+    "";
+
+
+    otherdeduction.value =
+    "";
+
+
+    deductionreason.value =
+    "";
+
+
+    if(
+        resetEdit
+    ){
+
+        editId =
+        null;
+
+
+        editingLabel.style.display =
+        "none";
+
+
+        cancelEditBtn.style.display =
+        "none";
 
     }
-
-
-    if(philhealth){
-
-        philhealth.value =
-            "";
-
-    }
-
-
-    if(pagibig){
-
-        pagibig.value =
-            "";
-
-    }
-
-
-    if(healthcard){
-
-        healthcard.value =
-            "";
-
-    }
-
-
-    if(otherdeduction){
-
-        otherdeduction.value =
-            "";
-
-    }
-
-
-    if(deductionreason){
-
-        deductionreason.value =
-            "";
-
-    }
-
-
-    updateTotalPreview();
 
 }
 
 
+
 /* ==========================================
-   INITIAL LOAD
+   PRINT TABLE
 ========================================== */
 
-async function initializePayroll(){
+window.printPayroll =
+function(){
+
+    window.print();
+
+};
+
+
+
+/* ==========================================
+   AUTO LOAD
+========================================== */
+
+async function startPayroll(){
 
     await loadEmployees();
 
     await loadPayroll();
 
-    updateTotalPreview();
-
 }
 
 
-/* ==========================================
-   START
-========================================== */
-
-initializePayroll();
+startPayroll();
