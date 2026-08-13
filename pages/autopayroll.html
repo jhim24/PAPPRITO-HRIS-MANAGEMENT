@@ -67,20 +67,19 @@ href="../css/autopayroll.css">
 
 
 <!-- ==========================================
-     MAIN CONTAINER
+     MAIN APP
 ========================================== -->
 
-<div class="auto-payroll-container">
+<div
+class="auto-payroll-app">
 
 
 <!-- ==========================================
-     HEADER
+     TOP HEADER
 ========================================== -->
 
-<header class="page-header">
-
-
-<div class="header-left">
+<header
+class="top-bar">
 
 
 <div class="brand">
@@ -88,56 +87,63 @@ href="../css/autopayroll.css">
 
 <img
 src="../assets/images/logo.png"
-class="header-logo"
-alt="PAPPRITO">
+alt="PAPPRITO Logo"
+class="brand-logo">
 
 
-<div>
+<div class="brand-text">
 
 <h1>
-PAPPRITO HRIS
+PAPPRITO
 </h1>
 
 <p>
-AUTO PAYROLL SYSTEM
+AUTO PAYROLL
 </p>
 
 </div>
 
-</div>
-
 
 </div>
 
 
-<div class="header-actions">
+<div class="top-actions">
 
-
-<!-- BACK -->
 
 <button
 type="button"
-class="icon-btn back-btn"
+class="icon-btn"
 title="Back to Dashboard"
 onclick="backToDashboard()">
 
 <span class="material-icons">
-arrow_back
+dashboard
 </span>
 
 </button>
 
 
-<!-- REFRESH -->
-
 <button
 type="button"
 class="icon-btn"
 title="Refresh"
-onclick="refreshPayroll()">
+onclick="refreshAutoPayroll()">
 
 <span class="material-icons">
 refresh
+</span>
+
+</button>
+
+
+<button
+type="button"
+class="icon-btn"
+title="Print"
+onclick="printAutoPayroll()">
+
+<span class="material-icons">
+print
 </span>
 
 </button>
@@ -154,7 +160,8 @@ refresh
      PAGE TITLE
 ========================================== -->
 
-<section class="page-title">
+<section
+class="page-title">
 
 
 <div>
@@ -165,17 +172,27 @@ refresh
 smart_toy
 </span>
 
-Auto Payroll
+AUTO PAYROLL SYSTEM
 
 </h2>
 
 
 <p>
 
-Automatic payroll computation based on
-employee information and attendance.
+Hourly Payroll Computation
 
 </p>
+
+</div>
+
+
+<div class="system-badge">
+
+<span class="material-icons">
+calculate
+</span>
+
+PER HOUR
 
 </div>
 
@@ -185,48 +202,32 @@ employee information and attendance.
 
 
 <!-- ==========================================
-     PAYROLL FORM
+     EMPLOYEE & RATE
 ========================================== -->
 
-<section class="card">
+<section
+class="card">
 
 
-<div class="section-header">
-
-
-<div>
+<div class="section-title">
 
 <h3>
 
 <span class="material-icons">
-calculate
+person
 </span>
 
-Payroll Computation
+Employee Information
 
 </h3>
 
-
-<p>
-Select employee and payroll information.
-</p>
-
 </div>
-
-
-</div>
-
 
 
 <div class="form-grid">
 
 
-<!-- ======================================
-     EMPLOYEE
-====================================== -->
-
 <div class="form-group">
-
 
 <label>
 Employee
@@ -244,17 +245,11 @@ Select Employee
 
 </select>
 
-
 </div>
 
 
 
-<!-- ======================================
-     EMPLOYEE ID
-====================================== -->
-
 <div class="form-group">
-
 
 <label>
 Employee ID
@@ -262,46 +257,96 @@ Employee ID
 
 
 <input
-id="employeeId"
 type="text"
+id="employeeId"
 placeholder="Employee ID"
 readonly>
-
 
 </div>
 
 
 
-<!-- ======================================
-     SALARY RATE
-====================================== -->
-
 <div class="form-group">
-
 
 <label>
 Hourly Rate
 </label>
 
 
-<input
-id="salaryRate"
-type="number"
-step="0.01"
-min="0"
-placeholder="Hourly Rate">
+<div class="input-prefix">
 
+<span>
+₱
+</span>
+
+
+<input
+type="number"
+id="salaryRate"
+placeholder="0.00"
+step="0.01"
+min="0">
+
+</div>
 
 </div>
 
 
 
-<!-- ======================================
-     REGULAR HOURS
-====================================== -->
-
 <div class="form-group">
 
+<label>
+Computation Date
+</label>
+
+
+<input
+type="date"
+id="payrollDate">
+
+</div>
+
+
+</div>
+
+</section>
+
+
+
+<!-- ==========================================
+     WORKING HOURS
+========================================== -->
+
+<section
+class="card">
+
+
+<div class="section-title">
+
+<h3>
+
+<span class="material-icons">
+schedule
+</span>
+
+Working Hours
+
+</h3>
+
+
+<span class="section-note">
+
+All computation is based on hourly rate.
+
+</span>
+
+</div>
+
+
+<div class="form-grid">
+
+
+<div class="form-group">
 
 <label>
 Regular Hours
@@ -309,23 +354,17 @@ Regular Hours
 
 
 <input
-id="totalHours"
 type="number"
+id="totalHours"
+placeholder="0.00"
 step="0.01"
-min="0"
-placeholder="Regular Hours">
-
+min="0">
 
 </div>
 
 
 
-<!-- ======================================
-     OVERTIME
-====================================== -->
-
 <div class="form-group">
-
 
 <label>
 Overtime Hours
@@ -333,23 +372,17 @@ Overtime Hours
 
 
 <input
-id="overtimeHours"
 type="number"
+id="overtimeHours"
+placeholder="0.00"
 step="0.01"
-min="0"
-placeholder="Overtime Hours">
-
+min="0">
 
 </div>
 
 
 
-<!-- ======================================
-     HOLIDAY TYPE
-====================================== -->
-
 <div class="form-group">
-
 
 <label>
 Holiday Type
@@ -361,39 +394,27 @@ id="holidayType">
 
 
 <option value="none">
-
 No Holiday
-
 </option>
 
 
 <option value="regular">
-
 Regular Holiday
-
 </option>
 
 
 <option value="special">
-
 Special Holiday
-
 </option>
 
 
 </select>
 
-
 </div>
 
 
 
-<!-- ======================================
-     HOLIDAY HOURS
-====================================== -->
-
 <div class="form-group">
-
 
 <label>
 Holiday Hours
@@ -401,23 +422,17 @@ Holiday Hours
 
 
 <input
-id="holidayHours"
 type="number"
+id="holidayHours"
+placeholder="0.00"
 step="0.01"
-min="0"
-placeholder="Holiday Hours">
-
+min="0">
 
 </div>
 
 
 
-<!-- ======================================
-     NIGHT DIFFERENTIAL
-====================================== -->
-
 <div class="form-group">
-
 
 <label>
 Night Differential Hours
@@ -425,62 +440,45 @@ Night Differential Hours
 
 
 <input
-id="nightHours"
 type="number"
+id="nightHours"
+placeholder="0.00"
 step="0.01"
-min="0"
-placeholder="Night Differential Hours">
-
+min="0">
 
 </div>
 
-
-</div>
-
-
-
-<!-- ==========================================
-     EARNINGS
-========================================== -->
-
-<div class="sub-section">
-
-
-<h4>
-
-<span class="material-icons">
-payments
-</span>
-
-Earnings
-
-</h4>
-
-
-<div class="form-grid">
 
 
 <div class="form-group">
 
-
 <label>
-Gross Salary
+Night Differential Rate
 </label>
 
 
+<div class="input-suffix">
+
 <input
-id="grossSalary"
 type="number"
-placeholder="Gross Salary"
-readonly>
+id="nightRate"
+value="10"
+step="0.01"
+min="0">
 
+
+<span>
+%
+</span>
+
+</div>
 
 </div>
 
 
 </div>
 
-</div>
+</section>
 
 
 
@@ -488,10 +486,13 @@ readonly>
      DEDUCTIONS
 ========================================== -->
 
-<div class="sub-section">
+<section
+class="card">
 
 
-<h4>
+<div class="section-title">
+
+<h3>
 
 <span class="material-icons">
 remove_circle
@@ -499,7 +500,16 @@ remove_circle
 
 Deductions
 
-</h4>
+</h3>
+
+
+<span class="section-note">
+
+Enter the deduction amounts manually.
+
+</span>
+
+</div>
 
 
 <div class="form-grid">
@@ -507,19 +517,26 @@ Deductions
 
 <div class="form-group">
 
-
 <label>
-SSS Deduction
+SSS
 </label>
 
 
+<div class="input-prefix">
+
+<span>
+₱
+</span>
+
+
 <input
+type="number"
 id="sss"
-type="number"
+placeholder="0.00"
 step="0.01"
-min="0"
-placeholder="SSS Deduction">
+min="0">
 
+</div>
 
 </div>
 
@@ -527,19 +544,26 @@ placeholder="SSS Deduction">
 
 <div class="form-group">
 
-
 <label>
-PhilHealth Deduction
+PhilHealth
 </label>
 
 
+<div class="input-prefix">
+
+<span>
+₱
+</span>
+
+
 <input
+type="number"
 id="philhealth"
-type="number"
+placeholder="0.00"
 step="0.01"
-min="0"
-placeholder="PhilHealth Deduction">
+min="0">
 
+</div>
 
 </div>
 
@@ -547,39 +571,53 @@ placeholder="PhilHealth Deduction">
 
 <div class="form-group">
 
-
 <label>
-Pag-IBIG Deduction
+Pag-IBIG
 </label>
 
 
-<input
-id="pagibig"
-type="number"
-step="0.01"
-min="0"
-placeholder="Pag-IBIG Deduction">
+<div class="input-prefix">
 
+<span>
+₱
+</span>
+
+
+<input
+type="number"
+id="pagibig"
+placeholder="0.00"
+step="0.01"
+min="0">
+
+</div>
 
 </div>
 
 
 
 <div class="form-group">
-
 
 <label>
 Health Card
 </label>
 
 
-<input
-id="healthcard"
-type="number"
-step="0.01"
-min="0"
-placeholder="Health Card">
+<div class="input-prefix">
 
+<span>
+₱
+</span>
+
+
+<input
+type="number"
+id="healthcard"
+placeholder="0.00"
+step="0.01"
+min="0">
+
+</div>
 
 </div>
 
@@ -587,41 +625,251 @@ placeholder="Health Card">
 
 <div class="form-group">
 
-
 <label>
 Other Deduction
 </label>
 
 
+<div class="input-prefix">
+
+<span>
+₱
+</span>
+
+
 <input
-id="others"
 type="number"
+id="others"
+placeholder="0.00"
 step="0.01"
-min="0"
-placeholder="Other Deduction">
+min="0">
 
+</div>
 
 </div>
 
 
 </div>
+
+</section>
+
+
+
+<!-- ==========================================
+     COMPUTATION
+========================================== -->
+
+<section
+class="card computation-card">
+
+
+<div class="section-title">
+
+<h3>
+
+<span class="material-icons">
+calculate
+</span>
+
+Payroll Computation
+
+</h3>
+
+</div>
+
+
+<div class="computation-grid">
+
+
+<!-- BASIC PAY -->
+
+<div class="computation-box">
+
+<div class="computation-label">
+
+<span class="material-icons">
+schedule
+</span>
+
+Regular Pay
+
+</div>
+
+
+<div class="formula">
+
+Hourly Rate × Regular Hours
+
+</div>
+
+
+<strong
+id="displayBasicPay">
+
+₱ 0.00
+
+</strong>
+
+</div>
+
+
+
+<!-- OT -->
+
+<div class="computation-box">
+
+<div class="computation-label">
+
+<span class="material-icons">
+more_time
+</span>
+
+Overtime Pay
+
+</div>
+
+
+<div class="formula">
+
+Hourly Rate × 1.25 × OT Hours
+
+</div>
+
+
+<strong
+id="displayOvertimePay">
+
+₱ 0.00
+
+</strong>
+
+</div>
+
+
+
+<!-- HOLIDAY -->
+
+<div class="computation-box">
+
+<div class="computation-label">
+
+<span class="material-icons">
+event
+</span>
+
+Holiday Pay
+
+</div>
+
+
+<div class="formula">
+
+Based on Holiday Type
+
+</div>
+
+
+<strong
+id="displayHolidayPay">
+
+₱ 0.00
+
+</strong>
+
+</div>
+
+
+
+<!-- NIGHT -->
+
+<div class="computation-box">
+
+<div class="computation-label">
+
+<span class="material-icons">
+nights_stay
+</span>
+
+Night Differential
+
+</div>
+
+
+<div class="formula">
+
+Hourly Rate × ND % × ND Hours
+
+</div>
+
+
+<strong
+id="displayNightPay">
+
+₱ 0.00
+
+</strong>
+
+</div>
+
 
 </div>
 
 
 
 <!-- ==========================================
-     NET PAY
+     GROSS / DEDUCTION / NET
 ========================================== -->
 
-<div class="pay-result">
+<div
+class="total-boxes">
 
 
-<div>
-
+<div class="total-box gross">
 
 <span>
+
+GROSS PAY
+
+</span>
+
+
+<strong
+id="grossSalary">
+
+₱ 0.00
+
+</strong>
+
+</div>
+
+
+
+<div class="total-box deduction">
+
+<span>
+
+TOTAL DEDUCTION
+
+</span>
+
+
+<strong
+id="totalDeduction">
+
+₱ 0.00
+
+</strong>
+
+</div>
+
+
+
+<div class="total-box net">
+
+<span>
+
 NET PAY
+
 </span>
 
 
@@ -638,68 +886,58 @@ id="netSalary">
 </div>
 
 
+</section>
+
+
 
 <!-- ==========================================
-     FORM ACTIONS
+     ACTION BUTTONS
 ========================================== -->
 
-<div class="form-actions">
+<section
+class="action-area">
 
 
 <button
 type="button"
-class="action-btn compute-btn"
-title="Compute Payroll"
-onclick="computePayroll()">
+class="main-action compute"
+onclick="computeAutoPayroll()">
 
 <span class="material-icons">
 calculate
 </span>
 
-<span class="button-text">
-Compute Payroll
-</span>
+COMPUTE
 
 </button>
 
 
-
 <button
 type="button"
-class="action-btn save-btn"
-title="Save Payroll"
-onclick="savePayroll()">
+class="main-action save"
+onclick="saveAutoPayroll()">
 
 <span class="material-icons">
 save
 </span>
 
-<span class="button-text">
-Save Payroll
-</span>
+SAVE
 
 </button>
-
 
 
 <button
 type="button"
-class="action-btn clear-btn"
-title="Clear Form"
-onclick="clearPayrollForm()">
+class="main-action clear"
+onclick="clearAutoPayrollForm()">
 
 <span class="material-icons">
-clear
+clear_all
 </span>
 
-<span class="button-text">
-Clear
-</span>
+CLEAR
 
 </button>
-
-
-</div>
 
 
 </section>
@@ -707,13 +945,14 @@ Clear
 
 
 <!-- ==========================================
-     PAYROLL HISTORY
+     AUTO PAYROLL RECORDS
 ========================================== -->
 
-<section class="card">
+<section
+class="card records-card">
 
 
-<div class="section-header">
+<div class="section-title">
 
 
 <div>
@@ -721,53 +960,36 @@ Clear
 <h3>
 
 <span class="material-icons">
-history
+receipt_long
 </span>
 
-Payroll History
+Auto Payroll Records
 
 </h3>
 
 
 <p>
-View saved payroll records.
+
+Saved Auto Payroll computations only
+
 </p>
 
 </div>
 
 
-</div>
-
-
-
-<!-- ==========================================
-     FILTER BAR
-========================================== -->
-
-<div class="filter-bar">
-
-
-<div class="filter-date">
-
-
-<label>
-Payroll Date
-</label>
+<div class="record-actions">
 
 
 <input
 type="date"
 id="filterDate">
 
-</div>
-
-
 
 <button
 type="button"
-class="icon-btn filter-btn"
-title="Filter Date"
-onclick="filterPayroll()">
+class="small-btn"
+title="Filter"
+onclick="filterAutoPayroll()">
 
 <span class="material-icons">
 filter_alt
@@ -776,12 +998,11 @@ filter_alt
 </button>
 
 
-
 <button
 type="button"
-class="icon-btn show-btn"
-title="Show All Payroll"
-onclick="loadPayroll()">
+class="small-btn"
+title="Show All"
+onclick="loadAutoPayroll()">
 
 <span class="material-icons">
 list
@@ -790,18 +1011,7 @@ list
 </button>
 
 
-
-<button
-type="button"
-class="icon-btn"
-title="Print Payroll"
-onclick="printPayroll()">
-
-<span class="material-icons">
-print
-</span>
-
-</button>
+</div>
 
 
 </div>
@@ -809,40 +1019,62 @@ print
 
 
 <!-- ==========================================
-     TOTAL PAYROLL
+     TOTAL
 ========================================== -->
 
-<div class="total-payroll">
+<div
+class="records-total">
 
 
 <div>
 
-
-<span class="material-icons">
-account_balance_wallet
-</span>
-
-
 <span>
-TOTAL PAYROLL
+Total Records
 </span>
 
+
+<strong
+id="totalRecords">
+
+0
+
+</strong>
 
 </div>
 
 
-<strong>
+<div>
 
-₱
-
-<span
-id="totalPayroll">
-
-0.00
-
+<span>
+Total Gross
 </span>
 
+
+<strong
+id="totalGross">
+
+₱ 0.00
+
 </strong>
+
+</div>
+
+
+<div>
+
+<span>
+Total Net
+</span>
+
+
+<strong
+id="totalNet">
+
+₱ 0.00
+
+</strong>
+
+</div>
 
 
 </div>
@@ -853,16 +1085,21 @@ id="totalPayroll">
      TABLE
 ========================================== -->
 
-<div class="table-wrapper">
+<div
+class="table-wrapper">
 
 
 <table
-id="payrollTable">
+id="autoPayrollTable">
 
 
 <thead>
 
 <tr>
+
+<th>
+DATE
+</th>
 
 <th>
 EMPLOYEE ID
@@ -893,7 +1130,7 @@ HOLIDAY HOURS
 </th>
 
 <th>
-NIGHT DIFF
+NIGHT HOURS
 </th>
 
 <th>
@@ -901,31 +1138,11 @@ GROSS
 </th>
 
 <th>
-SSS
-</th>
-
-<th>
-PHILHEALTH
-</th>
-
-<th>
-PAG-IBIG
-</th>
-
-<th>
-HEALTH CARD
-</th>
-
-<th>
-OTHERS
+DEDUCTIONS
 </th>
 
 <th>
 NET PAY
-</th>
-
-<th>
-DATE
 </th>
 
 <th>
@@ -938,24 +1155,6 @@ ACTION
 
 
 <tbody>
-
-<tr>
-
-<td
-colspan="17"
-class="empty-row">
-
-<span class="material-icons">
-receipt_long
-</span>
-
-<p>
-No payroll records available.
-</p>
-
-</td>
-
-</tr>
 
 </tbody>
 
@@ -974,13 +1173,21 @@ No payroll records available.
      FOOTER
 ========================================== -->
 
-<footer class="page-footer">
+<footer
+class="footer">
 
 <p>
 
 © 2026 PAPPRITO HRIS
 
 </p>
+
+
+<span>
+
+Auto Payroll • Hourly Computation
+
+</span>
 
 </footer>
 
