@@ -1,10 +1,14 @@
 /* ==========================================
    PAPPRITO HRIS
    EMPLOYEE MASTERLIST JS
-   VERSION WITH LEAVE ALLOCATION
+   WITH EMPLOYEE USER CREATION
 ========================================== */
 
-import { db } from "./firebase.js";
+import {
+    db,
+    auth
+} from "./firebase.js";
+
 
 import {
     collection,
@@ -13,11 +17,27 @@ import {
     deleteDoc,
     doc,
     updateDoc
-} from "https://www.gstatic.com/firebasejs/12.13.0/firebase-firestore.js";
+}
+from
+"https://www.gstatic.com/firebasejs/12.13.0/firebase-firestore.js";
+
+
+import {
+    createUserWithEmailAndPassword
+}
+from
+"https://www.gstatic.com/firebasejs/12.13.0/firebase-auth.js";
+
+
+import {
+    initializeApp
+}
+from
+"https://www.gstatic.com/firebasejs/12.13.0/firebase-app.js";
 
 
 /* ==========================================
-   GLOBAL VARIABLES
+   GLOBAL
 ========================================== */
 
 let employees = [];
@@ -25,6 +45,10 @@ let employees = [];
 let editId = null;
 
 let currentStatusFilter = "ALL";
+
+let selectedUserEmployee = null;
+
+let secondaryAuth = null;
 
 
 /* ==========================================
@@ -34,6 +58,12 @@ let currentStatusFilter = "ALL";
 const employeeModal =
     document.getElementById(
         "employeeModal"
+    );
+
+
+const userModal =
+    document.getElementById(
+        "userModal"
     );
 
 
@@ -62,127 +92,59 @@ const total =
 
 
 /* ==========================================
-   HELPER
+   SECONDARY FIREBASE APP
 ========================================== */
 
-function getFieldValue(
-    selector
-){
-
-    const element =
-        document.querySelector(
-            selector
-        );
-
-
-    return element
-        ? element.value.trim()
-        : "";
-
-}
-
-
-function setFieldValue(
-    selector,
-    value
-){
-
-    const element =
-        document.querySelector(
-            selector
-        );
-
-
-    if(element){
-
-        element.value =
-            value ?? "";
-
-    }
-
-}
-
-
-function numberValue(
-    value,
-    defaultValue = 0
-){
-
-    const number =
-        Number(value);
-
+function getSecondaryAuth(){
 
     if(
-        Number.isFinite(number)
+        secondaryAuth
     ){
 
-        return number;
+        return secondaryAuth;
 
     }
 
 
-    return defaultValue;
+    /*
+     * Use the existing Firebase
+     * configuration from the
+     * authenticated application.
+     */
 
-}
+    const primaryOptions =
+        auth.app.options;
 
 
-function escapeHTML(
-    value
-){
+    const secondaryApp =
+        initializeApp(
+            primaryOptions,
+            "PAPPRITO-EMPLOYEE-AUTH"
+        );
 
-    return String(
-        value ?? ""
+
+    /*
+     * Import Firebase Auth
+     * dynamically so the primary
+     * admin session is not replaced.
+     */
+
+    return import(
+        "https://www.gstatic.com/firebasejs/12.13.0/firebase-auth.js"
     )
 
-    .replace(
-        /&/g,
-        "&amp;"
-    )
+    .then(
+        module => {
 
-    .replace(
-        /</g,
-        "&lt;"
-    )
-
-    .replace(
-        />/g,
-        "&gt;"
-    )
-
-    .replace(
-        /"/g,
-        "&quot;"
-    )
-
-    .replace(
-        /'/g,
-        "&#039;"
-    );
-
-}
+            secondaryAuth =
+                module.getAuth(
+                    secondaryApp
+                );
 
 
-function escapeAttribute(
-    value
-){
+            return secondaryAuth;
 
-    return String(
-        value ?? ""
-    )
-
-    .replace(
-        /\\/g,
-        "\\\\"
-    )
-
-    .replace(
-        /'/g,
-        "\\'"
-    )
-
-    .replace(
-        /"/g,
-        "&quot;"
+        }
     );
 
 }
@@ -195,13 +157,9 @@ function escapeAttribute(
 window.openModal =
 function(){
 
-    editId = null;
-
-
-    clearForm();
-
-
-    if(employeeModal){
+    if(
+        employeeModal
+    ){
 
         employeeModal.style.display =
             "flex";
@@ -218,7 +176,9 @@ function(){
 window.closeModal =
 function(){
 
-    if(employeeModal){
+    if(
+        employeeModal
+    ){
 
         employeeModal.style.display =
             "none";
@@ -256,15 +216,17 @@ function(
         );
 
 
-    const selectedTab =
+    const selected =
         document.getElementById(
             tabId
         );
 
 
-    if(selectedTab){
+    if(
+        selected
+    ){
 
-        selectedTab.classList.add(
+        selected.classList.add(
             "active"
         );
 
@@ -313,12 +275,6 @@ function(){
         !birthdate.value
     ){
 
-        if(age){
-
-            age.value = "";
-
-        }
-
         return;
 
     }
@@ -334,37 +290,22 @@ function(){
         new Date();
 
 
-    if(
-        Number.isNaN(
-            birth.getTime()
-        )
-    ){
-
-        age.value = "";
-
-        return;
-
-    }
-
-
     let years =
         today.getFullYear()
         -
         birth.getFullYear();
 
 
-    const monthDifference =
+    const month =
         today.getMonth()
         -
         birth.getMonth();
 
 
     if(
-        monthDifference < 0
-        ||
+        month < 0 ||
         (
-            monthDifference === 0
-            &&
+            month === 0 &&
             today.getDate()
             <
             birth.getDate()
@@ -377,419 +318,9 @@ function(){
 
 
     age.value =
-        years >= 0
-        ? years
-        : "";
+        years;
 
 };
-
-
-/* ==========================================
-   GET EMPLOYEE FORM DATA
-========================================== */
-
-function getEmployeeFormData(){
-
-    /*
-     * PERSONAL
-     */
-
-    const firstname =
-        getFieldValue(
-            "#personal .emp-field:nth-of-type(1)"
-        );
-
-
-    const middlename =
-        getFieldValue(
-            "#personal .emp-field:nth-of-type(2)"
-        );
-
-
-    const lastname =
-        getFieldValue(
-            "#personal .emp-field:nth-of-type(3)"
-        );
-
-
-    const birthdateValue =
-        getFieldValue(
-            "#birthdate"
-        );
-
-
-    const ageValue =
-        getFieldValue(
-            "#age"
-        );
-
-
-    const personalFields =
-        document.querySelectorAll(
-            "#personal .emp-field"
-        );
-
-
-    const gender =
-        personalFields[5]
-        ?
-        personalFields[5].value.trim()
-        :
-        "";
-
-
-    /*
-     * GOVERNMENT
-     */
-
-    const governmentFields =
-        document.querySelectorAll(
-            "#government .emp-field"
-        );
-
-
-    const sss =
-        governmentFields[0]
-        ?
-        governmentFields[0].value.trim()
-        :
-        "";
-
-
-    const philhealth =
-        governmentFields[1]
-        ?
-        governmentFields[1].value.trim()
-        :
-        "";
-
-
-    const pagibig =
-        governmentFields[2]
-        ?
-        governmentFields[2].value.trim()
-        :
-        "";
-
-
-    const healthcard =
-        governmentFields[3]
-        ?
-        governmentFields[3].value.trim()
-        :
-        "";
-
-
-    const bankname =
-        governmentFields[4]
-        ?
-        governmentFields[4].value.trim()
-        :
-        "";
-
-
-    const bankaccount =
-        governmentFields[5]
-        ?
-        governmentFields[5].value.trim()
-        :
-        "";
-
-
-    const idtype =
-        governmentFields[6]
-        ?
-        governmentFields[6].value.trim()
-        :
-        "";
-
-
-    const idnumber =
-        governmentFields[7]
-        ?
-        governmentFields[7].value.trim()
-        :
-        "";
-
-
-    /*
-     * CONTACT
-     */
-
-    const contactFields =
-        document.querySelectorAll(
-            "#contact .emp-field"
-        );
-
-
-    const mobile =
-        contactFields[0]
-        ?
-        contactFields[0].value.trim()
-        :
-        "";
-
-
-    const email =
-        contactFields[1]
-        ?
-        contactFields[1].value.trim()
-        :
-        "";
-
-
-    const currentaddress =
-        contactFields[2]
-        ?
-        contactFields[2].value.trim()
-        :
-        "";
-
-
-    const permanentaddress =
-        contactFields[3]
-        ?
-        contactFields[3].value.trim()
-        :
-        "";
-
-
-    /*
-     * EMPLOYMENT
-     */
-
-    const employmentFields =
-        document.querySelectorAll(
-            "#employment .emp-field"
-        );
-
-
-    /*
-     * First 6 fields:
-     *
-     * 0 Employee ID
-     * 1 Position
-     * 2 Department
-     * 3 Employment
-     * 4 Status
-     * 5 Salary
-     *
-     * Last 3:
-     *
-     * 6 Vacation
-     * 7 Sick
-     * 8 Birthday
-     */
-
-    const employeeid =
-        employmentFields[0]
-        ?
-        employmentFields[0].value
-            .trim()
-            .toUpperCase()
-        :
-        "";
-
-
-    const position =
-        employmentFields[1]
-        ?
-        employmentFields[1].value.trim()
-        :
-        "";
-
-
-    const department =
-        employmentFields[2]
-        ?
-        employmentFields[2].value.trim()
-        :
-        "";
-
-
-    const employment =
-        employmentFields[3]
-        ?
-        employmentFields[3].value.trim()
-        :
-        "";
-
-
-    const status =
-        employmentFields[4]
-        ?
-        employmentFields[4].value.trim()
-        :
-        "Active";
-
-
-    const salary =
-        employmentFields[5]
-        ?
-        employmentFields[5].value.trim()
-        :
-        "";
-
-
-    /*
-     * LEAVE ALLOCATION
-     */
-
-    const vacationLeave =
-        numberValue(
-            document.getElementById(
-                "vacationleave"
-            )
-            ?
-            document.getElementById(
-                "vacationleave"
-            ).value
-            :
-            0
-        );
-
-
-    const sickLeave =
-        numberValue(
-            document.getElementById(
-                "sickleave"
-            )
-            ?
-            document.getElementById(
-                "sickleave"
-            ).value
-            :
-            0
-        );
-
-
-    const birthdayLeave =
-        numberValue(
-            document.getElementById(
-                "birthdayleave"
-            )
-            ?
-            document.getElementById(
-                "birthdayleave"
-            ).value
-            :
-            0
-        );
-
-
-    return {
-
-        /*
-         * PERSONAL
-         */
-
-        firstname:
-            firstname,
-
-        middlename:
-            middlename,
-
-        lastname:
-            lastname,
-
-        birthdate:
-            birthdateValue,
-
-        age:
-            ageValue,
-
-        gender:
-            gender,
-
-
-        /*
-         * GOVERNMENT
-         */
-
-        sss:
-            sss,
-
-        philhealth:
-            philhealth,
-
-        pagibig:
-            pagibig,
-
-        healthcard:
-            healthcard,
-
-        bankname:
-            bankname,
-
-        bankaccount:
-            bankaccount,
-
-        idtype:
-            idtype,
-
-        idnumber:
-            idnumber,
-
-
-        /*
-         * CONTACT
-         */
-
-        mobile:
-            mobile,
-
-        email:
-            email,
-
-        currentaddress:
-            currentaddress,
-
-        permanentaddress:
-            permanentaddress,
-
-
-        /*
-         * EMPLOYMENT
-         */
-
-        employeeid:
-            employeeid,
-
-        username:
-            employeeid,
-
-        position:
-            position,
-
-        department:
-            department,
-
-        employment:
-            employment,
-
-        status:
-            status || "Active",
-
-        salary:
-            salary,
-
-
-        /*
-         * LEAVE ALLOCATION
-         */
-
-        vacationleave:
-            vacationLeave,
-
-        sickleave:
-            sickLeave,
-
-        birthdayleave:
-            birthdayLeave
-
-    };
-
-}
 
 
 /* ==========================================
@@ -799,33 +330,144 @@ function getEmployeeFormData(){
 window.saveEmployee =
 async function(){
 
-    const employeeData =
-        getEmployeeFormData();
+    const fields =
+        document.querySelectorAll(
+            ".emp-field"
+        );
+
+
+    const data = [];
+
+
+    fields.forEach(
+        field => {
+
+            data.push(
+                field.value
+            );
+
+        }
+    );
 
 
     /*
-     * REQUIRED FIELDS
+     * ======================================
+     * FIELD ORDER
+     * ======================================
      */
 
+    const employeeData = {
+
+        firstname:
+            data[0] || "",
+
+        middlename:
+            data[1] || "",
+
+        lastname:
+            data[2] || "",
+
+        birthdate:
+            data[3] || "",
+
+        age:
+            data[4] || "",
+
+        gender:
+            data[5] || "",
+
+
+        sss:
+            data[6] || "",
+
+        philhealth:
+            data[7] || "",
+
+        pagibig:
+            data[8] || "",
+
+        healthcard:
+            data[9] || "",
+
+        bankname:
+            data[10] || "",
+
+        bankaccount:
+            data[11] || "",
+
+        idtype:
+            data[12] || "",
+
+        idnumber:
+            data[13] || "",
+
+
+        mobile:
+            data[14] || "",
+
+        email:
+            data[15] || "",
+
+        currentaddress:
+            data[16] || "",
+
+        permanentaddress:
+            data[17] || "",
+
+
+        employeeid:
+            (
+                data[18] || ""
+            )
+            .toUpperCase()
+            .trim(),
+
+
+        position:
+            data[19] || "",
+
+        department:
+            data[20] || "",
+
+        employment:
+            data[21] || "",
+
+        status:
+            data[22] || "Active",
+
+        salary:
+            data[23] || "",
+
+
+        /*
+         * LEAVE BALANCES
+         */
+
+        vacationleave:
+            Number(
+                data[24] || 10
+            ),
+
+        sickleave:
+            Number(
+                data[25] || 7
+            ),
+
+        birthdayleave:
+            Number(
+                data[26] || 1
+            )
+
+    };
+
+
     if(
-        !employeeData.firstname
-    ){
-
-        alert(
-            "Please enter First Name."
-        );
-
-        return;
-
-    }
-
-
-    if(
+        !employeeData.firstname ||
         !employeeData.lastname
     ){
 
         alert(
-            "Please enter Last Name."
+            "Please enter First Name and Last Name."
         );
 
         return;
@@ -846,73 +488,11 @@ async function(){
     }
 
 
-    /*
-     * CHECK DUPLICATE EMPLOYEE ID
-     */
-
-    const duplicate =
-        employees.find(
-            employee => {
-
-                const existingId =
-                    String(
-                        employee.employeeid || ""
-                    )
-                    .trim()
-                    .toUpperCase();
-
-
-                return (
-
-                    existingId ===
-                    employeeData.employeeid
-
-                )
-
-                &&
-
-                employee.id !==
-                editId;
-
-            }
-        );
-
-
-    if(duplicate){
-
-        alert(
-            "Employee ID already exists."
-        );
-
-        return;
-
-    }
-
-
-    /*
-     * VALIDATE LEAVES
-     */
-
-    if(
-        employeeData.vacationleave < 0
-        ||
-        employeeData.sickleave < 0
-        ||
-        employeeData.birthdayleave < 0
-    ){
-
-        alert(
-            "Leave allocation cannot be negative."
-        );
-
-        return;
-
-    }
-
-
     try{
 
-        if(editId){
+        if(
+            editId
+        ){
 
             await updateDoc(
 
@@ -931,7 +511,9 @@ async function(){
                 "Employee updated successfully."
             );
 
-        }else{
+        }
+
+        else{
 
             await addDoc(
 
@@ -953,7 +535,6 @@ async function(){
 
 
         closeModal();
-
 
         await loadEmployees();
 
@@ -993,38 +574,21 @@ async function loadEmployees(){
             );
 
 
-        if(table){
+        if(
+            table
+        ){
 
-            table.innerHTML = `
-
-<tr>
-
-<td
-    colspan="29"
-    style="
-        text-align:center;
-        padding:30px;
-    ">
-
-    Loading employees...
-
-</td>
-
-</tr>
-
-`;
+            table.innerHTML = "";
 
         }
 
 
         const snapshot =
             await getDocs(
-
                 collection(
                     db,
                     "employees"
                 )
-
             );
 
 
@@ -1044,36 +608,6 @@ async function loadEmployees(){
         );
 
 
-        /*
-         * Sort by last name
-         */
-
-        employees.sort(
-            (
-                a,
-                b
-            ) => {
-
-                const lastA =
-                    String(
-                        a.lastname || ""
-                    ).toLowerCase();
-
-
-                const lastB =
-                    String(
-                        b.lastname || ""
-                    ).toLowerCase();
-
-
-                return lastA.localeCompare(
-                    lastB
-                );
-
-            }
-        );
-
-
         renderTable();
 
 
@@ -1085,40 +619,8 @@ async function loadEmployees(){
         );
 
 
-        const table =
-            document.querySelector(
-                "#empTable tbody"
-            );
-
-
-        if(table){
-
-            table.innerHTML = `
-
-<tr>
-
-<td
-    colspan="29"
-    style="
-        text-align:center;
-        padding:30px;
-        color:red;
-    ">
-
-    Failed to load employees.
-
-</td>
-
-</tr>
-
-`;
-
-        }
-
-
         alert(
-            "Failed to load employees.\n\n" +
-            error.message
+            "Failed to load employees."
         );
 
     }
@@ -1138,33 +640,21 @@ function renderTable(){
         );
 
 
-    if(!table){
+    if(
+        !table
+    ){
 
         return;
 
     }
 
 
-    table.innerHTML = "";
-
-
-    let visibleCount = 0;
+    table.innerHTML =
+        "";
 
 
     employees.forEach(
-        employee => {
-
-            /*
-             * STATUS FILTER
-             */
-
-            const employeeStatus =
-                String(
-                    employee.status ||
-                    "Active"
-                )
-                .trim();
-
+        emp => {
 
             if(
                 currentStatusFilter ===
@@ -1172,7 +662,7 @@ function renderTable(){
             ){
 
                 if(
-                    employeeStatus !==
+                    emp.status !==
                     "Active"
                 ){
 
@@ -1189,7 +679,7 @@ function renderTable(){
             ){
 
                 if(
-                    employeeStatus ===
+                    emp.status ===
                     "Active"
                 ){
 
@@ -1200,496 +690,384 @@ function renderTable(){
             }
 
 
-            visibleCount++;
+            const statusClass =
 
+                emp.status ===
+                "Active"
 
-            /*
-             * STATUS CLASS
-             */
+                ?
 
-            let statusClass =
+                "status-active"
+
+                :
+
+                emp.status ===
+                "AWOL"
+
+                ?
+
+                "status-awol"
+
+                :
+
+                emp.status ===
+                "Resigned"
+
+                ?
+
+                "status-resigned"
+
+                :
+
                 "status-other";
 
 
-            if(
-                employeeStatus ===
-                "Active"
-            ){
-
-                statusClass =
-                    "status-active";
-
-            }
-
-            else if(
-                employeeStatus ===
-                "AWOL"
-            ){
-
-                statusClass =
-                    "status-awol";
-
-            }
-
-            else if(
-                employeeStatus ===
-                "Resigned"
-            ){
-
-                statusClass =
-                    "status-resigned";
-
-            }
-
-
-            /*
-             * FULL NAME
-             */
-
-            const fullName = [
-
-                employee.firstname || "",
-
-                employee.middlename || "",
-
-                employee.lastname || ""
-
-            ]
-
-            .filter(Boolean)
-
-            .join(" ");
-
-
-            /*
-             * LEAVE VALUES
-             */
-
-            const vacationLeave =
-                numberValue(
-                    employee.vacationleave
+            const hasUser =
+                !!(
+                    emp.authUid ||
+                    emp.userCreated
                 );
 
 
-            const sickLeave =
-                numberValue(
-                    employee.sickleave
-                );
+            const userButton =
 
+                hasUser
 
-            const birthdayLeave =
-                numberValue(
-                    employee.birthdayleave
-                );
+                ?
 
+                `
 
-            /*
-             * SAFE VALUES
-             */
+<button
+class="icon-btn user-created"
+title="User Account Created"
+disabled>
 
-            const employeeDocId =
-                escapeAttribute(
-                    employee.id
-                );
+<span class="material-icons">
+verified_user
+</span>
 
+</button>
 
-            const employeeId =
-                escapeAttribute(
-                    employee.employeeid
-                );
+`
 
+                :
 
-            const safeName =
-                escapeAttribute(
-                    fullName
-                );
+                `
 
+<button
+class="icon-btn create-user"
+title="Create Employee User"
+onclick="openCreateUser(
+'${emp.id}'
+)">
 
-            /*
-             * TABLE ROW
-             */
+<span class="material-icons">
+person_add
+</span>
 
-            const row =
-                document.createElement(
-                    "tr"
-                );
-
-
-            row.innerHTML = `
-
-<td>
-
-    <button
-        class="icon-btn qr-icon"
-        onclick="viewQR(
-            '${employeeId}',
-            '${safeName}'
-        )"
-        title="View QR Code"
-        aria-label="View QR Code">
-
-        <span class="material-icons">
-            qr_code_2
-        </span>
-
-    </button>
-
-</td>
-
-
-<td>
-    ${escapeHTML(
-        employee.firstname
-    )}
-</td>
-
-
-<td>
-    ${escapeHTML(
-        employee.middlename
-    )}
-</td>
-
-
-<td>
-    ${escapeHTML(
-        employee.lastname
-    )}
-</td>
-
-
-<td>
-    ${escapeHTML(
-        employee.birthdate
-    )}
-</td>
-
-
-<td>
-    ${escapeHTML(
-        employee.age
-    )}
-</td>
-
-
-<td>
-    ${escapeHTML(
-        employee.gender
-    )}
-</td>
-
-
-<td>
-    ${escapeHTML(
-        employee.sss
-    )}
-</td>
-
-
-<td>
-    ${escapeHTML(
-        employee.philhealth
-    )}
-</td>
-
-
-<td>
-    ${escapeHTML(
-        employee.pagibig
-    )}
-</td>
-
-
-<td>
-    ${escapeHTML(
-        employee.healthcard
-    )}
-</td>
-
-
-<td>
-    ${escapeHTML(
-        employee.bankname
-    )}
-</td>
-
-
-<td>
-    ${escapeHTML(
-        employee.bankaccount
-    )}
-</td>
-
-
-<td>
-    ${escapeHTML(
-        employee.idtype
-    )}
-</td>
-
-
-<td>
-    ${escapeHTML(
-        employee.idnumber
-    )}
-</td>
-
-
-<td>
-    ${escapeHTML(
-        employee.mobile
-    )}
-</td>
-
-
-<td>
-    ${escapeHTML(
-        employee.email
-    )}
-</td>
-
-
-<td>
-    ${escapeHTML(
-        employee.currentaddress
-    )}
-</td>
-
-
-<td>
-    ${escapeHTML(
-        employee.permanentaddress
-    )}
-</td>
-
-
-<td>
-    ${escapeHTML(
-        employee.employeeid
-    )}
-</td>
-
-
-<td>
-    ${escapeHTML(
-        employee.position
-    )}
-</td>
-
-
-<td>
-    ${escapeHTML(
-        employee.department
-    )}
-</td>
-
-
-<td>
-    ${escapeHTML(
-        employee.employment
-    )}
-</td>
-
-
-<td class="${statusClass}">
-
-    ${escapeHTML(
-        employeeStatus
-    )}
-
-</td>
-
-
-<td>
-    ${escapeHTML(
-        employee.salary
-    )}
-</td>
-
-
-<td>
-    ${vacationLeave}
-</td>
-
-
-<td>
-    ${sickLeave}
-</td>
-
-
-<td>
-    ${birthdayLeave}
-</td>
-
-
-<td>
-
-    <button
-        class="icon-btn edit-icon"
-        onclick="editEmployee(
-            '${employeeDocId}'
-        )"
-        title="Edit Employee"
-        aria-label="Edit Employee">
-
-        <span class="material-icons">
-            edit
-        </span>
-
-    </button>
-
-
-    <button
-        class="icon-btn delete-icon"
-        onclick="deleteEmployee(
-            '${employeeDocId}'
-        )"
-        title="Delete Employee"
-        aria-label="Delete Employee">
-
-        <span class="material-icons">
-            delete
-        </span>
-
-    </button>
-
-</td>
+</button>
 
 `;
 
 
-            table.appendChild(
-                row
-            );
+            table.innerHTML += `
+
+<tr>
+
+
+<td>
+
+<button
+class="icon-btn qr-btn"
+title="View QR"
+onclick="viewQR(
+'${escapeAttribute(
+    emp.employeeid || ""
+)}',
+'${escapeAttribute(
+    getFullName(emp)
+)}'
+)">
+
+<span class="material-icons">
+qr_code_2
+</span>
+
+</button>
+
+</td>
+
+
+<td>
+${escapeHTML(
+    emp.firstname
+)}
+</td>
+
+
+<td>
+${escapeHTML(
+    emp.middlename
+)}
+</td>
+
+
+<td>
+${escapeHTML(
+    emp.lastname
+)}
+</td>
+
+
+<td>
+${escapeHTML(
+    emp.birthdate
+)}
+</td>
+
+
+<td>
+${escapeHTML(
+    emp.age
+)}
+</td>
+
+
+<td>
+${escapeHTML(
+    emp.gender
+)}
+</td>
+
+
+<td>
+${escapeHTML(
+    emp.sss
+)}
+</td>
+
+
+<td>
+${escapeHTML(
+    emp.philhealth
+)}
+</td>
+
+
+<td>
+${escapeHTML(
+    emp.pagibig
+)}
+</td>
+
+
+<td>
+${escapeHTML(
+    emp.healthcard
+)}
+</td>
+
+
+<td>
+${escapeHTML(
+    emp.bankname
+)}
+</td>
+
+
+<td>
+${escapeHTML(
+    emp.bankaccount
+)}
+</td>
+
+
+<td>
+${escapeHTML(
+    emp.idtype
+)}
+</td>
+
+
+<td>
+${escapeHTML(
+    emp.idnumber
+)}
+</td>
+
+
+<td>
+${escapeHTML(
+    emp.mobile
+)}
+</td>
+
+
+<td>
+${escapeHTML(
+    emp.email
+)}
+</td>
+
+
+<td>
+${escapeHTML(
+    emp.currentaddress
+)}
+</td>
+
+
+<td>
+${escapeHTML(
+    emp.permanentaddress
+)}
+</td>
+
+
+<td>
+${escapeHTML(
+    emp.employeeid
+)}
+</td>
+
+
+<td>
+${escapeHTML(
+    emp.position
+)}
+</td>
+
+
+<td>
+${escapeHTML(
+    emp.department
+)}
+</td>
+
+
+<td>
+${escapeHTML(
+    emp.employment
+)}
+</td>
+
+
+<td class="${statusClass}">
+${escapeHTML(
+    emp.status || "Active"
+)}
+</td>
+
+
+<td>
+${escapeHTML(
+    emp.salary
+)}
+</td>
+
+
+<td>
+${escapeHTML(
+    emp.vacationleave ?? 0
+)}
+</td>
+
+
+<td>
+${escapeHTML(
+    emp.sickleave ?? 0
+)}
+</td>
+
+
+<td>
+${escapeHTML(
+    emp.birthdayleave ?? 0
+)}
+</td>
+
+
+<td>
+
+${userButton}
+
+</td>
+
+
+<td>
+
+<div class="action-icons">
+
+
+<button
+class="icon-btn edit-btn"
+title="Edit Employee"
+onclick="editEmployee(
+'${emp.id}'
+)">
+
+<span class="material-icons">
+edit
+</span>
+
+</button>
+
+
+<button
+class="icon-btn delete-btn"
+title="Delete Employee"
+onclick="deleteEmployee(
+'${emp.id}'
+)">
+
+<span class="material-icons">
+delete
+</span>
+
+</button>
+
+
+</div>
+
+</td>
+
+
+</tr>
+
+`;
 
         }
     );
 
 
-    updateTotal(
-        visibleCount
-    );
+    updateTotal();
 
 }
 
 
 /* ==========================================
-   FILTER
+   CREATE USER
 ========================================== */
 
-window.filterStatus =
+window.openCreateUser =
 function(
-    status
+    id
 ){
 
-    currentStatusFilter =
-        status;
-
-
-    renderTable();
-
-
-    /*
-     * Clear search when changing filter
-     */
-
-    if(search){
-
-        search.value = "";
-
-    }
-
-};
-
-
-/* ==========================================
-   SEARCH
-========================================== */
-
-window.searchEmp =
-function(){
-
-    const value =
-        search
-        ?
-        search.value
-            .trim()
-            .toLowerCase()
-        :
-        "";
-
-
-    const rows =
-        document.querySelectorAll(
-            "#empTable tbody tr"
+    const employee =
+        employees.find(
+            item =>
+                item.id ===
+                id
         );
 
 
-    let visible = 0;
-
-
-    rows.forEach(
-        row => {
-
-            const match =
-                row.innerText
-                    .toLowerCase()
-                    .includes(
-                        value
-                    );
-
-
-            row.style.display =
-                match
-                ?
-                ""
-                :
-                "none";
-
-
-            if(match){
-
-                visible++;
-
-            }
-
-        }
-    );
-
-
-    if(total){
-
-        total.innerText =
-            "Showing : " +
-            visible;
-
-    }
-
-};
-
-
-/* ==========================================
-   VIEW QR
-========================================== */
-
-window.viewQR =
-function(
-    employeeid,
-    name
-){
-
-    const qrWindow =
-        window.open(
-            "",
-            "_blank",
-            "width=420,height=560"
-        );
-
-
-    if(!qrWindow){
+    if(
+        !employee
+    ){
 
         alert(
-            "Please allow pop-ups to view the QR code."
+            "Employee not found."
         );
 
         return;
@@ -1697,358 +1075,506 @@ function(
     }
 
 
-    const safeEmployeeId =
-        escapeHTML(
-            employeeid
-        );
-
-
-    const safeName =
-        escapeHTML(
-            name
-        );
-
-
-    const qrData =
-        JSON.stringify({
-
-            employeeid:
-                employeeid,
-
-            name:
-                name
-
-        });
-
-
-    const safeQRData =
-        escapeHTML(
-            qrData
-        );
-
-
-    qrWindow.document.write(`
-
-<!DOCTYPE html>
-
-<html lang="en">
-
-<head>
-
-<meta charset="UTF-8">
-
-<meta
-    name="viewport"
-    content="width=device-width,initial-scale=1.0">
-
-<title>
-PAPPRITO Employee QR
-</title>
-
-
-<style>
-
-*{
-
-    box-sizing:border-box;
-
-}
-
-
-body{
-
-    margin:0;
-
-    min-height:100vh;
-
-    display:flex;
-
-    align-items:center;
-
-    justify-content:center;
-
-    background:#f5f5f5;
-
-    font-family:
-        "Segoe UI",
-        Tahoma,
-        Arial,
-        sans-serif;
-
-}
-
-
-.qr-card{
-
-    width:350px;
-
-    max-width:90vw;
-
-    background:#ffffff;
-
-    border:
-        2px solid
-        #ffcc00;
-
-    border-radius:15px;
-
-    padding:25px;
-
-    text-align:center;
-
-    box-shadow:
-        0 10px 30px
-        rgba(0,0,0,.12);
-
-}
-
-
-.logo{
-
-    width:65px;
-
-    height:65px;
-
-    object-fit:cover;
-
-    border-radius:50%;
-
-    border:
-        3px solid
-        #ffcc00;
-
-    padding:3px;
-
-    margin-bottom:8px;
-
-}
-
-
-h2{
-
-    margin:2px;
-
-    color:#d71920;
-
-}
-
-
-h3{
-
-    margin:5px 0 15px;
-
-    color:#333;
-
-}
-
-
-.info{
-
-    margin:8px 0;
-
-    padding:8px;
-
-    background:#fff9df;
-
-    border-radius:7px;
-
-    font-size:13px;
-
-}
-
-
-#qrcode{
-
-    display:flex;
-
-    justify-content:center;
-
-    margin:20px 0;
-
-}
-
-
-button{
-
-    border:none;
-
-    border-radius:7px;
-
-    background:#ffcc00;
-
-    color:#111;
-
-    padding:11px 20px;
-
-    font-weight:900;
-
-    cursor:pointer;
-
-}
-
-
-button:hover{
-
-    opacity:.85;
-
-}
-
-
-@media print{
-
-    body{
-
-        background:#fff;
-
-    }
-
-
-    .qr-card{
-
-        box-shadow:none;
-
-    }
-
-
-    button{
-
-        display:none;
-
-    }
-
-}
-
-</style>
-
-</head>
-
-
-<body>
-
-
-<div class="qr-card">
-
-
-<img
-    src="../assets/images/logo.png"
-    class="logo"
-    alt="PAPPRITO">
-
-
-<h2>
-PAPPRITO
-</h2>
-
-
-<h3>
-Employee QR Code
-</h3>
-
-
-<div class="info">
-
-<b>
-Employee ID:
-</b>
-
-<br>
-
-${safeEmployeeId}
-
-</div>
-
-
-<div class="info">
-
-<b>
-Employee:
-</b>
-
-<br>
-
-${safeName}
-
-</div>
-
-
-<div id="qrcode">
-</div>
-
-
-<button
-    onclick="window.print()">
-
-    🖨 PRINT QR
-
-</button>
-
-
-</div>
-
-
-
-<script
-src="https://cdn.jsdelivr.net/npm/qrcode/build/qrcode.min.js">
-<\/script>
-
-
-<script>
-
-const qrValue =
-${JSON.stringify(qrData)};
-
-
-const canvas =
-document.createElement(
-    "canvas"
-);
-
-
-QRCode.toCanvas(
-
-    canvas,
-
-    qrValue,
-
-    {
-
-        width:220,
-
-        margin:2
-
-    },
-
-    function(
-        error
+    if(
+        employee.authUid ||
+        employee.userCreated
     ){
 
-        if(!error){
+        alert(
+            "This employee already has a user account."
+        );
 
-            document
-                .getElementById(
-                    "qrcode"
-                )
-                .appendChild(
-                    canvas
-                );
+        return;
+
+    }
+
+
+    selectedUserEmployee =
+        employee;
+
+
+    const userEmployeeName =
+        document.getElementById(
+            "userEmployeeName"
+        );
+
+
+    const userEmployeeId =
+        document.getElementById(
+            "userEmployeeId"
+        );
+
+
+    const userEmail =
+        document.getElementById(
+            "userEmail"
+        );
+
+
+    const userPassword =
+        document.getElementById(
+            "userPassword"
+        );
+
+
+    const userConfirmPassword =
+        document.getElementById(
+            "userConfirmPassword"
+        );
+
+
+    if(
+        userEmployeeName
+    ){
+
+        userEmployeeName.textContent =
+            getFullName(
+                employee
+            );
+
+    }
+
+
+    if(
+        userEmployeeId
+    ){
+
+        userEmployeeId.textContent =
+            employee.employeeid ||
+            "-";
+
+    }
+
+
+    if(
+        userEmail
+    ){
+
+        userEmail.value =
+            employee.email ||
+            "";
+
+    }
+
+
+    if(
+        userPassword
+    ){
+
+        userPassword.value =
+            "";
+
+    }
+
+
+    if(
+        userConfirmPassword
+    ){
+
+        userConfirmPassword.value =
+            "";
+
+    }
+
+
+    if(
+        userModal
+    ){
+
+        userModal.style.display =
+            "flex";
+
+    }
+
+};
+
+
+/* ==========================================
+   CLOSE USER MODAL
+========================================== */
+
+window.closeUserModal =
+function(){
+
+    if(
+        userModal
+    ){
+
+        userModal.style.display =
+            "none";
+
+    }
+
+
+    selectedUserEmployee =
+        null;
+
+};
+
+
+/* ==========================================
+   TOGGLE PASSWORD
+========================================== */
+
+window.toggleUserPassword =
+function(){
+
+    const password =
+        document.getElementById(
+            "userPassword"
+        );
+
+
+    const icon =
+        document.getElementById(
+            "passwordIcon"
+        );
+
+
+    if(
+        !password
+    ){
+
+        return;
+
+    }
+
+
+    if(
+        password.type ===
+        "password"
+    ){
+
+        password.type =
+            "text";
+
+
+        if(
+            icon
+        ){
+
+            icon.textContent =
+                "visibility_off";
 
         }
 
     }
 
-);
+    else{
 
-<\/script>
-
-
-</body>
-
-</html>
-
-`);
+        password.type =
+            "password";
 
 
-    qrWindow.document.close();
+        if(
+            icon
+        ){
+
+            icon.textContent =
+                "visibility";
+
+        }
+
+    }
+
+};
+
+
+/* ==========================================
+   CREATE FIREBASE USER
+========================================== */
+
+window.createEmployeeUser =
+async function(){
+
+    if(
+        !selectedUserEmployee
+    ){
+
+        alert(
+            "Please select an employee."
+        );
+
+        return;
+
+    }
+
+
+    const emailInput =
+        document.getElementById(
+            "userEmail"
+        );
+
+
+    const passwordInput =
+        document.getElementById(
+            "userPassword"
+        );
+
+
+    const confirmInput =
+        document.getElementById(
+            "userConfirmPassword"
+        );
+
+
+    const email =
+        emailInput
+        ?
+        emailInput.value
+            .trim()
+            .toLowerCase()
+        :
+        "";
+
+
+    const password =
+        passwordInput
+        ?
+        passwordInput.value
+        :
+        "";
+
+
+    const confirmPassword =
+        confirmInput
+        ?
+        confirmInput.value
+        :
+        "";
+
+
+    /* ======================================
+       VALIDATION
+    ====================================== */
+
+    if(
+        !email
+    ){
+
+        alert(
+            "Please enter the employee email."
+        );
+
+        return;
+
+    }
+
+
+    if(
+        !email.includes("@")
+    ){
+
+        alert(
+            "Please enter a valid email address."
+        );
+
+        return;
+
+    }
+
+
+    if(
+        password.length < 6
+    ){
+
+        alert(
+            "Password must contain at least 6 characters."
+        );
+
+        return;
+
+    }
+
+
+    if(
+        password !==
+        confirmPassword
+    ){
+
+        alert(
+            "Passwords do not match."
+        );
+
+        return;
+
+    }
+
+
+    try{
+
+        /*
+         * ==================================
+         * SECONDARY AUTH
+         *
+         * This prevents the current
+         * admin account from being
+         * logged out.
+         * ==================================
+         */
+
+        const secondary =
+            await getSecondaryAuth();
+
+
+        const result =
+            await createUserWithEmailAndPassword(
+
+                secondary,
+
+                email,
+
+                password
+
+            );
+
+
+        const newUser =
+            result.user;
+
+
+        /*
+         * ==================================
+         * UPDATE EMPLOYEE RECORD
+         * ==================================
+         */
+
+        await updateDoc(
+
+            doc(
+                db,
+                "employees",
+                selectedUserEmployee.id
+            ),
+
+            {
+
+                email:
+                    email,
+
+                authUid:
+                    newUser.uid,
+
+                role:
+                    "employee",
+
+                username:
+                    email,
+
+                userCreated:
+                    true,
+
+                userCreatedAt:
+                    Date.now(),
+
+                accountStatus:
+                    "Active"
+
+            }
+
+        );
+
+
+        alert(
+            "Employee User created successfully.\n\n" +
+            "Email: " +
+            email +
+            "\n\n" +
+            "The employee can now use this account to access the Employee Portal."
+        );
+
+
+        /*
+         * Sign out ONLY secondary auth.
+         */
+
+        try{
+
+            const {
+                signOut:secondarySignOut
+            } =
+                await import(
+                    "https://www.gstatic.com/firebasejs/12.13.0/firebase-auth.js"
+                );
+
+
+            await secondarySignOut(
+                secondary
+            );
+
+        }catch(
+            secondaryError
+        ){
+
+            console.warn(
+                "Secondary logout:",
+                secondaryError
+            );
+
+        }
+
+
+        closeUserModal();
+
+        await loadEmployees();
+
+
+    }catch(error){
+
+        console.error(
+            "Create User Error:",
+            error
+        );
+
+
+        if(
+            error.code ===
+            "auth/email-already-in-use"
+        ){
+
+            alert(
+                "This email already has a Firebase account."
+            );
+
+            return;
+
+        }
+
+
+        if(
+            error.code ===
+            "auth/invalid-email"
+        ){
+
+            alert(
+                "Invalid email address."
+            );
+
+            return;
+
+        }
+
+
+        if(
+            error.code ===
+            "auth/weak-password"
+        ){
+
+            alert(
+                "Password is too weak."
+            );
+
+            return;
+
+        }
+
+
+        alert(
+            "Failed to create employee user.\n\n" +
+            error.message
+        );
+
+    }
 
 };
 
@@ -2062,18 +1588,17 @@ function(
     id
 ){
 
-    const employee =
+    const emp =
         employees.find(
             item =>
-                item.id === id
+                item.id ===
+                id
         );
 
 
-    if(!employee){
-
-        alert(
-            "Employee record not found."
-        );
+    if(
+        !emp
+    ){
 
         return;
 
@@ -2084,278 +1609,85 @@ function(
         id;
 
 
-    /*
-     * OPEN MODAL
-     */
-
-    if(employeeModal){
-
-        employeeModal.style.display =
-            "flex";
-
-    }
+    openModal();
 
 
-    /*
-     * PERSONAL
-     */
+    const values = [
 
-    const personalFields =
-        document.querySelectorAll(
-            "#personal .emp-field"
-        );
+        emp.firstname,
 
+        emp.middlename,
 
-    if(personalFields[0]){
+        emp.lastname,
 
-        personalFields[0].value =
-            employee.firstname || "";
+        emp.birthdate,
 
-    }
+        emp.age,
+
+        emp.gender,
 
 
-    if(personalFields[1]){
+        emp.sss,
 
-        personalFields[1].value =
-            employee.middlename || "";
+        emp.philhealth,
 
-    }
+        emp.pagibig,
 
+        emp.healthcard,
 
-    if(personalFields[2]){
+        emp.bankname,
 
-        personalFields[2].value =
-            employee.lastname || "";
+        emp.bankaccount,
 
-    }
+        emp.idtype,
 
-
-    setFieldValue(
-        "#birthdate",
-        employee.birthdate || ""
-    );
+        emp.idnumber,
 
 
-    setFieldValue(
-        "#age",
-        employee.age || ""
-    );
+        emp.mobile,
+
+        emp.email,
+
+        emp.currentaddress,
+
+        emp.permanentaddress,
 
 
-    if(personalFields[5]){
+        emp.employeeid,
 
-        personalFields[5].value =
-            employee.gender || "";
+        emp.position,
 
-    }
+        emp.department,
 
+        emp.employment,
 
-    /*
-     * GOVERNMENT
-     */
+        emp.status,
 
-    const governmentFields =
-        document.querySelectorAll(
-            "#government .emp-field"
-        );
+        emp.salary,
 
 
-    const governmentValues = [
+        emp.vacationleave ?? 10,
 
-        employee.sss,
+        emp.sickleave ?? 7,
 
-        employee.philhealth,
-
-        employee.pagibig,
-
-        employee.healthcard,
-
-        employee.bankname,
-
-        employee.bankaccount,
-
-        employee.idtype,
-
-        employee.idnumber
+        emp.birthdayleave ?? 1
 
     ];
-
-
-    governmentFields.forEach(
-        (
-            field,
-            index
-        ) => {
-
-            field.value =
-                governmentValues[index]
-                ?? "";
-
-        }
-    );
-
-
-    /*
-     * CONTACT
-     */
-
-    const contactFields =
-        document.querySelectorAll(
-            "#contact .emp-field"
-        );
-
-
-    const contactValues = [
-
-        employee.mobile,
-
-        employee.email,
-
-        employee.currentaddress,
-
-        employee.permanentaddress
-
-    ];
-
-
-    contactFields.forEach(
-        (
-            field,
-            index
-        ) => {
-
-            field.value =
-                contactValues[index]
-                ?? "";
-
-        }
-    );
-
-
-    /*
-     * EMPLOYMENT
-     */
-
-    const employmentFields =
-        document.querySelectorAll(
-            "#employment .emp-field"
-        );
-
-
-    const employmentValues = [
-
-        employee.employeeid,
-
-        employee.position,
-
-        employee.department,
-
-        employee.employment,
-
-        employee.status ||
-            "Active",
-
-        employee.salary,
-
-        employee.vacationleave ??
-            10,
-
-        employee.sickleave ??
-            7,
-
-        employee.birthdayleave ??
-            1
-
-    ];
-
-
-    employmentFields.forEach(
-        (
-            field,
-            index
-        ) => {
-
-            field.value =
-                employmentValues[index]
-                ?? "";
-
-        }
-    );
-
-
-    /*
-     * ENSURE LEAVE FIELDS
-     */
-
-    setFieldValue(
-        "#vacationleave",
-        employee.vacationleave ??
-            10
-    );
-
-
-    setFieldValue(
-        "#sickleave",
-        employee.sickleave ??
-            7
-    );
-
-
-    setFieldValue(
-        "#birthdayleave",
-        employee.birthdayleave ??
-            1
-    );
-
-
-    /*
-     * OPEN PERSONAL TAB
-     */
-
-    document
-        .querySelectorAll(
-            ".tab-content"
-        )
-        .forEach(
-            tab => {
-
-                tab.classList.remove(
-                    "active"
-                );
-
-            }
-        );
-
-
-    const personal =
-        document.getElementById(
-            "personal"
-        );
-
-
-    if(personal){
-
-        personal.classList.add(
-            "active"
-        );
-
-    }
 
 
     document
         .querySelectorAll(
-            ".tab-btn"
+            ".emp-field"
         )
         .forEach(
             (
-                button,
+                field,
                 index
             ) => {
 
-                button.classList.toggle(
-                    "active",
-                    index === 0
-                );
+                field.value =
+                    values[index] ??
+                    "";
 
             }
         );
@@ -2372,51 +1704,11 @@ async function(
     id
 ){
 
-    const employee =
-        employees.find(
-            item =>
-                item.id === id
-        );
-
-
-    if(!employee){
-
-        alert(
-            "Employee record not found."
-        );
-
-        return;
-
-    }
-
-
-    const name = [
-
-        employee.firstname || "",
-
-        employee.lastname || ""
-
-    ]
-
-    .filter(Boolean)
-    .join(" ");
-
-
-    const confirmed =
-        confirm(
-
-            "Delete Employee?\n\n" +
-
-            (
-                name ||
-                employee.employeeid ||
-                "Employee"
-            )
-
-        );
-
-
-    if(!confirmed){
+    if(
+        !confirm(
+            "Delete this employee?"
+        )
+    ){
 
         return;
 
@@ -2436,12 +1728,12 @@ async function(
         );
 
 
+        await loadEmployees();
+
+
         alert(
             "Employee deleted successfully."
         );
-
-
-        await loadEmployees();
 
 
     }catch(error){
@@ -2463,74 +1755,325 @@ async function(
 
 
 /* ==========================================
+   FILTER
+========================================== */
+
+window.filterStatus =
+function(
+    status
+){
+
+    currentStatusFilter =
+        status;
+
+
+    renderTable();
+
+};
+
+
+/* ==========================================
+   SEARCH
+========================================== */
+
+window.searchEmp =
+function(){
+
+    const value =
+        search
+        ?
+        search.value
+            .toLowerCase()
+        :
+        "";
+
+
+    const rows =
+        document.querySelectorAll(
+            "#empTable tbody tr"
+        );
+
+
+    let visible =
+        0;
+
+
+    rows.forEach(
+        row => {
+
+            const show =
+                row.innerText
+                    .toLowerCase()
+                    .includes(
+                        value
+                    );
+
+
+            row.style.display =
+                show
+                ?
+                ""
+                :
+                "none";
+
+
+            if(
+                show
+            ){
+
+                visible++;
+
+            }
+
+        }
+    );
+
+
+    if(
+        total
+    ){
+
+        total.innerText =
+            "Showing : " +
+            visible;
+
+    }
+
+};
+
+
+/* ==========================================
+   QR
+========================================== */
+
+window.viewQR =
+function(
+    employeeid,
+    name
+){
+
+    const qrWindow =
+        window.open(
+            "",
+            "_blank",
+            "width=400,height=500"
+        );
+
+
+    if(
+        !qrWindow
+    ){
+
+        alert(
+            "Please allow pop-ups."
+        );
+
+        return;
+
+    }
+
+
+    qrWindow.document.write(`
+
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<title>
+PAPPRITO Employee QR
+</title>
+
+<style>
+
+body{
+
+font-family:Arial,sans-serif;
+
+text-align:center;
+
+padding:20px;
+
+}
+
+h2{
+
+color:#d71920;
+
+}
+
+button{
+
+margin-top:20px;
+
+padding:10px 20px;
+
+border:none;
+
+background:#ffcc00;
+
+font-weight:bold;
+
+cursor:pointer;
+
+border-radius:7px;
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<h2>
+PAPPRITO
+</h2>
+
+<h3>
+Employee QR Code
+</h3>
+
+<p>
+<b>ID:</b>
+${escapeHTML(employeeid)}
+</p>
+
+<p>
+<b>Name:</b>
+${escapeHTML(name)}
+</p>
+
+<div id="qrcode"></div>
+
+<button
+onclick="window.print()">
+
+PRINT
+
+</button>
+
+
+<script
+src="https://cdn.jsdelivr.net/npm/qrcode/build/qrcode.min.js">
+<\/script>
+
+
+<script>
+
+QRCode.toCanvas(
+
+document.createElement("canvas"),
+
+JSON.stringify({
+
+employeeid:
+"${escapeJS(employeeid)}",
+
+name:
+"${escapeJS(name)}"
+
+}),
+
+{
+
+width:220
+
+},
+
+function(error,canvas){
+
+if(!error){
+
+document
+.getElementById("qrcode")
+.appendChild(canvas);
+
+}
+
+}
+
+);
+
+<\/script>
+
+
+</body>
+
+</html>
+
+`);
+
+
+    qrWindow.document.close();
+
+};
+
+
+/* ==========================================
    CLEAR FORM
 ========================================== */
 
 function clearForm(){
 
-    editId = null;
+    editId =
+        null;
 
-
-    /*
-     * Clear all inputs/selects
-     */
 
     document
         .querySelectorAll(
             ".emp-field"
         )
         .forEach(
-            element => {
+            field => {
 
-                element.value = "";
+                field.value =
+                    "";
 
             }
         );
 
 
     /*
-     * Default STATUS
+     * Default leave balances
      */
 
-    const employmentFields =
+    const fields =
         document.querySelectorAll(
-            "#employment .emp-field"
+            ".emp-field"
         );
 
 
-    if(employmentFields[4]){
+    if(
+        fields[24]
+    ){
 
-        employmentFields[4].value =
-            "Active";
+        fields[24].value =
+            "10";
 
     }
 
 
-    /*
-     * Default LEAVES
-     */
+    if(
+        fields[25]
+    ){
 
-    setFieldValue(
-        "#vacationleave",
-        10
-    );
+        fields[25].value =
+            "7";
 
-
-    setFieldValue(
-        "#sickleave",
-        7
-    );
+    }
 
 
-    setFieldValue(
-        "#birthdayleave",
-        1
-    );
+    if(
+        fields[26]
+    ){
 
+        fields[26].value =
+            "1";
 
-    /*
-     * Reset tabs
-     */
+    }
+
 
     document
         .querySelectorAll(
@@ -2553,7 +2096,9 @@ function clearForm(){
         );
 
 
-    if(personal){
+    if(
+        personal
+    ){
 
         personal.classList.add(
             "active"
@@ -2580,34 +2125,14 @@ function clearForm(){
             }
         );
 
-}
+};
 
 
 /* ==========================================
-   UPDATE TOTAL
+   TOTAL
 ========================================== */
 
-function updateTotal(
-    count = null
-){
-
-    if(!total){
-
-        return;
-
-    }
-
-
-    if(count !== null){
-
-        total.innerText =
-            "Total : " +
-            count;
-
-        return;
-
-    }
-
+function updateTotal(){
 
     const rows =
         document.querySelectorAll(
@@ -2615,7 +2140,8 @@ function updateTotal(
         );
 
 
-    let visible = 0;
+    let count =
+        0;
 
 
     rows.forEach(
@@ -2626,7 +2152,7 @@ function updateTotal(
                 "none"
             ){
 
-                visible++;
+                count++;
 
             }
 
@@ -2634,65 +2160,161 @@ function updateTotal(
     );
 
 
-    total.innerText =
-        "Total : " +
-        visible;
+    if(
+        total
+    ){
 
-}
-
-
-/* ==========================================
-   MODAL OUTSIDE CLICK
-========================================== */
-
-if(employeeModal){
-
-    employeeModal.addEventListener(
-        "click",
-        function(event){
-
-            if(
-                event.target ===
-                employeeModal
-            ){
-
-                closeModal();
-
-            }
-
-        }
-    );
-
-}
-
-
-/* ==========================================
-   ESCAPE KEY
-========================================== */
-
-document.addEventListener(
-    "keydown",
-    function(event){
-
-        if(
-            event.key ===
-            "Escape"
-        ){
-
-            if(
-                employeeModal &&
-                employeeModal.style.display ===
-                "flex"
-            ){
-
-                closeModal();
-
-            }
-
-        }
+        total.innerText =
+            "Total : " +
+            count;
 
     }
-);
+
+}
+
+
+/* ==========================================
+   ESCAPE HTML
+========================================== */
+
+function escapeHTML(
+    value
+){
+
+    return String(
+        value ?? ""
+    )
+
+    .replace(
+        /&/g,
+        "&amp;"
+    )
+
+    .replace(
+        /</g,
+        "&lt;"
+    )
+
+    .replace(
+        />/g,
+        "&gt;"
+    )
+
+    .replace(
+        /"/g,
+        "&quot;"
+    )
+
+    .replace(
+        /'/g,
+        "&#039;"
+    );
+
+}
+
+
+/* ==========================================
+   ESCAPE ATTRIBUTE
+========================================== */
+
+function escapeAttribute(
+    value
+){
+
+    return String(
+        value ?? ""
+    )
+
+    .replace(
+        /\\/g,
+        "\\\\"
+    )
+
+    .replace(
+        /'/g,
+        "\\'"
+    )
+
+    .replace(
+        /\n/g,
+        "\\n"
+    )
+
+    .replace(
+        /\r/g,
+        "\\r"
+    );
+
+}
+
+
+/* ==========================================
+   ESCAPE JAVASCRIPT
+========================================== */
+
+function escapeJS(
+    value
+){
+
+    return String(
+        value ?? ""
+    )
+
+    .replace(
+        /\\/g,
+        "\\\\"
+    )
+
+    .replace(
+        /"/g,
+        '\\"'
+    )
+
+    .replace(
+        /\n/g,
+        "\\n"
+    )
+
+    .replace(
+        /\r/g,
+        "\\r"
+    );
+
+}
+
+
+/* ==========================================
+   FULL NAME
+========================================== */
+
+function getFullName(
+    employee
+){
+
+    return [
+
+        employee.firstname,
+
+        employee.middlename,
+
+        employee.lastname
+
+    ]
+
+    .filter(
+        Boolean
+    )
+
+    .join(" ")
+
+    .replace(
+        /\s+/g,
+        " "
+    )
+
+    .trim();
+
+}
 
 
 /* ==========================================
