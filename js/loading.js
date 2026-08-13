@@ -62,13 +62,6 @@ function getUserRole(user){
 
     }
 
-
-    /*
-    Fallback:
-    If Firebase user exists but no role
-    was saved, treat as admin.
-    */
-
     if(user){
 
         return "admin";
@@ -88,17 +81,17 @@ function getHomePage(role){
 
     if(role === "admin"){
 
-        return "dashboard.html";
+        return "../pages/dashboard.html";
 
     }
 
     if(role === "employee"){
 
-        return "employeeportal.html";
+        return "../pages/employeeportal.html";
 
     }
 
-    return "login.html";
+    return "../pages/login.html";
 
 }
 
@@ -176,21 +169,12 @@ function completeLoading(role){
     }
 
 
-    /*
-    Mark all modules as completed.
-    */
-
     moduleItems.forEach(item=>{
 
         item.classList.add("done");
 
     });
 
-
-    /*
-    Give the HUD a short moment to
-    display 100% before redirect.
-    */
 
     setTimeout(()=>{
 
@@ -291,10 +275,6 @@ function startLoading(role){
             );
 
 
-            /*
-            Mark modules progressively.
-            */
-
             if(
                 moduleItems[index]
             ){
@@ -320,10 +300,6 @@ onAuthStateChanged(
     auth,
     (user)=>{
 
-        /*
-        User is NOT logged in.
-        */
-
         if(!user){
 
             authChecked = true;
@@ -348,7 +324,7 @@ onAuthStateChanged(
             setTimeout(()=>{
 
                 window.location.replace(
-                    "login.html"
+                    "../pages/login.html"
                 );
 
             },500);
@@ -359,20 +335,12 @@ onAuthStateChanged(
         }
 
 
-        /*
-        User is authenticated.
-        */
-
         authChecked = true;
 
 
         const role =
             getUserRole(user);
 
-
-        /*
-        Save authenticated user.
-        */
 
         if(
             !localStorage.getItem(
@@ -388,11 +356,6 @@ onAuthStateChanged(
         }
 
 
-        /*
-        If role is missing,
-        use admin fallback.
-        */
-
         if(!role){
 
             localStorage.setItem(
@@ -406,10 +369,6 @@ onAuthStateChanged(
         const finalRole =
             role || "admin";
 
-
-        /*
-        Start loading.
-        */
 
         startLoading(
             finalRole
