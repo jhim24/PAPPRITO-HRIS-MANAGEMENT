@@ -1910,9 +1910,920 @@
             </section>
 
 
-            <section
-                id="attendanceSection"
-                class="settings-section">
+          <!-- ==================================
+     ATTENDANCE SETTINGS
+=================================== -->
+
+<section
+    id="attendanceSection"
+    class="settings-section">
+
+
+    <!-- ==================================
+         SECTION TITLE
+    =================================== -->
+
+    <div class="section-title">
+
+        <div>
+
+            <h2>
+                Attendance Settings
+            </h2>
+
+            <p>
+                Configure working hours, breaks, grace
+                period, late, undertime and overtime rules.
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <!-- ==================================
+         WORK SCHEDULE
+    =================================== -->
+
+    <div class="settings-card">
+
+        <div class="card-title">
+
+            <span class="material-icons">
+                schedule
+            </span>
+
+            <div>
+
+                <h3>
+                    Regular Work Schedule
+                </h3>
+
+                <p>
+                    Set the standard working schedule
+                    used for attendance computation.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="form-grid">
+
+
+            <!-- REGULAR HOURS -->
+
+            <div class="form-group">
+
+                <label for="regularHours">
+
+                    Regular Working Hours
+
+                </label>
+
+                <input
+                    type="number"
+                    id="regularHours"
+                    min="1"
+                    max="24"
+                    step="0.5"
+                    value="8">
+
+                <small class="field-help">
+
+                    Example: 8 hours
+
+                </small>
+
+            </div>
+
+
+            <!-- START -->
+
+            <div class="form-group">
+
+                <label for="workStartTime">
+
+                    Work Start Time
+
+                </label>
+
+                <input
+                    type="time"
+                    id="workStartTime"
+                    value="08:00">
+
+            </div>
+
+
+            <!-- END -->
+
+            <div class="form-group">
+
+                <label for="workEndTime">
+
+                    Work End Time
+
+                </label>
+
+                <input
+                    type="time"
+                    id="workEndTime"
+                    value="17:00">
+
+            </div>
+
+
+            <!-- WORK DAYS -->
+
+            <div class="form-group">
+
+                <label for="workDays">
+
+                    Work Days
+
+                </label>
+
+                <select
+                    id="workDays">
+
+                    <option value="5">
+                        5 Days / Week
+                    </option>
+
+                    <option value="6">
+                        6 Days / Week
+                    </option>
+
+                    <option value="7">
+                        7 Days / Week
+                    </option>
+
+                </select>
+
+            </div>
+
+
+        </div>
+
+    </div>
+
+
+    <!-- ==================================
+         BREAK SETTINGS
+    =================================== -->
+
+    <div class="settings-card">
+
+        <div class="card-title">
+
+            <span class="material-icons">
+                free_breakfast
+            </span>
+
+            <div>
+
+                <h3>
+                    Break Settings
+                </h3>
+
+                <p>
+                    Configure employee break schedule
+                    and break deduction.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="form-grid">
+
+
+            <!-- ENABLE BREAK -->
+
+            <div class="form-group full">
+
+                <label class="toggle-row">
+
+                    <span>
+
+                        <strong>
+                            Enable Break
+                        </strong>
+
+                        <small>
+                            Enable break-out and break-in
+                            attendance records.
+                        </small>
+
+                    </span>
+
+
+                    <input
+                        type="checkbox"
+                        id="enableBreak"
+                        class="toggle-input"
+                        checked>
+
+                    <span class="toggle-switch"></span>
+
+                </label>
+
+            </div>
+
+
+            <!-- BREAK START -->
+
+            <div class="form-group">
+
+                <label for="breakStartTime">
+
+                    Break Start Time
+
+                </label>
+
+                <input
+                    type="time"
+                    id="breakStartTime"
+                    value="12:00">
+
+            </div>
+
+
+            <!-- BREAK END -->
+
+            <div class="form-group">
+
+                <label for="breakEndTime">
+
+                    Break End Time
+
+                </label>
+
+                <input
+                    type="time"
+                    id="breakEndTime"
+                    value="13:00">
+
+            </div>
+
+
+            <!-- BREAK HOURS -->
+
+            <div class="form-group">
+
+                <label for="breakHours">
+
+                    Break Duration
+
+                </label>
+
+                <input
+                    type="number"
+                    id="breakHours"
+                    min="0"
+                    max="8"
+                    step="0.5"
+                    value="1">
+
+                <small class="field-help">
+
+                    Example: 1 hour
+
+                </small>
+
+            </div>
+
+
+            <!-- DEDUCT BREAK -->
+
+            <div class="form-group">
+
+                <label class="toggle-row">
+
+                    <span>
+
+                        <strong>
+                            Deduct Break from Hours
+                        </strong>
+
+                        <small>
+                            Exclude the break duration
+                            from regular working hours.
+                        </small>
+
+                    </span>
+
+
+                    <input
+                        type="checkbox"
+                        id="deductBreak"
+                        class="toggle-input"
+                        checked>
+
+                    <span class="toggle-switch"></span>
+
+                </label>
+
+            </div>
+
+
+        </div>
+
+    </div>
+
+
+    <!-- ==================================
+         LATE SETTINGS
+    =================================== -->
+
+    <div class="settings-card">
+
+        <div class="card-title">
+
+            <span class="material-icons">
+                alarm
+            </span>
+
+            <div>
+
+                <h3>
+                    Late & Grace Period
+                </h3>
+
+                <p>
+                    Configure how late attendance
+                    is identified.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="form-grid">
+
+
+            <!-- GRACE PERIOD -->
+
+            <div class="form-group">
+
+                <label for="gracePeriod">
+
+                    Grace Period
+
+                </label>
+
+                <input
+                    type="number"
+                    id="gracePeriod"
+                    min="0"
+                    max="120"
+                    value="15">
+
+                <small class="field-help">
+
+                    Minutes before an employee
+                    is considered late.
+
+                </small>
+
+            </div>
+
+
+            <!-- LATE AFTER GRACE -->
+
+            <div class="form-group">
+
+                <label class="toggle-row">
+
+                    <span>
+
+                        <strong>
+                            Mark Late After Grace Period
+                        </strong>
+
+                        <small>
+                            Automatically mark employees
+                            late after the grace period.
+                        </small>
+
+                    </span>
+
+
+                    <input
+                        type="checkbox"
+                        id="markLate"
+                        class="toggle-input"
+                        checked>
+
+                    <span class="toggle-switch"></span>
+
+                </label>
+
+            </div>
+
+
+            <!-- LATE DEDUCTION -->
+
+            <div class="form-group">
+
+                <label for="lateCalculation">
+
+                    Late Calculation
+
+                </label>
+
+                <select
+                    id="lateCalculation">
+
+                    <option value="minutes">
+                        Actual Minutes
+                    </option>
+
+                    <option value="rounded">
+                        Rounded Minutes
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <!-- ROUNDING -->
+
+            <div class="form-group">
+
+                <label for="lateRounding">
+
+                    Late Rounding
+
+                </label>
+
+                <select
+                    id="lateRounding">
+
+                    <option value="1">
+                        1 Minute
+                    </option>
+
+                    <option value="5">
+                        5 Minutes
+                    </option>
+
+                    <option value="10">
+                        10 Minutes
+                    </option>
+
+                    <option value="15">
+                        15 Minutes
+                    </option>
+
+                </select>
+
+            </div>
+
+
+        </div>
+
+    </div>
+
+
+    <!-- ==================================
+         UNDERTIME SETTINGS
+    =================================== -->
+
+    <div class="settings-card">
+
+        <div class="card-title">
+
+            <span class="material-icons">
+                timer_off
+            </span>
+
+            <div>
+
+                <h3>
+                    Undertime Settings
+                </h3>
+
+                <p>
+                    Configure how insufficient working
+                    time is calculated.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="form-grid">
+
+
+            <!-- ENABLE -->
+
+            <div class="form-group full">
+
+                <label class="toggle-row">
+
+                    <span>
+
+                        <strong>
+                            Enable Undertime Calculation
+                        </strong>
+
+                        <small>
+                            Automatically calculate missing
+                            working time.
+                        </small>
+
+                    </span>
+
+
+                    <input
+                        type="checkbox"
+                        id="enableUndertime"
+                        class="toggle-input"
+                        checked>
+
+                    <span class="toggle-switch"></span>
+
+                </label>
+
+            </div>
+
+
+            <!-- CALCULATION -->
+
+            <div class="form-group">
+
+                <label for="undertimeCalculation">
+
+                    Undertime Calculation
+
+                </label>
+
+                <select
+                    id="undertimeCalculation">
+
+                    <option value="minutes">
+                        Actual Minutes
+                    </option>
+
+                    <option value="rounded">
+                        Rounded Minutes
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <!-- ROUNDING -->
+
+            <div class="form-group">
+
+                <label for="undertimeRounding">
+
+                    Undertime Rounding
+
+                </label>
+
+                <select
+                    id="undertimeRounding">
+
+                    <option value="1">
+                        1 Minute
+                    </option>
+
+                    <option value="5">
+                        5 Minutes
+                    </option>
+
+                    <option value="10">
+                        10 Minutes
+                    </option>
+
+                    <option value="15">
+                        15 Minutes
+                    </option>
+
+                </select>
+
+            </div>
+
+
+        </div>
+
+    </div>
+
+
+    <!-- ==================================
+         OVERTIME SETTINGS
+    =================================== -->
+
+    <div class="settings-card">
+
+        <div class="card-title">
+
+            <span class="material-icons">
+                more_time
+            </span>
+
+            <div>
+
+                <h3>
+                    Overtime Settings
+                </h3>
+
+                <p>
+                    Configure automatic overtime
+                    computation.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="form-grid">
+
+
+            <!-- ENABLE OT -->
+
+            <div class="form-group full">
+
+                <label class="toggle-row">
+
+                    <span>
+
+                        <strong>
+                            Enable Overtime Calculation
+                        </strong>
+
+                        <small>
+                            Automatically calculate overtime
+                            based on actual worked hours.
+                        </small>
+
+                    </span>
+
+
+                    <input
+                        type="checkbox"
+                        id="enableOvertime"
+                        class="toggle-input"
+                        checked>
+
+                    <span class="toggle-switch"></span>
+
+                </label>
+
+            </div>
+
+
+            <!-- MINIMUM OT -->
+
+            <div class="form-group">
+
+                <label for="minimumOtMinutes">
+
+                    Minimum OT Minutes
+
+                </label>
+
+                <input
+                    type="number"
+                    id="minimumOtMinutes"
+                    min="0"
+                    max="480"
+                    value="30">
+
+                <small class="field-help">
+
+                    Example: 30 minutes
+
+                </small>
+
+            </div>
+
+
+            <!-- ROUNDING -->
+
+            <div class="form-group">
+
+                <label for="otRounding">
+
+                    OT Rounding
+
+                </label>
+
+                <select
+                    id="otRounding">
+
+                    <option value="1">
+                        1 Minute
+                    </option>
+
+                    <option value="5">
+                        5 Minutes
+                    </option>
+
+                    <option value="10">
+                        10 Minutes
+                    </option>
+
+                    <option value="15">
+                        15 Minutes
+                    </option>
+
+                    <option value="30">
+                        30 Minutes
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <!-- AUTO COMPUTE -->
+
+            <div class="form-group full">
+
+                <label class="toggle-row">
+
+                    <span>
+
+                        <strong>
+                            Auto Compute Regular Hours
+                        </strong>
+
+                        <small>
+                            Automatically calculate regular
+                            hours from Time In, Break and Time Out.
+                        </small>
+
+                    </span>
+
+
+                    <input
+                        type="checkbox"
+                        id="autoComputeRegularHours"
+                        class="toggle-input"
+                        checked>
+
+                    <span class="toggle-switch"></span>
+
+                </label>
+
+            </div>
+
+
+        </div>
+
+    </div>
+
+
+    <!-- ==================================
+         ATTENDANCE STATUS
+    =================================== -->
+
+    <div class="settings-card">
+
+        <div class="card-title">
+
+            <span class="material-icons">
+                fact_check
+            </span>
+
+            <div>
+
+                <h3>
+                    Attendance Status
+                </h3>
+
+                <p>
+                    Status values used by the attendance
+                    module.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="status-list">
+
+
+            <div class="status-item">
+
+                <span class="status-dot active"></span>
+
+                <span>
+                    Present
+                </span>
+
+            </div>
+
+
+            <div class="status-item">
+
+                <span class="status-dot regular"></span>
+
+                <span>
+                    Late
+                </span>
+
+            </div>
+
+
+            <div class="status-item">
+
+                <span class="status-dot leave"></span>
+
+                <span>
+                    On Leave
+                </span>
+
+            </div>
+
+
+            <div class="status-item">
+
+                <span class="status-dot inactive"></span>
+
+                <span>
+                    Absent
+                </span>
+
+            </div>
+
+
+            <div class="status-item">
+
+                <span class="status-dot probationary"></span>
+
+                <span>
+                    Rest Day
+                </span>
+
+            </div>
+
+
+            <div class="status-item">
+
+                <span class="status-dot resigned"></span>
+
+                <span>
+                    Holiday
+                </span>
+
+            </div>
+
+
+        </div>
+
+    </div>
+
+
+    <!-- ==================================
+         SAVE ATTENDANCE SETTINGS
+    =================================== -->
+
+    <div class="save-bar">
+
+        <div>
+
+            <span class="material-icons">
+                info
+            </span>
+
+            <span>
+                These settings will be used by
+                Attendance and Payroll calculations.
+            </span>
+
+        </div>
+
+
+        <button
+            id="saveAttendanceBtn"
+            class="save-btn">
+
+            <span class="material-icons">
+                save
+            </span>
+
+            SAVE ATTENDANCE SETTINGS
+
+        </button>
+
+    </div>
+
+
+</section>
 
                 <div class="coming-soon">
 
