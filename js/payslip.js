@@ -1,19 +1,15 @@
 /* ==========================================
-   FIREBASE
+   PAPPRITO HRIS
+   PAYSLIP JAVASCRIPT
 ========================================== */
 
 import {
-
     initializeApp
-
 }
-
 from
 "https://www.gstatic.com/firebasejs/12.13.0/firebase-app.js";
 
-
 import {
-
     getFirestore,
     collection,
     getDocs,
@@ -21,9 +17,7 @@ import {
     updateDoc,
     deleteDoc,
     doc
-
 }
-
 from
 "https://www.gstatic.com/firebasejs/12.13.0/firebase-firestore.js";
 
@@ -35,7 +29,7 @@ from
 const firebaseConfig = {
 
     apiKey:
-        "AIzaSyAehoq0teVYHiJ4bkKOgBqIgJZrQpce3k8",
+        "AIzaSyAehoq0teVYHiJ4bkKOgBqIgJZrQpce3k",
 
     authDomain:
         "hr-system-38fc3.firebaseapp.com",
@@ -60,7 +54,6 @@ const app =
         firebaseConfig
     );
 
-
 const db =
     getFirestore(
         app
@@ -76,8 +69,7 @@ const loggedInUser =
         localStorage.getItem(
             "loggedInUser"
         ) || ""
-    )
-    .trim();
+    ).trim();
 
 
 const userRole =
@@ -94,28 +86,17 @@ const userRole =
    GLOBAL DATA
 ========================================== */
 
-let currentEmployee =
-    null;
+let currentEmployee = null;
 
+let currentPayroll = null;
 
-let currentPayroll =
-    null;
+let allPayroll = [];
 
+let filteredPayroll = [];
 
-let allPayroll =
-    [];
+let editId = null;
 
-
-let filteredPayroll =
-    [];
-
-
-let editId =
-    null;
-
-
-let attendanceEditId =
-    null;
+let attendanceEditId = null;
 
 
 /* ==========================================
@@ -127,40 +108,44 @@ const pageTitle =
         "pageTitle"
     );
 
-
 const adminControls =
     document.getElementById(
         "adminControls"
     );
-
 
 const adminSummary =
     document.getElementById(
         "adminSummary"
     );
 
-
 const adminTableWrapper =
     document.getElementById(
         "adminTableWrapper"
     );
-
 
 const adminPayslipBody =
     document.getElementById(
         "adminPayslipBody"
     );
 
-
 const employeeSection =
     document.getElementById(
         "employeeSection"
     );
 
-
 const payslipArea =
     document.getElementById(
         "payslipArea"
+    );
+
+const headerActionText =
+    document.getElementById(
+        "headerActionText"
+    );
+
+const headerActionIcon =
+    document.getElementById(
+        "headerActionIcon"
     );
 
 
@@ -169,272 +154,136 @@ const payslipArea =
 ========================================== */
 
 const payEmpId =
-    document.getElementById(
-        "payEmpId"
-    );
-
+    document.getElementById("payEmpId");
 
 const payEmp =
-    document.getElementById(
-        "payEmp"
-    );
-
+    document.getElementById("payEmp");
 
 const payDate =
-    document.getElementById(
-        "payDate"
-    );
-
+    document.getElementById("payDate");
 
 const payDailyRate =
-    document.getElementById(
-        "payDailyRate"
-    );
-
+    document.getElementById("payDailyRate");
 
 const payTotalDays =
-    document.getElementById(
-        "payTotalDays"
-    );
-
+    document.getElementById("payTotalDays");
 
 const payBasic =
-    document.getElementById(
-        "payBasic"
-    );
-
+    document.getElementById("payBasic");
 
 const payOvertime =
-    document.getElementById(
-        "payOvertime"
-    );
-
+    document.getElementById("payOvertime");
 
 const payHoliday =
-    document.getElementById(
-        "payHoliday"
-    );
-
+    document.getElementById("payHoliday");
 
 const paySick =
-    document.getElementById(
-        "paySick"
-    );
-
+    document.getElementById("paySick");
 
 const payVacation =
-    document.getElementById(
-        "payVacation"
-    );
-
+    document.getElementById("payVacation");
 
 const payBirthday =
-    document.getElementById(
-        "payBirthday"
-    );
-
+    document.getElementById("payBirthday");
 
 const payMaternity =
-    document.getElementById(
-        "payMaternity"
-    );
-
+    document.getElementById("payMaternity");
 
 const payPaternity =
-    document.getElementById(
-        "payPaternity"
-    );
-
+    document.getElementById("payPaternity");
 
 const payAllowance =
-    document.getElementById(
-        "payAllowance"
-    );
-
+    document.getElementById("payAllowance");
 
 const payGross =
-    document.getElementById(
-        "payGross"
-    );
-
+    document.getElementById("payGross");
 
 const paySSS =
-    document.getElementById(
-        "paySSS"
-    );
-
+    document.getElementById("paySSS");
 
 const payPhilhealth =
-    document.getElementById(
-        "payPhilhealth"
-    );
-
+    document.getElementById("payPhilhealth");
 
 const payPagibig =
-    document.getElementById(
-        "payPagibig"
-    );
-
+    document.getElementById("payPagibig");
 
 const payHealth =
-    document.getElementById(
-        "payHealth"
-    );
-
+    document.getElementById("payHealth");
 
 const payOther =
-    document.getElementById(
-        "payOther"
-    );
-
+    document.getElementById("payOther");
 
 const payDeduction =
-    document.getElementById(
-        "payDeduction"
-    );
-
+    document.getElementById("payDeduction");
 
 const payNet =
-    document.getElementById(
-        "payNet"
-    );
+    document.getElementById("payNet");
 
 
 /* ==========================================
    HELPERS
 ========================================== */
 
-function num(
-    value
-){
+function num(value){
 
     const n =
         Number(
             value || 0
         );
 
-
     return Number.isFinite(n)
         ? n
         : 0;
-
 }
 
 
-function money(
-    value
-){
+function money(value){
 
-    return num(
-        value
-    ).toLocaleString(
+    return num(value).toLocaleString(
         "en-PH",
         {
             minimumFractionDigits:2,
             maximumFractionDigits:2
         }
     );
-
 }
 
 
-function rawMoney(
-    value
-){
+function rawMoney(value){
 
-    return num(
-        value
-    ).toFixed(2);
-
+    return num(value).toFixed(2);
 }
 
 
-function text(
-    value
-){
+function text(value){
 
     return String(
         value ?? ""
     );
-
 }
 
 
-function escapeHTML(
-    value
-){
+function escapeHTML(value){
 
-    return text(
-        value
-    )
-
-    .replace(
-        /&/g,
-        "&amp;"
-    )
-
-    .replace(
-        /</g,
-        "&lt;"
-    )
-
-    .replace(
-        />/g,
-        "&gt;"
-    )
-
-    .replace(
-        /"/g,
-        "&quot;"
-    )
-
-    .replace(
-        /'/g,
-        "&#039;"
-    );
-
+    return text(value)
+        .replace(/&/g,"&amp;")
+        .replace(/</g,"&lt;")
+        .replace(/>/g,"&gt;")
+        .replace(/"/g,"&quot;")
+        .replace(/'/g,"&#039;");
 }
 
 
-function escapeJS(
-    value
-){
+function escapeJS(value){
 
-    return text(
-        value
-    )
-
-    .replace(
-        /\\/g,
-        "\\\\"
-    )
-
-    .replace(
-        /'/g,
-        "\\'"
-    )
-
-    .replace(
-        /"/g,
-        '\\"'
-    )
-
-    .replace(
-        /\n/g,
-        "\\n"
-    )
-
-    .replace(
-        /\r/g,
-        "\\r"
-    );
-
+    return text(value)
+        .replace(/\\/g,"\\\\")
+        .replace(/'/g,"\\'")
+        .replace(/"/g,'\\"')
+        .replace(/\n/g,"\\n")
+        .replace(/\r/g,"\\r");
 }
 
-
-/* ==========================================
-   COMPATIBLE FIELD
-========================================== */
 
 function field(
     pay,
@@ -452,7 +301,6 @@ function field(
 
     }
 
-
     if(
         secondary &&
         pay[secondary] !== undefined &&
@@ -462,7 +310,6 @@ function field(
         return pay[secondary];
 
     }
-
 
     if(
         third &&
@@ -474,33 +321,49 @@ function field(
 
     }
 
-
     return 0;
-
 }
 
 
 /* ==========================================
-   INITIALIZE PAGE
+   HEADER ACTION
+========================================== */
+
+window.headerAction =
+function(){
+
+    if(
+        userRole === "admin" ||
+        userRole === "hr" ||
+        userRole === "administrator"
+    ){
+
+        window.location.href =
+            "dashboard.html";
+
+        return;
+    }
+
+
+    logout();
+
+};
+
+
+/* ==========================================
+   INITIALIZE
 ========================================== */
 
 async function initializePage(){
 
-    if(
-        !loggedInUser
-    ){
+    if(!loggedInUser){
 
         window.location.href =
             "login.html";
 
         return;
-
     }
 
-
-    /*
-     * ADMIN
-     */
 
     if(
         userRole === "admin" ||
@@ -511,13 +374,8 @@ async function initializePage(){
         initializeAdmin();
 
         return;
-
     }
 
-
-    /*
-     * EMPLOYEE
-     */
 
     initializeEmployee();
 
@@ -532,26 +390,30 @@ function initializeAdmin(){
 
     pageTitle.innerHTML = `
 
-<span class="material-icons">
-    receipt_long
-</span>
+        <span class="material-icons">
+            receipt_long
+        </span>
 
-ADMIN PAYSLIP
+        ADMIN PAYSLIP
 
-`;
+    `;
+
+
+    headerActionText.innerText =
+        "BACK TO DASHBOARD";
+
+    headerActionIcon.innerText =
+        "dashboard";
 
 
     adminControls.style.display =
         "block";
 
-
     adminSummary.style.display =
         "grid";
 
-
     adminTableWrapper.style.display =
         "block";
-
 
     employeeSection.style.display =
         "none";
@@ -598,16 +460,13 @@ async function loadAdminPayroll(){
         );
 
 
-        /*
-         * Latest date first
-         */
-
         allPayroll.sort(
             (a,b) => {
 
                 return String(
                     b.date || ""
-                ).localeCompare(
+                )
+                .localeCompare(
                     String(
                         a.date || ""
                     )
@@ -634,22 +493,22 @@ async function loadAdminPayroll(){
 
         adminPayslipBody.innerHTML = `
 
-<tr>
+            <tr>
 
-<td
-    colspan="8"
-    style="
-    padding:30px;
-    color:#ff4444;
-    ">
+                <td
+                    colspan="8"
+                    style="
+                    padding:30px;
+                    color:#ff4444;
+                    ">
 
-    FAILED TO LOAD PAYROLL
+                    FAILED TO LOAD PAYROLL
 
-</td>
+                </td>
 
-</tr>
+            </tr>
 
-`;
+        `;
 
     }
 
@@ -657,7 +516,7 @@ async function loadAdminPayroll(){
 
 
 /* ==========================================
-   RENDER ADMIN PAYROLL
+   RENDER ADMIN
 ========================================== */
 
 function renderAdminPayroll(){
@@ -666,12 +525,9 @@ function renderAdminPayroll(){
         "";
 
 
-    let grossTotal =
-        0;
+    let grossTotal = 0;
 
-
-    let netTotal =
-        0;
+    let netTotal = 0;
 
 
     if(
@@ -680,41 +536,37 @@ function renderAdminPayroll(){
 
         adminPayslipBody.innerHTML = `
 
-<tr>
+            <tr>
 
-<td
-    colspan="8"
-    style="padding:30px;">
+                <td
+                    colspan="8"
+                    style="padding:30px;">
 
-    NO PAYSLIP FOUND
+                    NO PAYSLIP FOUND
 
-</td>
+                </td>
 
-</tr>
+            </tr>
 
-`;
+        `;
 
 
         document.getElementById(
             "totalRecords"
-        ).innerText =
-            "0";
+        ).innerText = "0";
 
 
         document.getElementById(
             "totalGross"
-        ).innerText =
-            "0.00";
+        ).innerText = "0.00";
 
 
         document.getElementById(
             "totalNet"
-        ).innerText =
-            "0.00";
+        ).innerText = "0.00";
 
 
         return;
-
     }
 
 
@@ -722,129 +574,91 @@ function renderAdminPayroll(){
         pay => {
 
             const gross =
-                num(
-                    pay.gross
-                );
-
+                num(pay.gross);
 
             const deductions =
-                num(
-                    pay.deductions
-                );
-
+                num(pay.deductions);
 
             const net =
-                num(
-                    pay.net
-                );
+                num(pay.net);
 
 
-            grossTotal +=
-                gross;
+            grossTotal += gross;
 
-
-            netTotal +=
-                net;
+            netTotal += net;
 
 
             adminPayslipBody.innerHTML += `
 
-<tr>
+                <tr>
 
-<td>
+                    <td>
+                        ${escapeHTML(
+                            pay.empid || ""
+                        )}
+                    </td>
 
-${escapeHTML(
-    pay.empid || ""
-)}
+                    <td>
+                        ${escapeHTML(
+                            pay.employee || ""
+                        )}
+                    </td>
 
-</td>
+                    <td>
+                        ${escapeHTML(
+                            pay.date || ""
+                        )}
+                    </td>
 
+                    <td>
+                        ₱ ${money(
+                            pay.basicpay
+                        )}
+                    </td>
 
-<td>
+                    <td>
+                        ₱ ${money(
+                            gross
+                        )}
+                    </td>
 
-${escapeHTML(
-    pay.employee || ""
-)}
+                    <td>
+                        ₱ ${money(
+                            deductions
+                        )}
+                    </td>
 
-</td>
+                    <td>
+                        <strong>
+                            ₱ ${money(
+                                net
+                            )}
+                        </strong>
+                    </td>
 
+                    <td>
 
-<td>
+                        <button
+                            class="btn view-btn"
+                            onclick="
+                                viewAdminPayslip(
+                                    '${escapeJS(pay.id)}'
+                                )
+                            ">
 
-${escapeHTML(
-    pay.date || ""
-)}
+                            <span class="material-icons">
+                                visibility
+                            </span>
 
-</td>
+                            VIEW
 
+                        </button>
 
-<td>
+                    </td>
 
-₱ ${money(
-    pay.basicpay
-)}
+                </tr>
 
-</td>
-
-
-<td>
-
-₱ ${money(
-    gross
-)}
-
-</td>
-
-
-<td>
-
-₱ ${money(
-    deductions
-)}
-
-</td>
-
-
-<td>
-
-<strong>
-
-₱ ${money(
-    net
-)}
-
-</strong>
-
-</td>
-
-
-<td>
-
-
-<button
-class="btn view-btn"
-onclick="
-viewAdminPayslip(
-'${escapeJS(pay.id)}'
-)">
-
-
-<span class="material-icons">
-    visibility
-</span>
-
-
-VIEW
-
-
-</button>
-
-
-</td>
-
-</tr>
-
-`;
+            `;
 
         }
     );
@@ -859,23 +673,19 @@ VIEW
     document.getElementById(
         "totalGross"
     ).innerText =
-        money(
-            grossTotal
-        );
+        money(grossTotal);
 
 
     document.getElementById(
         "totalNet"
     ).innerText =
-        money(
-            netTotal
-        );
+        money(netTotal);
 
 }
 
 
 /* ==========================================
-   ADMIN SEARCH / FILTER
+   FILTER
 ========================================== */
 
 window.applyFilter =
@@ -893,8 +703,7 @@ function(){
     const date =
         document.getElementById(
             "filterDate"
-        )
-        .value;
+        ).value;
 
 
     filteredPayroll =
@@ -948,14 +757,12 @@ function(){
 
     document.getElementById(
         "searchEmployee"
-    ).value =
-        "";
+    ).value = "";
 
 
     document.getElementById(
         "filterDate"
-    ).value =
-        "";
+    ).value = "";
 
 
     filteredPayroll =
@@ -968,13 +775,11 @@ function(){
 
 
 /* ==========================================
-   ADMIN VIEW PAYSLIP
+   ADMIN VIEW
 ========================================== */
 
 window.viewAdminPayslip =
-function(
-    id
-){
+function(id){
 
     const pay =
         allPayroll.find(
@@ -983,16 +788,13 @@ function(
         );
 
 
-    if(
-        !pay
-    ){
+    if(!pay){
 
         alert(
             "Payslip not found."
         );
 
         return;
-
     }
 
 
@@ -1014,11 +816,9 @@ function(
 
             payslipArea.scrollIntoView({
 
-                behavior:
-                    "smooth",
+                behavior:"smooth",
 
-                block:
-                    "center"
+                block:"center"
 
             });
 
@@ -1037,26 +837,30 @@ async function initializeEmployee(){
 
     pageTitle.innerHTML = `
 
-<span class="material-icons">
-    badge
-</span>
+        <span class="material-icons">
+            badge
+        </span>
 
-EMPLOYEE PORTAL
+        EMPLOYEE PORTAL
 
-`;
+    `;
+
+
+    headerActionText.innerText =
+        "LOGOUT";
+
+    headerActionIcon.innerText =
+        "logout";
 
 
     adminControls.style.display =
         "none";
 
-
     adminSummary.style.display =
         "none";
 
-
     adminTableWrapper.style.display =
         "none";
-
 
     employeeSection.style.display =
         "block";
@@ -1126,31 +930,15 @@ async function loadEmployee(){
                     emp.lastname || ""
 
                 ]
-
-                .filter(
-                    Boolean
-                )
-
+                .filter(Boolean)
                 .join(" ")
-
-                .replace(
-                    /\s+/g,
-                    " "
-                )
-
+                .replace(/\s+/g," ")
                 .trim();
 
 
                 if(
-
-                    employeeId ===
-                    loginValue
-
-                    ||
-
-                    username ===
-                    loginValue
-
+                    employeeId === loginValue ||
+                    username === loginValue
                 ){
 
                     currentEmployee = {
@@ -1175,16 +963,13 @@ async function loadEmployee(){
         );
 
 
-        if(
-            !currentEmployee
-        ){
+        if(!currentEmployee){
 
             alert(
                 "Employee account not found in masterlist."
             );
 
             return;
-
         }
 
 
@@ -1224,22 +1009,19 @@ async function loadEmployee(){
 
 
 /* ==========================================
-   EMPLOYEE LOAD PAYSLIP
+   EMPLOYEE PAYSLIP
 ========================================== */
 
 window.loadPayslip =
 async function(){
 
-    if(
-        !currentEmployee
-    ){
+    if(!currentEmployee){
 
         alert(
             "Employee information is not loaded."
         );
 
         return;
-
     }
 
 
@@ -1281,8 +1063,7 @@ async function(){
 
 
                 if(
-                    payrollEmployeeId ===
-                    currentId
+                    payrollEmployeeId === currentId
                 ){
 
                     foundPayroll.push({
@@ -1309,20 +1090,16 @@ async function(){
             );
 
             return;
-
         }
 
-
-        /*
-         * Latest payroll record
-         */
 
         foundPayroll.sort(
             (a,b) => {
 
                 return String(
                     b.date || ""
-                ).localeCompare(
+                )
+                .localeCompare(
                     String(
                         a.date || ""
                     )
@@ -1350,11 +1127,9 @@ async function(){
 
                 payslipArea.scrollIntoView({
 
-                    behavior:
-                        "smooth",
+                    behavior:"smooth",
 
-                    block:
-                        "center"
+                    block:"center"
 
                 });
 
@@ -1384,9 +1159,7 @@ async function(){
    DISPLAY PAYSLIP
 ========================================== */
 
-function displayPayslip(
-    pay
-){
+function displayPayslip(pay){
 
     const holiday =
         field(
@@ -1560,16 +1333,13 @@ function(){
 window.printPayslip =
 function(){
 
-    if(
-        !currentPayroll
-    ){
+    if(!currentPayroll){
 
         alert(
             "Load Payslip First."
         );
 
         return;
-
     }
 
 
@@ -1587,12 +1357,24 @@ function(){
 
 
 /* ==========================================
-   CREATE SINGLE PRINT
+   PRINT LOGO URL
 ========================================== */
 
-function createPrintablePayslip(
-    pay
-){
+function getLogoURL(){
+
+    return new URL(
+        "../logo.png",
+        window.location.href
+    ).href;
+
+}
+
+
+/* ==========================================
+   SINGLE PRINT
+========================================== */
+
+function createPrintablePayslip(pay){
 
     const holiday =
         field(
@@ -1618,6 +1400,10 @@ function createPrintablePayslip(
         );
 
 
+    const logoURL =
+        getLogoURL();
+
+
     return `
 
 <!DOCTYPE html>
@@ -1628,10 +1414,7 @@ function createPrintablePayslip(
 
 <meta charset="UTF-8">
 
-<title>
-PAPPRITO Payslip
-</title>
-
+<title>PAPPRITO Payslip</title>
 
 <style>
 
@@ -1639,37 +1422,24 @@ PAPPRITO Payslip
     box-sizing:border-box;
 }
 
-
 html,
 body{
-
     margin:0;
-
     padding:0;
-
     background:#ffffff;
-
 }
 
-
 body{
-
     font-family:
         Tahoma,
         Arial,
         sans-serif;
-
 }
-
 
 @page{
-
     size:auto;
-
     margin:5mm;
-
 }
-
 
 .payslip{
 
@@ -1689,7 +1459,6 @@ body{
     border-radius:10px;
 
 }
-
 
 .payroll-logo{
 
@@ -1714,7 +1483,6 @@ body{
 
 }
 
-
 .company{
 
     text-align:center;
@@ -1728,7 +1496,6 @@ body{
 
 }
 
-
 .company h2{
 
     font-size:18px;
@@ -1739,7 +1506,6 @@ body{
 
 }
 
-
 .company p{
 
     font-size:9px;
@@ -1747,7 +1513,6 @@ body{
     font-weight:bold;
 
 }
-
 
 .info{
 
@@ -1768,7 +1533,6 @@ body{
 
 }
 
-
 table{
 
     width:100%;
@@ -1778,7 +1542,6 @@ table{
     margin-top:5px;
 
 }
-
 
 th,
 td{
@@ -1792,7 +1555,6 @@ td{
 
 }
 
-
 th{
 
     background:#ffcc00;
@@ -1801,7 +1563,6 @@ th{
 
 }
 
-
 td{
 
     background:#ffffff;
@@ -1809,7 +1570,6 @@ td{
     color:#000000;
 
 }
-
 
 .netpay{
 
@@ -1829,7 +1589,6 @@ td{
 
 }
 
-
 .signature{
 
     margin-top:15px;
@@ -1841,7 +1600,6 @@ td{
     font-size:8px;
 
 }
-
 
 .line{
 
@@ -1862,425 +1620,187 @@ td{
 
 </head>
 
-
 <body>
-
 
 <div class="payslip">
 
-
 <div class="company">
 
-
 <img
-src="logo.png"
+src="${logoURL}"
 class="payroll-logo">
 
-
-<h2>
-PAPPRITO
-</h2>
-
+<h2>PAPPRITO</h2>
 
 <p>
 OFFICIAL EMPLOYEE PAYSLIP
 </p>
 
-
 </div>
-
 
 <div class="info">
 
-
-<b>
-ID:
-</b>
-
-${escapeHTML(
-    pay.empid || ""
-)}
-
+<b>ID:</b>
+${escapeHTML(pay.empid || "")}
 
 <br><br>
 
-
-<b>
-Name:
-</b>
-
-${escapeHTML(
-    pay.employee || ""
-)}
-
+<b>Name:</b>
+${escapeHTML(pay.employee || "")}
 
 <br><br>
 
-
-<b>
-Date:
-</b>
-
-${escapeHTML(
-    pay.date || ""
-)}
-
+<b>Date:</b>
+${escapeHTML(pay.date || "")}
 
 <br><br>
 
-
-<b>
-Daily Rate:
-</b>
-
-₱ ${rawMoney(
-    pay.dailyrate
-)}
-
+<b>Daily Rate:</b>
+₱ ${rawMoney(pay.dailyrate)}
 
 <br><br>
 
-
-<b>
-Total Days:
-</b>
-
-${num(
-    pay.totaldays
-)}
+<b>Total Days:</b>
+${num(pay.totaldays)}
 
 </div>
 
 
 <table>
 
-
 <tr>
-
-<th>
-EARNINGS
-</th>
-
-<th>
-AMOUNT
-</th>
-
+<th>EARNINGS</th>
+<th>AMOUNT</th>
 </tr>
 
-
 <tr>
-
-<td>
-Basic Pay
-</td>
-
-<td>
-${rawMoney(
-    pay.basicpay
-)}
-</td>
-
+<td>Basic Pay</td>
+<td>${rawMoney(pay.basicpay)}</td>
 </tr>
 
-
 <tr>
-
-<td>
-Overtime
-</td>
-
-<td>
-${rawMoney(
-    pay.overtime
-)}
-</td>
-
+<td>Overtime</td>
+<td>${rawMoney(pay.overtime)}</td>
 </tr>
 
-
 <tr>
-
-<td>
-Holiday Pay
-</td>
-
-<td>
-${rawMoney(
-    holiday
-)}
-</td>
-
+<td>Holiday Pay</td>
+<td>${rawMoney(holiday)}</td>
 </tr>
 
+<tr>
+<td>Sick Leave</td>
+<td>${rawMoney(pay.sickleave)}</td>
+</tr>
+
+<tr>
+<td>Vacation Leave</td>
+<td>${rawMoney(pay.vacationleave)}</td>
+</tr>
+
+<tr>
+<td>Birthday Leave</td>
+<td>${rawMoney(pay.birthdayleave)}</td>
+</tr>
+
+<tr>
+<td>Maternity Leave</td>
+<td>${rawMoney(pay.maternityleave)}</td>
+</tr>
+
+<tr>
+<td>Paternity Leave</td>
+<td>${rawMoney(pay.paternityleave)}</td>
+</tr>
+
+<tr>
+<td>Allowance</td>
+<td>${rawMoney(pay.allowance)}</td>
+</tr>
 
 <tr>
 
 <td>
-Sick Leave
+<b>TOTAL GROSS</b>
 </td>
 
 <td>
-${rawMoney(
-    pay.sickleave
-)}
+<b>${rawMoney(pay.gross)}</b>
 </td>
 
 </tr>
-
-
-<tr>
-
-<td>
-Vacation Leave
-</td>
-
-<td>
-${rawMoney(
-    pay.vacationleave
-)}
-</td>
-
-</tr>
-
-
-<tr>
-
-<td>
-Birthday Leave
-</td>
-
-<td>
-${rawMoney(
-    pay.birthdayleave
-)}
-</td>
-
-</tr>
-
-
-<tr>
-
-<td>
-Maternity Leave
-</td>
-
-<td>
-${rawMoney(
-    pay.maternityleave
-)}
-</td>
-
-</tr>
-
-
-<tr>
-
-<td>
-Paternity Leave
-</td>
-
-<td>
-${rawMoney(
-    pay.paternityleave
-)}
-</td>
-
-</tr>
-
-
-<tr>
-
-<td>
-Allowance
-</td>
-
-<td>
-${rawMoney(
-    pay.allowance
-)}
-</td>
-
-</tr>
-
-
-<tr>
-
-<td>
-
-<b>
-TOTAL GROSS
-</b>
-
-</td>
-
-<td>
-
-<b>
-
-${rawMoney(
-    pay.gross
-)}
-
-</b>
-
-</td>
-
-</tr>
-
 
 </table>
 
 
 <table>
 
-
 <tr>
-
-<th>
-DEDUCTIONS
-</th>
-
-<th>
-AMOUNT
-</th>
-
+<th>DEDUCTIONS</th>
+<th>AMOUNT</th>
 </tr>
 
-
 <tr>
-
-<td>
-SSS
-</td>
-
-<td>
-${rawMoney(
-    pay.sss
-)}
-</td>
-
+<td>SSS</td>
+<td>${rawMoney(pay.sss)}</td>
 </tr>
 
-
 <tr>
-
-<td>
-PhilHealth
-</td>
-
-<td>
-${rawMoney(
-    pay.philhealth
-)}
-</td>
-
+<td>PhilHealth</td>
+<td>${rawMoney(pay.philhealth)}</td>
 </tr>
 
+<tr>
+<td>Pag-IBIG</td>
+<td>${rawMoney(pay.pagibig)}</td>
+</tr>
+
+<tr>
+<td>Health Card</td>
+<td>${rawMoney(health)}</td>
+</tr>
+
+<tr>
+<td>Others</td>
+<td>${rawMoney(other)}</td>
+</tr>
 
 <tr>
 
 <td>
-Pag-IBIG
+<b>TOTAL DEDUCTION</b>
 </td>
 
 <td>
-${rawMoney(
-    pay.pagibig
-)}
+<b>${rawMoney(pay.deductions)}</b>
 </td>
 
 </tr>
-
-
-<tr>
-
-<td>
-Health Card
-</td>
-
-<td>
-${rawMoney(
-    health
-)}
-</td>
-
-</tr>
-
-
-<tr>
-
-<td>
-Others
-</td>
-
-<td>
-${rawMoney(
-    other
-)}
-</td>
-
-</tr>
-
-
-<tr>
-
-<td>
-
-<b>
-TOTAL DEDUCTION
-</b>
-
-</td>
-
-<td>
-
-<b>
-
-${rawMoney(
-    pay.deductions
-)}
-
-</b>
-
-</td>
-
-</tr>
-
 
 </table>
 
 
 <div class="netpay">
 
-
 NET PAY :
-
-₱ ${rawMoney(
-    pay.net
-)}
-
+₱ ${rawMoney(pay.net)}
 
 </div>
 
 
 <div class="signature">
 
-
 <div class="line">
 HR
 </div>
-
 
 <div class="line">
 Employee
 </div>
 
-
 </div>
 
-
 </div>
-
 
 </body>
 
@@ -2292,44 +1812,36 @@ Employee
 
 
 /* ==========================================
-   OPEN PRINT WINDOW
+   PRINT WINDOW
 ========================================== */
 
-function openPrintWindow(
-    html
-){
+function openPrintWindow(html){
 
     const printWindow =
         window.open(
             "",
-            "",
+            "_blank",
             "width=900,height=1200"
         );
 
 
-    if(
-        !printWindow
-    ){
+    if(!printWindow){
 
         alert(
             "Please allow pop-ups for this HRIS website."
         );
 
         return;
-
     }
 
 
     printWindow.document.open();
 
-
     printWindow.document.write(
         html
     );
 
-
     printWindow.document.close();
-
 
     printWindow.focus();
 
@@ -2347,7 +1859,7 @@ function openPrintWindow(
 
 
 /* ==========================================
-   ADMIN PRINT ALL
+   PRINT ALL
    FOUR PAYSLIPS PER BOND PAPER
 ========================================== */
 
@@ -2361,7 +1873,6 @@ function(){
     ){
 
         return;
-
     }
 
 
@@ -2374,12 +1885,10 @@ function(){
         );
 
         return;
-
     }
 
 
-    let pages =
-        "";
+    let pages = "";
 
 
     for(
@@ -2399,9 +1908,9 @@ function(){
 
         pages += `
 
-<div class="print-page">
+            <div class="print-page">
 
-`;
+        `;
 
 
         group.forEach(
@@ -2422,22 +1931,20 @@ function(){
 
             pages += `
 
-<div class="empty-slot"></div>
+                <div class="empty-slot"></div>
 
-`;
+            `;
 
-            group.push(
-                null
-            );
+            group.push(null);
 
         }
 
 
         pages += `
 
-</div>
+            </div>
 
-`;
+        `;
 
     }
 
@@ -2456,15 +1963,11 @@ function(){
 PAPPRITO - All Payslips
 </title>
 
-
 <style>
 
 *{
-
     box-sizing:border-box;
-
 }
-
 
 html,
 body{
@@ -2477,7 +1980,6 @@ body{
 
 }
 
-
 body{
 
     font-family:
@@ -2486,7 +1988,6 @@ body{
         sans-serif;
 
 }
-
 
 .print-page{
 
@@ -2510,7 +2011,6 @@ body{
 
 }
 
-
 .print-page:last-child{
 
     page-break-after:
@@ -2520,7 +2020,6 @@ body{
         auto;
 
 }
-
 
 .four-payslip{
 
@@ -2541,7 +2040,6 @@ body{
 
 }
 
-
 .logo{
 
     width:38px;
@@ -2561,7 +2059,6 @@ body{
 
 }
 
-
 .company{
 
     text-align:center;
@@ -2573,7 +2070,6 @@ body{
 
 }
 
-
 .company h2{
 
     color:#cc0000;
@@ -2584,7 +2080,6 @@ body{
 
 }
 
-
 .company p{
 
     font-size:5px;
@@ -2594,7 +2089,6 @@ body{
     margin:1px;
 
 }
-
 
 .info{
 
@@ -2613,7 +2107,6 @@ body{
 
 }
 
-
 table{
 
     width:100%;
@@ -2623,7 +2116,6 @@ table{
     margin-top:2px;
 
 }
-
 
 th,
 td{
@@ -2637,7 +2129,6 @@ td{
 
 }
 
-
 th{
 
     background:#ffcc00;
@@ -2646,7 +2137,6 @@ th{
 
 }
 
-
 td{
 
     background:#ffffff;
@@ -2654,7 +2144,6 @@ td{
     color:#000000;
 
 }
-
 
 .net{
 
@@ -2674,7 +2163,6 @@ td{
 
 }
 
-
 .signature{
 
     display:flex;
@@ -2686,7 +2174,6 @@ td{
     font-size:4.5px;
 
 }
-
 
 .line{
 
@@ -2701,13 +2188,11 @@ td{
 
 }
 
-
 .empty-slot{
 
     visibility:hidden;
 
 }
-
 
 @page{
 
@@ -2720,7 +2205,6 @@ td{
 </style>
 
 </head>
-
 
 <body>
 
@@ -2744,9 +2228,7 @@ ${pages}
    FOUR-UP PAYSLIP
 ========================================== */
 
-function createFourPayslip(
-    pay
-){
+function createFourPayslip(pay){
 
     const holiday =
         field(
@@ -2772,96 +2254,60 @@ function createFourPayslip(
         );
 
 
+    const logoURL =
+        getLogoURL();
+
+
     return `
 
 <div class="four-payslip">
 
-
 <div class="company">
 
-
 <img
-src="logo.png"
+src="${logoURL}"
 class="logo">
-
 
 <h2>
 PAPPRITO
 </h2>
 
-
 <p>
 OFFICIAL EMPLOYEE PAYSLIP
 </p>
-
 
 </div>
 
 
 <div class="info">
 
-
-<b>
-ID:
-</b>
-
-${escapeHTML(
-    pay.empid || ""
-)}
-
+<b>ID:</b>
+${escapeHTML(pay.empid || "")}
 
 <br>
 
-
-<b>
-Name:
-</b>
-
-${escapeHTML(
-    pay.employee || ""
-)}
-
+<b>Name:</b>
+${escapeHTML(pay.employee || "")}
 
 <br>
 
-
-<b>
-Date:
-</b>
-
-${escapeHTML(
-    pay.date || ""
-)}
-
+<b>Date:</b>
+${escapeHTML(pay.date || "")}
 
 <br>
 
-
-<b>
-Rate:
-</b>
-
-₱ ${rawMoney(
-    pay.dailyrate
-)}
-
+<b>Rate:</b>
+₱ ${rawMoney(pay.dailyrate)}
 
 &nbsp;
 
-
-<b>
-Days:
-</b>
-
-${num(
-    pay.totaldays
-)}
+<b>Days:</b>
+${num(pay.totaldays)}
 
 </div>
 
 
 <table>
-
 
 <tr>
 
@@ -2875,172 +2321,67 @@ AMOUNT
 
 </tr>
 
+<tr>
+<td>Basic Pay</td>
+<td>${rawMoney(pay.basicpay)}</td>
+</tr>
+
+<tr>
+<td>Overtime</td>
+<td>${rawMoney(pay.overtime)}</td>
+</tr>
+
+<tr>
+<td>Holiday</td>
+<td>${rawMoney(holiday)}</td>
+</tr>
+
+<tr>
+<td>Sick Leave</td>
+<td>${rawMoney(pay.sickleave)}</td>
+</tr>
+
+<tr>
+<td>Vacation Leave</td>
+<td>${rawMoney(pay.vacationleave)}</td>
+</tr>
+
+<tr>
+<td>Birthday Leave</td>
+<td>${rawMoney(pay.birthdayleave)}</td>
+</tr>
+
+<tr>
+<td>Maternity Leave</td>
+<td>${rawMoney(pay.maternityleave)}</td>
+</tr>
+
+<tr>
+<td>Paternity Leave</td>
+<td>${rawMoney(pay.paternityleave)}</td>
+</tr>
+
+<tr>
+<td>Allowance</td>
+<td>${rawMoney(pay.allowance)}</td>
+</tr>
 
 <tr>
 
 <td>
-Basic Pay
+<b>GROSS</b>
 </td>
 
 <td>
-${rawMoney(
-    pay.basicpay
-)}
+<b>${rawMoney(pay.gross)}</b>
 </td>
 
 </tr>
-
-
-<tr>
-
-<td>
-Overtime
-</td>
-
-<td>
-${rawMoney(
-    pay.overtime
-)}
-</td>
-
-</tr>
-
-
-<tr>
-
-<td>
-Holiday
-</td>
-
-<td>
-${rawMoney(
-    holiday
-)}
-</td>
-
-</tr>
-
-
-<tr>
-
-<td>
-Sick Leave
-</td>
-
-<td>
-${rawMoney(
-    pay.sickleave
-)}
-</td>
-
-</tr>
-
-
-<tr>
-
-<td>
-Vacation Leave
-</td>
-
-<td>
-${rawMoney(
-    pay.vacationleave
-)}
-</td>
-
-</tr>
-
-
-<tr>
-
-<td>
-Birthday Leave
-</td>
-
-<td>
-${rawMoney(
-    pay.birthdayleave
-)}
-</td>
-
-</tr>
-
-
-<tr>
-
-<td>
-Maternity Leave
-</td>
-
-<td>
-${rawMoney(
-    pay.maternityleave
-)}
-</td>
-
-</tr>
-
-
-<tr>
-
-<td>
-Paternity Leave
-</td>
-
-<td>
-${rawMoney(
-    pay.paternityleave
-)}
-</td>
-
-</tr>
-
-
-<tr>
-
-<td>
-Allowance
-</td>
-
-<td>
-${rawMoney(
-    pay.allowance
-)}
-</td>
-
-</tr>
-
-
-<tr>
-
-<td>
-
-<b>
-GROSS
-</b>
-
-</td>
-
-<td>
-
-<b>
-
-${rawMoney(
-    pay.gross
-)}
-
-</b>
-
-</td>
-
-</tr>
-
 
 </table>
 
 
 <table>
-
 
 <tr>
 
@@ -3054,138 +2395,65 @@ AMOUNT
 
 </tr>
 
+<tr>
+<td>SSS</td>
+<td>${rawMoney(pay.sss)}</td>
+</tr>
+
+<tr>
+<td>PhilHealth</td>
+<td>${rawMoney(pay.philhealth)}</td>
+</tr>
+
+<tr>
+<td>Pag-IBIG</td>
+<td>${rawMoney(pay.pagibig)}</td>
+</tr>
+
+<tr>
+<td>Health Card</td>
+<td>${rawMoney(health)}</td>
+</tr>
+
+<tr>
+<td>Others</td>
+<td>${rawMoney(other)}</td>
+</tr>
 
 <tr>
 
 <td>
-SSS
+<b>DEDUCTION</b>
 </td>
 
 <td>
-${rawMoney(
-    pay.sss
-)}
+<b>${rawMoney(pay.deductions)}</b>
 </td>
 
 </tr>
-
-
-<tr>
-
-<td>
-PhilHealth
-</td>
-
-<td>
-${rawMoney(
-    pay.philhealth
-)}
-</td>
-
-</tr>
-
-
-<tr>
-
-<td>
-Pag-IBIG
-</td>
-
-<td>
-${rawMoney(
-    pay.pagibig
-)}
-</td>
-
-</tr>
-
-
-<tr>
-
-<td>
-Health Card
-</td>
-
-<td>
-${rawMoney(
-    health
-)}
-</td>
-
-</tr>
-
-
-<tr>
-
-<td>
-Others
-</td>
-
-<td>
-${rawMoney(
-    other
-)}
-</td>
-
-</tr>
-
-
-<tr>
-
-<td>
-
-<b>
-DEDUCTION
-</b>
-
-</td>
-
-<td>
-
-<b>
-
-${rawMoney(
-    pay.deductions
-)}
-
-</b>
-
-</td>
-
-</tr>
-
 
 </table>
 
 
 <div class="net">
 
-
 NET PAY :
-
-₱ ${rawMoney(
-    pay.net
-)}
-
+₱ ${rawMoney(pay.net)}
 
 </div>
 
 
 <div class="signature">
 
-
 <div class="line">
 HR
 </div>
-
 
 <div class="line">
 Employee
 </div>
 
-
 </div>
-
 
 </div>
 
@@ -3212,12 +2480,10 @@ async function loadRequests(){
     ){
 
         return;
-
     }
 
 
-    body.innerHTML =
-        "";
+    body.innerHTML = "";
 
 
     try{
@@ -3231,8 +2497,7 @@ async function loadRequests(){
             );
 
 
-        let found =
-            false;
+        let found = false;
 
 
         snapshot.forEach(
@@ -3243,30 +2508,20 @@ async function loadRequests(){
 
 
                 if(
-
-                    text(
-                        req.empid
-                    )
+                    text(req.empid)
                     .trim()
                     .toUpperCase()
-
                     !==
-
-                    text(
-                        currentEmployee.id
-                    )
+                    text(currentEmployee.id)
                     .trim()
                     .toUpperCase()
-
                 ){
 
                     return;
-
                 }
 
 
-                found =
-                    true;
+                found = true;
 
 
                 const status =
@@ -3282,49 +2537,34 @@ async function loadRequests(){
 <tr>
 
 <td>
-${escapeHTML(
-    req.empid
-)}
+${escapeHTML(req.empid)}
 </td>
 
 <td>
-${escapeHTML(
-    req.employee
-)}
+${escapeHTML(req.employee)}
 </td>
 
 <td>
-${escapeHTML(
-    req.type
-)}
+${escapeHTML(req.type)}
 </td>
 
 <td>
-${escapeHTML(
-    req.date
-)}
+${escapeHTML(req.date)}
 </td>
 
 <td>
-${escapeHTML(
-    req.days
-)}
+${escapeHTML(req.days)}
 </td>
 
 <td>
-${escapeHTML(
-    req.reason
-)}
+${escapeHTML(req.reason)}
 </td>
 
 <td class="${escapeHTML(status)}">
-${escapeHTML(
-    req.status
-)}
+${escapeHTML(req.status)}
 </td>
 
 <td>
-
 
 <button
 class="btn edit-btn"
@@ -3341,7 +2581,6 @@ EDIT
 
 </button>
 
-
 <button
 class="btn delete-btn"
 onclick="
@@ -3353,7 +2592,6 @@ DELETE
 
 </button>
 
-
 </td>
 
 </tr>
@@ -3364,9 +2602,7 @@ DELETE
         );
 
 
-        if(
-            !found
-        ){
+        if(!found){
 
             body.innerHTML = `
 
@@ -3406,12 +2642,9 @@ NO LEAVE REQUESTS YET
 window.submitRequest =
 async function(){
 
-    if(
-        !currentEmployee
-    ){
+    if(!currentEmployee){
 
         return;
-
     }
 
 
@@ -3439,25 +2672,19 @@ async function(){
         ).value.trim();
 
 
-    if(
-        !type ||
-        !date
-    ){
+    if(!type || !date){
 
         alert(
             "Please complete the leave request."
         );
 
         return;
-
     }
 
 
     try{
 
-        if(
-            editId
-        ){
+        if(editId){
 
             await updateDoc(
 
@@ -3468,12 +2695,10 @@ async function(){
                 ),
 
                 {
-
                     type,
                     date,
                     days,
                     reason
-
                 }
 
             );
@@ -3484,8 +2709,7 @@ async function(){
             );
 
 
-            editId =
-                null;
+            editId = null;
 
         }else{
 
@@ -3531,10 +2755,7 @@ async function(){
 
     }catch(error){
 
-        console.error(
-            error
-        );
-
+        console.error(error);
 
         alert(
             "Request Error."
@@ -3558,32 +2779,27 @@ function(
     reasonText
 ){
 
-    editId =
-        id;
+    editId = id;
 
 
     document.getElementById(
         "requestType"
-    ).value =
-        type;
+    ).value = type;
 
 
     document.getElementById(
         "requestDate"
-    ).value =
-        date;
+    ).value = date;
 
 
     document.getElementById(
         "days"
-    ).value =
-        daysValue;
+    ).value = daysValue;
 
 
     document.getElementById(
         "reason"
-    ).value =
-        reasonText;
+    ).value = reasonText;
 
 
     window.scrollTo({
@@ -3602,9 +2818,7 @@ function(
 ========================================== */
 
 window.deleteRequest =
-async function(
-    id
-){
+async function(id){
 
     if(
         !confirm(
@@ -3613,7 +2827,6 @@ async function(
     ){
 
         return;
-
     }
 
 
@@ -3635,9 +2848,7 @@ async function(
 
     }catch(error){
 
-        console.error(
-            error
-        );
+        console.error(error);
 
         alert(
             "Delete Error."
@@ -3649,37 +2860,32 @@ async function(
 
 
 /* ==========================================
-   CLEAR LEAVE FORM
+   CLEAR LEAVE
 ========================================== */
 
 function clearLeaveForm(){
 
     document.getElementById(
         "requestType"
-    ).value =
-        "";
+    ).value = "";
 
 
     document.getElementById(
         "requestDate"
-    ).value =
-        "";
+    ).value = "";
 
 
     document.getElementById(
         "days"
-    ).value =
-        "";
+    ).value = "";
 
 
     document.getElementById(
         "reason"
-    ).value =
-        "";
+    ).value = "";
 
 
-    editId =
-        null;
+    editId = null;
 
 }
 
@@ -3702,12 +2908,10 @@ async function loadAttendanceRequests(){
     ){
 
         return;
-
     }
 
 
-    body.innerHTML =
-        "";
+    body.innerHTML = "";
 
 
     try{
@@ -3721,8 +2925,7 @@ async function loadAttendanceRequests(){
             );
 
 
-        let found =
-            false;
+        let found = false;
 
 
         snapshot.forEach(
@@ -3733,30 +2936,20 @@ async function loadAttendanceRequests(){
 
 
                 if(
-
-                    text(
-                        req.employeeid
-                    )
+                    text(req.employeeid)
                     .trim()
                     .toUpperCase()
-
                     !==
-
-                    text(
-                        currentEmployee.id
-                    )
+                    text(currentEmployee.id)
                     .trim()
                     .toUpperCase()
-
                 ){
 
                     return;
-
                 }
 
 
-                found =
-                    true;
+                found = true;
 
 
                 const status =
@@ -3772,49 +2965,34 @@ async function loadAttendanceRequests(){
 <tr>
 
 <td>
-${escapeHTML(
-    req.employeeid
-)}
+${escapeHTML(req.employeeid)}
 </td>
 
 <td>
-${escapeHTML(
-    req.employee
-)}
+${escapeHTML(req.employee)}
 </td>
 
 <td>
-${escapeHTML(
-    req.requesttype
-)}
+${escapeHTML(req.requesttype)}
 </td>
 
 <td>
-${escapeHTML(
-    req.date
-)}
+${escapeHTML(req.date)}
 </td>
 
 <td>
-${escapeHTML(
-    req.time
-)}
+${escapeHTML(req.time)}
 </td>
 
 <td>
-${escapeHTML(
-    req.reason
-)}
+${escapeHTML(req.reason)}
 </td>
 
 <td class="${escapeHTML(status)}">
-${escapeHTML(
-    req.status
-)}
+${escapeHTML(req.status)}
 </td>
 
 <td>
-
 
 <button
 class="btn edit-btn"
@@ -3831,7 +3009,6 @@ EDIT
 
 </button>
 
-
 <button
 class="btn delete-btn"
 onclick="
@@ -3843,7 +3020,6 @@ DELETE
 
 </button>
 
-
 </td>
 
 </tr>
@@ -3854,9 +3030,7 @@ DELETE
         );
 
 
-        if(
-            !found
-        ){
+        if(!found){
 
             body.innerHTML = `
 
@@ -3879,9 +3053,7 @@ NO ATTENDANCE REQUESTS YET
 
     }catch(error){
 
-        console.error(
-            error
-        );
+        console.error(error);
 
     }
 
@@ -3889,18 +3061,15 @@ NO ATTENDANCE REQUESTS YET
 
 
 /* ==========================================
-   SUBMIT ATTENDANCE REQUEST
+   SUBMIT ATTENDANCE
 ========================================== */
 
 window.submitAttendanceRequest =
 async function(){
 
-    if(
-        !currentEmployee
-    ){
+    if(!currentEmployee){
 
         return;
-
     }
 
 
@@ -3940,15 +3109,12 @@ async function(){
         );
 
         return;
-
     }
 
 
     try{
 
-        if(
-            attendanceEditId
-        ){
+        if(attendanceEditId){
 
             await updateDoc(
 
@@ -3977,8 +3143,7 @@ async function(){
             );
 
 
-            attendanceEditId =
-                null;
+            attendanceEditId = null;
 
         }else{
 
@@ -4029,10 +3194,7 @@ async function(){
 
     }catch(error){
 
-        console.error(
-            error
-        );
-
+        console.error(error);
 
         alert(
             "Attendance Request Error."
@@ -4056,32 +3218,27 @@ function(
     reasonText
 ){
 
-    attendanceEditId =
-        id;
+    attendanceEditId = id;
 
 
     document.getElementById(
         "attendanceType"
-    ).value =
-        type;
+    ).value = type;
 
 
     document.getElementById(
         "attendanceDate"
-    ).value =
-        date;
+    ).value = date;
 
 
     document.getElementById(
         "attendanceTime"
-    ).value =
-        time;
+    ).value = time;
 
 
     document.getElementById(
         "attendanceReason"
-    ).value =
-        reasonText;
+    ).value = reasonText;
 
 
     window.scrollTo({
@@ -4100,9 +3257,7 @@ function(
 ========================================== */
 
 window.deleteAttendanceRequest =
-async function(
-    id
-){
+async function(id){
 
     if(
         !confirm(
@@ -4111,7 +3266,6 @@ async function(
     ){
 
         return;
-
     }
 
 
@@ -4133,10 +3287,7 @@ async function(
 
     }catch(error){
 
-        console.error(
-            error
-        );
-
+        console.error(error);
 
         alert(
             "Delete Error."
@@ -4155,30 +3306,25 @@ function clearAttendanceForm(){
 
     document.getElementById(
         "attendanceType"
-    ).value =
-        "";
+    ).value = "";
 
 
     document.getElementById(
         "attendanceDate"
-    ).value =
-        "";
+    ).value = "";
 
 
     document.getElementById(
         "attendanceTime"
-    ).value =
-        "";
+    ).value = "";
 
 
     document.getElementById(
         "attendanceReason"
-    ).value =
-        "";
+    ).value = "";
 
 
-    attendanceEditId =
-        null;
+    attendanceEditId = null;
 
 }
 
@@ -4194,11 +3340,9 @@ function(){
         "loggedInUser"
     );
 
-
     localStorage.removeItem(
         "userRole"
     );
-
 
     window.location.href =
         "login.html";
