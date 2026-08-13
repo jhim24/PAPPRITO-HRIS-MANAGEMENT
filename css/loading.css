@@ -1,6 +1,6 @@
 /* ==========================================
    PAPPRITO HRIS
-   LOADING HUD V2
+   LOADING HUD V3
 ========================================== */
 
 *{
@@ -10,21 +10,47 @@ box-sizing:border-box;
 font-family:"Segoe UI",Tahoma,sans-serif;
 }
 
+
 :root{
 
 --bg:#07131d;
+
 --panel:#0c1d2d;
+
 --primary:#ffcc00;
+
 --cyan:#00e5ff;
+
 --green:#00ff88;
+
 --text:#ffffff;
 
 }
 
+
+/* ==========================================
+   BODY
+========================================== */
+
+html,
+body{
+
+width:100%;
+
+min-height:100%;
+
+}
+
+
 body{
 
 background:
-radial-gradient(circle,#10283b 0%,#07131d 65%,#03080d 100%);
+radial-gradient(
+circle,
+#10283b 0%,
+#07131d 65%,
+#03080d 100%
+);
 
 color:var(--text);
 
@@ -38,17 +64,20 @@ align-items:center;
 
 padding:20px;
 
-overflow:hidden;
+overflow:auto;
 
 position:relative;
 
 }
 
+
 /* ==========================================
-GRID
+   GRID BACKGROUND
 ========================================== */
 
-.grid-bg{
+body::before{
+
+content:"";
 
 position:fixed;
 
@@ -56,9 +85,16 @@ inset:0;
 
 background-image:
 
-linear-gradient(rgba(0,229,255,.05) 1px,transparent 1px),
+linear-gradient(
+rgba(0,229,255,.05) 1px,
+transparent 1px
+),
 
-linear-gradient(90deg,rgba(0,229,255,.05) 1px,transparent 1px);
+linear-gradient(
+90deg,
+rgba(0,229,255,.05) 1px,
+transparent 1px
+);
 
 background-size:40px 40px;
 
@@ -66,18 +102,30 @@ animation:gridMove 18s linear infinite;
 
 z-index:0;
 
+pointer-events:none;
+
 }
+
 
 @keyframes gridMove{
 
-0%{transform:translateY(0);}
+0%{
 
-100%{transform:translateY(40px);}
+transform:translateY(0);
 
 }
 
+100%{
+
+transform:translateY(40px);
+
+}
+
+}
+
+
 /* ==========================================
-HUD PANEL
+   HUD CARD
 ========================================== */
 
 .hud-card{
@@ -90,24 +138,27 @@ width:1100px;
 
 max-width:100%;
 
-background:rgba(8,20,32,.90);
+background:
+rgba(8,20,32,.92);
 
-border:1px solid rgba(0,229,255,.20);
+border:1px solid
+rgba(0,229,255,.20);
 
 border-radius:22px;
 
 padding:30px;
 
 box-shadow:
-
-0 0 30px rgba(0,229,255,.15);
+0 0 30px
+rgba(0,229,255,.15);
 
 backdrop-filter:blur(10px);
 
 }
 
+
 /* ==========================================
-HEADER
+   LOGO AREA
 ========================================== */
 
 .logo-area{
@@ -117,6 +168,7 @@ text-align:center;
 margin-bottom:25px;
 
 }
+
 
 .logo{
 
@@ -130,13 +182,17 @@ background:white;
 
 padding:5px;
 
-border:3px solid var(--primary);
+object-fit:cover;
+
+border:3px solid
+var(--primary);
 
 box-shadow:
-
-0 0 15px rgba(255,204,0,.5);
+0 0 15px
+rgba(255,204,0,.5);
 
 }
+
 
 .logo-area h1{
 
@@ -149,6 +205,7 @@ color:var(--primary);
 letter-spacing:3px;
 
 }
+
 
 .logo-area h2{
 
@@ -164,8 +221,9 @@ color:#d8e4ea;
 
 }
 
+
 /* ==========================================
-MAIN LAYOUT
+   MAIN LAYOUT
 ========================================== */
 
 .hud-main{
@@ -182,8 +240,9 @@ margin-bottom:25px;
 
 }
 
+
 /* ==========================================
-LEFT
+   LEFT
 ========================================== */
 
 .hud-left{
@@ -194,10 +253,13 @@ flex-direction:column;
 
 align-items:center;
 
+min-width:0;
+
 }
 
+
 /* ==========================================
-HUD CIRCLE
+   HUD CIRCLE
 ========================================== */
 
 .hud-circle{
@@ -216,59 +278,23 @@ align-items:center;
 
 margin-bottom:20px;
 
-background:transparent;
-
-overflow:visible;
+flex-shrink:0;
 
 }
 
-/* ==========================================
-SVG CIRCLE FIX
-========================================== */
 
 .hud-circle svg{
 
 position:absolute;
 
-top:0;
+width:220px;
 
-left:0;
-
-width:100%;
-
-height:100%;
-
-display:block;
-
-background:transparent;
-
-overflow:visible;
+height:220px;
 
 transform:rotate(-90deg);
 
 }
 
-/* Remove any possible SVG rectangle/background */
-
-.hud-circle svg rect{
-
-fill:none !important;
-
-stroke:none !important;
-
-}
-
-/* Make SVG circles transparent */
-
-.hud-circle svg circle{
-
-fill:none;
-
-}
-
-/* ==========================================
-CIRCLE BACKGROUND
-========================================== */
 
 .circle-bg{
 
@@ -280,9 +306,6 @@ stroke-width:10;
 
 }
 
-/* ==========================================
-CIRCLE PROGRESS
-========================================== */
 
 .circle-progress{
 
@@ -298,15 +321,15 @@ stroke-dasharray:597;
 
 stroke-dashoffset:597;
 
-filter:drop-shadow(0 0 12px var(--cyan));
+filter:
+drop-shadow(
+0 0 12px var(--cyan)
+);
 
 transition:.35s;
 
 }
 
-/* ==========================================
-CIRCLE TEXT
-========================================== */
 
 .circle-text{
 
@@ -314,9 +337,8 @@ position:absolute;
 
 text-align:center;
 
-background:transparent;
-
 }
+
 
 #percent{
 
@@ -327,6 +349,7 @@ font-weight:bold;
 color:var(--primary);
 
 }
+
 
 .circle-text span{
 
@@ -342,8 +365,9 @@ color:#c8d6dd;
 
 }
 
+
 /* ==========================================
-LOADING TITLE
+   LOADING TITLE
 ========================================== */
 
 .loading-title{
@@ -364,16 +388,27 @@ animation:pulseText 1.5s infinite;
 
 }
 
+
 @keyframes pulseText{
 
-0%,100%{opacity:.6;}
+0%,
+100%{
 
-50%{opacity:1;}
+opacity:.6;
 
 }
 
+50%{
+
+opacity:1;
+
+}
+
+}
+
+
 /* ==========================================
-PROGRESS BAR
+   PROGRESS BAR
 ========================================== */
 
 .progress-container{
@@ -388,11 +423,13 @@ border-radius:30px;
 
 overflow:hidden;
 
-border:1px solid rgba(0,229,255,.25);
+border:1px solid
+rgba(0,229,255,.25);
 
 position:relative;
 
 }
+
 
 .progress-bar{
 
@@ -400,7 +437,8 @@ width:0%;
 
 height:100%;
 
-background:linear-gradient(
+background:
+linear-gradient(
 90deg,
 #00e5ff,
 #00b8ff,
@@ -409,9 +447,12 @@ background:linear-gradient(
 
 transition:.35s;
 
-box-shadow:0 0 15px rgba(0,229,255,.6);
+box-shadow:
+0 0 15px
+rgba(0,229,255,.6);
 
 }
+
 
 .progress-container::after{
 
@@ -427,7 +468,8 @@ width:80px;
 
 height:100%;
 
-background:linear-gradient(
+background:
+linear-gradient(
 90deg,
 transparent,
 rgba(255,255,255,.5),
@@ -436,31 +478,52 @@ transparent
 
 animation:scan 2s linear infinite;
 
+pointer-events:none;
+
 }
+
 
 @keyframes scan{
 
-0%{left:-80px;}
+0%{
 
-100%{left:100%;}
+left:-80px;
 
 }
 
+100%{
+
+left:100%;
+
+}
+
+}
+
+
 /* ==========================================
-RIGHT PANEL
+   RIGHT PANEL
 ========================================== */
+
+.hud-right{
+
+min-width:0;
+
+}
+
 
 .status-box{
 
 background:#0d2232;
 
-border:1px solid rgba(0,229,255,.15);
+border:1px solid
+rgba(0,229,255,.15);
 
 border-radius:15px;
 
 padding:20px;
 
 }
+
 
 .status-box h3{
 
@@ -474,17 +537,24 @@ letter-spacing:2px;
 
 }
 
+
 .status-item{
 
 display:flex;
 
 justify-content:space-between;
 
+align-items:center;
+
+gap:15px;
+
 padding:12px 0;
 
-border-bottom:1px solid rgba(255,255,255,.08);
+border-bottom:1px solid
+rgba(255,255,255,.08);
 
 }
+
 
 .status-item:last-child{
 
@@ -492,27 +562,49 @@ border-bottom:none;
 
 }
 
+
+.status-item span{
+
+color:#d8e4ea;
+
+font-size:14px;
+
+}
+
+
+.status-item strong{
+
+font-size:13px;
+
+text-align:right;
+
+}
+
+
 .online{
 
 color:var(--green);
 
 }
 
+
 /* ==========================================
-MODULES
+   MODULES
 ========================================== */
 
 .module-list{
 
 display:grid;
 
-grid-template-columns:repeat(2,1fr);
+grid-template-columns:
+repeat(2,1fr);
 
 gap:15px;
 
 margin-top:20px;
 
 }
+
 
 .module-item{
 
@@ -530,18 +622,22 @@ transition:.35s;
 
 }
 
+
 .module-item.done{
 
 background:#14382a;
 
 border-left-color:var(--green);
 
-box-shadow:0 0 15px rgba(0,255,136,.25);
+box-shadow:
+0 0 15px
+rgba(0,255,136,.25);
 
 }
 
+
 /* ==========================================
-FOOTER
+   FOOTER STATUS
 ========================================== */
 
 .system-status{
@@ -560,7 +656,10 @@ font-size:14px;
 
 color:#c8d6dd;
 
+text-align:center;
+
 }
+
 
 .status-dot{
 
@@ -572,22 +671,37 @@ border-radius:50%;
 
 background:var(--green);
 
-box-shadow:0 0 12px var(--green);
+box-shadow:
+0 0 12px
+var(--green);
 
 animation:blink 1s infinite;
 
+flex-shrink:0;
+
 }
+
 
 @keyframes blink{
 
-0%,100%{opacity:1;}
+0%,
+100%{
 
-50%{opacity:.3;}
+opacity:1;
 
 }
 
+50%{
+
+opacity:.3;
+
+}
+
+}
+
+
 /* ==========================================
-RESPONSIVE
+   TABLET
 ========================================== */
 
 @media(max-width:900px){
@@ -596,35 +710,40 @@ body{
 
 padding:15px;
 
-overflow-y:auto;
+align-items:center;
 
 }
+
 
 .hud-card{
 
-padding:20px;
+padding:22px;
 
 }
+
 
 .hud-main{
 
 grid-template-columns:1fr;
 
-gap:20px;
+gap:25px;
 
 }
 
-.status-box{
+
+.hud-left{
 
 width:100%;
 
 }
 
-.module-list{
 
-grid-template-columns:1fr;
+.hud-right{
+
+width:100%;
 
 }
+
 
 .logo{
 
@@ -634,51 +753,336 @@ height:70px;
 
 }
 
+
 .logo-area h1{
 
 font-size:30px;
 
 }
 
+
 .logo-area h2{
 
-font-size:14px;
+font-size:13px;
+
+letter-spacing:2px;
 
 }
+
 
 .hud-circle{
 
-width:180px;
+width:190px;
 
-height:180px;
-
-background:transparent;
-
-overflow:visible;
+height:190px;
 
 }
+
 
 .hud-circle svg{
 
-width:180px;
+width:190px;
 
-height:180px;
-
-background:transparent;
-
-overflow:visible;
+height:190px;
 
 }
+
 
 #percent{
 
-font-size:34px;
+font-size:38px;
 
 }
 
+}
+
+
+/* ==========================================
+   MOBILE
+========================================== */
+
+@media(max-width:600px){
+
+body{
+
+padding:10px;
+
+align-items:center;
+
+}
+
+
+.hud-card{
+
+width:100%;
+
+padding:18px 14px;
+
+border-radius:18px;
+
+}
+
+
+.logo-area{
+
+margin-bottom:18px;
+
+}
+
+
+.logo{
+
+width:65px;
+
+height:65px;
+
+}
+
+
+.logo-area h1{
+
+font-size:27px;
+
+letter-spacing:2px;
+
+}
+
+
+.logo-area h2{
+
+font-size:10px;
+
+letter-spacing:1.5px;
+
+line-height:1.5;
+
+}
+
+
+.hud-main{
+
+gap:18px;
+
+margin-bottom:18px;
+
+}
+
+
+.hud-circle{
+
+width:165px;
+
+height:165px;
+
+margin-bottom:15px;
+
+}
+
+
+.hud-circle svg{
+
+width:165px;
+
+height:165px;
+
+}
+
+
+.circle-bg,
+.circle-progress{
+
+stroke-width:8;
+
+}
+
+
+#percent{
+
+font-size:32px;
+
+}
+
+
+.circle-text span{
+
+font-size:11px;
+
+margin-top:5px;
+
+}
+
+
 .loading-title{
 
-font-size:16px;
+font-size:13px;
+
+letter-spacing:1px;
+
+margin-bottom:15px;
+
+}
+
+
+.progress-container{
+
+height:8px;
+
+}
+
+
+.status-box{
+
+padding:15px;
+
+}
+
+
+.status-box h3{
+
+font-size:15px;
+
+margin-bottom:12px;
+
+}
+
+
+.status-item{
+
+padding:10px 0;
+
+}
+
+
+.status-item span{
+
+font-size:12px;
+
+}
+
+
+.status-item strong{
+
+font-size:11px;
+
+}
+
+
+.module-list{
+
+grid-template-columns:1fr;
+
+gap:10px;
+
+margin-top:12px;
+
+}
+
+
+.module-item{
+
+font-size:12px;
+
+padding:10px 12px;
+
+}
+
+
+.system-status{
+
+margin-top:15px;
+
+font-size:11px;
+
+}
+
+}
+
+
+/* ==========================================
+   EXTRA SMALL MOBILE
+========================================== */
+
+@media(max-width:380px){
+
+body{
+
+padding:8px;
+
+}
+
+
+.hud-card{
+
+padding:15px 10px;
+
+}
+
+
+.logo{
+
+width:58px;
+
+height:58px;
+
+}
+
+
+.logo-area h1{
+
+font-size:24px;
+
+}
+
+
+.logo-area h2{
+
+font-size:9px;
+
+}
+
+
+.hud-circle{
+
+width:145px;
+
+height:145px;
+
+}
+
+
+.hud-circle svg{
+
+width:145px;
+
+height:145px;
+
+}
+
+
+#percent{
+
+font-size:28px;
+
+}
+
+
+.loading-title{
+
+font-size:11px;
+
+}
+
+
+.status-box{
+
+padding:12px;
+
+}
+
+
+.module-item{
+
+font-size:11px;
 
 }
 
