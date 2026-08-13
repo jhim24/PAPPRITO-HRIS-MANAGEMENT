@@ -1,7 +1,8 @@
-/* ==========================================
+/* =========================================================
    PAPPRITO HRIS
-   TRACK LEAVES JS
-========================================== */
+   TRACK LEAVES
+   LEAVE BALANCE MANAGEMENT
+========================================================= */
 
 import { db } from "./firebase.js";
 
@@ -11,20 +12,20 @@ import {
 } from "https://www.gstatic.com/firebasejs/12.13.0/firebase-firestore.js";
 
 
-/* ==========================================
-   GLOBAL DATA
-========================================== */
+/* =========================================================
+   DATA
+========================================================= */
 
 let employees = [];
 
-let requests = [];
+let leaveRequests = [];
 
 let filteredEmployees = [];
 
 
-/* ==========================================
+/* =========================================================
    ELEMENTS
-========================================== */
+========================================================= */
 
 const leaveBody =
     document.getElementById("leaveBody");
@@ -41,6 +42,9 @@ const leaveTypeFilter =
 const employeeCount =
     document.getElementById("employeeCount");
 
+const loading =
+    document.getElementById("loading");
+
 const grandTotalLeaves =
     document.getElementById("grandTotalLeaves");
 
@@ -53,15 +57,12 @@ const grandTotalUnused =
 const grandRemaining =
     document.getElementById("grandRemaining");
 
-const loading =
-    document.getElementById("loading");
 
-
-/* ==========================================
+/* =========================================================
    HELPERS
-========================================== */
+========================================================= */
 
-function text(value){
+function clean(value) {
 
     return String(
         value ?? ""
@@ -70,7 +71,7 @@ function text(value){
 }
 
 
-function number(value){
+function number(value) {
 
     const n =
         Number(value);
@@ -82,238 +83,407 @@ function number(value){
 }
 
 
-function escapeHTML(value){
+function escapeHTML(value) {
 
-    return text(value)
+    return String(
+        value ?? ""
+    )
 
-        .replace(
-            /&/g,
-            "&amp;"
-        )
+    .replace(
+        /&/g,
+        "&amp;"
+    )
 
-        .replace(
-            /</g,
-            "&lt;"
-        )
+    .replace(
+        /</g,
+        "&lt;"
+    )
 
-        .replace(
-            />/g,
-            "&gt;"
-        )
+    .replace(
+        />/g,
+        "&gt;"
+    )
 
-        .replace(
-            /"/g,
-            "&quot;"
-        )
+    .replace(
+        /"/g,
+        "&quot;"
+    )
 
-        .replace(
-            /'/g,
-            "&#039;"
-        );
+    .replace(
+        /'/g,
+        "&#039;"
+    );
 
 }
 
 
-/* ==========================================
-   GET FULL NAME
-========================================== */
+/* =========================================================
+   EMPLOYEE NAME
+========================================================= */
 
-function getFullName(employee){
+function getEmployeeName(emp) {
 
-    return [
+    if (!emp) {
 
-        employee.firstname,
+        return "";
 
-        employee.middlename,
+    }
 
-        employee.lastname
+    const fullName = [
+
+        emp.firstname,
+
+        emp.middlename,
+
+        emp.lastname
 
     ]
 
+    .map(
+        value =>
+            clean(value)
+    )
+
     .filter(
         value =>
-            text(value) !== ""
+            value !== ""
     )
 
-    .join(" ")
+    .join(" ");
 
-    .replace(
-        /\s+/g,
-        " "
-    )
+    return (
 
-    .trim();
+        fullName ||
 
-}
+        clean(emp.name) ||
 
+        clean(emp.fullname) ||
 
-/* ==========================================
-   SHOW LOADING
-========================================== */
+        ""
 
-function showLoading(){
-
-    if(loading){
-
-        loading.style.display =
-            "flex";
-
-    }
+    );
 
 }
 
 
-/* ==========================================
-   HIDE LOADING
-========================================== */
+/* =========================================================
+   EMPLOYEE ID
+========================================================= */
 
-function hideLoading(){
+function getEmployeeId(emp) {
 
-    if(loading){
+    return clean(
 
-        loading.style.display =
-            "none";
+        emp.employeeid ??
 
-    }
+        emp.empid ??
+
+        emp.employeeId ??
+
+        ""
+
+    );
 
 }
 
 
-/* ==========================================
-   LOAD EMPLOYEES
-========================================== */
+/* =========================================================
+   DEPARTMENT
+========================================================= */
 
-async function loadEmployees(){
+function getDepartment(emp) {
 
-    const snapshot =
-        await getDocs(
-            collection(
-                db,
-                "employees"
-            )
+    return clean(
+
+        emp.department ??
+
+        emp.dept ??
+
+        ""
+
+    );
+
+}
+
+
+/* =========================================================
+   LEAVE TOTAL FROM EMPLOYEE MASTERLIST
+========================================================= */
+
+function getVacationTotal(emp) {
+
+    return Math.max(
+
+        0,
+
+        number(
+
+            emp.vacationleave ??
+
+            emp.vacationLeave ??
+
+            emp.vacation ??
+
+            0
+
+        )
+
+    );
+
+}
+
+
+function getSickTotal(emp) {
+
+    return Math.max(
+
+        0,
+
+        number(
+
+            emp.sickleave ??
+
+            emp.sickLeave ??
+
+            emp.sick ??
+
+            0
+
+        )
+
+    );
+
+}
+
+
+function getBirthdayTotal(emp) {
+
+    return Math.max(
+
+        0,
+
+        number(
+
+            emp.birthdayleave ??
+
+            emp.birthdayLeave ??
+
+            emp.birthday ??
+
+            0
+
+        )
+
+    );
+
+}
+
+
+/* =========================================================
+   LEAVE TYPE NORMALIZATION
+========================================================= */
+
+function normalizeLeaveType(type) {
+
+    const value =
+        clean(type)
+        .toLowerCase()
+        .replace(
+            /[_-]+/g,
+            " "
         );
 
 
-    employees = [];
+    if (
+        value.includes("vacation")
+    ) {
+
+        return "Vacation";
+
+    }
 
 
-    snapshot.forEach(
-        docSnap => {
+    if (
+        value.includes("sick")
+    ) {
 
-            employees.push({
+        return "Sick";
 
-                id:
-                    docSnap.id,
+    }
 
-                ...docSnap.data()
 
-            });
+    if (
+        value.includes("birthday")
+    ) {
 
-        }
+        return "Birthday";
+
+    }
+
+
+    return "Other";
+
+}
+
+
+/* =========================================================
+   REQUEST EMPLOYEE ID
+========================================================= */
+
+function getRequestEmployeeId(req) {
+
+    return clean(
+
+        req.empid ??
+
+        req.employeeid ??
+
+        req.employeeId ??
+
+        req.empDocId ??
+
+        ""
+
     );
 
-
-    /*
-     * Only active employees
-     *
-     * Inactive employees are not
-     * included in current leave
-     * tracking.
-     */
-
-    employees =
-        employees.filter(
-            employee => {
-
-                const status =
-                    text(
-                        employee.status ||
-                        "Active"
-                    ).toLowerCase();
+}
 
 
-                return (
-                    status ===
-                    "active"
-                );
+/* =========================================================
+   REQUEST EMPLOYEE NAME
+========================================================= */
+
+function getRequestEmployeeName(req) {
+
+    return clean(
+
+        req.employee ??
+
+        req.employeeName ??
+
+        req.name ??
+
+        ""
+
+    );
+
+}
+
+
+/* =========================================================
+   REQUEST DAYS
+========================================================= */
+
+function getRequestDays(req) {
+
+    const days =
+        number(
+            req.days ??
+            req.leaveDays ??
+            0
+        );
+
+
+    return days > 0
+        ? days
+        : 0;
+
+}
+
+
+/* =========================================================
+   REQUEST STATUS
+========================================================= */
+
+function isApproved(req) {
+
+    return (
+
+        clean(
+            req.status
+        ).toUpperCase() ===
+        "APPROVED"
+
+    );
+
+}
+
+
+/* =========================================================
+   LOAD EMPLOYEES
+========================================================= */
+
+async function loadEmployees() {
+
+    employees = [];
+
+    try {
+
+        const snapshot =
+            await getDocs(
+
+                collection(
+                    db,
+                    "employees"
+                )
+
+            );
+
+
+        snapshot.forEach(
+            docSnap => {
+
+                employees.push({
+
+                    id:
+                        docSnap.id,
+
+                    ...docSnap.data()
+
+                });
 
             }
         );
 
 
-    employees.sort(
-        (a,b) => {
+        employees.sort(
 
-            const nameA =
-                getFullName(a)
-                .toLowerCase();
+            (a, b) => {
 
-            const nameB =
-                getFullName(b)
-                .toLowerCase();
+                return getEmployeeName(a)
+                    .localeCompare(
+                        getEmployeeName(b)
+                    );
 
-            return nameA.localeCompare(
-                nameB
-            );
+            }
 
-        }
-    );
-
-
-    filteredEmployees =
-        [...employees];
-
-
-    populateDepartments();
-
-}
-
-
-/* ==========================================
-   LOAD REQUESTS
-========================================== */
-
-async function loadRequests(){
-
-    const snapshot =
-        await getDocs(
-            collection(
-                db,
-                "employeeRequests"
-            )
         );
 
 
-    requests = [];
+        loadDepartments();
 
 
-    snapshot.forEach(
-        docSnap => {
+    } catch (error) {
 
-            requests.push({
+        console.error(
+            "LOAD EMPLOYEES ERROR:",
+            error
+        );
 
-                id:
-                    docSnap.id,
+        throw error;
 
-                ...docSnap.data()
-
-            });
-
-        }
-    );
+    }
 
 }
 
 
-/* ==========================================
-   POPULATE DEPARTMENTS
-========================================== */
+/* =========================================================
+   LOAD DEPARTMENTS
+========================================================= */
 
-function populateDepartments(){
+function loadDepartments() {
 
-    if(
-        !departmentFilter
-    ){
+    if (!departmentFilter) {
 
         return;
 
@@ -325,17 +495,12 @@ function populateDepartments(){
 
 
     employees.forEach(
-        employee => {
+        emp => {
 
             const department =
-                text(
-                    employee.department
-                );
+                getDepartment(emp);
 
-
-            if(
-                department
-            ){
+            if (department) {
 
                 departments.add(
                     department
@@ -349,530 +514,708 @@ function populateDepartments(){
 
     departmentFilter.innerHTML = `
 
-<option value="">
-    All Departments
-</option>
+        <option value="">
+            All Departments
+        </option>
 
-`;
-
-
-    Array.from(departments)
-
-        .sort(
-            (a,b) =>
-                a.localeCompare(b)
-        )
-
-        .forEach(
-            department => {
-
-                const option =
-                    document.createElement(
-                        "option"
-                    );
+    `;
 
 
-                option.value =
-                    department;
+    [...departments]
 
+    .sort(
+        (a, b) =>
+            a.localeCompare(b)
+    )
 
-                option.textContent =
-                    department;
+    .forEach(
+        department => {
 
-
-                departmentFilter.appendChild(
-                    option
+            const option =
+                document.createElement(
+                    "option"
                 );
 
-            }
-        );
+            option.value =
+                department;
 
-}
+            option.textContent =
+                department;
 
+            departmentFilter.appendChild(
+                option
+            );
 
-/* ==========================================
-   GET EMPLOYEE ID
-========================================== */
-
-function getEmployeeId(employee){
-
-    return text(
-        employee.employeeid
-    )
-    .toUpperCase();
-
-}
-
-
-/* ==========================================
-   NORMALIZE REQUEST TYPE
-========================================== */
-
-function normalizeLeaveType(type){
-
-    const value =
-        text(type)
-        .toUpperCase();
-
-
-    if(
-        value.includes(
-            "VACATION"
-        )
-    ){
-
-        return "Vacation";
-
-    }
-
-
-    if(
-        value.includes(
-            "SICK"
-        )
-    ){
-
-        return "Sick";
-
-    }
-
-
-    if(
-        value.includes(
-            "BIRTHDAY"
-        )
-    ){
-
-        return "Birthday";
-
-    }
-
-
-    return "";
-
-}
-
-
-/* ==========================================
-   CHECK APPROVED REQUEST
-========================================== */
-
-function isApproved(request){
-
-    const status =
-        text(
-            request.status
-        )
-        .toUpperCase();
-
-
-    return (
-        status ===
-        "APPROVED"
+        }
     );
 
 }
 
 
-/* ==========================================
-   GET USED LEAVES
-========================================== */
+/* =========================================================
+   LOAD LEAVE REQUESTS
+========================================================= */
 
-function getUsedLeaves(
+async function loadLeaveRequests() {
+
+    leaveRequests = [];
+
+    try {
+
+        const snapshot =
+            await getDocs(
+
+                collection(
+                    db,
+                    "employeeRequests"
+                )
+
+            );
+
+
+        snapshot.forEach(
+            docSnap => {
+
+                leaveRequests.push({
+
+                    id:
+                        docSnap.id,
+
+                    ...docSnap.data()
+
+                });
+
+            }
+        );
+
+
+    } catch (error) {
+
+        console.error(
+            "LOAD LEAVE REQUESTS ERROR:",
+            error
+        );
+
+        throw error;
+
+    }
+
+}
+
+
+/* =========================================================
+   GET APPROVED USED LEAVE
+========================================================= */
+
+function getUsedLeave(
     employee,
-    leaveType
-){
+    type
+) {
 
     const employeeId =
         getEmployeeId(
             employee
         );
 
-
-    if(
-        !employeeId
-    ){
-
-        return 0;
-
-    }
+    const employeeName =
+        getEmployeeName(
+            employee
+        )
+        .toLowerCase();
 
 
-    let used = 0;
+    let totalUsed = 0;
 
 
-    requests.forEach(
+    leaveRequests.forEach(
         request => {
 
-            const requestEmployeeId =
-                text(
-                    request.empid
-                )
-                .toUpperCase();
-
-
-            /*
-             * Must belong to employee
-             */
-
-            if(
-                requestEmployeeId !==
-                employeeId
-            ){
+            if (
+                !isApproved(request)
+            ) {
 
                 return;
 
             }
 
 
-            /*
-             * Only APPROVED requests
-             */
-
-            if(
-                !isApproved(
-                    request
-                )
-            ){
-
-                return;
-
-            }
-
-
-            const type =
+            const requestType =
                 normalizeLeaveType(
-                    request.type
+                    request.type ??
+                    request.leaveType
                 );
 
 
-            if(
-                type !==
-                leaveType
-            ){
+            if (
+                requestType !==
+                type
+            ) {
 
                 return;
 
             }
 
 
-            used +=
-                number(
-                    request.days
+            const requestId =
+                getRequestEmployeeId(
+                    request
+                );
+
+
+            const requestName =
+                getRequestEmployeeName(
+                    request
+                )
+                .toLowerCase();
+
+
+            let employeeMatch =
+                false;
+
+
+            /*
+               FIRST:
+               Match Employee ID
+            */
+
+            if (
+                employeeId &&
+                requestId
+            ) {
+
+                employeeMatch =
+                    employeeId.toLowerCase() ===
+                    requestId.toLowerCase();
+
+            }
+
+
+            /*
+               SECOND:
+               Match Employee Name
+            */
+
+            if (
+                !employeeMatch &&
+                employeeName &&
+                requestName
+            ) {
+
+                employeeMatch =
+                    employeeName ===
+                    requestName;
+
+            }
+
+
+            if (
+                !employeeMatch
+            ) {
+
+                return;
+
+            }
+
+
+            totalUsed +=
+                getRequestDays(
+                    request
                 );
 
         }
     );
 
 
-    return used;
+    return totalUsed;
 
 }
 
 
-/* ==========================================
-   GET LEAVE BALANCE
-========================================== */
+/* =========================================================
+   BUILD EMPLOYEE BALANCE
+========================================================= */
 
-function getLeaveBalance(
-    employee,
-    leaveType
-){
+function buildLeaveBalance(emp) {
 
-    let total = 0;
-
-
-    /*
-     * IMPORTANT:
-     *
-     * These values come directly
-     * from Employee Masterlist.
-     */
-
-    if(
-        leaveType ===
-        "Vacation"
-    ){
-
-        total =
-            number(
-                employee.vacationleave
-            );
-
-    }
-
-
-    if(
-        leaveType ===
-        "Sick"
-    ){
-
-        total =
-            number(
-                employee.sickleave
-            );
-
-    }
-
-
-    if(
-        leaveType ===
-        "Birthday"
-    ){
-
-        total =
-            number(
-                employee.birthdayleave
-            );
-
-    }
-
-
-    const used =
-        getUsedLeaves(
-            employee,
-            leaveType
+    const vacationTotal =
+        getVacationTotal(
+            emp
         );
 
 
-    /*
-     * Unused means:
-     *
-     * Total - Used
-     *
-     * Never below zero.
-     */
-
-    const unused =
-        Math.max(
-            total - used,
-            0
+    const sickTotal =
+        getSickTotal(
+            emp
         );
 
 
-    /*
-     * Remaining is the actual
-     * available balance.
-     */
-
-    const remaining =
-        Math.max(
-            total - used,
-            0
+    const birthdayTotal =
+        getBirthdayTotal(
+            emp
         );
 
 
-    return {
-
-        total,
-
-        used,
-
-        unused,
-
-        remaining
-
-    };
-
-}
-
-
-/* ==========================================
-   GET EMPLOYEE SUMMARY
-========================================== */
-
-function getEmployeeSummary(
-    employee
-){
-
-    const vacation =
-        getLeaveBalance(
-            employee,
+    const vacationUsed =
+        getUsedLeave(
+            emp,
             "Vacation"
         );
 
 
-    const sick =
-        getLeaveBalance(
-            employee,
+    const sickUsed =
+        getUsedLeave(
+            emp,
             "Sick"
         );
 
 
-    const birthday =
-        getLeaveBalance(
-            employee,
+    const birthdayUsed =
+        getUsedLeave(
+            emp,
             "Birthday"
         );
 
 
-    const total =
-        vacation.total
-        +
-        sick.total
-        +
-        birthday.total;
+    const vacationUnused =
+        Math.max(
+            vacationTotal -
+            vacationUsed,
+            0
+        );
 
 
-    const used =
-        vacation.used
-        +
-        sick.used
-        +
-        birthday.used;
+    const sickUnused =
+        Math.max(
+            sickTotal -
+            sickUsed,
+            0
+        );
 
 
-    const unused =
-        vacation.unused
-        +
-        sick.unused
-        +
-        birthday.unused;
+    const birthdayUnused =
+        Math.max(
+            birthdayTotal -
+            birthdayUsed,
+            0
+        );
 
 
-    const remaining =
-        vacation.remaining
-        +
-        sick.remaining
-        +
-        birthday.remaining;
+    /*
+       REMAINING = UNUSED
+
+       This makes the terminology
+       consistent:
+
+       TOTAL
+       USED
+       UNUSED
+       REMAINING
+    */
+
+    const vacationRemaining =
+        vacationUnused;
+
+
+    const sickRemaining =
+        sickUnused;
+
+
+    const birthdayRemaining =
+        birthdayUnused;
+
+
+    const overallTotal =
+        vacationTotal +
+        sickTotal +
+        birthdayTotal;
+
+
+    const overallUsed =
+        vacationUsed +
+        sickUsed +
+        birthdayUsed;
+
+
+    const overallUnused =
+        Math.max(
+            overallTotal -
+            overallUsed,
+            0
+        );
+
+
+    const overallRemaining =
+        overallUnused;
 
 
     return {
 
-        vacation,
+        vacation: {
 
-        sick,
+            total:
+                vacationTotal,
 
-        birthday,
+            used:
+                vacationUsed,
 
-        total,
+            unused:
+                vacationUnused,
 
-        used,
+            remaining:
+                vacationRemaining
 
-        unused,
+        },
 
-        remaining
+        sick: {
+
+            total:
+                sickTotal,
+
+            used:
+                sickUsed,
+
+            unused:
+                sickUnused,
+
+            remaining:
+                sickRemaining
+
+        },
+
+        birthday: {
+
+            total:
+                birthdayTotal,
+
+            used:
+                birthdayUsed,
+
+            unused:
+                birthdayUnused,
+
+            remaining:
+                birthdayRemaining
+
+        },
+
+        overall: {
+
+            total:
+                overallTotal,
+
+            used:
+                overallUsed,
+
+            unused:
+                overallUnused,
+
+            remaining:
+                overallRemaining
+
+        }
 
     };
 
 }
 
 
-/* ==========================================
+/* =========================================================
+   FILTER EMPLOYEES
+========================================================= */
+
+function getFilteredEmployees() {
+
+    const search =
+        clean(
+            leaveSearch?.value
+        )
+        .toLowerCase();
+
+
+    const department =
+        clean(
+            departmentFilter?.value
+        );
+
+
+    const leaveType =
+        clean(
+            leaveTypeFilter?.value
+        );
+
+
+    return employees.filter(
+        emp => {
+
+            const employeeId =
+                getEmployeeId(
+                    emp
+                )
+                .toLowerCase();
+
+
+            const employeeName =
+                getEmployeeName(
+                    emp
+                )
+                .toLowerCase();
+
+
+            const empDepartment =
+                getDepartment(
+                    emp
+                );
+
+
+            /*
+               SEARCH
+            */
+
+            if (
+                search &&
+                !employeeId.includes(search) &&
+                !employeeName.includes(search)
+            ) {
+
+                return false;
+
+            }
+
+
+            /*
+               DEPARTMENT
+            */
+
+            if (
+                department &&
+                empDepartment !==
+                department
+            ) {
+
+                return false;
+
+            }
+
+
+            /*
+               LEAVE TYPE
+               Only display employee if
+               that type has allocation.
+            */
+
+            if (
+                leaveType &&
+                leaveType !== "ALL"
+            ) {
+
+                const balance =
+                    buildLeaveBalance(
+                        emp
+                    );
+
+
+                if (
+                    leaveType ===
+                    "Vacation" &&
+                    balance.vacation.total <= 0
+                ) {
+
+                    return false;
+
+                }
+
+
+                if (
+                    leaveType ===
+                    "Sick" &&
+                    balance.sick.total <= 0
+                ) {
+
+                    return false;
+
+                }
+
+
+                if (
+                    leaveType ===
+                    "Birthday" &&
+                    balance.birthday.total <= 0
+                ) {
+
+                    return false;
+
+                }
+
+            }
+
+
+            return true;
+
+        }
+    );
+
+}
+
+
+/* =========================================================
+   FORMAT NUMBER
+========================================================= */
+
+function formatNumber(value) {
+
+    const n =
+        number(value);
+
+
+    if (
+        Number.isInteger(n)
+    ) {
+
+        return String(n);
+
+    }
+
+
+    return n.toFixed(2);
+
+}
+
+
+/* =========================================================
+   BALANCE CELL
+========================================================= */
+
+function balanceCell(
+    value,
+    className
+) {
+
+    return `
+
+        <td
+            class="leave-number ${className}">
+
+            ${formatNumber(value)}
+
+        </td>
+
+    `;
+
+}
+
+
+/* =========================================================
    RENDER TABLE
-========================================== */
+========================================================= */
 
-function renderTable(){
+function renderTable() {
 
-    if(
-        !leaveBody
-    ){
+    if (!leaveBody) {
 
         return;
 
     }
+
+
+    filteredEmployees =
+        getFilteredEmployees();
 
 
     leaveBody.innerHTML =
         "";
 
 
-    if(
-        filteredEmployees.length === 0
-    ){
+    /*
+       EMPLOYEE COUNT
+    */
+
+    if (employeeCount) {
+
+        employeeCount.innerHTML = `
+
+            Employees:
+            <strong>
+                ${filteredEmployees.length}
+            </strong>
+
+        `;
+
+    }
+
+
+    /*
+       NO DATA
+    */
+
+    if (
+        filteredEmployees.length ===
+        0
+    ) {
 
         leaveBody.innerHTML = `
 
-<tr>
+            <tr>
 
-<td
-    colspan="18"
-    class="empty-message">
+                <td
+                    colspan="19"
+                    class="empty-message">
 
-    No employee leave records found.
+                    <span
+                        class="material-icons">
 
-</td>
+                        person_off
 
-</tr>
+                    </span>
 
-`;
+                    <div>
 
-        updateSummary();
+                        No employee leave records found.
+
+                    </div>
+
+                </td>
+
+            </tr>
+
+        `;
+
+
+        updateGrandTotals();
 
         return;
 
     }
 
 
+    /*
+       EMPLOYEES
+    */
+
     filteredEmployees.forEach(
         employee => {
 
-            const summary =
-                getEmployeeSummary(
+            const balance =
+                buildLeaveBalance(
                     employee
                 );
 
 
-            /*
-             * Leave type filter
-             *
-             * We keep the employee row,
-             * but highlight/filter based
-             * on selected leave type.
-             */
-
-            const selectedType =
-                leaveTypeFilter
-                ?
-                leaveTypeFilter.value
-                :
-                "ALL";
+            const employeeId =
+                getEmployeeId(
+                    employee
+                );
 
 
-            if(
-                selectedType !==
-                "ALL"
-            ){
-
-                const selectedBalance =
-
-                    selectedType ===
-                    "Vacation"
-
-                    ?
-
-                    summary.vacation
-
-                    :
-
-                    selectedType ===
-                    "Sick"
-
-                    ?
-
-                    summary.sick
-
-                    :
-
-                    summary.birthday;
+            const employeeName =
+                getEmployeeName(
+                    employee
+                );
 
 
-                /*
-                 * Keep employee visible.
-                 * The selected leave group
-                 * remains available in table.
-                 */
-
-                if(
-                    selectedBalance.total <= 0
-                ){
-
-                    return;
-
-                }
-
-            }
+            const department =
+                getDepartment(
+                    employee
+                );
 
 
             const row =
@@ -883,167 +1226,145 @@ function renderTable(){
 
             row.innerHTML = `
 
-<td class="employee-id">
+                <!-- EMPLOYEE ID -->
 
-    ${escapeHTML(
-        employee.employeeid ||
-        "-"
-    )}
+                <td
+                    class="employee-id">
 
-</td>
+                    ${escapeHTML(
+                        employeeId ||
+                        "-"
+                    )}
 
+                </td>
 
-<td class="employee-name">
 
-    ${escapeHTML(
-        getFullName(employee) ||
-        "-"
-    )}
+                <!-- EMPLOYEE NAME -->
 
-</td>
+                <td
+                    class="employee-name">
 
+                    ${escapeHTML(
+                        employeeName ||
+                        "-"
+                    )}
 
-<td>
+                </td>
 
-    ${escapeHTML(
-        employee.department ||
-        "-"
-    )}
 
-</td>
+                <!-- DEPARTMENT -->
 
+                <td
+                    class="department">
 
-<!-- ==================================
-     VACATION
-================================== -->
+                    ${escapeHTML(
+                        department ||
+                        "-"
+                    )}
 
-<td class="total-cell">
+                </td>
 
-    ${summary.vacation.total}
 
-</td>
+                <!-- ====================
+                     VACATION
+                ==================== -->
 
+                ${balanceCell(
+                    balance.vacation.total,
+                    "total-cell"
+                )}
 
-<td class="used-cell">
+                ${balanceCell(
+                    balance.vacation.used,
+                    "used-cell"
+                )}
 
-    ${summary.vacation.used}
+                ${balanceCell(
+                    balance.vacation.unused,
+                    "unused-cell"
+                )}
 
-</td>
+                ${balanceCell(
+                    balance.vacation.remaining,
+                    "remaining-cell"
+                )}
 
 
-<td class="unused-cell">
+                <!-- ====================
+                     SICK
+                ==================== -->
 
-    ${summary.vacation.unused}
+                ${balanceCell(
+                    balance.sick.total,
+                    "total-cell"
+                )}
 
-</td>
+                ${balanceCell(
+                    balance.sick.used,
+                    "used-cell"
+                )}
 
+                ${balanceCell(
+                    balance.sick.unused,
+                    "unused-cell"
+                )}
 
-<td class="remaining-cell">
+                ${balanceCell(
+                    balance.sick.remaining,
+                    "remaining-cell"
+                )}
 
-    ${summary.vacation.remaining}
 
-</td>
+                <!-- ====================
+                     BIRTHDAY
+                ==================== -->
 
+                ${balanceCell(
+                    balance.birthday.total,
+                    "total-cell"
+                )}
 
-
-<!-- ==================================
-     SICK
-================================== -->
-
-<td class="total-cell">
-
-    ${summary.sick.total}
-
-</td>
-
-
-<td class="used-cell">
-
-    ${summary.sick.used}
-
-</td>
-
-
-<td class="unused-cell">
-
-    ${summary.sick.unused}
-
-</td>
-
-
-<td class="remaining-cell">
-
-    ${summary.sick.remaining}
-
-</td>
-
-
-
-<!-- ==================================
-     BIRTHDAY
-================================== -->
-
-<td class="total-cell">
-
-    ${summary.birthday.total}
-
-</td>
-
-
-<td class="used-cell">
-
-    ${summary.birthday.used}
-
-</td>
-
-
-<td class="unused-cell">
-
-    ${summary.birthday.unused}
-
-</td>
-
-
-<td class="remaining-cell">
-
-    ${summary.birthday.remaining}
-
-</td>
-
-
-
-<!-- ==================================
-     OVERALL
-================================== -->
-
-<td class="total-cell">
-
-    ${summary.total}
-
-</td>
-
-
-<td class="used-cell">
-
-    ${summary.used}
-
-</td>
-
-
-<td class="unused-cell">
-
-    ${summary.unused}
-
-</td>
-
-
-<td class="remaining-cell overall">
-
-    ${summary.remaining}
-
-</td>
-
-`;
+                ${balanceCell(
+                    balance.birthday.used,
+                    "used-cell"
+                )}
+
+                ${balanceCell(
+                    balance.birthday.unused,
+                    "unused-cell"
+                )}
+
+                ${balanceCell(
+                    balance.birthday.remaining,
+                    "remaining-cell"
+                )}
+
+
+                <!-- ====================
+                     OVERALL
+                ==================== -->
+
+                ${balanceCell(
+                    balance.overall.total,
+                    "overall-total-cell"
+                )}
+
+                ${balanceCell(
+                    balance.overall.used,
+                    "overall-used-cell"
+                )}
+
+                ${balanceCell(
+                    balance.overall.unused,
+                    "overall-unused-cell"
+                )}
+
+                ${balanceCell(
+                    balance.overall.remaining,
+                    "overall-remaining-cell"
+                )}
+
+            `;
 
 
             leaveBody.appendChild(
@@ -1054,452 +1375,184 @@ function renderTable(){
     );
 
 
-    updateEmployeeCount();
-
-    updateSummary();
+    updateGrandTotals();
 
 }
 
 
-/* ==========================================
-   UPDATE EMPLOYEE COUNT
-========================================== */
+/* =========================================================
+   GRAND TOTALS
+========================================================= */
 
-function updateEmployeeCount(){
+function updateGrandTotals() {
 
-    if(
-        !employeeCount
-    ){
+    let totalLeaves = 0;
 
-        return;
+    let totalUsed = 0;
 
-    }
+    let totalUnused = 0;
 
-
-    const count =
-        filteredEmployees.filter(
-            employee => {
-
-                const selectedType =
-                    leaveTypeFilter
-                    ?
-                    leaveTypeFilter.value
-                    :
-                    "ALL";
-
-
-                if(
-                    selectedType ===
-                    "ALL"
-                ){
-
-                    return true;
-
-                }
-
-
-                const balance =
-                    getLeaveBalance(
-                        employee,
-                        selectedType
-                    );
-
-
-                return (
-                    balance.total > 0
-                );
-
-            }
-        ).length;
-
-
-    employeeCount.innerHTML = `
-
-Employees:
-
-<strong>
-    ${count}
-</strong>
-
-`;
-
-}
-
-
-/* ==========================================
-   UPDATE SUMMARY
-========================================== */
-
-function updateSummary(){
-
-    let total =
-        0;
-
-    let used =
-        0;
-
-    let unused =
-        0;
-
-    let remaining =
-        0;
-
-
-    const selectedType =
-        leaveTypeFilter
-        ?
-        leaveTypeFilter.value
-        :
-        "ALL";
+    let totalRemaining = 0;
 
 
     filteredEmployees.forEach(
         employee => {
 
-            const summary =
-                getEmployeeSummary(
+            const balance =
+                buildLeaveBalance(
                     employee
                 );
 
 
-            if(
-                selectedType ===
-                "ALL"
-            ){
-
-                total +=
-                    summary.total;
-
-                used +=
-                    summary.used;
-
-                unused +=
-                    summary.unused;
-
-                remaining +=
-                    summary.remaining;
-
-                return;
-
-            }
+            totalLeaves +=
+                balance.overall.total;
 
 
-            const balance =
-                getLeaveBalance(
-                    employee,
-                    selectedType
-                );
+            totalUsed +=
+                balance.overall.used;
 
 
-            total +=
-                balance.total;
+            totalUnused +=
+                balance.overall.unused;
 
-            used +=
-                balance.used;
 
-            unused +=
-                balance.unused;
-
-            remaining +=
-                balance.remaining;
+            totalRemaining +=
+                balance.overall.remaining;
 
         }
     );
 
 
-    if(
-        grandTotalLeaves
-    ){
+    if (grandTotalLeaves) {
 
-        grandTotalLeaves.innerText =
-            total;
-
-    }
-
-
-    if(
-        grandTotalUsed
-    ){
-
-        grandTotalUsed.innerText =
-            used;
+        grandTotalLeaves.textContent =
+            formatNumber(
+                totalLeaves
+            );
 
     }
 
 
-    if(
-        grandTotalUnused
-    ){
+    if (grandTotalUsed) {
 
-        grandTotalUnused.innerText =
-            unused;
+        grandTotalUsed.textContent =
+            formatNumber(
+                totalUsed
+            );
+
+    }
+
+
+    if (grandTotalUnused) {
+
+        grandTotalUnused.textContent =
+            formatNumber(
+                totalUnused
+            );
 
     }
 
 
-    if(
-        grandRemaining
-    ){
+    if (grandRemaining) {
 
-        grandRemaining.innerText =
-            remaining;
+        grandRemaining.textContent =
+            formatNumber(
+                totalRemaining
+            );
 
     }
 
 }
 
 
-/* ==========================================
-   FILTER DATA
-========================================== */
+/* =========================================================
+   FILTER EVENTS
+========================================================= */
 
-function applyFilters(){
-
-    const searchValue =
-        leaveSearch
-        ?
-        leaveSearch.value
-            .trim()
-            .toLowerCase()
-        :
-        "";
+leaveSearch?.addEventListener(
+    "input",
+    renderTable
+);
 
 
-    const department =
-        departmentFilter
-        ?
-        departmentFilter.value
-            .trim()
-            .toLowerCase()
-        :
-        "";
+departmentFilter?.addEventListener(
+    "change",
+    renderTable
+);
 
 
-    const selectedType =
-        leaveTypeFilter
-        ?
-        leaveTypeFilter.value
-        :
-        "ALL";
+leaveTypeFilter?.addEventListener(
+    "change",
+    renderTable
+);
 
 
-    filteredEmployees =
-        employees.filter(
-            employee => {
-
-                /*
-                 * SEARCH
-                 */
-
-                if(
-                    searchValue
-                ){
-
-                    const searchable = [
-
-                        employee.employeeid,
-
-                        employee.firstname,
-
-                        employee.middlename,
-
-                        employee.lastname,
-
-                        employee.position,
-
-                        employee.department
-
-                    ]
-
-                    .join(" ")
-                    .toLowerCase();
-
-
-                    if(
-                        !searchable.includes(
-                            searchValue
-                        )
-                    ){
-
-                        return false;
-
-                    }
-
-                }
-
-
-                /*
-                 * DEPARTMENT
-                 */
-
-                if(
-                    department
-                ){
-
-                    if(
-                        text(
-                            employee.department
-                        )
-                        .toLowerCase()
-                        !==
-                        department
-                    ){
-
-                        return false;
-
-                    }
-
-                }
-
-
-                /*
-                 * LEAVE TYPE
-                 */
-
-                if(
-                    selectedType !==
-                    "ALL"
-                ){
-
-                    const balance =
-                        getLeaveBalance(
-                            employee,
-                            selectedType
-                        );
-
-
-                    if(
-                        balance.total <= 0
-                    ){
-
-                        return false;
-
-                    }
-
-                }
-
-
-                return true;
-
-            }
-        );
-
-
-    renderTable();
-
-}
-
-
-/* ==========================================
-   SEARCH EVENT
-========================================== */
-
-if(
-    leaveSearch
-){
-
-    leaveSearch.addEventListener(
-        "input",
-        applyFilters
-    );
-
-}
-
-
-/* ==========================================
-   DEPARTMENT EVENT
-========================================== */
-
-if(
-    departmentFilter
-){
-
-    departmentFilter.addEventListener(
-        "change",
-        applyFilters
-    );
-
-}
-
-
-/* ==========================================
-   LEAVE TYPE EVENT
-========================================== */
-
-if(
-    leaveTypeFilter
-){
-
-    leaveTypeFilter.addEventListener(
-        "change",
-        applyFilters
-    );
-
-}
-
-
-/* ==========================================
-   GLOBAL REFRESH
-========================================== */
+/* =========================================================
+   REFRESH
+========================================================= */
 
 window.loadLeaveData =
-async function(){
+async function() {
 
-    try{
+    showLoading();
 
-        showLoading();
 
+    try {
 
         await loadEmployees();
 
-        await loadRequests();
+        await loadLeaveRequests();
+
+        renderTable();
 
 
-        /*
-         * Re-apply filters after
-         * loading latest Firestore data.
-         */
-
-        applyFilters();
-
-
-    }catch(error){
+    } catch (error) {
 
         console.error(
-            "Track Leaves Error:",
+            "LOAD LEAVE DATA ERROR:",
             error
         );
 
 
-        if(
-            leaveBody
-        ){
+        if (leaveBody) {
 
             leaveBody.innerHTML = `
 
-<tr>
+                <tr>
 
-<td
-    colspan="18"
-    class="empty-message">
+                    <td
+                        colspan="19"
+                        class="empty-message error">
 
-    Failed to load leave records.
+                        <span
+                            class="material-icons">
 
-    <br><br>
+                            error_outline
 
-    ${escapeHTML(
-        error.message
-    )}
+                        </span>
 
-</td>
+                        <div>
 
-</tr>
+                            Unable to load leave records.
 
-`;
+                        </div>
+
+                    </td>
+
+                </tr>
+
+            `;
 
         }
 
-    }finally{
+
+        alert(
+            "Unable to load leave records.\n\n" +
+            error.message
+        );
+
+
+    } finally {
 
         hideLoading();
 
@@ -1508,8 +1561,111 @@ async function(){
 };
 
 
-/* ==========================================
-   START
-========================================== */
+/* =========================================================
+   LOADING
+========================================================= */
 
-loadLeaveData();
+function showLoading() {
+
+    if (loading) {
+
+        loading.classList.add(
+            "show"
+        );
+
+    }
+
+}
+
+
+function hideLoading() {
+
+    if (loading) {
+
+        loading.classList.remove(
+            "show"
+        );
+
+    }
+
+}
+
+
+/* =========================================================
+   INITIALIZE
+========================================================= */
+
+async function initialize() {
+
+    showLoading();
+
+
+    try {
+
+        await loadEmployees();
+
+        await loadLeaveRequests();
+
+        renderTable();
+
+
+    } catch (error) {
+
+        console.error(
+            "TRACK LEAVES INITIALIZATION ERROR:",
+            error
+        );
+
+
+        if (leaveBody) {
+
+            leaveBody.innerHTML = `
+
+                <tr>
+
+                    <td
+                        colspan="19"
+                        class="empty-message error">
+
+                        <span
+                            class="material-icons">
+
+                            error_outline
+
+                        </span>
+
+                        <div>
+
+                            Error loading employee leave data.
+
+                        </div>
+
+                    </td>
+
+                </tr>
+
+            `;
+
+        }
+
+
+        alert(
+            "Track Leaves could not be loaded.\n\n" +
+            error.message
+        );
+
+
+    } finally {
+
+        hideLoading();
+
+    }
+
+}
+
+
+/* =========================================================
+   START
+========================================================= */
+
+initialize();
