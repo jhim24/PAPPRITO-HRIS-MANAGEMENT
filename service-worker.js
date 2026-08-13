@@ -1,58 +1,9 @@
 /* ==========================================
    PAPPRITO HRIS
-   SERVICE WORKER V2
+   SERVICE WORKER V3
 ========================================== */
 
-const CACHE_NAME = "papprito-hr-v2";
-
-
-/* ==========================================
-   STATIC FILES
-========================================== */
-
-const urlsToCache = [
-
-    "/",
-
-    "/index.html",
-
-    "/login.html",
-
-    "/loading.html",
-
-    "/dashboard.html",
-
-    "/employee.html",
-
-    "/attendance.html",
-
-    "/qrattendance.html",
-
-    "/payroll.html",
-
-    "/autopayroll.html",
-
-    "/autoattendance.html",
-
-    "/employeeportal.html",
-
-    "/payslip.html",
-
-    "/hrapproval.html",
-
-    "/attendance-approval.html",
-
-    "/trackleaves.html",
-
-    "/settings.html",
-
-    "/manifest.json",
-
-    "/logo.png",
-
-    "/icon-192.png"
-
-];
+const CACHE_NAME = "papprito-hr-v3";
 
 
 /* ==========================================
@@ -63,19 +14,10 @@ self.addEventListener(
     "install",
     event => {
 
-        event.waitUntil(
-
-            caches.open(CACHE_NAME)
-
-                .then(cache => {
-
-                    return cache.addAll(
-                        urlsToCache
-                    );
-
-                })
-
-        );
+        /*
+           Activate new service worker
+           immediately.
+        */
 
         self.skipWaiting();
 
@@ -93,31 +35,38 @@ self.addEventListener(
 
         event.waitUntil(
 
-            caches.keys()
-
-                .then(keys => {
+            caches.keys().then(
+                keys => {
 
                     return Promise.all(
 
-                        keys.map(key => {
+                        keys.map(
+                            key => {
 
-                            if(
-                                key !== CACHE_NAME
-                            ){
+                                /*
+                                   Delete all old
+                                   PAPPRITO caches.
+                                */
 
                                 return caches.delete(
                                     key
                                 );
 
                             }
-
-                        })
+                        )
 
                     );
 
-                })
+                }
+            )
 
         );
+
+
+        /*
+           Take control of all pages
+           immediately.
+        */
 
         self.clients.claim();
 
@@ -134,163 +83,66 @@ self.addEventListener(
     event => {
 
         /*
+           Always get the latest file
+           from the server first.
 
-        Only handle GET requests.
-
-        Do NOT intercept:
-        POST
-        PUT
-        PATCH
-        DELETE
-
+           If server is unavailable,
+           use cache as fallback.
         */
-
-        if(
-            event.request.method !== "GET"
-        ){
-
-            return;
-
-        }
-
-
-        const request =
-            event.request;
-
-
-        /*
-        Firebase and external resources
-        should go directly to the network.
-        */
-
-        const url =
-            new URL(
-                request.url
-            );
-
-
-        if(
-
-            url.hostname.includes(
-                "googleapis.com"
-            )
-
-            ||
-
-            url.hostname.includes(
-                "gstatic.com"
-            )
-
-            ||
-
-            url.hostname.includes(
-                "firebaseio.com"
-            )
-
-            ||
-
-            url.hostname.includes(
-                "firebaseapp.com"
-            )
-
-        ){
-
-            return;
-
-        }
-
-
-        /* ======================================
-           CACHE FIRST
-        ====================================== */
 
         event.respondWith(
 
-            caches.match(request)
+            fetch(event.request)
 
-                .then(cachedResponse => {
+                .then(response => {
 
-                    if(cachedResponse){
+                    /*
+                       Clone response before
+                       returning it.
+                    */
 
-                        return cachedResponse;
+                    const responseClone =
+                        response.clone();
+
+
+                    /*
+                       Cache successful
+                       GET requests only.
+                    */
+
+                    if(
+                        event.request.method ===
+                        "GET"
+                    ){
+
+                        caches.open(
+                            CACHE_NAME
+                        )
+                        .then(cache => {
+
+                            cache.put(
+                                event.request,
+                                responseClone
+                            );
+
+                        });
 
                     }
 
 
-                    return fetch(request)
-
-                        .then(response => {
-
-                            /*
-                            Only cache successful
-                            basic responses.
-                            */
-
-                            if(
-
-                                response.status === 200
-
-                                &&
-
-                                response.type === "basic"
-
-                            ){
-
-                                const responseClone =
-                                    response.clone();
-
-
-                                caches.open(
-                                    CACHE_NAME
-                                )
-                                .then(cache => {
-
-                                    cache.put(
-                                        request,
-                                        responseClone
-                                    );
-
-                                });
-
-                            }
-
-
-                            return response;
-
-                        });
+                    return response;
 
                 })
 
                 .catch(() => {
 
                     return caches.match(
-                        "/index.html"
+                        event.request
                     );
 
                 })
 
         );
-
-    }
-);
-
-
-/* ==========================================
-   MESSAGE
-========================================== */
-
-self.addEventListener(
-    "message",
-    event => {
-
-        if(
-            event.data ===
-            "SKIP_WAITING"
-        ){
-
-            self.skipWaiting();
-
-        }
 
     }
 );
