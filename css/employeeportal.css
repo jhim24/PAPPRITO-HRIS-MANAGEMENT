@@ -1,6 +1,7 @@
 /* ==========================================
    PAPPRITO HRIS
    EMPLOYEE PORTAL CSS
+   VERSION 2
 ========================================== */
 
 
@@ -28,17 +29,19 @@
     --danger-dark:#b51218;
 
     --success:#008000;
+
     --info:#0066cc;
 
-    --dark:#111111;
-    --dark-2:#181818;
-    --dark-3:#202020;
-    --dark-4:#282828;
+    --dark:#0b0b0b;
+    --dark-2:#151515;
+    --dark-3:#1d1d1d;
+    --dark-4:#242424;
 
-    --border:#444444;
+    --border:#3f3f3f;
 
     --text:#ffffff;
-    --muted:#aaaaaa;
+    --muted:#999999;
+
 }
 
 
@@ -46,7 +49,15 @@
    BODY
 ========================================== */
 
+html{
+    width:100%;
+    min-height:100%;
+}
+
 body{
+
+    width:100%;
+    min-height:100vh;
 
     font-family:
         "Segoe UI",
@@ -57,31 +68,30 @@ body{
     background:
         linear-gradient(
             135deg,
-            #0b0b0b,
+            #080808,
             #151515
         );
 
     color:var(--text);
 
-    min-height:100vh;
-
     overflow-x:hidden;
+
 }
 
 
 /* ==========================================
-   CONTAINER
+   MAIN CONTAINER
 ========================================== */
 
 .portal-container{
 
     width:100%;
-
     max-width:1500px;
 
     margin:0 auto;
 
     padding:15px;
+
 }
 
 
@@ -95,32 +105,28 @@ body{
 
     display:flex;
 
-    justify-content:space-between;
-
     align-items:center;
+
+    justify-content:space-between;
 
     gap:15px;
 
-    padding:15px;
+    padding:14px 16px;
 
     margin-bottom:15px;
 
     background:var(--dark-2);
 
-    border:
-        2px solid
-        var(--primary);
+    border:1px solid var(--border);
+
+    border-left:4px solid var(--primary);
 
     border-radius:12px;
 
     box-shadow:
-        0 0 20px
-        rgba(
-            255,
-            204,
-            0,
-            .08
-        );
+        0 5px 20px
+        rgba(0,0,0,.25);
+
 }
 
 
@@ -135,13 +141,18 @@ body{
     align-items:center;
 
     gap:12px;
+
+    min-width:0;
+
 }
 
 
 .header-logo{
 
-    width:58px;
-    height:58px;
+    width:55px;
+    height:55px;
+
+    flex:0 0 55px;
 
     object-fit:cover;
 
@@ -149,11 +160,10 @@ body{
 
     background:#ffffff;
 
-    border:
-        3px solid
-        var(--primary);
+    border:3px solid var(--primary);
 
     padding:3px;
+
 }
 
 
@@ -161,25 +171,27 @@ body{
 
     color:var(--primary);
 
-    font-size:23px;
+    font-size:22px;
 
     font-weight:900;
 
-    line-height:1;
+    line-height:1.1;
+
 }
 
 
 .brand p{
 
-    margin-top:5px;
+    margin-top:4px;
 
-    color:#bbbbbb;
+    color:#aaa;
 
-    font-size:11px;
+    font-size:10px;
 
-    font-weight:700;
+    font-weight:800;
 
     letter-spacing:1px;
+
 }
 
 
@@ -195,9 +207,6 @@ body{
 
     justify-content:flex-end;
 
-    gap:8px;
-
-    flex-wrap:wrap;
 }
 
 
@@ -209,11 +218,11 @@ body{
 
     border:none;
 
-    border-radius:7px;
+    border-radius:8px;
 
-    padding:10px 14px;
+    min-height:42px;
 
-    min-height:40px;
+    padding:10px 15px;
 
     display:inline-flex;
 
@@ -221,43 +230,63 @@ body{
 
     justify-content:center;
 
-    gap:6px;
+    gap:7px;
 
-    font-weight:800;
+    font-family:inherit;
 
     font-size:12px;
 
+    font-weight:900;
+
     cursor:pointer;
 
-    transition:.2s ease;
+    transition:
+        transform .15s ease,
+        opacity .15s ease,
+        background .15s ease;
+
 }
 
 
 .btn:hover{
 
-    transform:
-        translateY(-1px);
-
     opacity:.92;
+
+    transform:translateY(-1px);
+
 }
 
 
 .btn:active{
 
-    transform:
-        translateY(0);
+    transform:translateY(0);
+
+}
+
+
+.btn .material-icons{
+
+    font-size:20px;
+
 }
 
 
 /* ==========================================
-   BACK BUTTON
+   ICON BUTTON
 ========================================== */
 
-.back-btn{
+.icon-btn{
 
-    background:#555555;
+    width:44px;
 
-    color:#ffffff;
+    min-width:44px;
+
+    height:44px;
+
+    min-height:44px;
+
+    padding:0;
+
 }
 
 
@@ -277,6 +306,7 @@ body{
 .logout-btn:hover{
 
     background:var(--danger-dark);
+
 }
 
 
@@ -286,38 +316,32 @@ body{
 
 .welcome-card{
 
+    width:100%;
+
     display:flex;
 
     align-items:center;
 
-    gap:15px;
+    gap:14px;
+
+    padding:17px;
+
+    margin-bottom:15px;
 
     background:var(--dark-2);
 
-    border:
-        1px solid
-        var(--border);
+    border:1px solid var(--border);
 
-    border-left:
-        5px solid
-        var(--primary);
+    border-left:5px solid var(--primary);
 
-    border-radius:10px;
+    border-radius:11px;
 
-    padding:18px;
-
-    margin-bottom:15px;
 }
 
-
-/* ==========================================
-   WELCOME ICON
-========================================== */
 
 .welcome-icon{
 
     width:58px;
-
     height:58px;
 
     min-width:58px;
@@ -339,36 +363,47 @@ body{
         );
 
     color:var(--primary);
+
 }
 
 
 .welcome-icon .material-icons{
 
     font-size:32px;
+
 }
 
 
-/* ==========================================
-   WELCOME TEXT
-========================================== */
+.welcome-text{
+
+    min-width:0;
+
+}
+
 
 .welcome-text p{
 
-    color:#aaaaaa;
+    color:#999;
 
-    font-size:12px;
+    font-size:11px;
 
     font-weight:600;
+
 }
 
 
 .welcome-text h2{
 
-    color:#ffffff;
-
-    font-size:24px;
-
     margin:3px 0;
+
+    color:#fff;
+
+    font-size:23px;
+
+    font-weight:900;
+
+    word-break:break-word;
+
 }
 
 
@@ -376,9 +411,10 @@ body{
 
     color:var(--primary);
 
-    font-size:12px;
+    font-size:11px;
 
-    font-weight:700;
+    font-weight:800;
+
 }
 
 
@@ -388,21 +424,18 @@ body{
 
 .section-card{
 
-    background:var(--dark-2);
-
-    border:
-        1px solid
-        var(--border);
-
-    border-radius:12px;
-
-    padding:15px;
+    width:100%;
 
     margin-bottom:15px;
 
-    width:100%;
+    padding:15px;
 
-    overflow:hidden;
+    background:var(--dark-2);
+
+    border:1px solid var(--border);
+
+    border-radius:12px;
+
 }
 
 
@@ -420,13 +453,12 @@ body{
 
     gap:10px;
 
-    margin-bottom:15px;
+    margin-bottom:14px;
 
     padding-bottom:10px;
 
-    border-bottom:
-        1px solid
-        var(--border);
+    border-bottom:1px solid var(--border);
+
 }
 
 
@@ -443,40 +475,44 @@ body{
     font-size:18px;
 
     font-weight:900;
+
 }
 
 
-.section-title .material-icons{
+.section-title h2 .material-icons{
 
-    font-size:22px;
+    font-size:23px;
+
 }
 
 
 .section-note{
 
-    color:#999999;
+    margin-top:4px;
+
+    color:#999;
 
     font-size:11px;
+
 }
 
 
 /* ==========================================
    EMPLOYEE INFORMATION
+   DESKTOP = 4 COLUMNS
 ========================================== */
 
 .employee-info-grid{
 
+    width:100%;
+
     display:grid;
 
     grid-template-columns:
-        repeat(
-            4,
-            minmax(0,1fr)
-        );
+        repeat(4,minmax(0,1fr));
 
     gap:10px;
 
-    width:100%;
 }
 
 
@@ -486,40 +522,38 @@ body{
 
 .info-box{
 
+    min-width:0;
+
+    min-height:72px;
+
     display:flex;
 
     align-items:center;
 
     gap:10px;
 
-    min-height:72px;
-
     padding:12px;
 
     background:var(--dark-3);
 
-    border:
-        1px solid
-        #3f3f3f;
+    border:1px solid #3d3d3d;
 
-    border-left:
-        4px solid
-        var(--primary);
+    border-left:4px solid var(--primary);
 
-    border-radius:8px;
+    border-radius:9px;
 
-    min-width:0;
 }
 
 
 .info-box >
 .material-icons{
 
+    flex:0 0 auto;
+
     color:var(--primary);
 
     font-size:27px;
 
-    flex-shrink:0;
 }
 
 
@@ -527,7 +561,8 @@ body{
 
     min-width:0;
 
-    flex:1;
+    width:100%;
+
 }
 
 
@@ -535,11 +570,14 @@ body{
 
     display:block;
 
-    color:#999999;
+    margin-bottom:4px;
+
+    color:#999;
 
     font-size:10px;
 
-    margin-bottom:4px;
+    font-weight:600;
+
 }
 
 
@@ -547,13 +585,16 @@ body{
 
     display:block;
 
-    color:#ffffff;
+    color:#fff;
 
     font-size:13px;
 
+    font-weight:800;
+
+    line-height:1.2;
+
     word-break:break-word;
 
-    overflow-wrap:anywhere;
 }
 
 
@@ -563,17 +604,15 @@ body{
 
 .request-form{
 
+    width:100%;
+
     display:grid;
 
     grid-template-columns:
-        repeat(
-            3,
-            minmax(0,1fr)
-        );
+        repeat(3,minmax(0,1fr));
 
     gap:12px;
 
-    width:100%;
 }
 
 
@@ -582,6 +621,7 @@ body{
     width:100%;
 
     min-width:0;
+
 }
 
 
@@ -589,13 +629,14 @@ body{
 
     display:block;
 
+    margin-bottom:6px;
+
     color:var(--primary);
 
     font-size:11px;
 
     font-weight:900;
 
-    margin-bottom:6px;
 }
 
 
@@ -603,42 +644,53 @@ body{
 .form-group select,
 .form-group textarea{
 
+    display:block;
+
     width:100%;
 
-    border:
-        1px solid
-        #555555;
+    border:1px solid #555;
 
-    border-radius:7px;
+    border-radius:8px;
+
+    outline:none;
 
     background:#252525;
 
-    color:#ffffff;
-
-    padding:11px;
-
-    outline:none;
+    color:#fff;
 
     font-family:inherit;
 
     font-size:13px;
 
-    max-width:100%;
 }
 
 
 .form-group input,
 .form-group select{
 
-    height:43px;
+    height:44px;
+
+    padding:0 11px;
+
 }
 
 
 .form-group textarea{
 
+    min-height:95px;
+
+    padding:11px;
+
     resize:vertical;
 
-    min-height:95px;
+}
+
+
+.form-group input::placeholder,
+.form-group textarea::placeholder{
+
+    color:#777;
+
 }
 
 
@@ -646,8 +698,7 @@ body{
 .form-group select:focus,
 .form-group textarea:focus{
 
-    border-color:
-        var(--primary);
+    border-color:var(--primary);
 
     box-shadow:
         0 0 0 2px
@@ -655,8 +706,25 @@ body{
             255,
             204,
             0,
-            .08
+            .10
         );
+
+}
+
+
+select{
+
+    cursor:pointer;
+
+}
+
+
+select option{
+
+    background:#222;
+
+    color:#fff;
+
 }
 
 
@@ -666,26 +734,8 @@ body{
 
 .full-width{
 
-    grid-column:
-        1 / -1;
-}
+    grid-column:1 / -1;
 
-
-/* ==========================================
-   SELECT
-========================================== */
-
-select{
-
-    cursor:pointer;
-}
-
-
-select option{
-
-    background:#222222;
-
-    color:#ffffff;
 }
 
 
@@ -695,15 +745,18 @@ select option{
 
 .request-actions{
 
+    width:100%;
+
     display:flex;
 
     justify-content:flex-end;
 
+    align-items:center;
+
     gap:8px;
 
-    margin-top:15px;
+    margin-top:14px;
 
-    flex-wrap:wrap;
 }
 
 
@@ -711,21 +764,24 @@ select option{
 
     background:var(--danger);
 
-    color:#ffffff;
+    color:#fff;
+
 }
 
 
 .submit-btn:hover{
 
     background:var(--danger-dark);
+
 }
 
 
 .clear-btn{
 
-    background:#555555;
+    background:#555;
 
-    color:#ffffff;
+    color:#fff;
+
 }
 
 
@@ -743,46 +799,45 @@ select option{
 
     overflow-y:hidden;
 
+    border:1px solid var(--border);
+
+    border-radius:9px;
+
     -webkit-overflow-scrolling:touch;
 
-    border:
-        1px solid
-        var(--border);
-
-    border-radius:8px;
 }
 
 
 /* ==========================================
-   REQUEST TABLE
+   TABLE
 ========================================== */
 
 .request-table{
 
     width:100%;
 
-    min-width:850px;
+    min-width:720px;
 
     border-collapse:collapse;
 
     table-layout:auto;
+
 }
 
 
 .request-table th,
 .request-table td{
 
-    border:
-        1px solid
-        #444444;
+    border:1px solid #444;
 
-    padding:9px;
+    padding:9px 10px;
 
     text-align:center;
 
+    vertical-align:middle;
+
     font-size:11px;
 
-    vertical-align:middle;
 }
 
 
@@ -790,39 +845,28 @@ select option{
 
     background:var(--primary);
 
-    color:#111111;
+    color:#111;
 
     font-weight:900;
 
     white-space:nowrap;
+
 }
 
 
 .request-table td{
 
-    background:#222222;
+    background:#222;
 
-    color:#ffffff;
+    color:#fff;
 
-    white-space:nowrap;
 }
 
 
-.request-table td:nth-child(4){
+.request-table tbody tr:hover td{
 
-    white-space:normal;
+    background:#2c2c2c;
 
-    min-width:160px;
-
-    max-width:300px;
-
-    overflow-wrap:anywhere;
-}
-
-
-.request-table tr:hover td{
-
-    background:#2d2d2d;
 }
 
 
@@ -832,13 +876,14 @@ select option{
 
 .empty-message{
 
-    color:#999999 !important;
-
     padding:25px !important;
 
-    text-align:center;
+    color:#999 !important;
 
-    white-space:normal !important;
+    text-align:center !important;
+
+    font-size:12px !important;
+
 }
 
 
@@ -848,9 +893,15 @@ select option{
 
 .status{
 
-    display:inline-block;
+    display:inline-flex;
 
-    padding:4px 8px;
+    align-items:center;
+
+    justify-content:center;
+
+    min-width:70px;
+
+    padding:5px 9px;
 
     border-radius:20px;
 
@@ -859,6 +910,7 @@ select option{
     font-weight:900;
 
     white-space:nowrap;
+
 }
 
 
@@ -869,10 +921,11 @@ select option{
             255,
             204,
             0,
-            .15
+            .14
         );
 
     color:var(--primary);
+
 }
 
 
@@ -887,6 +940,7 @@ select option{
         );
 
     color:#00cc66;
+
 }
 
 
@@ -901,6 +955,7 @@ select option{
         );
 
     color:#ff5555;
+
 }
 
 
@@ -914,7 +969,8 @@ select option{
             .15
         );
 
-    color:#bbbbbb;
+    color:#bbb;
+
 }
 
 
@@ -924,6 +980,8 @@ select option{
 
 .payslip-selector{
 
+    width:100%;
+
     display:flex;
 
     align-items:flex-end;
@@ -932,7 +990,6 @@ select option{
 
     margin-bottom:10px;
 
-    width:100%;
 }
 
 
@@ -940,7 +997,6 @@ select option{
 
     flex:1;
 
-    min-width:0;
 }
 
 
@@ -948,7 +1004,8 @@ select option{
 
     background:var(--primary);
 
-    color:#111111;
+    color:#111;
+
 }
 
 
@@ -958,23 +1015,24 @@ select option{
 
 .payslip-message{
 
+    width:100%;
+
     padding:12px;
 
     margin-bottom:10px;
 
-    border:
-        1px solid
-        #444444;
+    border:1px solid #444;
 
-    border-radius:7px;
+    border-radius:8px;
 
-    background:#222222;
+    background:#222;
 
-    color:#aaaaaa;
+    color:#aaa;
 
     text-align:center;
 
     font-size:12px;
+
 }
 
 
@@ -994,13 +1052,12 @@ select option{
 
     background:#f9f9f9;
 
-    color:#000000;
+    color:#000;
 
-    border:
-        3px solid
-        var(--primary);
+    border:3px solid var(--primary);
 
     border-radius:10px;
+
 }
 
 
@@ -1014,11 +1071,14 @@ select option{
 
     justify-content:flex-end;
 
+    align-items:center;
+
     gap:8px;
 
     flex-wrap:wrap;
 
     margin-bottom:10px;
+
 }
 
 
@@ -1026,7 +1086,8 @@ select option{
 
     background:var(--info);
 
-    color:#ffffff;
+    color:#fff;
+
 }
 
 
@@ -1034,12 +1095,13 @@ select option{
 
     background:var(--danger);
 
-    color:#ffffff;
+    color:#fff;
+
 }
 
 
 /* ==========================================
-   PAYROLL LOGO
+   PAYSLIP LOGO
 ========================================== */
 
 .payroll-logo{
@@ -1048,26 +1110,25 @@ select option{
 
     height:65px;
 
+    display:block;
+
+    margin:0 auto 6px;
+
     object-fit:cover;
 
     border-radius:50%;
 
-    border:
-        3px solid
-        var(--primary);
+    border:3px solid var(--primary);
 
-    background:#ffffff;
+    background:#fff;
 
     padding:3px;
 
-    display:block;
-
-    margin:0 auto 6px;
 }
 
 
 /* ==========================================
-   COMPANY
+   PAYSLIP COMPANY
 ========================================== */
 
 .company{
@@ -1078,29 +1139,32 @@ select option{
 
     margin-bottom:7px;
 
-    border-bottom:
-        2px solid
-        var(--primary);
+    border-bottom:2px solid var(--primary);
+
 }
 
 
 .company h2{
 
+    margin:2px;
+
     color:#cc0000;
 
     font-size:20px;
 
-    margin:2px;
+    font-weight:900;
+
 }
 
 
 .company p{
 
-    color:#111111;
+    color:#111;
 
     font-size:9px;
 
     font-weight:900;
+
 }
 
 
@@ -1123,27 +1187,28 @@ select option{
 
     background:#fff8dc;
 
-    border:
-        1px solid
-        var(--primary);
+    border:1px solid var(--primary);
 
     border-radius:6px;
+
 }
 
 
 .pay-info div{
 
+    color:#000;
+
     font-size:10px;
 
     line-height:1.5;
 
-    color:#000000;
 }
 
 
 .pay-info b{
 
-    color:#111111;
+    color:#111;
+
 }
 
 
@@ -1155,24 +1220,24 @@ select option{
 
     width:100%;
 
-    border-collapse:collapse;
-
     margin-top:6px;
 
+    border-collapse:collapse;
+
     table-layout:fixed;
+
 }
 
 
 .payroll-table th,
 .payroll-table td{
 
-    border:
-        1px solid
-        #999999;
+    border:1px solid #999;
 
     padding:5px;
 
     font-size:10px;
+
 }
 
 
@@ -1180,31 +1245,35 @@ select option{
 
     background:var(--primary);
 
-    color:#000000;
+    color:#000;
 
     font-weight:900;
+
 }
 
 
 .payroll-table td{
 
-    background:#ffffff;
+    background:#fff;
 
-    color:#000000;
+    color:#000;
+
 }
 
 
 .payroll-table td:last-child{
 
     text-align:right;
+
 }
 
 
 .total-row td{
 
-    background:#eeeeee;
+    background:#eee;
 
     font-weight:900;
+
 }
 
 
@@ -1213,6 +1282,8 @@ select option{
 ========================================== */
 
 .netpay{
+
+    width:100%;
 
     display:flex;
 
@@ -1228,19 +1299,21 @@ select option{
 
     background:var(--success);
 
-    color:#ffffff;
+    color:#fff;
 
     border-radius:6px;
 
     font-size:12px;
 
     font-weight:900;
+
 }
 
 
 .netpay strong{
 
     font-size:14px;
+
 }
 
 
@@ -1259,6 +1332,7 @@ select option{
     margin-top:22px;
 
     padding:0 25px;
+
 }
 
 
@@ -1266,11 +1340,12 @@ select option{
 
     width:100px;
 
-    text-align:center;
-
-    color:#000000;
+    color:#000;
 
     font-size:8px;
+
+    text-align:center;
+
 }
 
 
@@ -1278,11 +1353,10 @@ select option{
 
     width:100%;
 
-    border-top:
-        1px solid
-        #000000;
-
     margin-bottom:3px;
+
+    border-top:1px solid #000;
+
 }
 
 
@@ -1294,9 +1368,9 @@ select option{
 
     display:flex;
 
-    justify-content:center;
-
     align-items:center;
+
+    justify-content:center;
 
     gap:15px;
 
@@ -1304,17 +1378,19 @@ select option{
 
     padding:15px;
 
-    color:#777777;
+    color:#777;
 
     font-size:10px;
 
     text-align:center;
+
 }
 
 
 .portal-footer span{
 
-    color:#999999;
+    color:#999;
+
 }
 
 
@@ -1322,27 +1398,21 @@ select option{
    LARGE TABLET
 ========================================== */
 
-@media(
-    max-width:1100px
-){
+@media(max-width:1100px){
 
     .employee-info-grid{
 
         grid-template-columns:
-            repeat(
-                2,
-                minmax(0,1fr)
-            );
+            repeat(2,minmax(0,1fr));
+
     }
 
 
     .request-form{
 
         grid-template-columns:
-            repeat(
-                2,
-                minmax(0,1fr)
-            );
+            repeat(2,minmax(0,1fr));
+
     }
 
 }
@@ -1352,377 +1422,165 @@ select option{
    TABLET
 ========================================== */
 
-@media(
-    max-width:768px
-){
+@media(max-width:768px){
 
     .portal-container{
 
         padding:8px;
+
     }
 
-
-    /* HEADER */
 
     .portal-header{
 
-        flex-direction:row;
+        padding:11px;
 
-        align-items:center;
-
-        padding:10px;
-
-        gap:8px;
-    }
-
-
-    .header-left{
-
-        width:auto;
-
-        flex:1;
-    }
-
-
-    .brand{
-
-        justify-content:flex-start;
-
-        gap:8px;
-    }
-
-
-    .header-logo{
-
-        width:48px;
-
-        height:48px;
     }
 
 
     .brand h1{
 
         font-size:19px;
+
     }
 
 
     .brand p{
 
         font-size:9px;
+
     }
 
 
-    .header-right{
+    .header-logo{
 
-        width:auto;
+        width:50px;
+        height:50px;
 
-        display:flex;
+        flex-basis:50px;
 
-        flex-wrap:nowrap;
-
-        justify-content:flex-end;
     }
 
-
-    .header-right .btn{
-
-        width:auto;
-    }
-
-
-    /* LOGOUT ICON */
-
-    .header-right .logout-btn{
-
-        width:42px;
-
-        min-width:42px;
-
-        height:42px;
-
-        min-height:42px;
-
-        padding:0;
-
-        font-size:0;
-
-        gap:0;
-
-        border-radius:50%;
-    }
-
-
-    .header-right .logout-btn .material-icons{
-
-        font-size:22px;
-    }
-
-
-    /* WELCOME */
 
     .welcome-card{
 
         padding:14px;
+
     }
 
 
     .welcome-text h2{
 
         font-size:20px;
+
     }
 
-
-    /* SECTIONS */
 
     .section-card{
 
-        padding:10px;
+        padding:11px;
 
-        overflow:hidden;
-    }
-
-
-    .section-title{
-
-        flex-direction:row;
-
-        align-items:center;
     }
 
 
     .section-title h2{
 
         font-size:16px;
+
     }
 
 
-    /* ======================================
-       EMPLOYEE INFO
-       2 COLUMNS
-    ====================================== */
+    /*
+     * IMPORTANT:
+     * Employee Information remains
+     * 2 columns on tablet/mobile.
+     */
 
     .employee-info-grid{
 
         grid-template-columns:
-            repeat(
-                2,
-                minmax(0,1fr)
-            );
+            repeat(2,minmax(0,1fr));
 
         gap:8px;
+
     }
 
 
     .info-box{
 
-        min-height:76px;
+        min-height:68px;
 
         padding:10px;
 
-        gap:8px;
     }
 
 
     .info-box >
     .material-icons{
 
-        font-size:23px;
+        font-size:24px;
+
     }
 
 
     .info-box small{
 
         font-size:9px;
+
     }
 
 
     .info-box strong{
 
         font-size:12px;
+
     }
 
-
-    /* ======================================
-       REQUEST FORM
-    ====================================== */
 
     .request-form{
 
         grid-template-columns:
-            repeat(
-                2,
-                minmax(0,1fr)
-            );
+            repeat(2,minmax(0,1fr));
 
         gap:9px;
+
     }
 
 
     .full-width{
 
-        grid-column:
-            1 / -1;
+        grid-column:1 / -1;
+
     }
 
-
-    .form-group input,
-    .form-group select{
-
-        height:42px;
-
-        padding:9px;
-
-        font-size:12px;
-    }
-
-
-    .form-group textarea{
-
-        min-height:80px;
-
-        font-size:12px;
-    }
-
-
-    /* ======================================
-       REQUEST BUTTONS
-    ====================================== */
 
     .request-actions{
 
-        display:grid;
+        justify-content:stretch;
 
-        grid-template-columns:
-            1fr 1fr;
-
-        gap:8px;
-
-        margin-top:10px;
     }
 
 
     .request-actions .btn{
 
-        width:100%;
+        flex:1;
 
-        min-height:44px;
     }
 
-
-    /* ======================================
-       REQUEST TABLE
-    ====================================== */
-
-    .table-wrapper{
-
-        overflow-x:auto;
-
-        width:100%;
-
-        max-width:100%;
-    }
-
-
-    .request-table{
-
-        min-width:850px;
-    }
-
-
-    .request-table th,
-    .request-table td{
-
-        font-size:10px;
-
-        padding:8px;
-    }
-
-
-    /* ======================================
-       PAYSLIP SELECTOR
-    ====================================== */
 
     .payslip-selector{
 
-        flex-direction:row;
+        align-items:stretch;
 
-        align-items:flex-end;
     }
 
 
-    .payslip-selector .btn{
+    .payslip-selector .view-btn{
 
-        width:auto;
+        min-width:150px;
 
-        min-width:110px;
     }
 
-
-    /* ======================================
-       PAYSLIP
-    ====================================== */
-
-    .payslip{
-
-        padding:8px;
-
-        width:100%;
-
-        max-width:700px;
-    }
-
-
-    .payslip-actions{
-
-        display:grid;
-
-        grid-template-columns:
-            1fr 1fr;
-
-        width:100%;
-    }
-
-
-    .payslip-actions .btn{
-
-        width:100%;
-
-        min-height:45px;
-    }
-
-
-    .pay-info{
-
-        grid-template-columns:
-            1fr 1fr;
-    }
-
-
-    .payroll-table th,
-    .payroll-table td{
-
-        font-size:8px;
-
-        padding:4px;
-    }
-
-
-    .netpay{
-
-        font-size:10px;
-    }
-
-
-    .netpay strong{
-
-        font-size:12px;
-    }
-
-
-    .signature{
-
-        padding:0 10px;
-    }
 
 }
 
@@ -1731,39 +1589,62 @@ select option{
    MOBILE
 ========================================== */
 
-@media(
-    max-width:600px
-){
+@media(max-width:600px){
 
-    .portal-container{
+    body{
 
-        padding:5px;
+        background:#0b0b0b;
+
     }
 
 
-    /* ======================================
+    .portal-container{
+
+        width:100%;
+
+        padding:6px;
+
+    }
+
+
+    /* ============================
        HEADER
-    ====================================== */
+    ============================ */
 
     .portal-header{
 
         padding:9px;
 
-        border-radius:10px;
+        margin-bottom:10px;
+
+        border-left-width:3px;
+
+    }
+
+
+    .brand{
+
+        gap:8px;
+
     }
 
 
     .header-logo{
 
-        width:43px;
+        width:45px;
+        height:45px;
 
-        height:43px;
+        flex-basis:45px;
+
+        border-width:2px;
+
     }
 
 
     .brand h1{
 
         font-size:17px;
+
     }
 
 
@@ -1771,65 +1652,97 @@ select option{
 
         font-size:8px;
 
-        letter-spacing:.5px;
+        letter-spacing:.7px;
+
     }
 
 
-    /* ======================================
+    .icon-btn{
+
+        width:40px;
+
+        min-width:40px;
+
+        height:40px;
+
+        min-height:40px;
+
+    }
+
+
+    .icon-btn .material-icons{
+
+        font-size:20px;
+
+    }
+
+
+    /* ============================
        WELCOME
-    ====================================== */
+    ============================ */
 
     .welcome-card{
 
-        gap:9px;
+        gap:10px;
 
-        padding:11px;
+        padding:12px;
+
+        margin-bottom:10px;
+
     }
 
 
     .welcome-icon{
 
-        width:45px;
+        width:47px;
 
-        min-width:45px;
+        height:47px;
 
-        height:45px;
+        min-width:47px;
+
     }
 
 
     .welcome-icon .material-icons{
 
-        font-size:25px;
+        font-size:26px;
+
+    }
+
+
+    .welcome-text p{
+
+        font-size:9px;
+
     }
 
 
     .welcome-text h2{
 
         font-size:17px;
-    }
 
-
-    .welcome-text p{
-
-        font-size:10px;
     }
 
 
     .welcome-text span{
 
-        font-size:10px;
+        font-size:9px;
+
     }
 
 
-    /* ======================================
+    /* ============================
        SECTION
-    ====================================== */
+    ============================ */
 
     .section-card{
 
-        padding:8px;
+        padding:9px;
+
+        margin-bottom:10px;
 
         border-radius:10px;
+
     }
 
 
@@ -1838,62 +1751,77 @@ select option{
         margin-bottom:10px;
 
         padding-bottom:8px;
+
     }
 
 
     .section-title h2{
 
         font-size:14px;
+
     }
 
 
-    .section-title .material-icons{
+    .section-title h2 .material-icons{
 
         font-size:20px;
+
     }
 
 
-    /* ======================================
-       EMPLOYEE INFORMATION
-       STILL 2 COLUMNS
-    ====================================== */
+    .section-note{
+
+        font-size:9px;
+
+    }
+
+
+    /* ============================
+       INFORMATION
+       2 COLUMNS
+    ============================ */
 
     .employee-info-grid{
 
+        display:grid;
+
         grid-template-columns:
-            repeat(
-                2,
-                minmax(0,1fr)
-            );
+            repeat(2,minmax(0,1fr));
 
         gap:7px;
+
     }
 
 
     .info-box{
 
-        min-height:70px;
+        min-height:68px;
 
-        padding:8px;
+        padding:9px;
 
         gap:7px;
 
         border-left-width:3px;
+
+        border-radius:8px;
+
     }
 
 
     .info-box >
     .material-icons{
 
-        font-size:21px;
+        font-size:22px;
+
     }
 
 
     .info-box small{
 
+        margin-bottom:3px;
+
         font-size:8px;
 
-        margin-bottom:3px;
     }
 
 
@@ -1901,31 +1829,33 @@ select option{
 
         font-size:11px;
 
-        line-height:1.25;
+        line-height:1.15;
+
     }
 
 
-    /* ======================================
+    /* ============================
        REQUEST FORM
-    ====================================== */
+    ============================ */
 
     .request-form{
 
+        display:grid;
+
         grid-template-columns:
-            repeat(
-                2,
-                minmax(0,1fr)
-            );
+            repeat(2,minmax(0,1fr));
 
         gap:7px;
+
     }
 
 
     .form-group label{
 
+        margin-bottom:4px;
+
         font-size:9px;
 
-        margin-bottom:4px;
     }
 
 
@@ -1934,123 +1864,170 @@ select option{
 
         height:40px;
 
-        padding:8px;
+        padding:0 8px;
 
         font-size:11px;
+
+        border-radius:6px;
+
     }
 
 
     .form-group textarea{
 
-        min-height:75px;
+        min-height:80px;
 
         padding:8px;
 
         font-size:11px;
+
+        border-radius:6px;
+
     }
 
 
-    /* ======================================
-       SUBMIT / CLEAR
-    ====================================== */
+    .full-width{
+
+        grid-column:1 / -1;
+
+    }
+
+
+    /* ============================
+       BUTTONS
+    ============================ */
 
     .request-actions{
+
+        display:grid;
 
         grid-template-columns:
             1fr 1fr;
 
         gap:6px;
+
+        margin-top:9px;
+
     }
 
 
     .request-actions .btn{
 
-        min-height:42px;
+        width:100%;
 
-        padding:8px 6px;
+        min-height:40px;
+
+        padding:8px 5px;
 
         font-size:10px;
+
     }
 
 
-    /* ======================================
+    .request-actions .material-icons{
+
+        font-size:18px;
+
+    }
+
+
+    /* ============================
        TABLE
-    ====================================== */
+    ============================ */
 
     .table-wrapper{
 
+        width:100%;
+
+        overflow-x:auto;
+
         border-radius:7px;
+
     }
 
 
     .request-table{
 
-        min-width:850px;
+        min-width:680px;
+
     }
 
 
     .request-table th,
     .request-table td{
 
+        padding:8px;
+
         font-size:9px;
 
-        padding:7px;
     }
 
 
-    /* ======================================
+    .empty-message{
+
+        padding:20px !important;
+
+        font-size:10px !important;
+
+    }
+
+
+    /* ============================
        PAYSLIP
-    ====================================== */
+    ============================ */
 
     .payslip-selector{
 
         display:grid;
 
         grid-template-columns:
-            1fr auto;
+            1fr;
 
         gap:7px;
 
-        align-items:end;
     }
 
 
     .payslip-selector .btn{
 
-        min-width:85px;
+        width:100%;
 
-        padding:8px;
-
-        font-size:10px;
     }
 
 
     .payslip{
 
-        border-width:2px;
-
-        padding:6px;
+        padding:7px;
 
         margin-top:10px;
+
+        border-width:2px;
+
     }
 
 
     .payslip-actions{
 
+        display:grid;
+
         grid-template-columns:
             1fr 1fr;
 
         gap:6px;
+
     }
 
 
     .payslip-actions .btn{
 
-        min-height:43px;
+        width:100%;
 
-        padding:8px;
+        min-height:40px;
 
-        font-size:10px;
+        padding:7px 4px;
+
+        font-size:9px;
+
     }
 
 
@@ -2059,18 +2036,21 @@ select option{
         width:55px;
 
         height:55px;
+
     }
 
 
     .company h2{
 
         font-size:17px;
+
     }
 
 
     .company p{
 
         font-size:8px;
+
     }
 
 
@@ -2081,46 +2061,41 @@ select option{
 
         gap:4px;
 
-        padding:5px;
+        padding:6px;
+
     }
 
 
     .pay-info div{
 
         font-size:8px;
-    }
 
-
-    .payroll-table{
-
-        min-width:0;
-
-        table-layout:fixed;
     }
 
 
     .payroll-table th,
     .payroll-table td{
 
-        font-size:7px;
+        padding:4px;
 
-        padding:3px;
+        font-size:8px;
 
-        word-break:break-word;
     }
 
 
     .netpay{
 
-        font-size:9px;
-
         padding:8px;
+
+        font-size:10px;
+
     }
 
 
     .netpay strong{
 
-        font-size:11px;
+        font-size:12px;
+
     }
 
 
@@ -2128,100 +2103,54 @@ select option{
 
         margin-top:15px;
 
-        gap:15px;
+        padding:0 10px;
 
-        padding:0 5px;
     }
 
 
-    .signature-line{
+    /* ============================
+       FOOTER
+    ============================ */
 
-        width:80px;
+    .portal-footer{
 
-        font-size:7px;
+        padding:10px;
+
+        font-size:8px;
+
     }
 
 }
 
 
 /* ==========================================
-   VERY SMALL MOBILE
+   VERY SMALL PHONES
 ========================================== */
 
-@media(
-    max-width:380px
-){
+@media(max-width:380px){
 
     .portal-container{
 
-        padding:3px;
+        padding:4px;
+
     }
 
-
-    .portal-header{
-
-        padding:7px;
-    }
-
-
-    .header-logo{
-
-        width:38px;
-
-        height:38px;
-    }
-
-
-    .brand h1{
-
-        font-size:15px;
-    }
-
-
-    .brand p{
-
-        display:none;
-    }
-
-
-    .header-right .logout-btn{
-
-        width:38px;
-
-        min-width:38px;
-
-        height:38px;
-
-        min-height:38px;
-    }
-
-
-    .header-right .logout-btn .material-icons{
-
-        font-size:20px;
-    }
-
-
-    /* ======================================
-       INFORMATION
-    ====================================== */
 
     .employee-info-grid{
 
-        grid-template-columns:
-            1fr 1fr;
-
         gap:5px;
+
     }
 
 
     .info-box{
 
-        min-height:65px;
+        min-height:63px;
 
         padding:7px;
 
         gap:5px;
+
     }
 
 
@@ -2229,28 +2158,28 @@ select option{
     .material-icons{
 
         font-size:19px;
+
     }
 
 
     .info-box small{
 
         font-size:7px;
+
     }
 
 
     .info-box strong{
 
-        font-size:10px;
+        font-size:9px;
+
     }
 
-
-    /* ======================================
-       REQUEST
-    ====================================== */
 
     .request-form{
 
         gap:5px;
+
     }
 
 
@@ -2259,17 +2188,8 @@ select option{
 
         height:38px;
 
-        padding:6px;
-
         font-size:10px;
-    }
 
-
-    .form-group textarea{
-
-        min-height:70px;
-
-        font-size:10px;
     }
 
 
@@ -2277,17 +2197,20 @@ select option{
 
         font-size:9px;
 
-        padding:7px 4px;
     }
 
 
-    /* ======================================
-       PAYSLIP
-    ====================================== */
+    .request-actions .material-icons{
 
-    .payslip-actions .btn{
+        font-size:16px;
 
-        font-size:9px;
+    }
+
+
+    .pay-info{
+
+        grid-template-columns:1fr;
+
     }
 
 }
@@ -2304,6 +2227,7 @@ select option{
         background:#ffffff;
 
         color:#000000;
+
     }
 
 
@@ -2312,21 +2236,23 @@ select option{
         max-width:none;
 
         padding:0;
+
     }
 
 
     .portal-header,
     .welcome-card,
     .employee-info-grid,
-    .section-title,
     .payslip-selector,
     .payslip-message,
     .request-form,
     .request-actions,
     .table-wrapper,
-    .portal-footer{
+    .portal-footer,
+    .section-title{
 
         display:none !important;
+
     }
 
 
@@ -2334,17 +2260,19 @@ select option{
 
         border:none;
 
-        margin:0;
-
         padding:0;
 
+        margin:0;
+
         background:#ffffff;
+
     }
 
 
     .payslip-section{
 
-        display:block;
+        display:block !important;
+
     }
 
 
@@ -2358,15 +2286,15 @@ select option{
 
         margin:0 auto;
 
-        border:
-            2px solid
-            #ffcc00;
+        border:2px solid #ffcc00;
+
     }
 
 
     .payslip-actions{
 
         display:none !important;
+
     }
 
 }
