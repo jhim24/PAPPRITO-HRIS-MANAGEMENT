@@ -1,9 +1,12 @@
 /* ==========================================
    PAPPRITO HRIS
-   LOADING SYSTEM
+   LOADING SYSTEM V3
 ========================================== */
 
-import { auth } from "./firebase.js";
+import {
+    auth,
+    db
+} from "./firebase.js";
 
 import {
     onAuthStateChanged
@@ -14,84 +17,62 @@ import {
    ELEMENTS
 ========================================== */
 
-const progressBar =
-    document.getElementById("progressBar");
-
 const percent =
-    document.getElementById("percent");
+document.getElementById("percent");
 
-const loadingText =
-    document.getElementById("loadingText");
+const progressBar =
+document.getElementById("progressBar");
+
+const circleProgress =
+document.getElementById("circleProgress");
+
+const loadingTitle =
+document.getElementById("loadingTitle");
+
+const authStatus =
+document.getElementById("authStatus");
+
+const databaseStatus =
+document.getElementById("databaseStatus");
+
+const roleStatus =
+document.getElementById("roleStatus");
+
+const sessionStatus =
+document.getElementById("sessionStatus");
 
 const systemStatus =
-    document.getElementById("systemStatus");
+document.getElementById("systemStatus");
 
-const moduleItems =
-    document.querySelectorAll(".module-item");
+const footerStatus =
+document.getElementById("footerStatus");
 
+const moduleAuth =
+document.getElementById("moduleAuth");
 
-/* ==========================================
-   GLOBAL VARIABLES
-========================================== */
+const moduleDatabase =
+document.getElementById("moduleDatabase");
 
-let progress = 0;
+const moduleSession =
+document.getElementById("moduleSession");
 
-let authChecked = false;
-
-let loadingFinished = false;
-
-
-/* ==========================================
-   GET USER ROLE
-========================================== */
-
-function getUserRole(user){
-
-    const savedRole =
-        localStorage.getItem("userRole");
-
-    if(savedRole === "admin"){
-
-        return "admin";
-
-    }
-
-    if(savedRole === "employee"){
-
-        return "employee";
-
-    }
-
-    if(user){
-
-        return "admin";
-
-    }
-
-    return null;
-
-}
+const moduleSystem =
+document.getElementById("moduleSystem");
 
 
 /* ==========================================
-   GET HOME PAGE
+   PROGRESS
 ========================================== */
 
-function getHomePage(role){
+const CIRCLE_LENGTH = 597;
 
-    if(role === "admin"){
+if(circleProgress){
 
-        return "../pages/dashboard.html";
+    circleProgress.style.strokeDasharray =
+    CIRCLE_LENGTH;
 
-    }
-
-    if(role === "employee"){
-
-        return "../pages/employeeportal.html";
-
-    }
-
-    return "../pages/login.html";
+    circleProgress.style.strokeDashoffset =
+    CIRCLE_LENGTH;
 
 }
 
@@ -102,24 +83,46 @@ function getHomePage(role){
 
 function updateProgress(value){
 
-    progress = Math.min(
-        100,
-        Math.max(0,value)
+    value =
+    Math.max(
+        0,
+        Math.min(
+            100,
+            value
+        )
     );
-
-
-    if(progressBar){
-
-        progressBar.style.width =
-            progress + "%";
-
-    }
 
 
     if(percent){
 
         percent.textContent =
-            Math.floor(progress) + "%";
+        Math.round(value) + "%";
+
+    }
+
+
+    if(progressBar){
+
+        progressBar.style.width =
+        value + "%";
+
+    }
+
+
+    if(circleProgress){
+
+        const offset =
+
+        CIRCLE_LENGTH -
+        (
+            CIRCLE_LENGTH *
+            value /
+            100
+        );
+
+
+        circleProgress.style.strokeDashoffset =
+        offset;
 
     }
 
@@ -127,15 +130,27 @@ function updateProgress(value){
 
 
 /* ==========================================
-   UPDATE STATUS
+   STATUS TEXT
 ========================================== */
 
-function updateStatus(text){
+function setTitle(text){
 
-    if(loadingText){
+    if(loadingTitle){
 
-        loadingText.textContent =
-            text;
+        loadingTitle.textContent =
+        text;
+
+    }
+
+}
+
+
+function setFooter(text){
+
+    if(footerStatus){
+
+        footerStatus.textContent =
+        text;
 
     }
 
@@ -143,252 +158,526 @@ function updateStatus(text){
 
 
 /* ==========================================
-   COMPLETE LOADING
+   MODULE DONE
 ========================================== */
 
-function completeLoading(role){
+function moduleDone(element){
 
-    if(loadingFinished) return;
+    if(element){
 
-    loadingFinished = true;
+        element.classList.add(
+            "done"
+        );
+
+    }
+
+}
 
 
-    updateProgress(100);
+/* ==========================================
+   AUTHENTICATION CHECK
+========================================== */
+
+function checkAuthentication(){
+
+    return new Promise(
+        resolve => {
+
+            let finished = false;
 
 
-    updateStatus(
-        "SYSTEM READY"
+            const unsubscribe =
+
+            onAuthStateChanged(
+
+                auth,
+
+                user => {
+
+                    if(finished){
+
+                        return;
+
+                    }
+
+
+                    finished = true;
+
+
+                    unsubscribe();
+
+
+                    if(user){
+
+                        if(authStatus){
+
+                            authStatus.textContent =
+                            "ONLINE";
+
+                        }
+
+
+                        moduleDone(
+                            moduleAuth
+                        );
+
+
+                        resolve(user);
+
+                    }else{
+
+                        if(authStatus){
+
+                            authStatus.textContent =
+                            "FAILED";
+
+                            authStatus.classList.remove(
+                                "online"
+                            );
+
+                        }
+
+
+                        resolve(null);
+
+                    }
+
+                }
+
+            );
+
+        }
+    );
+
+}
+
+
+/* ==========================================
+   GET ROLE
+========================================== */
+
+function getUserRole(){
+
+    const role =
+
+    localStorage.getItem(
+        "userRole"
     );
 
 
-    if(systemStatus){
+    if(
+        role === "admin" ||
+        role === "employee"
+    ){
 
-        systemStatus.textContent =
-            "🟢 Online";
+        return role;
 
     }
 
 
-    moduleItems.forEach(item=>{
-
-        item.classList.add("done");
-
-    });
-
-
-    setTimeout(()=>{
-
-        const homePage =
-            getHomePage(role);
-
-
-        window.location.replace(
-            homePage
-        );
-
-    },700);
+    return null;
 
 }
 
 
 /* ==========================================
-   SIMULATED LOADING
+   SESSION CHECK
 ========================================== */
 
-function startLoading(role){
+function checkSession(user){
+
+    if(!user){
+
+        return false;
+
+    }
+
+
+    if(sessionStatus){
+
+        sessionStatus.textContent =
+        "ACTIVE";
+
+    }
+
+
+    moduleDone(
+        moduleSession
+    );
+
+
+    return true;
+
+}
+
+
+/* ==========================================
+   DATABASE STATUS
+========================================== */
+
+function checkDatabase(){
+
+    return new Promise(
+        resolve => {
+
+            try{
+
+                if(db){
+
+                    if(databaseStatus){
+
+                        databaseStatus.textContent =
+                        "READY";
+
+                    }
+
+
+                    moduleDone(
+                        moduleDatabase
+                    );
+
+
+                    resolve(true);
+
+                }else{
+
+                    if(databaseStatus){
+
+                        databaseStatus.textContent =
+                        "FAILED";
+
+                    }
+
+
+                    resolve(false);
+
+                }
+
+            }catch(error){
+
+                console.error(
+                    error
+                );
+
+
+                if(databaseStatus){
+
+                    databaseStatus.textContent =
+                    "FAILED";
+
+                }
+
+
+                resolve(false);
+
+            }
+
+        }
+    );
+
+}
+
+
+/* ==========================================
+   ROUTE USER
+========================================== */
+
+function routeUser(role){
+
+    if(
+        role === "admin"
+    ){
+
+        if(roleStatus){
+
+            roleStatus.textContent =
+            "ADMIN";
+
+        }
+
+
+        setTitle(
+            "LOADING ADMIN DASHBOARD..."
+        );
+
+
+        setFooter(
+            "ADMIN SESSION READY"
+        );
+
+
+        moduleDone(
+            moduleSystem
+        );
+
+
+        updateProgress(100);
+
+
+        setTimeout(
+            ()=>{
+
+                window.location.replace(
+                    "dashboard.html"
+                );
+
+            },
+            500
+        );
+
+
+        return;
+
+    }
+
+
+    if(
+        role === "employee"
+    ){
+
+        if(roleStatus){
+
+            roleStatus.textContent =
+            "EMPLOYEE";
+
+        }
+
+
+        setTitle(
+            "LOADING EMPLOYEE PORTAL..."
+        );
+
+
+        setFooter(
+            "EMPLOYEE SESSION READY"
+        );
+
+
+        moduleDone(
+            moduleSystem
+        );
+
+
+        updateProgress(100);
+
+
+        setTimeout(
+            ()=>{
+
+                window.location.replace(
+                    "employeeportal.html"
+                );
+
+            },
+            500
+        );
+
+
+        return;
+
+    }
+
+
+    /* ======================================
+       INVALID ROLE
+    ====================================== */
+
+    if(roleStatus){
+
+        roleStatus.textContent =
+        "UNKNOWN";
+
+    }
+
+
+    setTitle(
+        "INVALID USER SESSION"
+    );
+
+
+    setFooter(
+        "PLEASE LOGIN AGAIN"
+    );
+
+
+    setTimeout(
+        ()=>{
+
+            localStorage.removeItem(
+                "userRole"
+            );
+
+            localStorage.removeItem(
+                "loggedInUser"
+            );
+
+            window.location.replace(
+                "login.html"
+            );
+
+        },
+        1000
+    );
+
+}
+
+
+/* ==========================================
+   MAIN LOADING PROCESS
+========================================== */
+
+async function startLoading(){
 
     updateProgress(5);
 
-    updateStatus(
-        "Initializing HR System..."
+    setTitle(
+        "CHECKING AUTHENTICATION..."
+    );
+
+    setFooter(
+        "AUTHENTICATING USER..."
     );
 
 
-    const steps = [
+    /* ======================================
+       AUTH
+    ====================================== */
 
-        {
-            progress:15,
-            text:"Connecting to Firebase..."
-        },
-
-        {
-            progress:30,
-            text:"Loading Employee Module..."
-        },
-
-        {
-            progress:45,
-            text:"Loading Attendance Module..."
-        },
-
-        {
-            progress:60,
-            text:"Loading Payroll Module..."
-        },
-
-        {
-            progress:75,
-            text:"Loading HR Modules..."
-        },
-
-        {
-            progress:90,
-            text:"Preparing Dashboard..."
-        },
-
-        {
-            progress:100,
-            text:"System Ready"
-        }
-
-    ];
+    const user =
+    await checkAuthentication();
 
 
-    let index = 0;
+    if(!user){
+
+        setTitle(
+            "AUTHENTICATION FAILED"
+        );
+
+        setFooter(
+            "REDIRECTING TO LOGIN..."
+        );
 
 
-    const timer =
-        setInterval(()=>{
-
-            if(index >= steps.length){
-
-                clearInterval(timer);
-
-                completeLoading(role);
-
-                return;
-
-            }
+        updateProgress(0);
 
 
-            const step =
-                steps[index];
+        setTimeout(
+            ()=>{
+
+                window.location.replace(
+                    "login.html"
+                );
+
+            },
+            1000
+        );
 
 
-            updateProgress(
-                step.progress
-            );
+        return;
+
+    }
 
 
-            updateStatus(
-                step.text
-            );
+    updateProgress(35);
 
 
-            if(
-                moduleItems[index]
-            ){
+    /* ======================================
+       SESSION
+    ====================================== */
 
-                moduleItems[index]
-                    .classList.add("done");
+    setTitle(
+        "VERIFYING SESSION..."
+    );
 
-            }
+
+    const sessionValid =
+    checkSession(user);
 
 
-            index++;
+    if(!sessionValid){
 
-        },350);
+        window.location.replace(
+            "login.html"
+        );
+
+        return;
+
+    }
+
+
+    updateProgress(55);
+
+
+    /* ======================================
+       DATABASE
+    ====================================== */
+
+    setTitle(
+        "CONNECTING TO DATABASE..."
+    );
+
+
+    await checkDatabase();
+
+
+    updateProgress(75);
+
+
+    /* ======================================
+       ROLE
+    ====================================== */
+
+    setTitle(
+        "VERIFYING USER ROLE..."
+    );
+
+
+    const role =
+    getUserRole();
+
+
+    if(!role){
+
+        routeUser(null);
+
+        return;
+
+    }
+
+
+    updateProgress(90);
+
+
+    /* ======================================
+       FINAL
+    ====================================== */
+
+    setTitle(
+        "SYSTEM READY..."
+    );
+
+
+    setFooter(
+        "PAPPRITO HRIS READY"
+    );
+
+
+    routeUser(
+        role
+    );
 
 }
 
 
 /* ==========================================
-   AUTHENTICATION
-========================================== */
-
-onAuthStateChanged(
-    auth,
-    (user)=>{
-
-        if(!user){
-
-            authChecked = true;
-
-
-            updateProgress(100);
-
-
-            updateStatus(
-                "SESSION EXPIRED"
-            );
-
-
-            if(systemStatus){
-
-                systemStatus.textContent =
-                    "🔴 Offline";
-
-            }
-
-
-            setTimeout(()=>{
-
-                window.location.replace(
-                    "../pages/login.html"
-                );
-
-            },500);
-
-
-            return;
-
-        }
-
-
-        authChecked = true;
-
-
-        const role =
-            getUserRole(user);
-
-
-        if(
-            !localStorage.getItem(
-                "loggedInUser"
-            )
-        ){
-
-            localStorage.setItem(
-                "loggedInUser",
-                user.email || ""
-            );
-
-        }
-
-
-        if(!role){
-
-            localStorage.setItem(
-                "userRole",
-                "admin"
-            );
-
-        }
-
-
-        const finalRole =
-            role || "admin";
-
-
-        startLoading(
-            finalRole
-        );
-
-    }
-);
-
-
-/* ==========================================
-   PAGE LOAD
+   START
 ========================================== */
 
 window.addEventListener(
     "load",
     ()=>{
 
-        console.log(
-            "PAPPRITO HRIS Loading System Ready"
-        );
+        startLoading();
 
     }
 );
