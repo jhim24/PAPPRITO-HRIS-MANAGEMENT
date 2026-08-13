@@ -147,9 +147,9 @@ onAuthStateChanged(
 
         }
 
-
-       loadGeneralSettings();
-loadCompanySettings();
+ loadGeneralSettings();
+ loadCompanySettings();
+ loadEmployeeSettings();
 
     }
 );
