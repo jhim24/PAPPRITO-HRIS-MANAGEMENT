@@ -335,7 +335,7 @@ function field(
 
 window.headerAction = function(){
 
-    window.location.href = "../dashboard.html";
+    window.location.href = "dashboard.html";
 
 };
 
