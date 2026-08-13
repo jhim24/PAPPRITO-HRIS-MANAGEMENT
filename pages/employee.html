@@ -6,8 +6,8 @@
 <meta charset="UTF-8">
 
 <meta
-    name="viewport"
-    content="width=device-width, initial-scale=1.0">
+name="viewport"
+content="width=device-width, initial-scale=1.0">
 
 <title>PAPPRITO HRIS - Employee Masterlist</title>
 
@@ -17,8 +17,8 @@
 ========================================== -->
 
 <link
-    rel="manifest"
-    href="../manifest.json">
+rel="manifest"
+href="../manifest.json">
 
 
 <!-- ==========================================
@@ -26,8 +26,8 @@
 ========================================== -->
 
 <meta
-    name="theme-color"
-    content="#ffcc00">
+name="theme-color"
+content="#ffcc00">
 
 
 <!-- ==========================================
@@ -35,21 +35,12 @@
 ========================================== -->
 
 <link
-    rel="apple-touch-icon"
-    href="../assets/images/icon-192.png">
+rel="apple-touch-icon"
+href="../assets/images/icon-192.png">
 
 <link
-    rel="icon"
-    href="../assets/images/logo.png">
-
-
-<!-- ==========================================
-     MATERIAL ICONS
-========================================== -->
-
-<link
-    href="https://fonts.googleapis.com/icon?family=Material+Icons"
-    rel="stylesheet">
+rel="icon"
+href="../assets/images/logo.png">
 
 
 <!-- ==========================================
@@ -57,183 +48,17 @@
 ========================================== -->
 
 <link
-    rel="stylesheet"
-    href="../css/employee.css">
+rel="stylesheet"
+href="../css/employee.css">
 
 
-<style>
+<!-- ==========================================
+     MATERIAL ICONS
+========================================== -->
 
-/* ==========================================
-   LEAVE ALLOCATION
-========================================== */
-
-.leave-allocation-box{
-
-    grid-column:1 / -1;
-
-    margin-top:10px;
-
-    padding:15px;
-
-    background:#fffdf2;
-
-    border:
-        1px solid
-        #ffcc00;
-
-    border-left:
-        5px solid
-        #ffcc00;
-
-    border-radius:10px;
-
-}
-
-
-.leave-allocation-box h4{
-
-    margin:0 0 4px 0;
-
-    color:#d71920;
-
-    font-size:16px;
-
-    font-weight:900;
-
-}
-
-
-.leave-allocation-box > p{
-
-    margin:0 0 12px 0;
-
-    color:#777;
-
-    font-size:11px;
-
-}
-
-
-.leave-allocation-grid{
-
-    display:grid;
-
-    grid-template-columns:
-        repeat(
-            3,
-            1fr
-        );
-
-    gap:12px;
-
-}
-
-
-.leave-field{
-
-    background:#ffffff;
-
-    border:
-        1px solid
-        #dddddd;
-
-    border-radius:8px;
-
-    padding:11px;
-
-}
-
-
-.leave-field label{
-
-    display:block;
-
-    margin-bottom:6px;
-
-    color:#333;
-
-    font-size:11px;
-
-    font-weight:900;
-
-}
-
-
-.leave-field input{
-
-    width:100%;
-
-    height:42px;
-
-    padding:9px 10px;
-
-    border:
-        1px solid
-        #cccccc;
-
-    border-radius:6px;
-
-    background:#ffffff;
-
-    color:#222;
-
-    font-family:inherit;
-
-    font-size:14px;
-
-    font-weight:700;
-
-    outline:none;
-
-}
-
-
-.leave-field input:focus{
-
-    border-color:#ffcc00;
-
-    box-shadow:
-        0 0 0 2px
-        rgba(
-            255,
-            204,
-            0,
-            .15
-        );
-
-}
-
-
-.leave-field small{
-
-    display:block;
-
-    margin-top:4px;
-
-    color:#888;
-
-    font-size:9px;
-
-}
-
-
-/* ==========================================
-   MOBILE
-========================================== */
-
-@media(
-    max-width:768px
-){
-
-    .leave-allocation-grid{
-
-        grid-template-columns:1fr;
-
-    }
-
-}
-
-</style>
+<link
+rel="stylesheet"
+href="https://fonts.googleapis.com/icon?family=Material+Icons">
 
 </head>
 
@@ -248,78 +73,85 @@
 <div class="top-bar">
 
 
-    <button
-        class="back-btn"
-        onclick="window.location.href='dashboard.html'">
+<button
+class="back-btn"
+title="Back to Dashboard"
+onclick="window.location.href='dashboard.html'">
 
-        ← BACK
+<span class="material-icons">
+arrow_back
+</span>
 
-    </button>
-
-
-    <h2>
-        Employee Masterlist
-    </h2>
+</button>
 
 
-    <div
-        style="
-        display:flex;
-        gap:10px;
-        flex-wrap:wrap;
-        ">
+<h2>
+Employee Masterlist
+</h2>
 
 
-        <!-- SEARCH -->
-
-        <div class="search-box">
-
-            <input
-                type="text"
-                id="search"
-                placeholder="Search..."
-                onkeyup="searchEmp()">
-
-        </div>
+<div
+class="top-actions">
 
 
-        <!-- ADD -->
+<!-- SEARCH -->
 
-        <button
-            class="add-btn"
-            onclick="openModal()">
+<div class="search-box">
 
-            + Add Employee
-
-        </button>
-
-
-        <!-- PRINT -->
-
-        <button
-            class="print-btn"
-            onclick="window.print()">
-
-            🖨 PRINT
-
-        </button>
-
-
-        <!-- INACTIVE -->
-
-        <button
-            class="btn"
-            onclick="window.location.href='inactive-employees.html'">
-
-            INACTIVE EMPLOYEES
-
-        </button>
-
-
-    </div>
+<input
+type="text"
+id="search"
+placeholder="Search..."
+onkeyup="searchEmp()">
 
 </div>
 
+
+<!-- ADD EMPLOYEE -->
+
+<button
+class="add-btn"
+title="Add Employee"
+onclick="openModal()">
+
+<span class="material-icons">
+person_add
+</span>
+
+</button>
+
+
+<!-- PRINT -->
+
+<button
+class="print-btn"
+title="Print Employee Masterlist"
+onclick="window.print()">
+
+<span class="material-icons">
+print
+</span>
+
+</button>
+
+
+<!-- INACTIVE -->
+
+<button
+class="btn"
+title="Inactive Employees"
+onclick="window.location.href='inactive-employees.html'">
+
+<span class="material-icons">
+person_off
+</span>
+
+</button>
+
+
+</div>
+
+</div>
 
 
 <!-- ==========================================
@@ -328,10 +160,9 @@
 
 <h3 id="total">
 
-    Total : 0
+Total : 0
 
 </h3>
-
 
 
 <!-- ==========================================
@@ -341,35 +172,37 @@
 <div class="filter-box">
 
 
-    <button
-        class="print-btn"
-        onclick="filterStatus('ALL')">
+<button
+class="print-btn"
+title="Show All"
+onclick="filterStatus('ALL')">
 
-        ALL
+ALL
 
-    </button>
-
-
-    <button
-        class="save-btn"
-        onclick="filterStatus('Active')">
-
-        ACTIVE
-
-    </button>
+</button>
 
 
-    <button
-        class="btn"
-        onclick="filterStatus('INACTIVE')">
+<button
+class="save-btn"
+title="Show Active Employees"
+onclick="filterStatus('Active')">
 
-        INACTIVE
+ACTIVE
 
-    </button>
+</button>
+
+
+<button
+class="btn"
+title="Show Inactive Employees"
+onclick="filterStatus('INACTIVE')">
+
+INACTIVE
+
+</button>
 
 
 </div>
-
 
 
 <!-- ==========================================
@@ -387,129 +220,154 @@
 <tr>
 
 
-    <th>
-        QR
-    </th>
+<th>
+QR
+</th>
 
 
-    <th>
-        First Name
-    </th>
-
-    <th>
-        Middle Name
-    </th>
-
-    <th>
-        Last Name
-    </th>
-
-    <th>
-        Birthdate
-    </th>
-
-    <th>
-        Age
-    </th>
-
-    <th>
-        Gender
-    </th>
+<th>
+First Name
+</th>
 
 
-    <th>
-        SSS Number
-    </th>
-
-    <th>
-        PhilHealth Number
-    </th>
-
-    <th>
-        Pag-IBIG Number
-    </th>
-
-    <th>
-        Health Card Number
-    </th>
+<th>
+Middle Name
+</th>
 
 
-    <th>
-        Bank Name
-    </th>
-
-    <th>
-        Bank Account Number
-    </th>
+<th>
+Last Name
+</th>
 
 
-    <th>
-        ID Type
-    </th>
-
-    <th>
-        ID Number
-    </th>
+<th>
+Birthdate
+</th>
 
 
-    <th>
-        Mobile
-    </th>
-
-    <th>
-        Email
-    </th>
-
-    <th>
-        Current Address
-    </th>
-
-    <th>
-        Permanent Address
-    </th>
+<th>
+Age
+</th>
 
 
-    <th>
-        Employee ID
-    </th>
-
-    <th>
-        Position
-    </th>
-
-    <th>
-        Department
-    </th>
-
-    <th>
-        Employment
-    </th>
-
-    <th>
-        Status
-    </th>
-
-    <th>
-        Salary Rate
-    </th>
+<th>
+Gender
+</th>
 
 
-    <th>
-        Vacation Leave
-    </th>
-
-    <th>
-        Sick Leave
-    </th>
-
-    <th>
-        Birthday Leave
-    </th>
+<th>
+SSS Number
+</th>
 
 
-    <th>
-        Action
-    </th>
+<th>
+PhilHealth Number
+</th>
+
+
+<th>
+Pag-IBIG Number
+</th>
+
+
+<th>
+Health Card Number
+</th>
+
+
+<th>
+Bank Name
+</th>
+
+
+<th>
+Bank Account Number
+</th>
+
+
+<th>
+ID Type
+</th>
+
+
+<th>
+ID Number
+</th>
+
+
+<th>
+Mobile
+</th>
+
+
+<th>
+Email
+</th>
+
+
+<th>
+Current Address
+</th>
+
+
+<th>
+Permanent Address
+</th>
+
+
+<th>
+Employee ID
+</th>
+
+
+<th>
+Position
+</th>
+
+
+<th>
+Department
+</th>
+
+
+<th>
+Employment
+</th>
+
+
+<th>
+Status
+</th>
+
+
+<th>
+Salary Rate
+</th>
+
+
+<th>
+Vacation Leave
+</th>
+
+
+<th>
+Sick Leave
+</th>
+
+
+<th>
+Birthday Leave
+</th>
+
+
+<th>
+USER
+</th>
+
+
+<th>
+ACTION
+</th>
 
 
 </tr>
@@ -527,582 +385,717 @@
 </div>
 
 
-
 <!-- ==========================================
      EMPLOYEE MODAL
 ========================================== -->
 
 <div
-    class="modal"
-    id="employeeModal">
+class="modal"
+id="employeeModal">
 
 
-    <div class="modal-box">
+<div class="modal-box">
 
 
-        <!-- CLOSE -->
+<button
+class="close-btn"
+title="Close"
+onclick="closeModal()">
 
-        <button
-            class="close-btn"
-            onclick="closeModal()">
+<span class="material-icons">
+close
+</span>
 
-            X
+</button>
 
-        </button>
 
+<h3>
+Employee Information
+</h3>
 
-        <h3>
-            Employee Information
-        </h3>
 
+<!-- ======================================
+     TABS
+====================================== -->
 
+<div class="classic-tabs">
 
-        <!-- ======================================
-             TABS
-        ====================================== -->
 
-        <div class="classic-tabs">
+<button
+class="tab-btn active"
+onclick="openTab(event,'personal')">
 
+Personal Info
 
-            <button
-                class="tab-btn active"
-                onclick="openTab(event,'personal')">
+</button>
 
-                Personal Info
 
-            </button>
+<button
+class="tab-btn"
+onclick="openTab(event,'government')">
 
+Government Info
 
-            <button
-                class="tab-btn"
-                onclick="openTab(event,'government')">
+</button>
 
-                Government Info
 
-            </button>
+<button
+class="tab-btn"
+onclick="openTab(event,'contact')">
 
+Contact Info
 
-            <button
-                class="tab-btn"
-                onclick="openTab(event,'contact')">
+</button>
 
-                Contact Info
 
-            </button>
+<button
+class="tab-btn"
+onclick="openTab(event,'employment')">
 
+Employment Info
 
-            <button
-                class="tab-btn"
-                onclick="openTab(event,'employment')">
+</button>
 
-                Employment Info
-
-            </button>
-
-
-        </div>
-
-
-
-        <!-- ======================================
-             PERSONAL INFO
-        ====================================== -->
-
-        <div
-            id="personal"
-            class="tab-content active">
-
-
-            <div class="form-grid">
-
-
-                <input
-                    class="emp-field"
-                    placeholder="First Name">
-
-
-                <input
-                    class="emp-field"
-                    placeholder="Middle Name">
-
-
-                <input
-                    class="emp-field"
-                    placeholder="Last Name">
-
-
-                <input
-                    class="emp-field"
-                    type="date"
-                    id="birthdate"
-                    onchange="calcAge()">
-
-
-                <input
-                    class="emp-field"
-                    id="age"
-                    placeholder="Age"
-                    readonly>
-
-
-                <select
-                    class="emp-field">
-
-                    <option value="">
-                        Gender
-                    </option>
-
-                    <option value="Male">
-                        Male
-                    </option>
-
-                    <option value="Female">
-                        Female
-                    </option>
-
-                </select>
-
-
-            </div>
-
-        </div>
-
-
-
-        <!-- ======================================
-             GOVERNMENT INFO
-        ====================================== -->
-
-        <div
-            id="government"
-            class="tab-content">
-
-
-            <div class="form-grid">
-
-
-                <input
-                    class="emp-field"
-                    placeholder="SSS Number">
-
-
-                <input
-                    class="emp-field"
-                    placeholder="PhilHealth Number">
-
-
-                <input
-                    class="emp-field"
-                    placeholder="Pag-IBIG Number">
-
-
-                <input
-                    class="emp-field"
-                    placeholder="Health Card Number">
-
-
-
-                <!-- BANK -->
-
-                <select
-                    class="emp-field">
-
-                    <option value="">
-                        Select Bank
-                    </option>
-
-                    <option>
-                        BDO Unibank
-                    </option>
-
-                    <option>
-                        BPI
-                    </option>
-
-                    <option>
-                        Metrobank
-                    </option>
-
-                    <option>
-                        Landbank
-                    </option>
-
-                    <option>
-                        PNB
-                    </option>
-
-                    <option>
-                        Security Bank
-                    </option>
-
-                    <option>
-                        China Bank
-                    </option>
-
-                    <option>
-                        RCBC
-                    </option>
-
-                    <option>
-                        UnionBank
-                    </option>
-
-                    <option>
-                        EastWest
-                    </option>
-
-                </select>
-
-
-                <input
-                    class="emp-field"
-                    placeholder="Bank Account Number">
-
-
-
-                <!-- ID TYPE -->
-
-                <select
-                    class="emp-field">
-
-                    <option value="">
-                        Select ID
-                    </option>
-
-                    <option>
-                        National ID
-                    </option>
-
-                    <option>
-                        Passport
-                    </option>
-
-                    <option>
-                        Driver's License
-                    </option>
-
-                    <option>
-                        UMID
-                    </option>
-
-                    <option>
-                        SSS ID
-                    </option>
-
-                    <option>
-                        PhilHealth ID
-                    </option>
-
-                    <option>
-                        Pag-IBIG ID
-                    </option>
-
-                    <option>
-                        Postal ID
-                    </option>
-
-                    <option>
-                        PRC ID
-                    </option>
-
-                </select>
-
-
-                <input
-                    class="emp-field"
-                    placeholder="ID Number">
-
-
-            </div>
-
-        </div>
-
-
-
-        <!-- ======================================
-             CONTACT INFO
-        ====================================== -->
-
-        <div
-            id="contact"
-            class="tab-content">
-
-
-            <div class="form-grid">
-
-
-                <input
-                    class="emp-field"
-                    placeholder="Mobile">
-
-
-                <input
-                    class="emp-field"
-                    type="email"
-                    placeholder="Email">
-
-
-                <input
-                    class="emp-field"
-                    placeholder="Current Address">
-
-
-                <input
-                    class="emp-field"
-                    placeholder="Permanent Address">
-
-
-            </div>
-
-        </div>
-
-
-
-        <!-- ======================================
-             EMPLOYMENT INFO
-        ====================================== -->
-
-        <div
-            id="employment"
-            class="tab-content">
-
-
-            <div class="form-grid">
-
-
-                <input
-                    class="emp-field"
-                    placeholder="Employee ID">
-
-
-                <input
-                    class="emp-field"
-                    placeholder="Position">
-
-
-                <input
-                    class="emp-field"
-                    placeholder="Department">
-
-
-                <!-- EMPLOYMENT TYPE -->
-
-                <select
-                    class="emp-field">
-
-                    <option value="">
-                        Employment
-                    </option>
-
-                    <option>
-                        Regular
-                    </option>
-
-                    <option>
-                        Probationary
-                    </option>
-
-                    <option>
-                        Contractual
-                    </option>
-
-                    <option>
-                        Part-Time
-                    </option>
-
-                    <option>
-                        Casual
-                    </option>
-
-                </select>
-
-
-                <!-- STATUS -->
-
-                <select
-                    class="emp-field">
-
-                    <option value="Active">
-                        Active
-                    </option>
-
-                    <option>
-                        Resigned
-                    </option>
-
-                    <option>
-                        AWOL
-                    </option>
-
-                    <option>
-                        Terminated
-                    </option>
-
-                    <option>
-                        End Contract
-                    </option>
-
-                    <option>
-                        On Leave
-                    </option>
-
-                </select>
-
-
-                <!-- SALARY -->
-
-                <input
-                    class="emp-field"
-                    type="number"
-                    placeholder="Salary Rate"
-                    min="0"
-                    step="0.01">
-
-
-
-                <!-- ==================================
-                     LEAVE ALLOCATION
-                ================================== -->
-
-                <div
-                    class="leave-allocation-box">
-
-
-                    <h4>
-                        Leave Allocation
-                    </h4>
-
-
-                    <p>
-                        Itakda ang leave entitlement ng employee.
-                    </p>
-
-
-                    <div
-                        class="leave-allocation-grid">
-
-
-                        <!-- VACATION -->
-
-                        <div
-                            class="leave-field">
-
-
-                            <label>
-                                Vacation Leave
-                            </label>
-
-
-                            <input
-                                class="emp-field"
-                                type="number"
-                                id="vacationleave"
-                                placeholder="Vacation Leave"
-                                value="10"
-                                min="0"
-                                step="0.5">
-
-
-                            <small>
-                                Days
-                            </small>
-
-
-                        </div>
-
-
-
-                        <!-- SICK -->
-
-                        <div
-                            class="leave-field">
-
-
-                            <label>
-                                Sick Leave
-                            </label>
-
-
-                            <input
-                                class="emp-field"
-                                type="number"
-                                id="sickleave"
-                                placeholder="Sick Leave"
-                                value="7"
-                                min="0"
-                                step="0.5">
-
-
-                            <small>
-                                Days
-                            </small>
-
-
-                        </div>
-
-
-
-                        <!-- BIRTHDAY -->
-
-                        <div
-                            class="leave-field">
-
-
-                            <label>
-                                Birthday Leave
-                            </label>
-
-
-                            <input
-                                class="emp-field"
-                                type="number"
-                                id="birthdayleave"
-                                placeholder="Birthday Leave"
-                                value="1"
-                                min="0"
-                                step="0.5">
-
-
-                            <small>
-                                Days
-                            </small>
-
-
-                        </div>
-
-
-                    </div>
-
-                </div>
-
-
-            </div>
-
-        </div>
-
-
-
-        <br>
-
-
-
-        <!-- ======================================
-             SAVE EMPLOYEE
-        ====================================== -->
-
-        <button
-            class="save-btn"
-            onclick="saveEmployee()">
-
-            Save Employee
-
-        </button>
-
-
-    </div>
 
 </div>
 
+
+<!-- ======================================
+     PERSONAL
+====================================== -->
+
+<div
+id="personal"
+class="tab-content active">
+
+
+<div class="form-grid">
+
+
+<input
+class="emp-field"
+placeholder="First Name">
+
+
+<input
+class="emp-field"
+placeholder="Middle Name">
+
+
+<input
+class="emp-field"
+placeholder="Last Name">
+
+
+<input
+class="emp-field"
+type="date"
+id="birthdate"
+onchange="calcAge()">
+
+
+<input
+class="emp-field"
+id="age"
+placeholder="Age"
+readonly>
+
+
+<select
+class="emp-field">
+
+<option value="">
+Gender
+</option>
+
+<option value="Male">
+Male
+</option>
+
+<option value="Female">
+Female
+</option>
+
+</select>
+
+
+</div>
+
+</div>
+
+
+<!-- ======================================
+     GOVERNMENT
+====================================== -->
+
+<div
+id="government"
+class="tab-content">
+
+
+<div class="form-grid">
+
+
+<input
+class="emp-field"
+placeholder="SSS Number">
+
+
+<input
+class="emp-field"
+placeholder="PhilHealth Number">
+
+
+<input
+class="emp-field"
+placeholder="Pag-IBIG Number">
+
+
+<input
+class="emp-field"
+placeholder="Health Card Number">
+
+
+<select
+class="emp-field">
+
+<option value="">
+Select Bank
+</option>
+
+<option>
+BDO Unibank
+</option>
+
+<option>
+BPI
+</option>
+
+<option>
+Metrobank
+</option>
+
+<option>
+Landbank
+</option>
+
+<option>
+PNB
+</option>
+
+<option>
+Security Bank
+</option>
+
+<option>
+China Bank
+</option>
+
+<option>
+RCBC
+</option>
+
+<option>
+UnionBank
+</option>
+
+<option>
+EastWest
+</option>
+
+</select>
+
+
+<input
+class="emp-field"
+placeholder="Bank Account Number">
+
+
+<select
+class="emp-field">
+
+<option value="">
+Select ID
+</option>
+
+<option>
+National ID
+</option>
+
+<option>
+Passport
+</option>
+
+<option>
+Driver's License
+</option>
+
+<option>
+UMID
+</option>
+
+<option>
+SSS ID
+</option>
+
+<option>
+PhilHealth ID
+</option>
+
+<option>
+Pag-IBIG ID
+</option>
+
+<option>
+Postal ID
+</option>
+
+<option>
+PRC ID
+</option>
+
+</select>
+
+
+<input
+class="emp-field"
+placeholder="ID Number">
+
+
+</div>
+
+</div>
+
+
+<!-- ======================================
+     CONTACT
+====================================== -->
+
+<div
+id="contact"
+class="tab-content">
+
+
+<div class="form-grid">
+
+
+<input
+class="emp-field"
+placeholder="Mobile">
+
+
+<input
+class="emp-field"
+type="email"
+placeholder="Email">
+
+
+<input
+class="emp-field"
+placeholder="Current Address">
+
+
+<input
+class="emp-field"
+placeholder="Permanent Address">
+
+
+</div>
+
+</div>
+
+
+<!-- ======================================
+     EMPLOYMENT
+====================================== -->
+
+<div
+id="employment"
+class="tab-content">
+
+
+<div class="form-grid">
+
+
+<input
+class="emp-field"
+placeholder="Employee ID">
+
+
+<input
+class="emp-field"
+placeholder="Position">
+
+
+<input
+class="emp-field"
+placeholder="Department">
+
+
+<select
+class="emp-field">
+
+<option value="">
+Employment
+</option>
+
+<option value="Regular">
+Regular
+</option>
+
+<option value="Probationary">
+Probationary
+</option>
+
+<option value="Contractual">
+Contractual
+</option>
+
+</select>
+
+
+<select
+class="emp-field">
+
+<option value="Active">
+Active
+</option>
+
+<option value="Resigned">
+Resigned
+</option>
+
+<option value="AWOL">
+AWOL
+</option>
+
+<option value="Terminated">
+Terminated
+</option>
+
+<option value="End Contract">
+End Contract
+</option>
+
+<option value="On Leave">
+On Leave
+</option>
+
+</select>
+
+
+<input
+class="emp-field"
+type="number"
+step="0.01"
+placeholder="Hourly Salary Rate">
+
+
+<!-- ======================================
+     LEAVE BALANCES
+====================================== -->
+
+<div class="leave-field">
+
+<label>
+Vacation Leave
+</label>
+
+<input
+class="emp-field"
+type="number"
+min="0"
+step="0.01"
+value="10"
+placeholder="Vacation Leave">
+
+</div>
+
+
+<div class="leave-field">
+
+<label>
+Sick Leave
+</label>
+
+<input
+class="emp-field"
+type="number"
+min="0"
+step="0.01"
+value="7"
+placeholder="Sick Leave">
+
+</div>
+
+
+<div class="leave-field">
+
+<label>
+Birthday Leave
+</label>
+
+<input
+class="emp-field"
+type="number"
+min="0"
+step="0.01"
+value="1"
+placeholder="Birthday Leave">
+
+</div>
+
+
+</div>
+
+</div>
+
+
+<br>
+
+
+<!-- ======================================
+     SAVE EMPLOYEE
+====================================== -->
+
+<button
+class="save-btn save-employee-btn"
+title="Save Employee"
+onclick="saveEmployee()">
+
+<span class="material-icons">
+save
+</span>
+
+Save Employee
+
+</button>
+
+
+</div>
+
+</div>
+
+
+<!-- ==========================================
+     CREATE USER MODAL
+========================================== -->
+
+<div
+class="modal"
+id="userModal">
+
+
+<div
+class="modal-box user-modal-box">
+
+
+<!-- CLOSE -->
+
+<button
+class="close-btn"
+title="Close"
+onclick="closeUserModal()">
+
+<span class="material-icons">
+close
+</span>
+
+</button>
+
+
+<h3>
+
+<span class="material-icons">
+person_add
+</span>
+
+Create Employee User
+
+</h3>
+
+
+<!-- ======================================
+     SELECTED EMPLOYEE
+====================================== -->
+
+<div class="user-employee-info">
+
+
+<div class="user-info-item">
+
+<span>
+Employee Name
+</span>
+
+<strong
+id="userEmployeeName">
+
+-
+
+</strong>
+
+</div>
+
+
+<div class="user-info-item">
+
+<span>
+Employee ID
+</span>
+
+<strong
+id="userEmployeeId">
+
+-
+
+</strong>
+
+</div>
+
+</div>
+
+
+<!-- ======================================
+     USER FORM
+====================================== -->
+
+<div class="user-form">
+
+
+<div class="user-form-group">
+
+<label>
+Username
+</label>
+
+<input
+type="text"
+id="userUsername"
+placeholder="Employee ID / Username"
+autocomplete="off">
+
+</div>
+
+
+<div class="user-form-group">
+
+<label>
+Password
+</label>
+
+<div class="password-input">
+
+<input
+type="password"
+id="userPassword"
+placeholder="Enter password"
+autocomplete="new-password">
+
+
+<button
+type="button"
+title="Show / Hide Password"
+onclick="toggleUserPassword()">
+
+<span
+class="material-icons"
+id="userPasswordIcon">
+
+visibility
+
+</span>
+
+</button>
+
+</div>
+
+</div>
+
+
+<div class="user-form-group">
+
+<label>
+Confirm Password
+</label>
+
+<input
+type="password"
+id="userConfirmPassword"
+placeholder="Confirm password"
+autocomplete="new-password">
+
+</div>
+
+
+</div>
+
+
+<!-- ======================================
+     NOTE
+====================================== -->
+
+<div class="user-note">
+
+<span class="material-icons">
+info
+</span>
+
+<div>
+
+<strong>
+Employee Portal Login
+</strong>
+
+<br>
+
+Use the username and password created here
+to access the Employee Portal.
+
+</div>
+
+</div>
+
+
+<!-- ======================================
+     USER ACTIONS
+====================================== -->
+
+<div class="user-actions">
+
+
+<button
+class="btn"
+title="Cancel"
+onclick="closeUserModal()">
+
+<span class="material-icons">
+close
+</span>
+
+</button>
+
+
+<button
+class="save-btn"
+title="Create User"
+onclick="createEmployeeUser()">
+
+<span class="material-icons">
+person_add
+</span>
+
+Create User
+
+</button>
+
+
+</div>
+
+
+</div>
+
+</div>
 
 
 <!-- ==========================================
@@ -1110,8 +1103,8 @@
 ========================================== -->
 
 <script
-    type="module"
-    src="../js/employee.js">
+type="module"
+src="../js/employee.js">
 </script>
 
 
