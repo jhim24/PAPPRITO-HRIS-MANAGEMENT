@@ -6,36 +6,62 @@
 <meta charset="UTF-8">
 
 <meta
-name="viewport"
-content="width=device-width,initial-scale=1.0">
+    name="viewport"
+    content="width=device-width,initial-scale=1.0">
 
 <title>
 PAPPRITO HRIS - Employee Portal
 </title>
 
-<link
-rel="manifest"
-href="../manifest.json">
+
+<!-- ==========================================
+     MANIFEST
+========================================== -->
 
 <link
-rel="icon"
-href="../assets/images/logo.png">
+    rel="manifest"
+    href="../manifest.json">
 
-<link
-rel="apple-touch-icon"
-href="../assets/images/icon-192.png">
+
+<!-- ==========================================
+     THEME
+========================================== -->
 
 <meta
-name="theme-color"
-content="#ffcc00">
+    name="theme-color"
+    content="#ffcc00">
+
+
+<!-- ==========================================
+     ICON
+========================================== -->
 
 <link
-href="https://fonts.googleapis.com/icon?family=Material+Icons"
-rel="stylesheet">
+    rel="icon"
+    href="../assets/images/logo.png">
+
 
 <link
-rel="stylesheet"
-href="../css/employeeportal.css">
+    rel="apple-touch-icon"
+    href="../assets/images/icon-192.png">
+
+
+<!-- ==========================================
+     MATERIAL ICONS
+========================================== -->
+
+<link
+    href="https://fonts.googleapis.com/icon?family=Material+Icons"
+    rel="stylesheet">
+
+
+<!-- ==========================================
+     EMPLOYEE PORTAL CSS
+========================================== -->
+
+<link
+    rel="stylesheet"
+    href="../css/employeeportal.css">
 
 </head>
 
@@ -44,57 +70,94 @@ href="../css/employeeportal.css">
 
 
 <!-- ==========================================
-     HEADER
+     PAGE CONTAINER
+========================================== -->
+
+<div class="portal-container">
+
+
+<!-- ==========================================
+     TOP BAR
 ========================================== -->
 
 <header class="portal-header">
 
 
-<div class="brand">
+    <!-- LEFT -->
 
-<img
-src="../assets/images/logo.png"
-alt="PAPPRITO"
-class="logo">
+    <div class="header-left">
 
 
-<div>
-
-<h2>
-PAPPRITO
-</h2>
-
-<p>
-EMPLOYEE PORTAL
-</p>
-
-</div>
-
-</div>
+        <div class="brand">
 
 
-<button
-class="logout-btn"
-onclick="logout()">
+            <img
+                src="../assets/images/logo.png"
+                class="header-logo"
+                alt="PAPPRITO">
 
-<span class="material-icons">
-logout
-</span>
 
-LOGOUT
+            <div>
 
-</button>
+                <h1>
+                    PAPPRITO
+                </h1>
+
+                <p>
+                    EMPLOYEE PORTAL
+                </p>
+
+            </div>
+
+
+        </div>
+
+
+    </div>
+
+
+    <!-- RIGHT -->
+
+    <div class="header-right">
+
+
+        <button
+            class="btn back-btn"
+            onclick="backToDashboard()">
+
+
+            <span class="material-icons">
+                dashboard
+            </span>
+
+
+            BACK TO DASHBOARD
+
+
+        </button>
+
+
+        <button
+            class="btn logout-btn"
+            onclick="logout()">
+
+
+            <span class="material-icons">
+                logout
+            </span>
+
+
+            LOGOUT
+
+
+        </button>
+
+
+    </div>
 
 
 </header>
 
-
-
-<!-- ==========================================
-     MAIN
-========================================== -->
-
-<main class="portal-container">
 
 
 <!-- ==========================================
@@ -104,36 +167,42 @@ LOGOUT
 <section class="welcome-card">
 
 
-<div>
-
-<p class="welcome-small">
-WELCOME
-</p>
-
-<h1
-id="employeeName">
-
-Loading...
-
-</h1>
-
-<p
-id="employeeId">
-
-Employee ID: -
-
-</p>
-
-</div>
+    <div class="welcome-icon">
 
 
-<div class="welcome-icon">
+        <span class="material-icons">
+            badge
+        </span>
 
-<span class="material-icons">
-badge
-</span>
 
-</div>
+    </div>
+
+
+    <div class="welcome-text">
+
+
+        <p>
+            Welcome
+        </p>
+
+
+        <h2
+            id="employeeName">
+
+            Loading...
+
+        </h2>
+
+
+        <span
+            id="employeeId">
+
+            Employee ID: -
+
+        </span>
+
+
+    </div>
 
 
 </section>
@@ -144,154 +213,638 @@ badge
      EMPLOYEE INFORMATION
 ========================================== -->
 
-<section class="card">
+<section class="section-card">
 
 
-<div class="card-title">
+    <div class="section-title">
 
-<span class="material-icons">
-person
-</span>
 
-<h2>
-My Information
-</h2>
+        <h2>
 
-</div>
 
+            <span class="material-icons">
+                person
+            </span>
 
-<div class="info-grid">
 
+            MY INFORMATION
 
-<div class="info-item">
 
-<span>
-Employee ID
-</span>
+        </h2>
 
-<strong
-id="infoEmployeeId">
 
--
+    </div>
 
-</strong>
 
-</div>
 
+    <div class="employee-info-grid">
 
-<div class="info-item">
 
-<span>
-Full Name
-</span>
+        <!-- EMPLOYEE ID -->
 
-<strong
-id="infoName">
+        <div class="info-box">
 
--
 
-</strong>
+            <span class="material-icons">
+                badge
+            </span>
 
-</div>
 
+            <div>
 
-<div class="info-item">
+                <small>
+                    Employee ID
+                </small>
 
-<span>
-Position
-</span>
 
-<strong
-id="infoPosition">
+                <strong
+                    id="infoEmployeeId">
 
--
+                    -
 
-</strong>
+                </strong>
 
-</div>
+            </div>
 
 
-<div class="info-item">
+        </div>
 
-<span>
-Department
-</span>
 
-<strong
-id="infoDepartment">
 
--
+        <!-- NAME -->
 
-</strong>
+        <div class="info-box">
 
-</div>
 
+            <span class="material-icons">
+                person
+            </span>
 
-<div class="info-item">
 
-<span>
-Employment
-</span>
+            <div>
 
-<strong
-id="infoEmployment">
+                <small>
+                    Full Name
+                </small>
 
--
 
-</strong>
+                <strong
+                    id="infoName">
 
-</div>
+                    -
 
+                </strong>
 
-<div class="info-item">
+            </div>
 
-<span>
-Status
-</span>
 
-<strong
-id="infoStatus">
+        </div>
 
--
 
-</strong>
 
-</div>
+        <!-- POSITION -->
 
+        <div class="info-box">
 
-<div class="info-item">
 
-<span>
-Mobile
-</span>
+            <span class="material-icons">
+                work
+            </span>
 
-<strong
-id="infoMobile">
 
--
+            <div>
 
-</strong>
+                <small>
+                    Position
+                </small>
 
-</div>
 
+                <strong
+                    id="infoPosition">
 
-<div class="info-item">
+                    -
 
-<span>
-Email
-</span>
+                </strong>
 
-<strong
-id="infoEmail">
+            </div>
 
--
 
-</strong>
+        </div>
 
-</div>
 
 
-</div>
+        <!-- DEPARTMENT -->
+
+        <div class="info-box">
+
+
+            <span class="material-icons">
+                business
+            </span>
+
+
+            <div>
+
+                <small>
+                    Department
+                </small>
+
+
+                <strong
+                    id="infoDepartment">
+
+                    -
+
+                </strong>
+
+            </div>
+
+
+        </div>
+
+
+
+        <!-- EMPLOYMENT -->
+
+        <div class="info-box">
+
+
+            <span class="material-icons">
+                assignment
+            </span>
+
+
+            <div>
+
+                <small>
+                    Employment
+                </small>
+
+
+                <strong
+                    id="infoEmployment">
+
+                    -
+
+                </strong>
+
+            </div>
+
+
+        </div>
+
+
+
+        <!-- STATUS -->
+
+        <div class="info-box">
+
+
+            <span class="material-icons">
+                verified
+            </span>
+
+
+            <div>
+
+                <small>
+                    Status
+                </small>
+
+
+                <strong
+                    id="infoStatus">
+
+                    -
+
+                </strong>
+
+            </div>
+
+
+        </div>
+
+
+
+        <!-- MOBILE -->
+
+        <div class="info-box">
+
+
+            <span class="material-icons">
+                phone
+            </span>
+
+
+            <div>
+
+                <small>
+                    Mobile
+                </small>
+
+
+                <strong
+                    id="infoMobile">
+
+                    -
+
+                </strong>
+
+            </div>
+
+
+        </div>
+
+
+
+        <!-- EMAIL -->
+
+        <div class="info-box">
+
+
+            <span class="material-icons">
+                email
+            </span>
+
+
+            <div>
+
+                <small>
+                    Email
+                </small>
+
+
+                <strong
+                    id="infoEmail">
+
+                    -
+
+                </strong>
+
+            </div>
+
+
+        </div>
+
+
+    </div>
+
+
+</section>
+
+
+
+<!-- ==========================================
+     EMPLOYEE REQUEST
+========================================== -->
+
+<section class="section-card">
+
+
+    <div class="section-title">
+
+
+        <h2>
+
+
+            <span class="material-icons">
+                event_note
+            </span>
+
+
+            EMPLOYEE REQUEST
+
+
+        </h2>
+
+
+        <span class="section-note">
+
+            Submit your leave or day-off request
+
+        </span>
+
+
+    </div>
+
+
+
+    <div class="request-form">
+
+
+        <!-- REQUEST TYPE -->
+
+        <div class="form-group">
+
+
+            <label
+                for="requestType">
+
+                REQUEST TYPE
+
+            </label>
+
+
+            <select
+                id="requestType">
+
+
+                <option value="">
+
+                    SELECT REQUEST
+
+                </option>
+
+
+                <option value="DAY OFF">
+
+                    DAY OFF
+
+                </option>
+
+
+                <option value="BIRTHDAY LEAVE">
+
+                    BIRTHDAY LEAVE
+
+                </option>
+
+
+                <option value="VACATION LEAVE">
+
+                    VACATION LEAVE
+
+                </option>
+
+
+                <option value="SICK LEAVE">
+
+                    SICK LEAVE
+
+                </option>
+
+
+                <option value="MATERNITY LEAVE">
+
+                    MATERNITY LEAVE
+
+                </option>
+
+
+                <option value="PATERNITY LEAVE">
+
+                    PATERNITY LEAVE
+
+                </option>
+
+
+                <option value="EMERGENCY LEAVE">
+
+                    EMERGENCY LEAVE
+
+                </option>
+
+
+                <option value="UNPAID LEAVE">
+
+                    UNPAID LEAVE
+
+                </option>
+
+
+                <option value="OTHER REQUEST">
+
+                    OTHER REQUEST
+
+                </option>
+
+
+            </select>
+
+
+        </div>
+
+
+
+        <!-- DATE -->
+
+        <div class="form-group">
+
+
+            <label
+                for="requestDate">
+
+                DATE
+
+            </label>
+
+
+            <input
+                type="date"
+                id="requestDate">
+
+
+        </div>
+
+
+
+        <!-- DAYS -->
+
+        <div class="form-group">
+
+
+            <label
+                for="requestDays">
+
+                NUMBER OF DAYS
+
+            </label>
+
+
+            <input
+                type="number"
+                id="requestDays"
+                min="0.5"
+                step="0.5"
+                placeholder="Enter days">
+
+
+        </div>
+
+
+
+        <!-- REASON -->
+
+        <div
+            class="form-group full-width">
+
+
+            <label
+                for="requestReason">
+
+                REASON
+
+            </label>
+
+
+            <textarea
+                id="requestReason"
+                rows="4"
+                placeholder="Enter your reason...">
+            </textarea>
+
+
+        </div>
+
+
+    </div>
+
+
+
+    <!-- SUBMIT -->
+
+    <div class="request-actions">
+
+
+        <button
+            class="btn submit-btn"
+            onclick="submitLeaveRequest()">
+
+
+            <span class="material-icons">
+                send
+            </span>
+
+
+            SUBMIT REQUEST
+
+
+        </button>
+
+
+        <button
+            class="btn clear-btn"
+            onclick="clearRequestForm()">
+
+
+            <span class="material-icons">
+                clear
+            </span>
+
+
+            CLEAR
+
+
+        </button>
+
+
+    </div>
+
+
+</section>
+
+
+
+<!-- ==========================================
+     REQUEST HISTORY
+========================================== -->
+
+<section class="section-card">
+
+
+    <div class="section-title">
+
+
+        <h2>
+
+
+            <span class="material-icons">
+                history
+            </span>
+
+
+            MY REQUESTS
+
+
+        </h2>
+
+
+    </div>
+
+
+
+    <div class="table-wrapper">
+
+
+        <table
+            class="request-table">
+
+
+            <thead>
+
+
+                <tr>
+
+
+                    <th>
+                        REQUEST
+                    </th>
+
+
+                    <th>
+                        DATE
+                    </th>
+
+
+                    <th>
+                        DAYS
+                    </th>
+
+
+                    <th>
+                        REASON
+                    </th>
+
+
+                    <th>
+                        STATUS
+                    </th>
+
+
+                </tr>
+
+
+            </thead>
+
+
+            <tbody
+                id="requestBody">
+
+
+                <tr>
+
+
+                    <td
+                        colspan="5"
+                        class="empty-message">
+
+                        Loading requests...
+
+
+                    </td>
+
+
+                </tr>
+
+
+            </tbody>
+
+
+        </table>
+
+
+    </div>
+
 
 </section>
 
@@ -301,536 +854,770 @@ id="infoEmail">
      PAYSLIP
 ========================================== -->
 
-<section class="card">
+<section class="section-card payslip-section">
 
 
-<div class="card-title">
+    <div class="section-title">
 
-<span class="material-icons">
-receipt_long
-</span>
 
-<h2>
-My Payslip
-</h2>
+        <h2>
 
-</div>
 
+            <span class="material-icons">
+                receipt_long
+            </span>
 
-<div
-class="payslip-controls">
 
+            MY PAYSLIP
 
-<select
-id="payslipSelect">
 
-<option value="">
-Select Payroll Period
-</option>
+        </h2>
 
-</select>
 
+    </div>
 
-<button
-class="view-btn"
-onclick="viewSelectedPayslip()">
 
-<span class="material-icons">
-visibility
-</span>
 
-VIEW PAYSLIP
+    <!-- PAYROLL SELECT -->
 
-</button>
+    <div class="payslip-selector">
 
 
-<button
-class="print-btn"
-onclick="printSelectedPayslip()">
+        <div class="form-group">
 
-<span class="material-icons">
-print
-</span>
 
-PRINT
+            <label
+                for="payslipSelect">
 
-</button>
+                PAYROLL PERIOD
 
+            </label>
 
-</div>
 
+            <select
+                id="payslipSelect">
 
 
-<div
-id="payslipMessage"
-class="message">
+                <option value="">
 
-No payslip selected.
+                    Select Payroll Period
 
-</div>
+                </option>
 
 
-<!-- ======================================
-     PAYSLIP DISPLAY
-====================================== -->
+            </select>
 
-<div
-id="payslipArea"
-class="payslip">
 
+        </div>
 
-<div class="company">
 
 
-<img
-src="../assets/images/logo.png"
-class="payroll-logo"
-alt="PAPPRITO">
+        <button
+            class="btn view-btn"
+            onclick="viewSelectedPayslip()">
 
 
-<h2>
-PAPPRITO
-</h2>
+            <span class="material-icons">
+                visibility
+            </span>
 
 
-<p>
-OFFICIAL EMPLOYEE PAYSLIP
-</p>
+            VIEW PAYSLIP
 
 
-</div>
+        </button>
 
 
+    </div>
 
-<div class="info">
 
 
-<b>
-ID:
-</b>
+    <!-- MESSAGE -->
 
-<span
-id="payEmpId">
+    <div
+        id="payslipMessage"
+        class="payslip-message">
 
--
 
-</span>
+        Select a payroll period to view your payslip.
 
 
-<br>
+    </div>
 
 
-<b>
-Name:
-</b>
 
-<span
-id="payEmp">
+    <!-- ======================================
+         PAYSLIP AREA
+    ======================================= -->
 
--
+    <div
+        id="payslipArea"
+        class="payslip"
+        style="display:none;">
 
-</span>
 
+        <!-- PAYSLIP ACTIONS -->
 
-<br>
+        <div class="payslip-actions">
 
 
-<b>
-Date:
-</b>
+            <button
+                class="btn print-btn"
+                onclick="printSelectedPayslip()">
 
-<span
-id="payDate">
 
--
+                <span class="material-icons">
+                    print
+                </span>
 
-</span>
 
+                PRINT PAYSLIP
 
-<br>
 
+            </button>
 
-<b>
-Daily Rate:
-</b>
 
-₱
+            <button
+                class="btn close-btn"
+                onclick="closePayslip()">
 
-<span
-id="payDailyRate">
 
-0.00
+                <span class="material-icons">
+                    close
+                </span>
 
-</span>
 
+                CLOSE
 
-<br>
 
+            </button>
 
-<b>
-Total Days:
-</b>
 
-<span
-id="payTotalDays">
+        </div>
 
-0
 
-</span>
 
+        <!-- COMPANY -->
 
-</div>
+        <div class="company">
 
 
+            <img
+                src="../assets/images/logo.png"
+                class="payroll-logo"
+                alt="PAPPRITO">
 
-<!-- EARNINGS -->
 
-<table>
+            <h2>
+                PAPPRITO
+            </h2>
 
 
-<tr>
+            <p>
+                OFFICIAL EMPLOYEE PAYSLIP
+            </p>
 
-<th>
-EARNINGS
-</th>
 
-<th>
-AMOUNT
-</th>
+        </div>
 
-</tr>
 
 
-<tr>
+        <!-- EMPLOYEE INFO -->
 
-<td>
-Basic Pay
-</td>
+        <div class="pay-info">
 
-<td
-id="payBasic">
 
-0.00
+            <div>
 
-</td>
 
-</tr>
+                <b>
+                    ID:
+                </b>
 
 
-<tr>
+                <span
+                    id="payEmpId">
 
-<td>
-Overtime
-</td>
+                    -
 
-<td
-id="payOvertime">
+                </span>
 
-0.00
 
-</td>
+            </div>
 
-</tr>
 
+            <div>
 
-<tr>
 
-<td>
-Holiday Pay
-</td>
+                <b>
+                    Name:
+                </b>
 
-<td
-id="payHoliday">
 
-0.00
+                <span
+                    id="payEmp">
 
-</td>
+                    -
 
-</tr>
+                </span>
 
 
-<tr>
+            </div>
 
-<td>
-Sick Leave
-</td>
 
-<td
-id="paySick">
+            <div>
 
-0.00
 
-</td>
+                <b>
+                    Date:
+                </b>
 
-</tr>
 
+                <span
+                    id="payDate">
 
-<tr>
+                    -
 
-<td>
-Vacation Leave
-</td>
+                </span>
 
-<td
-id="payVacation">
 
-0.00
+            </div>
 
-</td>
 
-</tr>
+            <div>
 
 
-<tr>
+                <b>
+                    Daily Rate:
+                </b>
 
-<td>
-Birthday Leave
-</td>
 
-<td
-id="payBirthday">
+                ₱
 
-0.00
+                <span
+                    id="payDailyRate">
 
-</td>
+                    0.00
 
-</tr>
+                </span>
 
 
-<tr>
+            </div>
 
-<td>
-Maternity Leave
-</td>
 
-<td
-id="payMaternity">
+            <div>
 
-0.00
 
-</td>
+                <b>
+                    Total Days:
+                </b>
 
-</tr>
 
+                <span
+                    id="payTotalDays">
 
-<tr>
+                    0
 
-<td>
-Paternity Leave
-</td>
+                </span>
 
-<td
-id="payPaternity">
 
-0.00
+            </div>
 
-</td>
 
-</tr>
+        </div>
 
 
-<tr>
 
-<td>
-Allowance
-</td>
+        <!-- ======================================
+             EARNINGS
+        ======================================= -->
 
-<td
-id="payAllowance">
+        <table
+            class="payroll-table">
 
-0.00
 
-</td>
+            <thead>
 
-</tr>
 
+                <tr>
 
-<tr>
 
-<td>
-<strong>
-TOTAL GROSS
-</strong>
-</td>
+                    <th>
+                        EARNINGS
+                    </th>
 
-<td>
 
-<strong
-id="payGross">
+                    <th>
+                        AMOUNT
+                    </th>
 
-0.00
 
-</strong>
+                </tr>
 
-</td>
 
-</tr>
+            </thead>
 
 
-</table>
+            <tbody>
 
 
+                <tr>
 
-<!-- DEDUCTIONS -->
 
-<table>
+                    <td>
+                        Basic Pay
+                    </td>
 
 
-<tr>
+                    <td
+                        id="payBasic">
 
-<th>
-DEDUCTIONS
-</th>
+                        0.00
 
-<th>
-AMOUNT
-</th>
+                    </td>
 
-</tr>
 
+                </tr>
 
-<tr>
 
-<td>
-SSS
-</td>
+                <tr>
 
-<td
-id="paySSS">
 
-0.00
+                    <td>
+                        Overtime
+                    </td>
 
-</td>
 
-</tr>
+                    <td
+                        id="payOvertime">
 
+                        0.00
 
-<tr>
+                    </td>
 
-<td>
-PhilHealth
-</td>
 
-<td
-id="payPhilhealth">
+                </tr>
 
-0.00
 
-</td>
+                <tr>
 
-</tr>
 
+                    <td>
+                        Holiday Pay
+                    </td>
 
-<tr>
 
-<td>
-Pag-IBIG
-</td>
+                    <td
+                        id="payHoliday">
 
-<td
-id="payPagibig">
+                        0.00
 
-0.00
+                    </td>
 
-</td>
 
-</tr>
+                </tr>
 
 
-<tr>
+                <tr>
 
-<td>
-Health Card
-</td>
 
-<td
-id="payHealth">
+                    <td>
+                        Sick Leave
+                    </td>
 
-0.00
 
-</td>
+                    <td
+                        id="paySick">
 
-</tr>
+                        0.00
 
+                    </td>
 
-<tr>
 
-<td>
-Others
-</td>
+                </tr>
 
-<td
-id="payOther">
 
-0.00
+                <tr>
 
-</td>
 
-</tr>
+                    <td>
+                        Vacation Leave
+                    </td>
 
 
-<tr>
+                    <td
+                        id="payVacation">
 
-<td>
-<strong>
-TOTAL DEDUCTION
-</strong>
-</td>
+                        0.00
 
-<td>
+                    </td>
 
-<strong
-id="payDeduction">
 
-0.00
+                </tr>
 
-</strong>
 
-</td>
+                <tr>
 
-</tr>
 
+                    <td>
+                        Birthday Leave
+                    </td>
 
-</table>
 
+                    <td
+                        id="payBirthday">
 
+                        0.00
 
-<div class="netpay">
+                    </td>
 
-NET PAY :
 
-₱
+                </tr>
 
-<span
-id="payNet">
 
-0.00
+                <tr>
 
-</span>
 
-</div>
+                    <td>
+                        Maternity Leave
+                    </td>
 
 
+                    <td
+                        id="payMaternity">
 
-<div class="signature">
+                        0.00
 
-<div class="line">
-HR
-</div>
+                    </td>
 
-<div class="line">
-Employee
-</div>
 
-</div>
+                </tr>
 
 
-</div>
+                <tr>
+
+
+                    <td>
+                        Paternity Leave
+                    </td>
+
+
+                    <td
+                        id="payPaternity">
+
+                        0.00
+
+                    </td>
+
+
+                </tr>
+
+
+                <tr>
+
+
+                    <td>
+                        Allowance
+                    </td>
+
+
+                    <td
+                        id="payAllowance">
+
+                        0.00
+
+                    </td>
+
+
+                </tr>
+
+
+                <tr class="total-row">
+
+
+                    <td>
+
+                        <b>
+                            TOTAL GROSS
+                        </b>
+
+                    </td>
+
+
+                    <td>
+
+                        <b
+                            id="payGross">
+
+                            0.00
+
+                        </b>
+
+                    </td>
+
+
+                </tr>
+
+
+            </tbody>
+
+
+        </table>
+
+
+
+        <!-- ======================================
+             DEDUCTIONS
+        ======================================= -->
+
+        <table
+            class="payroll-table">
+
+
+            <thead>
+
+
+                <tr>
+
+
+                    <th>
+                        DEDUCTIONS
+                    </th>
+
+
+                    <th>
+                        AMOUNT
+                    </th>
+
+
+                </tr>
+
+
+            </thead>
+
+
+            <tbody>
+
+
+                <tr>
+
+
+                    <td>
+                        SSS
+                    </td>
+
+
+                    <td
+                        id="paySSS">
+
+                        0.00
+
+                    </td>
+
+
+                </tr>
+
+
+                <tr>
+
+
+                    <td>
+                        PhilHealth
+                    </td>
+
+
+                    <td
+                        id="payPhilhealth">
+
+                        0.00
+
+                    </td>
+
+
+                </tr>
+
+
+                <tr>
+
+
+                    <td>
+                        Pag-IBIG
+                    </td>
+
+
+                    <td
+                        id="payPagibig">
+
+                        0.00
+
+                    </td>
+
+
+                </tr>
+
+
+                <tr>
+
+
+                    <td>
+                        Health Card
+                    </td>
+
+
+                    <td
+                        id="payHealth">
+
+                        0.00
+
+                    </td>
+
+
+                </tr>
+
+
+                <tr>
+
+
+                    <td>
+                        Others
+                    </td>
+
+
+                    <td
+                        id="payOther">
+
+                        0.00
+
+                    </td>
+
+
+                </tr>
+
+
+                <tr class="total-row">
+
+
+                    <td>
+
+                        <b>
+                            TOTAL DEDUCTION
+                        </b>
+
+                    </td>
+
+
+                    <td>
+
+                        <b
+                            id="payDeduction">
+
+                            0.00
+
+                        </b>
+
+                    </td>
+
+
+                </tr>
+
+
+            </tbody>
+
+
+        </table>
+
+
+
+        <!-- NET PAY -->
+
+        <div class="netpay">
+
+
+            <span>
+                NET PAY
+            </span>
+
+
+            <strong>
+
+                ₱
+
+                <span
+                    id="payNet">
+
+                    0.00
+
+                </span>
+
+            </strong>
+
+
+        </div>
+
+
+
+        <!-- SIGNATURE -->
+
+        <div class="signature">
+
+
+            <div class="signature-line">
+
+                <div class="line"></div>
+
+                <span>
+                    HR
+                </span>
+
+            </div>
+
+
+            <div class="signature-line">
+
+                <div class="line"></div>
+
+                <span>
+                    Employee
+                </span>
+
+            </div>
+
+
+        </div>
+
+
+    </div>
+
 
 </section>
 
 
-</main>
+
+<!-- ==========================================
+     FOOTER
+========================================== -->
+
+<footer class="portal-footer">
+
+
+    <p>
+
+        © 2026 PAPPRITO HRIS
+
+    </p>
+
+
+    <span>
+
+        Employee Portal
+
+    </span>
+
+
+</footer>
+
+
+</div>
 
 
 
@@ -839,9 +1626,8 @@ Employee
 ========================================== -->
 
 <script
-type="module"
-src="../js/employeeportal.js">
-
+    type="module"
+    src="../js/employeeportal.js">
 </script>
 
 
