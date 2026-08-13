@@ -17,7 +17,6 @@ content="#ffcc00">
 
 </head>
 
-
 <body
 style="
 margin:0;
@@ -37,16 +36,17 @@ from "https://www.gstatic.com/firebasejs/12.13.0/firebase-auth.js";
 
 
 /* ==========================================
-   AUTHENTICATION ROUTING
+   PAPPRITO HRIS
+   MAIN ROUTER
 ========================================== */
 
 onAuthStateChanged(
     auth,
     (user)=>{
 
-        /*
-        No authenticated user
-        */
+        /* ======================================
+           NOT LOGGED IN
+        ====================================== */
 
         if(!user){
 
@@ -59,7 +59,7 @@ onAuthStateChanged(
             );
 
             window.location.replace(
-                "login.html"
+                "pages/login.html"
             );
 
             return;
@@ -67,9 +67,9 @@ onAuthStateChanged(
         }
 
 
-        /*
-        Get saved role
-        */
+        /* ======================================
+           GET USER ROLE
+        ====================================== */
 
         const role =
             localStorage.getItem(
@@ -84,7 +84,7 @@ onAuthStateChanged(
         if(role === "admin"){
 
             window.location.replace(
-                "dashboard.html"
+                "pages/dashboard.html"
             );
 
             return;
@@ -99,7 +99,7 @@ onAuthStateChanged(
         if(role === "employee"){
 
             window.location.replace(
-                "employeeportal.html"
+                "pages/employeeportal.html"
             );
 
             return;
@@ -107,13 +107,22 @@ onAuthStateChanged(
         }
 
 
-        /*
-        If authenticated but role is missing,
-        don't send the user to login.
+        /* ======================================
+           ROLE NOT FOUND
+        ====================================== */
 
-        Use Firebase email as logged user
-        and send to dashboard as fallback.
+        /*
+        Authenticated user but no saved role.
+
+        Keep the Firebase session and use
+        dashboard as the safe fallback.
         */
+
+        localStorage.setItem(
+            "userRole",
+            "admin"
+        );
+
 
         if(
             !localStorage.getItem(
@@ -129,14 +138,8 @@ onAuthStateChanged(
         }
 
 
-        localStorage.setItem(
-            "userRole",
-            "admin"
-        );
-
-
         window.location.replace(
-            "dashboard.html"
+            "pages/dashboard.html"
         );
 
     }
