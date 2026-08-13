@@ -1,1 +1,1157 @@
+<!DOCTYPE html>
+<html lang="en">
 
+<head>
+
+<meta charset="UTF-8">
+
+<meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0">
+
+<title>PAPPRITO HRIS - Settings</title>
+
+<meta
+    name="theme-color"
+    content="#ffcc00">
+
+<link
+    href="https://fonts.googleapis.com/icon?family=Material+Icons"
+    rel="stylesheet">
+
+<link
+    rel="stylesheet"
+    href="../css/settings.css">
+
+</head>
+
+
+<body>
+
+
+<!-- ==========================================
+     SIDEBAR
+========================================== -->
+
+<div id="sidebar-container"></div>
+
+
+<!-- ==========================================
+     MAIN CONTENT
+========================================== -->
+
+<main class="settings-container">
+
+
+    <!-- ======================================
+         HEADER
+    ======================================= -->
+
+    <header class="settings-header">
+
+        <div class="header-left">
+
+            <button
+                id="menuBtn"
+                class="mobile-menu-btn">
+
+                <span class="material-icons">
+                    menu
+                </span>
+
+            </button>
+
+
+            <div class="header-icon">
+
+                <span class="material-icons">
+                    settings
+                </span>
+
+            </div>
+
+
+            <div>
+
+                <h1>
+                    SETTINGS
+                </h1>
+
+                <p>
+                    Manage your HRIS system configuration
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <button
+            class="back-btn"
+            onclick="goToDashboard()">
+
+            <span class="material-icons">
+                dashboard
+            </span>
+
+            DASHBOARD
+
+        </button>
+
+    </header>
+
+
+    <!-- ======================================
+         SETTINGS NAVIGATION
+    ======================================= -->
+
+    <section class="settings-layout">
+
+
+        <!-- ==================================
+             SETTINGS MENU
+        =================================== -->
+
+        <aside class="settings-menu">
+
+
+            <button
+                class="settings-menu-item active"
+                data-section="general">
+
+                <span class="material-icons">
+                    tune
+                </span>
+
+                <div>
+
+                    <strong>
+                        General
+                    </strong>
+
+                    <small>
+                        Basic system information
+                    </small>
+
+                </div>
+
+            </button>
+
+
+            <button
+                class="settings-menu-item"
+                data-section="company">
+
+                <span class="material-icons">
+                    business
+                </span>
+
+                <div>
+
+                    <strong>
+                        Company
+                    </strong>
+
+                    <small>
+                        Company information
+                    </small>
+
+                </div>
+
+            </button>
+
+
+            <button
+                class="settings-menu-item"
+                data-section="employees">
+
+                <span class="material-icons">
+                    groups
+                </span>
+
+                <div>
+
+                    <strong>
+                        Employees
+                    </strong>
+
+                    <small>
+                        Employee configuration
+                    </small>
+
+                </div>
+
+            </button>
+
+
+            <button
+                class="settings-menu-item"
+                data-section="attendance">
+
+                <span class="material-icons">
+                    schedule
+                </span>
+
+                <div>
+
+                    <strong>
+                        Attendance
+                    </strong>
+
+                    <small>
+                        Working hours and rules
+                    </small>
+
+                </div>
+
+            </button>
+
+
+            <button
+                class="settings-menu-item"
+                data-section="payroll">
+
+                <span class="material-icons">
+                    payments
+                </span>
+
+                <div>
+
+                    <strong>
+                        Payroll
+                    </strong>
+
+                    <small>
+                        Payroll configuration
+                    </small>
+
+                </div>
+
+            </button>
+
+
+            <button
+                class="settings-menu-item"
+                data-section="leaves">
+
+                <span class="material-icons">
+                    event_available
+                </span>
+
+                <div>
+
+                    <strong>
+                        Leaves
+                    </strong>
+
+                    <small>
+                        Leave types and rules
+                    </small>
+
+                </div>
+
+            </button>
+
+
+            <button
+                class="settings-menu-item"
+                data-section="approvals">
+
+                <span class="material-icons">
+                    fact_check
+                </span>
+
+                <div>
+
+                    <strong>
+                        Approvals
+                    </strong>
+
+                    <small>
+                        Approval workflow
+                    </small>
+
+                </div>
+
+            </button>
+
+
+            <button
+                class="settings-menu-item"
+                data-section="departments">
+
+                <span class="material-icons">
+                    account_tree
+                </span>
+
+                <div>
+
+                    <strong>
+                        Departments & Positions
+                    </strong>
+
+                    <small>
+                        Organization setup
+                    </small>
+
+                </div>
+
+            </button>
+
+
+            <button
+                class="settings-menu-item"
+                data-section="holidays">
+
+                <span class="material-icons">
+                    calendar_month
+                </span>
+
+                <div>
+
+                    <strong>
+                        Holidays
+                    </strong>
+
+                    <small>
+                        Holiday calendar
+                    </small>
+
+                </div>
+
+            </button>
+
+
+            <button
+                class="settings-menu-item"
+                data-section="notifications">
+
+                <span class="material-icons">
+                    notifications
+                </span>
+
+                <div>
+
+                    <strong>
+                        Notifications
+                    </strong>
+
+                    <small>
+                        System notifications
+                    </small>
+
+                </div>
+
+            </button>
+
+
+            <button
+                class="settings-menu-item"
+                data-section="users">
+
+                <span class="material-icons">
+                    admin_panel_settings
+                </span>
+
+                <div>
+
+                    <strong>
+                        Users & Roles
+                    </strong>
+
+                    <small>
+                        Access and permissions
+                    </small>
+
+                </div>
+
+            </button>
+
+
+            <button
+                class="settings-menu-item"
+                data-section="payslip">
+
+                <span class="material-icons">
+                    receipt_long
+                </span>
+
+                <div>
+
+                    <strong>
+                        Payslip
+                    </strong>
+
+                    <small>
+                        Payslip configuration
+                    </small>
+
+                </div>
+
+            </button>
+
+
+            <button
+                class="settings-menu-item"
+                data-section="system">
+
+                <span class="material-icons">
+                    storage
+                </span>
+
+                <div>
+
+                    <strong>
+                        System
+                    </strong>
+
+                    <small>
+                        System and data management
+                    </small>
+
+                </div>
+
+            </button>
+
+
+        </aside>
+
+
+        <!-- ==================================
+             SETTINGS CONTENT
+        =================================== -->
+
+        <div class="settings-content">
+
+
+            <!-- ==================================
+                 GENERAL SETTINGS
+            =================================== -->
+
+            <section
+                id="generalSection"
+                class="settings-section active">
+
+
+                <div class="section-title">
+
+                    <div>
+
+                        <h2>
+                            General Settings
+                        </h2>
+
+                        <p>
+                            Configure the basic settings
+                            used throughout PAPPRITO HRIS.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <!-- ==============================
+                     COMPANY BASIC INFORMATION
+                =============================== -->
+
+                <div class="settings-card">
+
+
+                    <div class="card-title">
+
+                        <span class="material-icons">
+                            business
+                        </span>
+
+                        <div>
+
+                            <h3>
+                                Basic Information
+                            </h3>
+
+                            <p>
+                                General information displayed
+                                throughout the system.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="form-grid">
+
+
+                        <!-- COMPANY NAME -->
+
+                        <div class="form-group full">
+
+                            <label for="companyName">
+
+                                Company Name
+
+                            </label>
+
+                            <input
+                                type="text"
+                                id="companyName"
+                                placeholder="Enter company name">
+
+                        </div>
+
+
+                        <!-- ADDRESS -->
+
+                        <div class="form-group full">
+
+                            <label for="companyAddress">
+
+                                Company Address
+
+                            </label>
+
+                            <textarea
+                                id="companyAddress"
+                                rows="3"
+                                placeholder="Enter company address"></textarea>
+
+                        </div>
+
+
+                        <!-- CONTACT -->
+
+                        <div class="form-group">
+
+                            <label for="contactNumber">
+
+                                Contact Number
+
+                            </label>
+
+                            <input
+                                type="text"
+                                id="contactNumber"
+                                placeholder="Enter contact number">
+
+                        </div>
+
+
+                        <!-- EMAIL -->
+
+                        <div class="form-group">
+
+                            <label for="companyEmail">
+
+                                Email Address
+
+                            </label>
+
+                            <input
+                                type="email"
+                                id="companyEmail"
+                                placeholder="Enter company email">
+
+                        </div>
+
+
+                    </div>
+
+                </div>
+
+
+                <!-- ==============================
+                     REGIONAL SETTINGS
+                =============================== -->
+
+                <div class="settings-card">
+
+
+                    <div class="card-title">
+
+                        <span class="material-icons">
+                            language
+                        </span>
+
+                        <div>
+
+                            <h3>
+                                Regional Settings
+                            </h3>
+
+                            <p>
+                                Configure currency, timezone,
+                                and date display.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="form-grid">
+
+
+                        <!-- CURRENCY -->
+
+                        <div class="form-group">
+
+                            <label for="currency">
+
+                                Currency
+
+                            </label>
+
+                            <select id="currency">
+
+                                <option value="QAR">
+                                    QAR - Qatari Riyal
+                                </option>
+
+                                <option value="PHP">
+                                    PHP - Philippine Peso
+                                </option>
+
+                                <option value="USD">
+                                    USD - US Dollar
+                                </option>
+
+                                <option value="AED">
+                                    AED - UAE Dirham
+                                </option>
+
+                                <option value="SAR">
+                                    SAR - Saudi Riyal
+                                </option>
+
+                            </select>
+
+                        </div>
+
+
+                        <!-- TIMEZONE -->
+
+                        <div class="form-group">
+
+                            <label for="timezone">
+
+                                Timezone
+
+                            </label>
+
+                            <select id="timezone">
+
+                                <option value="Asia/Qatar">
+
+                                    Asia/Qatar
+
+                                </option>
+
+                                <option value="Asia/Manila">
+
+                                    Asia/Manila
+
+                                </option>
+
+                                <option value="Asia/Dubai">
+
+                                    Asia/Dubai
+
+                                </option>
+
+                                <option value="UTC">
+
+                                    UTC
+
+                                </option>
+
+                            </select>
+
+                        </div>
+
+
+                        <!-- DATE FORMAT -->
+
+                        <div class="form-group">
+
+                            <label for="dateFormat">
+
+                                Date Format
+
+                            </label>
+
+                            <select id="dateFormat">
+
+                                <option value="DD/MM/YYYY">
+
+                                    DD/MM/YYYY
+
+                                </option>
+
+                                <option value="MM/DD/YYYY">
+
+                                    MM/DD/YYYY
+
+                                </option>
+
+                                <option value="YYYY-MM-DD">
+
+                                    YYYY-MM-DD
+
+                                </option>
+
+                            </select>
+
+                        </div>
+
+
+                    </div>
+
+                </div>
+
+
+                <!-- ==============================
+                     COMPANY LOGO
+                =============================== -->
+
+                <div class="settings-card">
+
+
+                    <div class="card-title">
+
+                        <span class="material-icons">
+                            image
+                        </span>
+
+                        <div>
+
+                            <h3>
+                                Company Logo
+                            </h3>
+
+                            <p>
+                                Upload the logo used by the
+                                HRIS system.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="logo-settings">
+
+
+                        <div class="logo-preview">
+
+                            <img
+                                id="companyLogoPreview"
+                                src="../assets/images/logo.png"
+                                alt="Company Logo">
+
+                        </div>
+
+
+                        <div class="logo-upload">
+
+
+                            <label
+                                for="companyLogo"
+                                class="upload-btn">
+
+                                <span class="material-icons">
+                                    upload
+                                </span>
+
+                                CHOOSE LOGO
+
+                            </label>
+
+
+                            <input
+                                type="file"
+                                id="companyLogo"
+                                accept="image/png,image/jpeg,image/webp">
+
+
+                            <small>
+
+                                Recommended:
+                                PNG or JPG
+
+                            </small>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- ==============================
+                     SAVE
+                =============================== -->
+
+                <div class="save-bar">
+
+
+                    <div>
+
+                        <span class="material-icons">
+                            info
+                        </span>
+
+                        <span>
+                            Changes will be saved to
+                            the HRIS system.
+                        </span>
+
+                    </div>
+
+
+                    <button
+                        id="saveGeneralBtn"
+                        class="save-btn">
+
+                        <span class="material-icons">
+                            save
+                        </span>
+
+                        SAVE SETTINGS
+
+                    </button>
+
+                </div>
+
+
+            </section>
+
+
+            <!-- ==================================
+                 PLACEHOLDER SECTIONS
+            =================================== -->
+
+            <section
+                id="companySection"
+                class="settings-section">
+
+                <div class="coming-soon">
+
+                    <span class="material-icons">
+                        business
+                    </span>
+
+                    <h2>
+                        Company Settings
+                    </h2>
+
+                    <p>
+                        This section will be configured
+                        next.
+                    </p>
+
+                </div>
+
+            </section>
+
+
+            <section
+                id="employeesSection"
+                class="settings-section">
+
+                <div class="coming-soon">
+
+                    <span class="material-icons">
+                        groups
+                    </span>
+
+                    <h2>
+                        Employee Settings
+                    </h2>
+
+                    <p>
+                        This section will be configured
+                        next.
+                    </p>
+
+                </div>
+
+            </section>
+
+
+            <section
+                id="attendanceSection"
+                class="settings-section">
+
+                <div class="coming-soon">
+
+                    <span class="material-icons">
+                        schedule
+                    </span>
+
+                    <h2>
+                        Attendance Settings
+                    </h2>
+
+                    <p>
+                        This section will be configured
+                        next.
+                    </p>
+
+                </div>
+
+            </section>
+
+
+            <section
+                id="payrollSection"
+                class="settings-section">
+
+                <div class="coming-soon">
+
+                    <span class="material-icons">
+                        payments
+                    </span>
+
+                    <h2>
+                        Payroll Settings
+                    </h2>
+
+                    <p>
+                        This section will be configured
+                        next.
+                    </p>
+
+                </div>
+
+            </section>
+
+
+            <section
+                id="leavesSection"
+                class="settings-section">
+
+                <div class="coming-soon">
+
+                    <span class="material-icons">
+                        event_available
+                    </span>
+
+                    <h2>
+                        Leave Settings
+                    </h2>
+
+                    <p>
+                        This section will be configured
+                        next.
+                    </p>
+
+                </div>
+
+            </section>
+
+
+            <section
+                id="approvalsSection"
+                class="settings-section">
+
+                <div class="coming-soon">
+
+                    <span class="material-icons">
+                        fact_check
+                    </span>
+
+                    <h2>
+                        Approval Settings
+                    </h2>
+
+                    <p>
+                        This section will be configured
+                        next.
+                    </p>
+
+                </div>
+
+            </section>
+
+
+            <section
+                id="departmentsSection"
+                class="settings-section">
+
+                <div class="coming-soon">
+
+                    <span class="material-icons">
+                        account_tree
+                    </span>
+
+                    <h2>
+                        Departments & Positions
+                    </h2>
+
+                    <p>
+                        This section will be configured
+                        next.
+                    </p>
+
+                </div>
+
+            </section>
+
+
+            <section
+                id="holidaysSection"
+                class="settings-section">
+
+                <div class="coming-soon">
+
+                    <span class="material-icons">
+                        calendar_month
+                    </span>
+
+                    <h2>
+                        Holiday Settings
+                    </h2>
+
+                    <p>
+                        This section will be configured
+                        next.
+                    </p>
+
+                </div>
+
+            </section>
+
+
+            <section
+                id="notificationsSection"
+                class="settings-section">
+
+                <div class="coming-soon">
+
+                    <span class="material-icons">
+                        notifications
+                    </span>
+
+                    <h2>
+                        Notification Settings
+                    </h2>
+
+                    <p>
+                        This section will be configured
+                        next.
+                    </p>
+
+                </div>
+
+            </section>
+
+
+            <section
+                id="usersSection"
+                class="settings-section">
+
+                <div class="coming-soon">
+
+                    <span class="material-icons">
+                        admin_panel_settings
+                    </span>
+
+                    <h2>
+                        Users & Roles
+                    </h2>
+
+                    <p>
+                        This section will be configured
+                        next.
+                    </p>
+
+                </div>
+
+            </section>
+
+
+            <section
+                id="payslipSection"
+                class="settings-section">
+
+                <div class="coming-soon">
+
+                    <span class="material-icons">
+                        receipt_long
+                    </span>
+
+                    <h2>
+                        Payslip Settings
+                    </h2>
+
+                    <p>
+                        This section will be configured
+                        next.
+                    </p>
+
+                </div>
+
+            </section>
+
+
+            <section
+                id="systemSection"
+                class="settings-section">
+
+                <div class="coming-soon">
+
+                    <span class="material-icons">
+                        storage
+                    </span>
+
+                    <h2>
+                        System Settings
+                    </h2>
+
+                    <p>
+                        This section will be configured
+                        next.
+                    </p>
+
+                </div>
+
+            </section>
+
+
+        </div>
+
+    </section>
+
+
+</main>
+
+
+<!-- ==========================================
+     OVERLAY
+========================================== -->
+
+<div
+    id="overlay"
+    class="overlay">
+</div>
+
+
+<!-- ==========================================
+     SCRIPTS
+========================================== -->
+
+<script
+    type="module"
+    src="../js/components.js">
+</script>
+
+<script
+    type="module"
+    src="../js/settings.js">
+</script>
+
+
+</body>
+
+</html>
