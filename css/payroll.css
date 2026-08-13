@@ -1,43 +1,59 @@
 /* ==========================================
    PAPPRITO HRIS
+   PAYROLL MANAGEMENT
    PAYROLL CSS
 ========================================== */
 
-*{
-margin:0;
-padding:0;
-box-sizing:border-box;
-font-family:Tahoma,sans-serif;
-}
 
-body{
+/* ==========================================
+   RESET
+========================================== */
 
-background:#1f1f1f;
+* {
 
-padding:15px;
+    margin: 0;
 
-color:white;
+    padding: 0;
+
+    box-sizing: border-box;
 
 }
 
 
 /* ==========================================
-   CONTAINER
+   BODY
 ========================================== */
 
-.container{
+body {
 
-max-width:1700px;
+    font-family:
+        "Segoe UI",
+        Tahoma,
+        Arial,
+        sans-serif;
 
-margin:auto;
+    background:
+        #f4f6f8;
 
-background:#2b2b2b;
+    color:
+        #222;
 
-border:3px solid #ffcc00;
+}
 
-border-radius:15px;
 
-overflow:hidden;
+/* ==========================================
+   MAIN CONTAINER
+========================================== */
+
+.container {
+
+    width: 100%;
+
+    max-width: 100%;
+
+    margin: 0;
+
+    padding: 20px;
 
 }
 
@@ -46,35 +62,49 @@ overflow:hidden;
    HEADER
 ========================================== */
 
-.header{
+.header {
 
-background:
-linear-gradient(
-135deg,
-#ffcc00,
-#ff8800
-);
+    width: 100%;
 
-padding:15px;
+    display: flex;
 
-display:flex;
+    align-items: center;
 
-justify-content:space-between;
+    justify-content: space-between;
 
-align-items:center;
+    gap: 15px;
 
-flex-wrap:wrap;
+    padding: 15px 20px;
+
+    margin-bottom: 20px;
+
+    background:
+        #ffffff;
+
+    border-radius: 12px;
+
+    border-left:
+        5px solid #d71920;
+
+    box-shadow:
+        0 3px 12px
+        rgba(0,0,0,.08);
 
 }
 
 
-.title{
+/* ==========================================
+   TITLE
+========================================== */
 
-font-size:28px;
+.title {
 
-font-weight:bold;
+    font-size: 22px;
 
-color:black;
+    font-weight: 800;
+
+    color:
+        #d71920;
 
 }
 
@@ -83,108 +113,258 @@ color:black;
    BUTTON
 ========================================== */
 
-.btn{
+.btn {
 
-padding:10px 18px;
+    border: none;
 
-border:none;
+    border-radius: 8px;
 
-border-radius:10px;
+    padding: 10px 16px;
 
-cursor:pointer;
+    font-size: 13px;
 
-font-weight:bold;
+    font-weight: 700;
 
-font-size:13px;
+    cursor: pointer;
 
-transition:0.3s;
-
-}
-
-
-.btn:hover{
-
-transform:scale(1.03);
-
-}
-
-
-.back-btn{
-
-background:#0066cc;
-
-color:white;
-
-}
-
-
-.save-btn{
-
-background:#008000;
-
-color:white;
-
-}
-
-
-.delete-btn{
-
-background:#cc0000;
-
-color:white;
-
-}
-
-
-.print-btn{
-
-background:#ff8800;
-
-color:black;
+    transition:
+        .2s ease;
 
 }
 
 
 /* ==========================================
-   FORM
+   PRINT BUTTON
 ========================================== */
 
-.form-section{
+.print-btn {
 
-padding:20px;
+    background:
+        #ffcc00;
 
-}
-
-
-.form-grid{
-
-display:grid;
-
-grid-template-columns:
-repeat(
-auto-fit,
-minmax(220px,1fr)
-);
-
-gap:12px;
+    color:
+        #222;
 
 }
 
 
-input,
-select{
+.print-btn:hover {
 
-width:100%;
+    transform:
+        translateY(-1px);
 
-padding:10px;
+    box-shadow:
+        0 4px 10px
+        rgba(0,0,0,.15);
 
-border-radius:10px;
+}
 
-border:2px solid #555;
 
-background:#1f1f1f;
+/* ==========================================
+   BACK BUTTON
+========================================== */
 
-color:white;
+.back-btn {
+
+    background:
+        #d71920;
+
+    color:
+        #ffffff;
+
+}
+
+
+.back-btn:hover {
+
+    transform:
+        translateY(-1px);
+
+    box-shadow:
+        0 4px 10px
+        rgba(0,0,0,.15);
+
+}
+
+
+/* ==========================================
+   FORM SECTION
+========================================== */
+
+.form-section {
+
+    width: 100%;
+
+    background:
+        #ffffff;
+
+    padding: 20px;
+
+    border-radius: 12px;
+
+    box-shadow:
+        0 3px 12px
+        rgba(0,0,0,.08);
+
+}
+
+
+/* ==========================================
+   FORM GRID
+========================================== */
+
+.form-grid {
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(
+            4,
+            minmax(
+                150px,
+                1fr
+            )
+        );
+
+    gap: 12px;
+
+}
+
+
+/* ==========================================
+   INPUTS
+========================================== */
+
+.form-grid input,
+.form-grid select {
+
+    width: 100%;
+
+    min-height: 42px;
+
+    padding: 10px 12px;
+
+    border:
+        1px solid #d8d8d8;
+
+    border-radius: 8px;
+
+    background:
+        #ffffff;
+
+    color:
+        #222;
+
+    outline: none;
+
+    font-size: 13px;
+
+    transition:
+        .2s ease;
+
+}
+
+
+.form-grid input:focus,
+.form-grid select:focus {
+
+    border-color:
+        #d71920;
+
+    box-shadow:
+        0 0 0 2px
+        rgba(215,25,32,.10);
+
+}
+
+
+/* ==========================================
+   SAVE BUTTON
+========================================== */
+
+.save-btn {
+
+    background:
+        #d71920;
+
+    color:
+        #ffffff;
+
+    padding:
+        11px 20px;
+
+}
+
+
+.save-btn:hover {
+
+    background:
+        #b9141a;
+
+}
+
+
+.save-btn:disabled {
+
+    opacity:
+        .6;
+
+    cursor:
+        not-allowed;
+
+}
+
+
+/* ==========================================
+   TOTAL BOX
+========================================== */
+
+.total-box {
+
+    margin-top: 18px;
+
+    padding: 15px 18px;
+
+    border-radius: 10px;
+
+    background:
+        #ffcc00;
+
+    color:
+        #222;
+
+    font-size: 18px;
+
+    font-weight: 800;
+
+    text-align: right;
+
+}
+
+
+#totalNet {
+
+    font-size: 22px;
+
+}
+
+
+/* ==========================================
+   TABLE WRAPPER
+========================================== */
+
+.table-wrapper {
+
+    width: 100%;
+
+    margin-top: 20px;
+
+    overflow-x: auto;
+
+    background:
+        #ffffff;
+
+    border-radius: 10px;
 
 }
 
@@ -193,85 +373,130 @@ color:white;
    TABLE
 ========================================== */
 
-.table-wrapper{
+table {
 
-margin-top:20px;
+    width: 100%;
 
-overflow-x:auto;
+    min-width:
+        2200px;
 
--webkit-overflow-scrolling:touch;
+    border-collapse:
+        collapse;
 
-background:white;
-
-border-radius:10px;
-
-}
-
-
-table{
-
-width:100%;
-
-border-collapse:collapse;
-
-min-width:2800px;
-
-}
-
-
-th,
-td{
-
-border:1px solid #999;
-
-padding:10px;
-
-text-align:center;
-
-white-space:nowrap;
-
-}
-
-
-th{
-
-background:#ffcc00;
-
-color:black;
-
-position:sticky;
-
-top:0;
-
-}
-
-
-td{
-
-color:black;
+    background:
+        #ffffff;
 
 }
 
 
 /* ==========================================
-   TOTAL
+   TABLE HEADER
 ========================================== */
 
-.total-box{
+thead th {
 
-margin-top:15px;
+    padding:
+        10px 8px;
 
-padding:15px;
+    background:
+        #d71920;
 
-background:#1a1a1a;
+    color:
+        #ffffff;
 
-border:2px solid #ffcc00;
+    border:
+        1px solid #b9141a;
 
-border-radius:10px;
+    font-size:
+        11px;
 
-font-size:18px;
+    font-weight:
+        800;
 
-font-weight:bold;
+    white-space:
+        nowrap;
+
+    text-align:
+        center;
+
+}
+
+
+/* ==========================================
+   TABLE BODY
+========================================== */
+
+tbody td {
+
+    padding:
+        9px 8px;
+
+    border:
+        1px solid #dddddd;
+
+    font-size:
+        11px;
+
+    color:
+        #333;
+
+    white-space:
+        nowrap;
+
+    text-align:
+        center;
+
+}
+
+
+/* ==========================================
+   TABLE ROW
+========================================== */
+
+tbody tr:nth-child(even) {
+
+    background:
+        #fffdf2;
+
+}
+
+
+tbody tr:hover {
+
+    background:
+        #fff3b8;
+
+}
+
+
+/* ==========================================
+   DELETE BUTTON
+========================================== */
+
+.delete-btn {
+
+    background:
+        #d71920;
+
+    color:
+        #ffffff;
+
+    padding:
+        6px 10px;
+
+    border-radius:
+        6px;
+
+    font-size:
+        10px;
+
+}
+
+
+.delete-btn:hover {
+
+    background:
+        #a90f15;
 
 }
 
@@ -280,101 +505,282 @@ font-weight:bold;
    MOBILE
 ========================================== */
 
-@media(max-width:768px){
+@media(
+    max-width: 900px
+){
 
-.title{
+    .container {
 
-font-size:22px;
+        padding:
+            10px;
 
-}
-
-
-.table-wrapper{
-
-overflow-x:auto;
-
-}
+    }
 
 
-table{
+    .header {
 
-min-width:1800px;
+        flex-direction:
+            column;
 
-font-size:11px;
+        align-items:
+            stretch;
 
-}
+    }
 
 
-th,
-td{
+    .title {
 
-padding:7px;
+        font-size:
+            18px;
 
-}
+    }
+
+
+    .form-grid {
+
+        grid-template-columns:
+            repeat(
+                2,
+                minmax(
+                    0,
+                    1fr
+                )
+            );
+
+    }
+
+
+    .total-box {
+
+        text-align:
+            left;
+
+    }
 
 }
 
 
 /* ==========================================
-   EXTRA SMALL
+   SMALL MOBILE
 ========================================== */
 
-@media(max-width:480px){
+@media(
+    max-width: 520px
+){
 
-table{
+    .form-grid {
 
-min-width:1600px;
+        grid-template-columns:
+            1fr;
 
-font-size:10px;
-
-}
+    }
 
 
-th,
-td{
+    .form-section {
 
-padding:6px;
+        padding:
+            12px;
 
-}
+    }
+
+
+    .header {
+
+        padding:
+            12px;
+
+    }
+
+
+    .title {
+
+        font-size:
+            16px;
+
+    }
 
 }
 
 
 /* ==========================================
    PRINT
+   TABLE ONLY
 ========================================== */
 
-@media print{
-
-body{
-
-background:white;
-
-padding:0;
-
-}
+@media print {
 
 
-.btn{
+    /* ======================================
+       HIDE EVERYTHING
+    ====================================== */
 
-display:none !important;
+    body * {
 
-}
+        visibility:
+            hidden !important;
 
-
-.container{
-
-border:none;
-
-background:white;
-
-}
+    }
 
 
-table{
+    /* ======================================
+       SHOW TABLE ONLY
+    ====================================== */
 
-min-width:100%;
+    .table-wrapper,
+    .table-wrapper * {
 
-}
+        visibility:
+            visible !important;
+
+    }
+
+
+    /* ======================================
+       TABLE AT TOP OF PAGE
+    ====================================== */
+
+    .table-wrapper {
+
+        position:
+            absolute !important;
+
+        left:
+            0 !important;
+
+        top:
+            0 !important;
+
+        width:
+            100% !important;
+
+        height:
+            auto !important;
+
+        margin:
+            0 !important;
+
+        padding:
+            0 !important;
+
+        overflow:
+            visible !important;
+
+        background:
+            #ffffff !important;
+
+        border:
+            none !important;
+
+    }
+
+
+    /* ======================================
+       TABLE
+    ====================================== */
+
+    table {
+
+        width:
+            100% !important;
+
+        min-width:
+            0 !important;
+
+        border-collapse:
+            collapse !important;
+
+        margin:
+            0 !important;
+
+        font-size:
+            7px !important;
+
+    }
+
+
+    /* ======================================
+       TABLE CELLS
+    ====================================== */
+
+    th,
+    td {
+
+        border:
+            1px solid #000000 !important;
+
+        padding:
+            3px !important;
+
+        color:
+            #000000 !important;
+
+        background:
+            #ffffff !important;
+
+        white-space:
+            normal !important;
+
+        text-align:
+            center !important;
+
+    }
+
+
+    /* ======================================
+       HEADER
+    ====================================== */
+
+    th {
+
+        font-weight:
+            800 !important;
+
+        background:
+            #eeeeee !important;
+
+    }
+
+
+    /* ======================================
+       HIDE ACTION COLUMN
+    ====================================== */
+
+    th:last-child,
+    td:last-child {
+
+        display:
+            none !important;
+
+    }
+
+
+    /* ======================================
+       PREVENT ROW SPLITTING
+    ====================================== */
+
+    tr {
+
+        page-break-inside:
+            avoid !important;
+
+        break-inside:
+            avoid !important;
+
+    }
+
+
+    /* ======================================
+       LANDSCAPE PRINT
+    ====================================== */
+
+    @page {
+
+        size:
+            landscape;
+
+        margin:
+            8mm;
+
+    }
 
 }
