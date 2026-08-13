@@ -1,6 +1,7 @@
 /* ==========================================
    PAPPRITO HRIS
-   TRACK LEAVES JS
+   TRACK LEAVES
+   EXISTING employeeRequests SYSTEM
 ========================================== */
 
 import {
@@ -22,12 +23,15 @@ import {
    GLOBAL
 ========================================== */
 
-let leaveRecords = [];
+let requests = [];
 
 
 /* ==========================================
    ELEMENTS
 ========================================== */
+
+const leaveBody =
+    document.getElementById("leaveBody");
 
 const employeeFilter =
     document.getElementById("employeeFilter");
@@ -44,9 +48,6 @@ const fromDate =
 const toDate =
     document.getElementById("toDate");
 
-const leaveBody =
-    document.getElementById("leaveBody");
-
 const totalLeaves =
     document.getElementById("totalLeaves");
 
@@ -59,15 +60,6 @@ const approvedLeaves =
 const rejectedLeaves =
     document.getElementById("rejectedLeaves");
 
-const leaveModal =
-    document.getElementById("leaveModal");
-
-const leaveDetails =
-    document.getElementById("leaveDetails");
-
-const closeModal =
-    document.getElementById("closeModal");
-
 const filterBtn =
     document.getElementById("filterBtn");
 
@@ -76,6 +68,15 @@ const resetBtn =
 
 const refreshBtn =
     document.getElementById("refreshBtn");
+
+const leaveModal =
+    document.getElementById("leaveModal");
+
+const leaveDetails =
+    document.getElementById("leaveDetails");
+
+const closeModal =
+    document.getElementById("closeModal");
 
 
 /* ==========================================
@@ -92,12 +93,12 @@ window.goToDashboard = function(){
 
 
 /* ==========================================
-   AUTH CHECK
+   AUTH PROTECTION
 ========================================== */
 
 onAuthStateChanged(
     auth,
-    function(user){
+    async function(user){
 
         if(!user){
 
@@ -110,440 +111,17 @@ onAuthStateChanged(
         }
 
 
-        loadLeaveRecords();
+        await loadRequests();
 
     }
 );
 
 
 /* ==========================================
-   GET VALUE
+   LOAD EXISTING REQUESTS
 ========================================== */
 
-function getValue(
-    record,
-    fields,
-    fallback = ""
-){
-
-    for(
-        const field of fields
-    ){
-
-        if(
-            record[field] !== undefined &&
-            record[field] !== null &&
-            record[field] !== ""
-        ){
-
-            return record[field];
-
-        }
-
-    }
-
-    return fallback;
-
-}
-
-
-/* ==========================================
-   EMPLOYEE NAME
-========================================== */
-
-function getEmployeeName(record){
-
-    const directName =
-
-        getValue(
-            record,
-            [
-                "employee",
-                "employeeName",
-                "name",
-                "fullname",
-                "fullName"
-            ]
-        );
-
-
-    if(directName){
-
-        return directName;
-
-    }
-
-
-    const first =
-
-        getValue(
-            record,
-            [
-                "firstname",
-                "firstName"
-            ]
-        );
-
-
-    const middle =
-
-        getValue(
-            record,
-            [
-                "middlename",
-                "middleName"
-            ]
-        );
-
-
-    const last =
-
-        getValue(
-            record,
-            [
-                "lastname",
-                "lastName"
-            ]
-        );
-
-
-    return [
-
-        first,
-        middle,
-        last
-
-    ]
-
-    .filter(Boolean)
-
-    .join(" ")
-
-    .replace(/\s+/g," ")
-
-    .trim();
-
-}
-
-
-/* ==========================================
-   EMPLOYEE ID
-========================================== */
-
-function getEmployeeId(record){
-
-    return getValue(
-        record,
-        [
-            "employeeid",
-            "employeeId",
-            "empid",
-            "empId",
-            "idNumber"
-        ],
-        "-"
-    );
-
-}
-
-
-/* ==========================================
-   LEAVE TYPE
-========================================== */
-
-function getLeaveType(record){
-
-    return getValue(
-        record,
-        [
-            "leaveType",
-            "leavetype",
-            "type",
-            "leave"
-        ],
-        "-"
-    );
-
-}
-
-
-/* ==========================================
-   STATUS
-========================================== */
-
-function getStatus(record){
-
-    const value =
-
-        getValue(
-            record,
-            [
-                "status",
-                "leaveStatus",
-                "approvalStatus"
-            ],
-            "Pending"
-        );
-
-
-    const normalized =
-
-        String(value)
-        .trim()
-        .toLowerCase();
-
-
-    if(
-        normalized === "approved" ||
-        normalized === "approve"
-    ){
-
-        return "Approved";
-
-    }
-
-
-    if(
-        normalized === "rejected" ||
-        normalized === "reject" ||
-        normalized === "declined"
-    ){
-
-        return "Rejected";
-
-    }
-
-
-    return "Pending";
-
-}
-
-
-/* ==========================================
-   DATE VALUE
-========================================== */
-
-function getDateValue(
-    record,
-    fields
-){
-
-    return getValue(
-        record,
-        fields,
-        ""
-    );
-
-}
-
-
-/* ==========================================
-   DATE NORMALIZER
-========================================== */
-
-function normalizeDate(value){
-
-    if(!value){
-
-        return "";
-
-    }
-
-
-    if(
-        typeof value === "object" &&
-        typeof value.toDate === "function"
-    ){
-
-        return value.toDate();
-
-    }
-
-
-    if(
-        value instanceof Date
-    ){
-
-        return value;
-
-    }
-
-
-    const date =
-        new Date(value);
-
-
-    if(
-        !isNaN(date.getTime())
-    ){
-
-        return date;
-
-    }
-
-
-    return "";
-
-}
-
-
-/* ==========================================
-   FORMAT DATE
-========================================== */
-
-function formatDate(value){
-
-    const date =
-        normalizeDate(value);
-
-
-    if(!date){
-
-        return value || "-";
-
-    }
-
-
-    return date.toLocaleDateString(
-        "en-US",
-        {
-            year:"numeric",
-            month:"short",
-            day:"2-digit"
-        }
-    );
-
-}
-
-
-/* ==========================================
-   DATE FOR FILTER
-========================================== */
-
-function dateForFilter(value){
-
-    const date =
-        normalizeDate(value);
-
-
-    if(!date){
-
-        return "";
-
-    }
-
-
-    const year =
-        date.getFullYear();
-
-
-    const month =
-        String(
-            date.getMonth() + 1
-        ).padStart(2,"0");
-
-
-    const day =
-        String(
-            date.getDate()
-        ).padStart(2,"0");
-
-
-    return `${year}-${month}-${day}`;
-
-}
-
-
-/* ==========================================
-   DAYS
-========================================== */
-
-function getDays(record){
-
-    const value =
-
-        getValue(
-            record,
-            [
-                "days",
-                "leaveDays",
-                "totalDays",
-                "numberOfDays"
-            ]
-        );
-
-
-    if(value !== ""){
-
-        return value;
-
-    }
-
-
-    const start =
-
-        normalizeDate(
-            getDateValue(
-                record,
-                [
-                    "fromDate",
-                    "startDate",
-                    "dateFrom",
-                    "leaveFrom"
-                ]
-            )
-        );
-
-
-    const end =
-
-        normalizeDate(
-            getDateValue(
-                record,
-                [
-                    "toDate",
-                    "endDate",
-                    "dateTo",
-                    "leaveTo"
-                ]
-            )
-        );
-
-
-    if(!start || !end){
-
-        return "-";
-
-    }
-
-
-    const difference =
-
-        Math.round(
-            (
-                end - start
-            )
-            /
-            (
-                1000 *
-                60 *
-                60 *
-                24
-            )
-        )
-        + 1;
-
-
-    return difference;
-
-}
-
-
-/* ==========================================
-   LOAD RECORDS
-========================================== */
-
-async function loadLeaveRecords(){
+async function loadRequests(){
 
     showLoading();
 
@@ -551,22 +129,21 @@ async function loadLeaveRecords(){
     try{
 
         const snapshot =
-
             await getDocs(
                 collection(
                     db,
-                    "leaveRequests"
+                    "employeeRequests"
                 )
             );
 
 
-        leaveRecords = [];
+        requests = [];
 
 
         snapshot.forEach(
-            function(docSnap){
+            docSnap => {
 
-                leaveRecords.push({
+                requests.push({
 
                     id:
                         docSnap.id,
@@ -582,11 +159,11 @@ async function loadLeaveRecords(){
         populateEmployeeFilter();
 
         updateSummary(
-            leaveRecords
+            requests
         );
 
-        renderLeaves(
-            leaveRecords
+        renderRequests(
+            requests
         );
 
 
@@ -596,18 +173,6 @@ async function loadLeaveRecords(){
             "Track Leaves Error:",
             error
         );
-
-
-        /*
-           If the collection does not exist
-           or permission is denied, show a
-           clear message instead of fake data.
-        */
-
-        leaveRecords = [];
-
-
-        updateSummary([]);
 
 
         leaveBody.innerHTML = `
@@ -632,9 +197,9 @@ async function loadLeaveRecords(){
 
                     <small>
 
-                        Check the Firebase
-                        leaveRequests collection
-                        and Firestore rules.
+                        ${escapeHtml(
+                            error.message
+                        )}
 
                     </small>
 
@@ -650,12 +215,12 @@ async function loadLeaveRecords(){
 
 
 /* ==========================================
-   POPULATE EMPLOYEES
+   EMPLOYEE FILTER
 ========================================== */
 
 function populateEmployeeFilter(){
 
-    const currentValue =
+    const current =
         employeeFilter.value;
 
 
@@ -671,20 +236,30 @@ function populateEmployeeFilter(){
 
 
     const employees =
+        new Map();
 
-        new Set();
 
+    requests.forEach(
+        request => {
 
-    leaveRecords.forEach(
-        function(record){
+            const empid =
+                request.empid || "";
+
 
             const name =
-                getEmployeeName(record);
+                request.employeeName ||
+                request.name ||
+                request.fullName ||
+                empid ||
+                "Unknown Employee";
 
 
-            if(name){
+            if(empid || name){
 
-                employees.add(name);
+                employees.set(
+                    empid || name,
+                    name
+                );
 
             }
 
@@ -692,51 +267,172 @@ function populateEmployeeFilter(){
     );
 
 
-    Array.from(employees)
-        .sort()
-        .forEach(
-            function(name){
+    Array.from(
+        employees.entries()
+    )
+    .sort(
+        (a,b) =>
+            String(a[1])
+            .localeCompare(
+                String(b[1])
+            )
+    )
+    .forEach(
+        ([value,name]) => {
 
-                const option =
-                    document.createElement(
-                        "option"
-                    );
-
-
-                option.value =
-                    name;
-
-
-                option.textContent =
-                    name;
-
-
-                employeeFilter.appendChild(
-                    option
+            const option =
+                document.createElement(
+                    "option"
                 );
 
-            }
-        );
+
+            option.value =
+                value;
 
 
-    if(
-        Array.from(employees)
-        .includes(currentValue)
-    ){
+            option.textContent =
+                name;
 
-        employeeFilter.value =
-            currentValue;
 
-    }
+            employeeFilter.appendChild(
+                option
+            );
+
+        }
+    );
+
+
+    employeeFilter.value =
+        current;
 
 }
 
 
 /* ==========================================
-   UPDATE SUMMARY
+   NORMALIZE STATUS
 ========================================== */
 
-function updateSummary(records){
+function getStatus(request){
+
+    const status =
+        String(
+            request.status ||
+            "PENDING"
+        )
+        .trim()
+        .toUpperCase();
+
+
+    if(status === "APPROVED"){
+
+        return "Approved";
+
+    }
+
+
+    if(status === "REJECTED"){
+
+        return "Rejected";
+
+    }
+
+
+    return "Pending";
+
+}
+
+
+/* ==========================================
+   REQUEST TYPE
+========================================== */
+
+function getLeaveType(request){
+
+    return (
+        request.type ||
+        request.leaveType ||
+        "REQUEST"
+    );
+
+}
+
+
+/* ==========================================
+   REQUEST DATE
+========================================== */
+
+function getRequestDate(request){
+
+    return (
+        request.date ||
+        request.requestDate ||
+        request.dateFiled ||
+        ""
+    );
+
+}
+
+
+/* ==========================================
+   DAYS
+========================================== */
+
+function getDays(request){
+
+    if(
+        request.days !== undefined &&
+        request.days !== null &&
+        request.days !== ""
+    ){
+
+        return request.days;
+
+    }
+
+
+    return "-";
+
+}
+
+
+/* ==========================================
+   REASON
+========================================== */
+
+function getReason(request){
+
+    return (
+        request.reason ||
+        request.remarks ||
+        request.description ||
+        "-"
+    );
+
+}
+
+
+/* ==========================================
+   EMPLOYEE NAME
+========================================== */
+
+function getEmployeeName(request){
+
+    return (
+        request.employeeName ||
+        request.name ||
+        request.fullName ||
+        request.empid ||
+        "Unknown Employee"
+    );
+
+}
+
+
+/* ==========================================
+   SUMMARY
+========================================== */
+
+function updateSummary(data){
 
     let pending = 0;
 
@@ -745,16 +441,14 @@ function updateSummary(records){
     let rejected = 0;
 
 
-    records.forEach(
-        function(record){
+    data.forEach(
+        request => {
 
             const status =
-                getStatus(record);
+                getStatus(request);
 
 
-            if(
-                status === "Pending"
-            ){
+            if(status === "Pending"){
 
                 pending++;
 
@@ -783,7 +477,7 @@ function updateSummary(records){
 
 
     totalLeaves.textContent =
-        records.length;
+        data.length;
 
 
     pendingLeaves.textContent =
@@ -801,17 +495,15 @@ function updateSummary(records){
 
 
 /* ==========================================
-   RENDER
+   RENDER REQUESTS
 ========================================== */
 
-function renderLeaves(records){
+function renderRequests(data){
 
     leaveBody.innerHTML = "";
 
 
-    if(
-        records.length === 0
-    ){
+    if(data.length === 0){
 
         leaveBody.innerHTML = `
 
@@ -844,8 +536,8 @@ function renderLeaves(records){
     }
 
 
-    records.forEach(
-        function(record){
+    data.forEach(
+        request => {
 
             const row =
                 document.createElement(
@@ -853,82 +545,57 @@ function renderLeaves(records){
                 );
 
 
-            const dateFiled =
-
-                getDateValue(
-                    record,
-                    [
-                        "dateFiled",
-                        "filedDate",
-                        "createdAt",
-                        "date"
-                    ]
-                );
+            const status =
+                getStatus(request);
 
 
-            const fromDateValue =
-
-                getDateValue(
-                    record,
-                    [
-                        "fromDate",
-                        "startDate",
-                        "dateFrom",
-                        "leaveFrom"
-                    ]
-                );
+            const type =
+                getLeaveType(request);
 
 
-            const toDateValue =
-
-                getDateValue(
-                    record,
-                    [
-                        "toDate",
-                        "endDate",
-                        "dateTo",
-                        "leaveTo"
-                    ]
-                );
-
-
-            const employeeId =
-                getEmployeeId(record);
-
-
-            const employeeName =
-                getEmployeeName(record);
-
-
-            const leaveType =
-                getLeaveType(record);
+            const date =
+                getRequestDate(request);
 
 
             const days =
-                getDays(record);
+                getDays(request);
 
 
             const reason =
-
-                getValue(
-                    record,
-                    [
-                        "reason",
-                        "remarks",
-                        "description",
-                        "leaveReason"
-                    ],
-                    "-"
-                );
+                getReason(request);
 
 
-            const status =
-                getStatus(record);
+            const employeeName =
+                getEmployeeName(request);
 
 
-            const statusClass =
+            const employeeId =
+                request.empid ||
+                "-";
 
-                status.toLowerCase();
+
+            /*
+               The existing request system
+               stores the request date in
+               request.date.
+
+               If there are no separate
+               FROM/TO fields, we display
+               the request date.
+            */
+
+            const from =
+                request.fromDate ||
+                request.startDate ||
+                date ||
+                "-";
+
+
+            const to =
+                request.toDate ||
+                request.endDate ||
+                date ||
+                "-";
 
 
             row.innerHTML = `
@@ -936,9 +603,7 @@ function renderLeaves(records){
                 <td>
 
                     ${escapeHtml(
-                        formatDate(
-                            dateFiled
-                        )
+                        formatDate(date)
                     )}
 
                 </td>
@@ -956,7 +621,7 @@ function renderLeaves(records){
                 <td>
 
                     ${escapeHtml(
-                        employeeName || "-"
+                        employeeName
                     )}
 
                 </td>
@@ -965,7 +630,7 @@ function renderLeaves(records){
                 <td>
 
                     ${escapeHtml(
-                        leaveType
+                        type
                     )}
 
                 </td>
@@ -974,9 +639,7 @@ function renderLeaves(records){
                 <td>
 
                     ${escapeHtml(
-                        formatDate(
-                            fromDateValue
-                        )
+                        formatDate(from)
                     )}
 
                 </td>
@@ -985,9 +648,7 @@ function renderLeaves(records){
                 <td>
 
                     ${escapeHtml(
-                        formatDate(
-                            toDateValue
-                        )
+                        formatDate(to)
                     )}
 
                 </td>
@@ -1014,7 +675,7 @@ function renderLeaves(records){
                 <td>
 
                     <span
-                    class="status ${statusClass}">
+                    class="status ${status.toLowerCase()}">
 
                         ${status}
 
@@ -1026,8 +687,7 @@ function renderLeaves(records){
                 <td>
 
                     <button
-                    class="view-btn"
-                    data-id="${record.id}">
+                    class="view-btn">
 
                         VIEW
 
@@ -1038,18 +698,18 @@ function renderLeaves(records){
             `;
 
 
-            const viewButton =
+            const viewBtn =
                 row.querySelector(
                     ".view-btn"
                 );
 
 
-            viewButton.addEventListener(
+            viewBtn.addEventListener(
                 "click",
-                function(){
+                () => {
 
                     showDetails(
-                        record
+                        request
                     );
 
                 }
@@ -1070,101 +730,90 @@ function renderLeaves(records){
    FILTER
 ========================================== */
 
-function filterLeaves(){
+function applyFilters(){
 
-    const selectedEmployee =
+    const employee =
         employeeFilter.value;
 
 
-    const selectedType =
+    const type =
         leaveTypeFilter.value;
 
 
-    const selectedStatus =
+    const status =
         statusFilter.value;
 
 
-    const selectedFrom =
+    const from =
         fromDate.value;
 
 
-    const selectedTo =
+    const to =
         toDate.value;
 
 
     const filtered =
+        requests.filter(
+            request => {
 
-        leaveRecords.filter(
-            function(record){
+                const employeeId =
+                    request.empid || "";
 
-                const employee =
+
+                const employeeName =
                     getEmployeeName(
-                        record
+                        request
                     );
 
 
-                const type =
+                const requestType =
                     getLeaveType(
-                        record
+                        request
                     );
 
 
-                const status =
+                const requestStatus =
                     getStatus(
-                        record
+                        request
                     );
 
 
-                const startDate =
-
-                    dateForFilter(
-                        getDateValue(
-                            record,
-                            [
-                                "fromDate",
-                                "startDate",
-                                "dateFrom",
-                                "leaveFrom",
-                                "dateFiled",
-                                "date"
-                            ]
-                        )
+                const requestDate =
+                    getRequestDate(
+                        request
                     );
 
 
                 const employeeMatch =
 
-                    selectedEmployee === "" ||
-                    employee ===
-                    selectedEmployee;
+                    employee === "" ||
+
+                    employeeId === employee ||
+
+                    employeeName === employee;
 
 
                 const typeMatch =
 
-                    selectedType === "" ||
-                    type ===
-                    selectedType;
+                    type === "" ||
+
+                    requestType === type;
 
 
                 const statusMatch =
 
-                    selectedStatus === "" ||
-                    status ===
-                    selectedStatus;
+                    status === "" ||
+
+                    requestStatus === status;
 
 
-                const fromMatch =
+                const dateMatch =
 
-                    selectedFrom === "" ||
-                    startDate >=
-                    selectedFrom;
-
-
-                const toMatch =
-
-                    selectedTo === "" ||
-                    startDate <=
-                    selectedTo;
+                    isDateInRange(
+                        requestDate,
+                        from,
+                        to
+                    );
 
 
                 return (
@@ -1175,9 +824,7 @@ function filterLeaves(){
 
                     statusMatch &&
 
-                    fromMatch &&
-
-                    toMatch
+                    dateMatch
 
                 );
 
@@ -1190,9 +837,81 @@ function filterLeaves(){
     );
 
 
-    renderLeaves(
+    renderRequests(
         filtered
     );
+
+}
+
+
+/* ==========================================
+   DATE FILTER
+========================================== */
+
+function isDateInRange(
+    value,
+    from,
+    to
+){
+
+    if(
+        !from &&
+        !to
+    ){
+
+        return true;
+
+    }
+
+
+    if(!value){
+
+        return false;
+
+    }
+
+
+    const date =
+        new Date(value);
+
+
+    if(
+        isNaN(
+            date.getTime()
+        )
+    ){
+
+        return false;
+
+    }
+
+
+    const current =
+        date.toISOString()
+        .split("T")[0];
+
+
+    if(
+        from &&
+        current < from
+    ){
+
+        return false;
+
+    }
+
+
+    if(
+        to &&
+        current > to
+    ){
+
+        return false;
+
+    }
+
+
+    return true;
 
 }
 
@@ -1220,12 +939,12 @@ function resetFilters(){
 
 
     updateSummary(
-        leaveRecords
+        requests
     );
 
 
-    renderLeaves(
-        leaveRecords
+    renderRequests(
+        requests
     );
 
 }
@@ -1235,76 +954,49 @@ function resetFilters(){
    DETAILS
 ========================================== */
 
-function showDetails(record){
+function showDetails(request){
+
+    const status =
+        getStatus(request);
+
 
     const employee =
-        getEmployeeName(record);
+        getEmployeeName(request);
 
 
     const employeeId =
-        getEmployeeId(record);
+        request.empid ||
+        "-";
 
 
-    const leaveType =
-        getLeaveType(record);
+    const type =
+        getLeaveType(request);
 
 
-    const status =
-        getStatus(record);
-
-
-    const from =
-        getDateValue(
-            record,
-            [
-                "fromDate",
-                "startDate",
-                "dateFrom",
-                "leaveFrom"
-            ]
-        );
-
-
-    const to =
-        getDateValue(
-            record,
-            [
-                "toDate",
-                "endDate",
-                "dateTo",
-                "leaveTo"
-            ]
-        );
-
-
-    const dateFiled =
-        getDateValue(
-            record,
-            [
-                "dateFiled",
-                "filedDate",
-                "createdAt",
-                "date"
-            ]
-        );
+    const date =
+        getRequestDate(request);
 
 
     const days =
-        getDays(record);
+        getDays(request);
 
 
     const reason =
+        getReason(request);
 
-        getValue(
-            record,
-            [
-                "reason",
-                "remarks",
-                "description",
-                "leaveReason"
-            ],
-            "-"
-        );
+
+    const from =
+        request.fromDate ||
+        request.startDate ||
+        date ||
+        "-";
+
+
+    const to =
+        request.toDate ||
+        request.endDate ||
+        date ||
+        "-";
 
 
     leaveDetails.innerHTML = `
@@ -1339,7 +1031,7 @@ function showDetails(record){
             <div class="detail-value">
 
                 ${escapeHtml(
-                    employee || "-"
+                    employee
                 )}
 
             </div>
@@ -1351,14 +1043,14 @@ function showDetails(record){
 
             <div class="detail-label">
 
-                Leave Type
+                Request Type
 
             </div>
 
             <div class="detail-value">
 
                 ${escapeHtml(
-                    leaveType
+                    type
                 )}
 
             </div>
@@ -1370,16 +1062,14 @@ function showDetails(record){
 
             <div class="detail-label">
 
-                Date Filed
+                Date
 
             </div>
 
             <div class="detail-value">
 
                 ${escapeHtml(
-                    formatDate(
-                        dateFiled
-                    )
+                    formatDate(date)
                 )}
 
             </div>
@@ -1398,9 +1088,7 @@ function showDetails(record){
             <div class="detail-value">
 
                 ${escapeHtml(
-                    formatDate(
-                        from
-                    )
+                    formatDate(from)
                 )}
 
             </div>
@@ -1419,9 +1107,7 @@ function showDetails(record){
             <div class="detail-value">
 
                 ${escapeHtml(
-                    formatDate(
-                        to
-                    )
+                    formatDate(to)
                 )}
 
             </div>
@@ -1502,10 +1188,50 @@ function showDetails(record){
    CLOSE MODAL
 ========================================== */
 
-function closeLeaveModal(){
+function closeDetails(){
 
     leaveModal.classList.remove(
         "show"
+    );
+
+}
+
+
+/* ==========================================
+   FORMAT DATE
+========================================== */
+
+function formatDate(value){
+
+    if(!value){
+
+        return "-";
+
+    }
+
+
+    const date =
+        new Date(value);
+
+
+    if(
+        isNaN(
+            date.getTime()
+        )
+    ){
+
+        return String(value);
+
+    }
+
+
+    return date.toLocaleDateString(
+        "en-US",
+        {
+            year:"numeric",
+            month:"short",
+            day:"2-digit"
+        }
     );
 
 }
@@ -1517,12 +1243,34 @@ function closeLeaveModal(){
 
 function escapeHtml(value){
 
-    return String(value ?? "")
-        .replace(/&/g,"&amp;")
-        .replace(/</g,"&lt;")
-        .replace(/>/g,"&gt;")
-        .replace(/"/g,"&quot;")
-        .replace(/'/g,"&#039;");
+    return String(
+        value ?? ""
+    )
+
+    .replace(
+        /&/g,
+        "&amp;"
+    )
+
+    .replace(
+        /</g,
+        "&lt;"
+    )
+
+    .replace(
+        />/g,
+        "&gt;"
+    )
+
+    .replace(
+        /"/g,
+        "&quot;"
+    )
+
+    .replace(
+        /'/g,
+        "&#039;"
+    );
 
 }
 
@@ -1549,7 +1297,7 @@ function showLoading(){
 
                 <p>
 
-                    Loading leave requests...
+                    Loading requests...
 
                 </p>
 
@@ -1570,7 +1318,7 @@ if(filterBtn){
 
     filterBtn.addEventListener(
         "click",
-        filterLeaves
+        applyFilters
     );
 
 }
@@ -1590,7 +1338,7 @@ if(refreshBtn){
 
     refreshBtn.addEventListener(
         "click",
-        loadLeaveRecords
+        loadRequests
     );
 
 }
@@ -1600,7 +1348,7 @@ if(closeModal){
 
     closeModal.addEventListener(
         "click",
-        closeLeaveModal
+        closeDetails
     );
 
 }
@@ -1610,14 +1358,14 @@ if(leaveModal){
 
     leaveModal.addEventListener(
         "click",
-        function(event){
+        event => {
 
             if(
                 event.target ===
                 leaveModal
             ){
 
-                closeLeaveModal();
+                closeDetails();
 
             }
 
@@ -1629,23 +1377,19 @@ if(leaveModal){
 
 document.addEventListener(
     "keydown",
-    function(event){
+    event => {
 
         if(
             event.key === "Escape"
         ){
 
-            closeLeaveModal();
+            closeDetails();
 
         }
 
     }
 );
 
-
-/* ==========================================
-   INITIAL LOAD
-========================================== */
 
 console.log(
     "PAPPRITO HRIS Track Leaves Ready"
