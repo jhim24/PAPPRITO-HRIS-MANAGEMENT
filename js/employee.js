@@ -1,31 +1,52 @@
 /* ==========================================
    PAPPRITO HRIS
    EMPLOYEE MASTERLIST JS
-   + EMPLOYEE PORTAL ACCOUNT
+   EMPLOYEE PORTAL ACCOUNT VERSION
 ========================================== */
+
 
 import {
     db,
     auth
 } from "./firebase.js";
 
+
 import {
+
+    initializeApp,
+    getApps,
+    getApp
+
+}
+from
+"https://www.gstatic.com/firebasejs/12.13.0/firebase-app.js";
+
+
+import {
+
+    getAuth,
+    createUserWithEmailAndPassword
+
+}
+from
+"https://www.gstatic.com/firebasejs/12.13.0/firebase-auth.js";
+
+
+import {
+
     collection,
     addDoc,
     getDocs,
     deleteDoc,
     doc,
-    updateDoc
-} from "https://www.gstatic.com/firebasejs/12.13.0/firebase-firestore.js";
+    updateDoc,
+    query,
+    where,
+    getDoc
 
-import {
-    initializeApp
-} from "https://www.gstatic.com/firebasejs/12.13.0/firebase-app.js";
-
-import {
-    getAuth,
-    createUserWithEmailAndPassword
-} from "https://www.gstatic.com/firebasejs/12.13.0/firebase-auth.js";
+}
+from
+"https://www.gstatic.com/firebasejs/12.13.0/firebase-firestore.js";
 
 
 /* ==========================================
@@ -48,20 +69,24 @@ const employeeModal =
         "employeeModal"
     );
 
+
 const birthdate =
     document.getElementById(
         "birthdate"
     );
+
 
 const age =
     document.getElementById(
         "age"
     );
 
+
 const search =
     document.getElementById(
         "search"
     );
+
 
 const total =
     document.getElementById(
@@ -70,15 +95,199 @@ const total =
 
 
 /* ==========================================
+   EMPLOYEE PORTAL ELEMENTS
+========================================== */
+
+const portalEnabled =
+    document.getElementById(
+        "portalEnabled"
+    );
+
+
+const portalPassword =
+    document.getElementById(
+        "portalPassword"
+    );
+
+
+/* ==========================================
+   SECONDARY FIREBASE APP
+========================================== */
+
+/*
+   IMPORTANT:
+
+   We cannot create an employee Firebase
+   Auth account using the main auth object
+   because doing so would log the ADMIN out.
+
+   Therefore we create a SECOND Firebase App
+   only for employee account creation.
+*/
+
+
+let secondaryApp = null;
+
+let secondaryAuth = null;
+
+
+function initializeSecondaryAuth(){
+
+    try{
+
+        const existingApps =
+            getApps();
+
+
+        const existingSecondary =
+            existingApps.find(
+                app =>
+
+                app.name ===
+                "PAPPRITO_EMPLOYEE_AUTH"
+            );
+
+
+        if(
+            existingSecondary
+        ){
+
+            secondaryApp =
+                existingSecondary;
+
+        }else{
+
+            /*
+             * Get the Firebase configuration
+             * from the existing main app.
+             */
+
+            const mainApp =
+                getApp();
+
+
+            const config =
+                mainApp.options;
+
+
+            secondaryApp =
+                initializeApp(
+                    config,
+                    "PAPPRITO_EMPLOYEE_AUTH"
+                );
+
+        }
+
+
+        secondaryAuth =
+            getAuth(
+                secondaryApp
+            );
+
+
+        return true;
+
+
+    }catch(error){
+
+        console.error(
+            "Secondary Auth Error:",
+            error
+        );
+
+
+        return false;
+
+    }
+
+}
+
+
+/* ==========================================
+   CREATE INTERNAL AUTH EMAIL
+========================================== */
+
+/*
+   Employees login using Employee ID.
+
+   Firebase Authentication requires an email.
+
+   Therefore we create an internal email:
+
+   EMP001
+   ↓
+   emp001@papprito-hr.local
+
+   The employee will NOT need to know
+   this internal email.
+*/
+
+
+function createAuthEmail(
+    employeeId
+){
+
+    return (
+
+        String(
+            employeeId || ""
+        )
+        .trim()
+        .toLowerCase()
+
+        +
+
+        "@papprito-hr.local"
+
+    );
+
+}
+
+
+/* ==========================================
    OPEN MODAL
 ========================================== */
 
-window.openModal = function(){
+window.openModal =
+function(){
 
-    if(employeeModal){
+    if(
+        employeeModal
+    ){
 
         employeeModal.style.display =
             "flex";
+
+    }
+
+
+    /*
+     * New employee mode
+     */
+
+    editId =
+        null;
+
+
+    if(
+        portalEnabled
+    ){
+
+        portalEnabled.checked =
+            false;
+
+    }
+
+
+    if(
+        portalPassword
+    ){
+
+        portalPassword.value =
+            "";
+
+        portalPassword.placeholder =
+            "Temporary Password";
 
     }
 
@@ -89,14 +298,18 @@ window.openModal = function(){
    CLOSE MODAL
 ========================================== */
 
-window.closeModal = function(){
+window.closeModal =
+function(){
 
-    if(employeeModal){
+    if(
+        employeeModal
+    ){
 
         employeeModal.style.display =
             "none";
 
     }
+
 
     clearForm();
 
@@ -107,7 +320,8 @@ window.closeModal = function(){
    OPEN TAB
 ========================================== */
 
-window.openTab = function(
+window.openTab =
+function(
     evt,
     tabId
 ){
@@ -116,13 +330,15 @@ window.openTab = function(
         .querySelectorAll(
             ".tab-content"
         )
-        .forEach(tab=>{
+        .forEach(
+            tab => {
 
-            tab.classList.remove(
-                "active"
-            );
+                tab.classList.remove(
+                    "active"
+                );
 
-        });
+            }
+        );
 
 
     const selectedTab =
@@ -131,7 +347,9 @@ window.openTab = function(
         );
 
 
-    if(selectedTab){
+    if(
+        selectedTab
+    ){
 
         selectedTab.classList.add(
             "active"
@@ -144,13 +362,15 @@ window.openTab = function(
         .querySelectorAll(
             ".tab-btn"
         )
-        .forEach(btn=>{
+        .forEach(
+            btn => {
 
-            btn.classList.remove(
-                "active"
-            );
+                btn.classList.remove(
+                    "active"
+                );
 
-        });
+            }
+        );
 
 
     if(
@@ -171,7 +391,8 @@ window.openTab = function(
    CALCULATE AGE
 ========================================== */
 
-window.calcAge = function(){
+window.calcAge =
+function(){
 
     if(
         !birthdate ||
@@ -207,15 +428,21 @@ window.calcAge = function(){
 
 
     if(
+
         monthDifference < 0
+
         ||
+
         (
             monthDifference === 0
+
             &&
+
             today.getDate()
             <
             birth.getDate()
         )
+
     ){
 
         years--;
@@ -230,167 +457,10 @@ window.calcAge = function(){
 
 
 /* ==========================================
-   CREATE PORTAL EMAIL
+   GET FORM DATA
 ========================================== */
 
-function createPortalEmail(
-    employeeId
-){
-
-    return String(
-        employeeId || ""
-    )
-    .trim()
-    .toLowerCase()
-    .replace(
-        /[^a-z0-9]/g,
-        ""
-    )
-    +
-    "@papprito-hris.local";
-
-}
-
-
-/* ==========================================
-   CREATE EMPLOYEE PORTAL ACCOUNT
-========================================== */
-
-async function createPortalAccount(
-    employeeData
-){
-
-    const employeeId =
-        String(
-            employeeData.employeeid || ""
-        )
-        .trim()
-        .toUpperCase();
-
-
-    const password =
-        String(
-            employeeData.portalPassword || ""
-        );
-
-
-    if(
-        !employeeId
-    ){
-
-        throw new Error(
-            "Employee ID is required before creating a portal account."
-        );
-
-    }
-
-
-    if(
-        !password
-    ){
-
-        throw new Error(
-            "Please enter a temporary password."
-        );
-
-    }
-
-
-    if(
-        password.length < 6
-    ){
-
-        throw new Error(
-            "Temporary password must be at least 6 characters."
-        );
-
-    }
-
-
-    /* ======================================
-       SECONDARY FIREBASE APP
-       This prevents Admin logout.
-    ====================================== */
-
-    let secondaryApp;
-
-
-    try{
-
-        secondaryApp =
-            initializeApp(
-                auth.app.options,
-                "EmployeePortalCreator"
-            );
-
-    }catch(error){
-
-        /*
-         * App may already exist.
-         * Reuse existing app.
-         */
-
-        secondaryApp =
-            initializeApp(
-                auth.app.options,
-                "EmployeePortalCreator_" +
-                Date.now()
-            );
-
-    }
-
-
-    const secondaryAuth =
-        getAuth(
-            secondaryApp
-        );
-
-
-    /* ======================================
-       INTERNAL AUTH EMAIL
-    ====================================== */
-
-    const portalEmail =
-        createPortalEmail(
-            employeeId
-        );
-
-
-    /* ======================================
-       CREATE FIREBASE AUTH USER
-    ====================================== */
-
-    const credential =
-        await createUserWithEmailAndPassword(
-
-            secondaryAuth,
-
-            portalEmail,
-
-            password
-
-        );
-
-
-    return {
-
-        uid:
-            credential.user.uid,
-
-        email:
-            portalEmail
-
-    };
-
-}
-
-
-/* ==========================================
-   SAVE EMPLOYEE
-========================================== */
-
-window.saveEmployee =
-async function(){
+function getEmployeeFormData(){
 
     const fields =
         document.querySelectorAll(
@@ -401,32 +471,18 @@ async function(){
     const data = [];
 
 
-    fields.forEach(field=>{
+    fields.forEach(
+        field => {
 
-        data.push(
-            field.value
-        );
+            data.push(
+                field.value
+            );
 
-    });
-
-
-    const portalEnabledElement =
-        document.getElementById(
-            "portalEnabled"
-        );
+        }
+    );
 
 
-    const portalPasswordElement =
-        document.getElementById(
-            "portalPassword"
-        );
-
-
-    /*
-     * Existing employee field order
-     */
-
-    const employeeData = {
+    return {
 
         firstname:
             data[0] || "",
@@ -488,14 +544,8 @@ async function(){
 
         employeeid:
             (data[18] || "")
-                .toUpperCase()
-                .trim(),
-
-
-        username:
-            (data[18] || "")
-                .toUpperCase()
-                .trim(),
+            .toUpperCase()
+            .trim(),
 
 
         position:
@@ -525,66 +575,332 @@ async function(){
 
     };
 
-
-    const portalEnabled =
-        portalEnabledElement
-            ?
-            portalEnabledElement.checked
-            :
-            false;
+}
 
 
-    const portalPassword =
-        portalPasswordElement
-            ?
-            portalPasswordElement.value
-            :
-            "";
+/* ==========================================
+   CHECK DUPLICATE EMPLOYEE ID
+========================================== */
+
+async function employeeIdExists(
+    employeeId,
+    ignoreId = null
+){
+
+    const snapshot =
+        await getDocs(
+            collection(
+                db,
+                "employees"
+            )
+        );
+
+
+    let exists =
+        false;
+
+
+    snapshot.forEach(
+        docSnap => {
+
+            if(
+                ignoreId &&
+                docSnap.id ===
+                ignoreId
+            ){
+
+                return;
+
+            }
+
+
+            const emp =
+                docSnap.data();
+
+
+            const existingId =
+                String(
+                    emp.employeeid || ""
+                )
+                .trim()
+                .toUpperCase();
+
+
+            if(
+                existingId ===
+                employeeId
+            ){
+
+                exists =
+                    true;
+
+            }
+
+        }
+    );
+
+
+    return exists;
+
+}
+
+
+/* ==========================================
+   CREATE EMPLOYEE AUTH ACCOUNT
+========================================== */
+
+async function createEmployeePortalAccount(
+    employeeId,
+    password
+){
+
+    if(
+        !employeeId
+    ){
+
+        throw new Error(
+            "Employee ID is required."
+        );
+
+    }
+
+
+    if(
+        !password
+    ){
+
+        throw new Error(
+            "Employee portal password is required."
+        );
+
+    }
+
+
+    if(
+        password.length < 6
+    ){
+
+        throw new Error(
+            "Employee portal password must contain at least 6 characters."
+        );
+
+    }
+
+
+    const initialized =
+        initializeSecondaryAuth();
+
+
+    if(
+        !initialized ||
+        !secondaryAuth
+    ){
+
+        throw new Error(
+            "Unable to initialize Employee Portal Authentication."
+        );
+
+    }
+
+
+    const authEmail =
+        createAuthEmail(
+            employeeId
+        );
+
+
+    try{
+
+        const result =
+            await createUserWithEmailAndPassword(
+
+                secondaryAuth,
+
+                authEmail,
+
+                password
+
+            );
+
+
+        return {
+
+            uid:
+                result.user.uid,
+
+            email:
+                authEmail
+
+        };
+
+
+    }catch(error){
+
+        console.error(
+            "Employee Auth Creation Error:",
+            error
+        );
+
+
+        if(
+            error.code ===
+            "auth/email-already-in-use"
+        ){
+
+            throw new Error(
+                "Employee Portal account already exists for this Employee ID."
+            );
+
+        }
+
+
+        if(
+            error.code ===
+            "auth/weak-password"
+        ){
+
+            throw new Error(
+                "Password is too weak. Use at least 6 characters."
+            );
+
+        }
+
+
+        throw error;
+
+    }
+
+}
+
+
+/* ==========================================
+   SAVE EMPLOYEE
+========================================== */
+
+window.saveEmployee =
+async function(){
+
+    const employeeData =
+        getEmployeeFormData();
+
+
+    /* ======================================
+       VALIDATION
+    ====================================== */
+
+    if(
+        !employeeData.firstname
+    ){
+
+        alert(
+            "Please enter First Name."
+        );
+
+        return;
+
+    }
+
+
+    if(
+        !employeeData.lastname
+    ){
+
+        alert(
+            "Please enter Last Name."
+        );
+
+        return;
+
+    }
+
+
+    if(
+        !employeeData.employeeid
+    ){
+
+        alert(
+            "Please enter Employee ID."
+        );
+
+        return;
+
+    }
+
+
+    /* ======================================
+       PORTAL SETTINGS
+    ====================================== */
+
+    const enablePortal =
+        portalEnabled
+        ?
+        portalEnabled.checked
+        :
+        false;
+
+
+    const password =
+        portalPassword
+        ?
+        portalPassword.value
+        :
+        "";
+
+
+    /*
+     * New employee + portal enabled
+     */
+
+    if(
+        !editId &&
+        enablePortal &&
+        !password
+    ){
+
+        alert(
+            "Please enter a temporary password for the Employee Portal."
+        );
+
+        return;
+
+    }
+
+
+    if(
+        !editId &&
+        enablePortal &&
+        password.length < 6
+    ){
+
+        alert(
+            "Employee Portal password must contain at least 6 characters."
+        );
+
+        return;
+
+    }
 
 
     try{
 
         /* ==================================
-           UPDATE EXISTING EMPLOYEE
+           DUPLICATE EMPLOYEE ID
         ================================== */
 
-        if(editId){
-
-            const updateData = {
-
-                ...employeeData,
-
-                portalEnabled:
-                    portalEnabled
-
-            };
-
-
-            /*
-             * Do NOT store password.
-             */
-
-            await updateDoc(
-
-                doc(
-                    db,
-                    "employees",
-                    editId
-                ),
-
-                updateData
-
+        const duplicate =
+            await employeeIdExists(
+                employeeData.employeeid,
+                editId
             );
 
+
+        if(
+            duplicate
+        ){
 
             alert(
-                "Employee Updated"
+                "Employee ID already exists."
             );
-
-
-            closeModal();
-
-            loadEmployees();
 
             return;
 
@@ -595,40 +911,122 @@ async function(){
            NEW EMPLOYEE
         ================================== */
 
-        let portalData = {
+        if(
+            !editId
+        ){
 
-            portalEnabled:
-                false,
+            let portalAccount =
+                null;
 
-            portalAccountCreated:
-                false,
 
-            portalUid:
-                "",
+            /*
+             * Create Firebase Auth account
+             * BEFORE saving Firestore employee.
+             */
 
-            portalEmail:
-                "",
+            if(
+                enablePortal
+            ){
 
-            portalUsername:
-                employeeData.employeeid
+                portalAccount =
+                    await createEmployeePortalAccount(
 
-        };
+                        employeeData.employeeid,
+
+                        password
+
+                    );
+
+            }
+
+
+            /* ==============================
+               SAVE EMPLOYEE
+            ============================== */
+
+            const finalData = {
+
+                ...employeeData,
+
+                portalEnabled:
+                    enablePortal,
+
+                portalEmail:
+                    portalAccount
+                    ?
+                    portalAccount.email
+                    :
+                    "",
+
+                portalUid:
+                    portalAccount
+                    ?
+                    portalAccount.uid
+                    :
+                    ""
+
+            };
+
+
+            await addDoc(
+
+                collection(
+                    db,
+                    "employees"
+                ),
+
+                finalData
+
+            );
+
+
+            alert(
+
+                enablePortal
+
+                ?
+
+                "Employee Saved Successfully.\n\nEmployee Portal account has been created."
+
+                :
+
+                "Employee Saved Successfully."
+
+            );
+
+        }
 
 
         /* ==================================
-           CREATE PORTAL ACCOUNT
+           EDIT EMPLOYEE
         ================================== */
 
-        if(
-            portalEnabled
-        ){
+        else{
+
+            /*
+             * Get existing employee
+             */
+
+            const employeeRef =
+                doc(
+                    db,
+                    "employees",
+                    editId
+                );
+
+
+            const employeeSnap =
+                await getDoc(
+                    employeeRef
+                );
+
 
             if(
-                !portalPassword
+                !employeeSnap.exists()
             ){
 
                 alert(
-                    "Please enter a Temporary Password for the Employee Portal."
+                    "Employee record not found."
                 );
 
                 return;
@@ -636,110 +1034,125 @@ async function(){
             }
 
 
+            const existingEmployee =
+                employeeSnap.data();
+
+
+            let portalUid =
+                existingEmployee.portalUid
+                ||
+                "";
+
+
+            let portalEmail =
+                existingEmployee.portalEmail
+                ||
+                "";
+
+
+            /*
+             * If portal was previously disabled
+             * and admin enables it now,
+             * create the Auth account.
+             */
+
             if(
-                portalPassword.length < 6
+
+                enablePortal
+
+                &&
+
+                !existingEmployee.portalEnabled
+
             ){
 
-                alert(
-                    "Temporary Password must be at least 6 characters."
-                );
+                if(
+                    !password
+                ){
 
-                return;
+                    alert(
+                        "Please enter a temporary password to create the Employee Portal account."
+                    );
+
+                    return;
+
+                }
+
+
+                if(
+                    password.length < 6
+                ){
+
+                    alert(
+                        "Employee Portal password must contain at least 6 characters."
+                    );
+
+                    return;
+
+                }
+
+
+                const portalAccount =
+                    await createEmployeePortalAccount(
+
+                        employeeData.employeeid,
+
+                        password
+
+                    );
+
+
+                portalUid =
+                    portalAccount.uid;
+
+
+                portalEmail =
+                    portalAccount.email;
 
             }
 
 
             /*
-             * Firebase Authentication account
+             * Save updated employee data
              */
 
-            const account =
-                await createPortalAccount({
+            await updateDoc(
 
-                    employeeid:
-                        employeeData.employeeid,
+                employeeRef,
 
-                    portalPassword:
-                        portalPassword
+                {
 
-                });
+                    ...employeeData,
+
+                    portalEnabled:
+                        enablePortal,
+
+                    portalUid:
+                        portalUid,
+
+                    portalEmail:
+                        portalEmail
+
+                }
+
+            );
 
 
-            portalData = {
-
-                portalEnabled:
-                    true,
-
-                portalAccountCreated:
-                    true,
-
-                portalUid:
-                    account.uid,
-
-                portalEmail:
-                    account.email,
-
-                portalUsername:
-                    employeeData.employeeid
-
-            };
+            alert(
+                "Employee Updated Successfully."
+            );
 
         }
 
 
         /* ==================================
-           SAVE EMPLOYEE TO FIRESTORE
+           CLOSE + RELOAD
         ================================== */
-
-        await addDoc(
-
-            collection(
-                db,
-                "employees"
-            ),
-
-            {
-
-                ...employeeData,
-
-                ...portalData
-
-            }
-
-        );
-
-
-        /* ==================================
-           SUCCESS MESSAGE
-        ================================== */
-
-        if(
-            portalEnabled
-        ){
-
-            alert(
-
-                "Employee Saved Successfully.\n\n" +
-
-                "Employee Portal Account Created.\n\n" +
-
-                "LOGIN ID: " +
-                employeeData.employeeid
-
-            );
-
-        }else{
-
-            alert(
-                "Employee Saved"
-            );
-
-        }
-
 
         closeModal();
 
-        loadEmployees();
+
+        await loadEmployees();
 
 
     }catch(error){
@@ -750,67 +1163,13 @@ async function(){
         );
 
 
-        /* ==================================
-           DUPLICATE AUTH ACCOUNT
-        ================================== */
-
-        if(
-            error.code ===
-            "auth/email-already-in-use"
-        ){
-
-            alert(
-
-                "Employee Portal account already exists for this Employee ID."
-
-            );
-
-            return;
-
-        }
-
-
-        /* ==================================
-           INVALID EMAIL
-        ================================== */
-
-        if(
-            error.code ===
-            "auth/invalid-email"
-        ){
-
-            alert(
-                "Invalid Employee Portal account."
-            );
-
-            return;
-
-        }
-
-
-        /* ==================================
-           WEAK PASSWORD
-        ================================== */
-
-        if(
-            error.code ===
-            "auth/weak-password"
-        ){
-
-            alert(
-                "Password must be at least 6 characters."
-            );
-
-            return;
-
-        }
-
-
         alert(
 
             error.message
+
             ||
-            "Save Error"
+
+            "Save Employee Error."
 
         );
 
@@ -836,24 +1195,29 @@ async function loadEmployees(){
             );
 
 
-        if(table){
+        if(
+            table
+        ){
 
-            table.innerHTML = "";
+            table.innerHTML =
+                "";
 
         }
 
 
         const snapshot =
             await getDocs(
+
                 collection(
                     db,
                     "employees"
                 )
+
             );
 
 
         snapshot.forEach(
-            docSnap=>{
+            docSnap => {
 
                 employees.push({
 
@@ -900,19 +1264,26 @@ function renderTable(){
         );
 
 
-    if(!table){
+    if(
+        !table
+    ){
 
         return;
 
     }
 
 
-    table.innerHTML = "";
+    table.innerHTML =
+        "";
 
 
     employees.forEach(
-        (emp)=>{
+        emp => {
 
+
+            /* ==============================
+               ACTIVE FILTER
+            ============================== */
 
             if(
                 currentStatusFilter ===
@@ -931,6 +1302,10 @@ function renderTable(){
             }
 
 
+            /* ==============================
+               INACTIVE FILTER
+            ============================== */
+
             if(
                 currentStatusFilter ===
                 "INACTIVE"
@@ -947,6 +1322,10 @@ function renderTable(){
 
             }
 
+
+            /* ==============================
+               STATUS CLASS
+            ============================== */
 
             const statusClass =
 
@@ -980,198 +1359,343 @@ function renderTable(){
                 "status-other";
 
 
+            /* ==============================
+               PORTAL STATUS
+            ============================== */
+
             const portalStatus =
 
-                emp.portalAccountCreated ===
-                true
+                emp.portalEnabled
 
                 ?
 
-                "ACTIVE"
+                `<span style="
+                    color:#008000;
+                    font-weight:bold;
+                ">
+                    ENABLED
+                </span>`
 
                 :
 
-                "NOT CREATED";
+                `<span style="
+                    color:#999;
+                    font-weight:bold;
+                ">
+                    DISABLED
+                </span>`;
 
+
+            /* ==============================
+               TABLE ROW
+            ============================== */
 
             table.innerHTML += `
 
-                <tr>
-
-                    <td>
-
-                        <button
-                        class="print-btn"
-                        onclick="viewQR(
-                            '${emp.employeeid || ""}',
-                            '${emp.firstname || ""} ${emp.lastname || ""}'
-                        )">
-
-                            VIEW QR
-
-                        </button>
-
-                    </td>
+<tr>
 
 
-                    <td>
-                        ${emp.firstname || ""}
-                    </td>
+<td>
 
-                    <td>
-                        ${emp.middlename || ""}
-                    </td>
+<button
+class="print-btn"
+onclick="
+viewQR(
+'${escapeHTML(
+    emp.employeeid || ""
+)}',
+'${escapeHTML(
+    `${emp.firstname || ""} ${emp.lastname || ""}`
+)}'
+)">
 
-                    <td>
-                        ${emp.lastname || ""}
-                    </td>
+VIEW QR
 
-                    <td>
-                        ${emp.birthdate || ""}
-                    </td>
+</button>
 
-                    <td>
-                        ${emp.age || ""}
-                    </td>
-
-                    <td>
-                        ${emp.gender || ""}
-                    </td>
+</td>
 
 
-                    <td>
-                        ${emp.sss || ""}
-                    </td>
+<td>
 
-                    <td>
-                        ${emp.philhealth || ""}
-                    </td>
+${escapeHTML(
+    emp.firstname || ""
+)}
 
-                    <td>
-                        ${emp.pagibig || ""}
-                    </td>
-
-                    <td>
-                        ${emp.healthcard || ""}
-                    </td>
+</td>
 
 
-                    <td>
-                        ${emp.bankname || ""}
-                    </td>
+<td>
 
-                    <td>
-                        ${emp.bankaccount || ""}
-                    </td>
+${escapeHTML(
+    emp.middlename || ""
+)}
 
-
-                    <td>
-                        ${emp.idtype || ""}
-                    </td>
-
-                    <td>
-                        ${emp.idnumber || ""}
-                    </td>
+</td>
 
 
-                    <td>
-                        ${emp.mobile || ""}
-                    </td>
+<td>
 
-                    <td>
-                        ${emp.email || ""}
-                    </td>
+${escapeHTML(
+    emp.lastname || ""
+)}
 
-                    <td>
-                        ${emp.currentaddress || ""}
-                    </td>
-
-                    <td>
-                        ${emp.permanentaddress || ""}
-                    </td>
+</td>
 
 
-                    <td>
-                        ${emp.employeeid || ""}
-                    </td>
+<td>
 
-                    <td>
-                        ${emp.position || ""}
-                    </td>
+${escapeHTML(
+    emp.birthdate || ""
+)}
 
-                    <td>
-                        ${emp.department || ""}
-                    </td>
-
-                    <td>
-                        ${emp.employment || ""}
-                    </td>
+</td>
 
 
-                    <td class="${statusClass}">
+<td>
 
-                        ${emp.status || "Active"}
+${escapeHTML(
+    emp.age || ""
+)}
 
-                    </td>
-
-
-                    <td>
-                        ${emp.salary || ""}
-                    </td>
+</td>
 
 
-                    <td>
-                        ${emp.vacationleave || 0}
-                    </td>
+<td>
 
-                    <td>
-                        ${emp.sickleave || 0}
-                    </td>
+${escapeHTML(
+    emp.gender || ""
+)}
 
-                    <td>
-                        ${emp.birthdayleave || 0}
-                    </td>
+</td>
 
 
-                    <td>
+<td>
 
-                        <div>
+${escapeHTML(
+    emp.sss || ""
+)}
 
-                            <strong>
-                                Portal:
-                            </strong>
-
-                            ${portalStatus}
-
-                        </div>
+</td>
 
 
-                        <button
-                        class="btn"
-                        onclick="editEmployee(
-                            '${emp.id}'
-                        )">
+<td>
 
-                            Edit
+${escapeHTML(
+    emp.philhealth || ""
+)}
 
-                        </button>
+</td>
 
 
-                        <button
-                        class="btn"
-                        onclick="deleteEmployee(
-                            '${emp.id}'
-                        )">
+<td>
 
-                            Delete
+${escapeHTML(
+    emp.pagibig || ""
+)}
 
-                        </button>
+</td>
 
-                    </td>
 
-                </tr>
+<td>
 
-            `;
+${escapeHTML(
+    emp.healthcard || ""
+)}
+
+</td>
+
+
+<td>
+
+${escapeHTML(
+    emp.bankname || ""
+)}
+
+</td>
+
+
+<td>
+
+${escapeHTML(
+    emp.bankaccount || ""
+)}
+
+</td>
+
+
+<td>
+
+${escapeHTML(
+    emp.idtype || ""
+)}
+
+</td>
+
+
+<td>
+
+${escapeHTML(
+    emp.idnumber || ""
+)}
+
+</td>
+
+
+<td>
+
+${escapeHTML(
+    emp.mobile || ""
+)}
+
+</td>
+
+
+<td>
+
+${escapeHTML(
+    emp.email || ""
+)}
+
+</td>
+
+
+<td>
+
+${escapeHTML(
+    emp.currentaddress || ""
+)}
+
+</td>
+
+
+<td>
+
+${escapeHTML(
+    emp.permanentaddress || ""
+)}
+
+</td>
+
+
+<td>
+
+<strong>
+
+${escapeHTML(
+    emp.employeeid || ""
+)}
+
+</strong>
+
+</td>
+
+
+<td>
+
+${escapeHTML(
+    emp.position || ""
+)}
+
+</td>
+
+
+<td>
+
+${escapeHTML(
+    emp.department || ""
+)}
+
+</td>
+
+
+<td>
+
+${escapeHTML(
+    emp.employment || ""
+)}
+
+</td>
+
+
+<td
+class="${statusClass}">
+
+${escapeHTML(
+    emp.status || "Active"
+)}
+
+</td>
+
+
+<td>
+
+${escapeHTML(
+    emp.salary || ""
+)}
+
+</td>
+
+
+<td>
+
+${emp.vacationleave || 0}
+
+</td>
+
+
+<td>
+
+${emp.sickleave || 0}
+
+</td>
+
+
+<td>
+
+${emp.birthdayleave || 0}
+
+</td>
+
+
+<td>
+
+${portalStatus}
+
+
+<br><br>
+
+
+<button
+class="btn"
+onclick="
+editEmployee(
+'${escapeHTML(emp.id)}'
+)">
+
+Edit
+
+</button>
+
+
+<button
+class="btn"
+onclick="
+deleteEmployee(
+'${escapeHTML(emp.id)}'
+)">
+
+Delete
+
+</button>
+
+
+</td>
+
+
+</tr>
+
+`;
 
         }
     );
@@ -1183,11 +1707,53 @@ function renderTable(){
 
 
 /* ==========================================
+   HTML ESCAPE
+========================================== */
+
+function escapeHTML(
+value
+){
+
+    return String(
+        value ?? ""
+    )
+
+    .replace(
+        /&/g,
+        "&amp;"
+    )
+
+    .replace(
+        /</g,
+        "&lt;"
+    )
+
+    .replace(
+        />/g,
+        "&gt;"
+    )
+
+    .replace(
+        /"/g,
+        "&quot;"
+    )
+
+    .replace(
+        /'/g,
+        "&#039;"
+    );
+
+}
+
+
+/* ==========================================
    FILTER
 ========================================== */
 
 window.filterStatus =
-function(status){
+function(
+    status
+){
 
     currentStatusFilter =
         status;
@@ -1216,7 +1782,9 @@ function(
         );
 
 
-    if(!qrWindow){
+    if(
+        !qrWindow
+    ){
 
         alert(
             "Please allow pop-ups to view the QR code."
@@ -1229,146 +1797,184 @@ function(
 
     qrWindow.document.write(`
 
-        <html>
+<html>
 
-        <head>
+<head>
 
-            <title>
-                Employee QR
-            </title>
+<title>
 
-            <style>
+Employee QR
 
-                body{
+</title>
 
-                    font-family:
-                        Tahoma,sans-serif;
 
-                    text-align:center;
+<style>
 
-                    padding:20px;
+body{
 
-                    background:white;
+    font-family:
+        Tahoma,
+        sans-serif;
 
-                }
+    text-align:center;
 
-                h2{
+    padding:20px;
 
-                    color:#cc0000;
+    background:white;
 
-                }
+}
 
-                #qrcode{
 
-                    margin-top:20px;
+h2{
 
-                }
+    color:#cc0000;
 
-                button{
+}
 
-                    margin-top:20px;
 
-                    padding:10px 20px;
+#qrcode{
 
-                    border:none;
+    margin-top:20px;
 
-                    background:#ffcc00;
+}
 
-                    font-weight:bold;
 
-                    cursor:pointer;
+button{
 
-                    border-radius:8px;
+    margin-top:20px;
 
-                }
+    padding:10px 20px;
 
-            </style>
+    border:none;
 
-        </head>
+    background:#ffcc00;
 
-        <body>
+    font-weight:bold;
 
-            <h2>
-                PAPPRITO
-            </h2>
+    cursor:pointer;
 
-            <h3>
-                Employee QR Code
-            </h3>
+    border-radius:8px;
 
-            <p>
-                <b>ID:</b>
-                ${employeeid}
-            </p>
+}
 
-            <p>
-                <b>Name:</b>
-                ${name}
-            </p>
+</style>
 
-            <div id="qrcode"></div>
+</head>
 
-            <br>
 
-            <button
-            onclick="window.print()">
+<body>
 
-                PRINT QR
 
-            </button>
+<h2>
 
-            <script src="https://cdn.jsdelivr.net/npm/qrcode/build/qrcode.min.js"><\/script>
+PAPPRITO
 
-            <script>
+</h2>
 
-                QRCode.toCanvas(
 
-                    document.createElement('canvas'),
+<h3>
 
-                    JSON.stringify({
+Employee QR Code
 
-                        employeeid:
-                            '${employeeid}',
+</h3>
 
-                        name:
-                            '${name}'
 
-                    }),
+<p>
 
-                    {
+<b>ID:</b>
 
-                        width:220
+${escapeHTML(employeeid)}
 
-                    },
+</p>
 
-                    function(
-                        error,
-                        canvas
-                    ){
 
-                        if(!error){
+<p>
 
-                            document
-                                .getElementById(
-                                    'qrcode'
-                                )
-                                .appendChild(
-                                    canvas
-                                );
+<b>Name:</b>
 
-                        }
+${escapeHTML(name)}
 
-                    }
+</p>
 
+
+<div id="qrcode">
+
+</div>
+
+
+<br>
+
+
+<button
+onclick="window.print()">
+
+PRINT QR
+
+</button>
+
+
+<script src="
+https://cdn.jsdelivr.net/npm/qrcode/build/qrcode.min.js
+"><\/script>
+
+
+<script>
+
+QRCode.toCanvas(
+
+    document.createElement(
+        'canvas'
+    ),
+
+    JSON.stringify({
+
+        employeeid:
+            '${String(employeeid)
+                .replace(/'/g,"\\'")}',
+
+        name:
+            '${String(name)
+                .replace(/'/g,"\\'")}'
+
+    }),
+
+    {
+
+        width:220
+
+    },
+
+    function(
+        error,
+        canvas
+    ){
+
+        if(
+            !error
+        ){
+
+            document
+                .getElementById(
+                    'qrcode'
+                )
+                .appendChild(
+                    canvas
                 );
 
-            <\/script>
+        }
 
-        </body>
+    }
 
-        </html>
+);
 
-    `);
+<\/script>
+
+
+</body>
+
+</html>
+
+`);
 
 
     qrWindow.document.close();
@@ -1381,16 +1987,21 @@ function(
 ========================================== */
 
 window.editEmployee =
-function(id){
+async function(
+    id
+){
 
     const emp =
         employees.find(
             e =>
-                e.id === id
+                e.id ===
+                id
         );
 
 
-    if(!emp){
+    if(
+        !emp
+    ){
 
         return;
 
@@ -1466,7 +2077,10 @@ function(id){
             ".emp-field"
         )
         .forEach(
-            (field,i)=>{
+            (
+                field,
+                i
+            ) => {
 
                 field.value =
                     values[i] || "";
@@ -1475,43 +2089,35 @@ function(id){
         );
 
 
-    /* ======================================
-       PORTAL STATUS
-    ====================================== */
+    /*
+     * Restore portal settings
+     */
 
-    const portalEnabled =
-        document.getElementById(
-            "portalEnabled"
-        );
-
-
-    const portalPassword =
-        document.getElementById(
-            "portalPassword"
-        );
-
-
-    if(portalEnabled){
+    if(
+        portalEnabled
+    ){
 
         portalEnabled.checked =
-            emp.portalEnabled ===
-            true;
+            emp.portalEnabled === true;
 
     }
 
 
-    if(portalPassword){
+    if(
+        portalPassword
+    ){
 
         portalPassword.value =
             "";
 
+
         portalPassword.placeholder =
-            emp.portalAccountCreated ===
-            true
+
+            emp.portalEnabled
 
             ?
 
-            "Portal account already created"
+            "Password already exists - leave blank"
 
             :
 
@@ -1527,7 +2133,9 @@ function(id){
 ========================================== */
 
 window.deleteEmployee =
-async function(id){
+async function(
+    id
+){
 
     if(
         !confirm(
@@ -1553,7 +2161,7 @@ async function(id){
         );
 
 
-        loadEmployees();
+        await loadEmployees();
 
 
     }catch(error){
@@ -1581,7 +2189,9 @@ window.searchEmp =
 function(){
 
     const val =
+
         search
+
         ?
 
         search.value
@@ -1598,33 +2208,44 @@ function(){
         );
 
 
-    let visible = 0;
+    let visible =
+        0;
 
 
-    rows.forEach(row=>{
+    rows.forEach(
+        row => {
 
-        const show =
-            row.innerText
-                .toLowerCase()
-                .includes(val);
-
-
-        row.style.display =
-            show
-                ? ""
-                : "none";
+            const show =
+                row.innerText
+                    .toLowerCase()
+                    .includes(
+                        val
+                    );
 
 
-        if(show){
+            row.style.display =
+                show
+                ?
+                ""
+                :
+                "none";
 
-            visible++;
+
+            if(
+                show
+            ){
+
+                visible++;
+
+            }
 
         }
+    );
 
-    });
 
-
-    if(total){
+    if(
+        total
+    ){
 
         total.innerText =
             "Showing : " +
@@ -1649,26 +2270,19 @@ function clearForm(){
         .querySelectorAll(
             ".emp-field"
         )
-        .forEach(el=>{
+        .forEach(
+            el => {
 
-            el.value = "";
+                el.value =
+                    "";
 
-        });
-
-
-    const portalEnabled =
-        document.getElementById(
-            "portalEnabled"
+            }
         );
 
 
-    const portalPassword =
-        document.getElementById(
-            "portalPassword"
-        );
-
-
-    if(portalEnabled){
+    if(
+        portalEnabled
+    ){
 
         portalEnabled.checked =
             false;
@@ -1676,7 +2290,9 @@ function clearForm(){
     }
 
 
-    if(portalPassword){
+    if(
+        portalPassword
+    ){
 
         portalPassword.value =
             "";
@@ -1687,17 +2303,23 @@ function clearForm(){
     }
 
 
+    /*
+     * Return to Personal Info
+     */
+
     document
         .querySelectorAll(
             ".tab-content"
         )
-        .forEach(tab=>{
+        .forEach(
+            tab => {
 
-            tab.classList.remove(
-                "active"
-            );
+                tab.classList.remove(
+                    "active"
+                );
 
-        });
+            }
+        );
 
 
     const personal =
@@ -1706,7 +2328,9 @@ function clearForm(){
         );
 
 
-    if(personal){
+    if(
+        personal
+    ){
 
         personal.classList.add(
             "active"
@@ -1720,7 +2344,10 @@ function clearForm(){
             ".tab-btn"
         )
         .forEach(
-            (btn,index)=>{
+            (
+                btn,
+                index
+            ) => {
 
                 btn.classList.toggle(
                     "active",
@@ -1747,7 +2374,9 @@ function updateTotal(){
         );
 
 
-    if(total){
+    if(
+        total
+    ){
 
         total.innerText =
             "Total : " +
