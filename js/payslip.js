@@ -329,26 +329,15 @@ function field(
    HEADER ACTION
 ========================================== */
 
-window.headerAction =
-function(){
+/* ==========================================
+   BACK TO DASHBOARD
+========================================== */
 
-    if(
-        userRole === "admin" ||
-        userRole === "hr" ||
-        userRole === "administrator"
-    ){
+window.headerAction = function(){
 
-        window.location.href =
-            "dashboard.html";
-
-        return;
-    }
-
-
-    logout();
+    window.location.href = "../dashboard.html";
 
 };
-
 
 /* ==========================================
    INITIALIZE
