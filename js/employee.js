@@ -3,7 +3,22 @@
    EMPLOYEE MASTERLIST JS
 ========================================== */
 
+
+/* ==========================================
+   FIREBASE
+========================================== */
+
 import { db } from "./firebase.js";
+
+import {
+    getApp,
+    initializeApp
+} from "https://www.gstatic.com/firebasejs/12.13.0/firebase-app.js";
+
+import {
+    getAuth,
+    createUserWithEmailAndPassword
+} from "https://www.gstatic.com/firebasejs/12.13.0/firebase-auth.js";
 
 import {
     collection,
@@ -24,6 +39,65 @@ let employees = [];
 let editId = null;
 
 let currentStatusFilter = "ALL";
+
+
+/* ==========================================
+   PORTAL AUTH
+========================================== */
+
+let portalAuth = null;
+
+
+/* ==========================================
+   GET PORTAL AUTH
+========================================== */
+
+function getPortalAuth(){
+
+    if(portalAuth){
+
+        return portalAuth;
+
+    }
+
+
+    const defaultApp =
+        getApp();
+
+
+    let portalApp;
+
+
+    try{
+
+        portalApp =
+            getApp(
+                "PAPPRITO-PORTAL-AUTH"
+            );
+
+    }catch(error){
+
+        portalApp =
+            initializeApp(
+
+                defaultApp.options,
+
+                "PAPPRITO-PORTAL-AUTH"
+
+            );
+
+    }
+
+
+    portalAuth =
+        getAuth(
+            portalApp
+        );
+
+
+    return portalAuth;
+
+}
 
 
 /* ==========================================
@@ -66,6 +140,52 @@ window.openModal = function(){
 
         employeeModal.style.display =
             "flex";
+
+    }
+
+
+    /*
+     * New employee
+     * should start with
+     * a clean portal account.
+     */
+
+    const portalUsername =
+        document.getElementById(
+            "portalUsername"
+        );
+
+    const portalPassword =
+        document.getElementById(
+            "portalPassword"
+        );
+
+    const portalEnabled =
+        document.getElementById(
+            "portalEnabled"
+        );
+
+
+    if(portalUsername){
+
+        portalUsername.value =
+            "";
+
+    }
+
+
+    if(portalPassword){
+
+        portalPassword.value =
+            "";
+
+    }
+
+
+    if(portalEnabled){
+
+        portalEnabled.checked =
+            false;
 
     }
 
@@ -217,6 +337,97 @@ window.calcAge = function(){
 
 
 /* ==========================================
+   GENERATE PORTAL PASSWORD
+========================================== */
+
+window.generatePortalPassword =
+function(){
+
+    const passwordInput =
+        document.getElementById(
+            "portalPassword"
+        );
+
+
+    if(!passwordInput){
+
+        return;
+
+    }
+
+
+    const chars =
+        "ABCDEFGHJKLMNPQRSTUVWXYZ" +
+        "abcdefghijkmnopqrstuvwxyz" +
+        "23456789";
+
+
+    let password =
+        "";
+
+
+    for(
+        let i = 0;
+        i < 10;
+        i++
+    ){
+
+        password +=
+            chars[
+                Math.floor(
+                    Math.random()
+                    *
+                    chars.length
+                )
+            ];
+
+    }
+
+
+    passwordInput.value =
+        password;
+
+};
+
+
+/* ==========================================
+   AUTO PORTAL USERNAME
+========================================== */
+
+const employeeIdInput =
+    document.getElementById(
+        "employeeId"
+    );
+
+
+if(employeeIdInput){
+
+    employeeIdInput.addEventListener(
+        "input",
+        function(){
+
+            const portalUsername =
+                document.getElementById(
+                    "portalUsername"
+                );
+
+
+            if(portalUsername){
+
+                portalUsername.value =
+                    this.value
+                        .toUpperCase()
+                        .trim();
+
+            }
+
+        }
+    );
+
+}
+
+
+/* ==========================================
    SAVE EMPLOYEE
 ========================================== */
 
@@ -240,6 +451,101 @@ async function(){
 
     });
 
+
+    /* ======================================
+       EMPLOYEE ID
+    ====================================== */
+
+    const employeeId =
+        (data[18] || "")
+            .toUpperCase()
+            .trim();
+
+
+    /* ======================================
+       PORTAL ACCOUNT
+    ====================================== */
+
+    const portalUsernameInput =
+        document.getElementById(
+            "portalUsername"
+        );
+
+
+    const portalPasswordInput =
+        document.getElementById(
+            "portalPassword"
+        );
+
+
+    const portalEnabledInput =
+        document.getElementById(
+            "portalEnabled"
+        );
+
+
+    const portalUsername =
+        (
+            portalUsernameInput
+                ? portalUsernameInput.value
+                : employeeId
+        )
+        .toUpperCase()
+        .trim();
+
+
+    const portalPassword =
+        portalPasswordInput
+            ? portalPasswordInput.value.trim()
+            : "";
+
+
+    const portalEnabled =
+        portalEnabledInput
+            ? portalEnabledInput.checked
+            : false;
+
+
+    /* ======================================
+       VALIDATE EMPLOYEE ID
+    ====================================== */
+
+    if(!employeeId){
+
+        alert(
+            "Please enter Employee ID."
+        );
+
+        return;
+
+    }
+
+
+    /* ======================================
+       VALIDATE NEW PORTAL ACCOUNT
+    ====================================== */
+
+    if(
+        !editId &&
+        portalEnabled &&
+        !portalPassword
+    ){
+
+        alert(
+
+            "Please generate a Temporary Password " +
+            "before creating the Employee Portal account."
+
+        );
+
+        return;
+
+    }
+
+
+    /* ======================================
+       EMPLOYEE DATA
+    ====================================== */
 
     const employeeData = {
 
@@ -302,15 +608,11 @@ async function(){
 
 
         employeeid:
-            (data[18] || "")
-                .toUpperCase()
-                .trim(),
+            employeeId,
 
 
         username:
-            (data[18] || "")
-                .toUpperCase()
-                .trim(),
+            employeeId,
 
 
         position:
@@ -336,14 +638,42 @@ async function(){
             7,
 
         birthdayleave:
-            1
+            1,
+
+
+        /* ==================================
+           PORTAL
+        ================================== */
+
+        portalEnabled:
+            portalEnabled,
+
+        portalUsername:
+            portalUsername
 
     };
 
 
     try{
 
+        /* ==================================
+           UPDATE EXISTING EMPLOYEE
+        ================================== */
+
         if(editId){
+
+            const updateData = {
+
+                ...employeeData
+
+            };
+
+
+            /*
+             * Don't overwrite existing
+             * portal account information
+             * when no new password is supplied.
+             */
 
             await updateDoc(
 
@@ -353,7 +683,7 @@ async function(){
                     editId
                 ),
 
-                employeeData
+                updateData
 
             );
 
@@ -362,38 +692,168 @@ async function(){
                 "Employee Updated"
             );
 
+
         }else{
 
-            await addDoc(
 
-                collection(
-                    db,
-                    "employees"
-                ),
+            /* ==============================
+               CREATE EMPLOYEE
+            ============================== */
 
-                employeeData
+            const employeeRef =
+                await addDoc(
 
-            );
+                    collection(
+                        db,
+                        "employees"
+                    ),
+
+                    employeeData
+
+                );
 
 
-            alert(
-                "Employee Saved"
-            );
+            /* ==============================
+               CREATE PORTAL ACCOUNT
+            ============================== */
+
+            if(
+                portalEnabled &&
+                portalPassword
+            ){
+
+                try{
+
+                    const auth =
+                        getPortalAuth();
+
+
+                    /*
+                     * Firebase Authentication
+                     * requires an email.
+                     *
+                     * We create an internal
+                     * email from Employee ID.
+                     */
+
+                    const portalEmail =
+                        employeeId
+                            .toLowerCase()
+                            .replace(
+                                /[^a-z0-9]/g,
+                                ""
+                            )
+                        +
+                        "@papprito-hris.local";
+
+
+                    const credential =
+                        await createUserWithEmailAndPassword(
+
+                            auth,
+
+                            portalEmail,
+
+                            portalPassword
+
+                        );
+
+
+                    await updateDoc(
+
+                        employeeRef,
+
+                        {
+
+                            portalUid:
+                                credential
+                                .user
+                                .uid,
+
+                            portalEmail:
+                                portalEmail,
+
+                            portalAccountCreated:
+                                true
+
+                        }
+
+                    );
+
+
+                    alert(
+
+                        "Employee Saved Successfully!\n\n" +
+
+                        "EMPLOYEE PORTAL ACCOUNT CREATED\n\n" +
+
+                        "Username: " +
+                        employeeId +
+                        "\n\n" +
+
+                        "Temporary Password: " +
+                        portalPassword
+
+                    );
+
+
+                }catch(
+                    portalError
+                ){
+
+                    console.error(
+                        "Portal Account Error:",
+                        portalError
+                    );
+
+
+                    /*
+                     * Employee was saved,
+                     * but Authentication failed.
+                     */
+
+                    alert(
+
+                        "Employee was saved successfully, " +
+                        "but the Employee Portal account " +
+                        "could not be created.\n\n" +
+
+                        portalError.message
+
+                    );
+
+                }
+
+
+            }else{
+
+                alert(
+                    "Employee Saved"
+                );
+
+            }
 
         }
 
 
         closeModal();
 
-        loadEmployees();
+        await loadEmployees();
 
 
     }catch(error){
 
-        console.log(error);
+        console.error(
+            "Save Employee Error:",
+            error
+        );
+
 
         alert(
-            "Save Error"
+
+            "Save Error\n\n" +
+            error.message
+
         );
 
     }
@@ -1070,6 +1530,69 @@ function(id){
             }
         );
 
+
+    /* ======================================
+       LOAD PORTAL ACCOUNT
+    ====================================== */
+
+    const portalUsername =
+        document.getElementById(
+            "portalUsername"
+        );
+
+
+    const portalPassword =
+        document.getElementById(
+            "portalPassword"
+        );
+
+
+    const portalEnabled =
+        document.getElementById(
+            "portalEnabled"
+        );
+
+
+    if(portalUsername){
+
+        portalUsername.value =
+            emp.portalUsername ||
+            emp.employeeid ||
+            "";
+
+    }
+
+
+    if(portalPassword){
+
+        /*
+         * Password is intentionally
+         * NOT loaded from Firestore.
+         */
+
+        portalPassword.value =
+            "";
+
+        portalPassword.placeholder =
+            emp.portalAccountCreated
+                ?
+
+                "Account exists - leave blank"
+
+                :
+
+                "Generate password";
+
+    }
+
+
+    if(portalEnabled){
+
+        portalEnabled.checked =
+            emp.portalEnabled === true;
+
+    }
+
 };
 
 
@@ -1104,7 +1627,7 @@ async function(id){
         );
 
 
-        loadEmployees();
+        await loadEmployees();
 
 
     }catch(error){
@@ -1204,6 +1727,55 @@ function clearForm(){
             el.value = "";
 
         });
+
+
+    /* ======================================
+       CLEAR PORTAL ACCOUNT
+    ====================================== */
+
+    const portalUsername =
+        document.getElementById(
+            "portalUsername"
+        );
+
+
+    const portalPassword =
+        document.getElementById(
+            "portalPassword"
+        );
+
+
+    const portalEnabled =
+        document.getElementById(
+            "portalEnabled"
+        );
+
+
+    if(portalUsername){
+
+        portalUsername.value =
+            "";
+
+    }
+
+
+    if(portalPassword){
+
+        portalPassword.value =
+            "";
+
+        portalPassword.placeholder =
+            "Generate password";
+
+    }
+
+
+    if(portalEnabled){
+
+        portalEnabled.checked =
+            false;
+
+    }
 
 
     /*
