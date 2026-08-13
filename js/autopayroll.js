@@ -1,6 +1,7 @@
 /* ==========================================
    PAPPRITO HRIS
-   AUTO PAYROLL SYSTEM JS
+   AUTO PAYROLL SYSTEM
+   HOURLY COMPUTATION ONLY
 ========================================== */
 
 import {
@@ -18,16 +19,14 @@ import {
 
 
 /* ==========================================
-   GLOBAL
+   GLOBAL VARIABLES
 ========================================== */
 
 let employees = [];
 
-let attendanceRecords = [];
+let autoPayrollRecords = [];
 
-let payrollRecords = [];
-
-let editingPayrollId = null;
+let editingId = null;
 
 
 /* ==========================================
@@ -35,58 +34,139 @@ let editingPayrollId = null;
 ========================================== */
 
 const employeeName =
-    document.getElementById("employeeName");
+    document.getElementById(
+        "employeeName"
+    );
 
 const employeeId =
-    document.getElementById("employeeId");
+    document.getElementById(
+        "employeeId"
+    );
 
 const salaryRate =
-    document.getElementById("salaryRate");
+    document.getElementById(
+        "salaryRate"
+    );
+
+const payrollDate =
+    document.getElementById(
+        "payrollDate"
+    );
 
 const totalHours =
-    document.getElementById("totalHours");
+    document.getElementById(
+        "totalHours"
+    );
 
 const overtimeHours =
-    document.getElementById("overtimeHours");
+    document.getElementById(
+        "overtimeHours"
+    );
 
 const holidayType =
-    document.getElementById("holidayType");
+    document.getElementById(
+        "holidayType"
+    );
 
 const holidayHours =
-    document.getElementById("holidayHours");
+    document.getElementById(
+        "holidayHours"
+    );
 
 const nightHours =
-    document.getElementById("nightHours");
+    document.getElementById(
+        "nightHours"
+    );
+
+const nightRate =
+    document.getElementById(
+        "nightRate"
+    );
 
 const sss =
-    document.getElementById("sss");
+    document.getElementById(
+        "sss"
+    );
 
 const philhealth =
-    document.getElementById("philhealth");
+    document.getElementById(
+        "philhealth"
+    );
 
 const pagibig =
-    document.getElementById("pagibig");
+    document.getElementById(
+        "pagibig"
+    );
 
 const healthcard =
-    document.getElementById("healthcard");
+    document.getElementById(
+        "healthcard"
+    );
 
 const others =
-    document.getElementById("others");
+    document.getElementById(
+        "others"
+    );
+
+const displayBasicPay =
+    document.getElementById(
+        "displayBasicPay"
+    );
+
+const displayOvertimePay =
+    document.getElementById(
+        "displayOvertimePay"
+    );
+
+const displayHolidayPay =
+    document.getElementById(
+        "displayHolidayPay"
+    );
+
+const displayNightPay =
+    document.getElementById(
+        "displayNightPay"
+    );
 
 const grossSalary =
-    document.getElementById("grossSalary");
+    document.getElementById(
+        "grossSalary"
+    );
+
+const totalDeduction =
+    document.getElementById(
+        "totalDeduction"
+    );
 
 const netSalary =
-    document.getElementById("netSalary");
+    document.getElementById(
+        "netSalary"
+    );
 
 const filterDate =
-    document.getElementById("filterDate");
+    document.getElementById(
+        "filterDate"
+    );
 
-const totalPayroll =
-    document.getElementById("totalPayroll");
+const totalRecords =
+    document.getElementById(
+        "totalRecords"
+    );
 
-const payrollTable =
-    document.getElementById("payrollTable");
+const totalGross =
+    document.getElementById(
+        "totalGross"
+    );
+
+const totalNet =
+    document.getElementById(
+        "totalNet"
+    );
+
+const autoPayrollTable =
+    document.getElementById(
+        "autoPayrollTable"
+    );
 
 
 /* ==========================================
@@ -102,10 +182,12 @@ function text(value){
 }
 
 
-function number(value){
+function num(value){
 
     const result =
-        Number(value || 0);
+        Number(
+            value || 0
+        );
 
     return Number.isFinite(result)
         ? result
@@ -116,8 +198,22 @@ function number(value){
 
 function money(value){
 
-    return number(value)
-        .toFixed(2);
+    return num(
+        value
+    ).toLocaleString(
+        "en-PH",
+        {
+            minimumFractionDigits:2,
+            maximumFractionDigits:2
+        }
+    );
+
+}
+
+
+function moneyValue(value){
+
+    return num(value).toFixed(2);
 
 }
 
@@ -128,93 +224,96 @@ function escapeHTML(value){
         value ?? ""
     )
 
-    .replace(/&/g,"&amp;")
-    .replace(/</g,"&lt;")
-    .replace(/>/g,"&gt;")
-    .replace(/"/g,"&quot;")
-    .replace(/'/g,"&#039;");
+    .replace(
+        /&/g,
+        "&amp;"
+    )
+
+    .replace(
+        /</g,
+        "&lt;"
+    )
+
+    .replace(
+        />/g,
+        "&gt;"
+    )
+
+    .replace(
+        /"/g,
+        "&quot;"
+    )
+
+    .replace(
+        /'/g,
+        "&#039;"
+    );
 
 }
 
 
 function getToday(){
 
-    const date =
+    const now =
         new Date();
 
     const year =
-        date.getFullYear();
+        now.getFullYear();
 
     const month =
         String(
-            date.getMonth() + 1
-        ).padStart(2,"0");
+            now.getMonth() + 1
+        ).padStart(
+            2,
+            "0"
+        );
 
     const day =
         String(
-            date.getDate()
-        ).padStart(2,"0");
+            now.getDate()
+        ).padStart(
+            2,
+            "0"
+        );
 
-    return `${year}-${month}-${day}`;
+    return (
+        year +
+        "-" +
+        month +
+        "-" +
+        day
+    );
 
 }
 
 
-function getEmployeeFullName(employee){
+function getEmployeeName(
+    employee
+){
 
     return [
 
-        employee.firstname,
-        employee.middlename,
-        employee.lastname
+        employee.firstname || "",
+
+        employee.middlename || "",
+
+        employee.lastname || ""
 
     ]
 
-    .filter(Boolean)
+    .filter(
+        value =>
+            text(value) !== ""
+    )
 
     .join(" ")
 
-    .replace(/\s+/g," ")
+    .replace(
+        /\s+/g,
+        " "
+    )
 
     .trim();
-
-}
-
-
-/* ==========================================
-   HOLIDAY MULTIPLIERS
-========================================== */
-
-function getHolidayMultiplier(){
-
-    if(
-        !holidayType
-    ){
-
-        return 0;
-
-    }
-
-
-    switch(
-        holidayType.value
-    ){
-
-        case "regular":
-
-            return 2.00;
-
-
-        case "special":
-
-            return 1.30;
-
-
-        default:
-
-            return 0;
-
-    }
 
 }
 
@@ -255,39 +354,19 @@ async function loadEmployees(){
         );
 
 
-        employees.sort(
-            (a,b) => {
-
-                const nameA =
-                    getEmployeeFullName(
-                        a
-                    ).toLowerCase();
-
-                const nameB =
-                    getEmployeeFullName(
-                        b
-                    ).toLowerCase();
-
-                return nameA.localeCompare(
-                    nameB
-                );
-
-            }
-        );
-
-
-        populateEmployees();
+        populateEmployeeDropdown();
 
 
     }catch(error){
 
         console.error(
-            "Employee Load Error:",
+            "Load Employees Error:",
             error
         );
 
+
         alert(
-            "Failed to load employees.\n\n" +
+            "Unable to load Employee Masterlist.\n\n" +
             error.message
         );
 
@@ -297,12 +376,14 @@ async function loadEmployees(){
 
 
 /* ==========================================
-   POPULATE EMPLOYEE DROPDOWN
+   EMPLOYEE DROPDOWN
 ========================================== */
 
-function populateEmployees(){
+function populateEmployeeDropdown(){
 
-    if(!employeeName){
+    if(
+        !employeeName
+    ){
 
         return;
 
@@ -312,24 +393,60 @@ function populateEmployees(){
     employeeName.innerHTML = `
 
 <option value="">
+
 Select Employee
+
 </option>
 
 `;
 
 
-    employees.forEach(
+    employees
+
+    .filter(
         employee => {
 
-            if(
-                employee.status &&
-                employee.status !== "Active"
-            ){
+            /*
+             * Show active employees.
+             *
+             * If status is empty,
+             * still allow the employee.
+             */
 
-                return;
+            const status =
+                text(
+                    employee.status
+                );
 
-            }
 
+            return (
+                status === "" ||
+                status.toUpperCase() ===
+                "ACTIVE"
+            );
+
+        }
+    )
+
+    .sort(
+        (
+            a,
+            b
+        ) => {
+
+            return getEmployeeName(
+                a
+            ).localeCompare(
+                getEmployeeName(
+                    b
+                )
+            );
+
+        }
+    )
+
+    .forEach(
+        employee => {
 
             const option =
                 document.createElement(
@@ -343,8 +460,21 @@ Select Employee
 
             option.textContent =
 
-                `${employee.employeeid || ""} - ` +
-                `${getEmployeeFullName(employee)}`;
+                (
+                    employee.employeeid
+                    ||
+                    ""
+                )
+
+                +
+
+                " - "
+
+                +
+
+                getEmployeeName(
+                    employee
+                );
 
 
             employeeName.appendChild(
@@ -358,67 +488,65 @@ Select Employee
 
 
 /* ==========================================
-   EMPLOYEE SELECT
+   SELECT EMPLOYEE
 ========================================== */
 
-if(employeeName){
+if(
+    employeeName
+){
 
     employeeName.addEventListener(
         "change",
-        async function(){
+        function(){
 
-            const id =
+            const selectedId =
                 this.value;
 
 
             const employee =
                 employees.find(
                     item =>
-                        item.id === id
+                        item.id ===
+                        selectedId
                 );
 
 
-            if(!employee){
+            if(
+                !employee
+            ){
 
-                clearEmployeeFields();
+                employeeId.value =
+                    "";
+
+                salaryRate.value =
+                    "";
 
                 return;
 
             }
 
 
+            /*
+             * Employee ID
+             */
+
             employeeId.value =
-                employee.employeeid || "";
+                employee.employeeid
+                ||
+                "";
 
 
             /*
-             * Employee masterlist salary
+             * Salary from Employee
+             *
+             * This is treated as
+             * HOURLY RATE.
              */
 
-            if(
-                employee.salary !== undefined &&
-                employee.salary !== null
-            ){
-
-                salaryRate.value =
-                    number(
-                        employee.salary
-                    );
-
-            }
-
-
-            /*
-             * Load attendance
-             */
-
-            await loadEmployeeAttendance();
-
-            /*
-             * Automatically calculate
-             */
-
-            computePayroll();
+            salaryRate.value =
+                employee.salary
+                ||
+                "";
 
         }
     );
@@ -427,327 +555,13 @@ if(employeeName){
 
 
 /* ==========================================
-   CLEAR EMPLOYEE FIELDS
+   HOLIDAY MULTIPLIER
 ========================================== */
 
-function clearEmployeeFields(){
-
-    if(employeeId)
-        employeeId.value = "";
-
-    if(salaryRate)
-        salaryRate.value = "";
-
-    if(totalHours)
-        totalHours.value = "";
-
-    if(overtimeHours)
-        overtimeHours.value = "";
-
-    if(holidayHours)
-        holidayHours.value = "";
-
-    if(nightHours)
-        nightHours.value = "";
-
-    if(grossSalary)
-        grossSalary.value = "";
-
-    if(netSalary)
-        netSalary.value = "";
-
-}
-
-
-/* ==========================================
-   LOAD ATTENDANCE
-========================================== */
-
-async function loadEmployeeAttendance(){
-
-    const selectedEmployee =
-        employeeName
-        ?
-        employees.find(
-            item =>
-                item.id ===
-                employeeName.value
-        )
-        :
-        null;
-
-
-    if(!selectedEmployee){
-
-        return;
-
-    }
-
-
-    const empId =
-        text(
-            selectedEmployee.employeeid
-        )
-        .toUpperCase();
-
-
-    attendanceRecords = [];
-
-
-    try{
-
-        const snapshot =
-            await getDocs(
-                collection(
-                    db,
-                    "attendance"
-                )
-            );
-
-
-        snapshot.forEach(
-            docSnap => {
-
-                const attendance =
-                    docSnap.data();
-
-
-                const attendanceId =
-                    text(
-                        attendance.employeeid ||
-                        attendance.empid
-                    )
-                    .toUpperCase();
-
-
-                if(
-                    attendanceId ===
-                    empId
-                ){
-
-                    attendanceRecords.push({
-
-                        id:
-                            docSnap.id,
-
-                        ...attendance
-
-                    });
-
-                }
-
-            }
-        );
-
-
-        /*
-         * Get latest attendance period
-         */
-
-        attendanceRecords.sort(
-            (a,b) => {
-
-                return String(
-                    b.date || ""
-                )
-                .localeCompare(
-                    String(
-                        a.date || ""
-                    )
-                );
-
-            }
-        );
-
-
-        calculateAttendanceTotals();
-
-
-    }catch(error){
-
-        console.error(
-            "Attendance Load Error:",
-            error
-        );
-
-    }
-
-}
-
-
-/* ==========================================
-   CALCULATE ATTENDANCE TOTALS
-========================================== */
-
-function calculateAttendanceTotals(){
-
-    let regular = 0;
-
-    let overtime = 0;
-
-    let holiday = 0;
-
-    let night = 0;
-
-
-    attendanceRecords.forEach(
-        record => {
-
-            regular +=
-                number(
-                    record.regularHours
-                );
-
-
-            overtime +=
-                number(
-                    record.overtimeHours
-                );
-
-
-            /*
-             * Compatible with
-             * different attendance fields
-             */
-
-            if(
-                record.holidayHours
-            ){
-
-                holiday +=
-                    number(
-                        record.holidayHours
-                    );
-
-            }
-
-
-            if(
-                record.nightHours
-            ){
-
-                night +=
-                    number(
-                        record.nightHours
-                    );
-
-            }
-
-
-            /*
-             * If the attendance JS
-             * stores calculated fields
-             */
-
-            if(
-                record.regularhours
-            ){
-
-                regular +=
-                    number(
-                        record.regularhours
-                    );
-
-            }
-
-
-            if(
-                record.overtime
-            ){
-
-                overtime +=
-                    number(
-                        record.overtime
-                    );
-
-            }
-
-        }
-    );
-
-
-    /*
-     * If no saved calculated values,
-     * calculate from time fields.
-     */
+function getHolidayMultiplier(){
 
     if(
-        regular === 0 &&
-        overtime === 0
-    ){
-
-        attendanceRecords.forEach(
-            record => {
-
-                const work =
-                    calculateWorkHours(
-                        record
-                    );
-
-
-                if(work <= 8){
-
-                    regular +=
-                        work;
-
-                }else{
-
-                    regular += 8;
-
-                    overtime +=
-                        work - 8;
-
-                }
-
-            }
-        );
-
-    }
-
-
-    if(totalHours){
-
-        totalHours.value =
-            regular.toFixed(2);
-
-    }
-
-
-    if(overtimeHours){
-
-        overtimeHours.value =
-            overtime.toFixed(2);
-
-    }
-
-
-    if(holidayHours){
-
-        holidayHours.value =
-            holiday.toFixed(2);
-
-    }
-
-
-    if(nightHours){
-
-        nightHours.value =
-            night.toFixed(2);
-
-    }
-
-}
-
-
-/* ==========================================
-   CALCULATE WORK HOURS
-========================================== */
-
-function calculateWorkHours(record){
-
-    if(
-        !record.timeIn ||
-        !record.timeOut
+        !holidayType
     ){
 
         return 0;
@@ -755,199 +569,89 @@ function calculateWorkHours(record){
     }
 
 
-    const start =
-        timeToMinutes(
-            record.timeIn
-        );
-
-
-    const end =
-        timeToMinutes(
-            record.timeOut
-        );
-
-
-    if(
-        start === null ||
-        end === null
+    switch(
+        holidayType.value
     ){
 
-        return 0;
+        case "regular":
+
+            return 2.00;
+
+
+        case "special":
+
+            return 1.30;
+
+
+        default:
+
+            return 0;
 
     }
-
-
-    let minutes =
-        end - start;
-
-
-    if(minutes < 0){
-
-        minutes +=
-            1440;
-
-    }
-
-
-    /*
-     * Deduct break
-     */
-
-    if(
-        record.breakOut &&
-        record.breakIn
-    ){
-
-        const breakOut =
-            timeToMinutes(
-                record.breakOut
-            );
-
-
-        const breakIn =
-            timeToMinutes(
-                record.breakIn
-            );
-
-
-        if(
-            breakOut !== null &&
-            breakIn !== null &&
-            breakIn > breakOut
-        ){
-
-            minutes -=
-                breakIn -
-                breakOut;
-
-        }
-
-    }
-
-
-    if(minutes < 0){
-
-        minutes = 0;
-
-    }
-
-
-    return minutes / 60;
 
 }
 
 
 /* ==========================================
-   TIME TO MINUTES
+   COMPUTE AUTO PAYROLL
 ========================================== */
 
-function timeToMinutes(time){
-
-    if(!time){
-
-        return null;
-
-    }
-
-
-    const parts =
-        String(
-            time
-        ).split(":");
-
-
-    if(parts.length < 2){
-
-        return null;
-
-    }
-
-
-    const hours =
-        Number(
-            parts[0]
-        );
-
-
-    const minutes =
-        Number(
-            parts[1]
-        );
-
-
-    if(
-        !Number.isFinite(hours) ||
-        !Number.isFinite(minutes)
-    ){
-
-        return null;
-
-    }
-
-
-    return (
-        hours * 60
-    )
-    +
-    minutes;
-
-}
-
-
-/* ==========================================
-   COMPUTE PAYROLL
-========================================== */
-
-window.computePayroll =
+window.computeAutoPayroll =
 function(){
 
     const rate =
-        number(
+        num(
             salaryRate?.value
         );
 
 
     const regularHours =
-        number(
+        num(
             totalHours?.value
         );
 
 
     const overtime =
-        number(
+        num(
             overtimeHours?.value
         );
 
 
     const holidayHrs =
-        number(
+        num(
             holidayHours?.value
         );
 
 
     const nightHrs =
-        number(
+        num(
             nightHours?.value
         );
 
 
-    const holidayMultiplier =
-        getHolidayMultiplier();
+    const ndRate =
+        num(
+            nightRate?.value
+        );
 
 
     /*
-     * BASIC PAY
+     * ======================================
+     * REGULAR PAY
+     * ======================================
      */
 
-    const basicPay =
+    const regularPay =
         rate *
         regularHours;
 
 
     /*
+     * ======================================
      * OVERTIME
      *
-     * 125%
+     * Hourly Rate × 125%
+     * ======================================
      */
 
     const overtimePay =
@@ -957,72 +661,82 @@ function(){
 
 
     /*
+     * ======================================
      * HOLIDAY
+     * ======================================
      */
 
+    const holidayMultiplier =
+        getHolidayMultiplier();
+
+
     const holidayPay =
-        holidayMultiplier > 0
-        ?
         rate *
         holidayMultiplier *
-        holidayHrs
-        :
-        0;
+        holidayHrs;
 
 
     /*
+     * ======================================
      * NIGHT DIFFERENTIAL
      *
-     * 10%
+     * Hourly Rate × ND% × ND Hours
+     * ======================================
      */
 
     const nightPay =
         rate *
-        0.10 *
+        (
+            ndRate / 100
+        ) *
         nightHrs;
 
 
     /*
+     * ======================================
      * GROSS
+     * ======================================
      */
 
     const gross =
-        basicPay +
+        regularPay +
         overtimePay +
         holidayPay +
         nightPay;
 
 
     /*
+     * ======================================
      * DEDUCTIONS
+     * ======================================
      */
 
     const sssAmount =
-        number(
+        num(
             sss?.value
         );
 
 
     const philhealthAmount =
-        number(
+        num(
             philhealth?.value
         );
 
 
     const pagibigAmount =
-        number(
+        num(
             pagibig?.value
         );
 
 
     const healthAmount =
-        number(
+        num(
             healthcard?.value
         );
 
 
-    const othersAmount =
-        number(
+    const otherAmount =
+        num(
             others?.value
         );
 
@@ -1032,11 +746,13 @@ function(){
         philhealthAmount +
         pagibigAmount +
         healthAmount +
-        othersAmount;
+        otherAmount;
 
 
     /*
-     * NET
+     * ======================================
+     * NET PAY
+     * ======================================
      */
 
     const net =
@@ -1044,9 +760,70 @@ function(){
         deductions;
 
 
-    if(grossSalary){
+    /*
+     * ======================================
+     * DISPLAY
+     * ======================================
+     */
 
-        grossSalary.value =
+    if(
+        displayBasicPay
+    ){
+
+        displayBasicPay.innerText =
+            "₱ " +
+            money(
+                regularPay
+            );
+
+    }
+
+
+    if(
+        displayOvertimePay
+    ){
+
+        displayOvertimePay.innerText =
+            "₱ " +
+            money(
+                overtimePay
+            );
+
+    }
+
+
+    if(
+        displayHolidayPay
+    ){
+
+        displayHolidayPay.innerText =
+            "₱ " +
+            money(
+                holidayPay
+            );
+
+    }
+
+
+    if(
+        displayNightPay
+    ){
+
+        displayNightPay.innerText =
+            "₱ " +
+            money(
+                nightPay
+            );
+
+    }
+
+
+    if(
+        grossSalary
+    ){
+
+        grossSalary.innerText =
+            "₱ " +
             money(
                 gross
             );
@@ -1054,9 +831,25 @@ function(){
     }
 
 
-    if(netSalary){
+    if(
+        totalDeduction
+    ){
 
-        netSalary.value =
+        totalDeduction.innerText =
+            "₱ " +
+            money(
+                deductions
+            );
+
+    }
+
+
+    if(
+        netSalary
+    ){
+
+        netSalary.innerText =
+            "₱ " +
             money(
                 net
             );
@@ -1066,44 +859,85 @@ function(){
 
     return {
 
-        rate,
+        rate:
 
-        regularHours,
+            rate,
 
-        overtime,
+        regularHours:
 
-        holidayHrs,
+            regularHours,
 
-        nightHrs,
+        overtimeHours:
 
-        basicPay,
+            overtime,
 
-        overtimePay,
+        holidayType:
 
-        holidayPay,
+            holidayType
+            ?
+            holidayType.value
+            :
+            "none",
 
-        nightPay,
+        holidayHours:
 
-        gross,
+            holidayHrs,
+
+        nightHours:
+
+            nightHrs,
+
+        nightRate:
+
+            ndRate,
+
+        regularPay:
+
+            regularPay,
+
+        overtimePay:
+
+            overtimePay,
+
+        holidayPay:
+
+            holidayPay,
+
+        nightPay:
+
+            nightPay,
+
+        gross:
+
+            gross,
 
         sss:
+
             sssAmount,
 
         philhealth:
+
             philhealthAmount,
 
         pagibig:
+
             pagibigAmount,
 
         healthcard:
+
             healthAmount,
 
         others:
-            othersAmount,
 
-        deductions,
+            otherAmount,
 
-        net
+        deductions:
+
+            deductions,
+
+        net:
+
+            net
 
     };
 
@@ -1111,25 +945,27 @@ function(){
 
 
 /* ==========================================
-   SAVE PAYROLL
+   SAVE AUTO PAYROLL
 ========================================== */
 
-window.savePayroll =
+window.saveAutoPayroll =
 async function(){
 
     const selectedEmployee =
         employeeName
         ?
         employees.find(
-            item =>
-                item.id ===
+            employee =>
+                employee.id ===
                 employeeName.value
         )
         :
         null;
 
 
-    if(!selectedEmployee){
+    if(
+        !selectedEmployee
+    ){
 
         alert(
             "Please select an employee."
@@ -1140,16 +976,18 @@ async function(){
     }
 
 
-    const payroll =
-        computePayroll();
+    const rate =
+        num(
+            salaryRate?.value
+        );
 
 
     if(
-        payroll.rate <= 0
+        rate <= 0
     ){
 
         alert(
-            "Please enter a valid salary rate."
+            "Please enter a valid hourly rate."
         );
 
         return;
@@ -1157,14 +995,38 @@ async function(){
     }
 
 
+    const date =
+        payrollDate?.value
+        ||
+        getToday();
+
+
     if(
-        payroll.regularHours <= 0 &&
-        payroll.overtime <= 0 &&
-        payroll.holidayHrs <= 0
+        !date
     ){
 
         alert(
-            "No working hours found."
+            "Please select the computation date."
+        );
+
+        return;
+
+    }
+
+
+    const calculation =
+        computeAutoPayroll();
+
+
+    if(
+        calculation.regularHours <= 0 &&
+        calculation.overtimeHours <= 0 &&
+        calculation.holidayHours <= 0 &&
+        calculation.nightHours <= 0
+    ){
+
+        alert(
+            "Please enter at least one working hour."
         );
 
         return;
@@ -1173,99 +1035,92 @@ async function(){
 
 
     const employeeFullName =
-        getEmployeeFullName(
+        getEmployeeName(
             selectedEmployee
         );
 
 
-    const payrollDate =
-        filterDate?.value
-        ||
-        getToday();
+    /*
+     * ======================================
+     * OWN AUTO PAYROLL RECORD
+     *
+     * IMPORTANT:
+     * This DOES NOT use payroll collection.
+     * ======================================
+     */
 
-
-    const payrollData = {
-
-        empid:
-            selectedEmployee.employeeid || "",
-
-        employee:
-            employeeFullName,
+    const data = {
 
         employeeDocId:
             selectedEmployee.id,
 
-        dailyrate:
-            number(
-                selectedEmployee.salary
-            ),
+        employeeId:
+            selectedEmployee.employeeid
+            ||
+            "",
 
-        hourlyrate:
-            payroll.rate,
+        employeeName:
+            employeeFullName,
 
-        totaldays:
-            payroll.regularHours / 8,
-
-        totalhours:
-            payroll.regularHours,
-
-        overtime:
-            payroll.overtime,
-
-        holiday:
-            payroll.holidayPay,
-
-        holidayhours:
-            payroll.holidayHrs,
-
-        holidaytype:
-            holidayType?.value ||
-            "none",
-
-        nightHours:
-            payroll.nightHrs,
-
-        nightdifferential:
-            payroll.nightPay,
-
-        basicpay:
-            payroll.basicPay,
-
-        overtimepay:
-            payroll.overtimePay,
-
-        holidaypay:
-            payroll.holidayPay,
-
-        gross:
-            payroll.gross,
-
-        sss:
-            payroll.sss,
-
-        philhealth:
-            payroll.philhealth,
-
-        pagibig:
-            payroll.pagibig,
-
-        healthcard:
-            payroll.healthcard,
-
-        otherdeduction:
-            payroll.others,
-
-        deductions:
-            payroll.deductions,
-
-        net:
-            payroll.net,
+        hourlyRate:
+            calculation.rate,
 
         date:
-            payrollDate,
+            date,
 
-        createdAt:
-            Date.now(),
+        regularHours:
+            calculation.regularHours,
+
+        overtimeHours:
+            calculation.overtimeHours,
+
+        holidayType:
+            calculation.holidayType,
+
+        holidayHours:
+            calculation.holidayHours,
+
+        nightHours:
+            calculation.nightHours,
+
+        nightRate:
+            calculation.nightRate,
+
+        regularPay:
+            calculation.regularPay,
+
+        overtimePay:
+            calculation.overtimePay,
+
+        holidayPay:
+            calculation.holidayPay,
+
+        nightPay:
+            calculation.nightPay,
+
+        gross:
+            calculation.gross,
+
+        sss:
+            calculation.sss,
+
+        philhealth:
+            calculation.philhealth,
+
+        pagibig:
+            calculation.pagibig,
+
+        healthcard:
+            calculation.healthcard,
+
+        others:
+            calculation.others,
+
+        deductions:
+            calculation.deductions,
+
+        net:
+            calculation.net,
 
         updatedAt:
             Date.now()
@@ -1275,67 +1130,85 @@ async function(){
 
     try{
 
+        /*
+         * ==================================
+         * UPDATE
+         * ==================================
+         */
+
         if(
-            editingPayrollId
+            editingId
         ){
 
             await updateDoc(
 
                 doc(
                     db,
-                    "payroll",
-                    editingPayrollId
+                    "autoPayroll",
+                    editingId
                 ),
 
-                payrollData
+                data
 
             );
 
 
             alert(
-                "Payroll updated successfully."
+                "Auto Payroll updated successfully."
             );
 
 
-            editingPayrollId =
+            editingId =
                 null;
 
-        }else{
+        }
+
+        /*
+         * ==================================
+         * NEW RECORD
+         * ==================================
+         */
+
+        else{
+
+            data.createdAt =
+                Date.now();
+
 
             await addDoc(
 
                 collection(
                     db,
-                    "payroll"
+                    "autoPayroll"
                 ),
 
-                payrollData
+                data
 
             );
 
 
             alert(
-                "Payroll saved successfully."
+                "Auto Payroll saved successfully."
             );
 
         }
 
 
-        await loadPayroll();
+        await loadAutoPayroll();
 
-        clearPayrollForm();
+        clearAutoPayrollForm();
 
 
     }catch(error){
 
         console.error(
-            "Save Payroll Error:",
+            "Auto Payroll Save Error:",
             error
         );
 
 
         alert(
-            "Failed to save payroll.\n\n" +
+            "Failed to save Auto Payroll.\n\n" +
             error.message
         );
 
@@ -1345,22 +1218,30 @@ async function(){
 
 
 /* ==========================================
-   LOAD PAYROLL
+   LOAD AUTO PAYROLL
 ========================================== */
 
-window.loadPayroll =
+window.loadAutoPayroll =
 async function(){
 
     try{
 
-        payrollRecords = [];
+        autoPayrollRecords = [];
 
+
+        /*
+         * IMPORTANT:
+         *
+         * Only autoPayroll.
+         *
+         * NO payroll collection.
+         */
 
         const snapshot =
             await getDocs(
                 collection(
                     db,
-                    "payroll"
+                    "autoPayroll"
                 )
             );
 
@@ -1368,7 +1249,7 @@ async function(){
         snapshot.forEach(
             docSnap => {
 
-                payrollRecords.push({
+                autoPayrollRecords.push({
 
                     id:
                         docSnap.id,
@@ -1381,8 +1262,11 @@ async function(){
         );
 
 
-        payrollRecords.sort(
-            (a,b) => {
+        autoPayrollRecords.sort(
+            (
+                a,
+                b
+            ) => {
 
                 return String(
                     b.date || ""
@@ -1397,23 +1281,50 @@ async function(){
         );
 
 
-        renderPayroll();
-
-        updateTotalPayroll();
+        renderAutoPayroll(
+            autoPayrollRecords
+        );
 
 
     }catch(error){
 
         console.error(
-            "Payroll Load Error:",
+            "Load Auto Payroll Error:",
             error
         );
 
 
-        alert(
-            "Failed to load payroll.\n\n" +
-            error.message
-        );
+        const tbody =
+            autoPayrollTable
+            ?
+            autoPayrollTable.querySelector(
+                "tbody"
+            )
+            :
+            null;
+
+
+        if(
+            tbody
+        ){
+
+            tbody.innerHTML = `
+
+<tr>
+
+<td
+colspan="13"
+class="empty-row">
+
+Unable to load Auto Payroll records.
+
+</td>
+
+</tr>
+
+`;
+
+        }
 
     }
 
@@ -1421,15 +1332,16 @@ async function(){
 
 
 /* ==========================================
-   RENDER PAYROLL
+   RENDER TABLE
 ========================================== */
 
-function renderPayroll(
-    records =
-        payrollRecords
+function renderAutoPayroll(
+    records
 ){
 
-    if(!payrollTable){
+    if(
+        !autoPayrollTable
+    ){
 
         return;
 
@@ -1437,12 +1349,14 @@ function renderPayroll(
 
 
     const tbody =
-        payrollTable.querySelector(
+        autoPayrollTable.querySelector(
             "tbody"
         );
 
 
-    if(!tbody){
+    if(
+        !tbody
+    ){
 
         return;
 
@@ -1453,23 +1367,19 @@ function renderPayroll(
         "";
 
 
-    if(records.length === 0){
+    if(
+        records.length === 0
+    ){
 
         tbody.innerHTML = `
 
 <tr>
 
 <td
-colspan="17"
+colspan="13"
 class="empty-row">
 
-<span class="material-icons">
-receipt_long
-</span>
-
-<p>
-No payroll records available.
-</p>
+No Auto Payroll records available.
 
 </td>
 
@@ -1477,13 +1387,17 @@ No payroll records available.
 
 `;
 
+        updateRecordSummary(
+            []
+        );
+
         return;
 
     }
 
 
     records.forEach(
-        payroll => {
+        record => {
 
             const row =
                 document.createElement(
@@ -1496,7 +1410,7 @@ No payroll records available.
 <td>
 
 ${escapeHTML(
-    payroll.empid ||
+    record.date ||
     "-"
 )}
 
@@ -1506,7 +1420,17 @@ ${escapeHTML(
 <td>
 
 ${escapeHTML(
-    payroll.employee ||
+    record.employeeId ||
+    "-"
+)}
+
+</td>
+
+
+<td>
+
+${escapeHTML(
+    record.employeeName ||
     "-"
 )}
 
@@ -1516,7 +1440,7 @@ ${escapeHTML(
 <td>
 
 ₱ ${money(
-    payroll.hourlyrate
+    record.hourlyRate
 )}
 
 </td>
@@ -1525,7 +1449,7 @@ ${escapeHTML(
 <td>
 
 ${money(
-    payroll.totalhours
+    record.regularHours
 )}
 
 </td>
@@ -1534,7 +1458,7 @@ ${money(
 <td>
 
 ${money(
-    payroll.overtime
+    record.overtimeHours
 )}
 
 </td>
@@ -1543,8 +1467,9 @@ ${money(
 <td>
 
 ${escapeHTML(
-    payroll.holidaytype ||
-    "none"
+    formatHolidayType(
+        record.holidayType
+    )
 )}
 
 </td>
@@ -1553,7 +1478,7 @@ ${escapeHTML(
 <td>
 
 ${money(
-    payroll.holidayhours
+    record.holidayHours
 )}
 
 </td>
@@ -1562,7 +1487,7 @@ ${money(
 <td>
 
 ${money(
-    payroll.nightHours
+    record.nightHours
 )}
 
 </td>
@@ -1571,7 +1496,7 @@ ${money(
 <td>
 
 ₱ ${money(
-    payroll.gross
+    record.gross
 )}
 
 </td>
@@ -1580,43 +1505,7 @@ ${money(
 <td>
 
 ₱ ${money(
-    payroll.sss
-)}
-
-</td>
-
-
-<td>
-
-₱ ${money(
-    payroll.philhealth
-)}
-
-</td>
-
-
-<td>
-
-₱ ${money(
-    payroll.pagibig
-)}
-
-</td>
-
-
-<td>
-
-₱ ${money(
-    payroll.healthcard
-)}
-
-</td>
-
-
-<td>
-
-₱ ${money(
-    payroll.otherdeduction
+    record.deductions
 )}
 
 </td>
@@ -1627,7 +1516,7 @@ ${money(
 <strong>
 
 ₱ ${money(
-    payroll.net
+    record.net
 )}
 
 </strong>
@@ -1637,22 +1526,13 @@ ${money(
 
 <td>
 
-${escapeHTML(
-    payroll.date ||
-    "-"
-)}
-
-</td>
-
-
-<td>
 
 <button
 type="button"
-class="table-icon-btn edit"
-title="Edit Payroll"
-onclick="editPayroll(
-    '${payroll.id}'
+class="table-icon-btn"
+title="Edit"
+onclick="editAutoPayroll(
+    '${record.id}'
 )">
 
 <span class="material-icons">
@@ -1664,10 +1544,10 @@ edit
 
 <button
 type="button"
-class="table-icon-btn delete"
-title="Delete Payroll"
-onclick="deletePayroll(
-    '${payroll.id}'
+class="table-icon-btn"
+title="Delete"
+onclick="deleteAutoPayroll(
+    '${record.id}'
 )">
 
 <span class="material-icons">
@@ -1675,6 +1555,7 @@ delete
 </span>
 
 </button>
+
 
 </td>
 
@@ -1688,14 +1569,130 @@ delete
         }
     );
 
+
+    updateRecordSummary(
+        records
+    );
+
 }
 
 
 /* ==========================================
-   FILTER PAYROLL
+   HOLIDAY DISPLAY
 ========================================== */
 
-window.filterPayroll =
+function formatHolidayType(
+    type
+){
+
+    switch(
+        text(type)
+    ){
+
+        case "regular":
+
+            return "Regular Holiday";
+
+
+        case "special":
+
+            return "Special Holiday";
+
+
+        default:
+
+            return "No Holiday";
+
+    }
+
+}
+
+
+/* ==========================================
+   SUMMARY
+========================================== */
+
+function updateRecordSummary(
+    records
+){
+
+    const gross =
+        records.reduce(
+            (
+                total,
+                record
+            ) => {
+
+                return total +
+                    num(
+                        record.gross
+                    );
+
+            },
+            0
+        );
+
+
+    const net =
+        records.reduce(
+            (
+                total,
+                record
+            ) => {
+
+                return total +
+                    num(
+                        record.net
+                    );
+
+            },
+            0
+        );
+
+
+    if(
+        totalRecords
+    ){
+
+        totalRecords.innerText =
+            records.length;
+
+    }
+
+
+    if(
+        totalGross
+    ){
+
+        totalGross.innerText =
+            "₱ " +
+            money(
+                gross
+            );
+
+    }
+
+
+    if(
+        totalNet
+    ){
+
+        totalNet.innerText =
+            "₱ " +
+            money(
+                net
+            );
+
+    }
+
+}
+
+
+/* ==========================================
+   FILTER
+========================================== */
+
+window.filterAutoPayroll =
 function(){
 
     const date =
@@ -1706,11 +1703,13 @@ function(){
         "";
 
 
-    if(!date){
+    if(
+        !date
+    ){
 
-        renderPayroll();
-
-        updateTotalPayroll();
+        renderAutoPayroll(
+            autoPayrollRecords
+        );
 
         return;
 
@@ -1718,19 +1717,14 @@ function(){
 
 
     const filtered =
-        payrollRecords.filter(
-            payroll =>
-                payroll.date ===
+        autoPayrollRecords.filter(
+            record =>
+                record.date ===
                 date
         );
 
 
-    renderPayroll(
-        filtered
-    );
-
-
-    updateTotalPayroll(
+    renderAutoPayroll(
         filtered
     );
 
@@ -1738,63 +1732,28 @@ function(){
 
 
 /* ==========================================
-   TOTAL PAYROLL
+   EDIT
 ========================================== */
 
-function updateTotalPayroll(
-    records =
-        payrollRecords
-){
-
-    const total =
-        records.reduce(
-            (
-                sum,
-                payroll
-            ) => {
-
-                return sum +
-                    number(
-                        payroll.net
-                    );
-
-            },
-            0
-        );
-
-
-    if(totalPayroll){
-
-        totalPayroll.innerText =
-            money(
-                total
-            );
-
-    }
-
-}
-
-
-/* ==========================================
-   EDIT PAYROLL
-========================================== */
-
-window.editPayroll =
+window.editAutoPayroll =
 function(
     id
 ){
 
-    const payroll =
-        payrollRecords.find(
+    const record =
+        autoPayrollRecords.find(
             item =>
-                item.id === id
+                item.id ===
+                id
         );
 
 
-    if(!payroll){
+    if(
+        !record
+    ){
 
         alert(
-            "Payroll record not found."
+            "Auto Payroll record not found."
         );
 
         return;
@@ -1802,7 +1761,7 @@ function(
     }
 
 
-    editingPayrollId =
+    editingId =
         id;
 
 
@@ -1810,192 +1769,223 @@ function(
      * Employee
      */
 
-    if(employeeName){
+    if(
+        employeeName
+    ){
 
         employeeName.value =
-            payroll.employeeDocId ||
+            record.employeeDocId
+            ||
             "";
 
     }
 
 
     /*
-     * If employeeDocId is missing,
-     * find employee using Employee ID.
+     * Employee ID
      */
 
     if(
-        employeeName &&
-        !employeeName.value
+        employeeId
     ){
 
-        const employee =
-            employees.find(
-                item =>
-
-                    String(
-                        item.employeeid ||
-                        ""
-                    )
-                    .toUpperCase()
-
-                    ===
-
-                    String(
-                        payroll.empid ||
-                        ""
-                    )
-                    .toUpperCase()
-
-            );
-
-
-        if(employee){
-
-            employeeName.value =
-                employee.id;
-
-        }
-
-    }
-
-
-    if(employeeId){
-
         employeeId.value =
-            payroll.empid ||
+            record.employeeId
+            ||
             "";
 
     }
 
 
-    if(salaryRate){
+    /*
+     * Rate
+     */
+
+    if(
+        salaryRate
+    ){
 
         salaryRate.value =
-            payroll.hourlyrate ||
+            record.hourlyRate
+            ||
             "";
 
     }
 
 
-    if(totalHours){
+    /*
+     * Date
+     */
+
+    if(
+        payrollDate
+    ){
+
+        payrollDate.value =
+            record.date
+            ||
+            "";
+
+    }
+
+
+    /*
+     * Hours
+     */
+
+    if(
+        totalHours
+    ){
 
         totalHours.value =
-            payroll.totalhours ||
+            record.regularHours
+            ||
             "";
 
     }
 
 
-    if(overtimeHours){
+    if(
+        overtimeHours
+    ){
 
         overtimeHours.value =
-            payroll.overtime ||
+            record.overtimeHours
+            ||
             "";
 
     }
 
 
-    if(holidayType){
+    /*
+     * Holiday
+     */
+
+    if(
+        holidayType
+    ){
 
         holidayType.value =
-            payroll.holidaytype ||
+            record.holidayType
+            ||
             "none";
 
     }
 
 
-    if(holidayHours){
+    if(
+        holidayHours
+    ){
 
         holidayHours.value =
-            payroll.holidayhours ||
+            record.holidayHours
+            ||
             "";
 
     }
 
 
-    if(nightHours){
+    /*
+     * Night Differential
+     */
+
+    if(
+        nightHours
+    ){
 
         nightHours.value =
-            payroll.nightHours ||
+            record.nightHours
+            ||
             "";
 
     }
 
 
-    if(sss){
+    if(
+        nightRate
+    ){
+
+        nightRate.value =
+            record.nightRate ??
+            10;
+
+    }
+
+
+    /*
+     * Deductions
+     */
+
+    if(
+        sss
+    ){
 
         sss.value =
-            payroll.sss ||
+            record.sss
+            ||
             "";
 
     }
 
 
-    if(philhealth){
+    if(
+        philhealth
+    ){
 
         philhealth.value =
-            payroll.philhealth ||
+            record.philhealth
+            ||
             "";
 
     }
 
 
-    if(pagibig){
+    if(
+        pagibig
+    ){
 
         pagibig.value =
-            payroll.pagibig ||
+            record.pagibig
+            ||
             "";
 
     }
 
 
-    if(healthcard){
+    if(
+        healthcard
+    ){
 
         healthcard.value =
-            payroll.healthcard ||
+            record.healthcard
+            ||
             "";
 
     }
 
 
-    if(others){
+    if(
+        others
+    ){
 
         others.value =
-            payroll.otherdeduction ||
+            record.others
+            ||
             "";
 
     }
 
 
-    if(grossSalary){
+    /*
+     * Recalculate display
+     */
 
-        grossSalary.value =
-            money(
-                payroll.gross
-            );
-
-    }
+    computeAutoPayroll();
 
 
-    if(netSalary){
-
-        netSalary.value =
-            money(
-                payroll.net
-            );
-
-    }
-
-
-    if(filterDate){
-
-        filterDate.value =
-            payroll.date ||
-            "";
-
-    }
-
+    /*
+     * Scroll to top
+     */
 
     window.scrollTo({
 
@@ -2009,22 +1999,25 @@ function(
 
 
 /* ==========================================
-   DELETE PAYROLL
+   DELETE
 ========================================== */
 
-window.deletePayroll =
+window.deleteAutoPayroll =
 async function(
     id
 ){
 
-    const payroll =
-        payrollRecords.find(
+    const record =
+        autoPayrollRecords.find(
             item =>
-                item.id === id
+                item.id ===
+                id
         );
 
 
-    if(!payroll){
+    if(
+        !record
+    ){
 
         return;
 
@@ -2034,24 +2027,30 @@ async function(
     const confirmed =
         confirm(
 
-            "Delete this payroll record?\n\n" +
+            "Delete this Auto Payroll record?\n\n" +
 
             (
-                payroll.employee ||
+                record.employeeName ||
                 "-"
-            ) +
+            )
 
-            "\n" +
+            +
+
+            "\n"
+
+            +
 
             (
-                payroll.date ||
+                record.date ||
                 "-"
             )
 
         );
 
 
-    if(!confirmed){
+    if(
+        !confirmed
+    ){
 
         return;
 
@@ -2064,40 +2063,41 @@ async function(
 
             doc(
                 db,
-                "payroll",
+                "autoPayroll",
                 id
             )
 
         );
 
 
-        payrollRecords =
-            payrollRecords.filter(
+        autoPayrollRecords =
+            autoPayrollRecords.filter(
                 item =>
-                    item.id !== id
+                    item.id !==
+                    id
             );
 
 
-        renderPayroll();
-
-        updateTotalPayroll();
+        renderAutoPayroll(
+            autoPayrollRecords
+        );
 
 
         alert(
-            "Payroll deleted successfully."
+            "Auto Payroll deleted successfully."
         );
 
 
     }catch(error){
 
         console.error(
-            "Delete Payroll Error:",
+            "Delete Auto Payroll Error:",
             error
         );
 
 
         alert(
-            "Failed to delete payroll.\n\n" +
+            "Failed to delete Auto Payroll.\n\n" +
             error.message
         );
 
@@ -2110,14 +2110,16 @@ async function(
    CLEAR FORM
 ========================================== */
 
-window.clearPayrollForm =
+window.clearAutoPayrollForm =
 function(){
 
-    editingPayrollId =
+    editingId =
         null;
 
 
-    if(employeeName){
+    if(
+        employeeName
+    ){
 
         employeeName.value =
             "";
@@ -2125,10 +2127,59 @@ function(){
     }
 
 
-    clearEmployeeFields();
+    if(
+        employeeId
+    ){
+
+        employeeId.value =
+            "";
+
+    }
 
 
-    if(holidayType){
+    if(
+        salaryRate
+    ){
+
+        salaryRate.value =
+            "";
+
+    }
+
+
+    if(
+        payrollDate
+    ){
+
+        payrollDate.value =
+            getToday();
+
+    }
+
+
+    if(
+        totalHours
+    ){
+
+        totalHours.value =
+            "";
+
+    }
+
+
+    if(
+        overtimeHours
+    ){
+
+        overtimeHours.value =
+            "";
+
+    }
+
+
+    if(
+        holidayType
+    ){
 
         holidayType.value =
             "none";
@@ -2136,7 +2187,39 @@ function(){
     }
 
 
-    if(sss){
+    if(
+        holidayHours
+    ){
+
+        holidayHours.value =
+            "";
+
+    }
+
+
+    if(
+        nightHours
+    ){
+
+        nightHours.value =
+            "";
+
+    }
+
+
+    if(
+        nightRate
+    ){
+
+        nightRate.value =
+            "10";
+
+    }
+
+
+    if(
+        sss
+    ){
 
         sss.value =
             "";
@@ -2144,7 +2227,9 @@ function(){
     }
 
 
-    if(philhealth){
+    if(
+        philhealth
+    ){
 
         philhealth.value =
             "";
@@ -2152,7 +2237,9 @@ function(){
     }
 
 
-    if(pagibig){
+    if(
+        pagibig
+    ){
 
         pagibig.value =
             "";
@@ -2160,7 +2247,9 @@ function(){
     }
 
 
-    if(healthcard){
+    if(
+        healthcard
+    ){
 
         healthcard.value =
             "";
@@ -2168,7 +2257,9 @@ function(){
     }
 
 
-    if(others){
+    if(
+        others
+    ){
 
         others.value =
             "";
@@ -2176,26 +2267,99 @@ function(){
     }
 
 
-    if(filterDate){
+    resetComputationDisplay();
 
-        filterDate.value =
-            getToday();
+};
+
+
+/* ==========================================
+   RESET COMPUTATION
+========================================== */
+
+function resetComputationDisplay(){
+
+    if(
+        displayBasicPay
+    ){
+
+        displayBasicPay.innerText =
+            "₱ 0.00";
 
     }
 
-};
+
+    if(
+        displayOvertimePay
+    ){
+
+        displayOvertimePay.innerText =
+            "₱ 0.00";
+
+    }
+
+
+    if(
+        displayHolidayPay
+    ){
+
+        displayHolidayPay.innerText =
+            "₱ 0.00";
+
+    }
+
+
+    if(
+        displayNightPay
+    ){
+
+        displayNightPay.innerText =
+            "₱ 0.00";
+
+    }
+
+
+    if(
+        grossSalary
+    ){
+
+        grossSalary.innerText =
+            "₱ 0.00";
+
+    }
+
+
+    if(
+        totalDeduction
+    ){
+
+        totalDeduction.innerText =
+            "₱ 0.00";
+
+    }
+
+
+    if(
+        netSalary
+    ){
+
+        netSalary.innerText =
+            "₱ 0.00";
+
+    }
+
+}
 
 
 /* ==========================================
    REFRESH
 ========================================== */
 
-window.refreshPayroll =
+window.refreshAutoPayroll =
 async function(){
 
     await loadEmployees();
 
-    await loadPayroll();
+    await loadAutoPayroll();
 
 };
 
@@ -2214,10 +2378,10 @@ function(){
 
 
 /* ==========================================
-   PRINT PAYROLL
+   PRINT
 ========================================== */
 
-window.printPayroll =
+window.printAutoPayroll =
 function(){
 
     window.print();
@@ -2226,12 +2390,84 @@ function(){
 
 
 /* ==========================================
+   AUTO COMPUTE ON INPUT
+========================================== */
+
+[
+    salaryRate,
+    totalHours,
+    overtimeHours,
+    holidayHours,
+    nightHours,
+    nightRate,
+    sss,
+    philhealth,
+    pagibig,
+    healthcard,
+    others
+]
+
+.forEach(
+    element => {
+
+        if(
+            element
+        ){
+
+            element.addEventListener(
+                "input",
+                function(){
+
+                    computeAutoPayroll();
+
+                }
+            );
+
+        }
+
+    }
+);
+
+
+/* ==========================================
+   HOLIDAY CHANGE
+========================================== */
+
+if(
+    holidayType
+){
+
+    holidayType.addEventListener(
+        "change",
+        function(){
+
+            computeAutoPayroll();
+
+        }
+    );
+
+}
+
+
+/* ==========================================
    INITIALIZE
 ========================================== */
 
 async function initialize(){
 
-    if(filterDate){
+    if(
+        payrollDate
+    ){
+
+        payrollDate.value =
+            getToday();
+
+    }
+
+
+    if(
+        filterDate
+    ){
 
         filterDate.value =
             getToday();
@@ -2241,7 +2477,7 @@ async function initialize(){
 
     await loadEmployees();
 
-    await loadPayroll();
+    await loadAutoPayroll();
 
 }
 
