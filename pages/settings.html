@@ -2845,9 +2845,955 @@
             </section>
 
 
-            <section
-                id="payrollSection"
-                class="settings-section">
+           <!-- ==================================
+     PAYROLL SETTINGS
+=================================== -->
+
+<section
+    id="payrollSection"
+    class="settings-section">
+
+
+    <!-- ==================================
+         SECTION TITLE
+    =================================== -->
+
+    <div class="section-title">
+
+        <div>
+
+            <h2>
+                Payroll Settings
+            </h2>
+
+            <p>
+                Configure payroll periods, salary
+                calculation, overtime and deductions.
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <!-- ==================================
+         PAY FREQUENCY
+    =================================== -->
+
+    <div class="settings-card">
+
+        <div class="card-title">
+
+            <span class="material-icons">
+                payments
+            </span>
+
+            <div>
+
+                <h3>
+                    Payroll Schedule
+                </h3>
+
+                <p>
+                    Configure the payroll frequency
+                    and cut-off periods.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="form-grid">
+
+
+            <div class="form-group">
+
+                <label for="payFrequency">
+
+                    Pay Frequency
+
+                </label>
+
+                <select id="payFrequency">
+
+                    <option value="monthly">
+                        Monthly
+                    </option>
+
+                    <option
+                        value="semi-monthly"
+                        selected>
+                        Semi-Monthly
+                    </option>
+
+                    <option value="weekly">
+                        Weekly
+                    </option>
+
+                    <option value="bi-weekly">
+                        Bi-Weekly
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label for="payDay">
+
+                    Default Pay Day
+
+                </label>
+
+                <input
+                    type="number"
+                    id="payDay"
+                    min="1"
+                    max="31"
+                    value="15">
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label for="firstCutoffStart">
+
+                    First Cut-Off Start
+
+                </label>
+
+                <select
+                    id="firstCutoffStart">
+
+                    <option value="1">
+                        1
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label for="firstCutoffEnd">
+
+                    First Cut-Off End
+
+                </label>
+
+                <select
+                    id="firstCutoffEnd">
+
+                    <option value="15">
+                        15
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label for="secondCutoffStart">
+
+                    Second Cut-Off Start
+
+                </label>
+
+                <select
+                    id="secondCutoffStart">
+
+                    <option value="16">
+                        16
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label for="secondCutoffEnd">
+
+                    Second Cut-Off End
+
+                </label>
+
+                <select
+                    id="secondCutoffEnd">
+
+                    <option value="last-day">
+                        Last Day of Month
+                    </option>
+
+                    <option value="30">
+                        30
+                    </option>
+
+                    <option value="31">
+                        31
+                    </option>
+
+                </select>
+
+            </div>
+
+
+        </div>
+
+    </div>
+
+
+    <!-- ==================================
+         SALARY SETTINGS
+    =================================== -->
+
+    <div class="settings-card">
+
+        <div class="card-title">
+
+            <span class="material-icons">
+                account_balance
+            </span>
+
+            <div>
+
+                <h3>
+                    Salary Calculation
+                </h3>
+
+                <p>
+                    Configure the basic salary and
+                    hourly rate calculation.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="form-grid">
+
+
+            <div class="form-group">
+
+                <label for="salaryBasis">
+
+                    Salary Basis
+
+                </label>
+
+                <select id="salaryBasis">
+
+                    <option value="monthly">
+                        Monthly Salary
+                    </option>
+
+                    <option value="daily">
+                        Daily Rate
+                    </option>
+
+                    <option value="hourly">
+                        Hourly Rate
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label for="workingDaysPerMonth">
+
+                    Working Days Per Month
+
+                </label>
+
+                <input
+                    type="number"
+                    id="workingDaysPerMonth"
+                    min="1"
+                    max="31"
+                    value="26">
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label for="hoursPerDay">
+
+                    Regular Hours Per Day
+
+                </label>
+
+                <input
+                    type="number"
+                    id="hoursPerDay"
+                    min="1"
+                    max="24"
+                    step="0.5"
+                    value="8">
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label for="hourlyRateMethod">
+
+                    Hourly Rate Method
+
+                </label>
+
+                <select
+                    id="hourlyRateMethod">
+
+                    <option value="monthly-divide-days">
+                        Monthly ÷ Working Days ÷ Hours
+                    </option>
+
+                    <option value="daily-divide-hours">
+                        Daily Rate ÷ Hours
+                    </option>
+
+                    <option value="manual">
+                        Manual Hourly Rate
+                    </option>
+
+                </select>
+
+            </div>
+
+
+        </div>
+
+    </div>
+
+
+    <!-- ==================================
+         OVERTIME PAY
+    =================================== -->
+
+    <div class="settings-card">
+
+        <div class="card-title">
+
+            <span class="material-icons">
+                more_time
+            </span>
+
+            <div>
+
+                <h3>
+                    Overtime Pay
+                </h3>
+
+                <p>
+                    Configure how overtime is included
+                    in payroll.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="form-grid">
+
+
+            <div class="form-group full">
+
+                <label class="toggle-row">
+
+                    <span>
+
+                        <strong>
+                            Include Overtime in Payroll
+                        </strong>
+
+                        <small>
+                            Add approved overtime earnings
+                            to employee payroll.
+                        </small>
+
+                    </span>
+
+
+                    <input
+                        type="checkbox"
+                        id="includeOvertimePay"
+                        class="toggle-input"
+                        checked>
+
+                    <span class="toggle-switch"></span>
+
+                </label>
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label for="regularOtRate">
+
+                    Regular Day OT Rate
+
+                </label>
+
+                <input
+                    type="number"
+                    id="regularOtRate"
+                    min="0"
+                    step="0.01"
+                    value="1.25">
+
+                <small class="field-help">
+
+                    Example: 1.25 = 125%
+
+                </small>
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label for="restDayOtRate">
+
+                    Rest Day OT Rate
+
+                </label>
+
+                <input
+                    type="number"
+                    id="restDayOtRate"
+                    min="0"
+                    step="0.01"
+                    value="1.30">
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label for="holidayOtRate">
+
+                    Holiday OT Rate
+
+                </label>
+
+                <input
+                    type="number"
+                    id="holidayOtRate"
+                    min="0"
+                    step="0.01"
+                    value="2.00">
+
+            </div>
+
+
+        </div>
+
+    </div>
+
+
+    <!-- ==================================
+         LATE & UNDERTIME DEDUCTIONS
+    =================================== -->
+
+    <div class="settings-card">
+
+        <div class="card-title">
+
+            <span class="material-icons">
+                remove_circle
+            </span>
+
+            <div>
+
+                <h3>
+                    Time-Based Deductions
+                </h3>
+
+                <p>
+                    Configure late and undertime
+                    deductions in payroll.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="form-grid">
+
+
+            <div class="form-group full">
+
+                <label class="toggle-row">
+
+                    <span>
+
+                        <strong>
+                            Deduct Late
+                        </strong>
+
+                        <small>
+                            Automatically deduct late
+                            minutes from payroll.
+                        </small>
+
+                    </span>
+
+
+                    <input
+                        type="checkbox"
+                        id="deductLate"
+                        class="toggle-input"
+                        checked>
+
+                    <span class="toggle-switch"></span>
+
+                </label>
+
+            </div>
+
+
+            <div class="form-group full">
+
+                <label class="toggle-row">
+
+                    <span>
+
+                        <strong>
+                            Deduct Undertime
+                        </strong>
+
+                        <small>
+                            Automatically deduct insufficient
+                            working time from payroll.
+                        </small>
+
+                    </span>
+
+
+                    <input
+                        type="checkbox"
+                        id="deductUndertime"
+                        class="toggle-input"
+                        checked>
+
+                    <span class="toggle-switch"></span>
+
+                </label>
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label for="deductionRounding">
+
+                    Deduction Rounding
+
+                </label>
+
+                <select
+                    id="deductionRounding">
+
+                    <option value="1">
+                        1 Minute
+                    </option>
+
+                    <option value="5">
+                        5 Minutes
+                    </option>
+
+                    <option value="10">
+                        10 Minutes
+                    </option>
+
+                    <option value="15">
+                        15 Minutes
+                    </option>
+
+                </select>
+
+            </div>
+
+
+        </div>
+
+    </div>
+
+
+    <!-- ==================================
+         PAYROLL DEDUCTIONS
+    =================================== -->
+
+    <div class="settings-card">
+
+        <div class="card-title">
+
+            <span class="material-icons">
+                receipt_long
+            </span>
+
+            <div>
+
+                <h3>
+                    Payroll Deductions
+                </h3>
+
+                <p>
+                    Configure common deductions that
+                    may appear on employee payroll.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="form-grid">
+
+
+            <div class="form-group full">
+
+                <label class="toggle-row">
+
+                    <span>
+
+                        <strong>
+                            Enable Government Deductions
+                        </strong>
+
+                        <small>
+                            Enable applicable government
+                            contribution deductions.
+                        </small>
+
+                    </span>
+
+
+                    <input
+                        type="checkbox"
+                        id="enableGovernmentDeductions"
+                        class="toggle-input"
+                        checked>
+
+                    <span class="toggle-switch"></span>
+
+                </label>
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label class="toggle-row">
+
+                    <span>
+
+                        <strong>
+                            SSS
+                        </strong>
+
+                    </span>
+
+
+                    <input
+                        type="checkbox"
+                        id="enableSSS"
+                        class="toggle-input"
+                        checked>
+
+                    <span class="toggle-switch"></span>
+
+                </label>
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label class="toggle-row">
+
+                    <span>
+
+                        <strong>
+                            PhilHealth
+                        </strong>
+
+                    </span>
+
+
+                    <input
+                        type="checkbox"
+                        id="enablePhilHealth"
+                        class="toggle-input"
+                        checked>
+
+                    <span class="toggle-switch"></span>
+
+                </label>
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label class="toggle-row">
+
+                    <span>
+
+                        <strong>
+                            Pag-IBIG
+                        </strong>
+
+                    </span>
+
+
+                    <input
+                        type="checkbox"
+                        id="enablePagIBIG"
+                        class="toggle-input"
+                        checked>
+
+                    <span class="toggle-switch"></span>
+
+                </label>
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label class="toggle-row">
+
+                    <span>
+
+                        <strong>
+                            Tax
+                        </strong>
+
+                    </span>
+
+
+                    <input
+                        type="checkbox"
+                        id="enableTax"
+                        class="toggle-input"
+                        checked>
+
+                    <span class="toggle-switch"></span>
+
+                </label>
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label class="toggle-row">
+
+                    <span>
+
+                        <strong>
+                            Health Card
+                        </strong>
+
+                    </span>
+
+
+                    <input
+                        type="checkbox"
+                        id="enableHealthCard"
+                        class="toggle-input"
+                        checked>
+
+                    <span class="toggle-switch"></span>
+
+                </label>
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label class="toggle-row">
+
+                    <span>
+
+                        <strong>
+                            Other Deductions
+                        </strong>
+
+                    </span>
+
+
+                    <input
+                        type="checkbox"
+                        id="enableOtherDeductions"
+                        class="toggle-input"
+                        checked>
+
+                    <span class="toggle-switch"></span>
+
+                </label>
+
+            </div>
+
+
+        </div>
+
+    </div>
+
+
+    <!-- ==================================
+         PAYROLL ROUNDING
+    =================================== -->
+
+    <div class="settings-card">
+
+        <div class="card-title">
+
+            <span class="material-icons">
+                calculate
+            </span>
+
+            <div>
+
+                <h3>
+                    Payroll Calculation
+                </h3>
+
+                <p>
+                    Configure rounding and automatic
+                    payroll calculations.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="form-grid">
+
+
+            <div class="form-group">
+
+                <label for="payrollRounding">
+
+                    Payroll Rounding
+
+                </label>
+
+                <select
+                    id="payrollRounding">
+
+                    <option value="0.01">
+                        0.01
+                    </option>
+
+                    <option value="0.05">
+                        0.05
+                    </option>
+
+                    <option value="0.10">
+                        0.10
+                    </option>
+
+                    <option value="1">
+                        1.00
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label class="toggle-row">
+
+                    <span>
+
+                        <strong>
+                            Auto Compute Payroll
+                        </strong>
+
+                        <small>
+                            Automatically calculate payroll
+                            based on attendance data.
+                        </small>
+
+                    </span>
+
+
+                    <input
+                        type="checkbox"
+                        id="autoComputePayroll"
+                        class="toggle-input"
+                        checked>
+
+                    <span class="toggle-switch"></span>
+
+                </label>
+
+            </div>
+
+
+        </div>
+
+    </div>
+
+
+    <!-- ==================================
+         SAVE PAYROLL SETTINGS
+    =================================== -->
+
+    <div class="save-bar">
+
+        <div>
+
+            <span class="material-icons">
+                info
+            </span>
+
+            <span>
+                Payroll settings will be used for
+                future payroll calculations.
+            </span>
+
+        </div>
+
+
+        <button
+            id="savePayrollBtn"
+            class="save-btn">
+
+            <span class="material-icons">
+                save
+            </span>
+
+            SAVE PAYROLL SETTINGS
+
+        </button>
+
+    </div>
+
+
+</section>
 
                 <div class="coming-soon">
 
