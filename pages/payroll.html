@@ -11,25 +11,297 @@
 
 <title>Payroll Management</title>
 
+
+<!-- ==========================================
+     MANIFEST
+========================================== -->
+
 <link
     rel="manifest"
     href="../manifest.json">
+
 
 <meta
     name="theme-color"
     content="#ffcc00">
 
+
 <link
     rel="apple-touch-icon"
     href="../assets/images/icon-192.png">
+
 
 <link
     rel="icon"
     href="../assets/images/logo.png">
 
+
+<!-- ==========================================
+     PAYROLL CSS
+========================================== -->
+
 <link
     rel="stylesheet"
     href="../css/payroll.css">
+
+
+<style>
+
+/* ==========================================
+   EXTRA PAYROLL CONTROLS
+========================================== */
+
+.payroll-actions {
+
+    display:flex;
+
+    gap:10px;
+
+    flex-wrap:wrap;
+
+    margin-top:15px;
+
+}
+
+
+.payroll-actions button {
+
+    cursor:pointer;
+
+}
+
+
+/* ==========================================
+   FORM BUTTONS
+========================================== */
+
+.form-actions {
+
+    display:flex;
+
+    gap:10px;
+
+    flex-wrap:wrap;
+
+    margin-top:15px;
+
+}
+
+
+/* ==========================================
+   EDIT BUTTON
+========================================== */
+
+.edit-btn {
+
+    background:#ffcc00;
+
+    color:#111;
+
+    border:none;
+
+    padding:7px 12px;
+
+    border-radius:6px;
+
+    font-weight:bold;
+
+    cursor:pointer;
+
+    margin-right:5px;
+
+}
+
+
+.edit-btn:hover {
+
+    opacity:.85;
+
+}
+
+
+/* ==========================================
+   DELETE BUTTON
+========================================== */
+
+.delete-btn {
+
+    background:#d71920;
+
+    color:#fff;
+
+    border:none;
+
+    padding:7px 12px;
+
+    border-radius:6px;
+
+    font-weight:bold;
+
+    cursor:pointer;
+
+}
+
+
+.delete-btn:hover {
+
+    opacity:.85;
+
+}
+
+
+/* ==========================================
+   CANCEL EDIT
+========================================== */
+
+.cancel-btn {
+
+    background:#555;
+
+    color:#fff;
+
+    border:none;
+
+    padding:10px 18px;
+
+    border-radius:7px;
+
+    font-weight:bold;
+
+    cursor:pointer;
+
+    display:none;
+
+}
+
+
+/* ==========================================
+   STATUS
+========================================== */
+
+.editing-label {
+
+    display:none;
+
+    background:#ffcc00;
+
+    color:#111;
+
+    padding:8px 12px;
+
+    border-radius:7px;
+
+    font-weight:bold;
+
+    margin-bottom:10px;
+
+}
+
+
+/* ==========================================
+   PRINT TABLE
+========================================== */
+
+@media print {
+
+    @page {
+
+        size:landscape;
+
+        margin:8mm;
+
+    }
+
+
+    body {
+
+        background:#fff !important;
+
+        color:#000 !important;
+
+    }
+
+
+    .header,
+
+    .form-grid,
+
+    .save-btn,
+
+    .cancel-btn,
+
+    .payroll-actions,
+
+    .total-box {
+
+        display:none !important;
+
+    }
+
+
+    .form-section {
+
+        padding:0 !important;
+
+        margin:0 !important;
+
+        box-shadow:none !important;
+
+        border:none !important;
+
+    }
+
+
+    .table-wrapper {
+
+        width:100% !important;
+
+        overflow:visible !important;
+
+        border:none !important;
+
+        box-shadow:none !important;
+
+    }
+
+
+    table {
+
+        width:100% !important;
+
+        min-width:0 !important;
+
+        border-collapse:collapse !important;
+
+        font-size:7px !important;
+
+    }
+
+
+    th,
+    td {
+
+        border:1px solid #000 !important;
+
+        color:#000 !important;
+
+        background:#fff !important;
+
+        padding:3px !important;
+
+    }
+
+
+    th:last-child,
+    td:last-child {
+
+        display:none !important;
+
+    }
+
+}
+
+</style>
 
 </head>
 
@@ -54,37 +326,17 @@
     </div>
 
 
-    <div
-        style="
-        display:flex;
-        gap:10px;
-        flex-wrap:wrap;
-        ">
+    <div class="payroll-actions">
 
-
-        <!-- PRINT TABLE -->
 
         <button
             class="btn print-btn"
-            onclick="printPayrollTable()">
+            onclick="printPayroll()">
 
             🖨 PRINT TABLE
 
         </button>
 
-
-        <!-- PRINT ALL PAYSLIPS -->
-
-        <button
-            class="btn payslip-print-btn"
-            onclick="printAllPayslips()">
-
-            🧾 PRINT ALL PAYSLIPS
-
-        </button>
-
-
-        <!-- BACK -->
 
         <button
             class="btn back-btn"
@@ -96,23 +348,44 @@
 
         </button>
 
+
     </div>
+
 
 </div>
 
 
 
 <!-- ==========================================
-     FORM
+     FORM SECTION
 ========================================== -->
 
 <div class="form-section">
 
 
+    <!-- EDIT INDICATOR -->
+
+    <div
+        id="editingLabel"
+        class="editing-label">
+
+        ✏️ EDITING PAYROLL RECORD
+
+    </div>
+
+
+
+    <!-- ======================================
+         FORM GRID
+    ======================================= -->
+
     <div class="form-grid">
 
 
-        <select id="employeeSelect">
+        <!-- EMPLOYEE -->
+
+        <select
+            id="employeeSelect">
 
             <option value="">
 
@@ -123,131 +396,251 @@
         </select>
 
 
+        <!-- TOTAL DAYS -->
+
         <input
             type="number"
             id="totaldays"
+            min="0"
+            step="0.01"
             placeholder="Total Days">
 
+
+        <!-- DAILY RATE -->
 
         <input
             type="number"
             id="dailyrate"
+            min="0"
+            step="0.01"
             placeholder="Daily Rate">
 
+
+        <!-- OVERTIME -->
 
         <input
             type="number"
             id="overtime"
-            placeholder="Overtime">
+            min="0"
+            step="0.01"
+            placeholder="Overtime Pay">
 
+
+        <!-- HOLIDAY -->
 
         <input
             type="number"
             id="holiday"
+            min="0"
+            step="0.01"
             placeholder="Holiday Pay">
 
+
+        <!-- SICK LEAVE -->
 
         <input
             type="number"
             id="sickleave"
+            min="0"
+            step="0.01"
             placeholder="Sick Leave">
 
+
+        <!-- VACATION -->
 
         <input
             type="number"
             id="vacationleave"
+            min="0"
+            step="0.01"
             placeholder="Vacation Leave">
 
+
+        <!-- BIRTHDAY -->
 
         <input
             type="number"
             id="birthdayleave"
+            min="0"
+            step="0.01"
             placeholder="Birthday Leave">
 
+
+        <!-- MATERNITY -->
 
         <input
             type="number"
             id="maternityleave"
+            min="0"
+            step="0.01"
             placeholder="Maternity Leave">
 
+
+        <!-- PATERNITY -->
 
         <input
             type="number"
             id="paternityleave"
+            min="0"
+            step="0.01"
             placeholder="Paternity Leave">
 
+
+        <!-- ALLOWANCE -->
 
         <input
             type="number"
             id="allowance"
+            min="0"
+            step="0.01"
             placeholder="Allowance">
 
+
+        <!-- SSS -->
 
         <input
             type="number"
             id="sss"
+            min="0"
+            step="0.01"
             placeholder="SSS">
 
+
+        <!-- PHILHEALTH -->
 
         <input
             type="number"
             id="philhealth"
+            min="0"
+            step="0.01"
             placeholder="PhilHealth">
 
+
+        <!-- PAGIBIG -->
 
         <input
             type="number"
             id="pagibig"
+            min="0"
+            step="0.01"
             placeholder="Pag-IBIG">
 
+
+        <!-- HEALTH CARD -->
 
         <input
             type="number"
             id="healthcard"
+            min="0"
+            step="0.01"
             placeholder="Health Card">
 
+
+        <!-- OTHER -->
 
         <input
             type="number"
             id="otherdeduction"
+            min="0"
+            step="0.01"
             placeholder="Other Deduction">
 
+
+        <!-- REASON -->
 
         <input
             type="text"
             id="deductionreason"
             placeholder="Reason for Deduction">
 
+
     </div>
 
 
-    <br>
+
+    <!-- ======================================
+         BUTTONS
+    ======================================= -->
+
+    <div class="form-actions">
 
 
-    <!-- SAVE -->
+        <button
+            class="btn save-btn"
+            onclick="savePayroll()">
 
-    <button
-        class="btn save-btn"
-        onclick="savePayroll()">
+            💾 SAVE PAYROLL
 
-        💾 SAVE PAYROLL
-
-    </button>
+        </button>
 
 
-    <!-- TOTAL -->
+        <button
+            id="cancelEditBtn"
+            class="cancel-btn"
+            onclick="cancelEdit()">
+
+            ✖ CANCEL EDIT
+
+        </button>
+
+
+    </div>
+
+
+
+    <!-- ======================================
+         TOTAL NET PAY
+    ======================================= -->
 
     <div class="total-box">
+
 
         TOTAL NET PAY :
 
         ₱
+
 
         <span id="totalNet">
 
             0.00
 
         </span>
+
+
+    </div>
+
+
+
+    <!-- ======================================
+         DATE FILTER
+    ======================================= -->
+
+    <div
+        class="payroll-actions">
+
+
+        <input
+            type="date"
+            id="filterDate">
+
+
+        <button
+            class="btn"
+            onclick="filterPayroll()">
+
+            🔍 FILTER DATE
+
+        </button>
+
+
+        <button
+            class="btn"
+            onclick="loadPayroll()">
+
+            📋 SHOW ALL
+
+        </button>
+
 
     </div>
 
@@ -265,101 +658,127 @@
 
             <thead>
 
+
                 <tr>
+
 
                     <th>
                         EMPLOYEE ID
                     </th>
 
+
                     <th>
                         EMPLOYEE
                     </th>
+
 
                     <th>
                         TOTAL DAYS
                     </th>
 
+
                     <th>
                         DAILY RATE
                     </th>
+
 
                     <th>
                         BASIC PAY
                     </th>
 
+
                     <th>
                         OVERTIME
                     </th>
+
 
                     <th>
                         HOLIDAY
                     </th>
 
+
                     <th>
                         SICK LEAVE
                     </th>
+
 
                     <th>
                         VACATION LEAVE
                     </th>
 
+
                     <th>
                         BIRTHDAY LEAVE
                     </th>
+
 
                     <th>
                         MATERNITY LEAVE
                     </th>
 
+
                     <th>
                         PATERNITY LEAVE
                     </th>
+
 
                     <th>
                         ALLOWANCE
                     </th>
 
+
                     <th>
                         SSS
                     </th>
+
 
                     <th>
                         PHILHEALTH
                     </th>
 
+
                     <th>
                         PAG-IBIG
                     </th>
+
 
                     <th>
                         HEALTH CARD
                     </th>
 
+
                     <th>
                         OTHER DEDUCTION
                     </th>
+
 
                     <th>
                         DEDUCTION REASON
                     </th>
 
+
                     <th>
                         TOTAL DEDUCTION
                     </th>
+
 
                     <th>
                         TOTAL GROSS
                     </th>
 
+
                     <th>
                         NET PAY
                     </th>
+
 
                     <th>
                         ACTION
                     </th>
 
+
                 </tr>
+
 
             </thead>
 
@@ -384,110 +803,12 @@
 
 
 <!-- ==========================================
-     PAYROLL JAVASCRIPT
+     PAYROLL JS
 ========================================== -->
 
 <script
     type="module"
     src="../js/payroll.js">
-
-</script>
-
-
-
-<script>
-
-/* ==========================================
-   PRINT PAYROLL TABLE ONLY
-========================================== */
-
-function printPayrollTable(){
-
-    window.print();
-
-}
-
-
-/* ==========================================
-   PRINT ALL PAYSLIPS
-========================================== */
-
-function printAllPayslips(){
-
-    const rows =
-        document.querySelectorAll(
-            "#payrollBody tr"
-        );
-
-
-    let validRecords = 0;
-
-
-    rows.forEach(
-        row => {
-
-            const cells =
-                row.querySelectorAll(
-                    "td"
-                );
-
-
-            if(
-                cells.length >= 22
-            ){
-
-                validRecords++;
-
-            }
-
-        }
-    );
-
-
-    if(
-        validRecords === 0
-    ){
-
-        alert(
-            "No payroll records available."
-        );
-
-        return;
-
-    }
-
-
-    /*
-     * Open the EXISTING payslip page.
-     *
-     * That page will handle:
-     *
-     * 4 payslips per page
-     * all payroll records
-     * existing payslip design
-     */
-
-    const url =
-        "payslip.html?printAll=1";
-
-
-    const printWindow =
-        window.open(
-            url,
-            "_blank"
-        );
-
-
-    if(!printWindow){
-
-        alert(
-            "Pop-up blocked.\n\n" +
-            "Please allow pop-ups for this HRIS website."
-        );
-
-    }
-
-}
 
 </script>
 
