@@ -3143,30 +3143,10 @@ if (printButton) {
 
 
 /* =========================================================
-   BACK BUTTON
+   BACK TO DASHBOARD
 ========================================================= */
 
 function goBack() {
-
-    /*
-     * First try browser history.
-     */
-
-    if (
-        window.history.length > 1
-    ) {
-
-        window.history.back();
-
-        return;
-
-    }
-
-
-    /*
-     * If there is no usable history,
-     * return to dashboard.
-     */
 
     window.location.href =
         "dashboard.html";
@@ -3187,7 +3167,7 @@ function () {
 
 
 /* =========================================================
-   GLOBAL BACK BUTTON ALIASES
+   BACK ALIASES
 ========================================================= */
 
 window.backToDashboard =
@@ -3224,8 +3204,6 @@ if (backButton) {
     );
 
 }
-
-
 /* =========================================================
    EMPLOYEE EVENT
 ========================================================= */
