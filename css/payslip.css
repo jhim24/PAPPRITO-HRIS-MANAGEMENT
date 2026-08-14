@@ -1,6 +1,12 @@
 /* ==========================================
    PAPPRITO HRIS
    PAYSLIP CSS
+   AUTO PAYROLL BASED
+========================================== */
+
+
+/* ==========================================
+   RESET
 ========================================== */
 
 *{
@@ -9,23 +15,83 @@
     box-sizing:border-box;
 }
 
+
+/* ==========================================
+   ROOT
+========================================== */
+
+:root{
+
+    --primary:#ffcc00;
+    --primary-dark:#d9aa00;
+
+    --danger:#d71920;
+    --danger-dark:#b51218;
+
+    --success:#00a65a;
+    --success-dark:#008f4d;
+
+    --info:#0066cc;
+
+    --bg:#eef2f7;
+    --bg-2:#f7f9fc;
+
+    --card:#ffffff;
+
+    --border:#d9dee7;
+
+    --text:#172033;
+    --muted:#687386;
+
+    --dark:#202938;
+
+    --shadow:
+        0 4px 18px
+        rgba(23,32,51,.08);
+
+}
+
+
+/* ==========================================
+   BODY
+========================================== */
+
 body{
+
     font-family:
         "Segoe UI",
         Tahoma,
         Arial,
         sans-serif;
 
-    background:#111111;
-    color:#ffffff;
+    background:
+        linear-gradient(
+            135deg,
+            #eef2f7,
+            #f8fafc
+        );
+
+    color:var(--text);
+
     min-height:100vh;
+
 }
 
+
+/* ==========================================
+   MAIN CONTAINER
+========================================== */
+
 .container{
+
     width:100%;
+
     max-width:1500px;
-    margin:auto;
-    padding:15px;
+
+    margin:0 auto;
+
+    padding:18px;
+
 }
 
 
@@ -34,101 +100,143 @@ body{
 ========================================== */
 
 .header{
+
+    width:100%;
+
     display:flex;
-    justify-content:space-between;
+
     align-items:center;
+
+    justify-content:space-between;
+
     gap:15px;
 
-    padding:15px;
-    margin-bottom:15px;
+    padding:15px 18px;
 
-    background:#1b1b1b;
+    margin-bottom:16px;
 
-    border:2px solid #ffcc00;
+    background:
+        linear-gradient(
+            135deg,
+            #ffffff,
+            #f8fafc
+        );
+
+    border:
+        1px solid
+        var(--border);
+
+    border-left:
+        5px solid
+        var(--primary);
+
     border-radius:12px;
 
     box-shadow:
-        0 0 15px
-        rgba(255,204,0,.12);
-}
+        var(--shadow);
 
-.title{
-    display:flex;
-    align-items:center;
-    gap:8px;
-
-    color:#ffcc00;
-
-    font-size:24px;
-    font-weight:900;
-}
-
-.title .material-icons{
-    font-size:30px;
 }
 
 
 /* ==========================================
-   BUTTONS
+   TITLE
+========================================== */
+
+.title{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:8px;
+
+    font-size:24px;
+
+    font-weight:900;
+
+    color:var(--text);
+
+}
+
+
+.title .material-icons{
+
+    color:#c39a00;
+
+    font-size:28px;
+
+}
+
+
+/* ==========================================
+   BUTTON BASE
 ========================================== */
 
 .btn{
+
     border:none;
-    border-radius:7px;
 
-    padding:10px 15px;
+    border-radius:8px;
 
-    font-weight:700;
+    min-height:40px;
+
+    padding:
+        9px 15px;
+
+    display:inline-flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    gap:6px;
 
     cursor:pointer;
 
-    display:inline-flex;
-    align-items:center;
-    justify-content:center;
+    font-size:11px;
 
-    gap:5px;
+    font-weight:900;
 
-    transition:.2s;
+    transition:.2s ease;
+
 }
+
 
 .btn:hover{
-    transform:translateY(-1px);
-    opacity:.9;
+
+    transform:
+        translateY(-1px);
+
+    filter:
+        brightness(.97);
+
 }
+
+
+.btn .material-icons{
+
+    font-size:19px;
+
+}
+
+
+/* ==========================================
+   BACK BUTTON
+========================================== */
 
 .back-btn{
-    background:#d71920;
-    color:#ffffff;
+
+    background:var(--primary);
+
+    color:#171717;
+
 }
 
-.print-btn{
-    background:#0066cc;
-    color:#ffffff;
-}
 
-.print-all-btn{
-    background:#008000;
-    color:#ffffff;
-}
+.back-btn:hover{
 
-.view-btn{
-    background:#ffcc00;
-    color:#111111;
-}
+    background:var(--primary-dark);
 
-.close-btn{
-    background:#d71920;
-    color:#ffffff;
-}
-
-.edit-btn{
-    background:#ffcc00;
-    color:#111111;
-}
-
-.delete-btn{
-    background:#d71920;
-    color:#ffffff;
 }
 
 
@@ -137,58 +245,182 @@ body{
 ========================================== */
 
 .admin-controls{
-    display:none;
 
-    background:#1b1b1b;
+    background:
+        linear-gradient(
+            135deg,
+            #ffffff,
+            #f8fafc
+        );
 
-    border:2px solid #ffcc00;
+    border:
+        1px solid
+        var(--border);
+
     border-radius:12px;
 
     padding:15px;
-    margin-bottom:15px;
-}
-
-.admin-title{
-    color:#ffcc00;
-
-    font-size:18px;
-    font-weight:900;
 
     margin-bottom:12px;
+
+    box-shadow:
+        var(--shadow);
+
 }
 
+
+.admin-title{
+
+    font-size:15px;
+
+    font-weight:900;
+
+    color:var(--text);
+
+    margin-bottom:12px;
+
+}
+
+
+/* ==========================================
+   FILTER GRID
+========================================== */
+
 .filter-grid{
+
     display:grid;
 
     grid-template-columns:
-        2fr
+        1.5fr
         1fr
         auto
         auto;
 
-    gap:10px;
+    gap:8px;
+
 }
+
 
 .filter-grid input{
+
     width:100%;
 
-    padding:11px;
+    min-height:40px;
 
-    border:1px solid #555;
+    border:
+        1px solid
+        var(--border);
+
     border-radius:7px;
 
-    background:#252525;
-    color:#ffffff;
+    background:#ffffff;
+
+    color:var(--text);
+
+    padding:
+        9px 11px;
 
     outline:none;
+
+    font-size:12px;
+
 }
+
 
 .filter-grid input:focus{
-    border-color:#ffcc00;
+
+    border-color:
+        var(--primary);
+
+    box-shadow:
+        0 0 0 3px
+        rgba(
+            255,
+            204,
+            0,
+            .14
+        );
+
 }
 
+
+/* ==========================================
+   FILTER BUTTONS
+========================================== */
+
+.view-btn{
+
+    background:
+        var(--info);
+
+    color:#ffffff;
+
+}
+
+
+.print-all-btn{
+
+    background:
+        var(--dark);
+
+    color:#ffffff;
+
+}
+
+
+.close-btn{
+
+    background:
+        #e5e9ef;
+
+    color:
+        #263244;
+
+}
+
+
+.print-btn{
+
+    background:
+        var(--primary);
+
+    color:#171717;
+
+}
+
+
+.submit-btn{
+
+    background:
+        var(--success);
+
+    color:#ffffff;
+
+}
+
+
+.attendance-btn{
+
+    background:
+        #7357d8;
+
+    color:#ffffff;
+
+}
+
+
+/* ==========================================
+   SHOW ALL
+========================================== */
+
 .show-all-row{
-    margin-top:10px;
+
+    display:flex;
+
+    justify-content:flex-end;
+
+    margin-top:9px;
+
 }
 
 
@@ -197,39 +429,101 @@ body{
 ========================================== */
 
 .summary{
-    display:none;
+
+    display:grid;
 
     grid-template-columns:
-        repeat(3,1fr);
+        repeat(
+            3,
+            1fr
+        );
 
-    gap:10px;
+    gap:12px;
 
-    margin-bottom:15px;
+    margin-bottom:14px;
+
 }
+
 
 .summary-card{
-    background:#1b1b1b;
 
-    border:1px solid #444;
-    border-left:5px solid #ffcc00;
+    min-height:95px;
 
-    border-radius:8px;
+    padding:16px;
 
-    padding:12px;
+    background:
+        #ffffff;
+
+    border:
+        1px solid
+        var(--border);
+
+    border-radius:10px;
+
+    box-shadow:
+        var(--shadow);
+
+    display:flex;
+
+    flex-direction:column;
+
+    justify-content:center;
+
 }
+
+
+.summary-card:nth-child(1){
+
+    border-left:
+        4px solid
+        var(--info);
+
+}
+
+
+.summary-card:nth-child(2){
+
+    border-left:
+        4px solid
+        var(--primary);
+
+}
+
+
+.summary-card:nth-child(3){
+
+    border-left:
+        4px solid
+        var(--success);
+
+}
+
 
 .summary-card small{
-    color:#bbbbbb;
+
+    color:
+        var(--muted);
+
+    font-size:10px;
+
+    font-weight:800;
+
 }
 
+
 .summary-card strong{
+
     display:block;
 
     margin-top:5px;
 
-    color:#ffcc00;
+    color:
+        var(--text);
 
-    font-size:20px;
+    font-size:24px;
+
+    font-weight:900;
+
 }
 
 
@@ -238,140 +532,355 @@ body{
 ========================================== */
 
 .admin-table-wrapper{
-    display:none;
 
     width:100%;
 
     overflow-x:auto;
 
-    background:#1b1b1b;
+    background:
+        #ffffff;
 
-    border:2px solid #ffcc00;
+    border:
+        1px solid
+        var(--border);
+
     border-radius:12px;
 
-    padding:8px;
-    margin-bottom:15px;
+    box-shadow:
+        var(--shadow);
+
+    margin-bottom:16px;
+
+    -webkit-overflow-scrolling:touch;
+
 }
 
+
 .admin-table{
+
     width:100%;
+
     min-width:1050px;
 
     border-collapse:collapse;
+
 }
+
 
 .admin-table th,
 .admin-table td{
-    border:1px solid #444;
 
-    padding:8px;
+    padding:
+        10px 9px;
+
+    border:
+        1px solid
+        var(--border);
 
     text-align:center;
 
-    white-space:nowrap;
+    vertical-align:middle;
 
-    font-size:12px;
+    font-size:11px;
+
 }
+
 
 .admin-table th{
-    background:#ffcc00;
-    color:#111111;
+
+    background:
+        #253044;
+
+    color:
+        var(--primary);
 
     font-weight:900;
+
+    white-space:nowrap;
+
 }
+
 
 .admin-table td{
-    background:#222222;
+
+    background:
+        #ffffff;
+
+    color:
+        var(--text);
+
 }
 
-.admin-table tr:hover td{
-    background:#303030;
+
+.admin-table tbody tr:nth-child(even) td{
+
+    background:
+        #f7f9fc;
+
+}
+
+
+.admin-table tbody tr:hover td{
+
+    background:
+        #fff9db;
+
 }
 
 
 /* ==========================================
-   EMPLOYEE
+   TABLE ACTION BUTTON
+========================================== */
+
+.table-icon-btn{
+
+    width:34px;
+
+    height:34px;
+
+    border:none;
+
+    border-radius:6px;
+
+    display:inline-flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    margin:2px;
+
+    cursor:pointer;
+
+    background:
+        #e9edf3;
+
+    color:
+        #263244;
+
+    transition:.2s ease;
+
+}
+
+
+.table-icon-btn:hover{
+
+    transform:
+        translateY(-1px);
+
+}
+
+
+.table-icon-btn .material-icons{
+
+    font-size:18px;
+
+}
+
+
+.view-payslip-action{
+
+    background:
+        #dbeafe;
+
+    color:
+        #0066cc;
+
+}
+
+
+.print-payslip-action{
+
+    background:
+        #fff3bf;
+
+    color:
+        #9b7800;
+
+}
+
+
+.delete-payslip-action{
+
+    background:
+        #fde2e3;
+
+    color:
+        var(--danger);
+
+}
+
+
+/* ==========================================
+   EMPLOYEE SECTION
 ========================================== */
 
 .employee-section{
-    display:none;
-}
 
-.form-section{
-    background:#1b1b1b;
+    background:
+        #ffffff;
 
-    border:2px solid #ffcc00;
+    border:
+        1px solid
+        var(--border);
+
     border-radius:12px;
 
-    padding:15px;
-    margin-bottom:15px;
+    box-shadow:
+        var(--shadow);
+
+    margin-bottom:16px;
+
 }
 
-.emp-info{
-    display:grid;
 
-    grid-template-columns:
-        1fr 1fr;
+.form-section{
 
-    gap:10px;
+    padding:16px;
 
-    margin-bottom:15px;
-}
-
-.emp-info > div{
-    background:#252525;
-
-    border:1px solid #444;
-    border-left:4px solid #ffcc00;
-
-    padding:10px;
-
-    border-radius:7px;
-}
-
-.emp-info span{
-    color:#ffcc00;
 }
 
 
 /* ==========================================
-   FORMS
+   EMPLOYEE INFO
 ========================================== */
 
-.form-grid{
+.emp-info{
+
     display:grid;
 
     grid-template-columns:
-        repeat(4,1fr);
+        1fr
+        1fr;
 
     gap:10px;
+
+    margin-bottom:14px;
+
 }
+
+
+.emp-info > div{
+
+    background:
+        #f5f7fa;
+
+    border:
+        1px solid
+        var(--border);
+
+    border-radius:8px;
+
+    padding:
+        11px 13px;
+
+    font-size:12px;
+
+}
+
+
+.emp-info b{
+
+    color:
+        #566174;
+
+}
+
+
+.emp-info span{
+
+    color:
+        var(--text);
+
+    font-weight:800;
+
+    margin-left:5px;
+
+}
+
+
+/* ==========================================
+   FORM GRID
+========================================== */
+
+.form-grid{
+
+    display:grid;
+
+    grid-template-columns:
+        repeat(
+            4,
+            1fr
+        );
+
+    gap:8px;
+
+    margin-bottom:12px;
+
+}
+
 
 .form-grid input,
 .form-grid select,
 .form-grid textarea{
+
     width:100%;
 
-    padding:11px;
+    min-height:40px;
 
-    border:1px solid #555;
+    border:
+        1px solid
+        var(--border);
+
     border-radius:7px;
 
-    background:#252525;
-    color:#ffffff;
+    background:
+        #ffffff;
+
+    color:
+        var(--text);
+
+    padding:
+        9px 10px;
 
     outline:none;
+
+    font-family:inherit;
+
+    font-size:11px;
+
 }
 
+
 .form-grid textarea{
-    min-height:70px;
-    resize:vertical;
+
+    min-height:80px;
+
+    resize:
+        vertical;
+
+    grid-column:
+        span 2;
+
 }
+
 
 .form-grid input:focus,
 .form-grid select:focus,
 .form-grid textarea:focus{
-    border-color:#ffcc00;
+
+    border-color:
+        var(--primary);
+
+    box-shadow:
+        0 0 0 3px
+        rgba(
+            255,
+            204,
+            0,
+            .12
+        );
+
 }
 
 
@@ -380,22 +889,15 @@ body{
 ========================================== */
 
 .action-buttons{
+
     display:flex;
 
-    gap:10px;
     flex-wrap:wrap;
 
-    margin-top:15px;
-}
+    gap:7px;
 
-.submit-btn{
-    background:#d71920;
-    color:#ffffff;
-}
+    margin-bottom:14px;
 
-.attendance-btn{
-    background:#cc8a00;
-    color:#ffffff;
 }
 
 
@@ -404,58 +906,72 @@ body{
 ========================================== */
 
 .table-wrapper{
+
     width:100%;
 
     overflow-x:auto;
 
-    background:#1b1b1b;
+    margin-top:12px;
 
-    border:1px solid #444;
+    border:
+        1px solid
+        var(--border);
+
     border-radius:8px;
 
-    margin-top:15px;
+    -webkit-overflow-scrolling:touch;
+
 }
 
+
 .request-table{
+
     width:100%;
+
     min-width:900px;
 
     border-collapse:collapse;
+
 }
+
 
 .request-table th,
 .request-table td{
-    border:1px solid #444;
 
-    padding:8px;
+    padding:
+        9px 8px;
+
+    border:
+        1px solid
+        var(--border);
 
     text-align:center;
 
-    font-size:12px;
+    font-size:10px;
+
 }
+
 
 .request-table th{
-    background:#ffcc00;
-    color:#111111;
+
+    background:
+        #253044;
+
+    color:
+        var(--primary);
+
+    font-weight:900;
+
 }
+
 
 .request-table td{
-    background:#222222;
-}
 
-.pending{
-    color:#ffcc00;
-    font-weight:bold;
-}
+    background:#ffffff;
 
-.approved{
-    color:#00cc66;
-    font-weight:bold;
-}
+    color:
+        var(--text);
 
-.rejected{
-    color:#ff4444;
-    font-weight:bold;
 }
 
 
@@ -464,155 +980,574 @@ body{
 ========================================== */
 
 .payslip{
-    display:none;
 
     width:100%;
-    max-width:700px;
 
-    margin:20px auto;
+    max-width:800px;
 
-    padding:12px;
+    margin:
+        20px auto;
 
-    background:#f9f9f9;
-    color:#000000;
+    padding:25px;
 
-    border:3px solid #ffcc00;
+    background:
+        #ffffff;
+
+    border:
+        1px solid
+        var(--border);
+
     border-radius:12px;
+
+    box-shadow:
+        0 8px 30px
+        rgba(
+            23,
+            32,
+            51,
+            .12
+        );
+
 }
 
+
+/* ==========================================
+   PAYSLIP ACTIONS
+========================================== */
+
 .payslip-actions{
+
     display:flex;
 
     justify-content:flex-end;
 
-    gap:8px;
+    gap:7px;
 
-    flex-wrap:wrap;
+    margin-bottom:15px;
 
-    margin-bottom:10px;
 }
 
+
+/* ==========================================
+   COMPANY
+========================================== */
+
+.company{
+
+    text-align:center;
+
+    padding-bottom:15px;
+
+    margin-bottom:15px;
+
+    border-bottom:
+        2px solid
+        var(--primary);
+
+}
+
+
 .payroll-logo{
-    width:70px;
-    height:70px;
 
-    object-fit:cover;
+    width:75px;
 
-    border-radius:50%;
+    height:75px;
 
-    border:3px solid #ffcc00;
-
-    background:#ffffff;
-
-    padding:4px;
+    object-fit:contain;
 
     display:block;
 
-    margin:0 auto 8px auto;
+    margin:
+        0 auto 7px;
+
 }
 
-.company{
-    text-align:center;
-
-    margin-bottom:6px;
-
-    padding-bottom:5px;
-
-    border-bottom:2px solid #ffcc00;
-}
 
 .company h2{
-    font-size:20px;
-    color:#cc0000;
+
+    color:
+        var(--text);
+
+    font-size:26px;
+
+    font-weight:900;
+
 }
+
 
 .company p{
-    font-size:9px;
-    font-weight:bold;
+
+    color:
+        var(--muted);
+
+    font-size:10px;
+
+    font-weight:800;
+
+    margin-top:3px;
+
 }
+
+
+/* ==========================================
+   PAYSLIP INFO
+========================================== */
 
 .info{
-    font-size:10px;
-    line-height:1.6;
 
-    margin-bottom:6px;
+    display:grid;
 
-    background:#fff8dc;
+    grid-template-columns:
+        1fr
+        1fr;
 
-    padding:6px;
+    gap:6px 15px;
 
-    border-radius:6px;
+    padding:12px;
 
-    border:1px solid #ffcc00;
+    margin-bottom:14px;
+
+    background:
+        #f6f8fb;
+
+    border:
+        1px solid
+        var(--border);
+
+    border-radius:8px;
+
+    font-size:11px;
+
 }
 
+
+.info b{
+
+    color:
+        #596579;
+
+}
+
+
+.info span{
+
+    color:
+        var(--text);
+
+    font-weight:800;
+
+}
+
+
+/* ==========================================
+   PAYROLL TABLE
+========================================== */
+
 .payroll-table{
+
     width:100%;
 
     border-collapse:collapse;
 
-    margin-top:5px;
+    margin-bottom:14px;
 
-    table-layout:fixed;
 }
+
 
 .payroll-table th,
 .payroll-table td{
-    border:1px solid #999;
 
-    padding:5px;
+    padding:
+        9px 10px;
 
-    font-size:10px;
+    border:
+        1px solid
+        var(--border);
+
+    font-size:11px;
+
 }
+
 
 .payroll-table th{
-    background:#ffcc00;
-    color:#000000;
+
+    background:
+        #253044;
+
+    color:
+        var(--primary);
+
+    text-align:left;
+
+    font-weight:900;
+
 }
 
-.payroll-table td{
-    background:#ffffff;
-    color:#000000;
-}
 
-.netpay{
-    margin-top:8px;
-
-    padding:8px;
-
-    background:#008000;
-
-    color:#ffffff;
-
-    border-radius:6px;
-
-    font-size:12px;
-
-    font-weight:bold;
+.payroll-table th:last-child{
 
     text-align:right;
+
 }
 
+
+.payroll-table td:last-child{
+
+    text-align:right;
+
+    white-space:nowrap;
+
+}
+
+
+.payroll-table tbody tr:nth-child(even) td{
+
+    background:
+        #f8fafc;
+
+}
+
+
+.payroll-table tr:last-child td{
+
+    background:
+        #fff8d6;
+
+}
+
+
+/* ==========================================
+   NET PAY
+========================================== */
+
+.netpay{
+
+    padding:
+        15px;
+
+    margin-top:8px;
+
+    margin-bottom:20px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #fff7cc,
+            #fffbe8
+        );
+
+    border:
+        2px solid
+        var(--primary);
+
+    border-radius:10px;
+
+    text-align:center;
+
+    color:
+        #6f5900;
+
+    font-size:18px;
+
+    font-weight:900;
+
+}
+
+
+.netpay span{
+
+    color:
+        #111111;
+
+    font-size:24px;
+
+}
+
+
+/* ==========================================
+   SIGNATURE
+========================================== */
+
 .signature{
-    margin-top:20px;
+
+    display:grid;
+
+    grid-template-columns:
+        1fr
+        1fr;
+
+    gap:60px;
+
+    margin-top:40px;
+
+}
+
+
+.signature .line{
+
+    border-top:
+        1px solid
+        #333333;
+
+    padding-top:7px;
+
+    text-align:center;
+
+    font-size:10px;
+
+    color:
+        var(--muted);
+
+}
+
+
+/* ==========================================
+   FOOTER
+========================================== */
+
+.footer{
+
+    text-align:center;
+
+    padding:20px;
+
+    color:
+        var(--muted);
+
+    font-size:10px;
+
+}
+
+
+/* ==========================================
+   PRINTABLE PAYSLIP
+========================================== */
+
+.printable-payslip{
+
+    width:
+        190mm;
+
+    min-height:
+        250mm;
+
+    margin:
+        0 auto;
+
+    padding:
+        12mm;
+
+    background:
+        #ffffff;
+
+    color:
+        #000000;
+
+    page-break-after:
+        always;
+
+}
+
+
+.printable-payslip:last-child{
+
+    page-break-after:
+        auto;
+
+}
+
+
+.printable-payslip .company{
+
+    border-bottom:
+        2px solid
+        #000000;
+
+}
+
+
+.printable-payslip .company h2,
+.printable-payslip .company p{
+
+    color:#000000;
+
+}
+
+
+.printable-payslip .info{
+
+    background:
+        #ffffff;
+
+    border:
+        1px solid
+        #000000;
+
+    color:#000000;
+
+}
+
+
+.printable-payslip .info b{
+
+    color:#000000;
+
+}
+
+
+.printable-payslip .payroll-table th{
+
+    background:
+        #eeeeee;
+
+    color:#000000;
+
+    border:
+        1px solid
+        #000000;
+
+}
+
+
+.printable-payslip .payroll-table td{
+
+    background:#ffffff;
+
+    color:#000000;
+
+    border:
+        1px solid
+        #000000;
+
+}
+
+
+.printable-payslip .netpay{
+
+    background:
+        #ffffff;
+
+    border:
+        2px solid
+        #000000;
+
+    color:#000000;
+
+}
+
+
+.printable-payslip .netpay span{
+
+    color:#000000;
+
+}
+
+
+/* ==========================================
+   HOURS SUMMARY
+========================================== */
+
+.hours-summary{
+
+    display:grid;
+
+    grid-template-columns:
+        repeat(
+            4,
+            1fr
+        );
+
+    gap:7px;
+
+    margin-bottom:14px;
+
+}
+
+
+.hours-box{
+
+    padding:
+        9px;
+
+    text-align:center;
+
+    background:
+        #f5f7fa;
+
+    border:
+        1px solid
+        var(--border);
+
+    border-radius:7px;
+
+}
+
+
+.hours-box small{
+
+    display:block;
+
+    color:
+        var(--muted);
+
+    font-size:8px;
+
+    font-weight:900;
+
+}
+
+
+.hours-box strong{
+
+    display:block;
+
+    margin-top:3px;
+
+    color:
+        var(--text);
+
+    font-size:16px;
+
+}
+
+
+/* ==========================================
+   HOLIDAY INFO
+========================================== */
+
+.holiday-info{
 
     display:flex;
 
     justify-content:space-between;
 
-    font-size:8px;
+    gap:10px;
+
+    flex-wrap:wrap;
+
+    padding:
+        9px 11px;
+
+    margin-bottom:14px;
+
+    background:
+        #f7f9fc;
+
+    border:
+        1px solid
+        var(--border);
+
+    border-radius:7px;
+
+    font-size:10px;
+
 }
 
-.line{
-    margin-top:12px;
 
-    border-top:1px solid #000000;
+.holiday-rate{
 
-    width:90px;
+    font-weight:900;
 
-    text-align:center;
-
-    padding-top:3px;
 }
 
 
@@ -620,70 +1555,358 @@ body{
    MOBILE
 ========================================== */
 
-@media(max-width:768px){
+@media(
+    max-width:768px
+){
 
     .container{
+
         padding:8px;
+
     }
+
 
     .header{
-        flex-direction:column;
-        align-items:stretch;
+
+        padding:
+            11px 12px;
+
     }
+
 
     .title{
-        justify-content:center;
-        font-size:20px;
+
+        font-size:18px;
+
     }
 
-    .header > button{
-        width:100%;
+
+    .title .material-icons{
+
+        font-size:22px;
+
     }
+
+
+    .back-btn{
+
+        padding:
+            8px 10px;
+
+    }
+
+
+    .back-btn span:last-child{
+
+        display:none;
+
+    }
+
 
     .filter-grid{
-        grid-template-columns:1fr;
+
+        grid-template-columns:
+            1fr 1fr;
+
     }
 
-    .filter-grid .btn{
+
+    .filter-grid .view-btn,
+    .filter-grid .print-all-btn{
+
         width:100%;
+
     }
+
 
     .summary{
-        grid-template-columns:1fr;
+
+        grid-template-columns:
+            1fr 1fr;
+
+        gap:8px;
+
     }
+
+
+    .summary-card:last-child{
+
+        grid-column:
+            span 2;
+
+    }
+
+
+    .summary-card{
+
+        min-height:80px;
+
+        padding:11px;
+
+    }
+
+
+    .summary-card strong{
+
+        font-size:20px;
+
+    }
+
+
+    .form-section{
+
+        padding:9px;
+
+    }
+
 
     .emp-info{
-        grid-template-columns:1fr;
+
+        grid-template-columns:
+            1fr;
+
     }
+
 
     .form-grid{
-        grid-template-columns:1fr;
+
+        grid-template-columns:
+            1fr 1fr;
+
     }
+
+
+    .form-grid textarea{
+
+        grid-column:
+            span 2;
+
+    }
+
 
     .action-buttons{
-        flex-direction:column;
+
+        display:grid;
+
+        grid-template-columns:
+            1fr 1fr;
+
     }
+
 
     .action-buttons .btn{
+
         width:100%;
+
     }
+
 
     .payslip{
+
+        padding:14px;
+
+        border-radius:8px;
+
+    }
+
+
+    .info{
+
+        grid-template-columns:
+            1fr;
+
+    }
+
+
+    .hours-summary{
+
+        grid-template-columns:
+            1fr 1fr;
+
+    }
+
+
+    .signature{
+
+        gap:30px;
+
+    }
+
+}
+
+
+/* ==========================================
+   SMALL MOBILE
+========================================== */
+
+@media(
+    max-width:480px
+){
+
+    .container{
+
+        padding:5px;
+
+    }
+
+
+    .header{
+
+        border-radius:8px;
+
+    }
+
+
+    .title{
+
+        font-size:15px;
+
+    }
+
+
+    .admin-controls{
+
+        padding:9px;
+
+    }
+
+
+    .filter-grid{
+
+        grid-template-columns:
+            1fr;
+
+    }
+
+
+    .show-all-row{
+
+        justify-content:
+            stretch;
+
+    }
+
+
+    .show-all-row .btn{
+
         width:100%;
 
-        margin:15px auto;
-
-        padding:8px;
     }
+
+
+    .summary{
+
+        grid-template-columns:
+            1fr;
+
+    }
+
+
+    .summary-card:last-child{
+
+        grid-column:
+            auto;
+
+    }
+
+
+    .summary-card{
+
+        min-height:70px;
+
+    }
+
+
+    .form-grid{
+
+        grid-template-columns:
+            1fr;
+
+    }
+
+
+    .form-grid textarea{
+
+        grid-column:
+            auto;
+
+    }
+
+
+    .action-buttons{
+
+        grid-template-columns:
+            1fr;
+
+    }
+
+
+    .payslip{
+
+        margin:
+            10px 0;
+
+        padding:
+            10px;
+
+    }
+
+
+    .payslip-actions{
+
+        display:grid;
+
+        grid-template-columns:
+            1fr 1fr;
+
+    }
+
+
+    .payslip-actions .btn{
+
+        width:100%;
+
+    }
+
+
+    .company h2{
+
+        font-size:22px;
+
+    }
+
+
+    .payroll-logo{
+
+        width:60px;
+
+        height:60px;
+
+    }
+
 
     .payroll-table th,
     .payroll-table td{
-        font-size:8px;
-        padding:3px;
+
+        padding:
+            7px 6px;
+
+        font-size:9px;
+
     }
 
+
     .netpay{
-        font-size:10px;
+
+        font-size:15px;
+
+    }
+
+
+    .netpay span{
+
+        font-size:20px;
+
     }
 
 }
@@ -695,8 +1918,250 @@ body{
 
 @media print{
 
+    @page{
+
+        size:A4;
+
+        margin:
+            10mm;
+
+    }
+
+
     body{
-        background:#ffffff;
+
+        background:#ffffff !important;
+
+        color:#000000 !important;
+
+    }
+
+
+    .container{
+
+        width:100%;
+
+        max-width:none;
+
+        padding:0;
+
+        margin:0;
+
+    }
+
+
+    /*
+     * Hide normal application UI
+     */
+
+    .header,
+    .admin-controls,
+    .summary,
+    .admin-table-wrapper,
+    .employee-section,
+    .payslip-actions,
+    .footer{
+
+        display:none !important;
+
+    }
+
+
+    /*
+     * Current payslip
+     */
+
+    .payslip{
+
+        display:block !important;
+
+        width:100%;
+
+        max-width:none;
+
+        margin:0;
+
+        padding:0;
+
+        border:none;
+
+        box-shadow:none;
+
+        border-radius:0;
+
+    }
+
+
+    .payslip .company{
+
+        margin-top:0;
+
+    }
+
+
+    /*
+     * Temporary PRINT ALL
+     */
+
+    #temporaryPayslipPrint{
+
+        display:block !important;
+
+        width:100%;
+
+    }
+
+
+    #temporaryPayslipPrint
+    .printable-payslip{
+
+        display:block !important;
+
+        width:100%;
+
+        min-height:0;
+
+        margin:0;
+
+        padding:0;
+
+        page-break-after:always;
+
+    }
+
+
+    #temporaryPayslipPrint
+    .printable-payslip:last-child{
+
+        page-break-after:auto;
+
+    }
+
+
+    /*
+     * Hide normal payslip
+     * while PRINT ALL is active
+     */
+
+    body.printing-all-payslips
+    .payslip{
+
+        display:none !important;
+
+    }
+
+
+    /*
+     * Black and white print
+     */
+
+    .company h2,
+    .company p,
+    .info,
+    .info b,
+    .info span,
+    .payroll-table,
+    .payroll-table th,
+    .payroll-table td,
+    .netpay,
+    .netpay span,
+    .signature{
+
+        color:#000000 !important;
+
+    }
+
+
+    .company{
+
+        border-bottom:
+            2px solid
+            #000000 !important;
+
+    }
+
+
+    .info{
+
+        background:#ffffff !important;
+
+        border:
+            1px solid
+            #000000 !important;
+
+    }
+
+
+    .payroll-table th{
+
+        background:#eeeeee !important;
+
+        color:#000000 !important;
+
+        border:
+            1px solid
+            #000000 !important;
+
+    }
+
+
+    .payroll-table td{
+
+        background:#ffffff !important;
+
+        color:#000000 !important;
+
+        border:
+            1px solid
+            #000000 !important;
+
+    }
+
+
+    .hours-box{
+
+        background:#ffffff !important;
+
+        border:
+            1px solid
+            #000000 !important;
+
+        color:#000000 !important;
+
+    }
+
+
+    .hours-box small,
+    .hours-box strong{
+
+        color:#000000 !important;
+
+    }
+
+
+    .holiday-info{
+
+        background:#ffffff !important;
+
+        border:
+            1px solid
+            #000000 !important;
+
+        color:#000000 !important;
+
+    }
+
+
+    .netpay{
+
+        background:#ffffff !important;
+
+        border:
+            2px solid
+            #000000 !important;
+
+        color:#000000 !important;
+
     }
 
 }
