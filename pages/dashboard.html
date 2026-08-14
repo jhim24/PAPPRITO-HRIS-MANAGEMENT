@@ -77,6 +77,37 @@
     rel="stylesheet"
     href="../css/dashboard.css">
 
+
+<style>
+/* ==========================================
+   PWA INSTALL BUTTON
+========================================== */
+
+.install-app-btn{
+    background:#ffcc00 !important;
+    color:#111111 !important;
+    border-color:#d9a900 !important;
+    box-shadow:0 4px 12px rgba(255,204,0,.25);
+}
+
+.install-app-btn:hover{
+    background:#ffd633 !important;
+    transform:translateY(-1px);
+}
+
+.install-app-btn.show{
+    display:flex !important;
+}
+
+@media(max-width:600px){
+    .install-app-btn{
+        width:37px;
+        height:37px;
+        min-width:37px;
+    }
+}
+</style>
+
 </head>
 
 
@@ -377,6 +408,20 @@
 
                 <span class="material-icons">
                     menu
+                </span>
+
+            </button>
+
+            <button
+                type="button"
+                id="installAppBtn"
+                class="icon-btn install-app-btn"
+                title="Install PAPPRITO HRIS"
+                aria-label="Install PAPPRITO HRIS"
+                style="display:none;">
+
+                <span class="material-icons">
+                    install_mobile
                 </span>
 
             </button>
@@ -1343,6 +1388,138 @@ if (
 
 </script>
 
+
+
+<script>
+/* ==========================================
+   PAPPRITO HRIS
+   PWA REGISTRATION + INSTALL
+========================================== */
+
+let deferredInstallPrompt = null;
+
+const installAppBtn =
+    document.getElementById("installAppBtn");
+
+
+/* ==========================================
+   SERVICE WORKER
+========================================== */
+
+if ("serviceWorker" in navigator) {
+
+    window.addEventListener("load", function () {
+
+        navigator.serviceWorker
+            .register("../sw.js")
+            .then(function (registration) {
+
+                console.log(
+                    "PAPPRITO HRIS Service Worker Registered:",
+                    registration.scope
+                );
+
+            })
+            .catch(function (error) {
+
+                console.error(
+                    "PAPPRITO HRIS Service Worker Error:",
+                    error
+                );
+
+            });
+
+    });
+
+}
+
+
+/* ==========================================
+   CAPTURE INSTALL PROMPT
+========================================== */
+
+window.addEventListener(
+    "beforeinstallprompt",
+    function (event) {
+
+        event.preventDefault();
+
+        deferredInstallPrompt = event;
+
+        if (installAppBtn) {
+            installAppBtn.classList.add("show");
+        }
+
+        console.log(
+            "PAPPRITO HRIS can be installed."
+        );
+
+    }
+);
+
+
+/* ==========================================
+   INSTALL BUTTON
+========================================== */
+
+if (installAppBtn) {
+
+    installAppBtn.addEventListener(
+        "click",
+        async function () {
+
+            if (!deferredInstallPrompt) {
+
+                alert(
+                    "Kung walang install prompt, gamitin ang Chrome menu (⋮) at piliin ang 'Install app' o 'Add to Home screen'."
+                );
+
+                return;
+
+            }
+
+            deferredInstallPrompt.prompt();
+
+            const result =
+                await deferredInstallPrompt.userChoice;
+
+            console.log(
+                "PWA Install Choice:",
+                result.outcome
+            );
+
+            deferredInstallPrompt = null;
+
+            installAppBtn.classList.remove("show");
+
+        }
+    );
+
+}
+
+
+/* ==========================================
+   INSTALLED
+========================================== */
+
+window.addEventListener(
+    "appinstalled",
+    function () {
+
+        console.log(
+            "PAPPRITO HRIS installed successfully."
+        );
+
+        deferredInstallPrompt = null;
+
+        if (installAppBtn) {
+            installAppBtn.classList.remove("show");
+        }
+
+    }
+);
+
+</script>
 
 </body>
 
