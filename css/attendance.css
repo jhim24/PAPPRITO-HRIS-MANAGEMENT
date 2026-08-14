@@ -2018,3 +2018,387 @@ body {
         display: none !important;
     }
 }
+
+/* ==========================================
+   PAPPRITO HRIS
+   ATTENDANCE - COLOR ACCENTS
+   ADD ONLY
+========================================== */
+
+
+/* ==========================================
+   FILTER BOXES
+========================================== */
+
+#employeeSelect{
+    border:2px solid #1769aa !important;
+    background:#eef7ff !important;
+    color:#111111 !important;
+    font-weight:800 !important;
+}
+
+
+#fromDate{
+    border:2px solid #16803c !important;
+    background:#effaf3 !important;
+    color:#111111 !important;
+    font-weight:800 !important;
+}
+
+
+#toDate{
+    border:2px solid #d9a900 !important;
+    background:#fffbea !important;
+    color:#111111 !important;
+    font-weight:800 !important;
+}
+
+
+#filterBtn{
+    background:#1769aa !important;
+    color:#ffffff !important;
+    border-color:#1769aa !important;
+    font-weight:1000 !important;
+}
+
+
+#summaryBtn{
+    background:#7b3fc6 !important;
+    color:#ffffff !important;
+    border-color:#7b3fc6 !important;
+    font-weight:1000 !important;
+}
+
+
+#filterBtn:hover{
+    background:#125586 !important;
+}
+
+
+#summaryBtn:hover{
+    background:#612fa0 !important;
+}
+
+
+/* ==========================================
+   EMPLOYEE INFORMATION
+========================================== */
+
+.employee-info{
+    border-left:5px solid #ffcc00 !important;
+}
+
+
+#employeeId{
+    background:#fff8d9 !important;
+    color:#111111 !important;
+    border-color:#e6c532 !important;
+    font-weight:1000 !important;
+}
+
+
+#employeeName{
+    background:#fff0f0 !important;
+    color:#111111 !important;
+    border-color:#e5b4b7 !important;
+    font-weight:1000 !important;
+}
+
+
+/* ==========================================
+   CLOCK
+========================================== */
+
+.clock-area{
+    border:2px solid #1769aa !important;
+    background:
+        linear-gradient(
+            135deg,
+            #eef7ff,
+            #ffffff
+        ) !important;
+}
+
+
+.clock{
+    color:#111111 !important;
+    font-weight:1000 !important;
+}
+
+
+.today-date{
+    color:#1769aa !important;
+    font-weight:1000 !important;
+}
+
+
+/* ==========================================
+   ATTENDANCE ACTION BUTTONS
+========================================== */
+
+.action-btn.timein{
+    background:#16803c !important;
+    color:#ffffff !important;
+    border-color:#16803c !important;
+    font-weight:1000 !important;
+}
+
+.action-btn.timein:hover{
+    background:#116630 !important;
+}
+
+
+.action-btn.breakout{
+    background:#ffcc00 !important;
+    color:#111111 !important;
+    border-color:#ffcc00 !important;
+    font-weight:1000 !important;
+}
+
+.action-btn.breakout:hover{
+    background:#e6b800 !important;
+}
+
+
+.action-btn.breakin{
+    background:#1769aa !important;
+    color:#ffffff !important;
+    border-color:#1769aa !important;
+    font-weight:1000 !important;
+}
+
+.action-btn.breakin:hover{
+    background:#125586 !important;
+}
+
+
+.action-btn.timeout{
+    background:#d71920 !important;
+    color:#ffffff !important;
+    border-color:#d71920 !important;
+    font-weight:1000 !important;
+}
+
+.action-btn.timeout:hover{
+    background:#b51218 !important;
+}
+
+
+/* ==========================================
+   TABLE HEADER COLORS
+========================================== */
+
+#attendanceTable thead th{
+    color:#111111 !important;
+    font-weight:1000 !important;
+}
+
+
+/* DATE */
+
+#attendanceTable thead th:nth-child(1){
+    background:#fff4bf !important;
+}
+
+
+/* EMPLOYEE ID */
+
+#attendanceTable thead th:nth-child(2){
+    background:#eaf3fb !important;
+}
+
+
+/* EMPLOYEE NAME */
+
+#attendanceTable thead th:nth-child(3){
+    background:#e9f7ef !important;
+}
+
+
+/* TIME IN */
+
+#attendanceTable thead th:nth-child(4){
+    background:#dff4e7 !important;
+}
+
+
+/* BREAK OUT */
+
+#attendanceTable thead th:nth-child(5){
+    background:#fff4bf !important;
+}
+
+
+/* BREAK IN */
+
+#attendanceTable thead th:nth-child(6){
+    background:#eaf3fb !important;
+}
+
+
+/* TIME OUT */
+
+#attendanceTable thead th:nth-child(7){
+    background:#ffe5e5 !important;
+}
+
+
+/* BREAK */
+
+#attendanceTable thead th:nth-child(8){
+    background:#f0e7ff !important;
+}
+
+
+/* REGULAR HOURS */
+
+#attendanceTable thead th:nth-child(9){
+    background:#e9f7ef !important;
+}
+
+
+/* OT */
+
+#attendanceTable thead th:nth-child(10){
+    background:#fff0d6 !important;
+}
+
+
+/* LATE */
+
+#attendanceTable thead th:nth-child(11){
+    background:#ffe5e5 !important;
+}
+
+
+/* STATUS */
+
+#attendanceTable thead th:nth-child(12){
+    background:#eaf3fb !important;
+}
+
+
+/* ACTION */
+
+#attendanceTable thead th:nth-child(13){
+    background:#eeeeee !important;
+}
+
+
+/* ==========================================
+   TABLE BODY
+========================================== */
+
+#attendanceTable tbody tr:nth-child(even){
+    background:#fafafa;
+}
+
+
+#attendanceTable tbody tr:hover{
+    background:#fffbea !important;
+}
+
+
+/* ==========================================
+   STATUS COLORS
+========================================== */
+
+.status-present{
+    background:#e9f7ef !important;
+    color:#16803c !important;
+    font-weight:1000 !important;
+}
+
+
+.status-late{
+    background:#fff0d6 !important;
+    color:#a45d00 !important;
+    font-weight:1000 !important;
+}
+
+
+.status-absent{
+    background:#fff0f0 !important;
+    color:#d71920 !important;
+    font-weight:1000 !important;
+}
+
+
+/* ==========================================
+   ACTION COLUMN BUTTONS
+========================================== */
+
+#attendanceTable td:last-child button{
+    font-weight:1000 !important;
+}
+
+
+#attendanceTable td:last-child button:hover{
+    transform:translateY(-1px);
+}
+
+
+/* ==========================================
+   TOP BACK / PRINT
+========================================== */
+
+#backBtn{
+    background:#111111 !important;
+    color:#ffffff !important;
+    border-color:#111111 !important;
+    font-weight:1000 !important;
+}
+
+
+#backBtn:hover{
+    background:#333333 !important;
+}
+
+
+#printBtn{
+    background:#d71920 !important;
+    color:#ffffff !important;
+    border-color:#d71920 !important;
+    font-weight:1000 !important;
+}
+
+
+#printBtn:hover{
+    background:#b51218 !important;
+}
+
+
+/* ==========================================
+   MOBILE
+========================================== */
+
+@media(max-width:600px){
+
+    #employeeSelect,
+    #fromDate,
+    #toDate{
+        border-width:2px !important;
+    }
+
+
+    #filterBtn,
+    #summaryBtn{
+        font-weight:1000 !important;
+    }
+
+
+    .action-btn{
+        font-weight:1000 !important;
+    }
+
+
+    #attendanceTable thead th{
+        font-size:11px !important;
+    }
+
+
+    #attendanceTable tbody td{
+        font-weight:800 !important;
+    }
+
+}
