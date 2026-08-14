@@ -1409,17 +1409,18 @@ function(){
 
 /* ==========================================
    PRINT ALL PAYSLIPS
+   4 PAYSLIPS PER BOND PAPER
 ========================================== */
 
-window.printAllPayslips =
-function(){
+window.printAllPayslips = function(){
 
     if(
-        filteredRecords.length === 0
+        !autoPayrollRecords ||
+        autoPayrollRecords.length === 0
     ){
 
         alert(
-            "There are no payslips to print."
+            "No payslip records available to print."
         );
 
         return;
@@ -1427,28 +1428,474 @@ function(){
     }
 
 
-    document.body.classList.add(
-        "printing-all-payslips"
+    const oldPrint =
+        document.getElementById(
+            "printAllContainer"
+        );
+
+
+    if(oldPrint){
+
+        oldPrint.remove();
+
+    }
+
+
+    const container =
+        document.createElement(
+            "div"
+        );
+
+
+    container.id =
+        "printAllContainer";
+
+
+    autoPayrollRecords.forEach(
+        record => {
+
+            const card =
+                document.createElement(
+                    "div"
+                );
+
+
+            card.className =
+                "print-payslip";
+
+
+            const regularPay =
+                num(
+                    record.regularPay
+                );
+
+
+            const overtimePay =
+                num(
+                    record.overtimePay
+                );
+
+
+            const holidayPay =
+                num(
+                    record.holidayPay
+                );
+
+
+            const nightPay =
+                num(
+                    record.nightPay
+                );
+
+
+            const gross =
+                num(
+                    record.gross
+                );
+
+
+            const deductions =
+                num(
+                    record.deductions
+                );
+
+
+            const net =
+                num(
+                    record.net
+                );
+
+
+            const totalHours =
+                num(
+                    record.regularHours
+                ) +
+
+                num(
+                    record.overtimeHours
+                ) +
+
+                num(
+                    record.holidayHours
+                ) +
+
+                num(
+                    record.nightHours
+                );
+
+
+            card.innerHTML = `
+
+                <div class="mini-payslip">
+
+
+                    <!-- HEADER -->
+
+                    <div class="mini-header">
+
+                        <div class="mini-company">
+
+                            <img
+                                src="../assets/images/logo.png"
+                                alt="PAPPRITO">
+
+                            <div>
+
+                                <strong>
+                                    PAPPRITO
+                                </strong>
+
+                                <span>
+                                    OFFICIAL EMPLOYEE PAYSLIP
+                                </span>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- EMPLOYEE INFO -->
+
+                    <div class="mini-info">
+
+                        <div>
+
+                            <b>
+                                EMPLOYEE ID
+                            </b>
+
+                            <span>
+                                ${escapeHTML(
+                                    record.employeeId ||
+                                    "-"
+                                )}
+                            </span>
+
+                        </div>
+
+
+                        <div>
+
+                            <b>
+                                EMPLOYEE
+                            </b>
+
+                            <span>
+                                ${escapeHTML(
+                                    record.employeeName ||
+                                    "-"
+                                )}
+                            </span>
+
+                        </div>
+
+
+                        <div>
+
+                            <b>
+                                DATE
+                            </b>
+
+                            <span>
+                                ${escapeHTML(
+                                    record.date ||
+                                    "-"
+                                )}
+                            </span>
+
+                        </div>
+
+
+                        <div>
+
+                            <b>
+                                HOURLY RATE
+                            </b>
+
+                            <span>
+                                ₱ ${money(
+                                    record.hourlyRate
+                                )}
+                            </span>
+
+                        </div>
+
+
+                        <div>
+
+                            <b>
+                                TOTAL HOURS
+                            </b>
+
+                            <span>
+                                ${totalHours.toFixed(2)}
+                            </span>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- EARNINGS -->
+
+                    <div class="mini-section-title">
+
+                        EARNINGS
+
+                    </div>
+
+
+                    <table class="mini-table">
+
+                        <tr>
+
+                            <td>
+                                Regular Pay
+                            </td>
+
+                            <td>
+                                ₱ ${money(
+                                    regularPay
+                                )}
+                            </td>
+
+                        </tr>
+
+
+                        <tr>
+
+                            <td>
+                                Overtime
+                            </td>
+
+                            <td>
+                                ₱ ${money(
+                                    overtimePay
+                                )}
+                            </td>
+
+                        </tr>
+
+
+                        <tr>
+
+                            <td>
+                                Holiday Pay
+                            </td>
+
+                            <td>
+                                ₱ ${money(
+                                    holidayPay
+                                )}
+                            </td>
+
+                        </tr>
+
+
+                        <tr>
+
+                            <td>
+                                Night Differential
+                            </td>
+
+                            <td>
+                                ₱ ${money(
+                                    nightPay
+                                )}
+                            </td>
+
+                        </tr>
+
+
+                        <tr class="total-row">
+
+                            <td>
+                                TOTAL GROSS
+                            </td>
+
+                            <td>
+                                ₱ ${money(
+                                    gross
+                                )}
+                            </td>
+
+                        </tr>
+
+                    </table>
+
+
+                    <!-- DEDUCTIONS -->
+
+                    <div class="mini-section-title">
+
+                        DEDUCTIONS
+
+                    </div>
+
+
+                    <table class="mini-table">
+
+                        <tr>
+
+                            <td>
+                                SSS
+                            </td>
+
+                            <td>
+                                ₱ ${money(
+                                    record.sss
+                                )}
+                            </td>
+
+                        </tr>
+
+
+                        <tr>
+
+                            <td>
+                                PhilHealth
+                            </td>
+
+                            <td>
+                                ₱ ${money(
+                                    record.philhealth
+                                )}
+                            </td>
+
+                        </tr>
+
+
+                        <tr>
+
+                            <td>
+                                Pag-IBIG
+                            </td>
+
+                            <td>
+                                ₱ ${money(
+                                    record.pagibig
+                                )}
+                            </td>
+
+                        </tr>
+
+
+                        <tr>
+
+                            <td>
+                                Health Card
+                            </td>
+
+                            <td>
+                                ₱ ${money(
+                                    record.healthcard
+                                )}
+                            </td>
+
+                        </tr>
+
+
+                        <tr>
+
+                            <td>
+                                Others
+                            </td>
+
+                            <td>
+                                ₱ ${money(
+                                    record.others
+                                )}
+                            </td>
+
+                        </tr>
+
+
+                        <tr class="total-row">
+
+                            <td>
+                                TOTAL DEDUCTION
+                            </td>
+
+                            <td>
+                                ₱ ${money(
+                                    deductions
+                                )}
+                            </td>
+
+                        </tr>
+
+                    </table>
+
+
+                    <!-- NET PAY -->
+
+                    <div class="mini-netpay">
+
+                        <span>
+                            NET PAY
+                        </span>
+
+                        <strong>
+                            ₱ ${money(
+                                net
+                            )}
+                        </strong>
+
+                    </div>
+
+
+                    <!-- SIGNATURE -->
+
+                    <div class="mini-signature">
+
+                        <div>
+                            <span></span>
+                            HR
+                        </div>
+
+                        <div>
+                            <span></span>
+                            EMPLOYEE
+                        </div>
+
+                    </div>
+
+
+                </div>
+
+            `;
+
+
+            container.appendChild(
+                card
+            );
+
+        }
     );
 
 
-    window.print();
+    document.body.appendChild(
+        container
+    );
 
+
+    /*
+     * Allow browser to render
+     * print container first.
+     */
 
     setTimeout(
         function(){
 
-            document.body.classList.remove(
-                "printing-all-payslips"
-            );
+            window.print();
 
         },
-        1000
+        300
     );
 
 };
-
-
 /* ==========================================
    BACK TO DASHBOARD
 ========================================== */
