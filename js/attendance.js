@@ -455,7 +455,7 @@ function startClock(){
 
 
 /* ==========================================
-   DATE TO MINUTES
+   TIME TO MINUTES
 ========================================== */
 
 function timeToMinutes(value){
@@ -1083,12 +1083,6 @@ async function loadAttendance(){
             error
         );
 
-
-        /*
-         * If the collection is
-         * empty or not yet created,
-         * keep the page working.
-         */
 
         attendanceRecords = [];
 
@@ -2227,6 +2221,58 @@ function updateButtons(record){
 
 
 /* ==========================================
+   GET STATUS CLASS
+========================================== */
+
+function getStatusClass(status){
+
+    const value =
+        text(status)
+        .toUpperCase();
+
+    if(
+        value === "PRESENT"
+    ){
+
+        return "status-present";
+
+    }
+
+
+    if(
+        value === "LATE"
+    ){
+
+        return "status-late";
+
+    }
+
+
+    if(
+        value === "ABSENT"
+    ){
+
+        return "status-absent";
+
+    }
+
+
+    if(
+        value === "LEAVE" ||
+        value === "ON LEAVE"
+    ){
+
+        return "status-leave";
+
+    }
+
+
+    return "status-default";
+
+}
+
+
+/* ==========================================
    RENDER ATTENDANCE TABLE
 ========================================== */
 
@@ -2361,6 +2407,12 @@ No attendance records found.
                 "-";
 
 
+            const statusClass =
+                getStatusClass(
+                    status
+                );
+
+
             const row =
                 document.createElement(
                     "tr"
@@ -2414,7 +2466,13 @@ ${late}
 </td>
 
 <td>
+
+<span class="status-badge ${statusClass}">
+
 ${escapeHTML(status)}
+
+</span>
+
 </td>
 
 <td>
