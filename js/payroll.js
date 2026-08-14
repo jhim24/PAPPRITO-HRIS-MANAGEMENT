@@ -1,252 +1,279 @@
 /* ==========================================
    PAPPRITO HRIS
-   PAYROLL MANAGEMENT
+   PAYSLIP SYSTEM
+   AUTO PAYROLL BASED
 ========================================== */
 
 
 /* ==========================================
-   FIREBASE IMPORT
+   FIREBASE
 ========================================== */
 
 import {
-
-    initializeApp
-
-}
-
-from
-"https://www.gstatic.com/firebasejs/12.2.1/firebase-app.js";
-
+    db
+} from "./firebase.js";
 
 import {
-
-    getFirestore,
-
     collection,
-
     getDocs,
-
-    addDoc,
-
-    updateDoc,
-
-    deleteDoc,
-
-    doc
-
+    doc,
+    deleteDoc
 }
-
 from
-"https://www.gstatic.com/firebasejs/12.2.1/firebase-firestore.js";
-
+"https://www.gstatic.com/firebasejs/12.13.0/firebase-firestore.js";
 
 
 /* ==========================================
-   FIREBASE CONFIG
+   GLOBAL
 ========================================== */
 
-const firebaseConfig = {
+let payslipRecords = [];
 
-    apiKey:
-    "AIzaSyAehoq0teVYHiJ4bkKOgBqIgJZrQpce3k8",
+let filteredRecords = [];
 
-    authDomain:
-    "hr-system-38fc3.firebaseapp.com",
-
-    projectId:
-    "hr-system-38fc3",
-
-    storageBucket:
-    "hr-system-38fc3.firebasestorage.app",
-
-    messagingSenderId:
-    "615471610834",
-
-    appId:
-    "1:615471610834:web:a0d671d4e3f4c1b57b660b"
-
-};
+let selectedPayslip = null;
 
 
-const app =
-initializeApp(
-    firebaseConfig
-);
+/* ==========================================
+   COLLECTION
+========================================== */
 
-
-const db =
-getFirestore(
-    app
-);
-
+const autoPayrollCollection =
+    collection(
+        db,
+        "autoPayroll"
+    );
 
 
 /* ==========================================
    ELEMENTS
 ========================================== */
 
-const employeeSelect =
-document.getElementById(
-    "employeeSelect"
-);
+const adminPayslipBody =
+    document.getElementById(
+        "adminPayslipBody"
+    );
 
 
-const totaldays =
-document.getElementById(
-    "totaldays"
-);
-
-
-const dailyrate =
-document.getElementById(
-    "dailyrate"
-);
-
-
-const overtime =
-document.getElementById(
-    "overtime"
-);
-
-
-const holiday =
-document.getElementById(
-    "holiday"
-);
-
-
-const sickleave =
-document.getElementById(
-    "sickleave"
-);
-
-
-const vacationleave =
-document.getElementById(
-    "vacationleave"
-);
-
-
-const birthdayleave =
-document.getElementById(
-    "birthdayleave"
-);
-
-
-const maternityleave =
-document.getElementById(
-    "maternityleave"
-);
-
-
-const paternityleave =
-document.getElementById(
-    "paternityleave"
-);
-
-
-const allowance =
-document.getElementById(
-    "allowance"
-);
-
-
-const sss =
-document.getElementById(
-    "sss"
-);
-
-
-const philhealth =
-document.getElementById(
-    "philhealth"
-);
-
-
-const pagibig =
-document.getElementById(
-    "pagibig"
-);
-
-
-const healthcard =
-document.getElementById(
-    "healthcard"
-);
-
-
-const otherdeduction =
-document.getElementById(
-    "otherdeduction"
-);
-
-
-const deductionreason =
-document.getElementById(
-    "deductionreason"
-);
-
-
-const payrollBody =
-document.getElementById(
-    "payrollBody"
-);
-
-
-const totalNet =
-document.getElementById(
-    "totalNet"
-);
+const searchEmployee =
+    document.getElementById(
+        "searchEmployee"
+    );
 
 
 const filterDate =
-document.getElementById(
-    "filterDate"
-);
-
-
-const editingLabel =
-document.getElementById(
-    "editingLabel"
-);
-
-
-const cancelEditBtn =
-document.getElementById(
-    "cancelEditBtn"
-);
-
-
-
-/* ==========================================
-   EDIT STATE
-========================================== */
-
-let editId = null;
-
-
-
-/* ==========================================
-   EMPLOYEES CACHE
-========================================== */
-
-let employees = [];
-
-
-
-/* ==========================================
-   NUMBER HELPER
-========================================== */
-
-function num(
-    value
-){
-
-    const n =
-    Number(
-        value || 0
+    document.getElementById(
+        "filterDate"
     );
 
+
+const totalRecords =
+    document.getElementById(
+        "totalRecords"
+    );
+
+
+const totalGross =
+    document.getElementById(
+        "totalGross"
+    );
+
+
+const totalNet =
+    document.getElementById(
+        "totalNet"
+    );
+
+
+const payslipArea =
+    document.getElementById(
+        "payslipArea"
+    );
+
+
+/* ==========================================
+   PAYSLIP ELEMENTS
+========================================== */
+
+const payEmpId =
+    document.getElementById(
+        "payEmpId"
+    );
+
+
+const payEmp =
+    document.getElementById(
+        "payEmp"
+    );
+
+
+const payDate =
+    document.getElementById(
+        "payDate"
+    );
+
+
+const payHourlyRate =
+    document.getElementById(
+        "payHourlyRate"
+    );
+
+
+const payRegularHours =
+    document.getElementById(
+        "payRegularHours"
+    );
+
+
+const payOvertimeHours =
+    document.getElementById(
+        "payOvertimeHours"
+    );
+
+
+const payHolidayHours =
+    document.getElementById(
+        "payHolidayHours"
+    );
+
+
+const payNightHours =
+    document.getElementById(
+        "payNightHours"
+    );
+
+
+const payBasic =
+    document.getElementById(
+        "payBasic"
+    );
+
+
+const payOvertime =
+    document.getElementById(
+        "payOvertime"
+    );
+
+
+const payHoliday =
+    document.getElementById(
+        "payHoliday"
+    );
+
+
+const payNight =
+    document.getElementById(
+        "payNight"
+    );
+
+
+const payGross =
+    document.getElementById(
+        "payGross"
+    );
+
+
+const payHolidayType =
+    document.getElementById(
+        "payHolidayType"
+    );
+
+
+const payHolidayMultiplier =
+    document.getElementById(
+        "payHolidayMultiplier"
+    );
+
+
+const paySSS =
+    document.getElementById(
+        "paySSS"
+    );
+
+
+const payPhilhealth =
+    document.getElementById(
+        "payPhilhealth"
+    );
+
+
+const payPagibig =
+    document.getElementById(
+        "payPagibig"
+    );
+
+
+const payHealth =
+    document.getElementById(
+        "payHealth"
+    );
+
+
+const payOther =
+    document.getElementById(
+        "payOther"
+    );
+
+
+const payDeduction =
+    document.getElementById(
+        "payDeduction"
+    );
+
+
+const payNet =
+    document.getElementById(
+        "payNet"
+    );
+
+
+/* ==========================================
+   REQUEST ELEMENTS
+========================================== */
+
+const empIdDisplay =
+    document.getElementById(
+        "empIdDisplay"
+    );
+
+
+const empNameDisplay =
+    document.getElementById(
+        "empNameDisplay"
+    );
+
+
+const requestBody =
+    document.getElementById(
+        "requestBody"
+    );
+
+
+const attendanceBody =
+    document.getElementById(
+        "attendanceBody"
+    );
+
+
+/* ==========================================
+   HELPERS
+========================================== */
+
+function text(value){
+
+    return String(
+        value ?? ""
+    ).trim();
+
+}
+
+
+function num(value){
+
+    const n =
+        Number(
+            value || 0
+        );
 
     return Number.isFinite(n)
         ? n
@@ -255,41 +282,22 @@ function num(
 }
 
 
-
-/* ==========================================
-   MONEY FORMAT
-========================================== */
-
-function money(
-    value
-){
+function money(value){
 
     return num(
         value
     ).toLocaleString(
         "en-PH",
         {
-
-            minimumFractionDigits:
-            2,
-
-            maximumFractionDigits:
-            2
-
+            minimumFractionDigits: 2,
+            maximumFractionDigits: 2
         }
     );
 
 }
 
 
-
-/* ==========================================
-   HTML ESCAPE
-========================================== */
-
-function escapeHTML(
-    value
-){
+function escapeHTML(value){
 
     return String(
         value ?? ""
@@ -323,633 +331,66 @@ function escapeHTML(
 }
 
 
-
 /* ==========================================
-   LOAD EMPLOYEES
+   HOLIDAY TYPE
 ========================================== */
 
-async function loadEmployees(){
+function formatHolidayType(
+    type
+){
 
-    try{
+    switch(
+        text(type).toLowerCase()
+    ){
 
+        case "regular":
 
-        employees = [];
-
-
-        employeeSelect.innerHTML = `
-
-            <option value="">
-
-                Select Employee
-
-            </option>
-
-        `;
+            return "Regular Holiday";
 
 
-        const snapshot =
-        await getDocs(
-            collection(
-                db,
-                "employees"
-            )
-        );
+        case "special":
+
+            return "Special Holiday";
 
 
-        snapshot.forEach(
-            docSnap => {
+        default:
 
-
-                const emp = {
-
-                    id:
-                    docSnap.id,
-
-                    ...docSnap.data()
-
-                };
-
-
-                employees.push(
-                    emp
-                );
-
-
-                const fullname = [
-
-                    emp.firstname,
-
-                    emp.middlename,
-
-                    emp.lastname
-
-                ]
-
-                .filter(
-                    Boolean
-                )
-
-                .join(" ")
-
-                .replace(
-                    /\s+/g,
-                    " "
-                )
-
-                .trim();
-
-
-                const employeeId =
-                emp.employeeid ||
-                "";
-
-
-                employeeSelect.innerHTML += `
-
-                    <option
-                        value="${escapeHTML(fullname)}"
-                        data-id="${escapeHTML(employeeId)}">
-
-                        ${escapeHTML(employeeId)}
-                        -
-                        ${escapeHTML(fullname)}
-
-                    </option>
-
-                `;
-
-
-            }
-        );
-
-
-    }catch(error){
-
-        console.error(
-            "Load Employees Error:",
-            error
-        );
-
-
-        alert(
-            "Unable to load employees."
-        );
+            return "No Holiday";
 
     }
 
 }
 
 
-
 /* ==========================================
-   EMPLOYEE CHANGE
+   HOLIDAY MULTIPLIER
 ========================================== */
 
-employeeSelect.addEventListener(
-    "change",
-    function(){
+function getHolidayMultiplier(
+    type
+){
 
-        /*
-         * Automatically load employee
-         * default salary if available.
-         */
+    switch(
+        text(type).toLowerCase()
+    ){
 
-        const selected =
-        employeeSelect.options[
-            employeeSelect.selectedIndex
-        ];
+        case "regular":
 
+            return 2.00;
 
-        if(
-            !selected ||
-            !selected.value
-        ){
 
-            return;
+        case "special":
 
-        }
+            return 1.30;
 
 
-        const employeeId =
-        selected.dataset.id;
+        default:
 
-
-        const employee =
-        employees.find(
-            emp =>
-            String(
-                emp.employeeid || ""
-            ).trim()
-            ===
-            String(
-                employeeId || ""
-            ).trim()
-        );
-
-
-        if(
-            employee &&
-            employee.salary !== undefined &&
-            employee.salary !== ""
-        ){
-
-            /*
-             * Only suggest salary.
-             * Do not overwrite if user
-             * already entered a rate.
-             */
-
-            if(
-                dailyrate.value === ""
-            ){
-
-                dailyrate.value =
-                num(
-                    employee.salary
-                );
-
-            }
-
-        }
-
-    }
-);
-
-
-
-/* ==========================================
-   SAVE PAYROLL
-========================================== */
-
-window.savePayroll =
-async function(){
-
-    try{
-
-
-        /* ==================================
-           VALIDATE EMPLOYEE
-        ================================== */
-
-        if(
-            !employeeSelect.value
-        ){
-
-            alert(
-                "Please select an employee."
-            );
-
-            return;
-
-        }
-
-
-        const selected =
-        employeeSelect.options[
-            employeeSelect.selectedIndex
-        ];
-
-
-        const empid =
-        selected.dataset.id || "";
-
-
-        const employee =
-        employeeSelect.value;
-
-
-        if(
-            !empid
-        ){
-
-            alert(
-                "Employee ID was not found."
-            );
-
-            return;
-
-        }
-
-
-
-        /* ==================================
-           READ INPUTS
-        ================================== */
-
-        const totalDays =
-        num(
-            totaldays.value
-        );
-
-
-        const dailyRate =
-        num(
-            dailyrate.value
-        );
-
-
-        const overtimePay =
-        num(
-            overtime.value
-        );
-
-
-        const holidayPay =
-        num(
-            holiday.value
-        );
-
-
-        const sickLeave =
-        num(
-            sickleave.value
-        );
-
-
-        const vacationLeave =
-        num(
-            vacationleave.value
-        );
-
-
-        const birthdayLeave =
-        num(
-            birthdayleave.value
-        );
-
-
-        const maternityLeave =
-        num(
-            maternityleave.value
-        );
-
-
-        const paternityLeave =
-        num(
-            paternityleave.value
-        );
-
-
-        const allowancePay =
-        num(
-            allowance.value
-        );
-
-
-        const sssDed =
-        num(
-            sss.value
-        );
-
-
-        const philhealthDed =
-        num(
-            philhealth.value
-        );
-
-
-        const pagibigDed =
-        num(
-            pagibig.value
-        );
-
-
-        const healthCardDed =
-        num(
-            healthcard.value
-        );
-
-
-        const otherDed =
-        num(
-            otherdeduction.value
-        );
-
-
-        const deductionReason =
-        deductionreason.value.trim();
-
-
-
-        /* ==================================
-           BASIC PAY
-        ================================== */
-
-        const basicPay =
-        totalDays *
-        dailyRate;
-
-
-
-        /* ==================================
-           TOTAL DEDUCTION
-        ================================== */
-
-        const deductions =
-
-        sssDed +
-
-        philhealthDed +
-
-        pagibigDed +
-
-        healthCardDed +
-
-        otherDed;
-
-
-
-        /* ==================================
-           GROSS PAY
-        ================================== */
-
-        const gross =
-
-        basicPay +
-
-        overtimePay +
-
-        holidayPay +
-
-        sickLeave +
-
-        vacationLeave +
-
-        birthdayLeave +
-
-        maternityLeave +
-
-        paternityLeave +
-
-        allowancePay;
-
-
-
-        /* ==================================
-           NET PAY
-        ================================== */
-
-        const net =
-        gross -
-        deductions;
-
-
-
-        /* ==================================
-           PREVENT NEGATIVE NET
-        ================================== */
-
-        if(
-            net < 0
-        ){
-
-            const proceed =
-            confirm(
-                "Total deductions are greater than gross pay.\n\n" +
-                "Net Pay will be negative.\n\n" +
-                "Continue?"
-            );
-
-
-            if(!proceed){
-
-                return;
-
-            }
-
-        }
-
-
-
-        /* ==================================
-           PAYROLL DATA
-        ================================== */
-
-        const payrollData = {
-
-            empid:
-            empid,
-
-            employee:
-            employee,
-
-            totaldays:
-            totalDays,
-
-            dailyrate:
-            dailyRate,
-
-            basicpay:
-            Number(
-                basicPay.toFixed(2)
-            ),
-
-            overtime:
-            Number(
-                overtimePay.toFixed(2)
-            ),
-
-            holiday:
-            Number(
-                holidayPay.toFixed(2)
-            ),
-
-            sickleave:
-            Number(
-                sickLeave.toFixed(2)
-            ),
-
-            vacationleave:
-            Number(
-                vacationLeave.toFixed(2)
-            ),
-
-            birthdayleave:
-            Number(
-                birthdayLeave.toFixed(2)
-            ),
-
-            maternityleave:
-            Number(
-                maternityLeave.toFixed(2)
-            ),
-
-            paternityleave:
-            Number(
-                paternityLeave.toFixed(2)
-            ),
-
-            allowance:
-            Number(
-                allowancePay.toFixed(2)
-            ),
-
-            sss:
-            Number(
-                sssDed.toFixed(2)
-            ),
-
-            philhealth:
-            Number(
-                philhealthDed.toFixed(2)
-            ),
-
-            pagibig:
-            Number(
-                pagibigDed.toFixed(2)
-            ),
-
-            healthcard:
-            Number(
-                healthCardDed.toFixed(2)
-            ),
-
-            otherdeduction:
-            Number(
-                otherDed.toFixed(2)
-            ),
-
-            deductionreason:
-            deductionReason,
-
-            deductions:
-            Number(
-                deductions.toFixed(2)
-            ),
-
-            gross:
-            Number(
-                gross.toFixed(2)
-            ),
-
-            net:
-            Number(
-                net.toFixed(2)
-            ),
-
-            date:
-            getToday()
-
-        };
-
-
-
-        /* ==================================
-           UPDATE OR ADD
-        ================================== */
-
-        if(
-            editId
-        ){
-
-            await updateDoc(
-
-                doc(
-                    db,
-                    "payroll",
-                    editId
-                ),
-
-                payrollData
-
-            );
-
-
-            alert(
-                "Payroll Updated Successfully."
-            );
-
-
-        }else{
-
-
-            await addDoc(
-
-                collection(
-                    db,
-                    "payroll"
-                ),
-
-                payrollData
-
-            );
-
-
-            alert(
-                "Payroll Saved Successfully."
-            );
-
-        }
-
-
-
-        /* ==================================
-           RESET
-        ================================== */
-
-        clearForm();
-
-
-        await loadPayroll();
-
-
-    }catch(error){
-
-        console.error(
-            "Save Payroll Error:",
-            error
-        );
-
-
-        alert(
-            "Unable to save payroll.\n\n" +
-            error.message
-        );
+            return 0;
 
     }
 
-};
-
+}
 
 
 /* ==========================================
@@ -959,60 +400,66 @@ async function(){
 function getToday(){
 
     const now =
-    new Date();
+        new Date();
 
 
-    return now
-        .toLocaleDateString(
-            "en-CA"
+    const year =
+        now.getFullYear();
+
+
+    const month =
+        String(
+            now.getMonth() + 1
+        ).padStart(
+            2,
+            "0"
         );
+
+
+    const day =
+        String(
+            now.getDate()
+        ).padStart(
+            2,
+            "0"
+        );
+
+
+    return (
+        year +
+        "-" +
+        month +
+        "-" +
+        day
+    );
 
 }
 
 
-
 /* ==========================================
-   LOAD PAYROLL
+   LOAD AUTO PAYROLL
 ========================================== */
 
-window.loadPayroll =
-async function(){
+async function loadPayslipRecords(){
 
     try{
 
-
-        payrollBody.innerHTML = "";
-
-
-        let total =
-        0;
-
-
-        const snapshot =
-        await getDocs(
-            collection(
-                db,
-                "payroll"
-            )
-        );
-
-
         if(
-            snapshot.empty
+            adminPayslipBody
         ){
 
-            payrollBody.innerHTML = `
+            adminPayslipBody.innerHTML = `
 
                 <tr>
 
                     <td
-                        colspan="23"
+                        colspan="10"
                         style="
-                        text-align:center;
-                        padding:20px;
+                            text-align:center;
+                            padding:25px;
                         ">
 
-                        NO PAYROLL RECORDS
+                        Loading Auto Payroll records...
 
                     </td>
 
@@ -1020,69 +467,175 @@ async function(){
 
             `;
 
-
-            totalNet.innerText =
-            "0.00";
-
-
-            return;
-
         }
 
+
+        payslipRecords = [];
+
+
+        const snapshot =
+            await getDocs(
+                autoPayrollCollection
+            );
 
 
         snapshot.forEach(
             docSnap => {
 
+                payslipRecords.push({
 
-                const pay =
-                docSnap.data();
+                    id:
+                        docSnap.id,
 
+                    ...docSnap.data()
 
-                total +=
-                num(
-                    pay.net
-                );
-
-
-                payrollBody.innerHTML +=
-                createPayrollRow(
-                    pay,
-                    docSnap.id
-                );
-
+                });
 
             }
         );
 
 
-        totalNet.innerText =
-        money(
-            total
+        /*
+         * Newest payroll first
+         */
+
+        payslipRecords.sort(
+            (
+                a,
+                b
+            ) => {
+
+                const dateA =
+                    text(
+                        a.date
+                    );
+
+
+                const dateB =
+                    text(
+                        b.date
+                    );
+
+
+                if(
+                    dateA !==
+                    dateB
+                ){
+
+                    return dateB.localeCompare(
+                        dateA
+                    );
+
+                }
+
+
+                return (
+                    num(
+                        b.updatedAt
+                    )
+                    -
+                    num(
+                        a.updatedAt
+                    )
+                );
+
+            }
+        );
+
+
+        filteredRecords =
+            [
+                ...payslipRecords
+            ];
+
+
+        renderPayslipTable(
+            filteredRecords
         );
 
 
     }catch(error){
 
         console.error(
-            "Load Payroll Error:",
+            "Load Payslip Error:",
             error
         );
 
 
-        payrollBody.innerHTML = `
+        if(
+            adminPayslipBody
+        ){
+
+            adminPayslipBody.innerHTML = `
+
+                <tr>
+
+                    <td
+                        colspan="10"
+                        style="
+                            text-align:center;
+                            padding:25px;
+                            color:#d71920;
+                        ">
+
+                        Unable to load Auto Payroll records.
+
+                    </td>
+
+                </tr>
+
+            `;
+
+        }
+
+
+        alert(
+            "Unable to load Auto Payroll Payslips.\n\n" +
+            error.message
+        );
+
+    }
+
+}
+
+
+/* ==========================================
+   RENDER PAYSLIP TABLE
+========================================== */
+
+function renderPayslipTable(
+    records
+){
+
+    if(
+        !adminPayslipBody
+    ){
+
+        return;
+
+    }
+
+
+    adminPayslipBody.innerHTML =
+        "";
+
+
+    if(
+        records.length === 0
+    ){
+
+        adminPayslipBody.innerHTML = `
 
             <tr>
 
                 <td
-                    colspan="23"
+                    colspan="10"
                     style="
-                    text-align:center;
-                    padding:20px;
-                    color:red;
+                        text-align:center;
+                        padding:30px;
                     ">
 
-                    ERROR LOADING PAYROLL
+                    No Auto Payroll Payslips Found.
 
                 </td>
 
@@ -1091,495 +644,866 @@ async function(){
         `;
 
 
-        alert(
-            "Unable to load payroll.\n\n" +
-            error.message
+        updateSummary(
+            []
         );
+
+        return;
 
     }
 
-};
 
+    records.forEach(
+        record => {
 
+            const row =
+                document.createElement(
+                    "tr"
+                );
 
-/* ==========================================
-   CREATE TABLE ROW
-========================================== */
 
-function createPayrollRow(
-    pay,
-    id
-){
+            row.innerHTML = `
 
-    return `
+                <td>
 
-<tr>
+                    ${escapeHTML(
+                        record.employeeId ||
+                        "-"
+                    )}
 
+                </td>
 
-<td>
 
-    ${escapeHTML(
-        pay.empid || ""
-    )}
+                <td>
 
-</td>
+                    ${escapeHTML(
+                        record.employeeName ||
+                        "-"
+                    )}
 
+                </td>
 
-<td>
 
-    ${escapeHTML(
-        pay.employee || ""
-    )}
+                <td>
 
-</td>
+                    ${escapeHTML(
+                        record.date ||
+                        "-"
+                    )}
 
+                </td>
 
-<td>
 
-    ${num(
-        pay.totaldays
-    )}
+                <td>
 
-</td>
+                    ₱
+                    ${money(
+                        record.hourlyRate
+                    )}
 
+                </td>
 
-<td>
 
-    ₱ ${money(
-        pay.dailyrate
-    )}
+                <td>
 
-</td>
+                    ${money(
+                        record.regularHours
+                    )}
 
+                </td>
 
-<td>
 
-    ₱ ${money(
-        pay.basicpay
-    )}
+                <td>
 
-</td>
+                    ${money(
+                        record.overtimeHours
+                    )}
 
+                </td>
 
-<td>
 
-    ₱ ${money(
-        pay.overtime
-    )}
+                <td>
 
-</td>
+                    ₱
+                    ${money(
+                        record.gross
+                    )}
 
+                </td>
 
-<td>
 
-    ₱ ${money(
-        pay.holiday
-    )}
+                <td>
 
-</td>
+                    ₱
+                    ${money(
+                        record.deductions
+                    )}
 
+                </td>
 
-<td>
 
-    ₱ ${money(
-        pay.sickleave
-    )}
+                <td>
 
-</td>
+                    <strong>
 
+                        ₱
+                        ${money(
+                            record.net
+                        )}
 
-<td>
+                    </strong>
 
-    ₱ ${money(
-        pay.vacationleave
-    )}
+                </td>
 
-</td>
 
+                <td>
 
-<td>
+                    <button
+                        type="button"
+                        class="table-icon-btn view-payslip-action"
+                        title="View Payslip">
 
-    ₱ ${money(
-        pay.birthdayleave
-    )}
+                        <span class="material-icons">
+                            visibility
+                        </span>
 
-</td>
+                    </button>
 
 
-<td>
+                    <button
+                        type="button"
+                        class="table-icon-btn print-payslip-action"
+                        title="Print Payslip">
 
-    ₱ ${money(
-        pay.maternityleave
-    )}
+                        <span class="material-icons">
+                            print
+                        </span>
 
-</td>
+                    </button>
 
 
-<td>
+                    <button
+                        type="button"
+                        class="table-icon-btn delete-payslip-action"
+                        title="Delete Payslip">
 
-    ₱ ${money(
-        pay.paternityleave
-    )}
+                        <span class="material-icons">
+                            delete
+                        </span>
 
-</td>
+                    </button>
 
+                </td>
 
-<td>
+            `;
 
-    ₱ ${money(
-        pay.allowance
-    )}
 
-</td>
+            const viewButton =
+                row.querySelector(
+                    ".view-payslip-action"
+                );
 
 
-<td>
+            const printButton =
+                row.querySelector(
+                    ".print-payslip-action"
+                );
 
-    ₱ ${money(
-        pay.sss
-    )}
 
-</td>
+            const deleteButton =
+                row.querySelector(
+                    ".delete-payslip-action"
+                );
 
 
-<td>
+            if(
+                viewButton
+            ){
 
-    ₱ ${money(
-        pay.philhealth
-    )}
+                viewButton.addEventListener(
+                    "click",
+                    function(){
 
-</td>
+                        showPayslip(
+                            record
+                        );
 
+                    }
+                );
 
-<td>
+            }
 
-    ₱ ${money(
-        pay.pagibig
-    )}
 
-</td>
+            if(
+                printButton
+            ){
 
+                printButton.addEventListener(
+                    "click",
+                    function(){
 
-<td>
+                        showPayslip(
+                            record,
+                            true
+                        );
 
-    ₱ ${money(
-        pay.healthcard
-    )}
+                    }
+                );
 
-</td>
+            }
 
 
-<td>
+            if(
+                deleteButton
+            ){
 
-    ₱ ${money(
-        pay.otherdeduction
-    )}
+                deleteButton.addEventListener(
+                    "click",
+                    function(){
 
-</td>
+                        deletePayslip(
+                            record.id
+                        );
 
+                    }
+                );
 
-<td>
+            }
 
-    ${escapeHTML(
-        pay.deductionreason || ""
-    )}
 
-</td>
+            adminPayslipBody.appendChild(
+                row
+            );
 
+        }
+    );
 
-<td>
 
-    ₱ ${money(
-        pay.deductions
-    )}
-
-</td>
-
-
-<td>
-
-    ₱ ${money(
-        pay.gross
-    )}
-
-</td>
-
-
-<td>
-
-    <strong>
-
-        ₱ ${money(
-            pay.net
-        )}
-
-    </strong>
-
-</td>
-
-
-<td>
-
-
-    <button
-        class="edit-btn"
-        onclick="
-        editPayroll(
-            '${escapeJS(id)}'
-        )">
-
-        EDIT
-
-    </button>
-
-
-    <button
-        class="delete-btn"
-        onclick="
-        deletePayroll(
-            '${escapeJS(id)}'
-        )">
-
-        DELETE
-
-    </button>
-
-
-</td>
-
-
-</tr>
-
-`;
-
-}
-
-
-
-/* ==========================================
-   ESCAPE JS
-========================================== */
-
-function escapeJS(
-    value
-){
-
-    return String(
-        value || ""
-    )
-    .replace(
-        /\\/g,
-        "\\\\"
-    )
-    .replace(
-        /'/g,
-        "\\'"
-    )
-    .replace(
-        /\n/g,
-        "\\n"
-    )
-    .replace(
-        /\r/g,
-        "\\r"
+    updateSummary(
+        records
     );
 
 }
 
 
-
 /* ==========================================
-   EDIT PAYROLL
+   SUMMARY
 ========================================== */
 
-window.editPayroll =
-async function(
-    id
+function updateSummary(
+    records
 ){
 
-    try{
+    const gross =
+        records.reduce(
+            (
+                total,
+                record
+            ) => {
 
+                return (
+                    total +
+                    num(
+                        record.gross
+                    )
+                );
 
-        const snapshot =
-        await getDocs(
-            collection(
-                db,
-                "payroll"
-            )
+            },
+            0
         );
 
 
-        let selectedPay =
-        null;
+    const net =
+        records.reduce(
+            (
+                total,
+                record
+            ) => {
+
+                return (
+                    total +
+                    num(
+                        record.net
+                    )
+                );
+
+            },
+            0
+        );
 
 
-        snapshot.forEach(
-            docSnap => {
+    if(
+        totalRecords
+    ){
 
-                if(
-                    docSnap.id === id
-                ){
+        totalRecords.textContent =
+            records.length;
 
-                    selectedPay = {
+    }
 
-                        id:
-                        docSnap.id,
 
-                        ...docSnap.data()
+    if(
+        totalGross
+    ){
 
-                    };
+        totalGross.textContent =
+            money(
+                gross
+            );
 
-                }
+    }
+
+
+    if(
+        totalNet
+    ){
+
+        totalNet.textContent =
+            money(
+                net
+            );
+
+    }
+
+}
+
+
+/* ==========================================
+   SHOW PAYSLIP
+========================================== */
+
+function showPayslip(
+    record,
+    printAfter = false
+){
+
+    if(
+        !record
+    ){
+
+        return;
+
+    }
+
+
+    selectedPayslip =
+        record;
+
+
+    /*
+     * EMPLOYEE INFO
+     */
+
+    if(
+        empIdDisplay
+    ){
+
+        empIdDisplay.textContent =
+            record.employeeId ||
+            "-";
+
+    }
+
+
+    if(
+        empNameDisplay
+    ){
+
+        empNameDisplay.textContent =
+            record.employeeName ||
+            "-";
+
+    }
+
+
+    /*
+     * PAYSLIP INFO
+     */
+
+    if(
+        payEmpId
+    ){
+
+        payEmpId.textContent =
+            record.employeeId ||
+            "-";
+
+    }
+
+
+    if(
+        payEmp
+    ){
+
+        payEmp.textContent =
+            record.employeeName ||
+            "-";
+
+    }
+
+
+    if(
+        payDate
+    ){
+
+        payDate.textContent =
+            record.date ||
+            "-";
+
+    }
+
+
+    if(
+        payHourlyRate
+    ){
+
+        payHourlyRate.textContent =
+            money(
+                record.hourlyRate
+            );
+
+    }
+
+
+    /*
+     * HOURS
+     */
+
+    if(
+        payRegularHours
+    ){
+
+        payRegularHours.textContent =
+            num(
+                record.regularHours
+            ).toFixed(2);
+
+    }
+
+
+    if(
+        payOvertimeHours
+    ){
+
+        payOvertimeHours.textContent =
+            num(
+                record.overtimeHours
+            ).toFixed(2);
+
+    }
+
+
+    if(
+        payHolidayHours
+    ){
+
+        payHolidayHours.textContent =
+            num(
+                record.holidayHours
+            ).toFixed(2);
+
+    }
+
+
+    if(
+        payNightHours
+    ){
+
+        payNightHours.textContent =
+            num(
+                record.nightHours
+            ).toFixed(2);
+
+    }
+
+
+    /*
+     * EARNINGS
+     */
+
+    if(
+        payBasic
+    ){
+
+        payBasic.textContent =
+            money(
+                record.regularPay
+            );
+
+    }
+
+
+    if(
+        payOvertime
+    ){
+
+        payOvertime.textContent =
+            money(
+                record.overtimePay
+            );
+
+    }
+
+
+    if(
+        payHoliday
+    ){
+
+        payHoliday.textContent =
+            money(
+                record.holidayPay
+            );
+
+    }
+
+
+    if(
+        payNight
+    ){
+
+        payNight.textContent =
+            money(
+                record.nightPay
+            );
+
+    }
+
+
+    if(
+        payGross
+    ){
+
+        payGross.textContent =
+            money(
+                record.gross
+            );
+
+    }
+
+
+    /*
+     * HOLIDAY
+     */
+
+    const holidayType =
+        formatHolidayType(
+            record.holidayType
+        );
+
+
+    const holidayMultiplier =
+        getHolidayMultiplier(
+            record.holidayType
+        );
+
+
+    if(
+        payHolidayType
+    ){
+
+        payHolidayType.textContent =
+            holidayType;
+
+    }
+
+
+    if(
+        payHolidayMultiplier
+    ){
+
+        payHolidayMultiplier.textContent =
+            holidayMultiplier
+            ?
+            holidayMultiplier.toFixed(2) + "x"
+            :
+            "0.00x";
+
+    }
+
+
+    /*
+     * DEDUCTIONS
+     */
+
+    if(
+        paySSS
+    ){
+
+        paySSS.textContent =
+            money(
+                record.sss
+            );
+
+    }
+
+
+    if(
+        payPhilhealth
+    ){
+
+        payPhilhealth.textContent =
+            money(
+                record.philhealth
+            );
+
+    }
+
+
+    if(
+        payPagibig
+    ){
+
+        payPagibig.textContent =
+            money(
+                record.pagibig
+            );
+
+    }
+
+
+    if(
+        payHealth
+    ){
+
+        payHealth.textContent =
+            money(
+                record.healthcard
+            );
+
+    }
+
+
+    if(
+        payOther
+    ){
+
+        payOther.textContent =
+            money(
+                record.others
+            );
+
+    }
+
+
+    if(
+        payDeduction
+    ){
+
+        payDeduction.textContent =
+            money(
+                record.deductions
+            );
+
+    }
+
+
+    /*
+     * NET PAY
+     */
+
+    if(
+        payNet
+    ){
+
+        payNet.textContent =
+            money(
+                record.net
+            );
+
+    }
+
+
+    /*
+     * SHOW PAYSLIP
+     */
+
+    if(
+        payslipArea
+    ){
+
+        payslipArea.style.display =
+            "block";
+
+
+        payslipArea.scrollIntoView({
+
+            behavior:
+                printAfter
+                ?
+                "auto"
+                :
+                "smooth",
+
+            block:
+                "start"
+
+        });
+
+    }
+
+
+    if(
+        printAfter
+    ){
+
+        setTimeout(
+            function(){
+
+                window.print();
+
+            },
+            300
+        );
+
+    }
+
+}
+
+
+/* ==========================================
+   VIEW PAYSLIP
+========================================== */
+
+window.loadPayslip =
+function(){
+
+    if(
+        selectedPayslip
+    ){
+
+        showPayslip(
+            selectedPayslip
+        );
+
+        return;
+
+    }
+
+
+    if(
+        filteredRecords.length > 0
+    ){
+
+        showPayslip(
+            filteredRecords[0]
+        );
+
+        return;
+
+    }
+
+
+    if(
+        payslipRecords.length > 0
+    ){
+
+        showPayslip(
+            payslipRecords[0]
+        );
+
+        return;
+
+    }
+
+
+    alert(
+        "No Auto Payroll Payslip available."
+    );
+
+};
+
+
+/* ==========================================
+   SEARCH / FILTER
+========================================== */
+
+window.applyFilter =
+function(){
+
+    const search =
+        text(
+            searchEmployee
+            ?
+            searchEmployee.value
+            :
+            ""
+        ).toLowerCase();
+
+
+    const date =
+        filterDate
+        ?
+        filterDate.value
+        :
+        "";
+
+
+    filteredRecords =
+        payslipRecords.filter(
+            record => {
+
+                const employeeId =
+                    text(
+                        record.employeeId
+                    ).toLowerCase();
+
+
+                const employeeName =
+                    text(
+                        record.employeeName
+                    ).toLowerCase();
+
+
+                const recordDate =
+                    text(
+                        record.date
+                    );
+
+
+                const employeeMatch =
+                    !search
+                    ||
+                    employeeId.includes(
+                        search
+                    )
+                    ||
+                    employeeName.includes(
+                        search
+                    );
+
+
+                const dateMatch =
+                    !date
+                    ||
+                    recordDate ===
+                    date;
+
+
+                return (
+                    employeeMatch &&
+                    dateMatch
+                );
 
             }
         );
 
 
-        if(
-            !selectedPay
-        ){
-
-            alert(
-                "Payroll record not found."
-            );
-
-            return;
-
-        }
+    renderPayslipTable(
+        filteredRecords
+    );
 
 
-        editId =
-        id;
+    /*
+     * If exactly one record is found,
+     * show it automatically.
+     */
 
+    if(
+        filteredRecords.length === 1
+    ){
 
-        /* ==================================
-           SELECT EMPLOYEE
-        ================================== */
-
-        const employeeOption =
-        Array.from(
-            employeeSelect.options
-        ).find(
-            option =>
-            option.dataset.id ===
-            String(
-                selectedPay.empid || ""
-            )
-        );
-
-
-        if(
-            employeeOption
-        ){
-
-            employeeSelect.value =
-            employeeOption.value;
-
-        }
-
-
-
-        /* ==================================
-           LOAD VALUES
-        ================================== */
-
-        totaldays.value =
-        selectedPay.totaldays ?? "";
-
-
-        dailyrate.value =
-        selectedPay.dailyrate ?? "";
-
-
-        overtime.value =
-        selectedPay.overtime ?? "";
-
-
-        holiday.value =
-        selectedPay.holiday ?? "";
-
-
-        sickleave.value =
-        selectedPay.sickleave ?? "";
-
-
-        vacationleave.value =
-        selectedPay.vacationleave ?? "";
-
-
-        birthdayleave.value =
-        selectedPay.birthdayleave ?? "";
-
-
-        maternityleave.value =
-        selectedPay.maternityleave ?? "";
-
-
-        paternityleave.value =
-        selectedPay.paternityleave ?? "";
-
-
-        allowance.value =
-        selectedPay.allowance ?? "";
-
-
-        sss.value =
-        selectedPay.sss ?? "";
-
-
-        philhealth.value =
-        selectedPay.philhealth ?? "";
-
-
-        pagibig.value =
-        selectedPay.pagibig ?? "";
-
-
-        healthcard.value =
-        selectedPay.healthcard ?? "";
-
-
-        otherdeduction.value =
-        selectedPay.otherdeduction ?? "";
-
-
-        deductionreason.value =
-        selectedPay.deductionreason ?? "";
-
-
-
-        /* ==================================
-           EDIT UI
-        ================================== */
-
-        editingLabel.style.display =
-        "block";
-
-
-        cancelEditBtn.style.display =
-        "inline-block";
-
-
-        window.scrollTo({
-
-            top:0,
-
-            behavior:"smooth"
-
-        });
-
-
-    }catch(error){
-
-        console.error(
-            "Edit Payroll Error:",
-            error
-        );
-
-
-        alert(
-            "Unable to edit payroll.\n\n" +
-            error.message
+        showPayslip(
+            filteredRecords[0]
         );
 
     }
@@ -1587,47 +1511,93 @@ async function(
 };
 
 
-
 /* ==========================================
-   CANCEL EDIT
+   SHOW ALL
 ========================================== */
 
-window.cancelEdit =
+window.showAllPayslips =
 function(){
 
-    editId =
-    null;
+    if(
+        searchEmployee
+    ){
+
+        searchEmployee.value =
+            "";
+
+    }
 
 
-    editingLabel.style.display =
-    "none";
+    if(
+        filterDate
+    ){
+
+        filterDate.value =
+            "";
+
+    }
 
 
-    cancelEditBtn.style.display =
-    "none";
+    filteredRecords =
+        [
+            ...payslipRecords
+        ];
 
 
-    clearForm(
-        false
+    renderPayslipTable(
+        filteredRecords
     );
 
 };
 
 
-
 /* ==========================================
-   DELETE PAYROLL
+   DELETE PAYSLIP
 ========================================== */
 
-window.deletePayroll =
-async function(
+async function deletePayslip(
     id
 ){
 
+    const record =
+        payslipRecords.find(
+            item =>
+                item.id ===
+                id
+        );
+
+
+    if(
+        !record
+    ){
+
+        return;
+
+    }
+
+
     const confirmed =
-    confirm(
-        "Delete this payroll record?"
-    );
+        confirm(
+
+            "Delete this Auto Payroll Payslip?\n\n" +
+
+            (
+                record.employeeName ||
+                "-"
+            )
+
+            +
+
+            "\n"
+
+            +
+
+            (
+                record.date ||
+                "-"
+            )
+
+        );
 
 
     if(
@@ -1641,85 +1611,189 @@ async function(
 
     try{
 
-
         await deleteDoc(
 
             doc(
                 db,
-                "payroll",
+                "autoPayroll",
                 id
             )
 
         );
 
 
-        alert(
-            "Payroll Deleted Successfully."
+        payslipRecords =
+            payslipRecords.filter(
+                item =>
+                    item.id !==
+                    id
+            );
+
+
+        filteredRecords =
+            filteredRecords.filter(
+                item =>
+                    item.id !==
+                    id
+            );
+
+
+        if(
+            selectedPayslip &&
+            selectedPayslip.id ===
+            id
+        ){
+
+            selectedPayslip =
+                null;
+
+            closePayslip();
+
+        }
+
+
+        renderPayslipTable(
+            filteredRecords
         );
 
 
-        if(
-            editId === id
-        ){
-
-            editId =
-            null;
-
-        }
-
-
-        await loadPayroll();
-
-
-        if(
-            editId === null
-        ){
-
-            editingLabel.style.display =
-            "none";
-
-            cancelEditBtn.style.display =
-            "none";
-
-        }
+        alert(
+            "Payslip deleted successfully."
+        );
 
 
     }catch(error){
 
         console.error(
-            "Delete Payroll Error:",
+            "Delete Payslip Error:",
             error
         );
 
 
         alert(
-            "Unable to delete payroll.\n\n" +
+            "Unable to delete Payslip.\n\n" +
             error.message
         );
 
     }
 
-};
-
+}
 
 
 /* ==========================================
-   FILTER PAYROLL BY DATE
+   GLOBAL DELETE
 ========================================== */
 
-window.filterPayroll =
-async function(){
+window.deletePayslip =
+function(id){
 
-    const selectedDate =
-    filterDate.value;
+    deletePayslip(
+        id
+    );
+
+};
+
+
+/* ==========================================
+   CLOSE PAYSLIP
+========================================== */
+
+window.closePayslip =
+function(){
+
+    if(
+        payslipArea
+    ){
+
+        payslipArea.style.display =
+            "none";
+
+    }
+
+    selectedPayslip =
+        null;
+
+};
+
+
+/* ==========================================
+   PRINT CURRENT PAYSLIP
+========================================== */
+
+window.printPayslip =
+function(){
+
+    if(
+        !selectedPayslip
+    ){
+
+        if(
+            filteredRecords.length > 0
+        ){
+
+            selectedPayslip =
+                filteredRecords[0];
+
+            showPayslip(
+                selectedPayslip
+            );
+
+        }else{
+
+            alert(
+                "Please select a Payslip first."
+            );
+
+            return;
+
+        }
+
+    }
 
 
     if(
-        !selectedDate
+        payslipArea
+    ){
+
+        payslipArea.style.display =
+            "block";
+
+    }
+
+
+    setTimeout(
+        function(){
+
+            window.print();
+
+        },
+        200
+    );
+
+};
+
+
+/* ==========================================
+   PRINT ALL PAYSLIPS
+========================================== */
+
+window.printAllPayslips =
+function(){
+
+    const records =
+        filteredRecords.length > 0
+        ?
+        filteredRecords
+        :
+        payslipRecords;
+
+
+    if(
+        records.length === 0
     ){
 
         alert(
-            "Please select a date first."
+            "No Payslips available to print."
         );
 
         return;
@@ -1727,240 +1801,726 @@ async function(){
     }
 
 
-    try{
+    /*
+     * Save current payslip.
+     */
+
+    const previous =
+        selectedPayslip;
 
 
-        payrollBody.innerHTML =
-        "";
+    /*
+     * We create a temporary
+     * print container.
+     */
 
-
-        let total =
-        0;
-
-
-        const snapshot =
-        await getDocs(
-            collection(
-                db,
-                "payroll"
-            )
+    const printContainer =
+        document.createElement(
+            "div"
         );
 
 
-        let found =
-        false;
+    printContainer.id =
+        "temporaryPayslipPrint";
 
 
-        snapshot.forEach(
-            docSnap => {
+    printContainer.style.display =
+        "none";
 
 
-                const pay =
-                docSnap.data();
+    records.forEach(
+        record => {
+
+            const section =
+                createPrintablePayslip(
+                    record
+                );
 
 
-                if(
-                    pay.date ===
-                    selectedDate
-                ){
+            printContainer.appendChild(
+                section
+            );
 
-                    found =
-                    true;
+        }
+    );
 
 
-                    total +=
-                    num(
-                        pay.net
+    document.body.appendChild(
+        printContainer
+    );
+
+
+    printContainer.style.display =
+        "block";
+
+
+    document.body.classList.add(
+        "printing-all-payslips"
+    );
+
+
+    setTimeout(
+        function(){
+
+            window.print();
+
+
+            setTimeout(
+                function(){
+
+                    printContainer.remove();
+
+                    document.body.classList.remove(
+                        "printing-all-payslips"
                     );
 
 
-                    payrollBody.innerHTML +=
-                    createPayrollRow(
-                        pay,
-                        docSnap.id
-                    );
+                    selectedPayslip =
+                        previous;
 
+                },
+                500
+            );
+
+        },
+        200
+    );
+
+};
+
+
+/* ==========================================
+   CREATE PRINTABLE PAYSLIP
+========================================== */
+
+function createPrintablePayslip(
+    record
+){
+
+    const section =
+        document.createElement(
+            "section"
+        );
+
+
+    section.className =
+        "printable-payslip";
+
+
+    const holidayMultiplier =
+        getHolidayMultiplier(
+            record.holidayType
+        );
+
+
+    section.innerHTML = `
+
+        <div class="company">
+
+            <img
+                src="../assets/images/logo.png"
+                class="payroll-logo"
+                alt="PAPPRITO Logo">
+
+            <h2>
+                PAPPRITO
+            </h2>
+
+            <p>
+                OFFICIAL EMPLOYEE PAYSLIP
+            </p>
+
+        </div>
+
+
+        <div class="info">
+
+            <div>
+
+                <b>
+                    EMPLOYEE ID:
+                </b>
+
+                ${escapeHTML(
+                    record.employeeId ||
+                    "-"
+                )}
+
+            </div>
+
+
+            <div>
+
+                <b>
+                    EMPLOYEE NAME:
+                </b>
+
+                ${escapeHTML(
+                    record.employeeName ||
+                    "-"
+                )}
+
+            </div>
+
+
+            <div>
+
+                <b>
+                    PAYROLL DATE:
+                </b>
+
+                ${escapeHTML(
+                    record.date ||
+                    "-"
+                )}
+
+            </div>
+
+
+            <div>
+
+                <b>
+                    HOURLY RATE:
+                </b>
+
+                ₱ ${money(
+                    record.hourlyRate
+                )}
+
+            </div>
+
+        </div>
+
+
+        <div class="hours-summary">
+
+            <div class="hours-box">
+
+                <small>
+                    REGULAR HOURS
+                </small>
+
+                <strong>
+                    ${num(
+                        record.regularHours
+                    ).toFixed(2)}
+                </strong>
+
+            </div>
+
+
+            <div class="hours-box">
+
+                <small>
+                    OVERTIME HOURS
+                </small>
+
+                <strong>
+                    ${num(
+                        record.overtimeHours
+                    ).toFixed(2)}
+                </strong>
+
+            </div>
+
+
+            <div class="hours-box">
+
+                <small>
+                    HOLIDAY HOURS
+                </small>
+
+                <strong>
+                    ${num(
+                        record.holidayHours
+                    ).toFixed(2)}
+                </strong>
+
+            </div>
+
+
+            <div class="hours-box">
+
+                <small>
+                    NIGHT HOURS
+                </small>
+
+                <strong>
+                    ${num(
+                        record.nightHours
+                    ).toFixed(2)}
+                </strong>
+
+            </div>
+
+        </div>
+
+
+        <table class="payroll-table">
+
+            <tr>
+
+                <th>
+                    EARNINGS
+                </th>
+
+                <th>
+                    AMOUNT
+                </th>
+
+            </tr>
+
+
+            <tr>
+
+                <td>
+                    Regular Pay
+                </td>
+
+                <td>
+                    ₱ ${money(
+                        record.regularPay
+                    )}
+                </td>
+
+            </tr>
+
+
+            <tr>
+
+                <td>
+                    Overtime Pay
+                </td>
+
+                <td>
+                    ₱ ${money(
+                        record.overtimePay
+                    )}
+                </td>
+
+            </tr>
+
+
+            <tr>
+
+                <td>
+                    Holiday Pay
+                </td>
+
+                <td>
+                    ₱ ${money(
+                        record.holidayPay
+                    )}
+                </td>
+
+            </tr>
+
+
+            <tr>
+
+                <td>
+                    Night Differential
+                </td>
+
+                <td>
+                    ₱ ${money(
+                        record.nightPay
+                    )}
+                </td>
+
+            </tr>
+
+
+            <tr>
+
+                <td>
+                    <b>
+                        TOTAL GROSS
+                    </b>
+                </td>
+
+                <td>
+                    <b>
+                        ₱ ${money(
+                            record.gross
+                        )}
+                    </b>
+                </td>
+
+            </tr>
+
+        </table>
+
+
+        <div class="holiday-info">
+
+            <b>
+                HOLIDAY TYPE:
+            </b>
+
+            ${escapeHTML(
+                formatHolidayType(
+                    record.holidayType
+                )
+            )}
+
+            <span class="holiday-rate">
+
+                Multiplier:
+                ${holidayMultiplier
+                    ?
+                    holidayMultiplier.toFixed(2) + "x"
+                    :
+                    "0.00x"
                 }
 
-            }
-        );
+            </span>
+
+        </div>
+
+
+        <table class="payroll-table">
+
+            <tr>
+
+                <th>
+                    DEDUCTIONS
+                </th>
+
+                <th>
+                    AMOUNT
+                </th>
+
+            </tr>
+
+
+            <tr>
+
+                <td>
+                    SSS
+                </td>
+
+                <td>
+                    ₱ ${money(
+                        record.sss
+                    )}
+                </td>
+
+            </tr>
+
+
+            <tr>
+
+                <td>
+                    PhilHealth
+                </td>
+
+                <td>
+                    ₱ ${money(
+                        record.philhealth
+                    )}
+                </td>
+
+            </tr>
+
+
+            <tr>
+
+                <td>
+                    Pag-IBIG
+                </td>
+
+                <td>
+                    ₱ ${money(
+                        record.pagibig
+                    )}
+                </td>
+
+            </tr>
+
+
+            <tr>
+
+                <td>
+                    Health Card
+                </td>
+
+                <td>
+                    ₱ ${money(
+                        record.healthcard
+                    )}
+                </td>
+
+            </tr>
+
+
+            <tr>
+
+                <td>
+                    Other Deduction
+                </td>
+
+                <td>
+                    ₱ ${money(
+                        record.others
+                    )}
+                </td>
+
+            </tr>
+
+
+            <tr>
+
+                <td>
+                    <b>
+                        TOTAL DEDUCTION
+                    </b>
+                </td>
+
+                <td>
+                    <b>
+                        ₱ ${money(
+                            record.deductions
+                        )}
+                    </b>
+                </td>
+
+            </tr>
+
+        </table>
+
+
+        <div class="netpay">
+
+            NET PAY:
+
+            ₱ ${money(
+                record.net
+            )}
+
+        </div>
+
+
+        <div class="signature">
+
+            <div class="line">
+                HR
+            </div>
+
+            <div class="line">
+                Employee
+            </div>
+
+        </div>
+
+    `;
+
+
+    return section;
+
+}
+
+
+/* ==========================================
+   PRINT ALL CLEANUP
+========================================== */
+
+window.addEventListener(
+    "afterprint",
+    function(){
+
+        const temporary =
+            document.getElementById(
+                "temporaryPayslipPrint"
+            );
 
 
         if(
-            !found
+            temporary
         ){
 
-            payrollBody.innerHTML = `
-
-                <tr>
-
-                    <td
-                        colspan="23"
-                        style="
-                        text-align:center;
-                        padding:20px;
-                        ">
-
-                        NO PAYROLL FOUND FOR
-                        ${escapeHTML(
-                            selectedDate
-                        )}
-
-                    </td>
-
-                </tr>
-
-            `;
+            temporary.remove();
 
         }
 
 
-        totalNet.innerText =
-        money(
-            total
-        );
-
-
-    }catch(error){
-
-        console.error(
-            "Filter Payroll Error:",
-            error
-        );
-
-
-        alert(
-            "Unable to filter payroll.\n\n" +
-            error.message
+        document.body.classList.remove(
+            "printing-all-payslips"
         );
 
     }
-
-};
-
+);
 
 
 /* ==========================================
-   CLEAR FORM
+   HEADER ACTION
 ========================================== */
 
-function clearForm(
-    resetEdit = true
-){
-
-    employeeSelect.value =
-    "";
-
-
-    totaldays.value =
-    "";
-
-
-    dailyrate.value =
-    "";
-
-
-    overtime.value =
-    "";
-
-
-    holiday.value =
-    "";
-
-
-    sickleave.value =
-    "";
-
-
-    vacationleave.value =
-    "";
-
-
-    birthdayleave.value =
-    "";
-
-
-    maternityleave.value =
-    "";
-
-
-    paternityleave.value =
-    "";
-
-
-    allowance.value =
-    "";
-
-
-    sss.value =
-    "";
-
-
-    philhealth.value =
-    "";
-
-
-    pagibig.value =
-    "";
-
-
-    healthcard.value =
-    "";
-
-
-    otherdeduction.value =
-    "";
-
-
-    deductionreason.value =
-    "";
-
-
-    if(
-        resetEdit
-    ){
-
-        editId =
-        null;
-
-
-        editingLabel.style.display =
-        "none";
-
-
-        cancelEditBtn.style.display =
-        "none";
-
-    }
-
-}
-
-
-
-/* ==========================================
-   PRINT TABLE
-========================================== */
-
-window.printPayroll =
+window.headerAction =
 function(){
 
-    window.print();
+    window.location.href =
+        "dashboard.html";
 
 };
 
 
-
 /* ==========================================
-   AUTO LOAD
+   BACK TO DASHBOARD ALIAS
 ========================================== */
 
-async function startPayroll(){
+window.backToDashboard =
+function(){
 
-    await loadEmployees();
+    window.location.href =
+        "dashboard.html";
 
-    await loadPayroll();
+};
+
+
+/* ==========================================
+   REFRESH
+========================================== */
+
+window.refreshPayslip =
+async function(){
+
+    await loadPayslipRecords();
+
+};
+
+
+/* ==========================================
+   REQUEST PLACEHOLDER
+========================================== */
+
+window.submitRequest =
+function(){
+
+    alert(
+        "Leave request module is ready for connection to HR Approval."
+    );
+
+};
+
+
+/* ==========================================
+   ATTENDANCE REQUEST PLACEHOLDER
+========================================== */
+
+window.submitAttendanceRequest =
+function(){
+
+    alert(
+        "Attendance request module is ready for connection to HR Approval."
+    );
+
+};
+
+
+/* ==========================================
+   SEARCH ENTER KEY
+========================================== */
+
+if(
+    searchEmployee
+){
+
+    searchEmployee.addEventListener(
+        "keydown",
+        function(event){
+
+            if(
+                event.key ===
+                "Enter"
+            ){
+
+                applyFilter();
+
+            }
+
+        }
+    );
 
 }
 
 
-startPayroll();
+/* ==========================================
+   FILTER DATE CHANGE
+========================================== */
+
+if(
+    filterDate
+){
+
+    filterDate.addEventListener(
+        "change",
+        function(){
+
+            /*
+             * Do not automatically
+             * destroy current results.
+             *
+             * User can click SEARCH.
+             */
+
+        }
+    );
+
+}
+
+
+/* ==========================================
+   INITIALIZE
+========================================== */
+
+async function initializePayslip(){
+
+    /*
+     * Hide payslip initially.
+     */
+
+    if(
+        payslipArea
+    ){
+
+        payslipArea.style.display =
+            "none";
+
+    }
+
+
+    /*
+     * Set filter date
+     * to today.
+     */
+
+    if(
+        filterDate
+    ){
+
+        filterDate.value =
+            getToday();
+
+    }
+
+
+    /*
+     * Load Auto Payroll.
+     */
+
+    await loadPayslipRecords();
+
+
+    console.log(
+        "PAPPRITO HRIS Payslip Ready"
+    );
+
+}
+
+
+/* ==========================================
+   START
+========================================== */
+
+initializePayslip();
