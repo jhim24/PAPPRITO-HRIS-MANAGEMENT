@@ -2165,3 +2165,439 @@ body{
     }
 
 }
+/* ==========================================
+   PRINT ALL PAYSLIPS
+   4 PAYSLIPS PER BOND PAPER
+   LETTER SIZE
+========================================== */
+
+#printAllContainer{
+
+    display:none;
+
+}
+
+
+/* ==========================================
+   PRINT SETTINGS
+========================================== */
+
+@media print{
+
+
+    @page{
+
+        size: Letter portrait;
+
+        margin:
+            0.25in;
+
+    }
+
+
+    body{
+
+        margin:0 !important;
+
+        padding:0 !important;
+
+        background:#ffffff !important;
+
+    }
+
+
+    /*
+     * Hide normal page
+     */
+
+    body > .container{
+
+        display:none !important;
+
+    }
+
+
+    /*
+     * Show print container
+     */
+
+    #printAllContainer{
+
+        display:grid !important;
+
+        grid-template-columns:
+            1fr 1fr;
+
+        grid-template-rows:
+            1fr 1fr;
+
+        width:100%;
+
+        height:10.5in;
+
+        gap:0.12in;
+
+        page-break-after:auto;
+
+    }
+
+
+    /*
+     * EACH PAYSLIP
+     */
+
+    .print-payslip{
+
+        width:100%;
+
+        height:5.19in;
+
+        overflow:hidden;
+
+        page-break-inside:avoid;
+
+        break-inside:avoid;
+
+    }
+
+
+    /*
+     * MINI PAYSLIP
+     */
+
+    .mini-payslip{
+
+        width:100%;
+
+        height:100%;
+
+        padding:
+            0.10in;
+
+        border:
+            1px solid
+            #222;
+
+        background:#ffffff;
+
+        color:#111111;
+
+        font-family:
+            Arial,
+            Helvetica,
+            sans-serif;
+
+        font-size:8px;
+
+    }
+
+
+    /* ======================================
+       HEADER
+    ====================================== */
+
+    .mini-header{
+
+        border-bottom:
+            2px solid
+            #d9aa00;
+
+        padding-bottom:
+            5px;
+
+        margin-bottom:
+            5px;
+
+    }
+
+
+    .mini-company{
+
+        display:flex;
+
+        align-items:center;
+
+        gap:7px;
+
+    }
+
+
+    .mini-company img{
+
+        width:30px;
+
+        height:30px;
+
+        object-fit:contain;
+
+    }
+
+
+    .mini-company strong{
+
+        display:block;
+
+        font-size:15px;
+
+        font-weight:900;
+
+    }
+
+
+    .mini-company span{
+
+        display:block;
+
+        font-size:6px;
+
+        font-weight:700;
+
+        margin-top:1px;
+
+    }
+
+
+    /* ======================================
+       EMPLOYEE INFORMATION
+    ====================================== */
+
+    .mini-info{
+
+        display:grid;
+
+        grid-template-columns:
+            1fr 1fr;
+
+        gap:
+            3px 7px;
+
+        margin-bottom:
+            5px;
+
+    }
+
+
+    .mini-info div{
+
+        display:flex;
+
+        flex-direction:column;
+
+    }
+
+
+    .mini-info b{
+
+        font-size:6px;
+
+        color:#555;
+
+        font-weight:900;
+
+    }
+
+
+    .mini-info span{
+
+        font-size:8px;
+
+        font-weight:700;
+
+        white-space:nowrap;
+
+        overflow:hidden;
+
+        text-overflow:ellipsis;
+
+    }
+
+
+    /* ======================================
+       SECTION TITLE
+    ====================================== */
+
+    .mini-section-title{
+
+        background:#202b3d;
+
+        color:#ffcc00;
+
+        padding:
+            3px 5px;
+
+        margin-top:
+            4px;
+
+        font-size:7px;
+
+        font-weight:900;
+
+    }
+
+
+    /* ======================================
+       TABLE
+    ====================================== */
+
+    .mini-table{
+
+        width:100%;
+
+        border-collapse:collapse;
+
+        margin:0;
+
+    }
+
+
+    .mini-table td{
+
+        border-bottom:
+            1px solid
+            #dddddd;
+
+        padding:
+            2px 4px;
+
+        font-size:7px;
+
+    }
+
+
+    .mini-table td:last-child{
+
+        text-align:right;
+
+        font-weight:700;
+
+        white-space:nowrap;
+
+    }
+
+
+    .mini-table .total-row td{
+
+        font-weight:900;
+
+        border-top:
+            1px solid
+            #222;
+
+        border-bottom:
+            1px solid
+            #222;
+
+    }
+
+
+    /* ======================================
+       NET PAY
+    ====================================== */
+
+    .mini-netpay{
+
+        display:flex;
+
+        justify-content:space-between;
+
+        align-items:center;
+
+        margin-top:
+            6px;
+
+        padding:
+            5px 7px;
+
+        background:#f1f1f1;
+
+        border:
+            2px solid
+            #222;
+
+    }
+
+
+    .mini-netpay span{
+
+        font-size:8px;
+
+        font-weight:900;
+
+    }
+
+
+    .mini-netpay strong{
+
+        font-size:12px;
+
+        font-weight:900;
+
+    }
+
+
+    /* ======================================
+       SIGNATURE
+    ====================================== */
+
+    .mini-signature{
+
+        display:grid;
+
+        grid-template-columns:
+            1fr 1fr;
+
+        gap:15px;
+
+        margin-top:
+            10px;
+
+        text-align:center;
+
+        font-size:7px;
+
+        font-weight:700;
+
+    }
+
+
+    .mini-signature div{
+
+        display:flex;
+
+        flex-direction:column;
+
+        align-items:center;
+
+        gap:2px;
+
+    }
+
+
+    .mini-signature span{
+
+        width:85%;
+
+        border-top:
+            1px solid
+            #222;
+
+        height:1px;
+
+    }
+
+
+    /*
+     * Prevent browser from
+     * splitting payslips
+     */
+
+    .print-payslip,
+    .mini-payslip{
+
+        page-break-inside:avoid !important;
+
+        break-inside:avoid !important;
+
+    }
+
+}
