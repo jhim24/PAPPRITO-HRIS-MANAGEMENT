@@ -6,59 +6,40 @@
 <meta charset="UTF-8">
 
 <meta
-name="viewport"
-content="width=device-width, initial-scale=1.0">
+    name="viewport"
+    content="width=device-width, initial-scale=1.0">
+
+<meta
+    name="theme-color"
+    content="#ffcc00">
+
+<link
+    rel="manifest"
+    href="../manifest.json">
+
+<link
+    rel="apple-touch-icon"
+    href="../assets/images/icon-192.png">
+
+<link
+    rel="icon"
+    href="../assets/images/logo.png">
 
 <title>PAPPRITO HRIS - Attendance</title>
 
 
-<!-- ==========================================
-     MANIFEST
-========================================== -->
+<!-- MATERIAL ICONS -->
 
 <link
-rel="manifest"
-href="../manifest.json">
+    href="https://fonts.googleapis.com/icon?family=Material+Icons"
+    rel="stylesheet">
 
 
-<!-- ==========================================
-     THEME
-========================================== -->
-
-<meta
-name="theme-color"
-content="#ffcc00">
-
-
-<!-- ==========================================
-     APP ICON
-========================================== -->
+<!-- ATTENDANCE CSS -->
 
 <link
-rel="apple-touch-icon"
-href="../assets/images/icon-192.png">
-
-<link
-rel="icon"
-href="../assets/images/logo.png">
-
-
-<!-- ==========================================
-     MATERIAL ICONS
-========================================== -->
-
-<link
-rel="stylesheet"
-href="https://fonts.googleapis.com/icon?family=Material+Icons">
-
-
-<!-- ==========================================
-     ATTENDANCE CSS
-========================================== -->
-
-<link
-rel="stylesheet"
-href="../css/attendance.css">
+    rel="stylesheet"
+    href="../css/attendance.css">
 
 </head>
 
@@ -72,594 +53,637 @@ href="../css/attendance.css">
 <div class="container">
 
 
-<!-- ==========================================
+<!-- =====================================================
      HEADER
-========================================== -->
+===================================================== -->
 
 <header class="header">
 
 
-<button
-id="backBtn"
-class="top-btn"
-type="button">
+    <!-- LOGO -->
 
-<span class="material-icons">
-arrow_back
-</span>
+    <div class="logo">
 
-<span>
-BACK
-</span>
+        <img
+            src="../assets/images/logo.png"
+            alt="PAPPRITO">
 
-</button>
+    </div>
 
 
-<button
-id="printBtn"
-class="top-btn"
-type="button">
+    <!-- BRAND -->
 
-<span class="material-icons">
-print
-</span>
+    <div class="logo-text">
 
-<span>
-PRINT
-</span>
+        PAPPRITO HRIS
 
-</button>
+    </div>
 
 
-<div class="logo">
+    <!-- TITLE -->
 
-<img
-src="../assets/images/logo.png"
-alt="PAPPRITO Logo">
+    <div class="title">
 
-</div>
+        Employee Attendance
 
-
-<div class="logo-text">
-
-PAPPRITO
-
-</div>
+    </div>
 
 
-<div class="title">
+    <!-- SPACER -->
 
-EMPLOYEE ATTENDANCE
+    <div
+        style="
+            flex:1;
+        ">
+    </div>
 
-</div>
+
+    <!-- BACK -->
+
+    <button
+        type="button"
+        id="backBtn"
+        class="top-btn"
+        onclick="goBack()">
+
+        <span class="material-icons">
+            arrow_back
+        </span>
+
+        BACK
+
+    </button>
+
+
+    <!-- PRINT -->
+
+    <button
+        type="button"
+        id="printBtn"
+        class="top-btn"
+        onclick="printAttendance()">
+
+        <span class="material-icons">
+            print
+        </span>
+
+        PRINT
+
+    </button>
 
 
 </header>
 
 
-<!-- ==========================================
+
+<!-- =====================================================
      FILTER SECTION
-========================================== -->
+===================================================== -->
 
 <section class="filter-section">
 
 
-<select
-id="employeeSelect"
-aria-label="Select Employee">
+    <!-- EMPLOYEE -->
 
-<option value="">
+    <select
+        id="employeeSelect">
 
-Select Employee
+        <option value="">
+            Select Employee
+        </option>
 
-</option>
-
-</select>
-
-
-<input
-type="date"
-id="fromDate"
-aria-label="From Date">
+    </select>
 
 
-<input
-type="date"
-id="toDate"
-aria-label="To Date">
+    <!-- FROM DATE -->
+
+    <input
+        type="date"
+        id="fromDate">
 
 
-<button
-id="filterBtn"
-type="button">
+    <!-- TO DATE -->
 
-<span class="material-icons">
-filter_alt
-</span>
-
-<span>
-FILTER
-</span>
-
-</button>
+    <input
+        type="date"
+        id="toDate">
 
 
-<button
-id="summaryBtn"
-type="button">
+    <!-- FILTER -->
 
-<span class="material-icons">
-analytics
-</span>
+    <button
+        type="button"
+        id="filterBtn">
 
-<span>
-SUMMARY
-</span>
+        <span class="material-icons">
+            filter_alt
+        </span>
 
-</button>
+        FILTER
+
+    </button>
+
+
+    <!-- SUMMARY -->
+
+    <button
+        type="button"
+        id="summaryBtn">
+
+        <span class="material-icons">
+            assessment
+        </span>
+
+        SUMMARY
+
+    </button>
 
 
 </section>
 
 
-<!-- ==========================================
+
+<!-- =====================================================
      EMPLOYEE INFORMATION
-========================================== -->
+===================================================== -->
 
 <section class="employee-info">
 
 
-<div id="employeeId">
+    <div id="employeeId">
 
-EMPLOYEE ID : -
+        Employee ID:
+        <strong>
+            -
+        </strong>
 
-</div>
+    </div>
 
 
-<div id="employeeName">
+    <div id="employeeName">
 
-EMPLOYEE NAME : -
+        Employee Name:
+        <strong>
+            -
+        </strong>
 
-</div>
+    </div>
 
 
 </section>
 
 
-<!-- ==========================================
+
+<!-- =====================================================
      CLOCK
-========================================== -->
+===================================================== -->
 
 <section class="clock-area">
 
 
-<div class="clock-label">
+    <div class="clock-label">
 
-<span class="material-icons">
-schedule
-</span>
+        <span class="material-icons">
+            access_time
+        </span>
 
-<span>
-CURRENT TIME
-</span>
+        CURRENT TIME
 
-</div>
+    </div>
 
 
-<div
-id="clock"
-class="clock">
+    <div
+        id="currentTime"
+        class="clock">
 
-00:00:00
+        00:00:00
 
-</div>
+    </div>
 
 
-<div
-id="todayDate"
-class="today-date">
+    <div
+        id="currentDate"
+        class="today-date">
 
-DATE
+        Loading date...
 
-</div>
+    </div>
 
 
 </section>
 
 
-<!-- ==========================================
+
+<!-- =====================================================
      TODAY SUMMARY
-========================================== -->
+===================================================== -->
 
 <section class="today-panel">
 
 
-<div class="today-item">
+    <!-- STATUS -->
+
+    <div class="today-item">
+
+        <span class="material-icons">
+            verified
+        </span>
+
+        <div>
+
+            <small>
+                STATUS
+            </small>
+
+            <strong id="todayStatus">
+                -
+            </strong>
+
+        </div>
+
+    </div>
 
 
-<span class="material-icons">
-verified
-</span>
+    <!-- REGULAR HOURS -->
+
+    <div class="today-item">
+
+        <span class="material-icons">
+            schedule
+        </span>
+
+        <div>
+
+            <small>
+                REGULAR HOURS
+            </small>
+
+            <strong id="regularHours">
+                0.00
+            </strong>
+
+        </div>
+
+    </div>
 
 
-<div>
+    <!-- OVERTIME -->
 
-<small>
-TODAY STATUS
-</small>
+    <div class="today-item">
 
+        <span class="material-icons">
+            more_time
+        </span>
 
-<strong
-id="todayStatus">
+        <div>
 
--
+            <small>
+                OVERTIME
+            </small>
 
-</strong>
+            <strong id="overtime">
+                0.00
+            </strong>
 
-</div>
+        </div>
 
-
-</div>
-
-
-<div class="today-item">
-
-
-<span class="material-icons">
-schedule
-</span>
+    </div>
 
 
-<div>
+    <!-- LATE -->
 
-<small>
-REGULAR HOURS
-</small>
+    <div class="today-item">
 
+        <span class="material-icons">
+            alarm
+        </span>
 
-<strong
-id="todayRegularHours">
+        <div>
 
-0.00
+            <small>
+                LATE MINUTES
+            </small>
 
-</strong>
+            <strong id="lateMinutes">
+                0
+            </strong>
 
-</div>
+        </div>
 
-
-</div>
-
-
-<div class="today-item">
-
-
-<span class="material-icons">
-more_time
-</span>
-
-
-<div>
-
-<small>
-OVERTIME
-</small>
-
-
-<strong
-id="todayOvertime">
-
-0.00
-
-</strong>
-
-</div>
-
-
-</div>
-
-
-<div class="today-item">
-
-
-<span class="material-icons">
-alarm
-</span>
-
-
-<div>
-
-<small>
-LATE MINUTES
-</small>
-
-
-<strong
-id="todayLate">
-
-0
-
-</strong>
-
-</div>
-
-
-</div>
+    </div>
 
 
 </section>
 
 
-<!-- ==========================================
-     ATTENDANCE BUTTONS
-========================================== -->
+
+<!-- =====================================================
+     ATTENDANCE ACTIONS
+===================================================== -->
 
 <section class="button-group">
 
 
-<button
-id="timeInBtn"
-class="action-btn timein"
-type="button">
+    <!-- TIME IN -->
+
+    <button
+        type="button"
+        id="timeInBtn"
+        class="action-btn timein">
+
+        <span class="material-icons">
+            login
+        </span>
+
+        TIME IN
+
+    </button>
 
 
-<span class="material-icons">
-login
-</span>
+    <!-- BREAK OUT -->
+
+    <button
+        type="button"
+        id="breakOutBtn"
+        class="action-btn breakout"
+        disabled>
+
+        <span class="material-icons">
+            free_breakfast
+        </span>
+
+        BREAK OUT
+
+    </button>
 
 
-<span>
-TIME IN
-</span>
+    <!-- BREAK IN -->
+
+    <button
+        type="button"
+        id="breakInBtn"
+        class="action-btn breakin"
+        disabled>
+
+        <span class="material-icons">
+            play_arrow
+        </span>
+
+        BREAK IN
+
+    </button>
 
 
-</button>
+    <!-- TIME OUT -->
 
+    <button
+        type="button"
+        id="timeOutBtn"
+        class="action-btn timeout"
+        disabled>
 
-<button
-id="breakOutBtn"
-class="action-btn breakout"
-type="button">
+        <span class="material-icons">
+            logout
+        </span>
 
+        TIME OUT
 
-<span class="material-icons">
-free_breakfast
-</span>
-
-
-<span>
-BREAK OUT
-</span>
-
-
-</button>
-
-
-<button
-id="breakInBtn"
-class="action-btn breakin"
-type="button">
-
-
-<span class="material-icons">
-restart_alt
-</span>
-
-
-<span>
-BREAK IN
-</span>
-
-
-</button>
-
-
-<button
-id="timeOutBtn"
-class="action-btn timeout"
-type="button">
-
-
-<span class="material-icons">
-logout
-</span>
-
-
-<span>
-TIME OUT
-</span>
-
-
-</button>
+    </button>
 
 
 </section>
 
 
-<!-- ==========================================
+
+<!-- =====================================================
      ATTENDANCE RECORDS
-========================================== -->
+===================================================== -->
 
-<section class="attendance-section">
+<section
+    id="attendanceRecords"
+    class="attendance-section">
 
 
-<div class="section-heading">
+    <!-- SECTION HEADER -->
 
+    <div class="section-heading">
 
-<div class="section-heading-left">
 
+        <div class="section-heading-left">
 
-<span class="material-icons">
-event_note
-</span>
 
+            <span class="material-icons">
+                fact_check
+            </span>
 
-<div>
 
-<h2>
+            <div>
 
-ATTENDANCE RECORDS
+                <h2>
+                    Attendance Records
+                </h2>
 
-</h2>
+                <p>
+                    Employee time and attendance records
+                </p>
 
+            </div>
 
-<p>
 
-Employee attendance and working hours
+        </div>
 
-</p>
 
-</div>
+        <!-- CLEAR -->
 
+        <button
+            type="button"
+            id="clearBtn"
+            class="clear-filter-btn"
+            onclick="clearAttendance()">
 
-</div>
+            <span class="material-icons">
+                clear
+            </span>
 
+            CLEAR
 
-<button
-id="clearFilterBtn"
-class="clear-filter-btn"
-type="button">
+        </button>
 
 
-<span class="material-icons">
-clear_all
-</span>
+    </div>
 
 
-CLEAR
 
+    <!-- =================================================
+         TABLE
+    ================================================= -->
 
-</button>
+    <div
+        class="table-wrapper"
+        id="attendanceTableWrapper">
 
 
-</div>
+        <table
+            id="attendanceTable">
 
 
-<!-- ==========================================
-     TABLE
-========================================== -->
+            <thead>
 
-<div class="table-wrapper">
+                <tr>
 
 
-<table
-id="attendanceTable">
+                    <!-- 1 -->
 
+                    <th>
+                        DATE
+                    </th>
 
-<thead>
 
+                    <!-- 2 -->
 
-<tr>
+                    <th>
+                        EMPLOYEE ID
+                    </th>
 
 
-<th>
-DATE
-</th>
+                    <!-- 3 -->
 
+                    <th>
+                        EMPLOYEE NAME
+                    </th>
 
-<th>
-EMPLOYEE ID
-</th>
 
+                    <!-- 4 -->
 
-<th>
-EMPLOYEE NAME
-</th>
+                    <th>
+                        TIME IN
+                    </th>
 
 
-<th>
-TIME IN
-</th>
+                    <!-- 5 -->
 
+                    <th>
+                        BREAK OUT
+                    </th>
 
-<th>
-BREAK OUT
-</th>
 
+                    <!-- 6 -->
 
-<th>
-BREAK IN
-</th>
+                    <th>
+                        BREAK IN
+                    </th>
 
 
-<th>
-TIME OUT
-</th>
+                    <!-- 7 -->
 
+                    <th>
+                        TIME OUT
+                    </th>
 
-<th>
-BREAK
-</th>
 
+                    <!-- 8 -->
 
-<th>
-REG HOURS
-</th>
+                    <th>
+                        BREAK
+                        <br>
+                        HOURS
+                    </th>
 
 
-<th>
-OT
-</th>
+                    <!-- 9 -->
 
+                    <th>
+                        REGULAR
+                        <br>
+                        HOURS
+                    </th>
 
-<th>
-LATE
-</th>
 
+                    <!-- 10 -->
 
-<th>
-STATUS
-</th>
+                    <th>
+                        OT
+                    </th>
 
 
-<th>
-ACTION
-</th>
+                    <!-- 11 -->
 
+                    <th>
+                        LATE
+                        <br>
+                        MINUTES
+                    </th>
 
-</tr>
 
+                    <!-- 12 -->
 
-</thead>
+                    <th>
+                        STATUS
+                    </th>
 
 
-<tbody
-id="attendanceBody">
+                    <!-- 13 -->
 
+                    <th>
+                        ACTION
+                    </th>
 
-</tbody>
 
+                </tr>
 
-</table>
+            </thead>
 
 
-</div>
+            <tbody>
+
+                <tr>
+
+                    <td
+                        colspan="13"
+                        class="empty-row">
+
+                        <span class="material-icons">
+                            event_busy
+                        </span>
+
+                        <p>
+                            No attendance records found.
+                        </p>
+
+                    </td>
+
+                </tr>
+
+            </tbody>
+
+
+        </table>
+
+
+    </div>
 
 
 </section>
 
 
-<!-- ==========================================
+
+<!-- =====================================================
      FOOTER
-========================================== -->
+===================================================== -->
 
-<footer
-class="attendance-footer">
+<footer class="attendance-footer">
 
+    <span>
+        © 2026 PAPPRITO HRIS
+    </span>
 
-<span>
-PAPPRITO HRIS
-</span>
+    <span>
+        —
+    </span>
 
-
-<span>
-•
-</span>
-
-
-<span>
-Employee Attendance Management
-</span>
-
+    <span>
+        Human Resource Information System
+    </span>
 
 </footer>
 
@@ -670,13 +694,98 @@ Employee Attendance Management
 </div>
 
 
-<!-- ==========================================
-     JAVASCRIPT
-========================================== -->
+
+<!-- =====================================================
+     BACK FUNCTION
+===================================================== -->
+
+<script>
+
+function goBack(){
+
+    /*
+     * If there is a previous page,
+     * return to it.
+     */
+
+    if(
+        window.history.length > 1
+    ){
+
+        window.history.back();
+
+        return;
+
+    }
+
+
+    /*
+     * Fallback:
+     * Dashboard
+     */
+
+    window.location.href =
+        "dashboard.html";
+
+}
+
+
+</script>
+
+
+
+<!-- =====================================================
+     SERVICE WORKER
+===================================================== -->
+
+<script>
+
+if(
+    "serviceWorker" in navigator
+){
+
+    window.addEventListener(
+        "load",
+        function(){
+
+            navigator.serviceWorker
+                .register("../sw.js")
+                .then(
+                    function(){
+
+                        console.log(
+                            "PAPPRITO HRIS Service Worker Registered"
+                        );
+
+                    }
+                )
+                .catch(
+                    function(error){
+
+                        console.error(
+                            "Service Worker Error:",
+                            error
+                        );
+
+                    }
+                );
+
+        }
+    );
+
+}
+
+</script>
+
+
+
+<!-- =====================================================
+     ATTENDANCE JS
+===================================================== -->
 
 <script
-type="module"
-src="../js/attendance.js">
+    type="module"
+    src="../js/attendance.js">
 </script>
 
 
