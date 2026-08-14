@@ -1,7 +1,11 @@
 /* ==========================================
    PAPPRITO HRIS
-   EMPLOYEE PORTAL
-   MODERN GREY UI
+   EMPLOYEE PORTAL CSS
+========================================== */
+
+
+/* ==========================================
+   RESET
 ========================================== */
 
 *{
@@ -10,50 +14,16 @@
     box-sizing:border-box;
 }
 
-:root{
-
-    --primary:#c8102e;
-    --primary-dark:#9e0b23;
-
-    --secondary:#ffcc00;
-    --secondary-dark:#e6b800;
-
-    --background:#d9d9d9;
-    --card:#ffffff;
-
-    --text:#222222;
-    --muted:#666666;
-
-    --border:#c8c8c8;
-
-    --success:#168a4a;
-    --info:#1976d2;
-
-    --shadow:
-        0 4px 14px rgba(0,0,0,.12);
-
-}
-
 
 html{
-
-    scroll-behavior:smooth;
-
+    width:100%;
+    min-height:100%;
 }
 
 
 body{
-
-    margin:0;
-
-    background:
-        linear-gradient(
-            135deg,
-            #d3d3d3,
-            #eeeeee
-        );
-
-    color:var(--text);
+    width:100%;
+    min-height:100vh;
 
     font-family:
         "Segoe UI",
@@ -61,8 +31,10 @@ body{
         Arial,
         sans-serif;
 
-    min-height:100vh;
+    background:#eef1f5;
+    color:#1f2937;
 
+    overflow-x:hidden;
 }
 
 
@@ -73,7 +45,6 @@ body{
 .portal-container{
 
     width:100%;
-
     max-width:1400px;
 
     margin:0 auto;
@@ -89,32 +60,26 @@ body{
 
 .portal-header{
 
+    width:100%;
+
     display:flex;
-
     align-items:center;
-
     justify-content:space-between;
 
     gap:20px;
 
-    background:
-        linear-gradient(
-            135deg,
-            #c8102e,
-            #9e0b23
-        );
+    padding:15px 20px;
 
-    color:#fff;
+    background:#ffffff;
 
-    padding:16px 20px;
+    border-left:5px solid #ffcc00;
 
     border-radius:14px;
 
-    box-shadow:var(--shadow);
+    box-shadow:
+        0 4px 15px rgba(0,0,0,.08);
 
-    margin-bottom:18px;
-
-    border-bottom:5px solid var(--secondary);
+    margin-bottom:20px;
 
 }
 
@@ -122,51 +87,45 @@ body{
 .brand{
 
     display:flex;
-
     align-items:center;
 
-    gap:14px;
+    gap:12px;
+
+    min-width:0;
 
 }
 
 
 .header-logo{
 
-    width:52px;
-
-    height:52px;
+    width:55px;
+    height:55px;
 
     object-fit:contain;
 
-    background:#fff;
-
-    border-radius:50%;
-
-    padding:5px;
-
-    border:3px solid var(--secondary);
+    flex-shrink:0;
 
 }
 
 
 .brand h1{
 
-    font-size:21px;
+    font-size:22px;
+    font-weight:800;
 
-    font-weight:900;
-
-    letter-spacing:.5px;
+    color:#172033;
 
 }
 
 
 .brand p{
 
-    font-size:11px;
+    margin-top:2px;
 
+    font-size:11px;
     font-weight:700;
 
-    opacity:.9;
+    color:#c49a00;
 
     letter-spacing:1px;
 
@@ -176,30 +135,29 @@ body{
 .header-right{
 
     display:flex;
-
     align-items:center;
+
+    gap:8px;
 
 }
 
-
-/* ==========================================
-   BUTTONS
-========================================== */
 
 .btn{
 
     border:none;
 
+    border-radius:9px;
+
+    padding:10px 16px;
+
+    font-size:13px;
+    font-weight:700;
+
     cursor:pointer;
-
-    font-family:inherit;
-
-    font-weight:800;
 
     display:inline-flex;
 
     align-items:center;
-
     justify-content:center;
 
     gap:7px;
@@ -213,36 +171,23 @@ body{
 
     transform:translateY(-1px);
 
-    filter:brightness(.96);
-
 }
 
 
 .icon-btn{
 
-    width:44px;
+    width:42px;
+    height:42px;
 
-    height:44px;
-
-    border-radius:10px;
+    padding:0;
 
 }
 
 
 .logout-btn{
 
-    background:#ffffff;
-
-    color:var(--primary);
-
-}
-
-
-.logout-btn:hover{
-
-    background:var(--secondary);
-
-    color:#222;
+    background:#dc2626;
+    color:#ffffff;
 
 }
 
@@ -253,23 +198,23 @@ body{
 
 .welcome-card{
 
-    display:flex;
+    width:100%;
 
+    display:flex;
     align-items:center;
 
-    gap:16px;
+    gap:15px;
+
+    padding:20px;
 
     background:#ffffff;
 
     border-radius:14px;
 
-    padding:20px;
+    box-shadow:
+        0 4px 15px rgba(0,0,0,.07);
 
-    margin-bottom:18px;
-
-    box-shadow:var(--shadow);
-
-    border-left:6px solid var(--secondary);
+    margin-bottom:20px;
 
 }
 
@@ -277,28 +222,19 @@ body{
 .welcome-icon{
 
     width:58px;
-
     height:58px;
 
-    min-width:58px;
-
     display:flex;
-
     align-items:center;
-
     justify-content:center;
 
-    border-radius:14px;
+    border-radius:50%;
 
-    background:
+    background:#ffcc00;
 
-        linear-gradient(
-            135deg,
-            var(--primary),
-            #e6324d
-        );
+    color:#172033;
 
-    color:#fff;
+    flex-shrink:0;
 
 }
 
@@ -312,31 +248,33 @@ body{
 
 .welcome-text p{
 
-    color:var(--muted);
-
     font-size:13px;
+
+    color:#6b7280;
 
 }
 
 
 .welcome-text h2{
 
-    font-size:22px;
+    margin-top:2px;
 
-    color:var(--primary);
+    font-size:24px;
 
-    margin:2px 0;
+    color:#172033;
 
 }
 
 
 .welcome-text span{
 
+    display:block;
+
+    margin-top:3px;
+
     font-size:12px;
 
-    color:#777;
-
-    font-weight:700;
+    color:#6b7280;
 
 }
 
@@ -347,17 +285,20 @@ body{
 
 .section-card{
 
+    width:100%;
+
     background:#ffffff;
 
     border-radius:14px;
 
-    margin-bottom:18px;
-
     padding:20px;
 
-    box-shadow:var(--shadow);
+    margin-bottom:20px;
 
-    border:1px solid #cfcfcf;
+    box-shadow:
+        0 4px 15px rgba(0,0,0,.07);
+
+    overflow:hidden;
 
 }
 
@@ -369,16 +310,12 @@ body{
 .section-title{
 
     display:flex;
-
     align-items:center;
-
     justify-content:space-between;
 
+    gap:15px;
+
     margin-bottom:18px;
-
-    padding-bottom:12px;
-
-    border-bottom:3px solid var(--secondary);
 
 }
 
@@ -386,23 +323,20 @@ body{
 .section-title h2{
 
     display:flex;
-
     align-items:center;
 
     gap:8px;
 
-    color:var(--primary);
-
     font-size:18px;
 
-    font-weight:900;
+    color:#172033;
 
 }
 
 
 .section-title h2 .material-icons{
 
-    color:var(--primary);
+    color:#c49a00;
 
 }
 
@@ -411,7 +345,7 @@ body{
 
     margin-top:4px;
 
-    color:#777;
+    color:#6b7280;
 
     font-size:12px;
 
@@ -419,96 +353,92 @@ body{
 
 
 /* ==========================================
-   EMPLOYEE INFORMATION
+   MY INFORMATION
 ========================================== */
 
 .employee-info-grid{
 
+    width:100%;
+
     display:grid;
 
     grid-template-columns:
-        repeat(4,1fr);
+        repeat(2,minmax(0,1fr));
 
     gap:12px;
 
 }
 
 
+/*
+ * LEFT AND RIGHT
+ * 2 COLUMNS
+ */
+
 .info-box{
 
-    display:flex;
+    min-width:0;
 
+    display:flex;
     align-items:center;
 
     gap:12px;
 
-    padding:15px;
+    padding:14px;
 
-    min-height:75px;
+    background:#f5f7fa;
 
-    border-radius:11px;
+    border:1px solid #dce2e8;
 
-    border:1px solid #d0d0d0;
+    border-left:4px solid #ffcc00;
 
-    background:#f5f5f5;
-
-    transition:.2s ease;
-
-    position:relative;
-
-    overflow:hidden;
+    border-radius:10px;
 
 }
 
 
-.info-box::before{
+.info-box:nth-child(2n){
 
-    content:"";
-
-    position:absolute;
-
-    left:0;
-
-    top:0;
-
-    bottom:0;
-
-    width:5px;
-
-    background:var(--primary);
+    border-left-color:#1677d2;
 
 }
 
 
-.info-box:hover{
+.info-box:nth-child(3n){
 
-    transform:translateY(-2px);
-
-    box-shadow:
-        0 4px 10px rgba(0,0,0,.10);
+    border-left-color:#16a36a;
 
 }
 
 
 .info-box .material-icons{
 
-    width:38px;
+    font-size:25px;
 
-    height:38px;
+    color:#c49a00;
 
-    display:flex;
+    flex-shrink:0;
 
-    align-items:center;
+}
 
-    justify-content:center;
 
-    border-radius:9px;
+.info-box:nth-child(2n) .material-icons{
 
-    background:#fff0f2;
+    color:#1677d2;
 
-    color:var(--primary);
+}
 
-    font-size:22px;
+
+.info-box:nth-child(3n) .material-icons{
+
+    color:#16a36a;
+
+}
+
+
+.info-box div{
+
+    min-width:0;
 
 }
 
@@ -517,15 +447,13 @@ body{
 
     display:block;
 
-    color:#777;
-
     font-size:10px;
 
-    font-weight:700;
-
-    margin-bottom:3px;
+    color:#6b7280;
 
     text-transform:uppercase;
+
+    font-weight:700;
 
 }
 
@@ -534,9 +462,11 @@ body{
 
     display:block;
 
-    color:#222;
+    margin-top:3px;
 
-    font-size:13px;
+    font-size:14px;
+
+    color:#172033;
 
     word-break:break-word;
 
@@ -549,10 +479,12 @@ body{
 
 .request-form{
 
+    width:100%;
+
     display:grid;
 
     grid-template-columns:
-        repeat(3,1fr);
+        repeat(3,minmax(0,1fr));
 
     gap:14px;
 
@@ -561,30 +493,29 @@ body{
 
 .form-group{
 
-    display:flex;
-
-    flex-direction:column;
-
-    gap:6px;
+    min-width:0;
 
 }
 
 
 .form-group.full-width{
 
-    grid-column:
-        1 / -1;
+    grid-column:1 / -1;
 
 }
 
 
 .form-group label{
 
+    display:block;
+
+    margin-bottom:6px;
+
     font-size:12px;
 
-    font-weight:800;
+    font-weight:700;
 
-    color:#444;
+    color:#374151;
 
 }
 
@@ -595,36 +526,21 @@ body{
 
     width:100%;
 
-    border:1px solid #c7c7c7;
-
-    border-radius:9px;
-
     padding:11px 12px;
 
-    background:#f7f7f7;
+    border:1px solid #d5dbe2;
 
-    color:#222;
+    border-radius:8px;
 
-    font-family:inherit;
+    background:#ffffff;
+
+    color:#1f2937;
 
     outline:none;
 
-    transition:.2s ease;
+    font-family:inherit;
 
-}
-
-
-.form-group input:focus,
-.form-group select:focus,
-.form-group textarea:focus{
-
-    border-color:var(--primary);
-
-    background:#fff;
-
-    box-shadow:
-        0 0 0 3px
-        rgba(200,16,46,.10);
+    font-size:13px;
 
 }
 
@@ -633,7 +549,19 @@ body{
 
     resize:vertical;
 
-    min-height:80px;
+    min-height:85px;
+
+}
+
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus{
+
+    border-color:#ffcc00;
+
+    box-shadow:
+        0 0 0 2px rgba(255,204,0,.15);
 
 }
 
@@ -645,7 +573,6 @@ body{
 .request-actions{
 
     display:flex;
-
     flex-wrap:wrap;
 
     gap:10px;
@@ -655,65 +582,42 @@ body{
 }
 
 
-.request-actions .btn{
-
-    min-height:42px;
-
-    padding:10px 16px;
-
-    border-radius:9px;
-
-}
-
-
 .submit-btn{
 
-    background:var(--primary);
-
-    color:#fff;
-
-}
-
-
-.submit-btn:hover{
-
-    background:var(--primary-dark);
+    background:#08a85b;
+    color:#ffffff;
 
 }
 
 
 .clear-btn{
 
-    background:#777;
-
-    color:#fff;
+    background:#e5e7eb;
+    color:#374151;
 
 }
 
 
 .view-btn{
 
-    background:var(--secondary);
-
-    color:#222;
+    background:#0878d1;
+    color:#ffffff;
 
 }
 
 
 .print-btn{
 
-    background:var(--info);
-
-    color:#fff;
+    background:#ffcc00;
+    color:#172033;
 
 }
 
 
 .close-btn{
 
-    background:#555;
-
-    color:#fff;
+    background:#e5e9ef;
+    color:#273142;
 
 }
 
@@ -728,22 +632,16 @@ body{
 
     overflow-x:auto;
 
-    border-radius:10px;
-
-    border:1px solid #ccc;
+    -webkit-overflow-scrolling:touch;
 
 }
 
-
-/* ==========================================
-   TABLE
-========================================== */
 
 .request-table{
 
     width:100%;
 
-    min-width:700px;
+    min-width:650px;
 
     border-collapse:collapse;
 
@@ -752,16 +650,11 @@ body{
 
 .request-table th{
 
-    background:
-        linear-gradient(
-            135deg,
-            var(--primary),
-            #a90e27
-        );
+    background:#243047;
 
-    color:#fff;
+    color:#ffcc00;
 
-    padding:12px;
+    padding:11px;
 
     font-size:11px;
 
@@ -774,27 +667,13 @@ body{
 
 .request-table td{
 
-    padding:11px 12px;
+    padding:10px;
 
-    border-bottom:1px solid #ddd;
+    border-bottom:1px solid #e2e6eb;
 
     font-size:12px;
 
-    background:#fff;
-
-}
-
-
-.request-table tbody tr:nth-child(even) td{
-
-    background:#f6f6f6;
-
-}
-
-
-.request-table tbody tr:hover td{
-
-    background:#fff8d9;
+    background:#ffffff;
 
 }
 
@@ -803,9 +682,9 @@ body{
 
     text-align:center;
 
-    color:#777;
+    padding:20px !important;
 
-    padding:25px !important;
+    color:#6b7280;
 
 }
 
@@ -816,7 +695,7 @@ body{
 
 .status{
 
-    display:inline-flex;
+    display:inline-block;
 
     padding:5px 9px;
 
@@ -824,34 +703,31 @@ body{
 
     font-size:10px;
 
-    font-weight:900;
+    font-weight:800;
 
 }
 
 
 .status.pending{
 
-    background:#fff1bf;
-
-    color:#8a6500;
+    background:#fff3cd;
+    color:#856404;
 
 }
 
 
 .status.approved{
 
-    background:#d9f5e5;
-
-    color:#14733e;
+    background:#d1fae5;
+    color:#047857;
 
 }
 
 
 .status.rejected{
 
-    background:#ffe0e5;
-
-    color:#b00020;
+    background:#fee2e2;
+    color:#b91c1c;
 
 }
 
@@ -862,28 +738,20 @@ body{
 
 .payslip-section{
 
-    border-top:5px solid var(--primary);
+    width:100%;
 
 }
 
 
 .payslip-selector{
 
+    width:100%;
+
     display:flex;
 
-    align-items:end;
+    align-items:flex-end;
 
     gap:12px;
-
-    padding:15px;
-
-    background:#eeeeee;
-
-    border-radius:11px;
-
-    border:1px solid #ccc;
-
-    margin-bottom:18px;
 
 }
 
@@ -892,41 +760,16 @@ body{
 
     flex:1;
 
+    min-width:0;
+
 }
 
 
 .payslip-selector .view-btn{
 
-    min-height:43px;
+    flex-shrink:0;
 
-    padding:10px 18px;
-
-    border-radius:9px;
-
-}
-
-
-/* ==========================================
-   PAYSLIP MESSAGE
-========================================== */
-
-.payslip-message{
-
-    padding:15px;
-
-    text-align:center;
-
-    background:#fff3cd;
-
-    color:#765700;
-
-    border:1px solid #e5c85c;
-
-    border-radius:9px;
-
-    font-weight:800;
-
-    margin-bottom:15px;
+    white-space:nowrap;
 
 }
 
@@ -937,21 +780,31 @@ body{
 
 .payslip{
 
+    width:100%;
+
+    max-width:850px;
+
+    margin:25px auto 0;
+
+    padding:25px;
+
     background:#ffffff;
 
-    border:2px solid var(--secondary);
+    border:1px solid #d9dee5;
 
-    border-radius:12px;
-
-    padding:20px;
-
-    margin-top:18px;
+    border-radius:14px;
 
     box-shadow:
-        0 5px 18px rgba(0,0,0,.14);
+        0 5px 18px rgba(0,0,0,.08);
+
+    overflow:hidden;
 
 }
 
+
+/* ==========================================
+   PAYSLIP ACTIONS
+========================================== */
 
 .payslip-actions{
 
@@ -959,34 +812,38 @@ body{
 
     justify-content:flex-end;
 
+    align-items:center;
+
+    gap:10px;
+
     flex-wrap:wrap;
 
-    gap:8px;
+    margin-bottom:20px;
 
-    margin-bottom:15px;
+}
 
-    padding-bottom:12px;
 
-    border-bottom:1px solid #ddd;
+.payslip-actions .btn{
+
+    white-space:nowrap;
 
 }
 
 
 /* ==========================================
-   PAYROLL LOGO
+   PAYSLIP LOGO
 ========================================== */
 
 .payroll-logo{
 
     display:block;
 
-    width:65px;
-
-    height:65px;
+    width:75px;
+    height:75px;
 
     object-fit:contain;
 
-    margin:0 auto 8px;
+    margin:0 auto 10px;
 
 }
 
@@ -995,37 +852,35 @@ body{
    COMPANY
 ========================================== */
 
-.company{
+.payslip .company{
 
     text-align:center;
 
-    padding-bottom:12px;
-
-    border-bottom:3px solid var(--secondary);
+    margin-bottom:20px;
 
 }
 
 
-.company h2{
+.payslip .company h2{
 
-    color:var(--primary);
+    margin:5px 0;
 
     font-size:23px;
 
-    font-weight:900;
+    color:#c8102e;
 
 }
 
 
-.company p{
+.payslip .company p{
 
-    color:#555;
+    margin:0;
 
     font-size:11px;
 
-    font-weight:800;
+    font-weight:700;
 
-    margin-top:3px;
+    color:#6b7280;
 
 }
 
@@ -1036,46 +891,44 @@ body{
 
 .pay-info{
 
+    width:100%;
+
     display:grid;
 
     grid-template-columns:
-        repeat(2,1fr);
+        repeat(2,minmax(0,1fr));
 
-    gap:8px;
+    gap:10px;
 
-    margin-top:15px;
-
-    padding:12px;
-
-    background:#f1f1f1;
-
-    border:1px solid #ccc;
-
-    border-radius:9px;
+    margin-bottom:20px;
 
 }
 
 
-.pay-info div{
+.pay-info > div{
 
-    padding:8px;
+    min-width:0;
 
-    background:#ffffff;
+    padding:11px;
 
-    border-left:4px solid var(--primary);
+    background:#f5f7fa;
 
-    border-radius:5px;
+    border:1px solid #dce2e8;
+
+    border-left:4px solid #ffcc00;
+
+    border-radius:8px;
 
     font-size:12px;
 
+    word-break:break-word;
+
 }
 
 
-.pay-info b{
+.pay-info > div:nth-child(2n){
 
-    color:#555;
-
-    margin-right:5px;
+    border-left-color:#1677d2;
 
 }
 
@@ -1084,70 +937,84 @@ body{
    PAYROLL TABLE
 ========================================== */
 
-.payroll-table{
+.payslip .payroll-table{
 
     width:100%;
 
-    margin-top:14px;
+    max-width:100%;
 
     border-collapse:collapse;
+
+    table-layout:fixed;
+
+    margin:0 0 18px;
 
 }
 
 
-.payroll-table th{
+.payslip .payroll-table th,
+.payslip .payroll-table td{
 
-    padding:11px;
+    padding:10px;
 
-    background:var(--primary);
+    border:1px solid #d5dbe2;
 
-    color:#fff;
+    box-sizing:border-box;
 
-    font-size:12px;
+    overflow-wrap:anywhere;
+
+}
+
+
+.payslip .payroll-table th{
+
+    background:#243047;
+
+    color:#ffcc00;
+
+    font-size:11px;
 
     text-align:left;
 
 }
 
 
-.payroll-table td{
+.payslip .payroll-table td{
 
-    padding:10px;
-
-    border:1px solid #ccc;
+    background:#ffffff;
 
     font-size:12px;
 
-    background:#fff;
+}
+
+
+.payslip .payroll-table th:first-child,
+.payslip .payroll-table td:first-child{
+
+    width:65%;
+
+    text-align:left;
 
 }
 
 
-.payroll-table td:last-child{
+.payslip .payroll-table th:last-child,
+.payslip .payroll-table td:last-child{
+
+    width:35%;
 
     text-align:right;
 
-    font-weight:700;
+    white-space:nowrap;
 
 }
 
 
-.payroll-table tr:nth-child(even) td{
+.payslip .total-row td{
 
-    background:#f7f7f7;
+    font-weight:800;
 
-}
-
-
-.payroll-table .total-row td{
-
-    background:#fff2b8;
-
-    color:#222;
-
-    font-weight:900;
-
-    border-top:2px solid var(--secondary);
+    background:#f3f5f8;
 
 }
 
@@ -1156,47 +1023,40 @@ body{
    NET PAY
 ========================================== */
 
-.netpay{
+.payslip .netpay{
+
+    width:100%;
 
     display:flex;
 
-    justify-content:space-between;
-
     align-items:center;
 
-    margin-top:16px;
+    justify-content:space-between;
 
-    padding:16px 18px;
+    gap:10px;
 
-    border-radius:10px;
+    padding:15px;
 
-    background:
-        linear-gradient(
-            135deg,
-            #168a4a,
-            #0f6d3a
-        );
+    margin-top:8px;
 
-    color:#fff;
+    background:#16a36a;
 
-    box-shadow:
-        0 4px 10px rgba(0,0,0,.12);
+    color:#ffffff;
 
-}
+    border-radius:9px;
 
+    font-size:15px;
 
-.netpay span{
-
-    font-size:14px;
-
-    font-weight:900;
+    font-weight:800;
 
 }
 
 
-.netpay strong{
+.payslip .netpay strong{
 
-    font-size:21px;
+    white-space:nowrap;
+
+    font-size:18px;
 
 }
 
@@ -1205,7 +1065,9 @@ body{
    SIGNATURE
 ========================================== */
 
-.signature{
+.payslip .signature{
+
+    width:100%;
 
     display:flex;
 
@@ -1215,22 +1077,18 @@ body{
 
     margin-top:45px;
 
-    padding:0 25px;
-
 }
 
 
 .signature-line{
 
-    width:200px;
+    width:180px;
+
+    max-width:45%;
 
     text-align:center;
 
-    font-size:11px;
-
-    font-weight:700;
-
-    color:#444;
+    font-size:12px;
 
 }
 
@@ -1243,7 +1101,30 @@ body{
 
     background:#222;
 
-    margin-bottom:6px;
+    margin-bottom:7px;
+
+}
+
+
+/* ==========================================
+   PAYSLIP MESSAGE
+========================================== */
+
+.payslip-message{
+
+    margin-top:15px;
+
+    padding:12px;
+
+    border-radius:8px;
+
+    background:#f3f4f6;
+
+    color:#4b5563;
+
+    font-size:12px;
+
+    text-align:center;
 
 }
 
@@ -1256,289 +1137,19 @@ body{
 
     display:flex;
 
-    justify-content:space-between;
-
+    justify-content:center;
     align-items:center;
 
-    gap:10px;
+    gap:15px;
 
-    padding:16px 5px;
+    padding:20px 10px;
 
-    color:#666;
+    color:#6b7280;
 
     font-size:11px;
 
-    font-weight:700;
-
-}
-
-
-/* ==========================================
-   SCROLLBAR
-========================================== */
-
-::-webkit-scrollbar{
-
-    width:8px;
-
-    height:8px;
-
-}
-
-
-::-webkit-scrollbar-track{
-
-    background:#c8c8c8;
-
-}
-
-
-::-webkit-scrollbar-thumb{
-
-    background:#999;
-
-    border-radius:20px;
-
-}
-
-
-::-webkit-scrollbar-thumb:hover{
-
-    background:var(--primary);
-
-}
-
-
-/* ==========================================
-   EMPLOYEE PORTAL
-   PAYSLIP MOBILE RESPONSIVE
-========================================== */
-
-
-/* ==========================================
-   PAYSLIP SECTION
-========================================== */
-
-.payslip-section{
-    width:100%;
-    max-width:100%;
-    overflow:hidden;
-}
-
-
-.payslip-selector{
-    width:100%;
-    display:flex;
-    align-items:flex-end;
-    gap:12px;
-}
-
-
-.payslip-selector .form-group{
-    flex:1;
-    min-width:0;
-}
-
-
-.payslip-selector .view-btn{
-    flex-shrink:0;
-    white-space:nowrap;
-}
-
-
-/* ==========================================
-   PAYSLIP AREA
-========================================== */
-
-.payslip{
-    width:100%;
-    max-width:850px;
-    margin:25px auto 0;
-    padding:25px;
-    box-sizing:border-box;
-    overflow:hidden;
-}
-
-
-/* ==========================================
-   PAYSLIP ACTIONS
-========================================== */
-
-.payslip-actions{
-    display:flex;
-    justify-content:flex-end;
-    align-items:center;
-    gap:10px;
-    margin-bottom:20px;
-    flex-wrap:wrap;
-}
-
-
-.payslip-actions .btn{
-    white-space:nowrap;
-}
-
-
-/* ==========================================
-   PAYSLIP LOGO
-========================================== */
-
-.payroll-logo{
-    display:block;
-    width:75px;
-    height:75px;
-    max-width:100%;
-    object-fit:contain;
-    margin:0 auto 10px;
-}
-
-
-/* ==========================================
-   COMPANY
-========================================== */
-
-.payslip .company{
     text-align:center;
-    margin-bottom:20px;
-}
 
-
-.payslip .company h2{
-    margin:5px 0;
-}
-
-
-.payslip .company p{
-    margin:0;
-}
-
-
-/* ==========================================
-   PAY INFORMATION
-========================================== */
-
-.pay-info{
-    width:100%;
-    display:grid;
-    grid-template-columns:
-        repeat(2,minmax(0,1fr));
-    gap:10px;
-    margin-bottom:20px;
-}
-
-
-.pay-info > div{
-    min-width:0;
-    padding:12px;
-    box-sizing:border-box;
-    word-break:break-word;
-}
-
-
-.pay-info span{
-    word-break:break-word;
-}
-
-
-/* ==========================================
-   PAYROLL TABLE
-========================================== */
-
-.payslip .payroll-table{
-    width:100%;
-    max-width:100%;
-    border-collapse:collapse;
-    table-layout:fixed;
-    margin:0 0 18px;
-}
-
-
-.payslip .payroll-table th,
-.payslip .payroll-table td{
-    padding:10px;
-    box-sizing:border-box;
-    word-wrap:break-word;
-    overflow-wrap:anywhere;
-}
-
-
-.payslip .payroll-table th:first-child,
-.payslip .payroll-table td:first-child{
-    width:65%;
-    text-align:left;
-}
-
-
-.payslip .payroll-table th:last-child,
-.payslip .payroll-table td:last-child{
-    width:35%;
-    text-align:right;
-    white-space:nowrap;
-}
-
-
-/* ==========================================
-   TOTAL ROW
-========================================== */
-
-.payslip .total-row{
-    font-weight:700;
-}
-
-
-/* ==========================================
-   NET PAY
-========================================== */
-
-.payslip .netpay{
-    width:100%;
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    gap:10px;
-    padding:16px;
-    box-sizing:border-box;
-    margin-top:10px;
-    overflow:hidden;
-}
-
-
-.payslip .netpay span,
-.payslip .netpay strong{
-    min-width:0;
-}
-
-
-.payslip .netpay strong{
-    text-align:right;
-    white-space:nowrap;
-}
-
-
-/* ==========================================
-   SIGNATURE
-========================================== */
-
-.payslip .signature{
-    width:100%;
-    display:flex;
-    justify-content:space-between;
-    gap:30px;
-    margin-top:45px;
-}
-
-
-.payslip .signature-line{
-    width:180px;
-    max-width:45%;
-    text-align:center;
-}
-
-
-.payslip .signature-line .line{
-    width:100%;
-    height:1px;
-    margin-bottom:8px;
 }
 
 
@@ -1547,52 +1158,41 @@ body{
 ========================================== */
 
 @media(
-    max-width:768px
+    max-width:900px
 ){
 
+    .portal-container{
+
+        padding:15px;
+
+    }
+
+
+    .request-form{
+
+        grid-template-columns:
+            repeat(2,minmax(0,1fr));
+
+    }
+
+
+    /*
+     * MY INFORMATION REMAINS
+     * TWO COLUMNS
+     */
+
+    .employee-info-grid{
+
+        grid-template-columns:
+            repeat(2,minmax(0,1fr));
+
+    }
+
+
     .payslip{
-        padding:18px;
-        margin-top:18px;
-    }
 
+        max-width:100%;
 
-    .payslip-selector{
-        flex-direction:column;
-        align-items:stretch;
-    }
-
-
-    .payslip-selector .form-group{
-        width:100%;
-    }
-
-
-    .payslip-selector .view-btn{
-        width:100%;
-        justify-content:center;
-    }
-
-
-    .payslip-actions{
-        justify-content:center;
-    }
-
-
-    .payslip-actions .btn{
-        flex:1;
-        min-width:140px;
-        justify-content:center;
-    }
-
-
-    .pay-info{
-        grid-template-columns:1fr;
-    }
-
-
-    .payroll-logo{
-        width:65px;
-        height:65px;
     }
 
 }
@@ -1606,260 +1206,667 @@ body{
     max-width:600px
 ){
 
-    .payslip-section{
-        padding-left:0;
-        padding-right:0;
+    .portal-container{
+
+        padding:10px;
+
     }
 
+
+    /* ======================================
+       HEADER
+    ====================================== */
+
+    .portal-header{
+
+        padding:12px;
+
+        border-radius:11px;
+
+        margin-bottom:12px;
+
+    }
+
+
+    .header-logo{
+
+        width:45px;
+        height:45px;
+
+    }
+
+
+    .brand h1{
+
+        font-size:17px;
+
+    }
+
+
+    .brand p{
+
+        font-size:9px;
+
+    }
+
+
+    .icon-btn{
+
+        width:38px;
+        height:38px;
+
+    }
+
+
+    /* ======================================
+       WELCOME
+    ====================================== */
+
+    .welcome-card{
+
+        padding:14px;
+
+        gap:10px;
+
+        margin-bottom:12px;
+
+    }
+
+
+    .welcome-icon{
+
+        width:48px;
+        height:48px;
+
+    }
+
+
+    .welcome-icon .material-icons{
+
+        font-size:25px;
+
+    }
+
+
+    .welcome-text h2{
+
+        font-size:19px;
+
+    }
+
+
+    .welcome-text p{
+
+        font-size:11px;
+
+    }
+
+
+    .welcome-text span{
+
+        font-size:10px;
+
+    }
+
+
+    /* ======================================
+       SECTION
+    ====================================== */
+
+    .section-card{
+
+        padding:13px;
+
+        border-radius:11px;
+
+        margin-bottom:12px;
+
+    }
+
+
+    .section-title{
+
+        margin-bottom:13px;
+
+    }
+
+
+    .section-title h2{
+
+        font-size:15px;
+
+    }
+
+
+    /* ======================================
+       MY INFORMATION
+       KEEP TWO COLUMNS
+    ====================================== */
+
+    .employee-info-grid{
+
+        display:grid;
+
+        grid-template-columns:
+            repeat(2,minmax(0,1fr));
+
+        gap:8px;
+
+    }
+
+
+    .info-box{
+
+        min-width:0;
+
+        padding:9px 7px;
+
+        gap:7px;
+
+        border-radius:8px;
+
+    }
+
+
+    .info-box .material-icons{
+
+        font-size:19px;
+
+    }
+
+
+    .info-box small{
+
+        font-size:8px;
+
+        line-height:1.1;
+
+    }
+
+
+    .info-box strong{
+
+        font-size:10px;
+
+        line-height:1.25;
+
+        word-break:break-word;
+
+    }
+
+
+    /* ======================================
+       REQUEST
+    ====================================== */
+
+    .request-form{
+
+        grid-template-columns:
+            repeat(2,minmax(0,1fr));
+
+        gap:9px;
+
+    }
+
+
+    .form-group.full-width{
+
+        grid-column:1 / -1;
+
+    }
+
+
+    .form-group label{
+
+        font-size:10px;
+
+        margin-bottom:4px;
+
+    }
+
+
+    .form-group input,
+    .form-group select,
+    .form-group textarea{
+
+        padding:9px 8px;
+
+        font-size:11px;
+
+        border-radius:7px;
+
+    }
+
+
+    .form-group textarea{
+
+        min-height:70px;
+
+    }
+
+
+    .request-actions{
+
+        display:grid;
+
+        grid-template-columns:
+            repeat(2,minmax(0,1fr));
+
+        gap:7px;
+
+    }
+
+
+    .request-actions .btn{
+
+        width:100%;
+
+        padding:9px 6px;
+
+        font-size:10px;
+
+    }
+
+
+    /* ======================================
+       TABLE
+    ====================================== */
+
+    .table-wrapper{
+
+        overflow-x:auto;
+
+    }
+
+
+    .request-table{
+
+        min-width:600px;
+
+    }
+
+
+    /* ======================================
+       PAYSLIP SELECTOR
+    ====================================== */
+
+    .payslip-selector{
+
+        display:flex;
+
+        flex-direction:column;
+
+        align-items:stretch;
+
+        gap:9px;
+
+    }
+
+
+    .payslip-selector .form-group{
+
+        width:100%;
+
+    }
+
+
+    .payslip-selector .view-btn{
+
+        width:100%;
+
+    }
+
+
+    /* ======================================
+       PAYSLIP
+    ====================================== */
 
     .payslip{
+
         width:100%;
-        max-width:100%;
-        margin:15px 0 0;
-        padding:14px;
-        border-radius:12px;
+
+        margin-top:15px;
+
+        padding:12px;
+
+        border-radius:10px;
+
     }
 
 
+    /* ======================================
+       PAYSLIP ACTIONS
+    ====================================== */
+
     .payslip-actions{
+
         display:grid;
-        grid-template-columns:1fr 1fr;
-        width:100%;
-        gap:8px;
-        margin-bottom:15px;
+
+        grid-template-columns:
+            repeat(2,minmax(0,1fr));
+
+        gap:7px;
+
+        margin-bottom:14px;
+
     }
 
 
     .payslip-actions .btn{
+
         width:100%;
+
         min-width:0;
-        padding:10px 8px;
-        font-size:12px;
+
+        padding:9px 5px;
+
+        font-size:10px;
+
     }
 
+
+    /* ======================================
+       LOGO
+    ====================================== */
 
     .payroll-logo{
-        width:58px;
-        height:58px;
+
+        width:55px;
+        height:55px;
+
+        margin-bottom:7px;
+
     }
 
 
+    /* ======================================
+       COMPANY
+    ====================================== */
+
     .payslip .company{
-        margin-bottom:15px;
+
+        margin-bottom:13px;
+
     }
 
 
     .payslip .company h2{
-        font-size:20px;
+
+        font-size:19px;
+
     }
 
 
     .payslip .company p{
-        font-size:10px;
+
+        font-size:8px;
+
     }
 
 
+    /* ======================================
+       PAY INFO
+       TWO COLUMNS ON MOBILE TOO
+    ====================================== */
+
     .pay-info{
+
         display:grid;
-        grid-template-columns:1fr;
+
+        grid-template-columns:
+            repeat(2,minmax(0,1fr));
+
         gap:7px;
-        margin-bottom:15px;
+
+        margin-bottom:13px;
+
     }
 
 
     .pay-info > div{
-        width:100%;
-        padding:9px 10px;
-        font-size:12px;
+
+        padding:8px;
+
+        font-size:9px;
+
+        border-radius:7px;
+
     }
 
 
+    /* ======================================
+       PAYROLL TABLE
+    ====================================== */
+
     .payslip .payroll-table{
-        width:100%;
-        font-size:12px;
-        margin-bottom:12px;
+
+        margin-bottom:10px;
+
     }
 
 
     .payslip .payroll-table th,
     .payslip .payroll-table td{
-        padding:8px 7px;
-        font-size:12px;
+
+        padding:7px 5px;
+
+        font-size:9px;
+
     }
 
 
     .payslip .payroll-table th:first-child,
     .payslip .payroll-table td:first-child{
+
         width:60%;
+
     }
 
 
     .payslip .payroll-table th:last-child,
     .payslip .payroll-table td:last-child{
+
         width:40%;
+
         white-space:nowrap;
+
     }
 
 
+    /* ======================================
+       NET PAY
+    ====================================== */
+
     .payslip .netpay{
-        padding:13px 12px;
-        font-size:14px;
+
+        padding:11px 9px;
+
+        font-size:12px;
+
+        border-radius:7px;
+
     }
 
 
     .payslip .netpay strong{
-        font-size:16px;
+
+        font-size:14px;
+
     }
 
+
+    /* ======================================
+       SIGNATURE
+    ====================================== */
 
     .payslip .signature{
-        margin-top:35px;
+
+        margin-top:30px;
+
         gap:15px;
+
     }
 
 
-    .payslip .signature-line{
-        width:130px;
+    .signature-line{
+
+        width:120px;
+
         max-width:45%;
-        font-size:11px;
+
+        font-size:9px;
+
+    }
+
+
+    /* ======================================
+       FOOTER
+    ====================================== */
+
+    .portal-footer{
+
+        flex-direction:column;
+
+        gap:4px;
+
+        padding:15px 5px;
+
+        font-size:9px;
+
     }
 
 }
 
 
 /* ==========================================
-   SMALL MOBILE
+   VERY SMALL MOBILE
 ========================================== */
 
 @media(
     max-width:380px
 ){
 
-    .payslip{
-        padding:10px;
-    }
-
-
-    .payslip-actions{
-        grid-template-columns:1fr;
-    }
-
-
-    .payslip-actions .btn{
-        width:100%;
-    }
-
-
-    .payroll-logo{
-        width:50px;
-        height:50px;
-    }
-
-
-    .payslip .company h2{
-        font-size:18px;
-    }
-
-
-    .payslip .company p{
-        font-size:9px;
-    }
-
-
-    .pay-info > div{
-        font-size:11px;
-    }
-
-
-    .payslip .payroll-table th,
-    .payslip .payroll-table td{
-        padding:7px 5px;
-        font-size:10px;
-    }
-
-
-    .payslip .netpay{
-        padding:11px 9px;
-        font-size:12px;
-    }
-
-
-    .payslip .netpay strong{
-        font-size:14px;
-    }
-
-
-    .payslip .signature-line{
-        font-size:10px;
-    }
-
-}
-/* ==========================================
-   PRINT PAYSLIP
-========================================== */
-
-@media print{
-
-    body{
-
-        background:#fff;
-
-    }
-
-
-    .portal-header,
-    .welcome-card,
-    .section-title,
-    .payslip-selector,
-    .payslip-message,
-    .payslip-actions,
-    .portal-footer{
-
-        display:none !important;
-
-    }
-
-
     .portal-container{
 
-        max-width:none;
-
-        padding:0;
+        padding:7px;
 
     }
 
 
     .section-card{
 
-        box-shadow:none;
-
-        border:none;
-
-        padding:0;
-
-        margin:0;
+        padding:10px;
 
     }
 
 
-    .payslip-section{
+    /* ======================================
+       MY INFORMATION
+       STILL TWO COLUMNS
+    ====================================== */
 
-        border:none;
+    .employee-info-grid{
+
+        grid-template-columns:
+            repeat(2,minmax(0,1fr));
+
+        gap:6px;
 
     }
 
+
+    .info-box{
+
+        padding:7px 5px;
+
+        gap:5px;
+
+    }
+
+
+    .info-box .material-icons{
+
+        font-size:16px;
+
+    }
+
+
+    .info-box small{
+
+        font-size:7px;
+
+    }
+
+
+    .info-box strong{
+
+        font-size:9px;
+
+    }
+
+
+    /* ======================================
+       PAYSLIP
+    ====================================== */
 
     .payslip{
 
-        display:block !important;
+        padding:9px;
 
-        box-shadow:none;
+    }
 
-        border:2px solid #ffcc00;
 
-        margin:0;
+    .payslip-actions{
 
-        padding:8mm;
+        grid-template-columns:1fr;
+
+    }
+
+
+    .payslip-actions .btn{
+
+        font-size:10px;
+
+    }
+
+
+    .pay-info{
+
+        grid-template-columns:
+            repeat(2,minmax(0,1fr));
+
+    }
+
+
+    .pay-info > div{
+
+        padding:7px 5px;
+
+        font-size:8px;
+
+    }
+
+
+    .payslip .payroll-table th,
+    .payslip .payroll-table td{
+
+        padding:6px 4px;
+
+        font-size:8px;
+
+    }
+
+
+    .payslip .netpay{
+
+        font-size:10px;
+
+    }
+
+
+    .payslip .netpay strong{
+
+        font-size:12px;
 
     }
 
