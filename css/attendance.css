@@ -1936,89 +1936,297 @@ body {
 }
 
 
-/* =========================================================
-   PRINT
-========================================================= */
+/* ==========================================
+   ATTENDANCE PRINT AREA ONLY
+   SCREEN DESIGN UNCHANGED
+========================================== */
 
 @media print {
 
+    @page {
+        size: landscape;
+        margin: 10mm;
+    }
+
+
+    html,
     body {
+        width: 100%;
+        height: auto;
+        margin: 0 !important;
+        padding: 0 !important;
+
+        background: #ffffff !important;
+
+        color: #000000 !important;
+
+        overflow: visible !important;
+    }
+
+
+    /* ======================================
+       HIDE NON-PRINT ELEMENTS
+    ====================================== */
+
+    #backBtn,
+    #printBtn,
+    .filter-section,
+    .button-group,
+    .clock-area,
+    .loading,
+    .no-print {
+        display: none !important;
+    }
+
+
+    /* ======================================
+       MAIN PRINT CONTAINER
+    ====================================== */
+
+    #app,
+    .container {
+        width: 100% !important;
+        max-width: none !important;
+
+        margin: 0 !important;
+        padding: 0 !important;
+
+        background: #ffffff !important;
+
+        box-shadow: none !important;
+        border: none !important;
+    }
+
+
+    /* ======================================
+       HEADER
+    ====================================== */
+
+    .header {
+        width: 100% !important;
+
+        display: flex !important;
+
+        align-items: center !important;
+
+        justify-content: flex-start !important;
+
+        gap: 10px !important;
+
+        margin: 0 0 12px 0 !important;
+
+        padding: 0 0 8px 0 !important;
+
+        background: #ffffff !important;
+
+        border-bottom: 2px solid #000000 !important;
+
+        box-shadow: none !important;
+    }
+
+
+    .logo {
+        display: block !important;
+    }
+
+
+    .logo img {
+        width: 45px !important;
+        height: 45px !important;
+
+        object-fit: contain !important;
+    }
+
+
+    .logo-text {
+        color: #000000 !important;
+
+        font-size: 18px !important;
+
+        font-weight: 1000 !important;
+    }
+
+
+    .title {
+        color: #000000 !important;
+
+        font-size: 18px !important;
+
+        font-weight: 1000 !important;
+
+        margin-left: 10px !important;
+    }
+
+
+    /* ======================================
+       EMPLOYEE INFORMATION
+    ====================================== */
+
+    .employee-info {
+        width: 100% !important;
+
+        display: flex !important;
+
+        justify-content: space-between !important;
+
+        gap: 15px !important;
+
+        margin: 0 0 10px 0 !important;
+
+        padding: 7px 0 !important;
+
+        background: #ffffff !important;
+
+        color: #000000 !important;
+
+        border: none !important;
+    }
+
+
+    .employee-info > div {
+        color: #000000 !important;
+
+        font-size: 11px !important;
+
+        font-weight: 1000 !important;
+    }
+
+
+    /* ======================================
+       TABLE
+    ====================================== */
+
+    .table-wrapper {
+        width: 100% !important;
+
+        max-width: none !important;
+
+        overflow: visible !important;
+
+        margin: 0 !important;
+        padding: 0 !important;
+
+        border: none !important;
+
+        box-shadow: none !important;
+    }
+
+
+    #attendanceTable {
+        width: 100% !important;
+
+        min-width: 0 !important;
+
+        border-collapse: collapse !important;
+
+        table-layout: auto !important;
 
         background: #ffffff !important;
 
         color: #000000 !important;
     }
 
-    .container {
-
-        max-width: none;
-
-        padding: 0;
-    }
-
-    .header {
-
-        box-shadow: none;
-    }
-
-    #backBtn,
-    #printBtn,
-    .filter-section,
-    .clock-area,
-    .today-panel,
-    .button-group,
-    .clear-filter-btn,
-    .attendance-footer {
-
-        display: none !important;
-    }
-
-    .employee-info {
-
-        box-shadow: none;
-    }
-
-    .attendance-section {
-
-        margin-top: 10px;
-
-        box-shadow: none;
-    }
-
-    .table-wrapper {
-
-        overflow: visible;
-    }
-
-    #attendanceTable {
-
-        min-width: 100%;
-
-        width: 100%;
-    }
 
     #attendanceTable th {
+        background: #eeeeee !important;
 
-        color: #000000;
+        color: #000000 !important;
 
-        background: #ffcc00;
+        border: 1px solid #000000 !important;
 
-        font-size: 9px;
+        padding: 6px 4px !important;
+
+        font-size: 9px !important;
+
+        font-weight: 1000 !important;
+
+        text-align: center !important;
+
+        vertical-align: middle !important;
     }
+
 
     #attendanceTable td {
+        background: #ffffff !important;
 
-        color: #000000;
+        color: #000000 !important;
 
-        font-size: 9px;
+        border: 1px solid #555555 !important;
+
+        padding: 5px 4px !important;
+
+        font-size: 9px !important;
+
+        font-weight: 800 !important;
+
+        text-align: center !important;
+
+        vertical-align: middle !important;
     }
 
-    .action-cell {
 
+    #attendanceTable tbody tr {
+        background: #ffffff !important;
+
+        page-break-inside: avoid !important;
+    }
+
+
+    #attendanceTable tbody tr:hover {
+        background: #ffffff !important;
+    }
+
+
+    /* ======================================
+       ACTION COLUMN
+    ====================================== */
+
+    #attendanceTable th:last-child,
+    #attendanceTable td:last-child {
         display: none !important;
     }
-}
 
+
+    /* ======================================
+       STATUS
+    ====================================== */
+
+    #attendanceTable td {
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+    }
+
+
+    /* ======================================
+       FOOTER / EXTRA
+    ====================================== */
+
+    .footer,
+    .attendance-footer {
+        display: none !important;
+    }
+
+
+    /* ======================================
+       PAGE BREAK
+    ====================================== */
+
+    #attendanceTable thead {
+        display: table-header-group !important;
+    }
+
+
+    #attendanceTable tfoot {
+        display: table-footer-group !important;
+    }
+
+
+    .table-wrapper,
+    #attendanceTable {
+        page-break-inside: auto !important;
+    }
+
+}
 /* ==========================================
    PAPPRITO HRIS
    ATTENDANCE - COLOR ACCENTS
