@@ -1936,55 +1936,71 @@ body {
 }
 
 
-/* ==========================================
-   PRINT AREA ONLY
-   ATTENDANCE RECORDS
-========================================== */
+/* =========================================================
+   PRINT
+   ATTENDANCE RECORDS ONLY
+========================================================= */
 
 @media print {
 
-    * {
-        box-sizing: border-box !important;
+    /* ==========================================
+       PAGE
+    ========================================== */
+
+    @page {
+        size: landscape;
+        margin: 8mm;
     }
+
+
+    /* ==========================================
+       BASIC PAGE
+    ========================================== */
 
     html,
     body {
+
         width: 100% !important;
+        min-width: 0 !important;
         min-height: 0 !important;
+
         margin: 0 !important;
         padding: 0 !important;
+
         background: #ffffff !important;
+
+        color: #000000 !important;
+
         overflow: visible !important;
     }
 
-    /* HIDE EVERYTHING */
+
+    /* ==========================================
+       HIDE EVERYTHING FIRST
+    ========================================== */
+
     body * {
+
         visibility: hidden !important;
     }
 
-    /* ======================================
-       ATTENDANCE RECORDS ONLY
-    ====================================== */
 
-    #attendanceRecords,
-    #attendanceRecords *,
+    /* ==========================================
+       SHOW ATTENDANCE SECTION
+    ========================================== */
 
-    .attendance-records,
-    .attendance-records *,
-
-    .attendance-table,
-    .attendance-table * {
+    .attendance-section,
+    .attendance-section * {
 
         visibility: visible !important;
     }
 
 
-    /* ======================================
-       PRINT AREA POSITION
-    ====================================== */
+    /* ==========================================
+       ATTENDANCE SECTION = PRINT AREA
+    ========================================== */
 
-    #attendanceRecords,
-    .attendance-records {
+    .attendance-section {
 
         position: absolute !important;
 
@@ -1998,532 +2014,376 @@ body {
 
         background: #ffffff !important;
 
+        border: none !important;
+
+        border-radius: 0 !important;
+
         box-shadow: none !important;
 
-        border: none !important;
+        overflow: visible !important;
     }
 
 
-    /* ======================================
-       TABLE
-    ====================================== */
+    /* ==========================================
+       SECTION HEADER
+    ========================================== */
 
-    #attendanceRecords table,
-    .attendance-records table,
-    .attendance-table {
+    .attendance-section
+    .section-heading {
+
+        display: flex !important;
 
         width: 100% !important;
 
-        border-collapse: collapse !important;
+        min-height: auto !important;
 
-        table-layout: auto !important;
+        padding: 8px 0 !important;
 
-        font-size: 9pt !important;
-
-        background: #ffffff !important;
-    }
-
-
-    #attendanceRecords th,
-    #attendanceRecords td,
-
-    .attendance-records th,
-    .attendance-records td,
-
-    .attendance-table th,
-    .attendance-table td {
-
-        border: 1px solid #000000 !important;
-
-        padding: 6px 5px !important;
-
-        color: #000000 !important;
+        margin: 0 !important;
 
         background: #ffffff !important;
 
-        font-weight: 700 !important;
+        border-bottom:
+            2px solid
+            #000000 !important;
 
-        text-align: center !important;
-
-        vertical-align: middle !important;
+        box-shadow: none !important;
     }
 
 
-    /* ======================================
-       TABLE HEADER
-    ====================================== */
+    .attendance-section
+    .section-heading-left {
 
-    #attendanceRecords th,
-    .attendance-records th,
-    .attendance-table th {
+        display: flex !important;
 
-        background: #eeeeee !important;
+        align-items: center !important;
+
+        gap: 8px !important;
+    }
+
+
+    .attendance-section
+    .section-heading-left
+    > .material-icons {
+
+        display: none !important;
+    }
+
+
+    .attendance-section
+    .section-heading h2 {
 
         color: #000000 !important;
+
+        font-size: 16pt !important;
 
         font-weight: 900 !important;
     }
 
 
-    /* ======================================
-       HIDE ACTION COLUMN
-    ====================================== */
+    .attendance-section
+    .section-heading p {
 
-    #attendanceRecords th:last-child,
-    #attendanceRecords td:last-child,
+        color: #000000 !important;
 
-    .attendance-records th:last-child,
-    .attendance-records td:last-child,
+        font-size: 8pt !important;
 
-    .attendance-table th:last-child,
-    .attendance-table td:last-child {
+        font-weight: 700 !important;
+    }
+
+
+    /* ==========================================
+       HIDE CLEAR FILTER BUTTON
+    ========================================== */
+
+    .clear-filter-btn {
 
         display: none !important;
     }
 
 
-    /* ======================================
-       HIDE BUTTONS INSIDE PRINT AREA
-    ====================================== */
+    /* ==========================================
+       TABLE WRAPPER
+    ========================================== */
 
-    #attendanceRecords button,
-    .attendance-records button,
-    .attendance-table button {
+    .attendance-section
+    .table-wrapper {
 
-        display: none !important;
-    }
-
-
-    /* ======================================
-       REMOVE SCROLLING
-    ====================================== */
-
-    #attendanceRecords,
-    .attendance-records {
-
-        overflow: visible !important;
-
-        max-height: none !important;
-    }
-
-
-    #attendanceRecords .table-container,
-    .attendance-records .table-container {
-
-        overflow: visible !important;
+        position: static !important;
 
         width: 100% !important;
 
         max-width: none !important;
+
+        height: auto !important;
+
+        max-height: none !important;
+
+        margin: 0 !important;
+        padding: 0 !important;
+
+        overflow: visible !important;
+
+        background: #ffffff !important;
+
+        border: none !important;
+
+        box-shadow: none !important;
     }
 
 
-    /* ======================================
-       PAGE
-    ====================================== */
+    /* ==========================================
+       TABLE
+    ========================================== */
 
-    @page {
+    #attendanceTable {
 
-        size: landscape;
+        width: 100% !important;
 
-        margin: 10mm;
+        min-width: 0 !important;
+
+        max-width: none !important;
+
+        margin: 0 !important;
+
+        padding: 0 !important;
+
+        border-collapse: collapse !important;
+
+        table-layout: auto !important;
+
+        background: #ffffff !important;
+
+        color: #000000 !important;
     }
 
 
-    /* ======================================
-       NO BREAK INSIDE TABLE ROWS
-    ====================================== */
+    /* ==========================================
+       TABLE HEADER
+    ========================================== */
 
-    #attendanceRecords tr,
-    .attendance-records tr,
-    .attendance-table tr {
+    #attendanceTable thead {
+
+        display: table-header-group !important;
+    }
+
+
+    #attendanceTable th {
+
+        padding:
+            5px
+            4px !important;
+
+        border:
+            1px solid
+            #000000 !important;
+
+        background:
+            #eeeeee !important;
+
+        color:
+            #000000 !important;
+
+        font-family:
+            Arial,
+            sans-serif !important;
+
+        font-size:
+            7.5pt !important;
+
+        font-weight:
+            900 !important;
+
+        text-align:
+            center !important;
+
+        vertical-align:
+            middle !important;
+
+        white-space:
+            nowrap !important;
+    }
+
+
+    /* ==========================================
+       TABLE BODY
+    ========================================== */
+
+    #attendanceTable tbody {
+
+        display: table-row-group !important;
+    }
+
+
+    #attendanceTable td {
+
+        padding:
+            5px
+            4px !important;
+
+        border:
+            1px solid
+            #000000 !important;
+
+        background:
+            #ffffff !important;
+
+        color:
+            #000000 !important;
+
+        font-family:
+            Arial,
+            sans-serif !important;
+
+        font-size:
+            7.5pt !important;
+
+        font-weight:
+            700 !important;
+
+        text-align:
+            center !important;
+
+        vertical-align:
+            middle !important;
+
+        white-space:
+            nowrap !important;
+    }
+
+
+    /* ==========================================
+       REMOVE ZEBRA / HOVER COLORS
+    ========================================== */
+
+    #attendanceTable tbody tr:nth-child(even) td,
+    #attendanceTable tbody tr:hover td {
+
+        background:
+            #ffffff !important;
+
+        color:
+            #000000 !important;
+    }
+
+
+    /* ==========================================
+       STATUS BADGES
+    ========================================== */
+
+    #attendanceTable
+    .status-badge {
+
+        display: inline-flex !important;
+
+        min-width: 55px !important;
+
+        padding:
+            3px
+            5px !important;
+
+        border:
+            1px solid
+            #000000 !important;
+
+        border-radius: 3px !important;
+
+        background:
+            #ffffff !important;
+
+        color:
+            #000000 !important;
+
+        font-size:
+            7pt !important;
+
+        font-weight:
+            900 !important;
+    }
+
+
+    /* ==========================================
+       HIDE ACTION COLUMN
+       COLUMN 13
+    ========================================== */
+
+    #attendanceTable th:nth-child(13),
+    #attendanceTable td:nth-child(13) {
+
+        display: none !important;
+    }
+
+
+    /* ==========================================
+       HIDE ACTION BUTTONS
+    ========================================== */
+
+    #attendanceTable
+    .table-icon-btn {
+
+        display: none !important;
+    }
+
+
+    #attendanceTable
+    button {
+
+        display: none !important;
+    }
+
+
+    /* ==========================================
+       REMOVE LINKS / BUTTON EFFECTS
+    ========================================== */
+
+    #attendanceTable a {
+
+        color: #000000 !important;
+
+        text-decoration: none !important;
+    }
+
+
+    /* ==========================================
+       PREVENT ROW SPLITTING
+    ========================================== */
+
+    #attendanceTable tr {
 
         page-break-inside: avoid !important;
 
         break-inside: avoid !important;
     }
 
-}
-/* ==========================================
-   PAPPRITO HRIS
-   ATTENDANCE - COLOR ACCENTS
-   ADD ONLY
-========================================== */
 
+    #attendanceTable td,
+    #attendanceTable th {
 
-/* ==========================================
-   FILTER BOXES
-========================================== */
+        page-break-inside: avoid !important;
 
-#employeeSelect{
-    border:2px solid #1769aa !important;
-    background:#eef7ff !important;
-    color:#111111 !important;
-    font-weight:800 !important;
-}
-
-
-#fromDate{
-    border:2px solid #16803c !important;
-    background:#effaf3 !important;
-    color:#111111 !important;
-    font-weight:800 !important;
-}
-
-
-#toDate{
-    border:2px solid #d9a900 !important;
-    background:#fffbea !important;
-    color:#111111 !important;
-    font-weight:800 !important;
-}
-
-
-#filterBtn{
-    background:#1769aa !important;
-    color:#ffffff !important;
-    border-color:#1769aa !important;
-    font-weight:1000 !important;
-}
-
-
-#summaryBtn{
-    background:#7b3fc6 !important;
-    color:#ffffff !important;
-    border-color:#7b3fc6 !important;
-    font-weight:1000 !important;
-}
-
-
-#filterBtn:hover{
-    background:#125586 !important;
-}
-
-
-#summaryBtn:hover{
-    background:#612fa0 !important;
-}
-
-
-/* ==========================================
-   EMPLOYEE INFORMATION
-========================================== */
-
-.employee-info{
-    border-left:5px solid #ffcc00 !important;
-}
-
-
-#employeeId{
-    background:#fff8d9 !important;
-    color:#111111 !important;
-    border-color:#e6c532 !important;
-    font-weight:1000 !important;
-}
-
-
-#employeeName{
-    background:#fff0f0 !important;
-    color:#111111 !important;
-    border-color:#e5b4b7 !important;
-    font-weight:1000 !important;
-}
-
-
-/* ==========================================
-   CLOCK
-========================================== */
-
-.clock-area{
-    border:2px solid #1769aa !important;
-    background:
-        linear-gradient(
-            135deg,
-            #eef7ff,
-            #ffffff
-        ) !important;
-}
-
-
-.clock{
-    color:#111111 !important;
-    font-weight:1000 !important;
-}
-
-
-.today-date{
-    color:#1769aa !important;
-    font-weight:1000 !important;
-}
-
-
-/* ==========================================
-   ATTENDANCE ACTION BUTTONS
-========================================== */
-
-.action-btn.timein{
-    background:#16803c !important;
-    color:#ffffff !important;
-    border-color:#16803c !important;
-    font-weight:1000 !important;
-}
-
-.action-btn.timein:hover{
-    background:#116630 !important;
-}
-
-
-.action-btn.breakout{
-    background:#ffcc00 !important;
-    color:#111111 !important;
-    border-color:#ffcc00 !important;
-    font-weight:1000 !important;
-}
-
-.action-btn.breakout:hover{
-    background:#e6b800 !important;
-}
-
-
-.action-btn.breakin{
-    background:#1769aa !important;
-    color:#ffffff !important;
-    border-color:#1769aa !important;
-    font-weight:1000 !important;
-}
-
-.action-btn.breakin:hover{
-    background:#125586 !important;
-}
-
-
-.action-btn.timeout{
-    background:#d71920 !important;
-    color:#ffffff !important;
-    border-color:#d71920 !important;
-    font-weight:1000 !important;
-}
-
-.action-btn.timeout:hover{
-    background:#b51218 !important;
-}
-
-
-/* ==========================================
-   TABLE HEADER COLORS
-========================================== */
-
-#attendanceTable thead th{
-    color:#111111 !important;
-    font-weight:1000 !important;
-}
-
-
-/* DATE */
-
-#attendanceTable thead th:nth-child(1){
-    background:#fff4bf !important;
-}
-
-
-/* EMPLOYEE ID */
-
-#attendanceTable thead th:nth-child(2){
-    background:#eaf3fb !important;
-}
-
-
-/* EMPLOYEE NAME */
-
-#attendanceTable thead th:nth-child(3){
-    background:#e9f7ef !important;
-}
-
-
-/* TIME IN */
-
-#attendanceTable thead th:nth-child(4){
-    background:#dff4e7 !important;
-}
-
-
-/* BREAK OUT */
-
-#attendanceTable thead th:nth-child(5){
-    background:#fff4bf !important;
-}
-
-
-/* BREAK IN */
-
-#attendanceTable thead th:nth-child(6){
-    background:#eaf3fb !important;
-}
-
-
-/* TIME OUT */
-
-#attendanceTable thead th:nth-child(7){
-    background:#ffe5e5 !important;
-}
-
-
-/* BREAK */
-
-#attendanceTable thead th:nth-child(8){
-    background:#f0e7ff !important;
-}
-
-
-/* REGULAR HOURS */
-
-#attendanceTable thead th:nth-child(9){
-    background:#e9f7ef !important;
-}
-
-
-/* OT */
-
-#attendanceTable thead th:nth-child(10){
-    background:#fff0d6 !important;
-}
-
-
-/* LATE */
-
-#attendanceTable thead th:nth-child(11){
-    background:#ffe5e5 !important;
-}
-
-
-/* STATUS */
-
-#attendanceTable thead th:nth-child(12){
-    background:#eaf3fb !important;
-}
-
-
-/* ACTION */
-
-#attendanceTable thead th:nth-child(13){
-    background:#eeeeee !important;
-}
-
-
-/* ==========================================
-   TABLE BODY
-========================================== */
-
-#attendanceTable tbody tr:nth-child(even){
-    background:#fafafa;
-}
-
-
-#attendanceTable tbody tr:hover{
-    background:#fffbea !important;
-}
-
-
-/* ==========================================
-   STATUS COLORS
-========================================== */
-
-.status-present{
-    background:#e9f7ef !important;
-    color:#16803c !important;
-    font-weight:1000 !important;
-}
-
-
-.status-late{
-    background:#fff0d6 !important;
-    color:#a45d00 !important;
-    font-weight:1000 !important;
-}
-
-
-.status-absent{
-    background:#fff0f0 !important;
-    color:#d71920 !important;
-    font-weight:1000 !important;
-}
-
-
-/* ==========================================
-   ACTION COLUMN BUTTONS
-========================================== */
-
-#attendanceTable td:last-child button{
-    font-weight:1000 !important;
-}
-
-
-#attendanceTable td:last-child button:hover{
-    transform:translateY(-1px);
-}
-
-
-/* ==========================================
-   TOP BACK / PRINT
-========================================== */
-
-#backBtn{
-    background:#111111 !important;
-    color:#ffffff !important;
-    border-color:#111111 !important;
-    font-weight:1000 !important;
-}
-
-
-#backBtn:hover{
-    background:#333333 !important;
-}
-
-
-#printBtn{
-    background:#d71920 !important;
-    color:#ffffff !important;
-    border-color:#d71920 !important;
-    font-weight:1000 !important;
-}
-
-
-#printBtn:hover{
-    background:#b51218 !important;
-}
-
-
-/* ==========================================
-   MOBILE
-========================================== */
-
-@media(max-width:600px){
-
-    #employeeSelect,
-    #fromDate,
-    #toDate{
-        border-width:2px !important;
+        break-inside: avoid !important;
     }
 
 
-    #filterBtn,
-    #summaryBtn{
-        font-weight:1000 !important;
+    /* ==========================================
+       PRINT REPEATED HEADER
+    ========================================== */
+
+    #attendanceTable thead {
+
+        break-inside: avoid !important;
+
+        page-break-inside: avoid !important;
     }
 
 
-    .action-btn{
-        font-weight:1000 !important;
-    }
+    /* ==========================================
+       HIDE FOOTER
+    ========================================== */
 
+    .attendance-footer {
 
-    #attendanceTable thead th{
-        font-size:11px !important;
-    }
-
-
-    #attendanceTable tbody td{
-        font-weight:800 !important;
+        display: none !important;
     }
 
 }
