@@ -1,8 +1,8 @@
-/* ==========================================
+/* =========================================================
    PAPPRITO HRIS
    ATTENDANCE SYSTEM JS
-   COMPLETE VERSION
-========================================== */
+   COMPLETE / FUNCTIONAL VERSION
+========================================================= */
 
 import {
     db
@@ -20,9 +20,9 @@ from
 "https://www.gstatic.com/firebasejs/12.13.0/firebase-firestore.js";
 
 
-/* ==========================================
-   GLOBAL
-========================================== */
+/* =========================================================
+   GLOBAL VARIABLES
+========================================================= */
 
 let employees = [];
 
@@ -30,20 +30,19 @@ let attendanceRecords = [];
 
 let selectedEmployee = null;
 
-let selectedRecord = null;
-
 let clockTimer = null;
 
 
-/* ==========================================
+/* =========================================================
    FIRESTORE COLLECTIONS
-========================================== */
+========================================================= */
 
 const employeesCollection =
     collection(
         db,
         "employees"
     );
+
 
 const attendanceCollection =
     collection(
@@ -52,11 +51,11 @@ const attendanceCollection =
     );
 
 
-/* ==========================================
+/* =========================================================
    HELPER
-========================================== */
+========================================================= */
 
-function text(value){
+function text(value) {
 
     return String(
         value ?? ""
@@ -65,27 +64,27 @@ function text(value){
 }
 
 
-/* ==========================================
+/* =========================================================
    NUMBER
-========================================== */
+========================================================= */
 
-function number(value){
+function number(value) {
 
-    const n =
+    const result =
         Number(value);
 
-    return Number.isFinite(n)
-        ? n
+    return Number.isFinite(result)
+        ? result
         : 0;
 
 }
 
 
-/* ==========================================
+/* =========================================================
    ESCAPE HTML
-========================================== */
+========================================================= */
 
-function escapeHTML(value){
+function escapeHTML(value) {
 
     return String(
         value ?? ""
@@ -119,20 +118,22 @@ function escapeHTML(value){
 }
 
 
-/* ==========================================
+/* =========================================================
    GET ELEMENT
-========================================== */
+========================================================= */
 
-function getElement(...ids){
+function getElement(...ids) {
 
-    for(
+    for (
         const id of ids
-    ){
+    ) {
 
         const element =
-            document.getElementById(id);
+            document.getElementById(
+                id
+            );
 
-        if(element){
+        if (element) {
 
             return element;
 
@@ -145,9 +146,9 @@ function getElement(...ids){
 }
 
 
-/* ==========================================
+/* =========================================================
    ELEMENTS
-========================================== */
+========================================================= */
 
 const employeeSelect =
     getElement(
@@ -232,21 +233,32 @@ const lateMinutes =
     );
 
 
-const recordsBody =
-    document.querySelector(
-        "#attendanceTable tbody"
-    ) ||
-    document.querySelector(
-        "#empTable tbody"
-    ) ||
-    document.querySelector(
-        "#attendanceRecords tbody"
+/* =========================================================
+   ATTENDANCE TABLE
+========================================================= */
+
+function getAttendanceTableBody() {
+
+    return (
+        document.querySelector(
+            "#attendanceTable tbody"
+        )
+        ||
+        document.querySelector(
+            "#attendanceRecords tbody"
+        )
+        ||
+        document.querySelector(
+            ".attendance-table tbody"
+        )
     );
 
+}
 
-/* ==========================================
+
+/* =========================================================
    BUTTONS
-========================================== */
+========================================================= */
 
 const timeInButton =
     getElement(
@@ -297,11 +309,23 @@ const clearButton =
     );
 
 
-/* ==========================================
-   DATE
-========================================== */
+const backButton =
+    getElement(
+        "backBtn"
+    );
 
-function getToday(){
+
+const printButton =
+    getElement(
+        "printBtn"
+    );
+
+
+/* =========================================================
+   TODAY
+========================================================= */
+
+function getToday() {
 
     const date =
         new Date();
@@ -338,11 +362,11 @@ function getToday(){
 }
 
 
-/* ==========================================
-   TIME
-========================================== */
+/* =========================================================
+   CURRENT TIME
+========================================================= */
 
-function getCurrentTime(){
+function getCurrentTime() {
 
     const date =
         new Date();
@@ -385,41 +409,40 @@ function getCurrentTime(){
 }
 
 
-/* ==========================================
+/* =========================================================
    DISPLAY DATE
-========================================== */
+========================================================= */
 
-function getDisplayDate(){
+function getDisplayDate() {
 
     return new Date()
         .toLocaleDateString(
             "en-US",
             {
-                weekday:"long",
-                year:"numeric",
-                month:"long",
-                day:"numeric"
+                weekday: "long",
+                year: "numeric",
+                month: "long",
+                day: "numeric"
             }
         );
 
 }
 
 
-/* ==========================================
-   UPDATE CLOCK
-========================================== */
+/* =========================================================
+   CLOCK
+========================================================= */
 
-function updateClock(){
+function updateClock() {
 
-    if(currentTime){
+    if (currentTime) {
 
         currentTime.textContent =
             getCurrentTime();
 
     }
 
-
-    if(currentDate){
+    if (currentDate) {
 
         currentDate.textContent =
             getDisplayDate();
@@ -429,15 +452,15 @@ function updateClock(){
 }
 
 
-/* ==========================================
+/* =========================================================
    START CLOCK
-========================================== */
+========================================================= */
 
-function startClock(){
+function startClock() {
 
     updateClock();
 
-    if(clockTimer){
+    if (clockTimer) {
 
         clearInterval(
             clockTimer
@@ -454,50 +477,46 @@ function startClock(){
 }
 
 
-/* ==========================================
+/* =========================================================
    TIME TO MINUTES
-========================================== */
+========================================================= */
 
-function timeToMinutes(value){
+function timeToMinutes(value) {
 
     const time =
         text(value);
 
-    if(!time){
+    if (!time) {
 
         return null;
 
     }
-
 
     const parts =
         time.split(":");
 
-
-    if(parts.length < 2){
+    if (
+        parts.length < 2
+    ) {
 
         return null;
 
     }
-
 
     const hours =
         Number(parts[0]);
 
-
     const minutes =
         Number(parts[1]);
 
-
-    if(
+    if (
         !Number.isFinite(hours) ||
         !Number.isFinite(minutes)
-    ){
+    ) {
 
         return null;
 
     }
-
 
     return (
         hours * 60 +
@@ -507,51 +526,42 @@ function timeToMinutes(value){
 }
 
 
-/* ==========================================
+/* =========================================================
    HOURS BETWEEN
-========================================== */
+========================================================= */
 
 function hoursBetween(
     start,
     end
-){
+) {
 
     const startMinutes =
         timeToMinutes(start);
 
-
     const endMinutes =
         timeToMinutes(end);
 
-
-    if(
+    if (
         startMinutes === null ||
         endMinutes === null
-    ){
+    ) {
 
         return 0;
 
     }
 
-
     let difference =
         endMinutes -
         startMinutes;
 
-
-    /*
-     * Handles overnight shifts.
-     */
-
-    if(
+    if (
         difference < 0
-    ){
+    ) {
 
         difference +=
             24 * 60;
 
     }
-
 
     return (
         difference / 60
@@ -560,26 +570,23 @@ function hoursBetween(
 }
 
 
-/* ==========================================
+/* =========================================================
    FORMAT HOURS
-========================================== */
+========================================================= */
 
-function formatHours(value){
+function formatHours(value) {
 
-    const result =
-        number(value);
-
-
-    return result.toFixed(2);
+    return number(value)
+        .toFixed(2);
 
 }
 
 
-/* ==========================================
+/* =========================================================
    EMPLOYEE ID
-========================================== */
+========================================================= */
 
-function getEmployeeId(employee){
+function getEmployeeId(employee) {
 
     return text(
 
@@ -593,46 +600,43 @@ function getEmployeeId(employee){
 
         ""
 
-    ).toUpperCase();
+    )
+    .toUpperCase();
 
 }
 
 
-/* ==========================================
+/* =========================================================
    EMPLOYEE NAME
-========================================== */
+========================================================= */
 
-function getEmployeeName(employee){
-
-    const fullName = [
-
-        employee.firstname,
-
-        employee.middlename,
-
-        employee.lastname
-
-    ]
-
-    .filter(
-        value =>
-            text(value)
-    )
-
-    .join(" ");
+function getEmployeeName(employee) {
 
     return text(
-        fullName
+
+        [
+            employee.firstname,
+            employee.middlename,
+            employee.lastname
+        ]
+
+        .filter(
+            value =>
+                text(value)
+        )
+
+        .join(" ")
+
     );
 
 }
 
 
-/* ==========================================
+/* =========================================================
    RECORD DATE
-========================================== */
+========================================================= */
 
-function getRecordDate(record){
+function getRecordDate(record) {
 
     return text(
 
@@ -649,11 +653,11 @@ function getRecordDate(record){
 }
 
 
-/* ==========================================
+/* =========================================================
    RECORD EMPLOYEE ID
-========================================== */
+========================================================= */
 
-function getRecordEmployeeId(record){
+function getRecordEmployeeId(record) {
 
     return text(
 
@@ -667,16 +671,17 @@ function getRecordEmployeeId(record){
 
         ""
 
-    ).toUpperCase();
+    )
+    .toUpperCase();
 
 }
 
 
-/* ==========================================
+/* =========================================================
    RECORD EMPLOYEE NAME
-========================================== */
+========================================================= */
 
-function getRecordEmployeeName(record){
+function getRecordEmployeeName(record) {
 
     return text(
 
@@ -695,30 +700,27 @@ function getRecordEmployeeName(record){
 }
 
 
-/* ==========================================
-   FIND TODAY RECORD
-========================================== */
+/* =========================================================
+   GET TODAY RECORD
+========================================================= */
 
-function getTodayRecord(){
+function getTodayRecord() {
 
-    if(
+    if (
         !selectedEmployee
-    ){
+    ) {
 
         return null;
 
     }
-
 
     const employeeId =
         getEmployeeId(
             selectedEmployee
         );
 
-
     const today =
         getToday();
-
 
     return (
         attendanceRecords.find(
@@ -747,22 +749,20 @@ function getTodayRecord(){
 }
 
 
-/* ==========================================
+/* =========================================================
    LOAD EMPLOYEES
-========================================== */
+========================================================= */
 
-async function loadEmployees(){
+async function loadEmployees() {
 
-    try{
+    try {
 
         const snapshot =
             await getDocs(
                 employeesCollection
             );
 
-
         employees = [];
-
 
         snapshot.forEach(
             docSnap => {
@@ -786,21 +786,12 @@ async function loadEmployees(){
                 b
             ) => {
 
-                const nameA =
-                    getEmployeeName(
-                        a
-                    ).toLowerCase();
-
-
-                const nameB =
-                    getEmployeeName(
-                        b
-                    ).toLowerCase();
-
-
-                return nameA.localeCompare(
-                    nameB
-                );
+                return getEmployeeName(a)
+                    .toLowerCase()
+                    .localeCompare(
+                        getEmployeeName(b)
+                            .toLowerCase()
+                    );
 
             }
         );
@@ -808,14 +799,14 @@ async function loadEmployees(){
 
         populateEmployeeDropdown();
 
+    }
 
-    }catch(error){
+    catch (error) {
 
         console.error(
             "Load Employees Error:",
             error
         );
-
 
         alert(
             "Failed to load employees.\n\n" +
@@ -827,20 +818,19 @@ async function loadEmployees(){
 }
 
 
-/* ==========================================
+/* =========================================================
    POPULATE EMPLOYEE DROPDOWN
-========================================== */
+========================================================= */
 
-function populateEmployeeDropdown(){
+function populateEmployeeDropdown() {
 
-    if(
+    if (
         !employeeSelect
-    ){
+    ) {
 
         return;
 
     }
-
 
     employeeSelect.innerHTML = `
 
@@ -859,42 +849,36 @@ function populateEmployeeDropdown(){
                     employee
                 );
 
-
             const name =
                 getEmployeeName(
                     employee
                 );
 
-
-            if(
+            if (
                 !id &&
                 !name
-            ){
+            ) {
 
                 return;
 
             }
-
 
             const option =
                 document.createElement(
                     "option"
                 );
 
-
             option.value =
                 employee.id;
 
-
             option.textContent =
                 id
-                ?
-                id +
-                " - " +
-                name
-                :
-                name;
-
+                    ?
+                    id +
+                    " - " +
+                    name
+                    :
+                    name;
 
             employeeSelect.appendChild(
                 option
@@ -906,19 +890,18 @@ function populateEmployeeDropdown(){
 }
 
 
-/* ==========================================
-   EMPLOYEE SELECTED
-========================================== */
+/* =========================================================
+   EMPLOYEE CHANGE
+========================================================= */
 
-function handleEmployeeChange(){
+function handleEmployeeChange() {
 
     const id =
         employeeSelect
-        ?
-        employeeSelect.value
-        :
-        "";
-
+            ?
+            employeeSelect.value
+            :
+            "";
 
     selectedEmployee =
         employees.find(
@@ -928,71 +911,69 @@ function handleEmployeeChange(){
         ||
         null;
 
-
     displaySelectedEmployee();
-
 
     updateTodayDisplay();
 
 }
 
 
-/* ==========================================
-   DISPLAY SELECTED EMPLOYEE
-========================================== */
+/* =========================================================
+   DISPLAY EMPLOYEE
+========================================================= */
 
-function displaySelectedEmployee(){
+function displaySelectedEmployee() {
 
-    if(
+    if (
         !selectedEmployee
-    ){
+    ) {
 
-        if(employeeIdDisplay){
+        if (
+            employeeIdDisplay
+        ) {
 
             employeeIdDisplay.textContent =
                 "-";
 
         }
 
-
-        if(employeeNameDisplay){
+        if (
+            employeeNameDisplay
+        ) {
 
             employeeNameDisplay.textContent =
                 "-";
 
         }
 
-
         return;
 
     }
 
 
-    const id =
-        getEmployeeId(
-            selectedEmployee
-        );
-
-
-    const name =
-        getEmployeeName(
-            selectedEmployee
-        );
-
-
-    if(employeeIdDisplay){
+    if (
+        employeeIdDisplay
+    ) {
 
         employeeIdDisplay.textContent =
-            id ||
+            getEmployeeId(
+                selectedEmployee
+            )
+            ||
             "-";
 
     }
 
 
-    if(employeeNameDisplay){
+    if (
+        employeeNameDisplay
+    ) {
 
         employeeNameDisplay.textContent =
-            name ||
+            getEmployeeName(
+                selectedEmployee
+            )
+            ||
             "-";
 
     }
@@ -1000,22 +981,20 @@ function displaySelectedEmployee(){
 }
 
 
-/* ==========================================
+/* =========================================================
    LOAD ATTENDANCE
-========================================== */
+========================================================= */
 
-async function loadAttendance(){
+async function loadAttendance() {
 
-    try{
+    try {
 
         const snapshot =
             await getDocs(
                 attendanceCollection
             );
 
-
         attendanceRecords = [];
-
 
         snapshot.forEach(
             docSnap => {
@@ -1042,15 +1021,12 @@ async function loadAttendance(){
                 const dateA =
                     getRecordDate(a);
 
-
                 const dateB =
                     getRecordDate(b);
 
-
-                if(
-                    dateA !==
-                    dateB
-                ){
+                if (
+                    dateA !== dateB
+                ) {
 
                     return dateB.localeCompare(
                         dateA
@@ -1058,13 +1034,14 @@ async function loadAttendance(){
 
                 }
 
-
-                return Number(
-                    b.createdAt || 0
-                )
-                -
-                Number(
-                    a.createdAt || 0
+                return (
+                    Number(
+                        b.createdAt || 0
+                    )
+                    -
+                    Number(
+                        a.createdAt || 0
+                    )
                 );
 
             }
@@ -1075,14 +1052,14 @@ async function loadAttendance(){
 
         updateTodayDisplay();
 
+    }
 
-    }catch(error){
+    catch (error) {
 
         console.error(
             "Load Attendance Error:",
             error
         );
-
 
         attendanceRecords = [];
 
@@ -1095,15 +1072,15 @@ async function loadAttendance(){
 }
 
 
-/* ==========================================
-   CREATE / GET TODAY RECORD
-========================================== */
+/* =========================================================
+   CREATE TODAY RECORD
+========================================================= */
 
-async function getOrCreateTodayRecord(){
+async function getOrCreateTodayRecord() {
 
-    if(
+    if (
         !selectedEmployee
-    ){
+    ) {
 
         alert(
             "Please select an employee first."
@@ -1117,12 +1094,22 @@ async function getOrCreateTodayRecord(){
     const existing =
         getTodayRecord();
 
-
-    if(existing){
+    if (existing) {
 
         return existing;
 
     }
+
+
+    const employeeId =
+        getEmployeeId(
+            selectedEmployee
+        );
+
+    const employeeName =
+        getEmployeeName(
+            selectedEmployee
+        );
 
 
     const data = {
@@ -1131,19 +1118,13 @@ async function getOrCreateTodayRecord(){
             getToday(),
 
         employeeid:
-            getEmployeeId(
-                selectedEmployee
-            ),
+            employeeId,
 
         employeeId:
-            getEmployeeId(
-                selectedEmployee
-            ),
+            employeeId,
 
         employeeName:
-            getEmployeeName(
-                selectedEmployee
-            ),
+            employeeName,
 
         timeIn:
             "",
@@ -1226,14 +1207,14 @@ async function getOrCreateTodayRecord(){
 }
 
 
-/* ==========================================
-   UPDATE ATTENDANCE RECORD
-========================================== */
+/* =========================================================
+   UPDATE RECORD
+========================================================= */
 
 async function updateAttendanceRecord(
     recordId,
     data
-){
+) {
 
     await updateDoc(
 
@@ -1256,9 +1237,9 @@ async function updateAttendanceRecord(
         );
 
 
-    if(
+    if (
         index !== -1
-    ){
+    ) {
 
         attendanceRecords[index] = {
 
@@ -1273,16 +1254,16 @@ async function updateAttendanceRecord(
 }
 
 
-/* ==========================================
+/* =========================================================
    TIME IN
-========================================== */
+========================================================= */
 
 window.timeIn =
-async function(){
+async function () {
 
-    if(
+    if (
         !selectedEmployee
-    ){
+    ) {
 
         alert(
             "Please select an employee first."
@@ -1293,19 +1274,19 @@ async function(){
     }
 
 
-    try{
+    try {
 
         let record =
             getTodayRecord();
 
 
-        if(
+        if (
             record &&
             (
                 record.timeIn ||
                 record.timein
             )
-        ){
+        ) {
 
             alert(
                 "Time In has already been recorded for today."
@@ -1316,9 +1297,7 @@ async function(){
         }
 
 
-        if(
-            !record
-        ){
+        if (!record) {
 
             record =
                 await getOrCreateTodayRecord();
@@ -1326,9 +1305,7 @@ async function(){
         }
 
 
-        if(
-            !record
-        ){
+        if (!record) {
 
             return;
 
@@ -1339,16 +1316,16 @@ async function(){
             getCurrentTime();
 
 
-        /*
-         * Standard late calculation:
-         * 08:00 AM onwards is late.
-         */
-
         const timeMinutes =
             timeToMinutes(
                 time
             );
 
+
+        /*
+         * Regular start:
+         * 08:00
+         */
 
         const regularStart =
             8 * 60;
@@ -1358,11 +1335,11 @@ async function(){
             0;
 
 
-        if(
+        if (
             timeMinutes !== null &&
             timeMinutes >
             regularStart
-        ){
+        ) {
 
             late =
                 timeMinutes -
@@ -1391,10 +1368,10 @@ async function(){
 
                 status:
                     late > 0
-                    ?
-                    "LATE"
-                    :
-                    "PRESENT"
+                        ?
+                        "LATE"
+                        :
+                        "PRESENT"
 
             }
 
@@ -1411,14 +1388,14 @@ async function(){
 
         renderAttendanceRecords();
 
+    }
 
-    }catch(error){
+    catch (error) {
 
         console.error(
             "Time In Error:",
             error
         );
-
 
         alert(
             "Failed to record Time In.\n\n" +
@@ -1430,16 +1407,16 @@ async function(){
 };
 
 
-/* ==========================================
+/* =========================================================
    BREAK OUT
-========================================== */
+========================================================= */
 
 window.breakOut =
-async function(){
+async function () {
 
-    if(
+    if (
         !selectedEmployee
-    ){
+    ) {
 
         alert(
             "Please select an employee first."
@@ -1450,15 +1427,13 @@ async function(){
     }
 
 
-    try{
+    try {
 
         const record =
             getTodayRecord();
 
 
-        if(
-            !record
-        ){
+        if (!record) {
 
             alert(
                 "Please record Time In first."
@@ -1474,9 +1449,7 @@ async function(){
             record.timein;
 
 
-        if(
-            !timeIn
-        ){
+        if (!timeIn) {
 
             alert(
                 "Please record Time In first."
@@ -1492,7 +1465,7 @@ async function(){
             record.breakout;
 
 
-        if(existing){
+        if (existing) {
 
             alert(
                 "Break Out has already been recorded."
@@ -1534,14 +1507,14 @@ async function(){
 
         renderAttendanceRecords();
 
+    }
 
-    }catch(error){
+    catch (error) {
 
         console.error(
             "Break Out Error:",
             error
         );
-
 
         alert(
             "Failed to record Break Out.\n\n" +
@@ -1553,16 +1526,16 @@ async function(){
 };
 
 
-/* ==========================================
+/* =========================================================
    BREAK IN
-========================================== */
+========================================================= */
 
 window.breakIn =
-async function(){
+async function () {
 
-    if(
+    if (
         !selectedEmployee
-    ){
+    ) {
 
         alert(
             "Please select an employee first."
@@ -1573,15 +1546,13 @@ async function(){
     }
 
 
-    try{
+    try {
 
         const record =
             getTodayRecord();
 
 
-        if(
-            !record
-        ){
+        if (!record) {
 
             alert(
                 "Please record Time In first."
@@ -1597,9 +1568,7 @@ async function(){
             record.breakout;
 
 
-        if(
-            !breakOut
-        ){
+        if (!breakOut) {
 
             alert(
                 "Please record Break Out first."
@@ -1615,7 +1584,7 @@ async function(){
             record.breakin;
 
 
-        if(existing){
+        if (existing) {
 
             alert(
                 "Break In has already been recorded."
@@ -1657,14 +1626,14 @@ async function(){
 
         renderAttendanceRecords();
 
+    }
 
-    }catch(error){
+    catch (error) {
 
         console.error(
             "Break In Error:",
             error
         );
-
 
         alert(
             "Failed to record Break In.\n\n" +
@@ -1676,16 +1645,16 @@ async function(){
 };
 
 
-/* ==========================================
+/* =========================================================
    TIME OUT
-========================================== */
+========================================================= */
 
 window.timeOut =
-async function(){
+async function () {
 
-    if(
+    if (
         !selectedEmployee
-    ){
+    ) {
 
         alert(
             "Please select an employee first."
@@ -1696,15 +1665,13 @@ async function(){
     }
 
 
-    try{
+    try {
 
         const record =
             getTodayRecord();
 
 
-        if(
-            !record
-        ){
+        if (!record) {
 
             alert(
                 "Please record Time In first."
@@ -1720,9 +1687,7 @@ async function(){
             record.timein;
 
 
-        if(
-            !timeIn
-        ){
+        if (!timeIn) {
 
             alert(
                 "Please record Time In first."
@@ -1738,7 +1703,7 @@ async function(){
             record.timeout;
 
 
-        if(existing){
+        if (existing) {
 
             alert(
                 "Time Out has already been recorded."
@@ -1769,10 +1734,10 @@ async function(){
             0;
 
 
-        if(
+        if (
             breakOut &&
             breakIn
-        ){
+        ) {
 
             breakHours =
                 hoursBetween(
@@ -1785,13 +1750,16 @@ async function(){
 
         const totalHours =
             Math.max(
+
                 0,
+
                 hoursBetween(
                     timeIn,
                     time
                 )
                 -
                 breakHours
+
             );
 
 
@@ -1805,8 +1773,7 @@ async function(){
         const ot =
             Math.max(
                 0,
-                totalHours -
-                8
+                totalHours - 8
             );
 
 
@@ -1818,22 +1785,12 @@ async function(){
             );
 
 
-        let status =
-            text(
-                record.status
-            )
-            ||
-            "PRESENT";
-
-
-        if(
+        const status =
             late > 0
-        ){
-
-            status =
-                "LATE";
-
-        }
+                ?
+                "LATE"
+                :
+                "PRESENT";
 
 
         await updateAttendanceRecord(
@@ -1907,14 +1864,14 @@ async function(){
 
         renderAttendanceRecords();
 
+    }
 
-    }catch(error){
+    catch (error) {
 
         console.error(
             "Time Out Error:",
             error
         );
-
 
         alert(
             "Failed to record Time Out.\n\n" +
@@ -1926,51 +1883,45 @@ async function(){
 };
 
 
-/* ==========================================
+/* =========================================================
    UPDATE TODAY DISPLAY
-========================================== */
+========================================================= */
 
-function updateTodayDisplay(){
+function updateTodayDisplay() {
 
     const record =
         getTodayRecord();
 
 
-    if(
-        !record
-    ){
+    if (!record) {
 
-        if(todayStatus){
+        if (todayStatus) {
 
             todayStatus.textContent =
                 "-";
 
         }
 
-
-        if(regularHours){
+        if (regularHours) {
 
             regularHours.textContent =
                 "0.00";
 
         }
 
-
-        if(overtime){
+        if (overtime) {
 
             overtime.textContent =
                 "0.00";
 
         }
 
-
-        if(lateMinutes){
+        if (lateMinutes) {
 
             lateMinutes.textContent =
                 "0";
 
         }
-
 
         updateButtons(
             null
@@ -2013,7 +1964,7 @@ function updateTodayDisplay(){
         );
 
 
-    let reg =
+    let regular =
         number(
             record.regularHours ??
             record.regHours ??
@@ -2030,14 +1981,13 @@ function updateTodayDisplay(){
 
 
     /*
-     * Calculate live hours even
-     * before Time Out.
+     * LIVE HOURS
      */
 
-    if(
+    if (
         timeIn &&
         !timeOut
-    ){
+    ) {
 
         let liveHours =
             hoursBetween(
@@ -2050,10 +2000,10 @@ function updateTodayDisplay(){
             0;
 
 
-        if(
+        if (
             breakOut &&
             breakIn
-        ){
+        ) {
 
             liveBreak =
                 hoursBetween(
@@ -2072,7 +2022,7 @@ function updateTodayDisplay(){
             );
 
 
-        reg =
+        regular =
             Math.min(
                 8,
                 liveHours
@@ -2089,28 +2039,29 @@ function updateTodayDisplay(){
     }
 
 
-    if(todayStatus){
+    if (todayStatus) {
 
         todayStatus.textContent =
             text(
                 record.status
-            ) ||
+            )
+            ||
             "PRESENT";
 
     }
 
 
-    if(regularHours){
+    if (regularHours) {
 
         regularHours.textContent =
             formatHours(
-                reg
+                regular
             );
 
     }
 
 
-    if(overtime){
+    if (overtime) {
 
         overtime.textContent =
             formatHours(
@@ -2120,7 +2071,7 @@ function updateTodayDisplay(){
     }
 
 
-    if(lateMinutes){
+    if (lateMinutes) {
 
         lateMinutes.textContent =
             String(
@@ -2137,11 +2088,11 @@ function updateTodayDisplay(){
 }
 
 
-/* ==========================================
+/* =========================================================
    BUTTON SEQUENCE
-========================================== */
+========================================================= */
 
-function updateButtons(record){
+function updateButtons(record) {
 
     const hasTimeIn =
         !!(
@@ -2183,7 +2134,7 @@ function updateButtons(record){
         );
 
 
-    if(timeInButton){
+    if (timeInButton) {
 
         timeInButton.disabled =
             hasTimeIn;
@@ -2191,7 +2142,7 @@ function updateButtons(record){
     }
 
 
-    if(breakOutButton){
+    if (breakOutButton) {
 
         breakOutButton.disabled =
             !hasTimeIn ||
@@ -2200,7 +2151,7 @@ function updateButtons(record){
     }
 
 
-    if(breakInButton){
+    if (breakInButton) {
 
         breakInButton.disabled =
             !hasBreakOut ||
@@ -2209,7 +2160,7 @@ function updateButtons(record){
     }
 
 
-    if(timeOutButton){
+    if (timeOutButton) {
 
         timeOutButton.disabled =
             !hasTimeIn ||
@@ -2220,47 +2171,54 @@ function updateButtons(record){
 }
 
 
-/* ==========================================
-   GET STATUS CLASS
-========================================== */
+/* =========================================================
+   STATUS CLASS
+========================================================= */
 
-function getStatusClass(status){
+function getStatusClass(status) {
 
     const value =
         text(status)
-        .toUpperCase();
+            .toUpperCase();
 
-    if(
-        value === "PRESENT"
-    ){
+
+    if (
+        value ===
+        "PRESENT"
+    ) {
 
         return "status-present";
 
     }
 
 
-    if(
-        value === "LATE"
-    ){
+    if (
+        value ===
+        "LATE"
+    ) {
 
         return "status-late";
 
     }
 
 
-    if(
-        value === "ABSENT"
-    ){
+    if (
+        value ===
+        "ABSENT"
+    ) {
 
         return "status-absent";
 
     }
 
 
-    if(
-        value === "LEAVE" ||
-        value === "ON LEAVE"
-    ){
+    if (
+        value ===
+        "LEAVE"
+        ||
+        value ===
+        "ON LEAVE"
+    ) {
 
         return "status-leave";
 
@@ -2272,22 +2230,24 @@ function getStatusClass(status){
 }
 
 
-/* ==========================================
-   RENDER ATTENDANCE TABLE
-========================================== */
+/* =========================================================
+   RENDER ATTENDANCE
+========================================================= */
 
 function renderAttendanceRecords(
     records =
         attendanceRecords
-){
+) {
 
     const tbody =
-        recordsBody;
+        getAttendanceTableBody();
 
 
-    if(
-        !tbody
-    ){
+    if (!tbody) {
+
+        console.warn(
+            "Attendance table body not found."
+        );
 
         return;
 
@@ -2298,23 +2258,24 @@ function renderAttendanceRecords(
         "";
 
 
-    if(
+    if (
+        !records ||
         records.length === 0
-    ){
+    ) {
 
         tbody.innerHTML = `
 
-<tr>
+<tr class="empty-row">
 
-<td
-    colspan="20"
-    style="
-        text-align:center;
-        padding:30px;
-        font-weight:800;
-    ">
+<td colspan="13">
 
+<span class="material-icons">
+event_busy
+</span>
+
+<p>
 No attendance records found.
+</p>
 
 </td>
 
@@ -2467,7 +2428,8 @@ ${late}
 
 <td>
 
-<span class="status-badge ${statusClass}">
+<span
+    class="status-badge ${statusClass}">
 
 ${escapeHTML(status)}
 
@@ -2475,16 +2437,13 @@ ${escapeHTML(status)}
 
 </td>
 
-<td>
-
-<div
-    class="action-icons">
+<td class="action-cell">
 
 <button
     type="button"
-    class="icon-btn"
-    title="Delete"
-    onclick="deleteAttendance('${escapeHTML(record.id)}')">
+    class="table-icon-btn delete-action"
+    title="Delete Attendance"
+    data-id="${escapeHTML(record.id)}">
 
 <span class="material-icons">
 delete
@@ -2492,11 +2451,33 @@ delete
 
 </button>
 
-</div>
-
 </td>
 
 `;
+
+
+            const deleteButton =
+                row.querySelector(
+                    ".delete-action"
+                );
+
+
+            if (
+                deleteButton
+            ) {
+
+                deleteButton.addEventListener(
+                    "click",
+                    function () {
+
+                        deleteAttendance(
+                            record.id
+                        );
+
+                    }
+                );
+
+            }
 
 
             tbody.appendChild(
@@ -2509,44 +2490,44 @@ delete
 }
 
 
-/* ==========================================
+/* =========================================================
    FILTER
-========================================== */
+========================================================= */
 
 window.filterAttendance =
-function(){
+function () {
 
     const from =
         startDate
-        ?
-        startDate.value
-        :
-        "";
+            ?
+            startDate.value
+            :
+            "";
 
 
     const to =
         endDate
-        ?
-        endDate.value
-        :
-        "";
+            ?
+            endDate.value
+            :
+            "";
 
 
     const employeeId =
         selectedEmployee
-        ?
-        getEmployeeId(
-            selectedEmployee
-        )
-        :
-        "";
+            ?
+            getEmployeeId(
+                selectedEmployee
+            )
+            :
+            "";
 
 
     let filtered =
         [...attendanceRecords];
 
 
-    if(from){
+    if (from) {
 
         filtered =
             filtered.filter(
@@ -2559,7 +2540,7 @@ function(){
     }
 
 
-    if(to){
+    if (to) {
 
         filtered =
             filtered.filter(
@@ -2572,7 +2553,7 @@ function(){
     }
 
 
-    if(employeeId){
+    if (employeeId) {
 
         filtered =
             filtered.filter(
@@ -2592,26 +2573,26 @@ function(){
 };
 
 
-/* ==========================================
+/* =========================================================
    FILTER ALIAS
-========================================== */
+========================================================= */
 
 window.applyFilter =
-function(){
+function () {
 
     filterAttendance();
 
 };
 
 
-/* ==========================================
+/* =========================================================
    CLEAR FILTER
-========================================== */
+========================================================= */
 
 window.clearAttendance =
-function(){
+function () {
 
-    if(employeeSelect){
+    if (employeeSelect) {
 
         employeeSelect.value =
             "";
@@ -2619,7 +2600,7 @@ function(){
     }
 
 
-    if(startDate){
+    if (startDate) {
 
         startDate.value =
             "";
@@ -2627,7 +2608,7 @@ function(){
     }
 
 
-    if(endDate){
+    if (endDate) {
 
         endDate.value =
             "";
@@ -2648,28 +2629,25 @@ function(){
 };
 
 
-/* ==========================================
+/* =========================================================
    CLEAR ALIAS
-========================================== */
+========================================================= */
 
 window.clearFilter =
-function(){
+function () {
 
     clearAttendance();
 
 };
 
 
-/* ==========================================
+/* =========================================================
    DELETE ATTENDANCE
-========================================== */
+========================================================= */
 
-window.deleteAttendance =
-async function(id){
+async function deleteAttendance(id) {
 
-    if(
-        !id
-    ){
+    if (!id) {
 
         return;
 
@@ -2682,16 +2660,14 @@ async function(id){
         );
 
 
-    if(
-        !confirmed
-    ){
+    if (!confirmed) {
 
         return;
 
     }
 
 
-    try{
+    try {
 
         await deleteDoc(
 
@@ -2720,8 +2696,9 @@ async function(id){
             "Attendance record deleted successfully."
         );
 
+    }
 
-    }catch(error){
+    catch (error) {
 
         console.error(
             "Delete Attendance Error:",
@@ -2736,18 +2713,101 @@ async function(id){
 
     }
 
+}
+
+
+/* =========================================================
+   GLOBAL DELETE
+========================================================= */
+
+window.deleteAttendance =
+function(id) {
+
+    return deleteAttendance(
+        id
+    );
+
 };
 
 
-/* ==========================================
+/* =========================================================
    SUMMARY
-========================================== */
+========================================================= */
 
 window.showSummary =
-function(){
+function () {
 
-    const records =
-        attendanceRecords;
+    let records =
+        [...attendanceRecords];
+
+
+    const from =
+        startDate
+            ?
+            startDate.value
+            :
+            "";
+
+
+    const to =
+        endDate
+            ?
+            endDate.value
+            :
+            "";
+
+
+    const employeeId =
+        selectedEmployee
+            ?
+            getEmployeeId(
+                selectedEmployee
+            )
+            :
+            "";
+
+
+    /*
+     * Summary follows current filters.
+     */
+
+    if (from) {
+
+        records =
+            records.filter(
+                record =>
+                    getRecordDate(
+                        record
+                    ) >= from
+            );
+
+    }
+
+
+    if (to) {
+
+        records =
+            records.filter(
+                record =>
+                    getRecordDate(
+                        record
+                    ) <= to
+            );
+
+    }
+
+
+    if (employeeId) {
+
+        records =
+            records.filter(
+                record =>
+                    getRecordEmployeeId(
+                        record
+                    ) === employeeId
+            );
+
+    }
 
 
     const total =
@@ -2756,24 +2816,13 @@ function(){
 
     const present =
         records.filter(
-            record => {
-
-                const status =
-                    text(
-                        record.status
-                    )
-                    .toUpperCase();
-
-
-                return (
-                    status ===
-                    "PRESENT"
-                    ||
-                    status ===
-                    "LATE"
-                );
-
-            }
+            record =>
+                text(
+                    record.status
+                )
+                .toUpperCase()
+                ===
+                "PRESENT"
         ).length;
 
 
@@ -2787,24 +2836,28 @@ function(){
         ).length;
 
 
-    const overtimeTotal =
-        records.reduce(
-            (
-                sum,
-                record
-            ) => {
+    const absent =
+        records.filter(
+            record =>
+                text(
+                    record.status
+                )
+                .toUpperCase()
+                ===
+                "ABSENT"
+        ).length;
 
-                return (
-                    sum +
-                    number(
-                        record.overtime ??
-                        record.ot
-                    )
-                );
 
-            },
-            0
-        );
+    const leave =
+        records.filter(
+            record =>
+                text(
+                    record.status
+                )
+                .toUpperCase()
+                ===
+                "LEAVE"
+        ).length;
 
 
     const regularTotal =
@@ -2827,21 +2880,50 @@ function(){
         );
 
 
+    const overtimeTotal =
+        records.reduce(
+            (
+                sum,
+                record
+            ) => {
+
+                return (
+                    sum +
+                    number(
+                        record.overtime ??
+                        record.ot
+                    )
+                );
+
+            },
+            0
+        );
+
+
     alert(
 
+        "PAPPRITO HRIS\n" +
         "ATTENDANCE SUMMARY\n\n" +
 
         "Total Records: " +
         total +
-        "\n" +
+        "\n\n" +
 
-        "Present/Late: " +
+        "Present: " +
         present +
         "\n" +
 
-        "Late Records: " +
+        "Late: " +
         late +
         "\n" +
+
+        "Absent: " +
+        absent +
+        "\n" +
+
+        "Leave: " +
+        leave +
+        "\n\n" +
 
         "Regular Hours: " +
         regularTotal.toFixed(2) +
@@ -2855,35 +2937,300 @@ function(){
 };
 
 
-/* ==========================================
-   PRINT
-========================================== */
+/* =========================================================
+   PRINT ATTENDANCE
+========================================================= */
 
 window.printAttendance =
-function(){
+function () {
 
-    window.print();
+    printAttendanceRecords();
 
 };
 
 
-/* ==========================================
-   PRINT ALIAS
-========================================== */
+/* =========================================================
+   PRINT DTR ALIAS
+========================================================= */
 
 window.printDTR =
-function(){
+function () {
 
-    window.print();
+    printAttendanceRecords();
 
 };
 
 
-/* ==========================================
-   EMPLOYEE CHANGE EVENT
-========================================== */
+/* =========================================================
+   PRINT FUNCTION
+========================================================= */
 
-if(employeeSelect){
+function printAttendanceRecords() {
+
+    /*
+     * Find the attendance section.
+     */
+
+    const table =
+        document.getElementById(
+            "attendanceTable"
+        );
+
+
+    if (!table) {
+
+        alert(
+            "Attendance table not found."
+        );
+
+        return;
+
+    }
+
+
+    /*
+     * Find the main attendance section.
+     */
+
+    let printArea =
+        document.getElementById(
+            "attendanceRecords"
+        );
+
+
+    if (!printArea) {
+
+        printArea =
+            table.closest(
+                ".attendance-section"
+            );
+
+    }
+
+
+    if (!printArea) {
+
+        printArea =
+            table.parentElement;
+        
+    }
+
+
+    if (!printArea) {
+
+        alert(
+            "Attendance print area not found."
+        );
+
+        return;
+
+    }
+
+
+    /*
+     * Save original ID.
+     */
+
+    const originalId =
+        printArea.id;
+
+
+    /*
+     * CSS print area expects:
+     *
+     * #attendanceRecords
+     */
+
+    if (
+        originalId !==
+        "attendanceRecords"
+    ) {
+
+        printArea.id =
+            "attendanceRecords";
+
+    }
+
+
+    /*
+     * Make sure browser has
+     * time to apply the print CSS.
+     */
+
+    setTimeout(
+        function () {
+
+            window.print();
+
+        },
+        100
+    );
+
+
+    /*
+     * Restore after print.
+     */
+
+    const restore =
+        function () {
+
+            if (
+                originalId
+            ) {
+
+                printArea.id =
+                    originalId;
+
+            }
+
+            else {
+
+                printArea.removeAttribute(
+                    "id"
+                );
+
+            }
+
+        };
+
+
+    if (
+        "onafterprint"
+        in
+        window
+    ) {
+
+        window.addEventListener(
+            "afterprint",
+            restore,
+            {
+                once: true
+            }
+        );
+
+    }
+
+    else {
+
+        setTimeout(
+            restore,
+            1500
+        );
+
+    }
+
+}
+
+
+/* =========================================================
+   PRINT BUTTON EVENT
+========================================================= */
+
+if (printButton) {
+
+    printButton.addEventListener(
+        "click",
+        function (event) {
+
+            event.preventDefault();
+
+            printAttendanceRecords();
+
+        }
+    );
+
+}
+
+
+/* =========================================================
+   BACK BUTTON
+========================================================= */
+
+function goBack() {
+
+    /*
+     * First try browser history.
+     */
+
+    if (
+        window.history.length > 1
+    ) {
+
+        window.history.back();
+
+        return;
+
+    }
+
+
+    /*
+     * If there is no usable history,
+     * return to dashboard.
+     */
+
+    window.location.href =
+        "dashboard.html";
+
+}
+
+
+/* =========================================================
+   GLOBAL BACK
+========================================================= */
+
+window.goBack =
+function () {
+
+    goBack();
+
+};
+
+
+/* =========================================================
+   GLOBAL BACK BUTTON ALIASES
+========================================================= */
+
+window.backToDashboard =
+function () {
+
+    goBack();
+
+};
+
+
+window.backToHome =
+function () {
+
+    goBack();
+
+};
+
+
+/* =========================================================
+   BACK BUTTON EVENT
+========================================================= */
+
+if (backButton) {
+
+    backButton.addEventListener(
+        "click",
+        function (event) {
+
+            event.preventDefault();
+
+            goBack();
+
+        }
+    );
+
+}
+
+
+/* =========================================================
+   EMPLOYEE EVENT
+========================================================= */
+
+if (employeeSelect) {
 
     employeeSelect.addEventListener(
         "change",
@@ -2893,53 +3240,71 @@ if(employeeSelect){
 }
 
 
-/* ==========================================
-   FILTER BUTTON
-========================================== */
+/* =========================================================
+   FILTER EVENT
+========================================================= */
 
-if(filterButton){
+if (filterButton) {
 
     filterButton.addEventListener(
         "click",
-        filterAttendance
+        function (event) {
+
+            event.preventDefault();
+
+            filterAttendance();
+
+        }
     );
 
 }
 
 
-/* ==========================================
-   SUMMARY BUTTON
-========================================== */
+/* =========================================================
+   SUMMARY EVENT
+========================================================= */
 
-if(summaryButton){
+if (summaryButton) {
 
     summaryButton.addEventListener(
         "click",
-        showSummary
+        function (event) {
+
+            event.preventDefault();
+
+            showSummary();
+
+        }
     );
 
 }
 
 
-/* ==========================================
-   CLEAR BUTTON
-========================================== */
+/* =========================================================
+   CLEAR EVENT
+========================================================= */
 
-if(clearButton){
+if (clearButton) {
 
     clearButton.addEventListener(
         "click",
-        clearAttendance
+        function (event) {
+
+            event.preventDefault();
+
+            clearAttendance();
+
+        }
     );
 
 }
 
 
-/* ==========================================
-   TIME IN BUTTON
-========================================== */
+/* =========================================================
+   TIME IN EVENT
+========================================================= */
 
-if(timeInButton){
+if (timeInButton) {
 
     timeInButton.addEventListener(
         "click",
@@ -2949,11 +3314,11 @@ if(timeInButton){
 }
 
 
-/* ==========================================
-   BREAK OUT BUTTON
-========================================== */
+/* =========================================================
+   BREAK OUT EVENT
+========================================================= */
 
-if(breakOutButton){
+if (breakOutButton) {
 
     breakOutButton.addEventListener(
         "click",
@@ -2963,11 +3328,11 @@ if(breakOutButton){
 }
 
 
-/* ==========================================
-   BREAK IN BUTTON
-========================================== */
+/* =========================================================
+   BREAK IN EVENT
+========================================================= */
 
-if(breakInButton){
+if (breakInButton) {
 
     breakInButton.addEventListener(
         "click",
@@ -2977,11 +3342,11 @@ if(breakInButton){
 }
 
 
-/* ==========================================
-   TIME OUT BUTTON
-========================================== */
+/* =========================================================
+   TIME OUT EVENT
+========================================================= */
 
-if(timeOutButton){
+if (timeOutButton) {
 
     timeOutButton.addEventListener(
         "click",
@@ -2991,12 +3356,12 @@ if(timeOutButton){
 }
 
 
-/* ==========================================
-   LIVE HOURS UPDATE
-========================================== */
+/* =========================================================
+   LIVE HOURS
+========================================================= */
 
 setInterval(
-    function(){
+    function () {
 
         updateTodayDisplay();
 
@@ -3005,27 +3370,44 @@ setInterval(
 );
 
 
-/* ==========================================
-   START
-========================================== */
+/* =========================================================
+   INITIALIZE
+========================================================= */
 
-async function initAttendance(){
+async function initAttendance() {
 
-    startClock();
+    try {
 
-    updateTodayDisplay();
+        startClock();
 
-    await loadEmployees();
+        updateTodayDisplay();
 
-    await loadAttendance();
+        await loadEmployees();
 
-    updateTodayDisplay();
+        await loadAttendance();
 
-    console.log(
-        "PAPPRITO HRIS Attendance Ready"
-    );
+        updateTodayDisplay();
+
+        console.log(
+            "PAPPRITO HRIS Attendance Ready"
+        );
+
+    }
+
+    catch (error) {
+
+        console.error(
+            "Attendance Initialization Error:",
+            error
+        );
+
+    }
 
 }
 
+
+/* =========================================================
+   START SYSTEM
+========================================================= */
 
 initAttendance();
