@@ -1,13 +1,12 @@
 /* ==========================================
    PAPPRITO HRIS
-   EMPLOYEE MASTERLIST JS
-   ORIGINAL USER LOGIN SYSTEM
+   ATTENDANCE SYSTEM JS
+   COMPLETE VERSION
 ========================================== */
 
 import {
     db
 } from "./firebase.js";
-
 
 import {
     collection,
@@ -22,55 +21,34 @@ from
 
 
 /* ==========================================
-   GLOBAL VARIABLES
+   GLOBAL
 ========================================== */
 
 let employees = [];
 
-let editId = null;
+let attendanceRecords = [];
 
-let currentStatusFilter = "ALL";
+let selectedEmployee = null;
 
-let selectedEmployeeForUser = null;
+let selectedRecord = null;
+
+let clockTimer = null;
 
 
 /* ==========================================
-   ELEMENTS
+   FIRESTORE COLLECTIONS
 ========================================== */
 
-const employeeModal =
-    document.getElementById(
-        "employeeModal"
+const employeesCollection =
+    collection(
+        db,
+        "employees"
     );
 
-
-const userModal =
-    document.getElementById(
-        "userModal"
-    );
-
-
-const birthdate =
-    document.getElementById(
-        "birthdate"
-    );
-
-
-const age =
-    document.getElementById(
-        "age"
-    );
-
-
-const search =
-    document.getElementById(
-        "search"
-    );
-
-
-const total =
-    document.getElementById(
-        "total"
+const attendanceCollection =
+    collection(
+        db,
+        "attendance"
     );
 
 
@@ -83,6 +61,22 @@ function text(value){
     return String(
         value ?? ""
     ).trim();
+
+}
+
+
+/* ==========================================
+   NUMBER
+========================================== */
+
+function number(value){
+
+    const n =
+        Number(value);
+
+    return Number.isFinite(n)
+        ? n
+        : 0;
 
 }
 
@@ -126,45 +120,491 @@ function escapeHTML(value){
 
 
 /* ==========================================
-   ESCAPE ATTRIBUTE
+   GET ELEMENT
 ========================================== */
 
-function escapeAttribute(value){
+function getElement(...ids){
 
-    return String(
-        value ?? ""
-    )
+    for(
+        const id of ids
+    ){
 
-    .replace(
-        /\\/g,
-        "\\\\"
-    )
+        const element =
+            document.getElementById(id);
 
-    .replace(
-        /'/g,
-        "\\'"
-    )
+        if(element){
 
-    .replace(
-        /\r/g,
-        "\\r"
-    )
+            return element;
 
-    .replace(
-        /\n/g,
-        "\\n"
+        }
+
+    }
+
+    return null;
+
+}
+
+
+/* ==========================================
+   ELEMENTS
+========================================== */
+
+const employeeSelect =
+    getElement(
+        "employeeSelect",
+        "employee",
+        "employeeDropdown"
+    );
+
+
+const startDate =
+    getElement(
+        "startDate",
+        "fromDate",
+        "dateFrom"
+    );
+
+
+const endDate =
+    getElement(
+        "endDate",
+        "toDate",
+        "dateTo"
+    );
+
+
+const employeeIdDisplay =
+    getElement(
+        "employeeId",
+        "selectedEmployeeId",
+        "displayEmployeeId"
+    );
+
+
+const employeeNameDisplay =
+    getElement(
+        "employeeName",
+        "selectedEmployeeName",
+        "displayEmployeeName"
+    );
+
+
+const currentTime =
+    getElement(
+        "currentTime",
+        "clock",
+        "liveTime"
+    );
+
+
+const currentDate =
+    getElement(
+        "currentDate",
+        "liveDate"
+    );
+
+
+const todayStatus =
+    getElement(
+        "todayStatus",
+        "status"
+    );
+
+
+const regularHours =
+    getElement(
+        "regularHours",
+        "regHours"
+    );
+
+
+const overtime =
+    getElement(
+        "overtime",
+        "otHours"
+    );
+
+
+const lateMinutes =
+    getElement(
+        "lateMinutes",
+        "late"
+    );
+
+
+const recordsBody =
+    document.querySelector(
+        "#attendanceTable tbody"
+    ) ||
+    document.querySelector(
+        "#empTable tbody"
+    ) ||
+    document.querySelector(
+        "#attendanceRecords tbody"
+    );
+
+
+/* ==========================================
+   BUTTONS
+========================================== */
+
+const timeInButton =
+    getElement(
+        "timeInBtn",
+        "btnTimeIn"
+    );
+
+
+const breakOutButton =
+    getElement(
+        "breakOutBtn",
+        "btnBreakOut"
+    );
+
+
+const breakInButton =
+    getElement(
+        "breakInBtn",
+        "btnBreakIn"
+    );
+
+
+const timeOutButton =
+    getElement(
+        "timeOutBtn",
+        "btnTimeOut"
+    );
+
+
+const filterButton =
+    getElement(
+        "filterBtn",
+        "btnFilter"
+    );
+
+
+const summaryButton =
+    getElement(
+        "summaryBtn",
+        "btnSummary"
+    );
+
+
+const clearButton =
+    getElement(
+        "clearBtn",
+        "btnClear"
+    );
+
+
+/* ==========================================
+   DATE
+========================================== */
+
+function getToday(){
+
+    const date =
+        new Date();
+
+    const year =
+        date.getFullYear();
+
+    const month =
+        String(
+            date.getMonth() + 1
+        )
+        .padStart(
+            2,
+            "0"
+        );
+
+    const day =
+        String(
+            date.getDate()
+        )
+        .padStart(
+            2,
+            "0"
+        );
+
+    return (
+        year +
+        "-" +
+        month +
+        "-" +
+        day
     );
 
 }
 
 
 /* ==========================================
-   FULL NAME
+   TIME
 ========================================== */
 
-function getFullName(employee){
+function getCurrentTime(){
 
-    return [
+    const date =
+        new Date();
+
+    const hours =
+        String(
+            date.getHours()
+        )
+        .padStart(
+            2,
+            "0"
+        );
+
+    const minutes =
+        String(
+            date.getMinutes()
+        )
+        .padStart(
+            2,
+            "0"
+        );
+
+    const seconds =
+        String(
+            date.getSeconds()
+        )
+        .padStart(
+            2,
+            "0"
+        );
+
+    return (
+        hours +
+        ":" +
+        minutes +
+        ":" +
+        seconds
+    );
+
+}
+
+
+/* ==========================================
+   DISPLAY DATE
+========================================== */
+
+function getDisplayDate(){
+
+    return new Date()
+        .toLocaleDateString(
+            "en-US",
+            {
+                weekday:"long",
+                year:"numeric",
+                month:"long",
+                day:"numeric"
+            }
+        );
+
+}
+
+
+/* ==========================================
+   UPDATE CLOCK
+========================================== */
+
+function updateClock(){
+
+    if(currentTime){
+
+        currentTime.textContent =
+            getCurrentTime();
+
+    }
+
+
+    if(currentDate){
+
+        currentDate.textContent =
+            getDisplayDate();
+
+    }
+
+}
+
+
+/* ==========================================
+   START CLOCK
+========================================== */
+
+function startClock(){
+
+    updateClock();
+
+    if(clockTimer){
+
+        clearInterval(
+            clockTimer
+        );
+
+    }
+
+    clockTimer =
+        setInterval(
+            updateClock,
+            1000
+        );
+
+}
+
+
+/* ==========================================
+   DATE TO MINUTES
+========================================== */
+
+function timeToMinutes(value){
+
+    const time =
+        text(value);
+
+    if(!time){
+
+        return null;
+
+    }
+
+
+    const parts =
+        time.split(":");
+
+
+    if(parts.length < 2){
+
+        return null;
+
+    }
+
+
+    const hours =
+        Number(parts[0]);
+
+
+    const minutes =
+        Number(parts[1]);
+
+
+    if(
+        !Number.isFinite(hours) ||
+        !Number.isFinite(minutes)
+    ){
+
+        return null;
+
+    }
+
+
+    return (
+        hours * 60 +
+        minutes
+    );
+
+}
+
+
+/* ==========================================
+   HOURS BETWEEN
+========================================== */
+
+function hoursBetween(
+    start,
+    end
+){
+
+    const startMinutes =
+        timeToMinutes(start);
+
+
+    const endMinutes =
+        timeToMinutes(end);
+
+
+    if(
+        startMinutes === null ||
+        endMinutes === null
+    ){
+
+        return 0;
+
+    }
+
+
+    let difference =
+        endMinutes -
+        startMinutes;
+
+
+    /*
+     * Handles overnight shifts.
+     */
+
+    if(
+        difference < 0
+    ){
+
+        difference +=
+            24 * 60;
+
+    }
+
+
+    return (
+        difference / 60
+    );
+
+}
+
+
+/* ==========================================
+   FORMAT HOURS
+========================================== */
+
+function formatHours(value){
+
+    const result =
+        number(value);
+
+
+    return result.toFixed(2);
+
+}
+
+
+/* ==========================================
+   EMPLOYEE ID
+========================================== */
+
+function getEmployeeId(employee){
+
+    return text(
+
+        employee.employeeid ||
+
+        employee.employeeId ||
+
+        employee.empid ||
+
+        employee.empID ||
+
+        ""
+
+    ).toUpperCase();
+
+}
+
+
+/* ==========================================
+   EMPLOYEE NAME
+========================================== */
+
+function getEmployeeName(employee){
+
+    const fullName = [
 
         employee.firstname,
 
@@ -175,524 +615,136 @@ function getFullName(employee){
     ]
 
     .filter(
-        Boolean
+        value =>
+            text(value)
     )
 
-    .join(" ")
+    .join(" ");
 
-    .replace(
-        /\s+/g,
-        " "
-    )
-
-    .trim();
+    return text(
+        fullName
+    );
 
 }
 
 
 /* ==========================================
-   OPEN EMPLOYEE MODAL
+   RECORD DATE
 ========================================== */
 
-window.openModal =
-function(){
+function getRecordDate(record){
 
-    if(
-        employeeModal
-    ){
+    return text(
 
-        employeeModal.style.display =
-            "flex";
+        record.date ||
 
-    }
+        record.attendanceDate ||
 
-};
+        record.workDate ||
+
+        ""
+
+    );
+
+}
 
 
 /* ==========================================
-   CLOSE EMPLOYEE MODAL
+   RECORD EMPLOYEE ID
 ========================================== */
 
-window.closeModal =
-function(){
+function getRecordEmployeeId(record){
 
-    if(
-        employeeModal
-    ){
+    return text(
 
-        employeeModal.style.display =
-            "none";
+        record.employeeid ||
 
-    }
+        record.employeeId ||
 
+        record.empid ||
 
-    clearForm();
+        record.empID ||
 
-};
+        ""
+
+    ).toUpperCase();
+
+}
 
 
 /* ==========================================
-   OPEN TAB
+   RECORD EMPLOYEE NAME
 ========================================== */
 
-window.openTab =
-function(
-    evt,
-    tabId
-){
+function getRecordEmployeeName(record){
 
-    document
-        .querySelectorAll(
-            ".tab-content"
-        )
-        .forEach(
-            tab => {
+    return text(
 
-                tab.classList.remove(
-                    "active"
-                );
+        record.employeeName ||
 
-            }
-        );
+        record.employeename ||
 
+        record.employee ||
 
-    const selectedTab =
-        document.getElementById(
-            tabId
-        );
+        record.name ||
 
+        ""
 
-    if(
-        selectedTab
-    ){
+    );
 
-        selectedTab.classList.add(
-            "active"
-        );
-
-    }
-
-
-    document
-        .querySelectorAll(
-            ".tab-btn"
-        )
-        .forEach(
-            button => {
-
-                button.classList.remove(
-                    "active"
-                );
-
-            }
-        );
-
-
-    if(
-        evt &&
-        evt.currentTarget
-    ){
-
-        evt.currentTarget.classList.add(
-            "active"
-        );
-
-    }
-
-};
+}
 
 
 /* ==========================================
-   CALCULATE AGE
+   FIND TODAY RECORD
 ========================================== */
 
-window.calcAge =
-function(){
+function getTodayRecord(){
 
     if(
-        !birthdate ||
-        !age ||
-        !birthdate.value
+        !selectedEmployee
     ){
 
-        return;
+        return null;
 
     }
 
 
-    const birth =
-        new Date(
-            birthdate.value
+    const employeeId =
+        getEmployeeId(
+            selectedEmployee
         );
 
 
     const today =
-        new Date();
+        getToday();
 
 
-    let years =
-        today.getFullYear()
-        -
-        birth.getFullYear();
+    return (
+        attendanceRecords.find(
+            record => {
 
+                return (
 
-    const monthDifference =
-        today.getMonth()
-        -
-        birth.getMonth();
+                    getRecordDate(
+                        record
+                    ) === today
 
+                    &&
 
-    if(
-        monthDifference < 0
-        ||
-        (
-            monthDifference === 0
-            &&
-            today.getDate()
-            <
-            birth.getDate()
+                    getRecordEmployeeId(
+                        record
+                    ) === employeeId
+
+                );
+
+            }
         )
-    ){
-
-        years--;
-
-    }
-
-
-    age.value =
-        years;
-
-};
-
-
-/* ==========================================
-   GET EMPLOYEE FORM DATA
-========================================== */
-
-function getEmployeeFormData(){
-
-    const fields =
-        document.querySelectorAll(
-            "#employeeModal .emp-field"
-        );
-
-
-    const value =
-        index =>
-            fields[index]
-            ?
-            fields[index].value
-            :
-            "";
-
-
-    return {
-
-        firstname:
-            text(
-                value(0)
-            ),
-
-        middlename:
-            text(
-                value(1)
-            ),
-
-        lastname:
-            text(
-                value(2)
-            ),
-
-        birthdate:
-            text(
-                value(3)
-            ),
-
-        age:
-            text(
-                value(4)
-            ),
-
-        gender:
-            text(
-                value(5)
-            ),
-
-
-        sss:
-            text(
-                value(6)
-            ),
-
-        philhealth:
-            text(
-                value(7)
-            ),
-
-        pagibig:
-            text(
-                value(8)
-            ),
-
-        healthcard:
-            text(
-                value(9)
-            ),
-
-        bankname:
-            text(
-                value(10)
-            ),
-
-        bankaccount:
-            text(
-                value(11)
-            ),
-
-        idtype:
-            text(
-                value(12)
-            ),
-
-        idnumber:
-            text(
-                value(13)
-            ),
-
-
-        mobile:
-            text(
-                value(14)
-            ),
-
-        email:
-            text(
-                value(15)
-            ),
-
-        currentaddress:
-            text(
-                value(16)
-            ),
-
-        permanentaddress:
-            text(
-                value(17)
-            ),
-
-
-        employeeid:
-            text(
-                value(18)
-            )
-            .toUpperCase(),
-
-
-        position:
-            text(
-                value(19)
-            ),
-
-        department:
-            text(
-                value(20)
-            ),
-
-        employment:
-            text(
-                value(21)
-            ),
-
-        status:
-            text(
-                value(22)
-            )
-            ||
-            "Active",
-
-        salary:
-            text(
-                value(23)
-            ),
-
-
-        vacationleave:
-            Number(
-                value(24) || 10
-            ),
-
-        sickleave:
-            Number(
-                value(25) || 7
-            ),
-
-        birthdayleave:
-            Number(
-                value(26) || 1
-            )
-
-    };
+        ||
+        null
+    );
 
 }
-
-
-/* ==========================================
-   SAVE EMPLOYEE
-========================================== */
-
-window.saveEmployee =
-async function(){
-
-    const employeeData =
-        getEmployeeFormData();
-
-
-    if(
-        !employeeData.firstname
-    ){
-
-        alert(
-            "Please enter First Name."
-        );
-
-        return;
-
-    }
-
-
-    if(
-        !employeeData.lastname
-    ){
-
-        alert(
-            "Please enter Last Name."
-        );
-
-        return;
-
-    }
-
-
-    if(
-        !employeeData.employeeid
-    ){
-
-        alert(
-            "Please enter Employee ID."
-        );
-
-        return;
-
-    }
-
-
-    try{
-
-        const duplicate =
-            employees.find(
-                employee =>
-
-                    employee.employeeid
-                    &&
-                    text(
-                        employee.employeeid
-                    )
-                    .toUpperCase()
-                    ===
-                    employeeData.employeeid
-                    &&
-                    employee.id !==
-                    editId
-            );
-
-
-        if(
-            duplicate
-        ){
-
-            alert(
-                "Employee ID already exists."
-            );
-
-            return;
-
-        }
-
-
-        if(
-            editId
-        ){
-
-            await updateDoc(
-
-                doc(
-                    db,
-                    "employees",
-                    editId
-                ),
-
-                employeeData
-
-            );
-
-
-            alert(
-                "Employee updated successfully."
-            );
-
-        }
-
-        else{
-
-            await addDoc(
-
-                collection(
-                    db,
-                    "employees"
-                ),
-
-                {
-
-                    ...employeeData,
-
-                    createdAt:
-                        Date.now()
-
-                }
-
-            );
-
-
-            alert(
-                "Employee added successfully."
-            );
-
-        }
-
-
-        closeModal();
-
-        await loadEmployees();
-
-
-    }catch(error){
-
-        console.error(
-            "Save Employee Error:",
-            error
-        );
-
-
-        alert(
-
-            "Failed to save employee.\n\n" +
-            error.message
-
-        );
-
-    }
-
-};
 
 
 /* ==========================================
@@ -705,12 +757,7 @@ async function loadEmployees(){
 
         const snapshot =
             await getDocs(
-
-                collection(
-                    db,
-                    "employees"
-                )
-
+                employeesCollection
             );
 
 
@@ -733,7 +780,34 @@ async function loadEmployees(){
         );
 
 
-        renderTable();
+        employees.sort(
+            (
+                a,
+                b
+            ) => {
+
+                const nameA =
+                    getEmployeeName(
+                        a
+                    ).toLowerCase();
+
+
+                const nameB =
+                    getEmployeeName(
+                        b
+                    ).toLowerCase();
+
+
+                return nameA.localeCompare(
+                    nameB
+                );
+
+            }
+        );
+
+
+        populateEmployeeDropdown();
+
 
     }catch(error){
 
@@ -744,10 +818,8 @@ async function loadEmployees(){
 
 
         alert(
-
             "Failed to load employees.\n\n" +
             error.message
-
         );
 
     }
@@ -756,15 +828,1415 @@ async function loadEmployees(){
 
 
 /* ==========================================
-   RENDER TABLE
+   POPULATE EMPLOYEE DROPDOWN
 ========================================== */
 
-function renderTable(){
+function populateEmployeeDropdown(){
+
+    if(
+        !employeeSelect
+    ){
+
+        return;
+
+    }
+
+
+    employeeSelect.innerHTML = `
+
+<option value="">
+    Select Employee
+</option>
+
+`;
+
+
+    employees.forEach(
+        employee => {
+
+            const id =
+                getEmployeeId(
+                    employee
+                );
+
+
+            const name =
+                getEmployeeName(
+                    employee
+                );
+
+
+            if(
+                !id &&
+                !name
+            ){
+
+                return;
+
+            }
+
+
+            const option =
+                document.createElement(
+                    "option"
+                );
+
+
+            option.value =
+                employee.id;
+
+
+            option.textContent =
+                id
+                ?
+                id +
+                " - " +
+                name
+                :
+                name;
+
+
+            employeeSelect.appendChild(
+                option
+            );
+
+        }
+    );
+
+}
+
+
+/* ==========================================
+   EMPLOYEE SELECTED
+========================================== */
+
+function handleEmployeeChange(){
+
+    const id =
+        employeeSelect
+        ?
+        employeeSelect.value
+        :
+        "";
+
+
+    selectedEmployee =
+        employees.find(
+            employee =>
+                employee.id === id
+        )
+        ||
+        null;
+
+
+    displaySelectedEmployee();
+
+
+    updateTodayDisplay();
+
+}
+
+
+/* ==========================================
+   DISPLAY SELECTED EMPLOYEE
+========================================== */
+
+function displaySelectedEmployee(){
+
+    if(
+        !selectedEmployee
+    ){
+
+        if(employeeIdDisplay){
+
+            employeeIdDisplay.textContent =
+                "-";
+
+        }
+
+
+        if(employeeNameDisplay){
+
+            employeeNameDisplay.textContent =
+                "-";
+
+        }
+
+
+        return;
+
+    }
+
+
+    const id =
+        getEmployeeId(
+            selectedEmployee
+        );
+
+
+    const name =
+        getEmployeeName(
+            selectedEmployee
+        );
+
+
+    if(employeeIdDisplay){
+
+        employeeIdDisplay.textContent =
+            id ||
+            "-";
+
+    }
+
+
+    if(employeeNameDisplay){
+
+        employeeNameDisplay.textContent =
+            name ||
+            "-";
+
+    }
+
+}
+
+
+/* ==========================================
+   LOAD ATTENDANCE
+========================================== */
+
+async function loadAttendance(){
+
+    try{
+
+        const snapshot =
+            await getDocs(
+                attendanceCollection
+            );
+
+
+        attendanceRecords = [];
+
+
+        snapshot.forEach(
+            docSnap => {
+
+                attendanceRecords.push({
+
+                    id:
+                        docSnap.id,
+
+                    ...docSnap.data()
+
+                });
+
+            }
+        );
+
+
+        attendanceRecords.sort(
+            (
+                a,
+                b
+            ) => {
+
+                const dateA =
+                    getRecordDate(a);
+
+
+                const dateB =
+                    getRecordDate(b);
+
+
+                if(
+                    dateA !==
+                    dateB
+                ){
+
+                    return dateB.localeCompare(
+                        dateA
+                    );
+
+                }
+
+
+                return Number(
+                    b.createdAt || 0
+                )
+                -
+                Number(
+                    a.createdAt || 0
+                );
+
+            }
+        );
+
+
+        renderAttendanceRecords();
+
+        updateTodayDisplay();
+
+
+    }catch(error){
+
+        console.error(
+            "Load Attendance Error:",
+            error
+        );
+
+
+        /*
+         * If the collection is
+         * empty or not yet created,
+         * keep the page working.
+         */
+
+        attendanceRecords = [];
+
+        renderAttendanceRecords();
+
+        updateTodayDisplay();
+
+    }
+
+}
+
+
+/* ==========================================
+   CREATE / GET TODAY RECORD
+========================================== */
+
+async function getOrCreateTodayRecord(){
+
+    if(
+        !selectedEmployee
+    ){
+
+        alert(
+            "Please select an employee first."
+        );
+
+        return null;
+
+    }
+
+
+    const existing =
+        getTodayRecord();
+
+
+    if(existing){
+
+        return existing;
+
+    }
+
+
+    const data = {
+
+        date:
+            getToday(),
+
+        employeeid:
+            getEmployeeId(
+                selectedEmployee
+            ),
+
+        employeeId:
+            getEmployeeId(
+                selectedEmployee
+            ),
+
+        employeeName:
+            getEmployeeName(
+                selectedEmployee
+            ),
+
+        timeIn:
+            "",
+
+        timein:
+            "",
+
+        breakOut:
+            "",
+
+        breakout:
+            "",
+
+        breakIn:
+            "",
+
+        breakin:
+            "",
+
+        timeOut:
+            "",
+
+        timeout:
+            "",
+
+        breakHours:
+            0,
+
+        regularHours:
+            0,
+
+        regHours:
+            0,
+
+        overtime:
+            0,
+
+        ot:
+            0,
+
+        lateMinutes:
+            0,
+
+        late:
+            0,
+
+        status:
+            "PRESENT",
+
+        createdAt:
+            Date.now()
+
+    };
+
+
+    const reference =
+        await addDoc(
+            attendanceCollection,
+            data
+        );
+
+
+    const record = {
+
+        id:
+            reference.id,
+
+        ...data
+
+    };
+
+
+    attendanceRecords.unshift(
+        record
+    );
+
+
+    return record;
+
+}
+
+
+/* ==========================================
+   UPDATE ATTENDANCE RECORD
+========================================== */
+
+async function updateAttendanceRecord(
+    recordId,
+    data
+){
+
+    await updateDoc(
+
+        doc(
+            db,
+            "attendance",
+            recordId
+        ),
+
+        data
+
+    );
+
+
+    const index =
+        attendanceRecords.findIndex(
+            record =>
+                record.id ===
+                recordId
+        );
+
+
+    if(
+        index !== -1
+    ){
+
+        attendanceRecords[index] = {
+
+            ...attendanceRecords[index],
+
+            ...data
+
+        };
+
+    }
+
+}
+
+
+/* ==========================================
+   TIME IN
+========================================== */
+
+window.timeIn =
+async function(){
+
+    if(
+        !selectedEmployee
+    ){
+
+        alert(
+            "Please select an employee first."
+        );
+
+        return;
+
+    }
+
+
+    try{
+
+        let record =
+            getTodayRecord();
+
+
+        if(
+            record &&
+            (
+                record.timeIn ||
+                record.timein
+            )
+        ){
+
+            alert(
+                "Time In has already been recorded for today."
+            );
+
+            return;
+
+        }
+
+
+        if(
+            !record
+        ){
+
+            record =
+                await getOrCreateTodayRecord();
+
+        }
+
+
+        if(
+            !record
+        ){
+
+            return;
+
+        }
+
+
+        const time =
+            getCurrentTime();
+
+
+        /*
+         * Standard late calculation:
+         * 08:00 AM onwards is late.
+         */
+
+        const timeMinutes =
+            timeToMinutes(
+                time
+            );
+
+
+        const regularStart =
+            8 * 60;
+
+
+        let late =
+            0;
+
+
+        if(
+            timeMinutes !== null &&
+            timeMinutes >
+            regularStart
+        ){
+
+            late =
+                timeMinutes -
+                regularStart;
+
+        }
+
+
+        await updateAttendanceRecord(
+
+            record.id,
+
+            {
+
+                timeIn:
+                    time,
+
+                timein:
+                    time,
+
+                lateMinutes:
+                    late,
+
+                late:
+                    late,
+
+                status:
+                    late > 0
+                    ?
+                    "LATE"
+                    :
+                    "PRESENT"
+
+            }
+
+        );
+
+
+        alert(
+            "Time In recorded at " +
+            time
+        );
+
+
+        updateTodayDisplay();
+
+        renderAttendanceRecords();
+
+
+    }catch(error){
+
+        console.error(
+            "Time In Error:",
+            error
+        );
+
+
+        alert(
+            "Failed to record Time In.\n\n" +
+            error.message
+        );
+
+    }
+
+};
+
+
+/* ==========================================
+   BREAK OUT
+========================================== */
+
+window.breakOut =
+async function(){
+
+    if(
+        !selectedEmployee
+    ){
+
+        alert(
+            "Please select an employee first."
+        );
+
+        return;
+
+    }
+
+
+    try{
+
+        const record =
+            getTodayRecord();
+
+
+        if(
+            !record
+        ){
+
+            alert(
+                "Please record Time In first."
+            );
+
+            return;
+
+        }
+
+
+        const timeIn =
+            record.timeIn ||
+            record.timein;
+
+
+        if(
+            !timeIn
+        ){
+
+            alert(
+                "Please record Time In first."
+            );
+
+            return;
+
+        }
+
+
+        const existing =
+            record.breakOut ||
+            record.breakout;
+
+
+        if(existing){
+
+            alert(
+                "Break Out has already been recorded."
+            );
+
+            return;
+
+        }
+
+
+        const time =
+            getCurrentTime();
+
+
+        await updateAttendanceRecord(
+
+            record.id,
+
+            {
+
+                breakOut:
+                    time,
+
+                breakout:
+                    time
+
+            }
+
+        );
+
+
+        alert(
+            "Break Out recorded at " +
+            time
+        );
+
+
+        updateTodayDisplay();
+
+        renderAttendanceRecords();
+
+
+    }catch(error){
+
+        console.error(
+            "Break Out Error:",
+            error
+        );
+
+
+        alert(
+            "Failed to record Break Out.\n\n" +
+            error.message
+        );
+
+    }
+
+};
+
+
+/* ==========================================
+   BREAK IN
+========================================== */
+
+window.breakIn =
+async function(){
+
+    if(
+        !selectedEmployee
+    ){
+
+        alert(
+            "Please select an employee first."
+        );
+
+        return;
+
+    }
+
+
+    try{
+
+        const record =
+            getTodayRecord();
+
+
+        if(
+            !record
+        ){
+
+            alert(
+                "Please record Time In first."
+            );
+
+            return;
+
+        }
+
+
+        const breakOut =
+            record.breakOut ||
+            record.breakout;
+
+
+        if(
+            !breakOut
+        ){
+
+            alert(
+                "Please record Break Out first."
+            );
+
+            return;
+
+        }
+
+
+        const existing =
+            record.breakIn ||
+            record.breakin;
+
+
+        if(existing){
+
+            alert(
+                "Break In has already been recorded."
+            );
+
+            return;
+
+        }
+
+
+        const time =
+            getCurrentTime();
+
+
+        await updateAttendanceRecord(
+
+            record.id,
+
+            {
+
+                breakIn:
+                    time,
+
+                breakin:
+                    time
+
+            }
+
+        );
+
+
+        alert(
+            "Break In recorded at " +
+            time
+        );
+
+
+        updateTodayDisplay();
+
+        renderAttendanceRecords();
+
+
+    }catch(error){
+
+        console.error(
+            "Break In Error:",
+            error
+        );
+
+
+        alert(
+            "Failed to record Break In.\n\n" +
+            error.message
+        );
+
+    }
+
+};
+
+
+/* ==========================================
+   TIME OUT
+========================================== */
+
+window.timeOut =
+async function(){
+
+    if(
+        !selectedEmployee
+    ){
+
+        alert(
+            "Please select an employee first."
+        );
+
+        return;
+
+    }
+
+
+    try{
+
+        const record =
+            getTodayRecord();
+
+
+        if(
+            !record
+        ){
+
+            alert(
+                "Please record Time In first."
+            );
+
+            return;
+
+        }
+
+
+        const timeIn =
+            record.timeIn ||
+            record.timein;
+
+
+        if(
+            !timeIn
+        ){
+
+            alert(
+                "Please record Time In first."
+            );
+
+            return;
+
+        }
+
+
+        const existing =
+            record.timeOut ||
+            record.timeout;
+
+
+        if(existing){
+
+            alert(
+                "Time Out has already been recorded."
+            );
+
+            return;
+
+        }
+
+
+        const time =
+            getCurrentTime();
+
+
+        const breakOut =
+            record.breakOut ||
+            record.breakout ||
+            "";
+
+
+        const breakIn =
+            record.breakIn ||
+            record.breakin ||
+            "";
+
+
+        let breakHours =
+            0;
+
+
+        if(
+            breakOut &&
+            breakIn
+        ){
+
+            breakHours =
+                hoursBetween(
+                    breakOut,
+                    breakIn
+                );
+
+        }
+
+
+        const totalHours =
+            Math.max(
+                0,
+                hoursBetween(
+                    timeIn,
+                    time
+                )
+                -
+                breakHours
+            );
+
+
+        const regular =
+            Math.min(
+                8,
+                totalHours
+            );
+
+
+        const ot =
+            Math.max(
+                0,
+                totalHours -
+                8
+            );
+
+
+        const late =
+            number(
+                record.lateMinutes ??
+                record.late ??
+                0
+            );
+
+
+        let status =
+            text(
+                record.status
+            )
+            ||
+            "PRESENT";
+
+
+        if(
+            late > 0
+        ){
+
+            status =
+                "LATE";
+
+        }
+
+
+        await updateAttendanceRecord(
+
+            record.id,
+
+            {
+
+                timeOut:
+                    time,
+
+                timeout:
+                    time,
+
+                breakHours:
+                    Number(
+                        breakHours.toFixed(2)
+                    ),
+
+                regularHours:
+                    Number(
+                        regular.toFixed(2)
+                    ),
+
+                regHours:
+                    Number(
+                        regular.toFixed(2)
+                    ),
+
+                overtime:
+                    Number(
+                        ot.toFixed(2)
+                    ),
+
+                ot:
+                    Number(
+                        ot.toFixed(2)
+                    ),
+
+                lateMinutes:
+                    late,
+
+                late:
+                    late,
+
+                status:
+                    status
+
+            }
+
+        );
+
+
+        alert(
+
+            "Time Out recorded at " +
+            time +
+            "\n\n" +
+
+            "Regular Hours: " +
+            regular.toFixed(2) +
+            "\n" +
+
+            "Overtime: " +
+            ot.toFixed(2)
+
+        );
+
+
+        updateTodayDisplay();
+
+        renderAttendanceRecords();
+
+
+    }catch(error){
+
+        console.error(
+            "Time Out Error:",
+            error
+        );
+
+
+        alert(
+            "Failed to record Time Out.\n\n" +
+            error.message
+        );
+
+    }
+
+};
+
+
+/* ==========================================
+   UPDATE TODAY DISPLAY
+========================================== */
+
+function updateTodayDisplay(){
+
+    const record =
+        getTodayRecord();
+
+
+    if(
+        !record
+    ){
+
+        if(todayStatus){
+
+            todayStatus.textContent =
+                "-";
+
+        }
+
+
+        if(regularHours){
+
+            regularHours.textContent =
+                "0.00";
+
+        }
+
+
+        if(overtime){
+
+            overtime.textContent =
+                "0.00";
+
+        }
+
+
+        if(lateMinutes){
+
+            lateMinutes.textContent =
+                "0";
+
+        }
+
+
+        updateButtons(
+            null
+        );
+
+        return;
+
+    }
+
+
+    const timeIn =
+        record.timeIn ||
+        record.timein ||
+        "";
+
+
+    const breakOut =
+        record.breakOut ||
+        record.breakout ||
+        "";
+
+
+    const breakIn =
+        record.breakIn ||
+        record.breakin ||
+        "";
+
+
+    const timeOut =
+        record.timeOut ||
+        record.timeout ||
+        "";
+
+
+    const late =
+        number(
+            record.lateMinutes ??
+            record.late ??
+            0
+        );
+
+
+    let reg =
+        number(
+            record.regularHours ??
+            record.regHours ??
+            0
+        );
+
+
+    let ot =
+        number(
+            record.overtime ??
+            record.ot ??
+            0
+        );
+
+
+    /*
+     * Calculate live hours even
+     * before Time Out.
+     */
+
+    if(
+        timeIn &&
+        !timeOut
+    ){
+
+        let liveHours =
+            hoursBetween(
+                timeIn,
+                getCurrentTime()
+            );
+
+
+        let liveBreak =
+            0;
+
+
+        if(
+            breakOut &&
+            breakIn
+        ){
+
+            liveBreak =
+                hoursBetween(
+                    breakOut,
+                    breakIn
+                );
+
+        }
+
+
+        liveHours =
+            Math.max(
+                0,
+                liveHours -
+                liveBreak
+            );
+
+
+        reg =
+            Math.min(
+                8,
+                liveHours
+            );
+
+
+        ot =
+            Math.max(
+                0,
+                liveHours -
+                8
+            );
+
+    }
+
+
+    if(todayStatus){
+
+        todayStatus.textContent =
+            text(
+                record.status
+            ) ||
+            "PRESENT";
+
+    }
+
+
+    if(regularHours){
+
+        regularHours.textContent =
+            formatHours(
+                reg
+            );
+
+    }
+
+
+    if(overtime){
+
+        overtime.textContent =
+            formatHours(
+                ot
+            );
+
+    }
+
+
+    if(lateMinutes){
+
+        lateMinutes.textContent =
+            String(
+                late
+            );
+
+    }
+
+
+    updateButtons(
+        record
+    );
+
+}
+
+
+/* ==========================================
+   BUTTON SEQUENCE
+========================================== */
+
+function updateButtons(record){
+
+    const hasTimeIn =
+        !!(
+            record &&
+            (
+                record.timeIn ||
+                record.timein
+            )
+        );
+
+
+    const hasBreakOut =
+        !!(
+            record &&
+            (
+                record.breakOut ||
+                record.breakout
+            )
+        );
+
+
+    const hasBreakIn =
+        !!(
+            record &&
+            (
+                record.breakIn ||
+                record.breakin
+            )
+        );
+
+
+    const hasTimeOut =
+        !!(
+            record &&
+            (
+                record.timeOut ||
+                record.timeout
+            )
+        );
+
+
+    if(timeInButton){
+
+        timeInButton.disabled =
+            hasTimeIn;
+
+    }
+
+
+    if(breakOutButton){
+
+        breakOutButton.disabled =
+            !hasTimeIn ||
+            hasBreakOut;
+
+    }
+
+
+    if(breakInButton){
+
+        breakInButton.disabled =
+            !hasBreakOut ||
+            hasBreakIn;
+
+    }
+
+
+    if(timeOutButton){
+
+        timeOutButton.disabled =
+            !hasTimeIn ||
+            hasTimeOut;
+
+    }
+
+}
+
+
+/* ==========================================
+   RENDER ATTENDANCE TABLE
+========================================== */
+
+function renderAttendanceRecords(
+    records =
+        attendanceRecords
+){
 
     const tbody =
-        document.querySelector(
-            "#empTable tbody"
-        );
+        recordsBody;
 
 
     if(
@@ -780,38 +2252,8 @@ function renderTable(){
         "";
 
 
-    let filtered =
-        employees.filter(
-            employee => {
-
-                const status =
-                    text(
-                        employee.status
-                    )
-                    .toUpperCase();
-
-
-                if(
-                    currentStatusFilter ===
-                    "ALL"
-                ){
-
-                    return true;
-
-                }
-
-
-                return (
-                    status ===
-                    currentStatusFilter
-                );
-
-            }
-        );
-
-
     if(
-        filtered.length === 0
+        records.length === 0
     ){
 
         tbody.innerHTML = `
@@ -819,14 +2261,14 @@ function renderTable(){
 <tr>
 
 <td
-    colspan="30"
+    colspan="20"
     style="
         text-align:center;
         padding:30px;
         font-weight:800;
     ">
 
-No employee records found.
+No attendance records found.
 
 </td>
 
@@ -834,36 +2276,89 @@ No employee records found.
 
 `;
 
-        updateTotal();
-
         return;
 
     }
 
 
-    filtered.forEach(
-        employee => {
+    records.forEach(
+        record => {
 
-            const name =
-                getFullName(
-                    employee
+            const date =
+                getRecordDate(
+                    record
+                );
+
+
+            const employeeId =
+                getRecordEmployeeId(
+                    record
+                );
+
+
+            const employeeName =
+                getRecordEmployeeName(
+                    record
+                );
+
+
+            const timeIn =
+                record.timeIn ||
+                record.timein ||
+                "-";
+
+
+            const breakOut =
+                record.breakOut ||
+                record.breakout ||
+                "-";
+
+
+            const breakIn =
+                record.breakIn ||
+                record.breakin ||
+                "-";
+
+
+            const timeOut =
+                record.timeOut ||
+                record.timeout ||
+                "-";
+
+
+            const breakHours =
+                number(
+                    record.breakHours
+                );
+
+
+            const regHours =
+                number(
+                    record.regularHours ??
+                    record.regHours
+                );
+
+
+            const ot =
+                number(
+                    record.overtime ??
+                    record.ot
+                );
+
+
+            const late =
+                number(
+                    record.lateMinutes ??
+                    record.late
                 );
 
 
             const status =
                 text(
-                    employee.status
+                    record.status
                 )
                 ||
-                "Active";
-
-
-            const userCreated =
-                employee.userCreated
-                ?
-                "YES"
-                :
-                "NO";
+                "-";
 
 
             const row =
@@ -875,231 +2370,63 @@ No employee records found.
             row.innerHTML = `
 
 <td>
-${escapeHTML(
-    employee.employeeid
-)}
+${escapeHTML(date)}
 </td>
 
 <td>
-${escapeHTML(
-    name
-)}
+${escapeHTML(employeeId)}
 </td>
 
 <td>
-${escapeHTML(
-    employee.firstname
-)}
+${escapeHTML(employeeName)}
 </td>
 
 <td>
-${escapeHTML(
-    employee.middlename
-)}
+${escapeHTML(timeIn)}
 </td>
 
 <td>
-${escapeHTML(
-    employee.lastname
-)}
+${escapeHTML(breakOut)}
 </td>
 
 <td>
-${escapeHTML(
-    employee.birthdate
-)}
+${escapeHTML(breakIn)}
 </td>
 
 <td>
-${escapeHTML(
-    employee.age
-)}
+${escapeHTML(timeOut)}
 </td>
 
 <td>
-${escapeHTML(
-    employee.gender
-)}
+${breakHours.toFixed(2)}
 </td>
 
 <td>
-${escapeHTML(
-    employee.sss
-)}
+${regHours.toFixed(2)}
 </td>
 
 <td>
-${escapeHTML(
-    employee.philhealth
-)}
+${ot.toFixed(2)}
 </td>
 
 <td>
-${escapeHTML(
-    employee.pagibig
-)}
+${late}
 </td>
 
 <td>
-${escapeHTML(
-    employee.healthcard
-)}
-</td>
-
-<td>
-${escapeHTML(
-    employee.bankname
-)}
-</td>
-
-<td>
-${escapeHTML(
-    employee.bankaccount
-)}
-</td>
-
-<td>
-${escapeHTML(
-    employee.idtype
-)}
-</td>
-
-<td>
-${escapeHTML(
-    employee.idnumber
-)}
-</td>
-
-<td>
-${escapeHTML(
-    employee.mobile
-)}
-</td>
-
-<td>
-${escapeHTML(
-    employee.email
-)}
-</td>
-
-<td>
-${escapeHTML(
-    employee.currentaddress
-)}
-</td>
-
-<td>
-${escapeHTML(
-    employee.permanentaddress
-)}
-</td>
-
-<td>
-${escapeHTML(
-    employee.position
-)}
-</td>
-
-<td>
-${escapeHTML(
-    employee.department
-)}
-</td>
-
-<td>
-${escapeHTML(
-    employee.employment
-)}
-</td>
-
-<td>
-${escapeHTML(
-    status
-)}
-</td>
-
-<td>
-${escapeHTML(
-    employee.salary
-)}
-</td>
-
-<td>
-${escapeHTML(
-    employee.vacationleave ??
-    10
-)}
-</td>
-
-<td>
-${escapeHTML(
-    employee.sickleave ??
-    7
-)}
-</td>
-
-<td>
-${escapeHTML(
-    employee.birthdayleave ??
-    1
-)}
-</td>
-
-<td>
-${userCreated}
+${escapeHTML(status)}
 </td>
 
 <td>
 
-<div class="action-icons">
-
-<button
-    type="button"
-    class="icon-btn"
-    title="Create User"
-    onclick="createUser('${escapeAttribute(employee.id)}')">
-
-<span class="material-icons">
-person_add
-</span>
-
-</button>
-
-
-<button
-    type="button"
-    class="icon-btn"
-    title="QR Code"
-    onclick="viewQR(
-        '${escapeAttribute(employee.employeeid)}',
-        '${escapeAttribute(name)}'
-    )">
-
-<span class="material-icons">
-qr_code_2
-</span>
-
-</button>
-
-
-<button
-    type="button"
-    class="icon-btn"
-    title="Edit"
-    onclick="editEmployee('${escapeAttribute(employee.id)}')">
-
-<span class="material-icons">
-edit
-</span>
-
-</button>
-
+<div
+    class="action-icons">
 
 <button
     type="button"
     class="icon-btn"
     title="Delete"
-    onclick="deleteEmployee('${escapeAttribute(employee.id)}')">
+    onclick="deleteAttendance('${escapeHTML(record.id)}')">
 
 <span class="material-icons">
 delete
@@ -1121,464 +2448,184 @@ delete
         }
     );
 
-
-    updateTotal();
-
 }
 
 
 /* ==========================================
-   CREATE USER
+   FILTER
 ========================================== */
 
-window.createUser =
-function(id){
-
-    const employee =
-        employees.find(
-            item =>
-                item.id ===
-                id
-        );
-
-
-    if(
-        !employee
-    ){
-
-        alert(
-            "Employee record not found."
-        );
-
-        return;
-
-    }
-
-
-    selectedEmployeeForUser =
-        employee;
-
-
-    const userEmployeeName =
-        document.getElementById(
-            "userEmployeeName"
-        );
-
-
-    const userEmployeeId =
-        document.getElementById(
-            "userEmployeeId"
-        );
-
-
-    const username =
-        document.getElementById(
-            "username"
-        );
-
-
-    const password =
-        document.getElementById(
-            "password"
-        );
-
-
-    if(
-        userEmployeeName
-    ){
-
-        userEmployeeName.value =
-            getFullName(
-                employee
-            );
-
-    }
-
-
-    if(
-        userEmployeeId
-    ){
-
-        userEmployeeId.value =
-            employee.employeeid ||
-            "";
-
-    }
-
-
-    if(
-        username
-    ){
-
-        username.value =
-            "";
-
-    }
-
-
-    if(
-        password
-    ){
-
-        password.value =
-            "";
-
-    }
-
-
-    if(
-        userModal
-    ){
-
-        userModal.style.display =
-            "flex";
-
-    }
-
-};
-
-
-/* ==========================================
-   CLOSE USER MODAL
-========================================== */
-
-window.closeUserModal =
+window.filterAttendance =
 function(){
 
-    if(
-        userModal
-    ){
+    const from =
+        startDate
+        ?
+        startDate.value
+        :
+        "";
 
-        userModal.style.display =
-            "none";
+
+    const to =
+        endDate
+        ?
+        endDate.value
+        :
+        "";
+
+
+    const employeeId =
+        selectedEmployee
+        ?
+        getEmployeeId(
+            selectedEmployee
+        )
+        :
+        "";
+
+
+    let filtered =
+        [...attendanceRecords];
+
+
+    if(from){
+
+        filtered =
+            filtered.filter(
+                record =>
+                    getRecordDate(
+                        record
+                    ) >= from
+            );
 
     }
 
 
-    selectedEmployeeForUser =
+    if(to){
+
+        filtered =
+            filtered.filter(
+                record =>
+                    getRecordDate(
+                        record
+                    ) <= to
+            );
+
+    }
+
+
+    if(employeeId){
+
+        filtered =
+            filtered.filter(
+                record =>
+                    getRecordEmployeeId(
+                        record
+                    ) === employeeId
+            );
+
+    }
+
+
+    renderAttendanceRecords(
+        filtered
+    );
+
+};
+
+
+/* ==========================================
+   FILTER ALIAS
+========================================== */
+
+window.applyFilter =
+function(){
+
+    filterAttendance();
+
+};
+
+
+/* ==========================================
+   CLEAR FILTER
+========================================== */
+
+window.clearAttendance =
+function(){
+
+    if(employeeSelect){
+
+        employeeSelect.value =
+            "";
+
+    }
+
+
+    if(startDate){
+
+        startDate.value =
+            "";
+
+    }
+
+
+    if(endDate){
+
+        endDate.value =
+            "";
+
+    }
+
+
+    selectedEmployee =
         null;
 
-};
 
+    displaySelectedEmployee();
 
-/* ==========================================
-   SAVE USER
-========================================== */
+    updateTodayDisplay();
 
-window.saveUser =
-async function(){
-
-    if(
-        !selectedEmployeeForUser
-    ){
-
-        alert(
-            "Please select an employee."
-        );
-
-        return;
-
-    }
-
-
-    const usernameInput =
-        document.getElementById(
-            "username"
-        );
-
-
-    const passwordInput =
-        document.getElementById(
-            "password"
-        );
-
-
-    const username =
-        text(
-            usernameInput
-            ?
-            usernameInput.value
-            :
-            ""
-        )
-        .toLowerCase();
-
-
-    const password =
-        text(
-            passwordInput
-            ?
-            passwordInput.value
-            :
-            ""
-        );
-
-
-    if(
-        !username
-    ){
-
-        alert(
-            "Please enter username."
-        );
-
-        return;
-
-    }
-
-
-    if(
-        !password
-    ){
-
-        alert(
-            "Please enter password."
-        );
-
-        return;
-
-    }
-
-
-    try{
-
-        const duplicate =
-            employees.find(
-                employee =>
-
-                    text(
-                        employee.username
-                    )
-                    .toUpperCase()
-                    ===
-                    username
-                    .toUpperCase()
-
-                    &&
-
-                    employee.id !==
-                    selectedEmployeeForUser.id
-            );
-
-
-        if(
-            duplicate
-        ){
-
-            alert(
-                "Username already exists."
-            );
-
-            return;
-
-        }
-
-
-        await updateDoc(
-
-            doc(
-                db,
-                "employees",
-                selectedEmployeeForUser.id
-            ),
-
-            {
-
-                username:
-                    username,
-
-                password:
-                    password,
-
-                userCreated:
-                    true,
-
-                userCreatedAt:
-                    Date.now(),
-
-                role:
-                    "employee"
-
-            }
-
-        );
-
-
-        alert(
-
-            "Employee user created successfully.\n\n" +
-
-            "Username: " +
-            username
-
-        );
-
-
-        closeUserModal();
-
-
-        await loadEmployees();
-
-
-    }catch(error){
-
-        console.error(
-            "Create User Error:",
-            error
-        );
-
-
-        alert(
-
-            "Failed to create user.\n\n" +
-
-            error.message
-
-        );
-
-    }
+    renderAttendanceRecords();
 
 };
 
 
 /* ==========================================
-   EDIT EMPLOYEE
+   CLEAR ALIAS
 ========================================== */
 
-window.editEmployee =
-function(id){
+window.clearFilter =
+function(){
 
-    const employee =
-        employees.find(
-            item =>
-                item.id ===
-                id
-        );
-
-
-    if(
-        !employee
-    ){
-
-        return;
-
-    }
-
-
-    editId =
-        id;
-
-
-    openModal();
-
-
-    const values = [
-
-        employee.firstname,
-
-        employee.middlename,
-
-        employee.lastname,
-
-        employee.birthdate,
-
-        employee.age,
-
-        employee.gender,
-
-
-        employee.sss,
-
-        employee.philhealth,
-
-        employee.pagibig,
-
-        employee.healthcard,
-
-        employee.bankname,
-
-        employee.bankaccount,
-
-        employee.idtype,
-
-        employee.idnumber,
-
-
-        employee.mobile,
-
-        employee.email,
-
-        employee.currentaddress,
-
-        employee.permanentaddress,
-
-
-        employee.employeeid,
-
-        employee.position,
-
-        employee.department,
-
-        employee.employment,
-
-        employee.status,
-
-        employee.salary,
-
-
-        employee.vacationleave ??
-            10,
-
-        employee.sickleave ??
-            7,
-
-        employee.birthdayleave ??
-            1
-
-    ];
-
-
-    document
-        .querySelectorAll(
-            "#employeeModal .emp-field"
-        )
-        .forEach(
-            (
-                field,
-                index
-            ) => {
-
-                field.value =
-                    values[index] ??
-                    "";
-
-            }
-        );
-
-
-    if(
-        birthdate &&
-        birthdate.value
-    ){
-
-        calcAge();
-
-    }
+    clearAttendance();
 
 };
 
 
 /* ==========================================
-   DELETE EMPLOYEE
+   DELETE ATTENDANCE
 ========================================== */
 
-window.deleteEmployee =
+window.deleteAttendance =
 async function(id){
 
     if(
-        !confirm(
-            "Delete this employee?"
-        )
+        !id
+    ){
+
+        return;
+
+    }
+
+
+    const confirmed =
+        confirm(
+            "Delete this attendance record?"
+        );
+
+
+    if(
+        !confirmed
     ){
 
         return;
@@ -1592,35 +2639,41 @@ async function(id){
 
             doc(
                 db,
-                "employees",
+                "attendance",
                 id
             )
 
         );
 
 
-        await loadEmployees();
+        attendanceRecords =
+            attendanceRecords.filter(
+                record =>
+                    record.id !== id
+            );
+
+
+        renderAttendanceRecords();
+
+        updateTodayDisplay();
 
 
         alert(
-            "Employee deleted successfully."
+            "Attendance record deleted successfully."
         );
 
 
     }catch(error){
 
         console.error(
-            "Delete Employee Error:",
+            "Delete Attendance Error:",
             error
         );
 
 
         alert(
-
-            "Delete Error\n\n" +
-
+            "Failed to delete attendance.\n\n" +
             error.message
-
         );
 
     }
@@ -1629,569 +2682,268 @@ async function(id){
 
 
 /* ==========================================
-   FILTER STATUS
+   SUMMARY
 ========================================== */
 
-window.filterStatus =
-function(status){
-
-    currentStatusFilter =
-        status;
-
-
-    renderTable();
-
-};
-
-
-/* ==========================================
-   SEARCH
-========================================== */
-
-window.searchEmp =
+window.showSummary =
 function(){
 
-    const value =
-        search
-        ?
-        search.value
-            .toLowerCase()
-        :
-        "";
+    const records =
+        attendanceRecords;
 
 
-    const rows =
-        document.querySelectorAll(
-            "#empTable tbody tr"
-        );
+    const total =
+        records.length;
 
 
-    let visible =
-        0;
+    const present =
+        records.filter(
+            record => {
 
+                const status =
+                    text(
+                        record.status
+                    )
+                    .toUpperCase();
 
-    rows.forEach(
-        row => {
 
-            const show =
-                row.innerText
-                    .toLowerCase()
-                    .includes(
-                        value
-                    );
-
-
-            row.style.display =
-                show
-                ?
-                ""
-                :
-                "none";
-
-
-            if(
-                show
-            ){
-
-                visible++;
-
-            }
-
-        }
-    );
-
-
-    if(
-        total
-    ){
-
-        total.innerText =
-            "Showing : " +
-            visible;
-
-    }
-
-};
-
-
-/* ==========================================
-   VIEW QR
-========================================== */
-
-window.viewQR =
-function(
-    employeeid,
-    name
-){
-
-    const qrWindow =
-        window.open(
-            "",
-            "_blank",
-            "width=400,height=500"
-        );
-
-
-    if(
-        !qrWindow
-    ){
-
-        alert(
-            "Please allow pop-ups to view QR."
-        );
-
-        return;
-
-    }
-
-
-    qrWindow.document.write(`
-
-<!DOCTYPE html>
-
-<html lang="en">
-
-<head>
-
-<meta charset="UTF-8">
-
-<title>
-PAPPRITO Employee QR
-</title>
-
-
-<style>
-
-*{
-
-box-sizing:border-box;
-
-}
-
-
-body{
-
-font-family:
-Arial,
-sans-serif;
-
-text-align:center;
-
-padding:20px;
-
-background:#ffffff;
-
-color:#111111;
-
-}
-
-
-.logo{
-
-width:70px;
-
-height:70px;
-
-object-fit:cover;
-
-border-radius:50%;
-
-border:3px solid #ffcc00;
-
-}
-
-
-h2{
-
-color:#d71920;
-
-margin:8px 0;
-
-}
-
-
-.info{
-
-margin:15px 0;
-
-font-size:13px;
-
-}
-
-
-#qrcode{
-
-margin:20px auto;
-
-}
-
-
-button{
-
-margin-top:15px;
-
-padding:10px 20px;
-
-border:none;
-
-border-radius:7px;
-
-background:#ffcc00;
-
-color:#111111;
-
-font-weight:bold;
-
-cursor:pointer;
-
-}
-
-</style>
-
-</head>
-
-
-<body>
-
-
-<img
-src="../assets/images/logo.png"
-class="logo"
-alt="PAPPRITO">
-
-
-<h2>
-PAPPRITO
-</h2>
-
-
-<h3>
-EMPLOYEE QR CODE
-</h3>
-
-
-<div class="info">
-
-<b>
-Employee ID:
-</b>
-
-<br>
-
-${escapeHTML(
-    employeeid
-)}
-
-<br><br>
-
-<b>
-Employee:
-</b>
-
-<br>
-
-${escapeHTML(
-    name
-)}
-
-</div>
-
-
-<div id="qrcode">
-</div>
-
-
-<button
-onclick="window.print()">
-
-PRINT QR
-
-</button>
-
-
-<script
-src="https://cdn.jsdelivr.net/npm/qrcode/build/qrcode.min.js">
-<\/script>
-
-
-<script>
-
-QRCode.toCanvas(
-
-document.createElement(
-"canvas"
-),
-
-JSON.stringify({
-
-employeeid:
-"${String(
-    employeeid
-)
-.replace(
-    /\\/g,
-    "\\\\"
-)
-.replace(
-    /"/g,
-    '\\"'
-)}",
-
-name:
-"${String(
-    name
-)
-.replace(
-    /\\/g,
-    "\\\\"
-)
-.replace(
-    /"/g,
-    '\\"'
-)}"
-
-}),
-
-{
-
-width:220
-
-},
-
-function(
-error,
-canvas
-){
-
-if(
-!error
-){
-
-document
-.getElementById(
-"qrcode"
-)
-.appendChild(
-canvas
-);
-
-}
-
-}
-
-);
-
-<\/script>
-
-
-</body>
-
-</html>
-
-`);
-
-
-    qrWindow.document.close();
-
-};
-
-
-/* ==========================================
-   CLEAR EMPLOYEE FORM
-========================================== */
-
-function clearForm(){
-
-    editId =
-        null;
-
-
-    document
-        .querySelectorAll(
-            "#employeeModal .emp-field"
-        )
-        .forEach(
-            field => {
-
-                field.value =
-                    "";
-
-            }
-        );
-
-
-    const fields =
-        document.querySelectorAll(
-            "#employeeModal .emp-field"
-        );
-
-
-    if(
-        fields[24]
-    ){
-
-        fields[24].value =
-            "10";
-
-    }
-
-
-    if(
-        fields[25]
-    ){
-
-        fields[25].value =
-            "7";
-
-    }
-
-
-    if(
-        fields[26]
-    ){
-
-        fields[26].value =
-            "1";
-
-    }
-
-
-    if(
-        fields[22]
-    ){
-
-        fields[22].value =
-            "Active";
-
-    }
-
-
-    document
-        .querySelectorAll(
-            "#employeeModal .tab-content"
-        )
-        .forEach(
-            tab => {
-
-                tab.classList.remove(
-                    "active"
+                return (
+                    status ===
+                    "PRESENT"
+                    ||
+                    status ===
+                    "LATE"
                 );
 
             }
-        );
+        ).length;
 
 
-    const personal =
-        document.getElementById(
-            "personal"
-        );
+    const late =
+        records.filter(
+            record =>
+                number(
+                    record.lateMinutes ??
+                    record.late
+                ) > 0
+        ).length;
 
 
-    if(
-        personal
-    ){
-
-        personal.classList.add(
-            "active"
-        );
-
-    }
-
-
-    document
-        .querySelectorAll(
-            "#employeeModal .tab-btn"
-        )
-        .forEach(
+    const overtimeTotal =
+        records.reduce(
             (
-                button,
-                index
+                sum,
+                record
             ) => {
 
-                button.classList.toggle(
-                    "active",
-                    index === 0
+                return (
+                    sum +
+                    number(
+                        record.overtime ??
+                        record.ot
+                    )
                 );
 
-            }
-        );
-
-}
-
-
-/* ==========================================
-   UPDATE TOTAL
-========================================== */
-
-function updateTotal(){
-
-    const rows =
-        document.querySelectorAll(
-            "#empTable tbody tr"
+            },
+            0
         );
 
 
-    let count =
-        0;
+    const regularTotal =
+        records.reduce(
+            (
+                sum,
+                record
+            ) => {
+
+                return (
+                    sum +
+                    number(
+                        record.regularHours ??
+                        record.regHours
+                    )
+                );
+
+            },
+            0
+        );
 
 
-    rows.forEach(
-        row => {
+    alert(
 
-            if(
-                row.style.display !==
-                "none"
-            ){
+        "ATTENDANCE SUMMARY\n\n" +
 
-                count++;
+        "Total Records: " +
+        total +
+        "\n" +
 
-            }
+        "Present/Late: " +
+        present +
+        "\n" +
 
-        }
+        "Late Records: " +
+        late +
+        "\n" +
+
+        "Regular Hours: " +
+        regularTotal.toFixed(2) +
+        "\n" +
+
+        "Overtime Hours: " +
+        overtimeTotal.toFixed(2)
+
     );
 
+};
 
-    if(
-        total
-    ){
 
-        total.innerText =
-            "Total : " +
-            count;
+/* ==========================================
+   PRINT
+========================================== */
 
-    }
+window.printAttendance =
+function(){
+
+    window.print();
+
+};
+
+
+/* ==========================================
+   PRINT ALIAS
+========================================== */
+
+window.printDTR =
+function(){
+
+    window.print();
+
+};
+
+
+/* ==========================================
+   EMPLOYEE CHANGE EVENT
+========================================== */
+
+if(employeeSelect){
+
+    employeeSelect.addEventListener(
+        "change",
+        handleEmployeeChange
+    );
 
 }
 
 
 /* ==========================================
-   CLOSE MODAL WHEN CLICKING OUTSIDE
+   FILTER BUTTON
 ========================================== */
 
-window.addEventListener(
-    "click",
-    function(event){
+if(filterButton){
 
-        if(
-            event.target ===
-            employeeModal
-        ){
+    filterButton.addEventListener(
+        "click",
+        filterAttendance
+    );
 
-            closeModal();
-
-        }
+}
 
 
-        if(
-            event.target ===
-            userModal
-        ){
+/* ==========================================
+   SUMMARY BUTTON
+========================================== */
 
-            closeUserModal();
+if(summaryButton){
 
-        }
+    summaryButton.addEventListener(
+        "click",
+        showSummary
+    );
 
-    }
+}
+
+
+/* ==========================================
+   CLEAR BUTTON
+========================================== */
+
+if(clearButton){
+
+    clearButton.addEventListener(
+        "click",
+        clearAttendance
+    );
+
+}
+
+
+/* ==========================================
+   TIME IN BUTTON
+========================================== */
+
+if(timeInButton){
+
+    timeInButton.addEventListener(
+        "click",
+        window.timeIn
+    );
+
+}
+
+
+/* ==========================================
+   BREAK OUT BUTTON
+========================================== */
+
+if(breakOutButton){
+
+    breakOutButton.addEventListener(
+        "click",
+        window.breakOut
+    );
+
+}
+
+
+/* ==========================================
+   BREAK IN BUTTON
+========================================== */
+
+if(breakInButton){
+
+    breakInButton.addEventListener(
+        "click",
+        window.breakIn
+    );
+
+}
+
+
+/* ==========================================
+   TIME OUT BUTTON
+========================================== */
+
+if(timeOutButton){
+
+    timeOutButton.addEventListener(
+        "click",
+        window.timeOut
+    );
+
+}
+
+
+/* ==========================================
+   LIVE HOURS UPDATE
+========================================== */
+
+setInterval(
+    function(){
+
+        updateTodayDisplay();
+
+    },
+    1000
 );
 
 
@@ -2199,4 +2951,23 @@ window.addEventListener(
    START
 ========================================== */
 
-loadEmployees();
+async function initAttendance(){
+
+    startClock();
+
+    updateTodayDisplay();
+
+    await loadEmployees();
+
+    await loadAttendance();
+
+    updateTodayDisplay();
+
+    console.log(
+        "PAPPRITO HRIS Attendance Ready"
+    );
+
+}
+
+
+initAttendance();
