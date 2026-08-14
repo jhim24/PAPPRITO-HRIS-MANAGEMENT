@@ -1,7 +1,6 @@
 /* ==========================================
    PAPPRITO HRIS
    PREMIUM DASHBOARD JS
-   MATCHED WITH CURRENT dashboard.html
 ========================================== */
 
 import {
@@ -9,13 +8,11 @@ import {
     auth
 } from "./firebase.js";
 
-
 import {
     collection,
     getDocs
 } from
 "https://www.gstatic.com/firebasejs/12.13.0/firebase-firestore.js";
-
 
 import {
     onAuthStateChanged,
@@ -42,122 +39,61 @@ let currentUser = null;
 ========================================== */
 
 const sidebar =
-    document.querySelector(
-        ".sidebar"
-    );
+    document.getElementById("sidebar");
 
+const sidebarOverlay =
+    document.getElementById("sidebarOverlay");
 
 const menuBtn =
-    document.getElementById(
-        "menuBtn"
-    );
-
+    document.getElementById("menuBtn");
 
 const currentDate =
-    document.getElementById(
-        "currentDate"
-    );
-
+    document.getElementById("currentDate");
 
 const currentUserName =
-    document.getElementById(
-        "currentUserName"
-    );
-
-
-const totalEmployees =
-    document.getElementById(
-        "totalEmployees"
-    );
-
-
-const todayAttendance =
-    document.getElementById(
-        "todayAttendance"
-    );
-
-
-const leaveRequestsElement =
-    document.getElementById(
-        "leaveRequests"
-    );
-
-
-const totalPayroll =
-    document.getElementById(
-        "totalPayroll"
-    );
-
-
-const recentActivity =
-    document.getElementById(
-        "recentActivity"
-    );
-
-
-const logoutBtn =
-    document.getElementById(
-        "logoutBtn"
-    );
-
-
-/* ==========================================
-   OPTIONAL ELEMENTS
-   These may exist in future
-========================================== */
+    document.getElementById("currentUserName");
 
 const sidebarUser =
-    document.getElementById(
-        "sidebarUser"
-    );
+    document.getElementById("sidebarUser");
 
-
-const welcomeUser =
-    document.getElementById(
-        "welcomeUser"
-    );
-
+const totalEmployees =
+    document.getElementById("totalEmployees");
 
 const activeEmployees =
-    document.getElementById(
-        "activeEmployees"
-    );
+    document.getElementById("activeEmployees");
 
+const todayAttendance =
+    document.getElementById("todayAttendance");
+
+const leaveRequestsElement =
+    document.getElementById("leaveRequests");
 
 const pendingLeaves =
-    document.getElementById(
-        "pendingLeaves"
-    );
+    document.getElementById("pendingLeaves");
 
+const totalPayroll =
+    document.getElementById("totalPayroll");
 
 const presentCount =
-    document.getElementById(
-        "presentCount"
-    );
-
+    document.getElementById("presentCount");
 
 const lateCount =
-    document.getElementById(
-        "lateCount"
-    );
-
+    document.getElementById("lateCount");
 
 const onLeaveCount =
-    document.getElementById(
-        "onLeaveCount"
-    );
-
+    document.getElementById("onLeaveCount");
 
 const absentCount =
-    document.getElementById(
-        "absentCount"
-    );
-
+    document.getElementById("absentCount");
 
 const notificationBadge =
-    document.getElementById(
-        "notificationBadge"
-    );
+    document.getElementById("notificationBadge");
+
+const recentActivity =
+    document.getElementById("recentActivity");
+
+const logoutBtn =
+    document.getElementById("logoutBtn");
 
 
 /* ==========================================
@@ -173,40 +109,16 @@ function text(value){
 }
 
 
-/* ==========================================
-   ESCAPE HTML
-========================================== */
-
 function escapeHTML(value){
 
     return String(
         value ?? ""
     )
-
-    .replace(
-        /&/g,
-        "&amp;"
-    )
-
-    .replace(
-        /</g,
-        "&lt;"
-    )
-
-    .replace(
-        />/g,
-        "&gt;"
-    )
-
-    .replace(
-        /"/g,
-        "&quot;"
-    )
-
-    .replace(
-        /'/g,
-        "&#039;"
-    );
+    .replace(/&/g,"&amp;")
+    .replace(/</g,"&lt;")
+    .replace(/>/g,"&gt;")
+    .replace(/"/g,"&quot;")
+    .replace(/'/g,"&#039;");
 
 }
 
@@ -220,30 +132,18 @@ function getToday(){
     const date =
         new Date();
 
-
     const year =
         date.getFullYear();
-
 
     const month =
         String(
             date.getMonth() + 1
-        )
-        .padStart(
-            2,
-            "0"
-        );
-
+        ).padStart(2,"0");
 
     const day =
         String(
             date.getDate()
-        )
-        .padStart(
-            2,
-            "0"
-        );
-
+        ).padStart(2,"0");
 
     return `${year}-${month}-${day}`;
 
@@ -251,41 +151,23 @@ function getToday(){
 
 
 /* ==========================================
-   DISPLAY DATE
+   CURRENT DATE
 ========================================== */
 
 function displayCurrentDate(){
 
-    if(
-        !currentDate
-    ){
-
+    if(!currentDate){
         return;
-
     }
 
-
-    const date =
-        new Date();
-
-
     currentDate.textContent =
-        date.toLocaleDateString(
+        new Date().toLocaleDateString(
             "en-US",
             {
-
-                weekday:
-                    "short",
-
-                month:
-                    "short",
-
-                day:
-                    "numeric",
-
-                year:
-                    "numeric"
-
+                weekday:"short",
+                month:"short",
+                day:"numeric",
+                year:"numeric"
             }
         );
 
@@ -293,87 +175,54 @@ function displayCurrentDate(){
 
 
 /* ==========================================
-   USER NAME
+   USER
 ========================================== */
 
 function getCurrentUserName(){
 
-    const storedName =
+    const stored =
         text(
             localStorage.getItem(
                 "loggedInUser"
             )
         );
 
-
-    if(
-        storedName
-    ){
-
-        return storedName;
-
+    if(stored){
+        return stored;
     }
-
 
     if(
         currentUser &&
         currentUser.email
     ){
-
         return currentUser.email;
-
     }
-
 
     return "HR Administrator";
 
 }
 
 
-/* ==========================================
-   DISPLAY USER
-========================================== */
-
 function displayUser(){
 
     const name =
         getCurrentUserName();
 
-
-    if(
-        currentUserName
-    ){
-
+    if(currentUserName){
         currentUserName.textContent =
             name;
-
     }
 
-
-    if(
-        sidebarUser
-    ){
-
+    if(sidebarUser){
         sidebarUser.textContent =
             name;
-
-    }
-
-
-    if(
-        welcomeUser
-    ){
-
-        welcomeUser.textContent =
-            name;
-
     }
 
 }
 
 
 /* ==========================================
-   ANIMATE NUMBER
+   NUMBER ANIMATION
 ========================================== */
 
 function animateNumber(
@@ -381,62 +230,33 @@ function animateNumber(
     target
 ){
 
-    if(
-        !element
-    ){
-
+    if(!element){
         return;
-
     }
 
-
     const finalValue =
-        Number(
-            target || 0
-        );
+        Number(target || 0);
 
-
-    if(
-        finalValue === 0
-    ){
+    if(finalValue === 0){
 
         element.textContent =
             "0";
 
         return;
-
     }
 
+    let current = 0;
 
-    let current =
-        0;
-
-
-    const duration =
-        500;
-
-
-    const steps =
-        25;
-
+    const steps = 25;
 
     const increment =
-        finalValue /
-        steps;
-
-
-    const interval =
-        duration /
-        steps;
-
+        finalValue / steps;
 
     const timer =
         setInterval(
             () => {
 
-                current +=
-                    increment;
-
+                current += increment;
 
                 if(
                     current >=
@@ -446,33 +266,27 @@ function animateNumber(
                     current =
                         finalValue;
 
-                    clearInterval(
-                        timer
-                    );
+                    clearInterval(timer);
 
                 }
 
-
                 element.textContent =
-                    Math.floor(
-                        current
-                    );
+                    Math.floor(current);
 
             },
-            interval
+            20
         );
 
 }
 
 
 /* ==========================================
-   LOAD EMPLOYEES
+   EMPLOYEES
 ========================================== */
 
 async function loadEmployees(){
 
     employees = [];
-
 
     try{
 
@@ -484,14 +298,12 @@ async function loadEmployees(){
                 )
             );
 
-
         snapshot.forEach(
             docSnap => {
 
                 employees.push({
 
-                    id:
-                        docSnap.id,
+                    id:docSnap.id,
 
                     ...docSnap.data()
 
@@ -500,9 +312,7 @@ async function loadEmployees(){
             }
         );
 
-
         updateEmployeeStats();
-
 
     }
     catch(error){
@@ -512,7 +322,6 @@ async function loadEmployees(){
             error
         );
 
-
         updateEmployeeStats();
 
     }
@@ -520,430 +329,10 @@ async function loadEmployees(){
 }
 
 
-/* ==========================================
-   EMPLOYEE STATS
-========================================== */
-
 function updateEmployeeStats(){
 
     const total =
         employees.length;
-
-
-    const active =
-        employees.filter(
-            employee => {
-
-                const status =
-                    text(
-                        employee.status
-                    )
-                    .toLowerCase();
-
-
-                return (
-                    status ===
-                    "active"
-                );
-
-            }
-        ).length;
-
-
-    animateNumber(
-        totalEmployees,
-        total
-    );
-
-
-    animateNumber(
-        activeEmployees,
-        active
-    );
-
-}
-
-
-/* ==========================================
-   LOAD ATTENDANCE
-========================================== */
-
-async function loadAttendance(){
-
-    attendanceRecords = [];
-
-
-    try{
-
-        const snapshot =
-            await getDocs(
-                collection(
-                    db,
-                    "attendance"
-                )
-            );
-
-
-        snapshot.forEach(
-            docSnap => {
-
-                attendanceRecords.push({
-
-                    id:
-                        docSnap.id,
-
-                    ...docSnap.data()
-
-                });
-
-            }
-        );
-
-
-        updateAttendanceStats();
-
-    }
-    catch(error){
-
-        console.error(
-            "Attendance Load Error:",
-            error
-        );
-
-
-        updateAttendanceStats();
-
-    }
-
-}
-
-
-/* ==========================================
-   ATTENDANCE DATE
-========================================== */
-
-function getAttendanceDate(
-    record
-){
-
-    let value =
-        text(
-
-            record.date ||
-
-            record.attendanceDate ||
-
-            record.workDate ||
-
-            record.day ||
-
-            ""
-
-        );
-
-
-    /*
-     * Handle Firestore Timestamp
-     */
-
-    if(
-        record.date &&
-        typeof record.date ===
-        "object" &&
-        typeof record.date.toDate ===
-        "function"
-    ){
-
-        const date =
-            record.date.toDate();
-
-
-        const year =
-            date.getFullYear();
-
-
-        const month =
-            String(
-                date.getMonth() + 1
-            )
-            .padStart(
-                2,
-                "0"
-            );
-
-
-        const day =
-            String(
-                date.getDate()
-            )
-            .padStart(
-                2,
-                "0"
-            );
-
-
-        value =
-            `${year}-${month}-${day}`;
-
-    }
-
-
-    return value;
-
-}
-
-
-/* ==========================================
-   EMPLOYEE ID
-========================================== */
-
-function getAttendanceEmployeeId(
-    record
-){
-
-    return text(
-
-        record.employeeid ||
-
-        record.employeeId ||
-
-        record.empid ||
-
-        record.empID ||
-
-        record.employeeID ||
-
-        ""
-
-    )
-    .toUpperCase();
-
-}
-
-
-/* ==========================================
-   TODAY ATTENDANCE
-========================================== */
-
-function getTodayAttendance(){
-
-    const today =
-        getToday();
-
-
-    return attendanceRecords.filter(
-        record => {
-
-            return (
-                getAttendanceDate(
-                    record
-                ) ===
-                today
-            );
-
-        }
-    );
-
-}
-
-
-/* ==========================================
-   ATTENDANCE STATS
-========================================== */
-
-function updateAttendanceStats(){
-
-    const records =
-        getTodayAttendance();
-
-
-    const uniqueEmployees =
-        new Set();
-
-
-    records.forEach(
-        record => {
-
-            const id =
-                getAttendanceEmployeeId(
-                    record
-                );
-
-
-            if(
-                id
-            ){
-
-                uniqueEmployees.add(
-                    id
-                );
-
-            }
-
-        }
-    );
-
-
-    const attendanceTotal =
-        uniqueEmployees.size ||
-        records.length;
-
-
-    let present =
-        0;
-
-
-    let late =
-        0;
-
-
-    const uniquePresent =
-        new Set();
-
-
-    const uniqueLate =
-        new Set();
-
-
-    records.forEach(
-        record => {
-
-            const id =
-                getAttendanceEmployeeId(
-                    record
-                );
-
-
-            const status =
-                text(
-                    record.status
-                )
-                .toLowerCase();
-
-
-            const timeIn =
-                text(
-
-                    record.timeIn ||
-
-                    record.timein ||
-
-                    ""
-
-                );
-
-
-            if(
-                id &&
-                timeIn
-            ){
-
-                uniquePresent.add(
-                    id
-                );
-
-            }
-
-
-            if(
-                id &&
-                status.includes(
-                    "late"
-                )
-            ){
-
-                uniqueLate.add(
-                    id
-                );
-
-            }
-
-        }
-    );
-
-
-    if(
-        uniqueEmployees.size > 0
-    ){
-
-        present =
-            uniquePresent.size;
-
-
-        late =
-            uniqueLate.size;
-
-    }
-    else{
-
-        records.forEach(
-            record => {
-
-                const status =
-                    text(
-                        record.status
-                    )
-                    .toLowerCase();
-
-
-                const timeIn =
-                    text(
-
-                        record.timeIn ||
-
-                        record.timein ||
-
-                        ""
-
-                    );
-
-
-                if(
-                    timeIn
-                ){
-
-                    present++;
-
-                }
-
-
-                if(
-                    status.includes(
-                        "late"
-                    )
-                ){
-
-                    late++;
-
-                }
-
-            }
-        );
-
-    }
-
-
-    animateNumber(
-        todayAttendance,
-        attendanceTotal
-    );
-
-
-    animateNumber(
-        presentCount,
-        present
-    );
-
-
-    animateNumber(
-        lateCount,
-        late
-    );
-
-
-    /*
-     * ABSENT
-     */
 
     const active =
         employees.filter(
@@ -959,46 +348,152 @@ function updateAttendanceStats(){
                 );
 
             }
+        ).length;
+
+    animateNumber(
+        totalEmployees,
+        total
+    );
+
+    animateNumber(
+        activeEmployees,
+        active
+    );
+
+}
+
+
+/* ==========================================
+   ATTENDANCE
+========================================== */
+
+async function loadAttendance(){
+
+    attendanceRecords = [];
+
+    try{
+
+        const snapshot =
+            await getDocs(
+                collection(
+                    db,
+                    "attendance"
+                )
+            );
+
+        snapshot.forEach(
+            docSnap => {
+
+                attendanceRecords.push({
+
+                    id:docSnap.id,
+
+                    ...docSnap.data()
+
+                });
+
+            }
+        );
+
+        updateAttendanceStats();
+
+    }
+    catch(error){
+
+        console.error(
+            "Attendance Load Error:",
+            error
+        );
+
+        updateAttendanceStats();
+
+    }
+
+}
+
+
+function getAttendanceDate(record){
+
+    if(
+        record.date &&
+        typeof record.date ===
+        "object" &&
+        typeof record.date.toDate ===
+        "function"
+    ){
+
+        const date =
+            record.date.toDate();
+
+        const year =
+            date.getFullYear();
+
+        const month =
+            String(
+                date.getMonth()+1
+            ).padStart(2,"0");
+
+        const day =
+            String(
+                date.getDate()
+            ).padStart(2,"0");
+
+        return `${year}-${month}-${day}`;
+
+    }
+
+    return text(
+
+        record.date ||
+        record.attendanceDate ||
+        record.workDate ||
+        record.day ||
+        ""
+
+    );
+
+}
+
+
+function getAttendanceEmployeeId(record){
+
+    return text(
+
+        record.employeeid ||
+        record.employeeId ||
+        record.empid ||
+        record.empID ||
+        record.employeeID ||
+        ""
+
+    ).toUpperCase();
+
+}
+
+
+function updateAttendanceStats(){
+
+    const today =
+        getToday();
+
+    const records =
+        attendanceRecords.filter(
+            record =>
+                getAttendanceDate(
+                    record
+                ) === today
         );
 
 
-    const activeIds =
+    const employeeIds =
         new Set();
 
 
-    active.forEach(
-        employee => {
-
-            const id =
-                text(
-
-                    employee.employeeid ||
-
-                    employee.employeeId ||
-
-                    employee.empid ||
-
-                    ""
-
-                )
-                .toUpperCase();
-
-
-            if(
-                id
-            ){
-
-                activeIds.add(
-                    id
-                );
-
-            }
-
-        }
-    );
-
-
     const presentIds =
+        new Set();
+
+
+    const lateIds =
         new Set();
 
 
@@ -1010,14 +505,36 @@ function updateAttendanceStats(){
                     record
                 );
 
-
-            if(
-                id
-            ){
-
-                presentIds.add(
-                    id
+            const timeIn =
+                text(
+                    record.timeIn ||
+                    record.timein ||
+                    ""
                 );
+
+            const status =
+                text(
+                    record.status
+                ).toLowerCase();
+
+
+            if(id){
+
+                employeeIds.add(id);
+
+                if(timeIn){
+                    presentIds.add(id);
+                }
+
+                if(
+                    status.includes(
+                        "late"
+                    )
+                ){
+
+                    lateIds.add(id);
+
+                }
 
             }
 
@@ -1025,31 +542,80 @@ function updateAttendanceStats(){
     );
 
 
-    let absent =
-        0;
+    const total =
+        employeeIds.size ||
+        records.length;
 
 
-    if(
-        activeIds.size > 0
-    ){
+    animateNumber(
+        todayAttendance,
+        total
+    );
 
-        activeIds.forEach(
-            id => {
 
-                if(
-                    !presentIds.has(
-                        id
-                    )
-                ){
+    animateNumber(
+        presentCount,
+        presentIds.size
+    );
 
-                    absent++;
 
+    animateNumber(
+        lateCount,
+        lateIds.size
+    );
+
+
+    const activeIds =
+        new Set();
+
+
+    employees
+        .filter(
+            employee =>
+                text(
+                    employee.status
+                )
+                .toLowerCase()
+                ===
+                "active"
+        )
+        .forEach(
+            employee => {
+
+                const id =
+                    text(
+
+                        employee.employeeid ||
+                        employee.employeeId ||
+                        employee.empid ||
+                        ""
+
+                    ).toUpperCase();
+
+                if(id){
+                    activeIds.add(id);
                 }
 
             }
         );
 
-    }
+
+    let absent = 0;
+
+
+    activeIds.forEach(
+        id => {
+
+            if(
+                !employeeIds.has(id)
+            ){
+
+                absent++;
+
+            }
+
+        }
+    );
 
 
     animateNumber(
@@ -1061,13 +627,12 @@ function updateAttendanceStats(){
 
 
 /* ==========================================
-   LOAD LEAVE REQUESTS
+   LEAVE REQUESTS
 ========================================== */
 
 async function loadLeaveRequests(){
 
     leaveRequests = [];
-
 
     try{
 
@@ -1079,14 +644,12 @@ async function loadLeaveRequests(){
                 )
             );
 
-
         snapshot.forEach(
             docSnap => {
 
                 leaveRequests.push({
 
-                    id:
-                        docSnap.id,
+                    id:docSnap.id,
 
                     ...docSnap.data()
 
@@ -1094,7 +657,6 @@ async function loadLeaveRequests(){
 
             }
         );
-
 
         updateLeaveStats();
 
@@ -1108,7 +670,6 @@ async function loadLeaveRequests(){
             error
         );
 
-
         updateLeaveStats();
 
         renderRecentActivity();
@@ -1118,32 +679,19 @@ async function loadLeaveRequests(){
 }
 
 
-/* ==========================================
-   LEAVE STATS
-========================================== */
-
 function updateLeaveStats(){
 
     const pending =
         leaveRequests.filter(
-            request => {
-
-                return (
-                    text(
-                        request.status
-                    )
-                    .toUpperCase()
-                    ===
-                    "PENDING"
-                );
-
-            }
+            request =>
+                text(
+                    request.status
+                )
+                .toUpperCase()
+                ===
+                "PENDING"
         ).length;
 
-
-    /*
-     * Current HTML uses leaveRequests
-     */
 
     animateNumber(
         leaveRequestsElement,
@@ -1151,36 +699,18 @@ function updateLeaveStats(){
     );
 
 
-    /*
-     * Optional old/new element
-     */
-
-    animateNumber(
-        pendingLeaves,
-        pending
-    );
-
-
-    if(
-        notificationBadge
-    ){
+    if(notificationBadge){
 
         notificationBadge.textContent =
             pending;
 
         notificationBadge.style.display =
             pending > 0
-            ?
-            "flex"
-            :
-            "none";
+            ? "flex"
+            : "none";
 
     }
 
-
-    /*
-     * Approved leave today
-     */
 
     const today =
         getToday();
@@ -1190,27 +720,21 @@ function updateLeaveStats(){
         leaveRequests.filter(
             request => {
 
-                const status =
+                return (
+
                     text(
                         request.status
                     )
-                    .toUpperCase();
-
-
-                const date =
-                    text(
-                        request.date
-                    );
-
-
-                return (
-
-                    status ===
+                    .toUpperCase()
+                    ===
                     "APPROVED"
 
                     &&
 
-                    date ===
+                    text(
+                        request.date
+                    )
+                    ===
                     today
 
                 );
@@ -1228,97 +752,47 @@ function updateLeaveStats(){
 
 
 /* ==========================================
-   SORT LEAVES
-========================================== */
-
-function sortLeaves(){
-
-    return [
-        ...leaveRequests
-    ]
-    .sort(
-        (
-            a,
-            b
-        ) => {
-
-            const aTime =
-                Number(
-                    a.timestamp ||
-                    a.createdAt ||
-                    0
-                );
-
-
-            const bTime =
-                Number(
-                    b.timestamp ||
-                    b.createdAt ||
-                    0
-                );
-
-
-            return (
-                bTime -
-                aTime
-            );
-
-        }
-    );
-
-}
-
-
-/* ==========================================
-   RENDER RECENT ACTIVITY
+   RECENT ACTIVITY
 ========================================== */
 
 function renderRecentActivity(){
 
-    if(
-        !recentActivity
-    ){
-
+    if(!recentActivity){
         return;
-
     }
 
 
     const requests =
-        sortLeaves()
-        .slice(
-            0,
-            5
-        );
+        [
+            ...leaveRequests
+        ]
+        .slice(0,5);
 
 
-    if(
-        requests.length === 0
-    ){
+    if(!requests.length){
 
         recentActivity.innerHTML = `
 
-<div class="empty-state">
+            <div class="empty-state">
 
-<span class="material-icons">
-event_available
-</span>
+                <span class="material-icons">
+                    event_available
+                </span>
 
-<p>
-No leave requests yet.
-</p>
+                <p>
+                    No leave requests yet.
+                </p>
 
-</div>
+            </div>
 
-`;
+        `;
 
         return;
 
     }
 
 
-    recentActivity.innerHTML =
-        "";
+    recentActivity.innerHTML = "";
 
 
     requests.forEach(
@@ -1326,29 +800,19 @@ No leave requests yet.
 
             const name =
                 text(
-
                     request.employeeName ||
-
                     request.employee ||
-
                     request.name ||
-
                     request.empid ||
-
                     "Employee"
-
                 );
 
 
             const type =
                 text(
-
                     request.type ||
-
                     request.leaveType ||
-
                     "Leave Request"
-
                 );
 
 
@@ -1367,37 +831,10 @@ No leave requests yet.
 
             const status =
                 text(
-
                     request.status ||
-
                     "PENDING"
-
                 )
                 .toUpperCase();
-
-
-            let statusClass =
-                "pending";
-
-
-            if(
-                status ===
-                "APPROVED"
-            ){
-
-                statusClass =
-                    "approved";
-
-            }
-            else if(
-                status ===
-                "REJECTED"
-            ){
-
-                statusClass =
-                    "rejected";
-
-            }
 
 
             const item =
@@ -1407,117 +844,49 @@ No leave requests yet.
 
 
             item.className =
-                "dashboard-activity-item";
+                "activity-item";
 
 
             item.innerHTML = `
 
-<div
-    style="
-        width:42px;
-        height:42px;
-        min-width:42px;
-        display:flex;
-        align-items:center;
-        justify-content:center;
-        border-radius:10px;
-        background:#fff4bf;
-        color:#a77f00;
-    "
->
+                <div class="activity-icon">
 
-<span class="material-icons">
-event
-</span>
+                    <span class="material-icons">
+                        event
+                    </span>
 
-</div>
+                </div>
 
 
-<div
-    style="
-        min-width:0;
-        flex:1;
-        display:flex;
-        flex-direction:column;
-    "
->
+                <div class="activity-info">
 
-<strong
-    style="
-        color:#111111;
-        font-size:11px;
-        font-weight:1000;
-    "
->
-${escapeHTML(
-    name
-)}
-</strong>
+                    <strong>
+                        ${escapeHTML(name)}
+                    </strong>
+
+                    <span>
+                        ${escapeHTML(type)}
+                        •
+                        ${escapeHTML(date)}
+                        •
+                        ${escapeHTML(days)}
+                        day(s)
+                    </span>
+
+                </div>
 
 
-<span
-    style="
-        color:#555555;
-        font-size:8px;
-        font-weight:800;
-        margin-top:4px;
-    "
->
-${escapeHTML(
-    type
-)}
-&nbsp; • &nbsp;
-${escapeHTML(
-    date
-)}
-&nbsp; • &nbsp;
-${escapeHTML(
-    days
-)}
-day(s)
-</span>
+                <span
+                    class="
+                        activity-status
+                        ${status.toLowerCase()}
+                    ">
 
-</div>
+                    ${escapeHTML(status)}
 
+                </span>
 
-<span
-    style="
-        padding:5px 8px;
-        border-radius:20px;
-        font-size:7px;
-        font-weight:1000;
-        background:
-            ${
-                statusClass === "approved"
-                ?
-                "#e9f7ef"
-                :
-                statusClass === "rejected"
-                ?
-                "#fff0f0"
-                :
-                "#fff5c8"
-            };
-        color:
-            ${
-                statusClass === "approved"
-                ?
-                "#16803c"
-                :
-                statusClass === "rejected"
-                ?
-                "#d71920"
-                :
-                "#a77f00"
-            };
-    "
->
-${escapeHTML(
-    status
-)}
-</span>
-
-`;
+            `;
 
 
             recentActivity.appendChild(
@@ -1531,133 +900,40 @@ ${escapeHTML(
 
 
 /* ==========================================
-   SIDEBAR OPEN
+   SIDEBAR
 ========================================== */
 
 function openSidebar(){
 
-    if(
-        !sidebar
-    ){
-
-        return;
-
+    if(sidebar){
+        sidebar.classList.add("open");
     }
 
-
-    sidebar.classList.add(
-        "open"
-    );
-
-
-    createSidebarOverlay();
+    if(sidebarOverlay){
+        sidebarOverlay.classList.add("show");
+    }
 
 }
 
-
-/* ==========================================
-   SIDEBAR CLOSE
-========================================== */
 
 function closeSidebar(){
 
-    if(
-        sidebar
-    ){
-
-        sidebar.classList.remove(
-            "open"
-        );
-
+    if(sidebar){
+        sidebar.classList.remove("open");
     }
 
-
-    const overlay =
-        document.querySelector(
-            ".sidebar-overlay"
-        );
-
-
-    if(
-        overlay
-    ){
-
-        overlay.classList.remove(
-            "show"
-        );
-
+    if(sidebarOverlay){
+        sidebarOverlay.classList.remove("show");
     }
-
-
-    document.body.classList.remove(
-        "sidebar-open"
-    );
 
 }
 
 
-/* ==========================================
-   CREATE OVERLAY
-========================================== */
-
-function createSidebarOverlay(){
-
-    let overlay =
-        document.querySelector(
-            ".sidebar-overlay"
-        );
-
-
-    if(
-        !overlay
-    ){
-
-        overlay =
-            document.createElement(
-                "div"
-            );
-
-
-        overlay.className =
-            "sidebar-overlay";
-
-
-        document.body.appendChild(
-            overlay
-        );
-
-
-        overlay.addEventListener(
-            "click",
-            closeSidebar
-        );
-
-    }
-
-
-    overlay.classList.add(
-        "show"
-    );
-
-
-    document.body.classList.add(
-        "sidebar-open"
-    );
-
-}
-
-
-/* ==========================================
-   MENU BUTTON
-========================================== */
-
-if(
-    menuBtn
-){
+if(menuBtn){
 
     menuBtn.addEventListener(
         "click",
-        function(){
+        () => {
 
             if(
                 sidebar &&
@@ -1681,48 +957,24 @@ if(
 }
 
 
-/* ==========================================
-   NAVIGATION
-========================================== */
+if(sidebarOverlay){
+
+    sidebarOverlay.addEventListener(
+        "click",
+        closeSidebar
+    );
+
+}
+
 
 document
-    .querySelectorAll(
-        ".nav-item"
-    )
+    .querySelectorAll(".nav-item")
     .forEach(
         item => {
 
             item.addEventListener(
                 "click",
-                function(){
-
-                    closeSidebar();
-
-                }
-            );
-
-        }
-    );
-
-
-/* ==========================================
-   QUICK ACTIONS
-========================================== */
-
-document
-    .querySelectorAll(
-        ".quick-action"
-    )
-    .forEach(
-        button => {
-
-            button.addEventListener(
-                "click",
-                function(){
-
-                    closeSidebar();
-
-                }
+                closeSidebar
             );
 
         }
@@ -1741,20 +993,14 @@ async function logout(){
         );
 
 
-    if(
-        !confirmed
-    ){
-
+    if(!confirmed){
         return;
-
     }
 
 
     try{
 
-        await signOut(
-            auth
-        );
+        await signOut(auth);
 
     }
     catch(error){
@@ -1771,21 +1017,17 @@ async function logout(){
         "loggedInUser"
     );
 
-
     localStorage.removeItem(
         "userRole"
     );
-
 
     localStorage.removeItem(
         "employeeDocId"
     );
 
-
     localStorage.removeItem(
         "employeeId"
     );
-
 
     localStorage.removeItem(
         "employeeName"
@@ -1799,13 +1041,7 @@ async function logout(){
 }
 
 
-/* ==========================================
-   LOGOUT BUTTON
-========================================== */
-
-if(
-    logoutBtn
-){
+if(logoutBtn){
 
     logoutBtn.addEventListener(
         "click",
@@ -1815,71 +1051,19 @@ if(
 }
 
 
-/* ==========================================
-   GLOBAL LOGOUT
-========================================== */
-
 window.logout =
     logout;
 
 
 /* ==========================================
-   OPTIONAL NOTIFICATION
-========================================== */
-
-const notificationButton =
-    document.querySelector(
-        ".notification-button"
-    );
-
-
-if(
-    notificationButton
-){
-
-    notificationButton.addEventListener(
-        "click",
-        function(){
-
-            if(
-                leaveRequests.length > 0
-            ){
-
-                window.location.href =
-                    "trackleaves.html";
-
-            }
-            else{
-
-                alert(
-                    "No pending notifications."
-                );
-
-            }
-
-        }
-    );
-
-}
-
-
-/* ==========================================
-   AUTH STATE
+   AUTH
 ========================================== */
 
 onAuthStateChanged(
-
     auth,
+    async user => {
 
-    async function(user){
-
-        /*
-         * Require login
-         */
-
-        if(
-            !user
-        ){
+        if(!user){
 
             window.location.replace(
                 "login.html"
@@ -1894,10 +1078,6 @@ onAuthStateChanged(
             user;
 
 
-        /*
-         * Check role
-         */
-
         const role =
             text(
                 localStorage.getItem(
@@ -1907,15 +1087,6 @@ onAuthStateChanged(
             .toLowerCase();
 
 
-        /*
-         * If role is missing but
-         * Firebase user is logged in,
-         * keep dashboard available.
-         *
-         * If explicitly non-admin,
-         * redirect.
-         */
-
         if(
             role &&
             role !== "admin"
@@ -1924,7 +1095,6 @@ onAuthStateChanged(
             alert(
                 "Administrator access only."
             );
-
 
             window.location.replace(
                 "login.html"
@@ -1940,10 +1110,6 @@ onAuthStateChanged(
         displayUser();
 
 
-        /*
-         * Load all dashboard data
-         */
-
         await Promise.all([
 
             loadEmployees(),
@@ -1955,11 +1121,6 @@ onAuthStateChanged(
         ]);
 
 
-        /*
-         * Recalculate after
-         * employees are loaded.
-         */
-
         updateAttendanceStats();
 
 
@@ -1968,17 +1129,11 @@ onAuthStateChanged(
         );
 
     }
-
 );
 
 
 /* ==========================================
-   INITIAL DATE
+   INITIAL
 ========================================== */
 
 displayCurrentDate();
-
-
-/* ==========================================
-   END
-========================================== */
