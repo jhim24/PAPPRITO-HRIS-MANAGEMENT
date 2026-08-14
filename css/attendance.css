@@ -1,7 +1,7 @@
 /* =========================================================
    PAPPRITO HRIS
    EMPLOYEE ATTENDANCE
-   PREMIUM LIGHT / BOLD DESKTOP DESIGN
+   PREMIUM LIGHT / BOLD DESIGN
 ========================================================= */
 
 
@@ -59,15 +59,15 @@ body {
     --red: #d71920;
     --red-dark: #b71218;
 
-    --green: #0b8f3c;
-    --blue: #1268c4;
+    --green: #16803c;
+    --blue: #1769aa;
+    --purple: #7b3fc6;
 
     --black: #111111;
     --black-soft: #222222;
 
     --text: #111111;
     --text-soft: #252525;
-
     --muted: #555555;
 
     --white: #ffffff;
@@ -76,9 +76,10 @@ body {
     --border-dark: #bfc4c8;
 
     --light-yellow: #fff8d9;
-    --light-green: #ebf8ef;
-    --light-blue: #edf5ff;
-    --light-red: #fff0f1;
+    --light-green: #e9f7ef;
+    --light-blue: #eaf3fb;
+    --light-red: #fff0f0;
+    --light-purple: #f0e7ff;
 
     --shadow:
         0 4px 18px
@@ -314,9 +315,56 @@ body {
     font-size: 22px;
 }
 
+
+/* =========================================================
+   BACK BUTTON
+========================================================= */
+
+#backBtn {
+
+    background:
+        #111111 !important;
+
+    color:
+        #ffffff !important;
+
+    border-color:
+        #111111 !important;
+}
+
+#backBtn:hover {
+
+    background:
+        #333333 !important;
+
+    border-color:
+        #333333 !important;
+}
+
+
+/* =========================================================
+   PRINT BUTTON
+========================================================= */
+
 #printBtn {
 
-    color: #111111;
+    background:
+        var(--red) !important;
+
+    color:
+        #ffffff !important;
+
+    border-color:
+        var(--red) !important;
+}
+
+#printBtn:hover {
+
+    background:
+        var(--red-dark) !important;
+
+    border-color:
+        var(--red-dark) !important;
 }
 
 
@@ -356,7 +404,7 @@ body {
 
 
 /* =========================================================
-   SELECT / INPUT
+   FILTER INPUTS
 ========================================================= */
 
 .filter-section select,
@@ -373,7 +421,7 @@ body {
         14px;
 
     border:
-        1px solid
+        2px solid
         var(--border-dark);
 
     border-radius: 9px;
@@ -394,9 +442,6 @@ body {
 .filter-section select:focus,
 .filter-section input:focus {
 
-    border-color:
-        var(--yellow);
-
     box-shadow:
         0 0 0 3px
         rgba(255, 204, 0, .16);
@@ -404,10 +449,127 @@ body {
 
 
 /* =========================================================
-   FILTER BUTTONS
+   EMPLOYEE FILTER
 ========================================================= */
 
-#filterBtn,
+#employeeSelect {
+
+    border:
+        2px solid
+        #1769aa !important;
+
+    background:
+        #eef7ff !important;
+
+    color:
+        #111111 !important;
+
+    font-weight:
+        900 !important;
+}
+
+
+/* =========================================================
+   FROM DATE
+========================================================= */
+
+#fromDate {
+
+    border:
+        2px solid
+        #16803c !important;
+
+    background:
+        #effaf3 !important;
+
+    color:
+        #111111 !important;
+
+    font-weight:
+        900 !important;
+}
+
+
+/* =========================================================
+   TO DATE
+========================================================= */
+
+#toDate {
+
+    border:
+        2px solid
+        #d9a900 !important;
+
+    background:
+        #fffbea !important;
+
+    color:
+        #111111 !important;
+
+    font-weight:
+        900 !important;
+}
+
+
+/* =========================================================
+   FILTER BUTTON
+========================================================= */
+
+#filterBtn {
+
+    min-height: 50px;
+
+    display: inline-flex;
+
+    align-items: center;
+    justify-content: center;
+
+    gap: 7px;
+
+    padding:
+        10px
+        16px;
+
+    border:
+        2px solid
+        #1769aa;
+
+    border-radius: 9px;
+
+    background:
+        #1769aa;
+
+    color:
+        #ffffff;
+
+    font-family: inherit;
+
+    font-size: 13px;
+
+    font-weight: 1000;
+
+    cursor: pointer;
+
+    transition: .2s ease;
+}
+
+#filterBtn:hover {
+
+    background:
+        #125586;
+
+    transform:
+        translateY(-2px);
+
+    box-shadow:
+        var(--shadow-hover);
+}
+
+
+/* =========================================================
+   SUMMARY BUTTON
+========================================================= */
+
 #summaryBtn {
 
     min-height: 50px;
@@ -423,9 +585,17 @@ body {
         10px
         16px;
 
-    border: none;
+    border:
+        2px solid
+        #7b3fc6;
 
     border-radius: 9px;
+
+    background:
+        #7b3fc6;
+
+    color:
+        #ffffff;
 
     font-family: inherit;
 
@@ -438,27 +608,10 @@ body {
     transition: .2s ease;
 }
 
-#filterBtn {
+#summaryBtn:hover {
 
     background:
-        linear-gradient(
-            135deg,
-            #ffcc00,
-            #f0b800
-        );
-
-    color: #111111;
-}
-
-#summaryBtn {
-
-    background: #111111;
-
-    color: #ffffff;
-}
-
-#filterBtn:hover,
-#summaryBtn:hover {
+        #612fa0;
 
     transform:
         translateY(-2px);
@@ -467,6 +620,11 @@ body {
         var(--shadow-hover);
 }
 
+
+/* =========================================================
+   FILTER ICONS
+========================================================= */
+
 .filter-section .material-icons {
 
     font-size: 20px;
@@ -474,7 +632,7 @@ body {
 
 
 /* =========================================================
-   EMPLOYEE INFO
+   EMPLOYEE INFORMATION
 ========================================================= */
 
 .employee-info {
@@ -529,6 +687,46 @@ body {
 
 
 /* =========================================================
+   EMPLOYEE ID
+========================================================= */
+
+#employeeId {
+
+    background:
+        #fff8d9 !important;
+
+    color:
+        #111111 !important;
+
+    border-color:
+        #e6c532 !important;
+
+    font-weight:
+        1000 !important;
+}
+
+
+/* =========================================================
+   EMPLOYEE NAME
+========================================================= */
+
+#employeeName {
+
+    background:
+        #fff0f0 !important;
+
+    color:
+        #111111 !important;
+
+    border-color:
+        #e5b4b7 !important;
+
+    font-weight:
+        1000 !important;
+}
+
+
+/* =========================================================
    CLOCK AREA
 ========================================================= */
 
@@ -550,13 +748,13 @@ body {
     background:
         linear-gradient(
             135deg,
-            #ffffff,
-            #fffdf2
+            #eef7ff,
+            #ffffff
         );
 
     border:
-        1px solid
-        #e6dfbd;
+        2px solid
+        #1769aa;
 
     border-radius: var(--radius);
 
@@ -577,7 +775,8 @@ body {
 
     gap: 7px;
 
-    color: #7d6300;
+    color:
+        #1769aa;
 
     font-size: 12px;
 
@@ -600,7 +799,8 @@ body {
 
 .clock {
 
-    color: #111111;
+    color:
+        #111111;
 
     font-size: 54px;
 
@@ -611,15 +811,21 @@ body {
     letter-spacing: 2px;
 }
 
+
+/* =========================================================
+   TODAY DATE
+========================================================= */
+
 .today-date {
 
     margin-top: 10px;
 
-    color: #333333;
+    color:
+        #1769aa;
 
     font-size: 13px;
 
-    font-weight: 900;
+    font-weight: 1000;
 
     letter-spacing: .5px;
 }
@@ -702,7 +908,8 @@ body {
 
 .today-item small {
 
-    color: #555555;
+    color:
+        #555555;
 
     font-size: 9px;
 
@@ -715,7 +922,8 @@ body {
 
     margin-top: 3px;
 
-    color: #111111;
+    color:
+        #111111;
 
     font-size: 18px;
 
@@ -810,15 +1018,23 @@ body {
    TIME IN
 ========================================================= */
 
-.timein {
+.action-btn.timein {
 
-    background: var(--light-green);
+    background:
+        #16803c !important;
 
-    color: #087a32;
+    color:
+        #ffffff !important;
 
     border:
         2px solid
-        #23a754;
+        #16803c !important;
+}
+
+.action-btn.timein:hover {
+
+    background:
+        #116630 !important;
 }
 
 
@@ -826,15 +1042,23 @@ body {
    BREAK OUT
 ========================================================= */
 
-.breakout {
+.action-btn.breakout {
 
-    background: #fff8df;
+    background:
+        #ffcc00 !important;
 
-    color: #956d00;
+    color:
+        #111111 !important;
 
     border:
         2px solid
-        #e7b600;
+        #ffcc00 !important;
+}
+
+.action-btn.breakout:hover {
+
+    background:
+        #e6b800 !important;
 }
 
 
@@ -842,15 +1066,23 @@ body {
    BREAK IN
 ========================================================= */
 
-.breakin {
+.action-btn.breakin {
 
-    background: var(--light-blue);
+    background:
+        #1769aa !important;
 
-    color: #0865bd;
+    color:
+        #ffffff !important;
 
     border:
         2px solid
-        #4d98e8;
+        #1769aa !important;
+}
+
+.action-btn.breakin:hover {
+
+    background:
+        #125586 !important;
 }
 
 
@@ -858,15 +1090,23 @@ body {
    TIME OUT
 ========================================================= */
 
-.timeout {
+.action-btn.timeout {
 
-    background: var(--light-red);
+    background:
+        #d71920 !important;
 
-    color: #c5161e;
+    color:
+        #ffffff !important;
 
     border:
         2px solid
-        #e0474d;
+        #d71920 !important;
+}
+
+.action-btn.timeout:hover {
+
+    background:
+        #b51218 !important;
 }
 
 
@@ -956,7 +1196,8 @@ body {
 
 .section-heading h2 {
 
-    color: #111111;
+    color:
+        #111111;
 
     font-size: 20px;
 
@@ -965,7 +1206,8 @@ body {
 
 .section-heading p {
 
-    color: #444444;
+    color:
+        #444444;
 
     font-size: 11px;
 
@@ -976,7 +1218,7 @@ body {
 
 
 /* =========================================================
-   CLEAR BUTTON
+   CLEAR FILTER
 ========================================================= */
 
 .clear-filter-btn {
@@ -1000,9 +1242,11 @@ body {
 
     border-radius: 8px;
 
-    background: #ffffff;
+    background:
+        #ffffff;
 
-    color: #222222;
+    color:
+        #222222;
 
     font-family: inherit;
 
@@ -1017,7 +1261,8 @@ body {
 
 .clear-filter-btn:hover {
 
-    color: var(--red);
+    color:
+        var(--red);
 
     border-color:
         var(--red);
@@ -1043,7 +1288,8 @@ body {
     overflow-x: auto;
     overflow-y: hidden;
 
-    background: #ffffff;
+    background:
+        #ffffff;
 
     -webkit-overflow-scrolling: touch;
 }
@@ -1055,24 +1301,28 @@ body {
 
 .table-wrapper::-webkit-scrollbar-track {
 
-    background: #eeeeee;
+    background:
+        #eeeeee;
 }
 
 .table-wrapper::-webkit-scrollbar-thumb {
 
-    background: #999999;
+    background:
+        #999999;
 
-    border-radius: 20px;
+    border-radius:
+        20px;
 }
 
 .table-wrapper::-webkit-scrollbar-thumb:hover {
 
-    background: #666666;
+    background:
+        #666666;
 }
 
 
 /* =========================================================
-   TABLE
+   ATTENDANCE TABLE
 ========================================================= */
 
 #attendanceTable {
@@ -1081,9 +1331,11 @@ body {
 
     min-width: 1350px;
 
-    border-collapse: collapse;
+    border-collapse:
+        collapse;
 
-    table-layout: auto;
+    table-layout:
+        auto;
 }
 
 
@@ -1091,32 +1343,143 @@ body {
    TABLE HEADER
 ========================================================= */
 
-#attendanceTable th {
+#attendanceTable thead th {
 
-    padding:
-        15px
+    color:
+        #111111;
+
+    font-size:
         12px;
 
-    background:
-        linear-gradient(
-            135deg,
-            #ffcc00,
-            #f0b600
-        );
+    font-weight:
+        1000;
 
-    color: #111111;
+    text-align:
+        center;
+
+    white-space:
+        nowrap;
 
     border:
         1px solid
-        #d9b100;
+        #d9d9d9;
+}
 
-    font-size: 12px;
 
-    font-weight: 1000;
+/* DATE */
 
-    text-align: center;
+#attendanceTable thead th:nth-child(1) {
 
-    white-space: nowrap;
+    background:
+        #fff4bf !important;
+}
+
+
+/* EMPLOYEE ID */
+
+#attendanceTable thead th:nth-child(2) {
+
+    background:
+        #eaf3fb !important;
+}
+
+
+/* EMPLOYEE NAME */
+
+#attendanceTable thead th:nth-child(3) {
+
+    background:
+        #e9f7ef !important;
+}
+
+
+/* TIME IN */
+
+#attendanceTable thead th:nth-child(4) {
+
+    background:
+        #dff4e7 !important;
+}
+
+
+/* BREAK OUT */
+
+#attendanceTable thead th:nth-child(5) {
+
+    background:
+        #fff4bf !important;
+}
+
+
+/* BREAK IN */
+
+#attendanceTable thead th:nth-child(6) {
+
+    background:
+        #eaf3fb !important;
+}
+
+
+/* TIME OUT */
+
+#attendanceTable thead th:nth-child(7) {
+
+    background:
+        #ffe5e5 !important;
+}
+
+
+/* BREAK */
+
+#attendanceTable thead th:nth-child(8) {
+
+    background:
+        #f0e7ff !important;
+}
+
+
+/* REGULAR HOURS */
+
+#attendanceTable thead th:nth-child(9) {
+
+    background:
+        #e9f7ef !important;
+}
+
+
+/* OT */
+
+#attendanceTable thead th:nth-child(10) {
+
+    background:
+        #fff0d6 !important;
+}
+
+
+/* LATE */
+
+#attendanceTable thead th:nth-child(11) {
+
+    background:
+        #ffe5e5 !important;
+}
+
+
+/* STATUS */
+
+#attendanceTable thead th:nth-child(12) {
+
+    background:
+        #eaf3fb !important;
+}
+
+
+/* ACTION */
+
+#attendanceTable thead th:nth-child(13) {
+
+    background:
+        #eeeeee !important;
 }
 
 
@@ -1124,37 +1487,45 @@ body {
    TABLE BODY
 ========================================================= */
 
-#attendanceTable td {
+#attendanceTable tbody td {
 
     padding:
         14px
         12px;
 
-    background: #ffffff;
+    background:
+        #ffffff;
 
-    color: #111111;
+    color:
+        #111111;
 
     border:
         1px solid
         #d8dce0;
 
-    font-size: 12px;
+    font-size:
+        12px;
 
-    font-weight: 900;
+    font-weight:
+        900;
 
-    text-align: center;
+    text-align:
+        center;
 
-    white-space: nowrap;
+    white-space:
+        nowrap;
 }
 
 #attendanceTable tbody tr:nth-child(even) td {
 
-    background: #fafafa;
+    background:
+        #fafafa;
 }
 
 #attendanceTable tbody tr:hover td {
 
-    background: #fffbe8;
+    background:
+        #fffbea !important;
 }
 
 
@@ -1164,64 +1535,118 @@ body {
 
 .status-badge {
 
-    display: inline-flex;
+    display:
+        inline-flex;
 
-    align-items: center;
-    justify-content: center;
+    align-items:
+        center;
 
-    min-width: 75px;
+    justify-content:
+        center;
+
+    min-width:
+        75px;
 
     padding:
         6px
         11px;
 
-    border-radius: 20px;
+    border-radius:
+        20px;
 
-    font-size: 10px;
+    font-size:
+        10px;
 
-    font-weight: 1000;
+    font-weight:
+        1000;
 
-    white-space: nowrap;
+    white-space:
+        nowrap;
 }
 
 
 /* =========================================================
-   STATUS COLORS
+   PRESENT
 ========================================================= */
 
 .status-present {
 
-    background: #dff5e6;
+    background:
+        #e9f7ef !important;
 
-    color: #087a32;
+    color:
+        #16803c !important;
+
+    font-weight:
+        1000 !important;
 }
+
+
+/* =========================================================
+   LATE
+========================================================= */
 
 .status-late {
 
-    background: #fff0bd;
+    background:
+        #fff0d6 !important;
 
-    color: #8a6500;
+    color:
+        #a45d00 !important;
+
+    font-weight:
+        1000 !important;
 }
+
+
+/* =========================================================
+   ABSENT
+========================================================= */
 
 .status-absent {
 
-    background: #ffe0e2;
+    background:
+        #fff0f0 !important;
 
-    color: #c5161e;
+    color:
+        #d71920 !important;
+
+    font-weight:
+        1000 !important;
 }
+
+
+/* =========================================================
+   LEAVE
+========================================================= */
 
 .status-leave {
 
-    background: #dcecff;
+    background:
+        #eaf3fb !important;
 
-    color: #075fae;
+    color:
+        #1769aa !important;
+
+    font-weight:
+        1000 !important;
 }
+
+
+/* =========================================================
+   DEFAULT
+========================================================= */
 
 .status-default {
 
-    background: #eeeeee;
+    background:
+        #eeeeee !important;
 
-    color: #333333;
+    color:
+        #333333 !important;
+
+    font-weight:
+        1000 !important;
 }
 
 
@@ -1229,43 +1654,87 @@ body {
    ACTION CELL
 ========================================================= */
 
-.action-cell {
+#attendanceTable td:last-child {
 
-    min-width: 110px;
+    min-width:
+        90px;
 
-    text-align: center;
+    text-align:
+        center;
 }
 
 
 /* =========================================================
-   TABLE ACTION ICON
+   ACTION ICON
 ========================================================= */
 
-.table-icon-btn {
+.action-icons {
 
-    width: 38px;
-    height: 38px;
+    display:
+        flex;
 
-    display: inline-flex;
+    align-items:
+        center;
 
-    align-items: center;
-    justify-content: center;
+    justify-content:
+        center;
 
-    margin: 2px;
-
-    border-radius: 8px;
-
-    cursor: pointer;
-
-    transition: .18s ease;
+    gap:
+        5px;
 }
 
-.table-icon-btn .material-icons {
 
-    font-size: 20px;
+/* =========================================================
+   TABLE ICON BUTTON
+========================================================= */
+
+#attendanceTable .icon-btn {
+
+    width:
+        38px;
+
+    height:
+        38px;
+
+    display:
+        inline-flex;
+
+    align-items:
+        center;
+
+    justify-content:
+        center;
+
+    margin:
+        2px;
+
+    border:
+        1px solid
+        #efafb3;
+
+    border-radius:
+        8px;
+
+    background:
+        #fff0f1;
+
+    color:
+        #d71920;
+
+    cursor:
+        pointer;
+
+    transition:
+        .18s ease;
 }
 
-.table-icon-btn:hover {
+#attendanceTable .icon-btn .material-icons {
+
+    font-size:
+        20px;
+}
+
+#attendanceTable .icon-btn:hover {
 
     transform:
         translateY(-2px);
@@ -1273,38 +1742,9 @@ body {
     box-shadow:
         0 4px 10px
         rgba(0, 0, 0, .12);
-}
 
-
-/* =========================================================
-   EDIT
-========================================================= */
-
-.edit-action {
-
-    background: #e6f1ff;
-
-    color: #0865bd;
-
-    border:
-        1px solid
-        #9bc5f3;
-}
-
-
-/* =========================================================
-   DELETE
-========================================================= */
-
-.delete-action {
-
-    background: #fff0f1;
-
-    color: #d71920;
-
-    border:
-        1px solid
-        #efafb3;
+    background:
+        #ffe0e2;
 }
 
 
@@ -1314,36 +1754,41 @@ body {
 
 .empty-row {
 
-    height: 180px;
+    height:
+        180px;
 
-    text-align: center !important;
+    text-align:
+        center !important;
 
-    color: #444444 !important;
+    color:
+        #444444 !important;
 }
 
 .empty-row .material-icons {
 
-    display: block;
+    display:
+        block;
 
-    margin-bottom: 8px;
+    margin-bottom:
+        8px;
 
-    font-size: 36px;
+    font-size:
+        36px;
 
-    color: #888888;
+    color:
+        #888888;
 }
 
 .empty-row p {
 
-    color: #444444;
+    color:
+        #444444;
 
-    font-size: 13px;
+    font-size:
+        13px;
 
-    font-weight: 900;
-}
-
-.error-row .material-icons {
-
-    color: var(--red);
+    font-weight:
+        900;
 }
 
 
@@ -1353,38 +1798,50 @@ body {
 
 .attendance-footer {
 
-    width: 100%;
+    width:
+        100%;
 
-    display: flex;
+    display:
+        flex;
 
-    align-items: center;
-    justify-content: center;
+    align-items:
+        center;
 
-    gap: 8px;
+    justify-content:
+        center;
+
+    gap:
+        8px;
 
     padding:
         20px
         5px;
 
-    color: #555555;
+    color:
+        #555555;
 
-    font-size: 10px;
+    font-size:
+        10px;
 
-    font-weight: 800;
+    font-weight:
+        800;
 
-    text-align: center;
+    text-align:
+        center;
 }
 
 .attendance-footer span:first-child {
 
-    color: #111111;
+    color:
+        #111111;
 
-    font-weight: 1000;
+    font-weight:
+        1000;
 }
 
 
 /* =========================================================
-   LARGE LAPTOP / DESKTOP
+   LARGE DESKTOP
 ========================================================= */
 
 @media (min-width: 1200px) {
@@ -1399,54 +1856,66 @@ body {
 
     .header {
 
-        min-height: 105px;
+        min-height:
+            105px;
     }
 
     .logo {
 
-        width: 72px;
-        height: 72px;
+        width:
+            72px;
 
-        min-width: 72px;
+        height:
+            72px;
+
+        min-width:
+            72px;
     }
 
     .logo-text {
 
-        font-size: 30px;
+        font-size:
+            30px;
     }
 
     .title {
 
-        font-size: 24px;
+        font-size:
+            24px;
     }
 
     .clock {
 
-        font-size: 60px;
+        font-size:
+            60px;
     }
 
     .today-item {
 
-        min-height: 82px;
+        min-height:
+            82px;
     }
 
     .today-item strong {
 
-        font-size: 19px;
+        font-size:
+            19px;
     }
 
-    #attendanceTable th {
+    #attendanceTable thead th {
 
-        font-size: 13px;
+        font-size:
+            13px;
 
         padding:
             16px
             13px;
     }
 
-    #attendanceTable td {
+    #attendanceTable tbody td {
 
-        font-size: 13px;
+        font-size:
+            13px;
 
         padding:
             15px
@@ -1471,7 +1940,8 @@ body {
     #filterBtn,
     #summaryBtn {
 
-        width: 100%;
+        width:
+            100%;
     }
 
     .today-panel {
@@ -1503,44 +1973,57 @@ body {
 
     .header {
 
-        min-height: 80px;
+        min-height:
+            80px;
 
-        padding: 12px;
+        padding:
+            12px;
 
-        gap: 10px;
+        gap:
+            10px;
 
-        flex-wrap: wrap;
+        flex-wrap:
+            wrap;
     }
 
     .logo {
 
-        width: 52px;
-        height: 52px;
+        width:
+            52px;
 
-        min-width: 52px;
+        height:
+            52px;
+
+        min-width:
+            52px;
     }
 
     .logo-text {
 
-        font-size: 21px;
+        font-size:
+            21px;
     }
 
     .title {
 
-        font-size: 15px;
+        font-size:
+            15px;
 
-        padding-left: 10px;
+        padding-left:
+            10px;
     }
 
     .top-btn {
 
-        min-height: 42px;
+        min-height:
+            42px;
 
         padding:
             8px
             11px;
 
-        font-size: 10px;
+        font-size:
+            10px;
     }
 
     .filter-section {
@@ -1548,25 +2031,31 @@ body {
         grid-template-columns:
             repeat(2, minmax(0, 1fr));
 
-        gap: 9px;
+        gap:
+            9px;
 
-        padding: 12px;
+        padding:
+            12px;
     }
 
     .filter-section select,
     .filter-section input {
 
-        height: 44px;
+        height:
+            44px;
 
-        font-size: 11px;
+        font-size:
+            11px;
     }
 
     #filterBtn,
     #summaryBtn {
 
-        min-height: 44px;
+        min-height:
+            44px;
 
-        font-size: 10px;
+        font-size:
+            10px;
     }
 
     .employee-info {
@@ -1577,14 +2066,17 @@ body {
 
     .employee-info > div {
 
-        min-height: 62px;
+        min-height:
+            62px;
 
-        font-size: 11px;
+        font-size:
+            11px;
     }
 
     .clock {
 
-        font-size: 43px;
+        font-size:
+            43px;
     }
 
     .today-panel {
@@ -1595,7 +2087,8 @@ body {
 
     .today-item strong {
 
-        font-size: 15px;
+        font-size:
+            15px;
     }
 
     .button-group {
@@ -1606,19 +2099,23 @@ body {
 
     .action-btn {
 
-        min-height: 55px;
+        min-height:
+            55px;
 
-        font-size: 11px;
+        font-size:
+            11px;
     }
 
     .section-heading h2 {
 
-        font-size: 16px;
+        font-size:
+            16px;
     }
 
     #attendanceTable {
 
-        min-width: 1350px;
+        min-width:
+            1350px;
     }
 
 }
@@ -1632,58 +2129,72 @@ body {
 
     .container {
 
-        padding: 7px;
+        padding:
+            7px;
     }
 
     .header {
 
-        min-height: 72px;
+        min-height:
+            72px;
 
-        padding: 9px;
+        padding:
+            9px;
 
-        border-radius: 11px;
+        border-radius:
+            11px;
     }
 
     .logo {
 
-        width: 43px;
-        height: 43px;
+        width:
+            43px;
 
-        min-width: 43px;
+        height:
+            43px;
+
+        min-width:
+            43px;
     }
 
     .logo-text {
 
-        font-size: 17px;
+        font-size:
+            17px;
     }
 
     .title {
 
-        width: 100%;
+        width:
+            100%;
 
         padding:
             7px
             0
             0;
 
-        border-left: none;
+        border-left:
+            none;
 
         border-top:
             1px solid
             #dddddd;
 
-        font-size: 11px;
+        font-size:
+            11px;
     }
 
     .top-btn {
 
-        min-height: 37px;
+        min-height:
+            37px;
 
         padding:
             7px
             9px;
 
-        font-size: 8px;
+        font-size:
+            8px;
     }
 
     .filter-section {
@@ -1691,31 +2202,38 @@ body {
         grid-template-columns:
             repeat(2, minmax(0, 1fr));
 
-        gap: 6px;
+        gap:
+            6px;
 
-        padding: 8px;
+        padding:
+            8px;
     }
 
     .filter-section select,
     .filter-section input {
 
-        height: 39px;
+        height:
+            39px;
 
         padding:
             7px
             8px;
 
-        font-size: 9px;
+        font-size:
+            9px;
     }
 
     #filterBtn,
     #summaryBtn {
 
-        min-height: 39px;
+        min-height:
+            39px;
 
-        padding: 7px;
+        padding:
+            7px;
 
-        font-size: 8px;
+        font-size:
+            8px;
     }
 
     .employee-info {
@@ -1723,38 +2241,48 @@ body {
         grid-template-columns:
             repeat(2, minmax(0, 1fr));
 
-        gap: 6px;
+        gap:
+            6px;
     }
 
     .employee-info > div {
 
-        min-height: 55px;
+        min-height:
+            55px;
 
-        padding: 8px;
+        padding:
+            8px;
 
-        font-size: 8px;
+        font-size:
+            8px;
     }
 
     .clock-area {
 
-        padding: 16px 8px;
+        padding:
+            16px
+            8px;
     }
 
     .clock-label {
 
-        font-size: 8px;
+        font-size:
+            8px;
     }
 
     .clock {
 
-        font-size: 30px;
+        font-size:
+            30px;
 
-        letter-spacing: 0;
+        letter-spacing:
+            0;
     }
 
     .today-date {
 
-        font-size: 8px;
+        font-size:
+            8px;
     }
 
     .today-panel {
@@ -1762,34 +2290,44 @@ body {
         grid-template-columns:
             repeat(2, minmax(0, 1fr));
 
-        gap: 6px;
+        gap:
+            6px;
     }
 
     .today-item {
 
-        min-height: 55px;
+        min-height:
+            55px;
 
-        padding: 8px;
+        padding:
+            8px;
     }
 
     .today-item > .material-icons {
 
-        width: 31px;
-        height: 31px;
+        width:
+            31px;
 
-        min-width: 31px;
+        height:
+            31px;
 
-        font-size: 16px;
+        min-width:
+            31px;
+
+        font-size:
+            16px;
     }
 
     .today-item small {
 
-        font-size: 6px;
+        font-size:
+            6px;
     }
 
     .today-item strong {
 
-        font-size: 10px;
+        font-size:
+            10px;
     }
 
     .button-group {
@@ -1797,96 +2335,119 @@ body {
         grid-template-columns:
             repeat(2, minmax(0, 1fr));
 
-        gap: 7px;
+        gap:
+            7px;
     }
 
     .action-btn {
 
-        min-height: 48px;
+        min-height:
+            48px;
 
-        font-size: 8px;
+        font-size:
+            8px;
     }
 
     .action-btn .material-icons {
 
-        font-size: 17px;
+        font-size:
+            17px;
     }
 
     .section-heading {
 
-        min-height: 65px;
+        min-height:
+            65px;
 
-        padding: 10px;
+        padding:
+            10px;
     }
 
     .section-heading-left {
 
-        gap: 7px;
+        gap:
+            7px;
     }
 
     .section-heading-left > .material-icons {
 
-        width: 36px;
-        height: 36px;
+        width:
+            36px;
 
-        min-width: 36px;
+        height:
+            36px;
 
-        font-size: 18px;
+        min-width:
+            36px;
+
+        font-size:
+            18px;
     }
 
     .section-heading h2 {
 
-        font-size: 11px;
+        font-size:
+            11px;
     }
 
     .section-heading p {
 
-        font-size: 7px;
+        font-size:
+            7px;
     }
 
     .clear-filter-btn {
 
-        min-height: 32px;
+        min-height:
+            32px;
 
         padding:
             5px
             7px;
 
-        font-size: 7px;
+        font-size:
+            7px;
     }
 
     #attendanceTable {
 
-        min-width: 1350px;
+        min-width:
+            1350px;
     }
 
-    #attendanceTable th {
+    #attendanceTable thead th {
 
         padding:
             10px
             8px;
 
-        font-size: 8px;
+        font-size:
+            8px;
     }
 
-    #attendanceTable td {
+    #attendanceTable tbody td {
 
         padding:
             9px
             8px;
 
-        font-size: 8px;
+        font-size:
+            8px;
     }
 
     .table-icon-btn {
 
-        width: 29px;
-        height: 29px;
+        width:
+            29px;
+
+        height:
+            29px;
     }
 
     .table-icon-btn .material-icons {
 
-        font-size: 15px;
+        font-size:
+            15px;
     }
 
 }
@@ -1900,330 +2461,157 @@ body {
 
     .container {
 
-        padding: 5px;
+        padding:
+            5px;
     }
 
     .logo {
 
-        width: 38px;
-        height: 38px;
+        width:
+            38px;
 
-        min-width: 38px;
+        height:
+            38px;
+
+        min-width:
+            38px;
     }
 
     .logo-text {
 
-        font-size: 14px;
+        font-size:
+            14px;
     }
 
     .title {
 
-        font-size: 9px;
+        font-size:
+            9px;
     }
 
     .clock {
 
-        font-size: 26px;
+        font-size:
+            26px;
     }
 
     .action-btn {
 
-        min-height: 45px;
+        min-height:
+            45px;
 
-        font-size: 7px;
+        font-size:
+            7px;
     }
 
 }
 
 
 /* =========================================================
-   PRINT
-   ATTENDANCE RECORDS ONLY
+   =========================================================
+   PRINT AREA ONLY
+   ATTENDANCE RECORDS
+   =========================================================
 ========================================================= */
 
 @media print {
 
-    /* ==========================================
+    /* -----------------------------------------------------
        PAGE
-    ========================================== */
+    ----------------------------------------------------- */
 
     @page {
-        size: landscape;
-        margin: 8mm;
+
+        size:
+            landscape;
+
+        margin:
+            8mm;
     }
 
 
-    /* ==========================================
-       BASIC PAGE
-    ========================================== */
+    /* -----------------------------------------------------
+       RESET PRINT PAGE
+    ----------------------------------------------------- */
 
     html,
     body {
 
-        width: 100% !important;
-        min-width: 0 !important;
-        min-height: 0 !important;
+        width:
+            100% !important;
 
-        margin: 0 !important;
-        padding: 0 !important;
+        min-height:
+            0 !important;
 
-        background: #ffffff !important;
+        margin:
+            0 !important;
 
-        color: #000000 !important;
+        padding:
+            0 !important;
 
-        overflow: visible !important;
+        background:
+            #ffffff !important;
+
+        overflow:
+            visible !important;
     }
 
 
-    /* ==========================================
-       HIDE EVERYTHING FIRST
-    ========================================== */
+    /* -----------------------------------------------------
+       HIDE EVERYTHING
+    ----------------------------------------------------- */
 
     body * {
 
-        visibility: hidden !important;
+        visibility:
+            hidden !important;
     }
 
 
-    /* ==========================================
-       SHOW ATTENDANCE SECTION
-    ========================================== */
+    /* -----------------------------------------------------
+       SHOW ONLY ATTENDANCE TABLE
+    ----------------------------------------------------- */
 
-    .attendance-section,
-    .attendance-section * {
+    #attendanceTable,
+    #attendanceTable * {
 
-        visibility: visible !important;
+        visibility:
+            visible !important;
     }
 
 
-    /* ==========================================
-       ATTENDANCE SECTION = PRINT AREA
-    ========================================== */
-
-    .attendance-section {
-
-        position: absolute !important;
-
-        left: 0 !important;
-        top: 0 !important;
-
-        width: 100% !important;
-
-        margin: 0 !important;
-        padding: 0 !important;
-
-        background: #ffffff !important;
-
-        border: none !important;
-
-        border-radius: 0 !important;
-
-        box-shadow: none !important;
-
-        overflow: visible !important;
-    }
-
-
-    /* ==========================================
-       SECTION HEADER
-    ========================================== */
-
-    .attendance-section
-    .section-heading {
-
-        display: flex !important;
-
-        width: 100% !important;
-
-        min-height: auto !important;
-
-        padding: 8px 0 !important;
-
-        margin: 0 !important;
-
-        background: #ffffff !important;
-
-        border-bottom:
-            2px solid
-            #000000 !important;
-
-        box-shadow: none !important;
-    }
-
-
-    .attendance-section
-    .section-heading-left {
-
-        display: flex !important;
-
-        align-items: center !important;
-
-        gap: 8px !important;
-    }
-
-
-    .attendance-section
-    .section-heading-left
-    > .material-icons {
-
-        display: none !important;
-    }
-
-
-    .attendance-section
-    .section-heading h2 {
-
-        color: #000000 !important;
-
-        font-size: 16pt !important;
-
-        font-weight: 900 !important;
-    }
-
-
-    .attendance-section
-    .section-heading p {
-
-        color: #000000 !important;
-
-        font-size: 8pt !important;
-
-        font-weight: 700 !important;
-    }
-
-
-    /* ==========================================
-       HIDE CLEAR FILTER BUTTON
-    ========================================== */
-
-    .clear-filter-btn {
-
-        display: none !important;
-    }
-
-
-    /* ==========================================
-       TABLE WRAPPER
-    ========================================== */
-
-    .attendance-section
-    .table-wrapper {
-
-        position: static !important;
-
-        width: 100% !important;
-
-        max-width: none !important;
-
-        height: auto !important;
-
-        max-height: none !important;
-
-        margin: 0 !important;
-        padding: 0 !important;
-
-        overflow: visible !important;
-
-        background: #ffffff !important;
-
-        border: none !important;
-
-        box-shadow: none !important;
-    }
-
-
-    /* ==========================================
-       TABLE
-    ========================================== */
+    /* -----------------------------------------------------
+       PRINT TABLE POSITION
+    ----------------------------------------------------- */
 
     #attendanceTable {
 
-        width: 100% !important;
+        position:
+            absolute !important;
 
-        min-width: 0 !important;
+        left:
+            0 !important;
 
-        max-width: none !important;
+        top:
+            0 !important;
 
-        margin: 0 !important;
+        width:
+            100% !important;
 
-        padding: 0 !important;
+        min-width:
+            0 !important;
 
-        border-collapse: collapse !important;
-
-        table-layout: auto !important;
-
-        background: #ffffff !important;
-
-        color: #000000 !important;
-    }
-
-
-    /* ==========================================
-       TABLE HEADER
-    ========================================== */
-
-    #attendanceTable thead {
-
-        display: table-header-group !important;
-    }
-
-
-    #attendanceTable th {
+        margin:
+            0 !important;
 
         padding:
-            5px
-            4px !important;
+            0 !important;
 
-        border:
-            1px solid
-            #000000 !important;
+        border-collapse:
+            collapse !important;
 
-        background:
-            #eeeeee !important;
-
-        color:
-            #000000 !important;
-
-        font-family:
-            Arial,
-            sans-serif !important;
-
-        font-size:
-            7.5pt !important;
-
-        font-weight:
-            900 !important;
-
-        text-align:
-            center !important;
-
-        vertical-align:
-            middle !important;
-
-        white-space:
-            nowrap !important;
-    }
-
-
-    /* ==========================================
-       TABLE BODY
-    ========================================== */
-
-    #attendanceTable tbody {
-
-        display: table-row-group !important;
-    }
-
-
-    #attendanceTable td {
-
-        padding:
-            5px
-            4px !important;
-
-        border:
-            1px solid
-            #000000 !important;
+        table-layout:
+            auto !important;
 
         background:
             #ffffff !important;
@@ -2231,12 +2619,77 @@ body {
         color:
             #000000 !important;
 
-        font-family:
-            Arial,
-            sans-serif !important;
+        font-size:
+            8pt !important;
+    }
+
+
+    /* -----------------------------------------------------
+       PRINT TABLE HEADER
+    ----------------------------------------------------- */
+
+    #attendanceTable thead {
+
+        display:
+            table-header-group !important;
+    }
+
+
+    #attendanceTable thead th {
+
+        padding:
+            5px 4px !important;
+
+        border:
+            1px solid #000000 !important;
+
+        background:
+            #eeeeee !important;
+
+        color:
+            #000000 !important;
 
         font-size:
-            7.5pt !important;
+            8pt !important;
+
+        font-weight:
+            900 !important;
+
+        text-align:
+            center !important;
+
+        white-space:
+            nowrap !important;
+    }
+
+
+    /* -----------------------------------------------------
+       PRINT TABLE BODY
+    ----------------------------------------------------- */
+
+    #attendanceTable tbody {
+
+        display:
+            table-row-group !important;
+    }
+
+
+    #attendanceTable tbody td {
+
+        padding:
+            5px 4px !important;
+
+        border:
+            1px solid #000000 !important;
+
+        background:
+            #ffffff !important;
+
+        color:
+            #000000 !important;
+
+        font-size:
+            8pt !important;
 
         font-weight:
             700 !important;
@@ -2252,41 +2705,38 @@ body {
     }
 
 
-    /* ==========================================
-       REMOVE ZEBRA / HOVER COLORS
-    ========================================== */
+    /* -----------------------------------------------------
+       REMOVE HOVER / STRIPING
+    ----------------------------------------------------- */
 
     #attendanceTable tbody tr:nth-child(even) td,
     #attendanceTable tbody tr:hover td {
 
         background:
             #ffffff !important;
-
-        color:
-            #000000 !important;
     }
 
 
-    /* ==========================================
-       STATUS BADGES
-    ========================================== */
+    /* -----------------------------------------------------
+       STATUS BADGE
+    ----------------------------------------------------- */
 
-    #attendanceTable
-    .status-badge {
+    #attendanceTable .status-badge {
 
-        display: inline-flex !important;
+        display:
+            inline-block !important;
 
-        min-width: 55px !important;
+        min-width:
+            auto !important;
 
         padding:
-            3px
-            5px !important;
+            2px 5px !important;
 
         border:
-            1px solid
-            #000000 !important;
+            none !important;
 
-        border-radius: 3px !important;
+        border-radius:
+            0 !important;
 
         background:
             #ffffff !important;
@@ -2295,95 +2745,115 @@ body {
             #000000 !important;
 
         font-size:
-            7pt !important;
+            8pt !important;
 
         font-weight:
-            900 !important;
+            800 !important;
     }
 
 
-    /* ==========================================
+    /* -----------------------------------------------------
        HIDE ACTION COLUMN
        COLUMN 13
-    ========================================== */
+    ----------------------------------------------------- */
 
     #attendanceTable th:nth-child(13),
     #attendanceTable td:nth-child(13) {
 
-        display: none !important;
+        display:
+            none !important;
     }
 
 
-    /* ==========================================
+    /* -----------------------------------------------------
        HIDE ACTION BUTTONS
-    ========================================== */
+    ----------------------------------------------------- */
 
-    #attendanceTable
-    .table-icon-btn {
+    #attendanceTable button,
+    #attendanceTable .action-icons {
 
-        display: none !important;
+        display:
+            none !important;
     }
 
 
-    #attendanceTable
-    button {
-
-        display: none !important;
-    }
-
-
-    /* ==========================================
-       REMOVE LINKS / BUTTON EFFECTS
-    ========================================== */
-
-    #attendanceTable a {
-
-        color: #000000 !important;
-
-        text-decoration: none !important;
-    }
-
-
-    /* ==========================================
-       PREVENT ROW SPLITTING
-    ========================================== */
+    /* -----------------------------------------------------
+       TABLE ROW BREAK
+    ----------------------------------------------------- */
 
     #attendanceTable tr {
 
-        page-break-inside: avoid !important;
+        page-break-inside:
+            avoid !important;
 
-        break-inside: avoid !important;
+        break-inside:
+            avoid !important;
     }
 
 
-    #attendanceTable td,
-    #attendanceTable th {
+    /* -----------------------------------------------------
+       REMOVE CONTAINER LIMITS
+    ----------------------------------------------------- */
 
-        page-break-inside: avoid !important;
+    .table-wrapper {
 
-        break-inside: avoid !important;
+        position:
+            static !important;
+
+        width:
+            100% !important;
+
+        max-width:
+            none !important;
+
+        min-width:
+            0 !important;
+
+        height:
+            auto !important;
+
+        max-height:
+            none !important;
+
+        overflow:
+            visible !important;
+
+        border:
+            none !important;
+
+        box-shadow:
+            none !important;
     }
 
 
-    /* ==========================================
-       PRINT REPEATED HEADER
-    ========================================== */
+    .attendance-section {
 
-    #attendanceTable thead {
+        position:
+            static !important;
 
-        break-inside: avoid !important;
+        width:
+            100% !important;
 
-        page-break-inside: avoid !important;
-    }
+        max-width:
+            none !important;
 
+        margin:
+            0 !important;
 
-    /* ==========================================
-       HIDE FOOTER
-    ========================================== */
+        padding:
+            0 !important;
 
-    .attendance-footer {
+        border:
+            none !important;
 
-        display: none !important;
+        border-radius:
+            0 !important;
+
+        box-shadow:
+            none !important;
+
+        overflow:
+            visible !important;
     }
 
 }
