@@ -29,9 +29,11 @@
 
 </head>
 
+
 <body>
 
 <div class="container">
+
 
 <!-- ==========================================
      HEADER
@@ -51,22 +53,31 @@
 
     </div>
 
+
     <button
+        type="button"
         class="btn back-btn"
         id="headerActionBtn"
         onclick="headerAction()">
 
-        <span class="material-icons" id="headerActionIcon">
+        <span
+            class="material-icons"
+            id="headerActionIcon">
+
             dashboard
+
         </span>
 
         <span id="headerActionText">
+
             BACK TO DASHBOARD
+
         </span>
 
     </button>
 
 </div>
+
 
 
 <!-- ==========================================
@@ -78,8 +89,11 @@
     id="adminControls">
 
     <div class="admin-title">
+
         ADMIN PAYSLIP MANAGEMENT
+
     </div>
+
 
     <div class="filter-grid">
 
@@ -88,11 +102,14 @@
             id="searchEmployee"
             placeholder="Search Employee ID or Name">
 
+
         <input
             type="date"
             id="filterDate">
 
+
         <button
+            type="button"
             class="btn view-btn"
             onclick="applyFilter()">
 
@@ -104,7 +121,9 @@
 
         </button>
 
+
         <button
+            type="button"
             class="btn print-all-btn"
             onclick="printAllPayslips()">
 
@@ -118,9 +137,11 @@
 
     </div>
 
+
     <div class="show-all-row">
 
         <button
+            type="button"
             class="btn close-btn"
             onclick="showAllPayslips()">
 
@@ -133,6 +154,7 @@
 </section>
 
 
+
 <!-- ==========================================
      ADMIN SUMMARY
 ========================================== -->
@@ -140,6 +162,7 @@
 <div
     class="summary"
     id="adminSummary">
+
 
     <div class="summary-card">
 
@@ -153,6 +176,7 @@
 
     </div>
 
+
     <div class="summary-card">
 
         <small>
@@ -160,10 +184,16 @@
         </small>
 
         <strong>
-            ₱ <span id="totalGross">0.00</span>
+
+            ₱
+            <span id="totalGross">
+                0.00
+            </span>
+
         </strong>
 
     </div>
+
 
     <div class="summary-card">
 
@@ -172,12 +202,18 @@
         </small>
 
         <strong>
-            ₱ <span id="totalNet">0.00</span>
+
+            ₱
+            <span id="totalNet">
+                0.00
+            </span>
+
         </strong>
 
     </div>
 
 </div>
+
 
 
 <!-- ==========================================
@@ -194,18 +230,50 @@
 
         <tr>
 
-            <th>EMPLOYEE ID</th>
-            <th>EMPLOYEE</th>
-            <th>DATE</th>
-            <th>BASIC PAY</th>
-            <th>GROSS</th>
-            <th>DEDUCTIONS</th>
-            <th>NET PAY</th>
-            <th>ACTION</th>
+            <th>
+                EMPLOYEE ID
+            </th>
+
+            <th>
+                EMPLOYEE
+            </th>
+
+            <th>
+                DATE
+            </th>
+
+            <th>
+                HOURLY RATE
+            </th>
+
+            <th>
+                REG HOURS
+            </th>
+
+            <th>
+                OT HOURS
+            </th>
+
+            <th>
+                GROSS
+            </th>
+
+            <th>
+                DEDUCTIONS
+            </th>
+
+            <th>
+                NET PAY
+            </th>
+
+            <th>
+                ACTION
+            </th>
 
         </tr>
 
         </thead>
+
 
         <tbody id="adminPayslipBody">
 
@@ -216,21 +284,27 @@
 </div>
 
 
+
 <!-- ==========================================
-     EMPLOYEE SECTION
+     EMPLOYEE INFORMATION
 ========================================== -->
 
 <section
     class="employee-section"
     id="employeeSection">
 
+
 <div class="form-section">
+
 
     <div class="emp-info">
 
+
         <div>
 
-            <b>EMPLOYEE ID :</b>
+            <b>
+                EMPLOYEE ID :
+            </b>
 
             <span id="empIdDisplay">
                 -
@@ -238,9 +312,12 @@
 
         </div>
 
+
         <div>
 
-            <b>EMPLOYEE NAME :</b>
+            <b>
+                EMPLOYEE NAME :
+            </b>
 
             <span id="empNameDisplay">
                 -
@@ -248,12 +325,17 @@
 
         </div>
 
+
     </div>
 
 
-    <!-- LEAVE REQUEST -->
+
+    <!-- ======================================
+         REQUEST SECTION
+    ====================================== -->
 
     <div class="form-grid">
+
 
         <select id="requestType">
 
@@ -279,9 +361,11 @@
 
         </select>
 
+
         <input
             type="date"
             id="requestDate">
+
 
         <input
             type="number"
@@ -290,9 +374,12 @@
             step="0.5"
             placeholder="Days">
 
+
         <textarea
             id="reason"
-            placeholder="Reason"></textarea>
+            placeholder="Reason">
+        </textarea>
+
 
 
         <!-- ATTENDANCE REQUEST -->
@@ -317,26 +404,36 @@
 
         </select>
 
+
         <input
             type="date"
             id="attendanceDate">
+
 
         <input
             type="time"
             id="attendanceTime">
 
+
         <textarea
             id="attendanceReason"
-            placeholder="Attendance Reason"></textarea>
+            placeholder="Attendance Reason">
+        </textarea>
+
 
     </div>
 
 
-    <!-- ACTION BUTTONS -->
+
+    <!-- ======================================
+         ACTION BUTTONS
+    ====================================== -->
 
     <div class="action-buttons">
 
+
         <button
+            type="button"
             class="btn submit-btn"
             onclick="submitRequest()">
 
@@ -348,7 +445,9 @@
 
         </button>
 
+
         <button
+            type="button"
             class="btn attendance-btn"
             onclick="submitAttendanceRequest()">
 
@@ -360,7 +459,9 @@
 
         </button>
 
+
         <button
+            type="button"
             class="btn view-btn"
             onclick="loadPayslip()">
 
@@ -372,7 +473,9 @@
 
         </button>
 
+
         <button
+            type="button"
             class="btn close-btn"
             onclick="closePayslip()">
 
@@ -384,7 +487,9 @@
 
         </button>
 
+
         <button
+            type="button"
             class="btn print-btn"
             onclick="printPayslip()">
 
@@ -396,10 +501,14 @@
 
         </button>
 
+
     </div>
 
 
-    <!-- LEAVE REQUEST TABLE -->
+
+    <!-- ======================================
+         LEAVE REQUEST TABLE
+    ====================================== -->
 
     <div class="table-wrapper">
 
@@ -409,18 +518,42 @@
 
             <tr>
 
-                <th>EMPLOYEE ID</th>
-                <th>EMPLOYEE</th>
-                <th>REQUEST</th>
-                <th>DATE</th>
-                <th>DAYS</th>
-                <th>REASON</th>
-                <th>STATUS</th>
-                <th>ACTION</th>
+                <th>
+                    EMPLOYEE ID
+                </th>
+
+                <th>
+                    EMPLOYEE
+                </th>
+
+                <th>
+                    REQUEST
+                </th>
+
+                <th>
+                    DATE
+                </th>
+
+                <th>
+                    DAYS
+                </th>
+
+                <th>
+                    REASON
+                </th>
+
+                <th>
+                    STATUS
+                </th>
+
+                <th>
+                    ACTION
+                </th>
 
             </tr>
 
             </thead>
+
 
             <tbody id="requestBody">
 
@@ -431,7 +564,10 @@
     </div>
 
 
-    <!-- ATTENDANCE REQUEST TABLE -->
+
+    <!-- ======================================
+         ATTENDANCE REQUEST TABLE
+    ====================================== -->
 
     <div class="table-wrapper">
 
@@ -441,18 +577,42 @@
 
             <tr>
 
-                <th>EMPLOYEE ID</th>
-                <th>EMPLOYEE</th>
-                <th>REQUEST</th>
-                <th>DATE</th>
-                <th>TIME</th>
-                <th>REASON</th>
-                <th>STATUS</th>
-                <th>ACTION</th>
+                <th>
+                    EMPLOYEE ID
+                </th>
+
+                <th>
+                    EMPLOYEE
+                </th>
+
+                <th>
+                    REQUEST
+                </th>
+
+                <th>
+                    DATE
+                </th>
+
+                <th>
+                    TIME
+                </th>
+
+                <th>
+                    REASON
+                </th>
+
+                <th>
+                    STATUS
+                </th>
+
+                <th>
+                    ACTION
+                </th>
 
             </tr>
 
             </thead>
+
 
             <tbody id="attendanceBody">
 
@@ -462,22 +622,31 @@
 
     </div>
 
+
 </div>
 
 </section>
 
 
+
 <!-- ==========================================
-     EXISTING PAYSLIP
+     AUTO PAYROLL PAYSLIP
 ========================================== -->
 
 <div
     class="payslip"
     id="payslipArea">
 
+
+    <!-- ======================================
+         PAYSLIP ACTIONS
+    ====================================== -->
+
     <div class="payslip-actions">
 
+
         <button
+            type="button"
             class="btn print-btn"
             onclick="printPayslip()">
 
@@ -489,7 +658,9 @@
 
         </button>
 
+
         <button
+            type="button"
             class="btn close-btn"
             onclick="closePayslip()">
 
@@ -501,73 +672,170 @@
 
         </button>
 
+
     </div>
 
 
+
+    <!-- ======================================
+         COMPANY
+    ====================================== -->
+
     <div class="company">
 
+
         <img
-            src="../logo.png"
+            src="../assets/images/logo.png"
             class="payroll-logo"
             alt="PAPPRITO Logo">
+
 
         <h2>
             PAPPRITO
         </h2>
 
+
         <p>
             OFFICIAL EMPLOYEE PAYSLIP
         </p>
 
+
     </div>
 
+
+
+    <!-- ======================================
+         EMPLOYEE INFORMATION
+    ====================================== -->
 
     <div class="info">
 
-        <b>ID:</b>
 
-        <span id="payEmpId">
-            -
-        </span>
+        <div>
 
-        <br>
+            <b>
+                EMPLOYEE ID:
+            </b>
 
-        <b>Name:</b>
+            <span id="payEmpId">
+                -
+            </span>
 
-        <span id="payEmp">
-            -
-        </span>
+        </div>
 
-        <br>
 
-        <b>Date:</b>
+        <div>
 
-        <span id="payDate">
-            -
-        </span>
+            <b>
+                EMPLOYEE NAME:
+            </b>
 
-        <br>
+            <span id="payEmp">
+                -
+            </span>
 
-        <b>Daily Rate:</b>
+        </div>
 
-        ₱ <span id="payDailyRate">
-            0.00
-        </span>
 
-        <br>
+        <div>
 
-        <b>Total Days:</b>
+            <b>
+                PAYROLL DATE:
+            </b>
 
-        <span id="payTotalDays">
-            0
-        </span>
+            <span id="payDate">
+                -
+            </span>
+
+        </div>
+
+
+        <div>
+
+            <b>
+                HOURLY RATE:
+            </b>
+
+            ₱
+            <span id="payHourlyRate">
+                0.00
+            </span>
+
+        </div>
 
     </div>
 
 
-    <!-- EARNINGS -->
+
+    <!-- ======================================
+         WORKING HOURS SUMMARY
+    ====================================== -->
+
+    <div class="hours-summary">
+
+
+        <div class="hours-box">
+
+            <small>
+                REGULAR HOURS
+            </small>
+
+            <strong id="payRegularHours">
+                0.00
+            </strong>
+
+        </div>
+
+
+        <div class="hours-box">
+
+            <small>
+                OVERTIME HOURS
+            </small>
+
+            <strong id="payOvertimeHours">
+                0.00
+            </strong>
+
+        </div>
+
+
+        <div class="hours-box">
+
+            <small>
+                HOLIDAY HOURS
+            </small>
+
+            <strong id="payHolidayHours">
+                0.00
+            </strong>
+
+        </div>
+
+
+        <div class="hours-box">
+
+            <small>
+                NIGHT HOURS
+            </small>
+
+            <strong id="payNightHours">
+                0.00
+            </strong>
+
+        </div>
+
+
+    </div>
+
+
+
+    <!-- ======================================
+         EARNINGS
+    ====================================== -->
 
     <table class="payroll-table">
+
 
         <tr>
 
@@ -581,69 +849,121 @@
 
         </tr>
 
-        <tr>
-            <td>Basic Pay</td>
-            <td id="payBasic">0.00</td>
-        </tr>
-
-        <tr>
-            <td>Overtime</td>
-            <td id="payOvertime">0.00</td>
-        </tr>
-
-        <tr>
-            <td>Holiday Pay</td>
-            <td id="payHoliday">0.00</td>
-        </tr>
-
-        <tr>
-            <td>Sick Leave</td>
-            <td id="paySick">0.00</td>
-        </tr>
-
-        <tr>
-            <td>Vacation Leave</td>
-            <td id="payVacation">0.00</td>
-        </tr>
-
-        <tr>
-            <td>Birthday Leave</td>
-            <td id="payBirthday">0.00</td>
-        </tr>
-
-        <tr>
-            <td>Maternity Leave</td>
-            <td id="payMaternity">0.00</td>
-        </tr>
-
-        <tr>
-            <td>Paternity Leave</td>
-            <td id="payPaternity">0.00</td>
-        </tr>
-
-        <tr>
-            <td>Allowance</td>
-            <td id="payAllowance">0.00</td>
-        </tr>
 
         <tr>
 
             <td>
-                <b>TOTAL GROSS</b>
+                Regular Pay
             </td>
 
-            <td>
-                <b id="payGross">0.00</b>
+            <td id="payBasic">
+                0.00
             </td>
 
         </tr>
+
+
+        <tr>
+
+            <td>
+                Overtime Pay
+            </td>
+
+            <td id="payOvertime">
+                0.00
+            </td>
+
+        </tr>
+
+
+        <tr>
+
+            <td>
+                Holiday Pay
+            </td>
+
+            <td id="payHoliday">
+                0.00
+            </td>
+
+        </tr>
+
+
+        <tr>
+
+            <td>
+                Night Differential
+            </td>
+
+            <td id="payNight">
+                0.00
+            </td>
+
+        </tr>
+
+
+        <tr>
+
+            <td>
+
+                <b>
+                    TOTAL GROSS
+                </b>
+
+            </td>
+
+            <td>
+
+                <b id="payGross">
+                    0.00
+                </b>
+
+            </td>
+
+        </tr>
+
 
     </table>
 
 
-    <!-- DEDUCTIONS -->
+
+    <!-- ======================================
+         HOLIDAY INFORMATION
+    ====================================== -->
+
+    <div class="holiday-info">
+
+
+        <b>
+            HOLIDAY TYPE:
+        </b>
+
+        <span id="payHolidayType">
+            No Holiday
+        </span>
+
+
+        <span class="holiday-rate">
+
+            Multiplier:
+
+            <span id="payHolidayMultiplier">
+                0.00
+            </span>
+
+        </span>
+
+
+    </div>
+
+
+
+    <!-- ======================================
+         DEDUCTIONS
+    ====================================== -->
 
     <table class="payroll-table">
+
 
         <tr>
 
@@ -657,82 +977,151 @@
 
         </tr>
 
-        <tr>
-            <td>SSS</td>
-            <td id="paySSS">0.00</td>
-        </tr>
-
-        <tr>
-            <td>PhilHealth</td>
-            <td id="payPhilhealth">0.00</td>
-        </tr>
-
-        <tr>
-            <td>Pag-IBIG</td>
-            <td id="payPagibig">0.00</td>
-        </tr>
-
-        <tr>
-            <td>Health Card</td>
-            <td id="payHealth">0.00</td>
-        </tr>
-
-        <tr>
-            <td>Others</td>
-            <td id="payOther">0.00</td>
-        </tr>
 
         <tr>
 
             <td>
-                <b>TOTAL DEDUCTION</b>
+                SSS
             </td>
 
-            <td>
-                <b id="payDeduction">0.00</b>
+            <td id="paySSS">
+                0.00
             </td>
 
         </tr>
+
+
+        <tr>
+
+            <td>
+                PhilHealth
+            </td>
+
+            <td id="payPhilhealth">
+                0.00
+            </td>
+
+        </tr>
+
+
+        <tr>
+
+            <td>
+                Pag-IBIG
+            </td>
+
+            <td id="payPagibig">
+                0.00
+            </td>
+
+        </tr>
+
+
+        <tr>
+
+            <td>
+                Health Card
+            </td>
+
+            <td id="payHealth">
+                0.00
+            </td>
+
+        </tr>
+
+
+        <tr>
+
+            <td>
+                Other Deduction
+            </td>
+
+            <td id="payOther">
+                0.00
+            </td>
+
+        </tr>
+
+
+        <tr>
+
+            <td>
+
+                <b>
+                    TOTAL DEDUCTION
+                </b>
+
+            </td>
+
+            <td>
+
+                <b id="payDeduction">
+                    0.00
+                </b>
+
+            </td>
+
+        </tr>
+
 
     </table>
 
 
-    <!-- NET PAY -->
+
+    <!-- ======================================
+         NET PAY
+    ====================================== -->
 
     <div class="netpay">
 
         NET PAY :
 
-        ₱ <span id="payNet">
+        ₱
+
+        <span id="payNet">
             0.00
         </span>
 
     </div>
 
 
-    <!-- SIGNATURE -->
+
+    <!-- ======================================
+         SIGNATURE
+    ====================================== -->
 
     <div class="signature">
+
 
         <div class="line">
             HR
         </div>
 
+
         <div class="line">
             Employee
         </div>
 
+
     </div>
 
-</div>
 
 </div>
 
+
+</div>
+
+
+
+<!-- ==========================================
+     JAVASCRIPT
+========================================== -->
 
 <script
     type="module"
     src="../js/payslip.js">
 </script>
+
 
 </body>
 
