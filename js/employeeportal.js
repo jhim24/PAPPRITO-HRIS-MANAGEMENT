@@ -1,7 +1,8 @@
 /* ==========================================
    PAPPRITO HRIS
    EMPLOYEE PORTAL JS
-   VERSION 2
+   VERSION 3
+   AUTO PAYROLL PAYSLIP
 ========================================== */
 
 import {
@@ -89,6 +90,7 @@ const requestBody =
 
 /* ==========================================
    PAYSLIP ELEMENTS
+   AUTO PAYROLL
 ========================================== */
 
 const payslipSelect =
@@ -110,11 +112,35 @@ const payEmp =
 const payDate =
     document.getElementById("payDate");
 
-const payDailyRate =
-    document.getElementById("payDailyRate");
 
-const payTotalDays =
-    document.getElementById("payTotalDays");
+/* HOURLY RATE */
+
+const payHourlyRate =
+    document.getElementById("payHourlyRate");
+
+
+/* WORKING HOURS */
+
+const payRegularHours =
+    document.getElementById("payRegularHours");
+
+const payOvertimeHours =
+    document.getElementById("payOvertimeHours");
+
+const payHolidayType =
+    document.getElementById("payHolidayType");
+
+const payHolidayHours =
+    document.getElementById("payHolidayHours");
+
+const payNightHours =
+    document.getElementById("payNightHours");
+
+const payNightRate =
+    document.getElementById("payNightRate");
+
+
+/* EARNINGS */
 
 const payBasic =
     document.getElementById("payBasic");
@@ -125,26 +151,15 @@ const payOvertime =
 const payHoliday =
     document.getElementById("payHoliday");
 
-const paySick =
-    document.getElementById("paySick");
+const payNight =
+    document.getElementById("payNight");
 
-const payVacation =
-    document.getElementById("payVacation");
-
-const payBirthday =
-    document.getElementById("payBirthday");
-
-const payMaternity =
-    document.getElementById("payMaternity");
-
-const payPaternity =
-    document.getElementById("payPaternity");
-
-const payAllowance =
-    document.getElementById("payAllowance");
 
 const payGross =
     document.getElementById("payGross");
+
+
+/* DEDUCTIONS */
 
 const paySSS =
     document.getElementById("paySSS");
@@ -163,6 +178,9 @@ const payOther =
 
 const payDeduction =
     document.getElementById("payDeduction");
+
+
+/* NET */
 
 const payNet =
     document.getElementById("payNet");
@@ -196,7 +214,13 @@ function number(value){
 function money(value){
 
     return number(value)
-        .toFixed(2);
+        .toLocaleString(
+            "en-PH",
+            {
+                minimumFractionDigits:2,
+                maximumFractionDigits:2
+            }
+        );
 
 }
 
@@ -205,15 +229,30 @@ function escapeHTML(value){
 
     return text(value)
 
-        .replace(/&/g,"&amp;")
+        .replace(
+            /&/g,
+            "&amp;"
+        )
 
-        .replace(/</g,"&lt;")
+        .replace(
+            /</g,
+            "&lt;"
+        )
 
-        .replace(/>/g,"&gt;")
+        .replace(
+            />/g,
+            "&gt;"
+        )
 
-        .replace(/"/g,"&quot;")
+        .replace(
+            /"/g,
+            "&quot;"
+        )
 
-        .replace(/'/g,"&#039;");
+        .replace(
+            /'/g,
+            "&#039;"
+        );
 
 }
 
@@ -234,61 +273,19 @@ function getFullName(employee){
 
     ]
 
-    .filter(Boolean)
+    .filter(
+        value =>
+            text(value)
+    )
 
     .join(" ")
 
-    .replace(/\s+/g," ")
+    .replace(
+        /\s+/g,
+        " "
+    )
 
     .trim();
-
-}
-
-
-/* ==========================================
-   PAYROLL COMPATIBILITY
-========================================== */
-
-function payrollField(
-    pay,
-    primary,
-    secondary,
-    third
-){
-
-    if(
-        pay[primary] !== undefined &&
-        pay[primary] !== null
-    ){
-
-        return pay[primary];
-
-    }
-
-
-    if(
-        secondary &&
-        pay[secondary] !== undefined &&
-        pay[secondary] !== null
-    ){
-
-        return pay[secondary];
-
-    }
-
-
-    if(
-        third &&
-        pay[third] !== undefined &&
-        pay[third] !== null
-    ){
-
-        return pay[third];
-
-    }
-
-
-    return 0;
 
 }
 
@@ -373,7 +370,6 @@ async function loadCurrentEmployee(){
 
 
     /*
-     * IF DOCUMENT ID DID NOT MATCH,
      * MATCH EMPLOYEE ID
      */
 
@@ -696,7 +692,8 @@ function renderRequests(
     requests
 ){
 
-    requestBody.innerHTML = "";
+    requestBody.innerHTML =
+        "";
 
 
     if(
@@ -848,10 +845,6 @@ async function(){
         :
         "";
 
-
-    /*
-     * REQUEST TYPES
-     */
 
     const allowedRequests = [
 
@@ -1011,36 +1004,48 @@ function(){
 
     if(requestType){
 
-        requestType.value = "";
+        requestType.value =
+            "";
 
     }
 
 
     if(requestDate){
 
-        requestDate.value = "";
+        requestDate.value =
+            "";
 
     }
 
 
     if(requestDays){
 
-        requestDays.value = "";
+        requestDays.value =
+            "";
 
     }
 
 
     if(requestReason){
 
-        requestReason.value = "";
+        requestReason.value =
+            "";
 
     }
 
 };
 
 
+/* =========================================================
+   =========================================================
+   PAYSLIP SECTION
+   AUTO PAYROLL ONLY
+   =========================================================
+   ========================================================= */
+
+
 /* ==========================================
-   LOAD PAYROLL
+   LOAD AUTO PAYROLL
 ========================================== */
 
 async function loadEmployeePayroll(){
@@ -1072,11 +1077,19 @@ Loading payslips...
 
     try{
 
+        /*
+         * IMPORTANT
+         *
+         * Payslip now reads ONLY from:
+         *
+         * autoPayroll
+         */
+
         const snapshot =
             await getDocs(
                 collection(
                     db,
-                    "payroll"
+                    "autoPayroll"
                 )
             );
 
@@ -1095,9 +1108,15 @@ Loading payslips...
                     docSnap.data();
 
 
+                /*
+                 * AUTO PAYROLL USES
+                 *
+                 * employeeId
+                 */
+
                 const payrollId =
                     text(
-                        pay.empid
+                        pay.employeeId
                     )
                     .toUpperCase();
 
@@ -1125,15 +1144,46 @@ Loading payslips...
         );
 
 
+        /*
+         * SORT NEWEST FIRST
+         */
+
         employeePayroll.sort(
             (a,b) => {
 
-                return String(
-                    b.date || ""
-                )
-                .localeCompare(
+                const dateCompare =
                     String(
-                        a.date || ""
+                        b.date || ""
+                    )
+                    .localeCompare(
+                        String(
+                            a.date || ""
+                        )
+                    );
+
+
+                if(
+                    dateCompare !== 0
+                ){
+
+                    return dateCompare;
+
+                }
+
+
+                return (
+                    Number(
+                        b.updatedAt ||
+                        b.createdAt ||
+                        0
+                    )
+
+                    -
+
+                    Number(
+                        a.updatedAt ||
+                        a.createdAt ||
+                        0
                     )
                 );
 
@@ -1147,7 +1197,7 @@ Loading payslips...
     }catch(error){
 
         console.error(
-            "Payroll Load Error:",
+            "Auto Payroll Load Error:",
             error
         );
 
@@ -1172,7 +1222,7 @@ Unable to load payslips
 
 
 /* ==========================================
-   POPULATE PAYSLIP
+   POPULATE PAYSLIP SELECT
 ========================================== */
 
 function populatePayslipSelect(){
@@ -1208,6 +1258,9 @@ SELECT PAYROLL PERIOD
     }
 
 
+    hidePayslipMessage();
+
+
     employeePayroll.forEach(
         pay => {
 
@@ -1221,18 +1274,29 @@ SELECT PAYROLL PERIOD
                 pay.id;
 
 
+            const date =
+                pay.date ||
+                "No Date";
+
+
+            const gross =
+                money(
+                    pay.gross
+                );
+
+
+            const net =
+                money(
+                    pay.net
+                );
+
+
             option.textContent =
-
-                pay.date
-
-                ?
-
-                "Payroll - " +
-                pay.date
-
-                :
-
-                "Payroll Record";
+                date +
+                " • Gross ₱" +
+                gross +
+                " • Net ₱" +
+                net;
 
 
             payslipSelect.appendChild(
@@ -1243,8 +1307,19 @@ SELECT PAYROLL PERIOD
     );
 
 
-    payslipSelect.value =
-        employeePayroll[0].id;
+    /*
+     * Select newest payroll
+     * automatically.
+     */
+
+    if(
+        employeePayroll[0]
+    ){
+
+        payslipSelect.value =
+            employeePayroll[0].id;
+
+    }
 
 }
 
@@ -1297,6 +1372,10 @@ function(){
     }
 
 
+    /*
+     * SECURITY CHECK
+     */
+
     const currentId =
         text(
             currentEmployee.employeeid
@@ -1306,12 +1385,13 @@ function(){
 
     const payrollId =
         text(
-            pay.empid
+            pay.employeeId
         )
         .toUpperCase();
 
 
     if(
+        !payrollId ||
         currentId !==
         payrollId
     ){
@@ -1348,9 +1428,11 @@ function(){
 
                 payslipArea.scrollIntoView({
 
-                    behavior:"smooth",
+                    behavior:
+                        "smooth",
 
-                    block:"center"
+                    block:
+                        "center"
 
                 });
 
@@ -1365,38 +1447,27 @@ function(){
 
 /* ==========================================
    DISPLAY PAYSLIP
+   AUTO PAYROLL DATA
 ========================================== */
 
 function displayPayslip(pay){
 
-    const holiday =
-        payrollField(
-            pay,
-            "holiday",
-            "holidaypay"
-        );
+    if(!pay){
+
+        return;
+
+    }
 
 
-    const health =
-        payrollField(
-            pay,
-            "healthcard",
-            "health"
-        );
-
-
-    const other =
-        payrollField(
-            pay,
-            "otherdeduction",
-            "other"
-        );
-
+    /*
+     * EMPLOYEE
+     */
 
     if(payEmpId){
 
         payEmpId.innerText =
-            pay.empid || "-";
+            pay.employeeId ||
+            "-";
 
     }
 
@@ -1404,7 +1475,8 @@ function displayPayslip(pay){
     if(payEmp){
 
         payEmp.innerText =
-            pay.employee || "-";
+            pay.employeeName ||
+            "-";
 
     }
 
@@ -1412,36 +1484,99 @@ function displayPayslip(pay){
     if(payDate){
 
         payDate.innerText =
-            pay.date || "-";
+            pay.date ||
+            "-";
 
     }
 
 
-    if(payDailyRate){
+    /*
+     * HOURLY RATE
+     */
 
-        payDailyRate.innerText =
+    if(payHourlyRate){
+
+        payHourlyRate.innerText =
             money(
-                pay.dailyrate
+                pay.hourlyRate
             );
 
     }
 
 
-    if(payTotalDays){
+    /*
+     * WORKING HOURS
+     */
 
-        payTotalDays.innerText =
+    if(payRegularHours){
+
+        payRegularHours.innerText =
             number(
-                pay.totaldays
+                pay.regularHours
+            ).toFixed(2);
+
+    }
+
+
+    if(payOvertimeHours){
+
+        payOvertimeHours.innerText =
+            number(
+                pay.overtimeHours
+            ).toFixed(2);
+
+    }
+
+
+    if(payHolidayType){
+
+        payHolidayType.innerText =
+            formatHolidayType(
+                pay.holidayType
             );
 
     }
 
+
+    if(payHolidayHours){
+
+        payHolidayHours.innerText =
+            number(
+                pay.holidayHours
+            ).toFixed(2);
+
+    }
+
+
+    if(payNightHours){
+
+        payNightHours.innerText =
+            number(
+                pay.nightHours
+            ).toFixed(2);
+
+    }
+
+
+    if(payNightRate){
+
+        payNightRate.innerText =
+            number(
+                pay.nightRate
+            ).toFixed(2);
+
+    }
+
+
+    /*
+     * EARNINGS
+     */
 
     if(payBasic){
 
         payBasic.innerText =
             money(
-                pay.basicpay
+                pay.regularPay
             );
 
     }
@@ -1451,7 +1586,7 @@ function displayPayslip(pay){
 
         payOvertime.innerText =
             money(
-                pay.overtime
+                pay.overtimePay
             );
 
     }
@@ -1461,71 +1596,25 @@ function displayPayslip(pay){
 
         payHoliday.innerText =
             money(
-                holiday
+                pay.holidayPay
             );
 
     }
 
 
-    if(paySick){
+    if(payNight){
 
-        paySick.innerText =
+        payNight.innerText =
             money(
-                pay.sickleave
+                pay.nightPay
             );
 
     }
 
 
-    if(payVacation){
-
-        payVacation.innerText =
-            money(
-                pay.vacationleave
-            );
-
-    }
-
-
-    if(payBirthday){
-
-        payBirthday.innerText =
-            money(
-                pay.birthdayleave
-            );
-
-    }
-
-
-    if(payMaternity){
-
-        payMaternity.innerText =
-            money(
-                pay.maternityleave
-            );
-
-    }
-
-
-    if(payPaternity){
-
-        payPaternity.innerText =
-            money(
-                pay.paternityleave
-            );
-
-    }
-
-
-    if(payAllowance){
-
-        payAllowance.innerText =
-            money(
-                pay.allowance
-            );
-
-    }
-
+    /*
+     * GROSS
+     */
 
     if(payGross){
 
@@ -1536,6 +1625,10 @@ function displayPayslip(pay){
 
     }
 
+
+    /*
+     * DEDUCTIONS
+     */
 
     if(paySSS){
 
@@ -1571,7 +1664,7 @@ function displayPayslip(pay){
 
         payHealth.innerText =
             money(
-                health
+                pay.healthcard
             );
 
     }
@@ -1581,7 +1674,7 @@ function displayPayslip(pay){
 
         payOther.innerText =
             money(
-                other
+                pay.others
             );
 
     }
@@ -1597,6 +1690,10 @@ function displayPayslip(pay){
     }
 
 
+    /*
+     * NET
+     */
+
     if(payNet){
 
         payNet.innerText =
@@ -1610,10 +1707,43 @@ function displayPayslip(pay){
 
 
 /* ==========================================
+   HOLIDAY TYPE
+========================================== */
+
+function formatHolidayType(
+    type
+){
+
+    switch(
+        text(type).toLowerCase()
+    ){
+
+        case "regular":
+
+            return "Regular Holiday";
+
+
+        case "special":
+
+            return "Special Holiday";
+
+
+        default:
+
+            return "No Holiday";
+
+    }
+
+}
+
+
+/* ==========================================
    PAYSLIP MESSAGE
 ========================================== */
 
-function showPayslipMessage(message){
+function showPayslipMessage(
+    message
+){
 
     if(!payslipMessage){
 
@@ -1665,7 +1795,7 @@ function(){
 
 
 /* ==========================================
-   PRINT PAYSLIP
+   PRINT SELECTED PAYSLIP
 ========================================== */
 
 window.printSelectedPayslip =
@@ -1701,6 +1831,10 @@ function(){
     }
 
 
+    /*
+     * SECURITY CHECK
+     */
+
     const currentId =
         text(
             currentEmployee.employeeid
@@ -1710,12 +1844,13 @@ function(){
 
     const payrollId =
         text(
-            currentPayslip.empid
+            currentPayslip.employeeId
         )
         .toUpperCase();
 
 
     if(
+        !payrollId ||
         currentId !==
         payrollId
     ){
@@ -1738,32 +1873,18 @@ function(){
 
 /* ==========================================
    CREATE PRINT WINDOW
+   AUTO PAYROLL FORMAT
 ========================================== */
 
-function createPrintWindow(pay){
+function createPrintWindow(
+    pay
+){
 
-    const holiday =
-        payrollField(
-            pay,
-            "holiday",
-            "holidaypay"
-        );
+    if(!pay){
 
+        return;
 
-    const health =
-        payrollField(
-            pay,
-            "healthcard",
-            "health"
-        );
-
-
-    const other =
-        payrollField(
-            pay,
-            "otherdeduction",
-            "other"
-        );
+    }
 
 
     const printWindow =
@@ -1785,6 +1906,12 @@ function createPrintWindow(pay){
     }
 
 
+    const holidayType =
+        formatHolidayType(
+            pay.holidayType
+        );
+
+
     printWindow.document.write(`
 
 <!DOCTYPE html>
@@ -1799,151 +1926,227 @@ function createPrintWindow(pay){
 PAPPRITO Payslip
 </title>
 
+
 <style>
 
 *{
     box-sizing:border-box;
 }
 
+
+@page{
+
+    size:A4;
+
+    margin:8mm;
+
+}
+
+
 body{
 
     margin:0;
 
-    padding:10px;
+    padding:0;
 
-    background:#fff;
+    background:#ffffff;
 
-    color:#000;
+    color:#000000;
 
     font-family:
-        Tahoma,
         Arial,
+        Tahoma,
         sans-serif;
 
 }
 
-@page{
 
-    size:auto;
-
-    margin:5mm;
-
-}
+/* ==========================================
+   PAYSLIP
+========================================== */
 
 .payslip{
 
-    width:110mm;
+    width:100%;
 
-    margin:auto;
+    max-width:190mm;
 
-    padding:8px;
+    margin:0 auto;
 
-    border:2px solid #ffcc00;
-
-    border-radius:9px;
-
-    background:#f9f9f9;
-
-}
-
-.logo{
-
-    display:block;
-
-    width:60px;
-
-    height:60px;
-
-    margin:0 auto 5px;
-
-    object-fit:cover;
-
-    border-radius:50%;
+    padding:8mm;
 
     border:2px solid #ffcc00;
 
-    padding:3px;
+    border-radius:8px;
+
+    background:#ffffff;
 
 }
+
+
+/* ==========================================
+   HEADER
+========================================== */
 
 .company{
 
     text-align:center;
 
-    padding-bottom:5px;
+    padding-bottom:5mm;
 
     border-bottom:2px solid #ffcc00;
 
 }
 
-.company h2{
 
-    margin:2px;
+.logo{
 
-    color:#cc0000;
+    width:55px;
 
-    font-size:18px;
+    height:55px;
+
+    object-fit:contain;
+
+    display:block;
+
+    margin:0 auto 3mm;
 
 }
+
+
+.company h2{
+
+    margin:0;
+
+    color:#c8102e;
+
+    font-size:20px;
+
+    font-weight:900;
+
+}
+
 
 .company p{
 
-    margin:2px;
+    margin:2px 0;
 
-    font-size:8px;
+    font-size:9px;
 
-    font-weight:bold;
+    font-weight:700;
 
 }
 
+
+.company small{
+
+    font-size:8px;
+
+    font-weight:800;
+
+}
+
+
+/* ==========================================
+   INFO
+========================================== */
+
 .info{
 
-    margin-top:5px;
+    display:grid;
 
-    padding:5px;
+    grid-template-columns:
+        1fr 1fr;
+
+    gap:2mm;
+
+    margin-top:4mm;
+
+    padding:4mm;
 
     background:#fff8dc;
 
     border:1px solid #ffcc00;
 
-    font-size:8px;
+    border-radius:5px;
 
-    line-height:1.5;
+    font-size:9px;
 
 }
+
+
+.info div{
+
+    padding:1mm;
+
+}
+
+
+.info b{
+
+    font-weight:900;
+
+}
+
+
+/* ==========================================
+   SECTION TITLE
+========================================== */
+
+.subtitle{
+
+    margin-top:4mm;
+
+    padding:2mm 3mm;
+
+    background:#c8102e;
+
+    color:#ffffff;
+
+    font-size:9px;
+
+    font-weight:900;
+
+}
+
+
+/* ==========================================
+   TABLE
+========================================== */
 
 table{
 
     width:100%;
 
-    margin-top:5px;
+    margin-top:2mm;
 
     border-collapse:collapse;
 
 }
 
+
 th,
 td{
 
-    border:1px solid #999;
+    border:1px solid #888;
 
-    padding:4px;
+    padding:2.5mm;
 
-    font-size:8px;
+    font-size:8.5px;
 
 }
+
 
 th{
 
     background:#ffcc00;
 
-}
+    color:#111111;
 
-td{
-
-    background:#fff;
+    font-weight:900;
 
 }
+
 
 td:last-child{
 
@@ -1951,23 +2154,55 @@ td:last-child{
 
 }
 
-.net{
 
-    margin-top:6px;
+.total td{
 
-    padding:7px;
+    font-weight:900;
 
-    background:#008000;
-
-    color:#fff;
-
-    font-size:10px;
-
-    font-weight:bold;
-
-    text-align:right;
+    background:#f1f1f1;
 
 }
+
+
+/* ==========================================
+   NET
+========================================== */
+
+.net{
+
+    margin-top:5mm;
+
+    padding:5mm;
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    background:#008f4d;
+
+    color:#ffffff;
+
+    border-radius:5px;
+
+    font-size:12px;
+
+    font-weight:900;
+
+}
+
+
+.net strong{
+
+    font-size:15px;
+
+}
+
+
+/* ==========================================
+   SIGNATURE
+========================================== */
 
 .signature{
 
@@ -1975,21 +2210,49 @@ td:last-child{
 
     justify-content:space-between;
 
-    margin-top:18px;
+    margin-top:15mm;
 
-    font-size:7px;
+    font-size:8px;
 
 }
 
+
+.signature-box{
+
+    width:35%;
+
+    text-align:center;
+
+}
+
+
 .line{
-
-    width:70px;
-
-    padding-top:3px;
 
     border-top:1px solid #000;
 
-    text-align:center;
+    margin-bottom:2mm;
+
+}
+
+
+/* ==========================================
+   PRINT
+========================================== */
+
+@media print{
+
+    body{
+
+        padding:0;
+
+    }
+
+
+    .payslip{
+
+        border:2px solid #ffcc00;
+
+    }
 
 }
 
@@ -1997,51 +2260,110 @@ td:last-child{
 
 </head>
 
+
 <body>
 
+
 <div class="payslip">
+
+
+<!-- COMPANY -->
+
+<div class="company">
+
 
 <img
 src="../assets/images/logo.png"
 class="logo"
 alt="PAPPRITO">
 
-<div class="company">
 
 <h2>
 PAPPRITO
 </h2>
 
+
 <p>
 OFFICIAL EMPLOYEE PAYSLIP
 </p>
 
+
+<small>
+AUTO PAYROLL
+</small>
+
+
 </div>
+
+
+<!-- EMPLOYEE INFO -->
 
 <div class="info">
 
-<b>ID:</b>
-${escapeHTML(pay.empid || "-")}
 
-<br>
+<div>
 
-<b>Name:</b>
-${escapeHTML(pay.employee || "-")}
+<b>
+Employee ID:
+</b>
 
-<br>
+${escapeHTML(
+    pay.employeeId ||
+    "-"
+)}
 
-<b>Date:</b>
-${escapeHTML(pay.date || "-")}
+</div>
 
-<br>
 
-<b>Daily Rate:</b>
-₱ ${money(pay.dailyrate)}
+<div>
 
-<br>
+<b>
+Employee:
+</b>
 
-<b>Total Days:</b>
-${number(pay.totaldays)}
+${escapeHTML(
+    pay.employeeName ||
+    "-"
+)}
+
+</div>
+
+
+<div>
+
+<b>
+Payroll Date:
+</b>
+
+${escapeHTML(
+    pay.date ||
+    "-"
+)}
+
+</div>
+
+
+<div>
+
+<b>
+Hourly Rate:
+</b>
+
+₱ ${money(
+    pay.hourlyRate
+)}
+
+</div>
+
+
+</div>
+
+
+<!-- WORKING HOURS -->
+
+<div class="subtitle">
+
+WORKING HOURS
 
 </div>
 
@@ -2050,129 +2372,390 @@ ${number(pay.totaldays)}
 
 <tr>
 
-<th>EARNINGS</th>
+<th>
+DESCRIPTION
+</th>
 
-<th>AMOUNT</th>
+<th>
+HOURS
+</th>
 
 </tr>
+
 
 <tr>
-<td>Basic Pay</td>
-<td>${money(pay.basicpay)}</td>
+
+<td>
+Regular Hours
+</td>
+
+<td>
+${number(
+    pay.regularHours
+).toFixed(2)}
+
+</td>
+
 </tr>
+
 
 <tr>
-<td>Overtime</td>
-<td>${money(pay.overtime)}</td>
+
+<td>
+Overtime Hours
+</td>
+
+<td>
+${number(
+    pay.overtimeHours
+).toFixed(2)}
+
+</td>
+
 </tr>
+
 
 <tr>
-<td>Holiday Pay</td>
-<td>${money(holiday)}</td>
+
+<td>
+Holiday Type
+</td>
+
+<td>
+${escapeHTML(
+    holidayType
+)}
+
+</td>
+
 </tr>
+
 
 <tr>
-<td>Sick Leave</td>
-<td>${money(pay.sickleave)}</td>
+
+<td>
+Holiday Hours
+</td>
+
+<td>
+${number(
+    pay.holidayHours
+).toFixed(2)}
+
+</td>
+
 </tr>
+
 
 <tr>
-<td>Vacation Leave</td>
-<td>${money(pay.vacationleave)}</td>
+
+<td>
+Night Differential Hours
+</td>
+
+<td>
+${number(
+    pay.nightHours
+).toFixed(2)}
+
+</td>
+
 </tr>
+
 
 <tr>
-<td>Birthday Leave</td>
-<td>${money(pay.birthdayleave)}</td>
-</tr>
 
-<tr>
-<td>Maternity Leave</td>
-<td>${money(pay.maternityleave)}</td>
-</tr>
+<td>
+Night Differential Rate
+</td>
 
-<tr>
-<td>Paternity Leave</td>
-<td>${money(pay.paternityleave)}</td>
-</tr>
+<td>
+${number(
+    pay.nightRate
+).toFixed(2)
+}%
 
-<tr>
-<td>Allowance</td>
-<td>${money(pay.allowance)}</td>
-</tr>
+</td>
 
-<tr class="total-row">
-<td><b>TOTAL GROSS</b></td>
-<td><b>${money(pay.gross)}</b></td>
 </tr>
 
 </table>
+
+
+<!-- EARNINGS -->
+
+<div class="subtitle">
+
+EARNINGS
+
+</div>
 
 
 <table>
 
 <tr>
 
-<th>DEDUCTIONS</th>
+<th>
+EARNINGS
+</th>
 
-<th>AMOUNT</th>
+<th>
+AMOUNT
+</th>
 
 </tr>
 
-<tr>
-<td>SSS</td>
-<td>${money(pay.sss)}</td>
-</tr>
 
 <tr>
-<td>PhilHealth</td>
-<td>${money(pay.philhealth)}</td>
+
+<td>
+Regular Pay
+</td>
+
+<td>
+₱ ${money(
+    pay.regularPay
+)}
+
+</td>
+
 </tr>
 
-<tr>
-<td>Pag-IBIG</td>
-<td>${money(pay.pagibig)}</td>
-</tr>
 
 <tr>
-<td>Health Card</td>
-<td>${money(health)}</td>
+
+<td>
+Overtime Pay
+</td>
+
+<td>
+₱ ${money(
+    pay.overtimePay
+)}
+
+</td>
+
 </tr>
 
-<tr>
-<td>Others</td>
-<td>${money(other)}</td>
-</tr>
 
 <tr>
-<td><b>TOTAL DEDUCTION</b></td>
-<td><b>${money(pay.deductions)}</b></td>
+
+<td>
+Holiday Pay
+</td>
+
+<td>
+₱ ${money(
+    pay.holidayPay
+)}
+
+</td>
+
+</tr>
+
+
+<tr>
+
+<td>
+Night Differential
+</td>
+
+<td>
+₱ ${money(
+    pay.nightPay
+)}
+
+</td>
+
+</tr>
+
+
+<tr class="total">
+
+<td>
+TOTAL GROSS
+</td>
+
+<td>
+₱ ${money(
+    pay.gross
+)}
+
+</td>
+
 </tr>
 
 </table>
 
+
+<!-- DEDUCTIONS -->
+
+<div class="subtitle">
+
+DEDUCTIONS
+
+</div>
+
+
+<table>
+
+<tr>
+
+<th>
+DEDUCTION
+</th>
+
+<th>
+AMOUNT
+</th>
+
+</tr>
+
+
+<tr>
+
+<td>
+SSS
+</td>
+
+<td>
+₱ ${money(
+    pay.sss
+)}
+
+</td>
+
+</tr>
+
+
+<tr>
+
+<td>
+PhilHealth
+</td>
+
+<td>
+₱ ${money(
+    pay.philhealth
+)}
+
+</td>
+
+</tr>
+
+
+<tr>
+
+<td>
+Pag-IBIG
+</td>
+
+<td>
+₱ ${money(
+    pay.pagibig
+)}
+
+</td>
+
+</tr>
+
+
+<tr>
+
+<td>
+Health Card
+</td>
+
+<td>
+₱ ${money(
+    pay.healthcard
+)}
+
+</td>
+
+</tr>
+
+
+<tr>
+
+<td>
+Other Deduction
+</td>
+
+<td>
+₱ ${money(
+    pay.others
+)}
+
+</td>
+
+</tr>
+
+
+<tr class="total">
+
+<td>
+TOTAL DEDUCTION
+</td>
+
+<td>
+₱ ${money(
+    pay.deductions
+)}
+
+</td>
+
+</tr>
+
+</table>
+
+
+<!-- NET -->
 
 <div class="net">
 
-NET PAY:
-₱ ${money(pay.net)}
+<span>
+NET PAY
+</span>
+
+
+<strong>
+₱ ${money(
+    pay.net
+)}
+</strong>
 
 </div>
 
+
+<!-- SIGNATURE -->
 
 <div class="signature">
 
-<div class="line">
+
+<div class="signature-box">
+
+<div class="line"></div>
+
 HR
+
 </div>
 
-<div class="line">
+
+<div class="signature-box">
+
+<div class="line"></div>
+
 Employee
-</div>
 
 </div>
 
+
 </div>
+
+
+</div>
+
 
 </body>
 
@@ -2324,6 +2907,10 @@ onAuthStateChanged(
             await loadCurrentEmployee();
 
             await loadRequests();
+
+            /*
+             * LOAD AUTO PAYROLL PAYSLIP
+             */
 
             await loadEmployeePayroll();
 
