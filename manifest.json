@@ -1,23 +1,23 @@
 {
   "name": "PAPPRITO HRIS",
-  "short_name": "PAPPRITO HRIS",
+  "short_name": "PAPPRITO",
   "description": "PAPPRITO Human Resource Information System",
-  "start_url": "./pages/dashboard.html",
-  "scope": "./",
+  "start_url": "/pages/dashboard.html",
+  "scope": "/",
   "display": "standalone",
-  "orientation": "portrait-primary",
   "background_color": "#ffffff",
   "theme_color": "#ffcc00",
+  "orientation": "portrait-primary",
 
   "icons": [
     {
-      "src": "./assets/images/icon-192.png",
+      "src": "/assets/images/icon-192.png",
       "sizes": "192x192",
       "type": "image/png",
       "purpose": "any maskable"
     },
     {
-      "src": "./assets/images/icon-512.png",
+      "src": "/assets/images/icon-512.png",
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "any maskable"
