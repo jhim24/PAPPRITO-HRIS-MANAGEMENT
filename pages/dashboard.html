@@ -1,18 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
 
-<link
-    rel="manifest"
-    href="../manifest.json">
-
-<meta
-    name="theme-color"
-    content="#ffcc00">
-
-<link
-    rel="apple-touch-icon"
-    href="../assets/images/icon-192.png">
-    
 <head>
 
 <meta charset="UTF-8">
@@ -23,13 +11,44 @@
 
 <title>PAPPRITO HRIS - Dashboard</title>
 
+
+<!-- ==========================================
+     PWA MANIFEST
+========================================== -->
+
 <link
     rel="manifest"
     href="../manifest.json">
 
+
+<!-- ==========================================
+     PWA THEME
+========================================== -->
+
 <meta
     name="theme-color"
     content="#ffcc00">
+
+<meta
+    name="mobile-web-app-capable"
+    content="yes">
+
+<meta
+    name="apple-mobile-web-app-capable"
+    content="yes">
+
+<meta
+    name="apple-mobile-web-app-status-bar-style"
+    content="default">
+
+<meta
+    name="apple-mobile-web-app-title"
+    content="PAPPRITO HRIS">
+
+
+<!-- ==========================================
+     APP ICON
+========================================== -->
 
 <link
     rel="apple-touch-icon"
@@ -37,11 +56,22 @@
 
 <link
     rel="icon"
+    type="image/png"
     href="../assets/images/logo.png">
+
+
+<!-- ==========================================
+     MATERIAL ICONS
+========================================== -->
 
 <link
     href="https://fonts.googleapis.com/icon?family=Material+Icons"
     rel="stylesheet">
+
+
+<!-- ==========================================
+     DASHBOARD CSS
+========================================== -->
 
 <link
     rel="stylesheet"
@@ -213,8 +243,6 @@
         </a>
 
 
-        <!-- PAYSLIP -->
-
         <a
             href="payslip.html"
             class="nav-item">
@@ -250,7 +278,9 @@
             <span
                 id="notificationBadge"
                 class="notification-badge">
+
                 0
+
             </span>
 
         </a>
@@ -312,7 +342,9 @@
 </aside>
 
 
-<!-- MOBILE OVERLAY -->
+<!-- ==========================================
+     MOBILE OVERLAY
+========================================== -->
 
 <div
     id="sidebarOverlay"
@@ -322,13 +354,15 @@
 
 
 <!-- ==========================================
-     MAIN
+     MAIN CONTENT
 ========================================== -->
 
 <main class="main-content">
 
 
-    <!-- TOPBAR -->
+    <!-- ======================================
+         TOP BAR
+    ======================================= -->
 
     <header class="topbar">
 
@@ -373,7 +407,6 @@
             <div
                 id="currentDate"
                 class="current-date">
-
             </div>
 
 
@@ -407,13 +440,15 @@
 
 
     <!-- ======================================
-         CONTENT
+         DASHBOARD CONTENT
     ======================================= -->
 
     <section class="dashboard-content">
 
 
-        <!-- WELCOME -->
+        <!-- ==================================
+             WELCOME
+        =================================== -->
 
         <div class="welcome-card">
 
@@ -426,17 +461,23 @@
 
 
                 <h2>
+
                     PAPPRITO
+
                     <span>
                         HRIS
                     </span>
+
                 </h2>
 
 
                 <p>
-                    Manage employees, attendance,
-                    leaves, payroll and payslips
+
+                    Manage employees,
+                    attendance, leaves,
+                    payroll and payslips
                     from one powerful system.
+
                 </p>
 
             </div>
@@ -480,8 +521,11 @@
                         TOTAL EMPLOYEES
                     </span>
 
-                    <strong id="totalEmployees">
+                    <strong
+                        id="totalEmployees">
+
                         0
+
                     </strong>
 
                 </div>
@@ -508,8 +552,11 @@
                         TODAY'S ATTENDANCE
                     </span>
 
-                    <strong id="todayAttendance">
+                    <strong
+                        id="todayAttendance">
+
                         0
+
                     </strong>
 
                 </div>
@@ -536,8 +583,11 @@
                         PENDING LEAVES
                     </span>
 
-                    <strong id="leaveRequests">
+                    <strong
+                        id="leaveRequests">
+
                         0
+
                     </strong>
 
                 </div>
@@ -564,8 +614,11 @@
                         TOTAL PAYROLL
                     </span>
 
-                    <strong id="totalPayroll">
+                    <strong
+                        id="totalPayroll">
+
                         ₱0.00
+
                     </strong>
 
                 </div>
@@ -722,8 +775,6 @@
 
                 </button>
 
-
-                <!-- PAYSLIP -->
 
                 <button
                     type="button"
@@ -925,8 +976,6 @@
                 </a>
 
 
-                <!-- PAYSLIP -->
-
                 <a
                     href="payslip.html"
                     class="module-item">
@@ -1061,8 +1110,11 @@
 
                     <div>
 
-                        <strong id="presentCount">
+                        <strong
+                            id="presentCount">
+
                             0
+
                         </strong>
 
                         <span>
@@ -1082,8 +1134,11 @@
 
                     <div>
 
-                        <strong id="lateCount">
+                        <strong
+                            id="lateCount">
+
                             0
+
                         </strong>
 
                         <span>
@@ -1103,8 +1158,11 @@
 
                     <div>
 
-                        <strong id="onLeaveCount">
+                        <strong
+                            id="onLeaveCount">
+
                             0
+
                         </strong>
 
                         <span>
@@ -1124,8 +1182,11 @@
 
                     <div>
 
-                        <strong id="absentCount">
+                        <strong
+                            id="absentCount">
+
                             0
+
                         </strong>
 
                         <span>
@@ -1205,7 +1266,9 @@
 
 
 
-    <!-- FOOTER -->
+    <!-- ==========================================
+         FOOTER
+    =========================================== -->
 
     <footer class="dashboard-footer">
 
@@ -1224,38 +1287,62 @@
 
 
 
+<!-- ==========================================
+     DASHBOARD JS
+========================================== -->
+
 <script
     type="module"
     src="../js/dashboard.js">
 </script>
 
+
+<!-- ==========================================
+     SERVICE WORKER
+========================================== -->
+
 <script>
-if ("serviceWorker" in navigator) {
 
-    window.addEventListener("load", () => {
+if (
+    "serviceWorker" in navigator
+) {
 
-        navigator.serviceWorker
-            .register("../sw.js")
-            .then(() => {
+    window.addEventListener(
+        "load",
+        function(){
 
-                console.log(
-                    "PAPPRITO HRIS Service Worker Registered"
+            navigator.serviceWorker
+                .register(
+                    "../sw.js"
+                )
+                .then(
+                    function(registration){
+
+                        console.log(
+                            "PAPPRITO HRIS Service Worker Registered:",
+                            registration.scope
+                        );
+
+                    }
+                )
+                .catch(
+                    function(error){
+
+                        console.error(
+                            "PAPPRITO HRIS Service Worker Error:",
+                            error
+                        );
+
+                    }
                 );
 
-            })
-            .catch(error => {
-
-                console.error(
-                    "Service Worker Error:",
-                    error
-                );
-
-            });
-
-    });
+        }
+    );
 
 }
+
 </script>
+
 
 </body>
 
