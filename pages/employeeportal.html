@@ -887,6 +887,7 @@
 
 <!-- ==========================================
      PAYSLIP
+     AUTO PAYROLL BASED
 ========================================== -->
 
 <section class="section-card payslip-section">
@@ -907,7 +908,7 @@
             </h2>
 
             <p class="section-note">
-                View your payroll records
+                View your Auto Payroll records
             </p>
 
         </div>
@@ -915,7 +916,9 @@
     </div>
 
 
-    <!-- PAYSLIP SELECT -->
+    <!-- ======================================
+         PAYSLIP SELECTOR
+    ======================================= -->
 
     <div class="payslip-selector">
 
@@ -955,7 +958,9 @@
     </div>
 
 
-    <!-- MESSAGE -->
+    <!-- ======================================
+         MESSAGE
+    ======================================= -->
 
     <div
         id="payslipMessage"
@@ -975,7 +980,9 @@
         style="display:none;">
 
 
-        <!-- PAYSLIP ACTIONS -->
+        <!-- ==================================
+             PAYSLIP ACTIONS
+        =================================== -->
 
         <div class="payslip-actions">
 
@@ -1011,30 +1018,40 @@
         </div>
 
 
-        <!-- LOGO -->
-
-        <img
-            src="../assets/images/logo.png"
-            class="payroll-logo"
-            alt="PAPPRITO">
-
-
-        <!-- COMPANY -->
+        <!-- ==================================
+             COMPANY HEADER
+        =================================== -->
 
         <div class="company">
+
+
+            <img
+                src="../assets/images/logo.png"
+                class="payroll-logo"
+                alt="PAPPRITO">
+
 
             <h2>
                 PAPPRITO
             </h2>
 
+
             <p>
                 OFFICIAL EMPLOYEE PAYSLIP
             </p>
 
+
+            <small>
+                AUTO PAYROLL
+            </small>
+
+
         </div>
 
 
-        <!-- PAY INFO -->
+        <!-- ==================================
+             EMPLOYEE INFORMATION
+        =================================== -->
 
         <div class="pay-info">
 
@@ -1081,25 +1098,12 @@
             <div>
 
                 <b>
-                    Daily Rate:
+                    Hourly Rate:
                 </b>
 
                 ₱
-                <span id="payDailyRate">
+                <span id="payHourlyRate">
                     0.00
-                </span>
-
-            </div>
-
-
-            <div>
-
-                <b>
-                    Total Days:
-                </b>
-
-                <span id="payTotalDays">
-                    0
                 </span>
 
             </div>
@@ -1108,9 +1112,153 @@
         </div>
 
 
-        <!-- ======================================
+        <!-- ==================================
+             WORKING HOURS
+        =================================== -->
+
+        <div class="payslip-subtitle">
+
+            <span class="material-icons">
+                schedule
+            </span>
+
+            WORKING HOURS
+
+        </div>
+
+
+        <table class="payroll-table">
+
+
+            <thead>
+
+                <tr>
+
+                    <th>
+                        DESCRIPTION
+                    </th>
+
+                    <th>
+                        HOURS
+                    </th>
+
+                </tr>
+
+            </thead>
+
+
+            <tbody>
+
+
+                <tr>
+
+                    <td>
+                        Regular Hours
+                    </td>
+
+                    <td>
+                        <span id="payRegularHours">
+                            0.00
+                        </span>
+                    </td>
+
+                </tr>
+
+
+                <tr>
+
+                    <td>
+                        Overtime Hours
+                    </td>
+
+                    <td>
+                        <span id="payOvertimeHours">
+                            0.00
+                        </span>
+                    </td>
+
+                </tr>
+
+
+                <tr>
+
+                    <td>
+                        Holiday Type
+                    </td>
+
+                    <td>
+                        <span id="payHolidayType">
+                            No Holiday
+                        </span>
+                    </td>
+
+                </tr>
+
+
+                <tr>
+
+                    <td>
+                        Holiday Hours
+                    </td>
+
+                    <td>
+                        <span id="payHolidayHours">
+                            0.00
+                        </span>
+                    </td>
+
+                </tr>
+
+
+                <tr>
+
+                    <td>
+                        Night Differential Hours
+                    </td>
+
+                    <td>
+                        <span id="payNightHours">
+                            0.00
+                        </span>
+                    </td>
+
+                </tr>
+
+
+                <tr>
+
+                    <td>
+                        Night Differential Rate
+                    </td>
+
+                    <td>
+                        <span id="payNightRate">
+                            10.00
+                        </span>%
+                    </td>
+
+                </tr>
+
+
+            </tbody>
+
+        </table>
+
+
+        <!-- ==================================
              EARNINGS
-        ======================================= -->
+        =================================== -->
+
+        <div class="payslip-subtitle">
+
+            <span class="material-icons">
+                payments
+            </span>
+
+            EARNINGS
+
+        </div>
+
 
         <table class="payroll-table">
 
@@ -1138,11 +1286,14 @@
                 <tr>
 
                     <td>
-                        Basic Pay
+                        Regular Pay
                     </td>
 
                     <td>
-                        ₱ <span id="payBasic">0.00</span>
+                        ₱
+                        <span id="payBasic">
+                            0.00
+                        </span>
                     </td>
 
                 </tr>
@@ -1151,11 +1302,14 @@
                 <tr>
 
                     <td>
-                        Overtime
+                        Overtime Pay
                     </td>
 
                     <td>
-                        ₱ <span id="payOvertime">0.00</span>
+                        ₱
+                        <span id="payOvertime">
+                            0.00
+                        </span>
                     </td>
 
                 </tr>
@@ -1168,7 +1322,10 @@
                     </td>
 
                     <td>
-                        ₱ <span id="payHoliday">0.00</span>
+                        ₱
+                        <span id="payHoliday">
+                            0.00
+                        </span>
                     </td>
 
                 </tr>
@@ -1177,76 +1334,14 @@
                 <tr>
 
                     <td>
-                        Sick Leave
+                        Night Differential
                     </td>
 
                     <td>
-                        ₱ <span id="paySick">0.00</span>
-                    </td>
-
-                </tr>
-
-
-                <tr>
-
-                    <td>
-                        Vacation Leave
-                    </td>
-
-                    <td>
-                        ₱ <span id="payVacation">0.00</span>
-                    </td>
-
-                </tr>
-
-
-                <tr>
-
-                    <td>
-                        Birthday Leave
-                    </td>
-
-                    <td>
-                        ₱ <span id="payBirthday">0.00</span>
-                    </td>
-
-                </tr>
-
-
-                <tr>
-
-                    <td>
-                        Maternity Leave
-                    </td>
-
-                    <td>
-                        ₱ <span id="payMaternity">0.00</span>
-                    </td>
-
-                </tr>
-
-
-                <tr>
-
-                    <td>
-                        Paternity Leave
-                    </td>
-
-                    <td>
-                        ₱ <span id="payPaternity">0.00</span>
-                    </td>
-
-                </tr>
-
-
-                <tr>
-
-                    <td>
-                        Allowance
-                    </td>
-
-                    <td>
-                        ₱ <span id="payAllowance">0.00</span>
+                        ₱
+                        <span id="payNight">
+                            0.00
+                        </span>
                     </td>
 
                 </tr>
@@ -1255,11 +1350,19 @@
                 <tr class="total-row">
 
                     <td>
-                        TOTAL GROSS
+                        <strong>
+                            TOTAL GROSS
+                        </strong>
                     </td>
 
                     <td>
-                        ₱ <span id="payGross">0.00</span>
+
+                        ₱
+
+                        <strong id="payGross">
+                            0.00
+                        </strong>
+
                     </td>
 
                 </tr>
@@ -1270,9 +1373,20 @@
         </table>
 
 
-        <!-- ======================================
+        <!-- ==================================
              DEDUCTIONS
-        ======================================= -->
+        =================================== -->
+
+        <div class="payslip-subtitle">
+
+            <span class="material-icons">
+                remove_circle
+            </span>
+
+            DEDUCTIONS
+
+        </div>
+
 
         <table class="payroll-table">
 
@@ -1282,7 +1396,7 @@
                 <tr>
 
                     <th>
-                        DEDUCTIONS
+                        DEDUCTION
                     </th>
 
                     <th>
@@ -1304,7 +1418,10 @@
                     </td>
 
                     <td>
-                        ₱ <span id="paySSS">0.00</span>
+                        ₱
+                        <span id="paySSS">
+                            0.00
+                        </span>
                     </td>
 
                 </tr>
@@ -1317,7 +1434,10 @@
                     </td>
 
                     <td>
-                        ₱ <span id="payPhilhealth">0.00</span>
+                        ₱
+                        <span id="payPhilhealth">
+                            0.00
+                        </span>
                     </td>
 
                 </tr>
@@ -1330,7 +1450,10 @@
                     </td>
 
                     <td>
-                        ₱ <span id="payPagibig">0.00</span>
+                        ₱
+                        <span id="payPagibig">
+                            0.00
+                        </span>
                     </td>
 
                 </tr>
@@ -1343,7 +1466,10 @@
                     </td>
 
                     <td>
-                        ₱ <span id="payHealth">0.00</span>
+                        ₱
+                        <span id="payHealth">
+                            0.00
+                        </span>
                     </td>
 
                 </tr>
@@ -1352,11 +1478,14 @@
                 <tr>
 
                     <td>
-                        Others
+                        Other Deduction
                     </td>
 
                     <td>
-                        ₱ <span id="payOther">0.00</span>
+                        ₱
+                        <span id="payOther">
+                            0.00
+                        </span>
                     </td>
 
                 </tr>
@@ -1365,11 +1494,21 @@
                 <tr class="total-row">
 
                     <td>
-                        TOTAL DEDUCTION
+
+                        <strong>
+                            TOTAL DEDUCTION
+                        </strong>
+
                     </td>
 
                     <td>
-                        ₱ <span id="payDeduction">0.00</span>
+
+                        ₱
+
+                        <strong id="payDeduction">
+                            0.00
+                        </strong>
+
                     </td>
 
                 </tr>
@@ -1380,29 +1519,35 @@
         </table>
 
 
-        <!-- ======================================
+        <!-- ==================================
              NET PAY
-        ======================================= -->
+        =================================== -->
 
         <div class="netpay">
+
 
             <span>
                 NET PAY
             </span>
 
+
             <strong>
 
                 ₱
+
                 <span id="payNet">
                     0.00
                 </span>
 
             </strong>
 
+
         </div>
 
 
-        <!-- SIGNATURE -->
+        <!-- ==================================
+             SIGNATURE
+        =================================== -->
 
         <div class="signature">
 
