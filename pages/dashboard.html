@@ -45,7 +45,12 @@
      SIDEBAR
 ========================================== -->
 
-<aside class="sidebar">
+<aside
+    class="sidebar"
+    id="sidebar">
+
+
+    <!-- LOGO -->
 
     <div class="sidebar-logo">
 
@@ -68,7 +73,37 @@
     </div>
 
 
+    <!-- USER -->
+
+    <div class="sidebar-user">
+
+        <span class="material-icons">
+            account_circle
+        </span>
+
+        <div>
+
+            <strong id="sidebarUser">
+                HR Administrator
+            </strong>
+
+            <small>
+                Administrator
+            </small>
+
+        </div>
+
+    </div>
+
+
+    <!-- NAVIGATION -->
+
     <nav class="sidebar-nav">
+
+
+        <div class="nav-label">
+            MAIN MENU
+        </div>
 
 
         <a
@@ -116,10 +151,6 @@
         </a>
 
 
-        <!-- ==================================
-             CORRECT TRACK LEAVES PATH
-        =================================== -->
-
         <a
             href="trackleaves.html"
             class="nav-item">
@@ -133,6 +164,11 @@
             </span>
 
         </a>
+
+
+        <div class="nav-label">
+            PAYROLL
+        </div>
 
 
         <a
@@ -165,6 +201,28 @@
         </a>
 
 
+        <!-- PAYSLIP -->
+
+        <a
+            href="payslip.html"
+            class="nav-item">
+
+            <span class="material-icons">
+                receipt_long
+            </span>
+
+            <span>
+                Payslip
+            </span>
+
+        </a>
+
+
+        <div class="nav-label">
+            HR MANAGEMENT
+        </div>
+
+
         <a
             href="hrapproval.html"
             class="nav-item">
@@ -175,6 +233,12 @@
 
             <span>
                 HR Approval
+            </span>
+
+            <span
+                id="notificationBadge"
+                class="notification-badge">
+                0
             </span>
 
         </a>
@@ -212,6 +276,8 @@
     </nav>
 
 
+    <!-- LOGOUT -->
+
     <div class="sidebar-bottom">
 
         <button
@@ -223,13 +289,23 @@
                 logout
             </span>
 
-            Logout
+            <span>
+                Logout
+            </span>
 
         </button>
 
     </div>
 
 </aside>
+
+
+<!-- MOBILE OVERLAY -->
+
+<div
+    id="sidebarOverlay"
+    class="sidebar-overlay">
+</div>
 
 
 
@@ -240,725 +316,906 @@
 <main class="main-content">
 
 
-<!-- ==========================================
-     TOP BAR
-========================================== -->
+    <!-- TOPBAR -->
 
-<header class="topbar">
+    <header class="topbar">
 
 
-    <div class="topbar-left">
-
-        <button
-            type="button"
-            id="menuBtn"
-            class="icon-btn">
-
-            <span class="material-icons">
-                menu
-            </span>
-
-        </button>
+        <div class="topbar-left">
 
 
-        <div>
+            <button
+                type="button"
+                id="menuBtn"
+                class="icon-btn">
 
-            <h1>
-                HRIS Dashboard
-            </h1>
+                <span class="material-icons">
+                    menu
+                </span>
 
-            <p>
-                PAPPRITO Human Resource Information System
-            </p>
+            </button>
 
-        </div>
-
-    </div>
-
-
-    <div class="topbar-right">
-
-        <div
-            class="current-date"
-            id="currentDate">
-
-        </div>
-
-
-        <div
-            class="user-info">
-
-            <span class="material-icons">
-                account_circle
-            </span>
 
             <div>
 
-                <strong
-                    id="currentUserName">
+                <span class="header-label">
+                    PAPPRITO HRIS
+                </span>
 
-                    HR Administrator
+                <h1>
+                    HRIS Dashboard
+                </h1>
 
-                </strong>
-
-                <small>
-                    Administrator
-                </small>
+                <p>
+                    Human Resource Information System
+                </p>
 
             </div>
 
         </div>
 
-    </div>
 
-</header>
-
+        <div class="topbar-right">
 
 
-<!-- ==========================================
-     DASHBOARD CONTENT
-========================================== -->
+            <div
+                id="currentDate"
+                class="current-date">
 
-<section class="dashboard-content">
-
-
-<!-- ==========================================
-     WELCOME
-========================================== -->
-
-<div class="welcome-card">
+            </div>
 
 
-    <div class="welcome-text">
+            <div class="user-info">
 
-        <span class="welcome-label">
-            WELCOME BACK
-        </span>
+                <span class="material-icons">
+                    account_circle
+                </span>
 
-        <h2>
+                <div>
+
+                    <strong
+                        id="currentUserName">
+
+                        HR Administrator
+
+                    </strong>
+
+                    <small>
+                        Administrator
+                    </small>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </header>
+
+
+
+    <!-- ======================================
+         CONTENT
+    ======================================= -->
+
+    <section class="dashboard-content">
+
+
+        <!-- WELCOME -->
+
+        <div class="welcome-card">
+
+
+            <div class="welcome-text">
+
+                <span class="welcome-label">
+                    WELCOME BACK
+                </span>
+
+
+                <h2>
+                    PAPPRITO
+                    <span>
+                        HRIS
+                    </span>
+                </h2>
+
+
+                <p>
+                    Manage employees, attendance,
+                    leaves, payroll and payslips
+                    from one powerful system.
+                </p>
+
+            </div>
+
+
+            <div class="welcome-icon">
+
+                <span class="material-icons">
+                    business_center
+                </span>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- ==================================
+             SUMMARY
+        =================================== -->
+
+        <div class="summary-grid">
+
+
+            <!-- EMPLOYEES -->
+
+            <div class="summary-card employees-card">
+
+                <div class="summary-icon employees">
+
+                    <span class="material-icons">
+                        people
+                    </span>
+
+                </div>
+
+
+                <div>
+
+                    <span>
+                        TOTAL EMPLOYEES
+                    </span>
+
+                    <strong id="totalEmployees">
+                        0
+                    </strong>
+
+                </div>
+
+            </div>
+
+
+            <!-- ATTENDANCE -->
+
+            <div class="summary-card attendance-card">
+
+                <div class="summary-icon attendance">
+
+                    <span class="material-icons">
+                        access_time
+                    </span>
+
+                </div>
+
+
+                <div>
+
+                    <span>
+                        TODAY'S ATTENDANCE
+                    </span>
+
+                    <strong id="todayAttendance">
+                        0
+                    </strong>
+
+                </div>
+
+            </div>
+
+
+            <!-- LEAVES -->
+
+            <div class="summary-card leaves-card">
+
+                <div class="summary-icon leaves">
+
+                    <span class="material-icons">
+                        event_available
+                    </span>
+
+                </div>
+
+
+                <div>
+
+                    <span>
+                        PENDING LEAVES
+                    </span>
+
+                    <strong id="leaveRequests">
+                        0
+                    </strong>
+
+                </div>
+
+            </div>
+
+
+            <!-- PAYROLL -->
+
+            <div class="summary-card payroll-card">
+
+                <div class="summary-icon payroll">
+
+                    <span class="material-icons">
+                        payments
+                    </span>
+
+                </div>
+
+
+                <div>
+
+                    <span>
+                        TOTAL PAYROLL
+                    </span>
+
+                    <strong id="totalPayroll">
+                        ₱0.00
+                    </strong>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- ==================================
+             QUICK ACTIONS
+        =================================== -->
+
+        <section class="dashboard-section">
+
+
+            <div class="section-title">
+
+                <div>
+
+                    <h2>
+                        Quick Actions
+                    </h2>
+
+                    <p>
+                        Frequently used HR functions
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="quick-actions">
+
+
+                <button
+                    type="button"
+                    class="quick-action"
+                    onclick="window.location.href='employee.html'">
+
+                    <span class="material-icons">
+                        person_add
+                    </span>
+
+                    <div>
+
+                        <strong>
+                            Employee
+                        </strong>
+
+                        <small>
+                            Manage employees
+                        </small>
+
+                    </div>
+
+                </button>
+
+
+                <button
+                    type="button"
+                    class="quick-action"
+                    onclick="window.location.href='attendance.html'">
+
+                    <span class="material-icons">
+                        access_time
+                    </span>
+
+                    <div>
+
+                        <strong>
+                            Attendance
+                        </strong>
+
+                        <small>
+                            Track attendance
+                        </small>
+
+                    </div>
+
+                </button>
+
+
+                <button
+                    type="button"
+                    class="quick-action"
+                    onclick="window.location.href='trackleaves.html'">
+
+                    <span class="material-icons">
+                        event_available
+                    </span>
+
+                    <div>
+
+                        <strong>
+                            Track Leaves
+                        </strong>
+
+                        <small>
+                            Leave balances
+                        </small>
+
+                    </div>
+
+                </button>
+
+
+                <button
+                    type="button"
+                    class="quick-action"
+                    onclick="window.location.href='autopayroll.html'">
+
+                    <span class="material-icons">
+                        calculate
+                    </span>
+
+                    <div>
+
+                        <strong>
+                            Auto Payroll
+                        </strong>
+
+                        <small>
+                            Hourly computation
+                        </small>
+
+                    </div>
+
+                </button>
+
+
+                <button
+                    type="button"
+                    class="quick-action"
+                    onclick="window.location.href='payroll.html'">
+
+                    <span class="material-icons">
+                        payments
+                    </span>
+
+                    <div>
+
+                        <strong>
+                            Payroll
+                        </strong>
+
+                        <small>
+                            Manage payroll
+                        </small>
+
+                    </div>
+
+                </button>
+
+
+                <!-- PAYSLIP -->
+
+                <button
+                    type="button"
+                    class="quick-action"
+                    onclick="window.location.href='payslip.html'">
+
+                    <span class="material-icons">
+                        receipt_long
+                    </span>
+
+                    <div>
+
+                        <strong>
+                            Payslip
+                        </strong>
+
+                        <small>
+                            Employee payslips
+                        </small>
+
+                    </div>
+
+                </button>
+
+
+                <button
+                    type="button"
+                    class="quick-action"
+                    onclick="window.location.href='hrapproval.html'">
+
+                    <span class="material-icons">
+                        approval
+                    </span>
+
+                    <div>
+
+                        <strong>
+                            HR Approval
+                        </strong>
+
+                        <small>
+                            Review requests
+                        </small>
+
+                    </div>
+
+                </button>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- ==================================
+             HR MODULES
+        =================================== -->
+
+        <section class="dashboard-section">
+
+
+            <div class="section-title">
+
+                <div>
+
+                    <h2>
+                        HR Modules
+                    </h2>
+
+                    <p>
+                        Access all available HR functions
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="module-grid">
+
+
+                <a
+                    href="employee.html"
+                    class="module-item">
+
+                    <span class="material-icons">
+                        people
+                    </span>
+
+                    <div>
+
+                        <strong>
+                            Employee Masterlist
+                        </strong>
+
+                        <small>
+                            Employee information
+                            and records
+                        </small>
+
+                    </div>
+
+                </a>
+
+
+                <a
+                    href="attendance.html"
+                    class="module-item">
+
+                    <span class="material-icons">
+                        access_time
+                    </span>
+
+                    <div>
+
+                        <strong>
+                            Attendance
+                        </strong>
+
+                        <small>
+                            Time and attendance
+                            records
+                        </small>
+
+                    </div>
+
+                </a>
+
+
+                <a
+                    href="trackleaves.html"
+                    class="module-item">
+
+                    <span class="material-icons">
+                        event_available
+                    </span>
+
+                    <div>
+
+                        <strong>
+                            Track Leaves
+                        </strong>
+
+                        <small>
+                            Vacation, sick and
+                            birthday leave
+                        </small>
+
+                    </div>
+
+                </a>
+
+
+                <a
+                    href="autopayroll.html"
+                    class="module-item">
+
+                    <span class="material-icons">
+                        calculate
+                    </span>
+
+                    <div>
+
+                        <strong>
+                            Auto Payroll
+                        </strong>
+
+                        <small>
+                            Hourly payroll
+                            computation
+                        </small>
+
+                    </div>
+
+                </a>
+
+
+                <a
+                    href="payroll.html"
+                    class="module-item">
+
+                    <span class="material-icons">
+                        payments
+                    </span>
+
+                    <div>
+
+                        <strong>
+                            Payroll
+                        </strong>
+
+                        <small>
+                            Payroll records
+                            and management
+                        </small>
+
+                    </div>
+
+                </a>
+
+
+                <!-- PAYSLIP -->
+
+                <a
+                    href="payslip.html"
+                    class="module-item">
+
+                    <span class="material-icons">
+                        receipt_long
+                    </span>
+
+                    <div>
+
+                        <strong>
+                            Payslip
+                        </strong>
+
+                        <small>
+                            View and manage
+                            employee payslips
+                        </small>
+
+                    </div>
+
+                </a>
+
+
+                <a
+                    href="hrapproval.html"
+                    class="module-item">
+
+                    <span class="material-icons">
+                        approval
+                    </span>
+
+                    <div>
+
+                        <strong>
+                            HR Approval
+                        </strong>
+
+                        <small>
+                            Review employee
+                            requests
+                        </small>
+
+                    </div>
+
+                </a>
+
+
+                <a
+                    href="employeeportal.html"
+                    class="module-item">
+
+                    <span class="material-icons">
+                        account_circle
+                    </span>
+
+                    <div>
+
+                        <strong>
+                            Employee Portal
+                        </strong>
+
+                        <small>
+                            Employee self-service
+                        </small>
+
+                    </div>
+
+                </a>
+
+
+                <a
+                    href="settings.html"
+                    class="module-item">
+
+                    <span class="material-icons">
+                        settings
+                    </span>
+
+                    <div>
+
+                        <strong>
+                            Settings
+                        </strong>
+
+                        <small>
+                            System configuration
+                        </small>
+
+                    </div>
+
+                </a>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- ==================================
+             TODAY STATUS
+        =================================== -->
+
+        <section class="dashboard-section">
+
+
+            <div class="section-title">
+
+                <div>
+
+                    <h2>
+                        Today's Status
+                    </h2>
+
+                    <p>
+                        Current employee attendance overview
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="status-grid">
+
+
+                <div class="status-card present">
+
+                    <span class="material-icons">
+                        check_circle
+                    </span>
+
+                    <div>
+
+                        <strong id="presentCount">
+                            0
+                        </strong>
+
+                        <span>
+                            PRESENT
+                        </span>
+
+                    </div>
+
+                </div>
+
+
+                <div class="status-card late">
+
+                    <span class="material-icons">
+                        schedule
+                    </span>
+
+                    <div>
+
+                        <strong id="lateCount">
+                            0
+                        </strong>
+
+                        <span>
+                            LATE
+                        </span>
+
+                    </div>
+
+                </div>
+
+
+                <div class="status-card leave">
+
+                    <span class="material-icons">
+                        event
+                    </span>
+
+                    <div>
+
+                        <strong id="onLeaveCount">
+                            0
+                        </strong>
+
+                        <span>
+                            ON LEAVE
+                        </span>
+
+                    </div>
+
+                </div>
+
+
+                <div class="status-card absent">
+
+                    <span class="material-icons">
+                        cancel
+                    </span>
+
+                    <div>
+
+                        <strong id="absentCount">
+                            0
+                        </strong>
+
+                        <span>
+                            ABSENT
+                        </span>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- ==================================
+             RECENT ACTIVITY
+        =================================== -->
+
+        <section class="dashboard-section">
+
+
+            <div class="section-title">
+
+                <div>
+
+                    <h2>
+                        Recent Leave Activity
+                    </h2>
+
+                    <p>
+                        Latest employee leave requests
+                    </p>
+
+                </div>
+
+
+                <button
+                    type="button"
+                    class="view-button"
+                    onclick="window.location.href='trackleaves.html'">
+
+                    View All
+
+                    <span class="material-icons">
+                        arrow_forward
+                    </span>
+
+                </button>
+
+            </div>
+
+
+            <div
+                id="recentActivity"
+                class="recent-activity">
+
+                <div class="empty-state">
+
+                    <span class="material-icons">
+                        history
+                    </span>
+
+                    <p>
+                        Loading recent activity...
+                    </p>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+    </section>
+
+
+
+    <!-- FOOTER -->
+
+    <footer class="dashboard-footer">
+
+        © 2026
+
+        <strong>
             PAPPRITO HRIS
-        </h2>
+        </strong>
 
-        <p>
-            Manage your employees,
-            attendance, leaves and payroll
-            from one place.
-        </p>
+        — Human Resource Information System
 
-    </div>
-
-
-    <div class="welcome-icon">
-
-        <span class="material-icons">
-            business_center
-        </span>
-
-    </div>
-
-</div>
-
-
-
-<!-- ==========================================
-     SUMMARY CARDS
-========================================== -->
-
-<div class="summary-grid">
-
-
-    <div class="summary-card">
-
-        <div class="summary-icon employees">
-
-            <span class="material-icons">
-                people
-            </span>
-
-        </div>
-
-        <div>
-
-            <span>
-                Total Employees
-            </span>
-
-            <strong
-                id="totalEmployees">
-
-                0
-
-            </strong>
-
-        </div>
-
-    </div>
-
-
-
-    <div class="summary-card">
-
-        <div class="summary-icon attendance">
-
-            <span class="material-icons">
-                access_time
-            </span>
-
-        </div>
-
-        <div>
-
-            <span>
-                Today's Attendance
-            </span>
-
-            <strong
-                id="todayAttendance">
-
-                0
-
-            </strong>
-
-        </div>
-
-    </div>
-
-
-
-    <div class="summary-card">
-
-        <div class="summary-icon leaves">
-
-            <span class="material-icons">
-                event_available
-            </span>
-
-        </div>
-
-        <div>
-
-            <span>
-                Leave Requests
-            </span>
-
-            <strong
-                id="leaveRequests">
-
-                0
-
-            </strong>
-
-        </div>
-
-    </div>
-
-
-
-    <div class="summary-card">
-
-        <div class="summary-icon payroll">
-
-            <span class="material-icons">
-                payments
-            </span>
-
-        </div>
-
-        <div>
-
-            <span>
-                Payroll
-            </span>
-
-            <strong
-                id="totalPayroll">
-
-                ₱0.00
-
-            </strong>
-
-        </div>
-
-    </div>
-
-</div>
-
-
-
-<!-- ==========================================
-     QUICK ACTIONS
-========================================== -->
-
-<section class="dashboard-section">
-
-
-    <div class="section-title">
-
-        <div>
-
-            <h2>
-                Quick Actions
-            </h2>
-
-            <p>
-                Frequently used HR functions
-            </p>
-
-        </div>
-
-    </div>
-
-
-
-    <div class="quick-actions">
-
-
-        <button
-            type="button"
-            class="quick-action"
-            onclick="window.location.href='employee.html'">
-
-            <span class="material-icons">
-                person_add
-            </span>
-
-            <strong>
-                Employee
-            </strong>
-
-            <small>
-                Manage employees
-            </small>
-
-        </button>
-
-
-
-        <button
-            type="button"
-            class="quick-action"
-            onclick="window.location.href='attendance.html'">
-
-            <span class="material-icons">
-                access_time
-            </span>
-
-            <strong>
-                Attendance
-            </strong>
-
-            <small>
-                Track attendance
-            </small>
-
-        </button>
-
-
-
-        <!-- ==================================
-             CORRECT TRACK LEAVES PATH
-        =================================== -->
-
-        <button
-            type="button"
-            class="quick-action"
-            onclick="window.location.href='trackleaves.html'">
-
-            <span class="material-icons">
-                event_available
-            </span>
-
-            <strong>
-                Track Leaves
-            </strong>
-
-            <small>
-                Leave balances
-            </small>
-
-        </button>
-
-
-
-        <button
-            type="button"
-            class="quick-action"
-            onclick="window.location.href='autopayroll.html'">
-
-            <span class="material-icons">
-                calculate
-            </span>
-
-            <strong>
-                Auto Payroll
-            </strong>
-
-            <small>
-                Hourly computation
-            </small>
-
-        </button>
-
-
-
-        <button
-            type="button"
-            class="quick-action"
-            onclick="window.location.href='payroll.html'">
-
-            <span class="material-icons">
-                payments
-            </span>
-
-            <strong>
-                Payroll
-            </strong>
-
-            <small>
-                Manage payroll
-            </small>
-
-        </button>
-
-
-
-        <button
-            type="button"
-            class="quick-action"
-            onclick="window.location.href='hrapproval.html'">
-
-            <span class="material-icons">
-                approval
-            </span>
-
-            <strong>
-                HR Approval
-            </strong>
-
-            <small>
-                Review requests
-            </small>
-
-        </button>
-
-    </div>
-
-</section>
-
-
-
-<!-- ==========================================
-     MODULES
-========================================== -->
-
-<section class="dashboard-section">
-
-
-    <div class="section-title">
-
-        <div>
-
-            <h2>
-                HR Modules
-            </h2>
-
-            <p>
-                Access all available HR functions
-            </p>
-
-        </div>
-
-    </div>
-
-
-
-    <div class="module-grid">
-
-
-        <a
-            href="employee.html"
-            class="module-item">
-
-            <span class="material-icons">
-                people
-            </span>
-
-            <div>
-
-                <strong>
-                    Employee Masterlist
-                </strong>
-
-                <small>
-                    Employee information
-                    and records
-                </small>
-
-            </div>
-
-        </a>
-
-
-
-        <a
-            href="attendance.html"
-            class="module-item">
-
-            <span class="material-icons">
-                access_time
-            </span>
-
-            <div>
-
-                <strong>
-                    Attendance
-                </strong>
-
-                <small>
-                    Time in, break and
-                    time out records
-                </small>
-
-            </div>
-
-        </a>
-
-
-
-        <!-- ==================================
-             CORRECT TRACK LEAVES PATH
-        =================================== -->
-
-        <a
-            href="trackleaves.html"
-            class="module-item">
-
-            <span class="material-icons">
-                event_available
-            </span>
-
-            <div>
-
-                <strong>
-                    Track Leaves
-                </strong>
-
-                <small>
-                    Vacation, sick and
-                    birthday leave balances
-                </small>
-
-            </div>
-
-        </a>
-
-
-
-        <a
-            href="autopayroll.html"
-            class="module-item">
-
-            <span class="material-icons">
-                calculate
-            </span>
-
-            <div>
-
-                <strong>
-                    Auto Payroll
-                </strong>
-
-                <small>
-                    Hourly payroll
-                    computation
-                </small>
-
-            </div>
-
-        </a>
-
-
-
-        <a
-            href="payroll.html"
-            class="module-item">
-
-            <span class="material-icons">
-                payments
-            </span>
-
-            <div>
-
-                <strong>
-                    Payroll
-                </strong>
-
-                <small>
-                    Payroll records
-                    and management
-                </small>
-
-            </div>
-
-        </a>
-
-
-
-        <a
-            href="hrapproval.html"
-            class="module-item">
-
-            <span class="material-icons">
-                approval
-            </span>
-
-            <div>
-
-                <strong>
-                    HR Approval
-                </strong>
-
-                <small>
-                    Review employee
-                    requests
-                </small>
-
-            </div>
-
-        </a>
-
-
-
-        <a
-            href="employeeportal.html"
-            class="module-item">
-
-            <span class="material-icons">
-                account_circle
-            </span>
-
-            <div>
-
-                <strong>
-                    Employee Portal
-                </strong>
-
-                <small>
-                    Employee self-service
-                </small>
-
-            </div>
-
-        </a>
-
-
-
-        <a
-            href="settings.html"
-            class="module-item">
-
-            <span class="material-icons">
-                settings
-            </span>
-
-            <div>
-
-                <strong>
-                    Settings
-                </strong>
-
-                <small>
-                    System configuration
-                </small>
-
-            </div>
-
-        </a>
-
-    </div>
-
-</section>
-
-
-
-<!-- ==========================================
-     RECENT ACTIVITY
-========================================== -->
-
-<section class="dashboard-section">
-
-
-    <div class="section-title">
-
-        <div>
-
-            <h2>
-                Recent Activity
-            </h2>
-
-            <p>
-                Latest HRIS activities
-            </p>
-
-        </div>
-
-    </div>
-
-
-    <div
-        id="recentActivity"
-        class="recent-activity">
-
-        <div class="empty-state">
-
-            <span class="material-icons">
-                history
-            </span>
-
-            <p>
-                Loading recent activity...
-            </p>
-
-        </div>
-
-    </div>
-
-</section>
-
-
-
-</section>
-
-
-<!-- ==========================================
-     FOOTER
-========================================== -->
-
-<footer class="dashboard-footer">
-
-    © 2026
-    <strong>
-        PAPPRITO HRIS
-    </strong>
-
-    — Human Resource Information System
-
-</footer>
+    </footer>
 
 
 </main>
 
 
 
-<!-- ==========================================
-     JAVASCRIPT
-========================================== -->
-
 <script
     type="module"
     src="../js/dashboard.js">
 </script>
-
 
 </body>
 
