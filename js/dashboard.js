@@ -1,6 +1,7 @@
 /* ==========================================
    PAPPRITO HRIS
    PREMIUM DASHBOARD JS
+   + EMPLOYEE REQUEST NOTIFICATION SOUND
 ========================================== */
 
 import {
@@ -8,16 +9,20 @@ import {
     auth
 } from "./firebase.js";
 
+
 import {
     collection,
     getDocs
-} from
+}
+from
 "https://www.gstatic.com/firebasejs/12.13.0/firebase-firestore.js";
+
 
 import {
     onAuthStateChanged,
     signOut
-} from
+}
+from
 "https://www.gstatic.com/firebasejs/12.13.0/firebase-auth.js";
 
 
@@ -35,65 +40,564 @@ let currentUser = null;
 
 
 /* ==========================================
+   NOTIFICATION SOUND
+========================================== */
+
+const notificationSound =
+    new Audio(
+        "../assets/sounds/notification.mp3"
+    );
+
+
+notificationSound.preload =
+    "auto";
+
+
+notificationSound.volume =
+    0.8;
+
+
+let notificationSoundEnabled =
+    false;
+
+
+let knownPendingRequests =
+    new Set();
+
+
+let firstRequestCheck =
+    true;
+
+
+/* ==========================================
+   ENABLE SOUND AFTER USER INTERACTION
+========================================== */
+
+function enableNotificationSound(){
+
+    if(
+        notificationSoundEnabled
+    ){
+
+        return;
+
+    }
+
+
+    notificationSoundEnabled =
+        true;
+
+
+    /*
+     * Browser audio permission
+     * is unlocked after user interaction.
+     *
+     * We play muted once so the
+     * browser allows future sounds.
+     */
+
+    try{
+
+        notificationSound.muted =
+            true;
+
+
+        const promise =
+            notificationSound.play();
+
+
+        if(
+            promise &&
+            typeof promise.then ===
+            "function"
+        ){
+
+            promise
+                .then(
+                    () => {
+
+                        notificationSound.pause();
+
+                        notificationSound.currentTime =
+                            0;
+
+                        notificationSound.muted =
+                            false;
+
+                    }
+                )
+                .catch(
+                    error => {
+
+                        notificationSound.muted =
+                            false;
+
+                        console.log(
+                            "Notification sound waiting for permission:",
+                            error
+                        );
+
+                    }
+                );
+
+        }
+
+        else{
+
+            notificationSound.pause();
+
+            notificationSound.currentTime =
+                0;
+
+            notificationSound.muted =
+                false;
+
+        }
+
+    }catch(error){
+
+        notificationSound.muted =
+            false;
+
+        console.log(
+            "Notification sound initialization error:",
+            error
+        );
+
+    }
+
+}
+
+
+/* ==========================================
+   USER INTERACTION
+========================================== */
+
+document.addEventListener(
+    "click",
+    enableNotificationSound,
+    {
+        once:true
+    }
+);
+
+
+document.addEventListener(
+    "touchstart",
+    enableNotificationSound,
+    {
+        once:true,
+        passive:true
+    }
+);
+
+
+/* ==========================================
+   PLAY NOTIFICATION
+========================================== */
+
+function playNotificationSound(){
+
+    if(
+        !notificationSoundEnabled
+    ){
+
+        console.log(
+            "Notification sound is waiting for user interaction."
+        );
+
+        return;
+
+    }
+
+
+    try{
+
+        notificationSound.pause();
+
+        notificationSound.currentTime =
+            0;
+
+
+        const promise =
+            notificationSound.play();
+
+
+        if(
+            promise &&
+            typeof promise.catch ===
+            "function"
+        ){
+
+            promise.catch(
+                error => {
+
+                    console.log(
+                        "Notification sound could not play:",
+                        error
+                    );
+
+                }
+            );
+
+        }
+
+    }catch(error){
+
+        console.error(
+            "Notification Sound Error:",
+            error
+        );
+
+    }
+
+}
+
+
+/* ==========================================
+   CHECK NEW REQUESTS
+========================================== */
+
+function checkNewEmployeeRequests(){
+
+    const pendingRequests =
+        leaveRequests.filter(
+            request => {
+
+                return text(
+                    request.status
+                )
+                .toUpperCase()
+                ===
+                "PENDING";
+
+            }
+        );
+
+
+    const currentPendingIds =
+        new Set();
+
+
+    pendingRequests.forEach(
+        request => {
+
+            currentPendingIds.add(
+                request.id
+            );
+
+        }
+    );
+
+
+    /*
+     * First load:
+     * establish current requests
+     * without playing sound.
+     */
+
+    if(
+        firstRequestCheck
+    ){
+
+        knownPendingRequests =
+            currentPendingIds;
+
+        firstRequestCheck =
+            false;
+
+        return;
+
+    }
+
+
+    /*
+     * Find requests that were not
+     * present during the previous check.
+     */
+
+    let hasNewRequest =
+        false;
+
+
+    currentPendingIds.forEach(
+        id => {
+
+            if(
+                !knownPendingRequests.has(
+                    id
+                )
+            ){
+
+                hasNewRequest =
+                    true;
+
+            }
+
+        }
+    );
+
+
+    knownPendingRequests =
+        currentPendingIds;
+
+
+    if(
+        hasNewRequest
+    ){
+
+        playNotificationSound();
+
+        showNewRequestNotification();
+
+    }
+
+}
+
+
+/* ==========================================
+   NEW REQUEST VISUAL NOTIFICATION
+========================================== */
+
+function showNewRequestNotification(){
+
+    const badge =
+        document.getElementById(
+            "notificationBadge"
+        );
+
+
+    if(
+        badge
+    ){
+
+        badge.style.display =
+            "flex";
+
+        badge.classList.add(
+            "notification-pulse"
+        );
+
+
+        setTimeout(
+            () => {
+
+                badge.classList.remove(
+                    "notification-pulse"
+                );
+
+            },
+            1500
+        );
+
+    }
+
+
+    /*
+     * Browser notification is optional.
+     * It only works when permission
+     * has already been granted.
+     */
+
+    if(
+        "Notification" in window &&
+        Notification.permission ===
+        "granted"
+    ){
+
+        try{
+
+            new Notification(
+                "PAPPRITO HRIS",
+                {
+
+                    body:
+                        "A new employee request has been submitted.",
+
+                    icon:
+                        "../assets/images/icon-192.png"
+
+                }
+            );
+
+        }catch(error){
+
+            console.log(
+                "Browser notification error:",
+                error
+            );
+
+        }
+
+    }
+
+}
+
+
+/* ==========================================
+   REQUEST POLLING
+========================================== */
+
+let requestPollingTimer =
+    null;
+
+
+function startRequestPolling(){
+
+    if(
+        requestPollingTimer
+    ){
+
+        clearInterval(
+            requestPollingTimer
+        );
+
+    }
+
+
+    /*
+     * Check for new employee
+     * requests every 15 seconds.
+     */
+
+    requestPollingTimer =
+        setInterval(
+            async function(){
+
+                try{
+
+                    await loadLeaveRequests(
+                        true
+                    );
+
+                }catch(error){
+
+                    console.error(
+                        "Request polling error:",
+                        error
+                    );
+
+                }
+
+            },
+            15000
+        );
+
+}
+
+
+/* ==========================================
    ELEMENTS
 ========================================== */
 
 const sidebar =
-    document.getElementById("sidebar");
+    document.getElementById(
+        "sidebar"
+    );
+
 
 const sidebarOverlay =
-    document.getElementById("sidebarOverlay");
+    document.getElementById(
+        "sidebarOverlay"
+    );
+
 
 const menuBtn =
-    document.getElementById("menuBtn");
+    document.getElementById(
+        "menuBtn"
+    );
+
 
 const currentDate =
-    document.getElementById("currentDate");
+    document.getElementById(
+        "currentDate"
+    );
 
-const currentUserName =
-    document.getElementById("currentUserName");
 
 const sidebarUser =
-    document.getElementById("sidebarUser");
+    document.getElementById(
+        "sidebarUser"
+    );
+
+
+const welcomeUser =
+    document.getElementById(
+        "welcomeUser"
+    );
+
 
 const totalEmployees =
-    document.getElementById("totalEmployees");
+    document.getElementById(
+        "totalEmployees"
+    );
+
 
 const activeEmployees =
-    document.getElementById("activeEmployees");
+    document.getElementById(
+        "activeEmployees"
+    );
+
 
 const todayAttendance =
-    document.getElementById("todayAttendance");
+    document.getElementById(
+        "todayAttendance"
+    );
 
-const leaveRequestsElement =
-    document.getElementById("leaveRequests");
 
 const pendingLeaves =
-    document.getElementById("pendingLeaves");
+    document.getElementById(
+        "pendingLeaves"
+    );
 
-const totalPayroll =
-    document.getElementById("totalPayroll");
 
 const presentCount =
-    document.getElementById("presentCount");
+    document.getElementById(
+        "presentCount"
+    );
+
 
 const lateCount =
-    document.getElementById("lateCount");
+    document.getElementById(
+        "lateCount"
+    );
+
 
 const onLeaveCount =
-    document.getElementById("onLeaveCount");
+    document.getElementById(
+        "onLeaveCount"
+    );
+
 
 const absentCount =
-    document.getElementById("absentCount");
+    document.getElementById(
+        "absentCount"
+    );
+
 
 const notificationBadge =
-    document.getElementById("notificationBadge");
+    document.getElementById(
+        "notificationBadge"
+    );
 
-const recentActivity =
-    document.getElementById("recentActivity");
 
-const logoutBtn =
-    document.getElementById("logoutBtn");
+/*
+ * Supports both IDs:
+ *
+ * recentLeaves
+ * recentActivity
+ *
+ * so existing dashboard HTML
+ * continues to work.
+ */
+
+const recentLeaves =
+    document.getElementById(
+        "recentLeaves"
+    )
+    ||
+    document.getElementById(
+        "recentActivity"
+    );
 
 
 /* ==========================================
@@ -114,17 +618,37 @@ function escapeHTML(value){
     return String(
         value ?? ""
     )
-    .replace(/&/g,"&amp;")
-    .replace(/</g,"&lt;")
-    .replace(/>/g,"&gt;")
-    .replace(/"/g,"&quot;")
-    .replace(/'/g,"&#039;");
+
+    .replace(
+        /&/g,
+        "&amp;"
+    )
+
+    .replace(
+        /</g,
+        "&lt;"
+    )
+
+    .replace(
+        />/g,
+        "&gt;"
+    )
+
+    .replace(
+        /"/g,
+        "&quot;"
+    )
+
+    .replace(
+        /'/g,
+        "&#039;"
+    );
 
 }
 
 
 /* ==========================================
-   TODAY
+   DATE FORMAT
 ========================================== */
 
 function getToday(){
@@ -132,18 +656,30 @@ function getToday(){
     const date =
         new Date();
 
+
     const year =
         date.getFullYear();
+
 
     const month =
         String(
             date.getMonth() + 1
-        ).padStart(2,"0");
+        )
+        .padStart(
+            2,
+            "0"
+        );
+
 
     const day =
         String(
             date.getDate()
-        ).padStart(2,"0");
+        )
+        .padStart(
+            2,
+            "0"
+        );
+
 
     return `${year}-${month}-${day}`;
 
@@ -151,23 +687,41 @@ function getToday(){
 
 
 /* ==========================================
-   CURRENT DATE
+   DISPLAY DATE
 ========================================== */
 
 function displayCurrentDate(){
 
-    if(!currentDate){
+    if(
+        !currentDate
+    ){
+
         return;
+
     }
 
+
+    const date =
+        new Date();
+
+
     currentDate.textContent =
-        new Date().toLocaleDateString(
+        date.toLocaleDateString(
             "en-US",
             {
-                weekday:"short",
-                month:"short",
-                day:"numeric",
-                year:"numeric"
+
+                weekday:
+                    "short",
+
+                month:
+                    "short",
+
+                day:
+                    "numeric",
+
+                year:
+                    "numeric"
+
             }
         );
 
@@ -175,54 +729,93 @@ function displayCurrentDate(){
 
 
 /* ==========================================
-   USER
+   USER NAME
 ========================================== */
 
 function getCurrentUserName(){
 
-    const stored =
+    const storedName =
         text(
             localStorage.getItem(
                 "loggedInUser"
             )
         );
 
-    if(stored){
-        return stored;
+
+    if(
+        storedName
+    ){
+
+        return storedName;
+
     }
+
 
     if(
         currentUser &&
         currentUser.email
     ){
+
         return currentUser.email;
+
     }
 
-    return "HR Administrator";
+
+    return "Admin";
 
 }
 
+
+/* ==========================================
+   DISPLAY USER
+========================================== */
 
 function displayUser(){
 
     const name =
         getCurrentUserName();
 
-    if(currentUserName){
-        currentUserName.textContent =
-            name;
-    }
 
-    if(sidebarUser){
+    if(
+        sidebarUser
+    ){
+
         sidebarUser.textContent =
             name;
+
+    }
+
+
+    if(
+        welcomeUser
+    ){
+
+        welcomeUser.textContent =
+            name;
+
+    }
+
+
+    const currentUserName =
+        document.getElementById(
+            "currentUserName"
+        );
+
+
+    if(
+        currentUserName
+    ){
+
+        currentUserName.textContent =
+            name;
+
     }
 
 }
 
 
 /* ==========================================
-   NUMBER ANIMATION
+   ANIMATE NUMBER
 ========================================== */
 
 function animateNumber(
@@ -230,33 +823,62 @@ function animateNumber(
     target
 ){
 
-    if(!element){
+    if(
+        !element
+    ){
+
         return;
+
     }
 
-    const finalValue =
-        Number(target || 0);
 
-    if(finalValue === 0){
+    const finalValue =
+        Number(
+            target || 0
+        );
+
+
+    if(
+        finalValue === 0
+    ){
 
         element.textContent =
             "0";
 
         return;
+
     }
 
-    let current = 0;
 
-    const steps = 25;
+    let current =
+        0;
+
+
+    const duration =
+        500;
+
+
+    const steps =
+        25;
+
 
     const increment =
-        finalValue / steps;
+        finalValue /
+        steps;
+
+
+    const interval =
+        duration /
+        steps;
+
 
     const timer =
         setInterval(
             () => {
 
-                current += increment;
+                current +=
+                    increment;
+
 
                 if(
                     current >=
@@ -266,27 +888,33 @@ function animateNumber(
                     current =
                         finalValue;
 
-                    clearInterval(timer);
+                    clearInterval(
+                        timer
+                    );
 
                 }
 
+
                 element.textContent =
-                    Math.floor(current);
+                    Math.floor(
+                        current
+                    );
 
             },
-            20
+            interval
         );
 
 }
 
 
 /* ==========================================
-   EMPLOYEES
+   LOAD EMPLOYEES
 ========================================== */
 
 async function loadEmployees(){
 
     employees = [];
+
 
     try{
 
@@ -298,12 +926,14 @@ async function loadEmployees(){
                 )
             );
 
+
         snapshot.forEach(
             docSnap => {
 
                 employees.push({
 
-                    id:docSnap.id,
+                    id:
+                        docSnap.id,
 
                     ...docSnap.data()
 
@@ -312,48 +942,57 @@ async function loadEmployees(){
             }
         );
 
+
         updateEmployeeStats();
 
-    }
-    catch(error){
+
+    }catch(error){
 
         console.error(
             "Employee Load Error:",
             error
         );
 
-        updateEmployeeStats();
-
     }
 
 }
 
+
+/* ==========================================
+   EMPLOYEE STATS
+========================================== */
 
 function updateEmployeeStats(){
 
     const total =
         employees.length;
 
+
     const active =
         employees.filter(
             employee => {
 
-                return (
+                const status =
                     text(
                         employee.status
                     )
-                    .toLowerCase()
-                    ===
+                    .toLowerCase();
+
+
+                return (
+                    status ===
                     "active"
                 );
 
             }
         ).length;
 
+
     animateNumber(
         totalEmployees,
         total
     );
+
 
     animateNumber(
         activeEmployees,
@@ -364,12 +1003,13 @@ function updateEmployeeStats(){
 
 
 /* ==========================================
-   ATTENDANCE
+   LOAD ATTENDANCE
 ========================================== */
 
 async function loadAttendance(){
 
     attendanceRecords = [];
+
 
     try{
 
@@ -381,12 +1021,14 @@ async function loadAttendance(){
                 )
             );
 
+
         snapshot.forEach(
             docSnap => {
 
                 attendanceRecords.push({
 
-                    id:docSnap.id,
+                    id:
+                        docSnap.id,
 
                     ...docSnap.data()
 
@@ -395,15 +1037,17 @@ async function loadAttendance(){
             }
         );
 
+
         updateAttendanceStats();
 
-    }
-    catch(error){
+
+    }catch(error){
 
         console.error(
             "Attendance Load Error:",
             error
         );
+
 
         updateAttendanceStats();
 
@@ -412,42 +1056,24 @@ async function loadAttendance(){
 }
 
 
-function getAttendanceDate(record){
+/* ==========================================
+   ATTENDANCE DATE
+========================================== */
 
-    if(
-        record.date &&
-        typeof record.date ===
-        "object" &&
-        typeof record.date.toDate ===
-        "function"
-    ){
-
-        const date =
-            record.date.toDate();
-
-        const year =
-            date.getFullYear();
-
-        const month =
-            String(
-                date.getMonth()+1
-            ).padStart(2,"0");
-
-        const day =
-            String(
-                date.getDate()
-            ).padStart(2,"0");
-
-        return `${year}-${month}-${day}`;
-
-    }
+function getAttendanceDate(
+    record
+){
 
     return text(
 
         record.date ||
+
         record.attendanceDate ||
+
         record.workDate ||
+
         record.day ||
+
         ""
 
     );
@@ -455,45 +1081,71 @@ function getAttendanceDate(record){
 }
 
 
-function getAttendanceEmployeeId(record){
+/* ==========================================
+   ATTENDANCE EMPLOYEE ID
+========================================== */
+
+function getAttendanceEmployeeId(
+    record
+){
 
     return text(
 
         record.employeeid ||
+
         record.employeeId ||
+
         record.empid ||
+
         record.empID ||
-        record.employeeID ||
+
         ""
 
-    ).toUpperCase();
+    )
+    .toUpperCase();
 
 }
 
 
-function updateAttendanceStats(){
+/* ==========================================
+   TODAY ATTENDANCE
+========================================== */
+
+function getTodayAttendance(){
 
     const today =
         getToday();
 
-    const records =
-        attendanceRecords.filter(
-            record =>
+
+    return attendanceRecords.filter(
+        record => {
+
+            const date =
                 getAttendanceDate(
                     record
-                ) === today
-        );
+                );
 
 
-    const employeeIds =
-        new Set();
+            return date ===
+                today;
+
+        }
+    );
+
+}
 
 
-    const presentIds =
-        new Set();
+/* ==========================================
+   ATTENDANCE STATS
+========================================== */
+
+function updateAttendanceStats(){
+
+    const records =
+        getTodayAttendance();
 
 
-    const lateIds =
+    const uniqueEmployees =
         new Set();
 
 
@@ -505,6 +1157,45 @@ function updateAttendanceStats(){
                     record
                 );
 
+
+            if(
+                id
+            ){
+
+                uniqueEmployees.add(
+                    id
+                );
+
+            }
+
+        }
+    );
+
+
+    const attendanceTotal =
+        uniqueEmployees.size
+        ||
+        records.length;
+
+
+    let present =
+        0;
+
+
+    let late =
+        0;
+
+
+    records.forEach(
+        record => {
+
+            const status =
+                text(
+                    record.status
+                )
+                .toLowerCase();
+
+
             const timeIn =
                 text(
                     record.timeIn ||
@@ -512,19 +1203,89 @@ function updateAttendanceStats(){
                     ""
                 );
 
-            const status =
-                text(
-                    record.status
-                ).toLowerCase();
+
+            if(
+                status.includes(
+                    "late"
+                )
+            ){
+
+                late++;
+
+                present++;
+
+                return;
+
+            }
 
 
-            if(id){
+            if(
+                timeIn
+            ){
 
-                employeeIds.add(id);
+                present++;
 
-                if(timeIn){
-                    presentIds.add(id);
+            }
+
+        }
+    );
+
+
+    if(
+        uniqueEmployees.size > 0
+    ){
+
+        const uniquePresent =
+            new Set();
+
+
+        const uniqueLate =
+            new Set();
+
+
+        records.forEach(
+            record => {
+
+                const id =
+                    getAttendanceEmployeeId(
+                        record
+                    );
+
+
+                if(
+                    !id
+                ){
+
+                    return;
+
                 }
+
+
+                const status =
+                    text(
+                        record.status
+                    )
+                    .toLowerCase();
+
+
+                const timeIn =
+                    text(
+                        record.timeIn ||
+                        record.timein ||
+                        ""
+                    );
+
+
+                if(
+                    timeIn
+                ){
+
+                    uniquePresent.add(
+                        id
+                    );
+
+                }
+
 
                 if(
                     status.includes(
@@ -532,45 +1293,46 @@ function updateAttendanceStats(){
                     )
                 ){
 
-                    lateIds.add(id);
+                    uniqueLate.add(
+                        id
+                    );
 
                 }
 
             }
-
-        }
-    );
+        );
 
 
-    const total =
-        employeeIds.size ||
-        records.length;
+        present =
+            uniquePresent.size;
+
+
+        late =
+            uniqueLate.size;
+
+    }
 
 
     animateNumber(
         todayAttendance,
-        total
+        attendanceTotal
     );
 
 
     animateNumber(
         presentCount,
-        presentIds.size
+        present
     );
 
 
     animateNumber(
         lateCount,
-        lateIds.size
+        late
     );
 
 
-    const activeIds =
-        new Set();
-
-
-    employees
-        .filter(
+    const active =
+        employees.filter(
             employee =>
                 text(
                     employee.status
@@ -578,44 +1340,89 @@ function updateAttendanceStats(){
                 .toLowerCase()
                 ===
                 "active"
-        )
-        .forEach(
-            employee => {
-
-                const id =
-                    text(
-
-                        employee.employeeid ||
-                        employee.employeeId ||
-                        employee.empid ||
-                        ""
-
-                    ).toUpperCase();
-
-                if(id){
-                    activeIds.add(id);
-                }
-
-            }
         );
 
 
-    let absent = 0;
+    const activeIds =
+        new Set();
 
 
-    activeIds.forEach(
-        id => {
+    active.forEach(
+        employee => {
+
+            const id =
+                text(
+                    employee.employeeid
+                )
+                .toUpperCase();
+
 
             if(
-                !employeeIds.has(id)
+                id
             ){
 
-                absent++;
+                activeIds.add(
+                    id
+                );
 
             }
 
         }
     );
+
+
+    const presentIds =
+        new Set();
+
+
+    records.forEach(
+        record => {
+
+            const id =
+                getAttendanceEmployeeId(
+                    record
+                );
+
+
+            if(
+                id
+            ){
+
+                presentIds.add(
+                    id
+                );
+
+            }
+
+        }
+    );
+
+
+    let absent =
+        0;
+
+
+    if(
+        activeIds.size > 0
+    ){
+
+        activeIds.forEach(
+            id => {
+
+                if(
+                    !presentIds.has(
+                        id
+                    )
+                ){
+
+                    absent++;
+
+                }
+
+            }
+        );
+
+    }
 
 
     animateNumber(
@@ -627,12 +1434,19 @@ function updateAttendanceStats(){
 
 
 /* ==========================================
-   LEAVE REQUESTS
+   LOAD LEAVE REQUESTS
 ========================================== */
 
-async function loadLeaveRequests(){
+async function loadLeaveRequests(
+    fromPolling = false
+){
+
+    const previousRequests =
+        leaveRequests;
+
 
     leaveRequests = [];
+
 
     try{
 
@@ -644,12 +1458,14 @@ async function loadLeaveRequests(){
                 )
             );
 
+
         snapshot.forEach(
             docSnap => {
 
                 leaveRequests.push({
 
-                    id:docSnap.id,
+                    id:
+                        docSnap.id,
 
                     ...docSnap.data()
 
@@ -658,56 +1474,113 @@ async function loadLeaveRequests(){
             }
         );
 
+
         updateLeaveStats();
 
-        renderRecentActivity();
+        renderRecentLeaves();
 
-    }
-    catch(error){
+
+        /*
+         * Only check new requests
+         * after the first normal load.
+         */
+
+        if(
+            fromPolling
+        ){
+
+            checkNewEmployeeRequests();
+
+        }
+
+    }catch(error){
 
         console.error(
             "Leave Request Load Error:",
             error
         );
 
+
+        leaveRequests =
+            previousRequests;
+
+
         updateLeaveStats();
 
-        renderRecentActivity();
+        renderRecentLeaves();
 
     }
 
 }
 
 
+/* ==========================================
+   LEAVE STATS
+========================================== */
+
 function updateLeaveStats(){
 
     const pending =
         leaveRequests.filter(
-            request =>
-                text(
+            request => {
+
+                return text(
                     request.status
                 )
                 .toUpperCase()
                 ===
-                "PENDING"
+                "PENDING";
+
+            }
         ).length;
 
 
+    /*
+     * Existing dashboard ID
+     */
+
     animateNumber(
-        leaveRequestsElement,
+        pendingLeaves,
         pending
     );
 
 
-    if(notificationBadge){
+    /*
+     * Current dashboard HTML
+     * uses leaveRequests.
+     */
+
+    const leaveRequestsElement =
+        document.getElementById(
+            "leaveRequests"
+        );
+
+
+    if(
+        leaveRequestsElement
+    ){
+
+        animateNumber(
+            leaveRequestsElement,
+            pending
+        );
+
+    }
+
+
+    if(
+        notificationBadge
+    ){
 
         notificationBadge.textContent =
             pending;
 
         notificationBadge.style.display =
             pending > 0
-            ? "flex"
-            : "none";
+            ?
+            "flex"
+            :
+            "none";
 
     }
 
@@ -720,23 +1593,25 @@ function updateLeaveStats(){
         leaveRequests.filter(
             request => {
 
-                return (
-
+                const status =
                     text(
                         request.status
                     )
-                    .toUpperCase()
-                    ===
-                    "APPROVED"
+                    .toUpperCase();
 
-                    &&
 
+                const date =
                     text(
                         request.date
-                    )
-                    ===
-                    today
+                    );
 
+
+                return (
+                    status ===
+                    "APPROVED"
+                    &&
+                    date ===
+                    today
                 );
 
             }
@@ -752,47 +1627,97 @@ function updateLeaveStats(){
 
 
 /* ==========================================
-   RECENT ACTIVITY
+   SORT LEAVES
 ========================================== */
 
-function renderRecentActivity(){
+function sortLeaves(){
 
-    if(!recentActivity){
+    return [
+        ...leaveRequests
+    ]
+    .sort(
+        (
+            a,
+            b
+        ) => {
+
+            const aTime =
+                Number(
+                    a.timestamp ||
+                    a.createdAt ||
+                    0
+                );
+
+
+            const bTime =
+                Number(
+                    b.timestamp ||
+                    b.createdAt ||
+                    0
+                );
+
+
+            return (
+                bTime -
+                aTime
+            );
+
+        }
+    );
+
+}
+
+
+/* ==========================================
+   RECENT LEAVES
+========================================== */
+
+function renderRecentLeaves(){
+
+    if(
+        !recentLeaves
+    ){
+
         return;
+
     }
 
 
     const requests =
-        [
-            ...leaveRequests
-        ]
-        .slice(0,5);
+        sortLeaves()
+        .slice(
+            0,
+            5
+        );
 
 
-    if(!requests.length){
+    if(
+        requests.length === 0
+    ){
 
-        recentActivity.innerHTML = `
+        recentLeaves.innerHTML = `
 
-            <div class="empty-state">
+<div class="empty-state">
 
-                <span class="material-icons">
-                    event_available
-                </span>
+<span class="material-icons">
+event_available
+</span>
 
-                <p>
-                    No leave requests yet.
-                </p>
+<p>
+No leave requests yet.
+</p>
 
-            </div>
+</div>
 
-        `;
+`;
 
         return;
 
     }
 
 
-    recentActivity.innerHTML = "";
+    recentLeaves.innerHTML =
+        "";
 
 
     requests.forEach(
@@ -800,10 +1725,10 @@ function renderRecentActivity(){
 
             const name =
                 text(
-                    request.employeeName ||
                     request.employee ||
-                    request.name ||
+                    request.employeeName ||
                     request.empid ||
+                    request.employeeId ||
                     "Employee"
                 );
 
@@ -825,7 +1750,7 @@ function renderRecentActivity(){
 
             const days =
                 request.days ??
-                request.numberOfDays ??
+                request.leaveDays ??
                 "-";
 
 
@@ -837,6 +1762,31 @@ function renderRecentActivity(){
                 .toUpperCase();
 
 
+            let statusClass =
+                "pending";
+
+
+            if(
+                status ===
+                "APPROVED"
+            ){
+
+                statusClass =
+                    "approved";
+
+            }
+
+            else if(
+                status ===
+                "REJECTED"
+            ){
+
+                statusClass =
+                    "rejected";
+
+            }
+
+
             const item =
                 document.createElement(
                     "div"
@@ -844,52 +1794,57 @@ function renderRecentActivity(){
 
 
             item.className =
-                "activity-item";
+                "leave-item";
 
 
             item.innerHTML = `
 
-                <div class="activity-icon">
+<div class="leave-item-icon">
 
-                    <span class="material-icons">
-                        event
-                    </span>
+<span class="material-icons">
+event
+</span>
 
-                </div>
-
-
-                <div class="activity-info">
-
-                    <strong>
-                        ${escapeHTML(name)}
-                    </strong>
-
-                    <span>
-                        ${escapeHTML(type)}
-                        •
-                        ${escapeHTML(date)}
-                        •
-                        ${escapeHTML(days)}
-                        day(s)
-                    </span>
-
-                </div>
+</div>
 
 
-                <span
-                    class="
-                        activity-status
-                        ${status.toLowerCase()}
-                    ">
+<div class="leave-item-info">
 
-                    ${escapeHTML(status)}
+<strong>
+${escapeHTML(
+    name
+)}
+</strong>
 
-                </span>
+<span>
+${escapeHTML(
+    type
+)}
+•
+${escapeHTML(
+    date
+)}
+•
+${escapeHTML(
+    days
+)} day(s)
+</span>
 
-            `;
+</div>
 
 
-            recentActivity.appendChild(
+<span class="leave-status ${statusClass}">
+
+${escapeHTML(
+    status
+)}
+
+</span>
+
+`;
+
+
+            recentLeaves.appendChild(
                 item
             );
 
@@ -900,40 +1855,85 @@ function renderRecentActivity(){
 
 
 /* ==========================================
-   SIDEBAR
+   MOBILE SIDEBAR
 ========================================== */
 
 function openSidebar(){
 
-    if(sidebar){
-        sidebar.classList.add("open");
+    if(
+        sidebar
+    ){
+
+        sidebar.classList.add(
+            "open"
+        );
+
     }
 
-    if(sidebarOverlay){
-        sidebarOverlay.classList.add("show");
+
+    if(
+        sidebarOverlay
+    ){
+
+        sidebarOverlay.classList.add(
+            "show"
+        );
+
     }
+
+
+    document.body.classList.add(
+        "sidebar-open"
+    );
 
 }
 
 
 function closeSidebar(){
 
-    if(sidebar){
-        sidebar.classList.remove("open");
+    if(
+        sidebar
+    ){
+
+        sidebar.classList.remove(
+            "open"
+        );
+
     }
 
-    if(sidebarOverlay){
-        sidebarOverlay.classList.remove("show");
+
+    if(
+        sidebarOverlay
+    ){
+
+        sidebarOverlay.classList.remove(
+            "show"
+        );
+
     }
+
+
+    document.body.classList.remove(
+        "sidebar-open"
+    );
 
 }
 
 
-if(menuBtn){
+/* ==========================================
+   MENU BUTTON
+========================================== */
+
+if(
+    menuBtn
+){
 
     menuBtn.addEventListener(
         "click",
-        () => {
+        function(){
+
+            enableNotificationSound();
+
 
             if(
                 sidebar &&
@@ -945,6 +1945,7 @@ if(menuBtn){
                 closeSidebar();
 
             }
+
             else{
 
                 openSidebar();
@@ -957,7 +1958,13 @@ if(menuBtn){
 }
 
 
-if(sidebarOverlay){
+/* ==========================================
+   OVERLAY
+========================================== */
+
+if(
+    sidebarOverlay
+){
 
     sidebarOverlay.addEventListener(
         "click",
@@ -967,14 +1974,24 @@ if(sidebarOverlay){
 }
 
 
+/* ==========================================
+   CLOSE SIDEBAR ON NAV
+========================================== */
+
 document
-    .querySelectorAll(".nav-item")
+    .querySelectorAll(
+        ".nav-item"
+    )
     .forEach(
         item => {
 
             item.addEventListener(
                 "click",
-                closeSidebar
+                function(){
+
+                    closeSidebar();
+
+                }
             );
 
         }
@@ -985,7 +2002,8 @@ document
    LOGOUT
 ========================================== */
 
-async function logout(){
+window.logout =
+async function(){
 
     const confirmed =
         confirm(
@@ -993,17 +2011,22 @@ async function logout(){
         );
 
 
-    if(!confirmed){
+    if(
+        !confirmed
+    ){
+
         return;
+
     }
 
 
     try{
 
-        await signOut(auth);
+        await signOut(
+            auth
+        );
 
-    }
-    catch(error){
+    }catch(error){
 
         console.error(
             "Logout Error:",
@@ -1017,17 +2040,21 @@ async function logout(){
         "loggedInUser"
     );
 
+
     localStorage.removeItem(
         "userRole"
     );
+
 
     localStorage.removeItem(
         "employeeDocId"
     );
 
+
     localStorage.removeItem(
         "employeeId"
     );
+
 
     localStorage.removeItem(
         "employeeName"
@@ -1038,32 +2065,171 @@ async function logout(){
         "login.html"
     );
 
-}
+};
 
 
-if(logoutBtn){
+/* ==========================================
+   LOGOUT BUTTON
+========================================== */
+
+const logoutBtn =
+    document.getElementById(
+        "logoutBtn"
+    );
+
+
+if(
+    logoutBtn
+){
 
     logoutBtn.addEventListener(
         "click",
-        logout
+        window.logout
     );
 
 }
 
 
-window.logout =
-    logout;
+/* ==========================================
+   NOTIFICATION BUTTON
+========================================== */
+
+const notificationButton =
+    document.querySelector(
+        ".notification-button"
+    );
+
+
+if(
+    notificationButton
+){
+
+    notificationButton.addEventListener(
+        "click",
+        function(){
+
+            enableNotificationSound();
+
+
+            if(
+                leaveRequests.length > 0
+            ){
+
+                window.location.href =
+                    "hrapproval.html";
+
+            }
+
+            else{
+
+                alert(
+                    "No pending notifications."
+                );
+
+            }
+
+        }
+    );
+
+}
 
 
 /* ==========================================
-   AUTH
+   REQUEST BADGE CLICK
+========================================== */
+
+if(
+    notificationBadge
+){
+
+    notificationBadge.style.cursor =
+        "pointer";
+
+
+    notificationBadge.addEventListener(
+        "click",
+        function(event){
+
+            event.preventDefault();
+
+            event.stopPropagation();
+
+            enableNotificationSound();
+
+            window.location.href =
+                "hrapproval.html";
+
+        }
+    );
+
+}
+
+
+/* ==========================================
+   REQUEST SOUND CSS
+   Injects only the small animation
+   needed for the notification badge.
+========================================== */
+
+const notificationStyle =
+    document.createElement(
+        "style"
+    );
+
+
+notificationStyle.textContent = `
+
+.notification-pulse{
+
+    animation:
+        pappritoNotificationPulse
+        .35s ease-in-out
+        4;
+
+}
+
+
+@keyframes pappritoNotificationPulse{
+
+    0%{
+        transform:scale(1);
+    }
+
+    50%{
+        transform:scale(1.25);
+    }
+
+    100%{
+        transform:scale(1);
+    }
+
+}
+
+`;
+
+
+document.head.appendChild(
+    notificationStyle
+);
+
+
+/* ==========================================
+   AUTH STATE
 ========================================== */
 
 onAuthStateChanged(
-    auth,
-    async user => {
 
-        if(!user){
+    auth,
+
+    async function(user){
+
+        /*
+         * Require Firebase login
+         */
+
+        if(
+            !user
+        ){
 
             window.location.replace(
                 "login.html"
@@ -1078,6 +2244,10 @@ onAuthStateChanged(
             user;
 
 
+        /*
+         * Verify dashboard role
+         */
+
         const role =
             text(
                 localStorage.getItem(
@@ -1088,13 +2258,14 @@ onAuthStateChanged(
 
 
         if(
-            role &&
-            role !== "admin"
+            role !==
+            "admin"
         ){
 
             alert(
                 "Administrator access only."
             );
+
 
             window.location.replace(
                 "login.html"
@@ -1110,6 +2281,10 @@ onAuthStateChanged(
         displayUser();
 
 
+        /*
+         * Load dashboard data
+         */
+
         await Promise.all([
 
             loadEmployees(),
@@ -1121,19 +2296,33 @@ onAuthStateChanged(
         ]);
 
 
+        /*
+         * Recalculate attendance
+         * after employees are loaded.
+         */
+
         updateAttendanceStats();
 
 
+        /*
+         * Start automatic request checking.
+         *
+         * Every 15 seconds the dashboard
+         * checks employeeRequests.
+         */
+
+        startRequestPolling();
+
+
         console.log(
-            "PAPPRITO HRIS Dashboard Ready"
+            "PAPPRITO HRIS Premium Dashboard Ready"
+        );
+
+
+        console.log(
+            "Employee request notification sound enabled after user interaction."
         );
 
     }
+
 );
-
-
-/* ==========================================
-   INITIAL
-========================================== */
-
-displayCurrentDate();
