@@ -1310,26 +1310,418 @@ body{
 
 
 /* ==========================================
+   EMPLOYEE PORTAL
+   PAYSLIP MOBILE RESPONSIVE
+========================================== */
+
+
+/* ==========================================
+   PAYSLIP SECTION
+========================================== */
+
+.payslip-section{
+    width:100%;
+    max-width:100%;
+    overflow:hidden;
+}
+
+
+.payslip-selector{
+    width:100%;
+    display:flex;
+    align-items:flex-end;
+    gap:12px;
+}
+
+
+.payslip-selector .form-group{
+    flex:1;
+    min-width:0;
+}
+
+
+.payslip-selector .view-btn{
+    flex-shrink:0;
+    white-space:nowrap;
+}
+
+
+/* ==========================================
+   PAYSLIP AREA
+========================================== */
+
+.payslip{
+    width:100%;
+    max-width:850px;
+    margin:25px auto 0;
+    padding:25px;
+    box-sizing:border-box;
+    overflow:hidden;
+}
+
+
+/* ==========================================
+   PAYSLIP ACTIONS
+========================================== */
+
+.payslip-actions{
+    display:flex;
+    justify-content:flex-end;
+    align-items:center;
+    gap:10px;
+    margin-bottom:20px;
+    flex-wrap:wrap;
+}
+
+
+.payslip-actions .btn{
+    white-space:nowrap;
+}
+
+
+/* ==========================================
+   PAYSLIP LOGO
+========================================== */
+
+.payroll-logo{
+    display:block;
+    width:75px;
+    height:75px;
+    max-width:100%;
+    object-fit:contain;
+    margin:0 auto 10px;
+}
+
+
+/* ==========================================
+   COMPANY
+========================================== */
+
+.payslip .company{
+    text-align:center;
+    margin-bottom:20px;
+}
+
+
+.payslip .company h2{
+    margin:5px 0;
+}
+
+
+.payslip .company p{
+    margin:0;
+}
+
+
+/* ==========================================
+   PAY INFORMATION
+========================================== */
+
+.pay-info{
+    width:100%;
+    display:grid;
+    grid-template-columns:
+        repeat(2,minmax(0,1fr));
+    gap:10px;
+    margin-bottom:20px;
+}
+
+
+.pay-info > div{
+    min-width:0;
+    padding:12px;
+    box-sizing:border-box;
+    word-break:break-word;
+}
+
+
+.pay-info span{
+    word-break:break-word;
+}
+
+
+/* ==========================================
+   PAYROLL TABLE
+========================================== */
+
+.payslip .payroll-table{
+    width:100%;
+    max-width:100%;
+    border-collapse:collapse;
+    table-layout:fixed;
+    margin:0 0 18px;
+}
+
+
+.payslip .payroll-table th,
+.payslip .payroll-table td{
+    padding:10px;
+    box-sizing:border-box;
+    word-wrap:break-word;
+    overflow-wrap:anywhere;
+}
+
+
+.payslip .payroll-table th:first-child,
+.payslip .payroll-table td:first-child{
+    width:65%;
+    text-align:left;
+}
+
+
+.payslip .payroll-table th:last-child,
+.payslip .payroll-table td:last-child{
+    width:35%;
+    text-align:right;
+    white-space:nowrap;
+}
+
+
+/* ==========================================
+   TOTAL ROW
+========================================== */
+
+.payslip .total-row{
+    font-weight:700;
+}
+
+
+/* ==========================================
+   NET PAY
+========================================== */
+
+.payslip .netpay{
+    width:100%;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:10px;
+    padding:16px;
+    box-sizing:border-box;
+    margin-top:10px;
+    overflow:hidden;
+}
+
+
+.payslip .netpay span,
+.payslip .netpay strong{
+    min-width:0;
+}
+
+
+.payslip .netpay strong{
+    text-align:right;
+    white-space:nowrap;
+}
+
+
+/* ==========================================
+   SIGNATURE
+========================================== */
+
+.payslip .signature{
+    width:100%;
+    display:flex;
+    justify-content:space-between;
+    gap:30px;
+    margin-top:45px;
+}
+
+
+.payslip .signature-line{
+    width:180px;
+    max-width:45%;
+    text-align:center;
+}
+
+
+.payslip .signature-line .line{
+    width:100%;
+    height:1px;
+    margin-bottom:8px;
+}
+
+
+/* ==========================================
+   TABLET
+========================================== */
+
+@media(
+    max-width:768px
+){
+
+    .payslip{
+        padding:18px;
+        margin-top:18px;
+    }
+
+
+    .payslip-selector{
+        flex-direction:column;
+        align-items:stretch;
+    }
+
+
+    .payslip-selector .form-group{
+        width:100%;
+    }
+
+
+    .payslip-selector .view-btn{
+        width:100%;
+        justify-content:center;
+    }
+
+
+    .payslip-actions{
+        justify-content:center;
+    }
+
+
+    .payslip-actions .btn{
+        flex:1;
+        min-width:140px;
+        justify-content:center;
+    }
+
+
+    .pay-info{
+        grid-template-columns:1fr;
+    }
+
+
+    .payroll-logo{
+        width:65px;
+        height:65px;
+    }
+
+}
+
+
+/* ==========================================
    MOBILE
 ========================================== */
 
 @media(
-    max-width:900px
+    max-width:600px
 ){
 
-    .employee-info-grid{
-
-        grid-template-columns:
-            repeat(2,1fr);
-
+    .payslip-section{
+        padding-left:0;
+        padding-right:0;
     }
 
 
-    .request-form{
+    .payslip{
+        width:100%;
+        max-width:100%;
+        margin:15px 0 0;
+        padding:14px;
+        border-radius:12px;
+    }
 
-        grid-template-columns:
-            repeat(2,1fr);
 
+    .payslip-actions{
+        display:grid;
+        grid-template-columns:1fr 1fr;
+        width:100%;
+        gap:8px;
+        margin-bottom:15px;
+    }
+
+
+    .payslip-actions .btn{
+        width:100%;
+        min-width:0;
+        padding:10px 8px;
+        font-size:12px;
+    }
+
+
+    .payroll-logo{
+        width:58px;
+        height:58px;
+    }
+
+
+    .payslip .company{
+        margin-bottom:15px;
+    }
+
+
+    .payslip .company h2{
+        font-size:20px;
+    }
+
+
+    .payslip .company p{
+        font-size:10px;
+    }
+
+
+    .pay-info{
+        display:grid;
+        grid-template-columns:1fr;
+        gap:7px;
+        margin-bottom:15px;
+    }
+
+
+    .pay-info > div{
+        width:100%;
+        padding:9px 10px;
+        font-size:12px;
+    }
+
+
+    .payslip .payroll-table{
+        width:100%;
+        font-size:12px;
+        margin-bottom:12px;
+    }
+
+
+    .payslip .payroll-table th,
+    .payslip .payroll-table td{
+        padding:8px 7px;
+        font-size:12px;
+    }
+
+
+    .payslip .payroll-table th:first-child,
+    .payslip .payroll-table td:first-child{
+        width:60%;
+    }
+
+
+    .payslip .payroll-table th:last-child,
+    .payslip .payroll-table td:last-child{
+        width:40%;
+        white-space:nowrap;
+    }
+
+
+    .payslip .netpay{
+        padding:13px 12px;
+        font-size:14px;
+    }
+
+
+    .payslip .netpay strong{
+        font-size:16px;
+    }
+
+
+    .payslip .signature{
+        margin-top:35px;
+        gap:15px;
+    }
+
+
+    .payslip .signature-line{
+        width:130px;
+        max-width:45%;
+        font-size:11px;
     }
 
 }
@@ -1340,225 +1732,68 @@ body{
 ========================================== */
 
 @media(
-    max-width:600px
+    max-width:380px
 ){
 
-    .portal-container{
-
-        padding:10px;
-
-    }
-
-
-    .portal-header{
-
-        padding:12px;
-
-        border-radius:10px;
-
-    }
-
-
-    .header-logo{
-
-        width:42px;
-
-        height:42px;
-
-    }
-
-
-    .brand h1{
-
-        font-size:16px;
-
-    }
-
-
-    .brand p{
-
-        font-size:9px;
-
-    }
-
-
-    .welcome-card{
-
-        padding:15px;
-
-    }
-
-
-    .welcome-icon{
-
-        width:48px;
-
-        height:48px;
-
-        min-width:48px;
-
-    }
-
-
-    .welcome-text h2{
-
-        font-size:18px;
-
-    }
-
-
-    .section-card{
-
-        padding:14px;
-
-        border-radius:10px;
-
-    }
-
-
-    .section-title h2{
-
-        font-size:15px;
-
-    }
-
-
-    .employee-info-grid{
-
-        grid-template-columns:1fr;
-
-    }
-
-
-    .request-form{
-
-        grid-template-columns:1fr;
-
-    }
-
-
-    .form-group.full-width{
-
-        grid-column:auto;
-
-    }
-
-
-    .request-actions{
-
-        flex-direction:column;
-
-    }
-
-
-    .request-actions .btn{
-
-        width:100%;
-
-    }
-
-
-    .payslip-selector{
-
-        flex-direction:column;
-
-        align-items:stretch;
-
-    }
-
-
-    .payslip-selector .view-btn{
-
-        width:100%;
-
-    }
-
-
     .payslip{
-
-        padding:12px;
-
+        padding:10px;
     }
 
 
     .payslip-actions{
-
-        justify-content:stretch;
-
+        grid-template-columns:1fr;
     }
 
 
     .payslip-actions .btn{
-
-        flex:1;
-
+        width:100%;
     }
 
 
-    .pay-info{
-
-        grid-template-columns:1fr;
-
+    .payroll-logo{
+        width:50px;
+        height:50px;
     }
 
 
-    .payroll-table{
-
-        min-width:500px;
-
+    .payslip .company h2{
+        font-size:18px;
     }
 
 
-    .payslip{
-
-        overflow-x:auto;
-
+    .payslip .company p{
+        font-size:9px;
     }
 
 
-    .netpay{
-
-        gap:10px;
-
-        padding:13px;
-
+    .pay-info > div{
+        font-size:11px;
     }
 
 
-    .netpay strong{
-
-        font-size:17px;
-
+    .payslip .payroll-table th,
+    .payslip .payroll-table td{
+        padding:7px 5px;
+        font-size:10px;
     }
 
 
-    .signature{
-
-        padding:0;
-
-        gap:15px;
-
+    .payslip .netpay{
+        padding:11px 9px;
+        font-size:12px;
     }
 
 
-    .signature-line{
-
-        width:45%;
-
+    .payslip .netpay strong{
+        font-size:14px;
     }
 
 
-    .portal-footer{
-
-        flex-direction:column;
-
-        text-align:center;
-
+    .payslip .signature-line{
+        font-size:10px;
     }
 
 }
-
-
 /* ==========================================
    PRINT PAYSLIP
 ========================================== */
