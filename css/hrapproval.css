@@ -1,6 +1,7 @@
 /* ==========================================
    PAPPRITO HRIS
    HR APPROVAL CSS
+   PREMIUM LIGHT / COLORFUL
 ========================================== */
 
 
@@ -30,17 +31,33 @@
     --success:#00a65a;
     --success-dark:#008f4d;
 
-    --info:#0066cc;
+    --info:#1769aa;
+    --info-dark:#125586;
 
-    --dark:#0b0b0b;
-    --dark-2:#151515;
-    --dark-3:#1c1c1c;
-    --dark-4:#242424;
+    --purple:#7b3fc6;
+    --purple-dark:#612fa0;
 
-    --border:#3d3d3d;
+    --orange:#f08a00;
 
-    --text:#ffffff;
-    --muted:#999999;
+    --dark:#111111;
+
+    --text:#111111;
+    --text-soft:#333333;
+    --muted:#666666;
+
+    --white:#ffffff;
+
+    --border:#d8dde2;
+
+    --bg:#f4f6f8;
+
+    --light-yellow:#fff8d9;
+    --light-green:#eaf8f0;
+    --light-blue:#edf6ff;
+    --light-red:#fff0f1;
+    --light-purple:#f3ecff;
+    --light-orange:#fff3df;
+
 }
 
 
@@ -59,13 +76,16 @@ body{
     background:
         linear-gradient(
             135deg,
-            #090909,
-            #151515
+            #f4f6f8 0%,
+            #eef2f5 50%,
+            #ffffff 100%
         );
 
     color:var(--text);
 
     min-height:100vh;
+
+    font-weight:700;
 
 }
 
@@ -107,7 +127,7 @@ body{
 
     margin-bottom:16px;
 
-    background:var(--dark-2);
+    background:#ffffff;
 
     border:
         2px solid
@@ -116,12 +136,35 @@ body{
     border-radius:12px;
 
     box-shadow:
-        0 0 20px
-        rgba(
-            255,
-            204,
-            0,
-            .08
+        0 5px 18px
+        rgba(0,0,0,.08);
+
+    position:relative;
+
+    overflow:hidden;
+
+}
+
+
+.approval-header::before{
+
+    content:"";
+
+    position:absolute;
+
+    left:0;
+
+    top:0;
+
+    bottom:0;
+
+    width:6px;
+
+    background:
+        linear-gradient(
+            to bottom,
+            var(--primary),
+            var(--danger)
         );
 
 }
@@ -169,11 +212,11 @@ body{
 
 .header-left h1{
 
-    color:var(--primary);
+    color:var(--danger);
 
     font-size:26px;
 
-    font-weight:900;
+    font-weight:1000;
 
     line-height:1.1;
 
@@ -184,11 +227,11 @@ body{
 
     margin-top:4px;
 
-    color:#bbbbbb;
+    color:#555555;
 
     font-size:12px;
 
-    font-weight:600;
+    font-weight:700;
 
 }
 
@@ -235,6 +278,10 @@ body{
 
     transform:
         translateY(-2px);
+
+    box-shadow:
+        0 5px 12px
+        rgba(0,0,0,.15);
 
 }
 
@@ -287,10 +334,7 @@ body{
     display:grid;
 
     grid-template-columns:
-        repeat(
-            4,
-            1fr
-        );
+        repeat(4,1fr);
 
     gap:12px;
 
@@ -311,13 +355,31 @@ body{
 
     padding:16px;
 
-    background:var(--dark-2);
+    background:#ffffff;
 
     border:
         1px solid
         var(--border);
 
-    border-radius:10px;
+    border-radius:12px;
+
+    box-shadow:
+        0 4px 15px
+        rgba(0,0,0,.07);
+
+    transition:.2s ease;
+
+}
+
+
+.stat-card:hover{
+
+    transform:
+        translateY(-2px);
+
+    box-shadow:
+        0 8px 20px
+        rgba(0,0,0,.11);
 
 }
 
@@ -336,7 +398,7 @@ body{
 
     justify-content:center;
 
-    border-radius:10px;
+    border-radius:12px;
 
 }
 
@@ -354,9 +416,9 @@ body{
 
     font-size:28px;
 
-    font-weight:900;
+    font-weight:1000;
 
-    color:#ffffff;
+    color:#111111;
 
 }
 
@@ -367,23 +429,34 @@ body{
 
     margin-top:2px;
 
-    color:#aaaaaa;
+    color:#555555;
 
     font-size:12px;
 
-    font-weight:700;
+    font-weight:800;
 
 }
 
 
 /* ==========================================
-   STAT COLORS
+   PENDING CARD
 ========================================== */
 
 .pending-card{
 
+    background:
+        linear-gradient(
+            135deg,
+            #fffdf1,
+            #fff8d9
+        );
+
+    border:
+        2px solid
+        #f0ca31;
+
     border-left:
-        4px solid
+        6px solid
         var(--primary);
 
 }
@@ -391,23 +464,32 @@ body{
 
 .pending-card .stat-icon{
 
-    background:
-        rgba(
-            255,
-            204,
-            0,
-            .12
-        );
+    background:#fff0a8;
 
-    color:var(--primary);
+    color:#9b7600;
 
 }
 
 
+/* ==========================================
+   APPROVED CARD
+========================================== */
+
 .approved-card{
 
+    background:
+        linear-gradient(
+            135deg,
+            #f3fff7,
+            #e7f8ee
+        );
+
+    border:
+        2px solid
+        #8bd3a8;
+
     border-left:
-        4px solid
+        6px solid
         var(--success);
 
 }
@@ -415,23 +497,32 @@ body{
 
 .approved-card .stat-icon{
 
-    background:
-        rgba(
-            0,
-            166,
-            90,
-            .12
-        );
+    background:#ccefd9;
 
-    color:#00cc66;
+    color:#07833f;
 
 }
 
 
+/* ==========================================
+   REJECTED CARD
+========================================== */
+
 .rejected-card{
 
+    background:
+        linear-gradient(
+            135deg,
+            #fff7f7,
+            #ffecef
+        );
+
+    border:
+        2px solid
+        #e8aeb2;
+
     border-left:
-        4px solid
+        6px solid
         var(--danger);
 
 }
@@ -439,23 +530,32 @@ body{
 
 .rejected-card .stat-icon{
 
-    background:
-        rgba(
-            215,
-            25,
-            32,
-            .12
-        );
+    background:#ffd5d8;
 
-    color:#ff5555;
+    color:#c5161e;
 
 }
 
 
+/* ==========================================
+   TOTAL CARD
+========================================== */
+
 .total-card{
 
+    background:
+        linear-gradient(
+            135deg,
+            #f4f9ff,
+            #e8f3ff
+        );
+
+    border:
+        2px solid
+        #a8c9eb;
+
     border-left:
-        4px solid
+        6px solid
         var(--info);
 
 }
@@ -463,15 +563,9 @@ body{
 
 .total-card .stat-icon{
 
-    background:
-        rgba(
-            0,
-            102,
-            204,
-            .12
-        );
+    background:#d7eaff;
 
-    color:#3399ff;
+    color:#1769aa;
 
 }
 
@@ -484,8 +578,26 @@ body{
 
     margin-bottom:12px;
 
+    background:#ffffff;
+
+    padding:12px;
+
+    border:
+        1px solid
+        var(--border);
+
+    border-radius:12px;
+
+    box-shadow:
+        0 4px 15px
+        rgba(0,0,0,.06);
+
 }
 
+
+/* ==========================================
+   FILTER BUTTONS
+========================================== */
 
 .filter-buttons{
 
@@ -510,17 +622,17 @@ body{
 
     border:
         1px solid
-        #555555;
+        var(--border);
 
-    border-radius:7px;
+    border-radius:8px;
 
-    background:#292929;
+    background:#f5f7f9;
 
-    color:#ffffff;
+    color:#222222;
 
     font-size:11px;
 
-    font-weight:900;
+    font-weight:1000;
 
     cursor:pointer;
 
@@ -535,8 +647,16 @@ body{
     transform:
         translateY(-1px);
 
+    box-shadow:
+        0 4px 10px
+        rgba(0,0,0,.10);
+
 }
 
+
+/* ==========================================
+   ACTIVE FILTER
+========================================== */
 
 .filter-btn.active{
 
@@ -550,6 +670,10 @@ body{
 }
 
 
+/* ==========================================
+   REFRESH
+========================================== */
+
 .refresh-btn{
 
     display:inline-flex;
@@ -560,9 +684,18 @@ body{
 
     gap:5px;
 
-    background:#ffffff;
+    background:#1769aa;
 
-    color:#111111;
+    color:#ffffff;
+
+    border-color:#1769aa;
+
+}
+
+
+.refresh-btn:hover{
+
+    background:#125586;
 
 }
 
@@ -582,7 +715,7 @@ body{
 
     width:100%;
 
-    background:var(--dark-2);
+    background:#ffffff;
 
     border:
         1px solid
@@ -592,8 +725,16 @@ body{
 
     padding:15px;
 
+    box-shadow:
+        0 5px 18px
+        rgba(0,0,0,.07);
+
 }
 
+
+/* ==========================================
+   SECTION HEADER
+========================================== */
 
 .section-header{
 
@@ -602,8 +743,8 @@ body{
     padding-bottom:10px;
 
     border-bottom:
-        1px solid
-        var(--border);
+        2px solid
+        #e5e8eb;
 
 }
 
@@ -616,18 +757,18 @@ body{
 
     gap:7px;
 
-    color:#ffffff;
+    color:#111111;
 
     font-size:22px;
 
-    font-weight:900;
+    font-weight:1000;
 
 }
 
 
 .section-header h2 .material-icons{
 
-    color:var(--primary);
+    color:var(--purple);
 
     font-size:25px;
 
@@ -638,9 +779,11 @@ body{
 
     margin-top:4px;
 
-    color:#aaaaaa;
+    color:#666666;
 
     font-size:12px;
+
+    font-weight:700;
 
 }
 
@@ -659,9 +802,34 @@ body{
         1px solid
         var(--border);
 
-    border-radius:8px;
+    border-radius:9px;
+
+    background:#ffffff;
 
     -webkit-overflow-scrolling:touch;
+
+}
+
+
+.table-wrapper::-webkit-scrollbar{
+
+    height:9px;
+
+}
+
+
+.table-wrapper::-webkit-scrollbar-track{
+
+    background:#eeeeee;
+
+}
+
+
+.table-wrapper::-webkit-scrollbar-thumb{
+
+    background:#b7bdc3;
+
+    border-radius:20px;
 
 }
 
@@ -681,12 +849,16 @@ body{
 }
 
 
+/* ==========================================
+   TABLE CELLS
+========================================== */
+
 .request-table th,
 .request-table td{
 
     border:
         1px solid
-        #3d3d3d;
+        #d8dde2;
 
     padding:
         10px 8px;
@@ -700,31 +872,63 @@ body{
 }
 
 
+/* ==========================================
+   TABLE HEADER
+========================================== */
+
 .request-table th{
 
-    background:#222222;
+    background:
+        linear-gradient(
+            135deg,
+            #ffcc00,
+            #f0b800
+        );
 
-    color:var(--primary);
+    color:#111111;
 
-    font-weight:900;
+    border-color:#d8b000;
+
+    font-weight:1000;
 
     white-space:nowrap;
 
 }
 
 
+/* ==========================================
+   TABLE BODY
+========================================== */
+
 .request-table td{
 
-    background:#151515;
+    background:#ffffff;
 
-    color:#ffffff;
+    color:#111111;
+
+    font-weight:800;
 
 }
 
 
+/* ==========================================
+   ALTERNATING ROWS
+========================================== */
+
+.request-table tbody tr:nth-child(even) td{
+
+    background:#f7f9fb;
+
+}
+
+
+/* ==========================================
+   HOVER ROW
+========================================== */
+
 .request-table tbody tr:hover td{
 
-    background:#202020;
+    background:#fffbea;
 
 }
 
@@ -738,23 +942,21 @@ body{
     display:inline-block;
 
     padding:
-        4px 7px;
+        5px 9px;
 
     border-radius:12px;
 
-    background:
-        rgba(
-            255,
-            204,
-            0,
-            .12
-        );
+    background:#fff3c4;
 
-    color:var(--primary);
+    border:
+        1px solid
+        #e6c447;
+
+    color:#806200;
 
     font-size:9px;
 
-    font-weight:900;
+    font-weight:1000;
 
     white-space:nowrap;
 
@@ -778,58 +980,58 @@ body{
 
     font-size:9px;
 
-    font-weight:900;
+    font-weight:1000;
 
 }
 
 
-/* PENDING */
+/* ==========================================
+   PENDING
+========================================== */
 
 .status.pending{
 
-    background:
-        rgba(
-            255,
-            204,
-            0,
-            .15
-        );
+    background:#fff0b8;
 
-    color:var(--primary);
+    border:
+        1px solid
+        #e0bb32;
+
+    color:#806000;
 
 }
 
 
-/* APPROVED */
+/* ==========================================
+   APPROVED
+========================================== */
 
 .status.approved{
 
-    background:
-        rgba(
-            0,
-            204,
-            102,
-            .15
-        );
+    background:#dff5e8;
 
-    color:#00cc66;
+    border:
+        1px solid
+        #8bcba5;
+
+    color:#087a3a;
 
 }
 
 
-/* REJECTED */
+/* ==========================================
+   REJECTED
+========================================== */
 
 .status.rejected{
 
-    background:
-        rgba(
-            215,
-            25,
-            32,
-            .15
-        );
+    background:#ffe0e3;
 
-    color:#ff5555;
+    border:
+        1px solid
+        #e5a0a5;
+
+    color:#c5161e;
 
 }
 
@@ -844,7 +1046,7 @@ body{
 
     border:none;
 
-    border-radius:6px;
+    border-radius:7px;
 
     padding:
         7px 10px;
@@ -854,7 +1056,7 @@ body{
 
     font-size:9px;
 
-    font-weight:900;
+    font-weight:1000;
 
     cursor:pointer;
 
@@ -874,8 +1076,16 @@ body{
 
     opacity:.9;
 
+    box-shadow:
+        0 4px 9px
+        rgba(0,0,0,.12);
+
 }
 
+
+/* ==========================================
+   APPROVE
+========================================== */
 
 .approve-btn{
 
@@ -886,6 +1096,10 @@ body{
 }
 
 
+/* ==========================================
+   REJECT
+========================================== */
+
 .reject-btn{
 
     background:var(--danger);
@@ -895,9 +1109,13 @@ body{
 }
 
 
+/* ==========================================
+   DELETE
+========================================== */
+
 .delete-btn{
 
-    background:#555555;
+    background:#555f68;
 
     color:#ffffff;
 
@@ -915,9 +1133,13 @@ body{
 
     text-align:center !important;
 
-    color:#888888 !important;
+    color:#777777 !important;
+
+    background:#f8fafb !important;
 
     font-size:13px !important;
+
+    font-weight:900 !important;
 
 }
 
@@ -940,7 +1162,7 @@ body{
 
     padding:18px;
 
-    color:#777777;
+    color:#666666;
 
     font-size:10px;
 
@@ -960,10 +1182,7 @@ body{
     .stats-grid{
 
         grid-template-columns:
-            repeat(
-                2,
-                1fr
-            );
+            repeat(2,1fr);
 
     }
 
@@ -1079,15 +1298,19 @@ body{
     }
 
 
+    .filter-section{
+
+        padding:8px;
+
+    }
+
+
     .filter-buttons{
 
         display:grid;
 
         grid-template-columns:
-            repeat(
-                2,
-                1fr
-            );
+            repeat(2,1fr);
 
         gap:6px;
 
@@ -1377,6 +1600,8 @@ body{
         padding:0;
 
         background:#ffffff;
+
+        box-shadow:none;
 
     }
 
