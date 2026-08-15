@@ -3,25 +3,51 @@
 
 <head>
 
-<meta charset="UTF-8">
+    <meta charset="UTF-8">
 
-<meta
-    name="viewport"
-    content="width=device-width, initial-scale=1.0">
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 
-<title>PAPPRITO HRIS - Settings</title>
+    <title>
+        PAPPRITO HRIS - Settings
+    </title>
 
-<meta
-    name="theme-color"
-    content="#ffcc00">
 
-<link
-    href="https://fonts.googleapis.com/icon?family=Material+Icons"
-    rel="stylesheet">
+    <!-- ==========================================
+         THEME
+    =========================================== -->
 
-<link
-    rel="stylesheet"
-    href="../css/settings.css">
+    <meta
+        name="theme-color"
+        content="#ffcc00">
+
+
+    <!-- ==========================================
+         FAVICON
+    =========================================== -->
+
+    <link
+        rel="icon"
+        href="../assets/images/logo.png">
+
+
+    <!-- ==========================================
+         MATERIAL ICONS
+    =========================================== -->
+
+    <link
+        href="https://fonts.googleapis.com/icon?family=Material+Icons"
+        rel="stylesheet">
+
+
+    <!-- ==========================================
+         SETTINGS CSS
+    =========================================== -->
+
+    <link
+        rel="stylesheet"
+        href="../css/settings.css">
 
 </head>
 
@@ -30,386 +56,211 @@
 
 
 <!-- ==========================================
-     SIDEBAR
+     MAIN SETTINGS APP
 ========================================== -->
 
-<div id="sidebar-container"></div>
-
-
-<!-- ==========================================
-     MAIN CONTENT
-========================================== -->
-
-<main class="settings-container">
+<main class="settings-page">
 
 
     <!-- ======================================
-         HEADER
+         TOP HEADER
     ======================================= -->
 
     <header class="settings-header">
 
+
         <div class="header-left">
 
-            <button
-                id="menuBtn"
-                class="mobile-menu-btn">
 
-                <span class="material-icons">
-                    menu
-                </span>
+            <div class="header-logo">
 
-            </button>
-
-
-            <div class="header-icon">
-
-                <span class="material-icons">
-                    settings
-                </span>
+                <img
+                    src="../assets/images/logo.png"
+                    alt="PAPPRITO Logo">
 
             </div>
 
 
-            <div>
+            <div class="header-title">
 
                 <h1>
-                    SETTINGS
+                    PAPPRITO HRIS
                 </h1>
 
                 <p>
-                    Manage your HRIS system configuration
+                    SYSTEM SETTINGS
                 </p>
 
             </div>
 
+
         </div>
 
 
-        <button
-            class="back-btn"
-            onclick="goToDashboard()">
+        <div class="header-actions">
 
-            <span class="material-icons">
-                dashboard
-            </span>
 
-            DASHBOARD
+            <button
+                type="button"
+                class="header-btn"
+                onclick="goBackToDashboard()">
 
-        </button>
+                <span class="material-icons">
+                    arrow_back
+                </span>
+
+                Dashboard
+
+            </button>
+
+
+        </div>
+
 
     </header>
 
 
     <!-- ======================================
-         SETTINGS NAVIGATION
+         PAGE TITLE
     ======================================= -->
+
+    <section class="page-intro">
+
+
+        <div class="intro-icon">
+
+            <span class="material-icons">
+                settings
+            </span>
+
+        </div>
+
+
+        <div>
+
+            <h2>
+                System Settings
+            </h2>
+
+            <p>
+                Configure PAPPRITO HRIS system behavior.
+            </p>
+
+        </div>
+
+
+    </section>
+
+
+    <!-- ==========================================
+         SETTINGS LAYOUT
+    =========================================== -->
 
     <section class="settings-layout">
 
 
-        <!-- ==================================
-             SETTINGS MENU
-        =================================== -->
+        <!-- ======================================
+             SETTINGS NAVIGATION
+        ======================================= -->
 
-        <aside class="settings-menu">
+        <aside class="settings-nav">
 
 
-            <button
-                class="settings-menu-item active"
-                data-section="general">
+            <div class="nav-title">
 
-                <span class="material-icons">
-                    tune
-                </span>
+                SETTINGS
 
-                <div>
+            </div>
 
-                    <strong>
-                        General
-                    </strong>
 
-                    <small>
-                        Basic system information
-                    </small>
-
-                </div>
-
-            </button>
-
+            <!-- ATTENDANCE -->
 
             <button
-                class="settings-menu-item"
-                data-section="company">
+                type="button"
+                class="settings-nav-item active"
+                onclick="showSettingsSection('attendance')">
 
-                <span class="material-icons">
-                    business
-                </span>
-
-                <div>
-
-                    <strong>
-                        Company
-                    </strong>
-
-                    <small>
-                        Company information
-                    </small>
-
-                </div>
-
-            </button>
-
-
-            <button
-                class="settings-menu-item"
-                data-section="employees">
-
-                <span class="material-icons">
-                    groups
-                </span>
-
-                <div>
-
-                    <strong>
-                        Employees
-                    </strong>
-
-                    <small>
-                        Employee configuration
-                    </small>
-
-                </div>
-
-            </button>
-
-
-            <button
-                class="settings-menu-item"
-                data-section="attendance">
 
                 <span class="material-icons">
                     schedule
                 </span>
 
-                <div>
 
-                    <strong>
-                        Attendance
-                    </strong>
+                <span>
 
-                    <small>
-                        Working hours and rules
-                    </small>
+                    Attendance Time
 
-                </div>
+                </span>
+
 
             </button>
 
 
+            <!-- FUTURE -->
+
             <button
-                class="settings-menu-item"
-                data-section="payroll">
+                type="button"
+                class="settings-nav-item"
+                onclick="showSettingsSection('general')">
+
+
+                <span class="material-icons">
+                    tune
+                </span>
+
+
+                <span>
+
+                    General
+
+                </span>
+
+
+            </button>
+
+
+            <!-- FUTURE -->
+
+            <button
+                type="button"
+                class="settings-nav-item"
+                onclick="showSettingsSection('payroll')">
+
 
                 <span class="material-icons">
                     payments
                 </span>
 
-                <div>
 
-                    <strong>
-                        Payroll
-                    </strong>
+                <span>
 
-                    <small>
-                        Payroll configuration
-                    </small>
+                    Payroll
 
-                </div>
-
-            </button>
-
-
-            <button
-                class="settings-menu-item"
-                data-section="leaves">
-
-                <span class="material-icons">
-                    event_available
                 </span>
 
-                <div>
-
-                    <strong>
-                        Leaves
-                    </strong>
-
-                    <small>
-                        Leave types and rules
-                    </small>
-
-                </div>
 
             </button>
 
 
-            <button
-                class="settings-menu-item"
-                data-section="approvals">
-
-                <span class="material-icons">
-                    fact_check
-                </span>
-
-                <div>
-
-                    <strong>
-                        Approvals
-                    </strong>
-
-                    <small>
-                        Approval workflow
-                    </small>
-
-                </div>
-
-            </button>
-
+            <!-- FUTURE -->
 
             <button
-                class="settings-menu-item"
-                data-section="departments">
+                type="button"
+                class="settings-nav-item"
+                onclick="showSettingsSection('system')">
 
-                <span class="material-icons">
-                    account_tree
-                </span>
-
-                <div>
-
-                    <strong>
-                        Departments & Positions
-                    </strong>
-
-                    <small>
-                        Organization setup
-                    </small>
-
-                </div>
-
-            </button>
-
-
-            <button
-                class="settings-menu-item"
-                data-section="holidays">
-
-                <span class="material-icons">
-                    calendar_month
-                </span>
-
-                <div>
-
-                    <strong>
-                        Holidays
-                    </strong>
-
-                    <small>
-                        Holiday calendar
-                    </small>
-
-                </div>
-
-            </button>
-
-
-            <button
-                class="settings-menu-item"
-                data-section="notifications">
-
-                <span class="material-icons">
-                    notifications
-                </span>
-
-                <div>
-
-                    <strong>
-                        Notifications
-                    </strong>
-
-                    <small>
-                        System notifications
-                    </small>
-
-                </div>
-
-            </button>
-
-
-            <button
-                class="settings-menu-item"
-                data-section="users">
 
                 <span class="material-icons">
                     admin_panel_settings
                 </span>
 
-                <div>
 
-                    <strong>
-                        Users & Roles
-                    </strong>
+                <span>
 
-                    <small>
-                        Access and permissions
-                    </small>
+                    System
 
-                </div>
-
-            </button>
-
-
-            <button
-                class="settings-menu-item"
-                data-section="payslip">
-
-                <span class="material-icons">
-                    receipt_long
                 </span>
 
-                <div>
-
-                    <strong>
-                        Payslip
-                    </strong>
-
-                    <small>
-                        Payslip configuration
-                    </small>
-
-                </div>
-
-            </button>
-
-
-            <button
-                class="settings-menu-item"
-                data-section="system">
-
-                <span class="material-icons">
-                    storage
-                </span>
-
-                <div>
-
-                    <strong>
-                        System
-                    </strong>
-
-                    <small>
-                        System and data management
-                    </small>
-
-                </div>
 
             </button>
 
@@ -417,65 +268,151 @@
         </aside>
 
 
-        <!-- ==================================
+        <!-- ======================================
              SETTINGS CONTENT
-        =================================== -->
+        ======================================= -->
 
         <div class="settings-content">
 
 
             <!-- ==================================
-                 GENERAL SETTINGS
+                 ATTENDANCE TIME SETTINGS
             =================================== -->
 
             <section
-                id="generalSection"
+                id="attendanceSettings"
                 class="settings-section active">
 
 
-                <div class="section-title">
+                <!-- SECTION HEADER -->
+
+                <div class="section-header">
+
 
                     <div>
 
-                        <h2>
-                            General Settings
-                        </h2>
 
-                        <p>
-                            Configure the basic settings
-                            used throughout PAPPRITO HRIS.
-                        </p>
+                        <div class="section-title">
+
+
+                            <span class="material-icons">
+                                schedule
+                            </span>
+
+
+                            <div>
+
+                                <h3>
+                                    Attendance Time Settings
+                                </h3>
+
+
+                                <p>
+                                    Configure the official store working schedule used by Attendance and Auto Attendance.
+                                </p>
+
+                            </div>
+
+
+                        </div>
+
 
                     </div>
+
+
+                    <div
+                        id="attendanceStatus"
+                        class="save-status">
+
+                        NOT SAVED
+
+                    </div>
+
 
                 </div>
 
 
-                <!-- ==============================
-                     COMPANY BASIC INFORMATION
-                =============================== -->
+                <!-- ==================================
+                     STATUS CARD
+                =================================== -->
+
+                <div class="status-card">
+
+
+                    <div class="status-card-icon">
+
+                        <span class="material-icons">
+                            access_time
+                        </span>
+
+                    </div>
+
+
+                    <div class="status-card-text">
+
+
+                        <strong>
+                            Attendance Time Rules
+                        </strong>
+
+
+                        <span>
+                            These settings will be used as the official attendance schedule.
+                        </span>
+
+
+                    </div>
+
+
+                    <label class="switch">
+
+
+                        <input
+                            type="checkbox"
+                            id="attendanceEnabled"
+                            checked>
+
+
+                        <span class="slider">
+                        </span>
+
+
+                    </label>
+
+
+                </div>
+
+
+                <!-- ==================================
+                     WORK SCHEDULE
+                =================================== -->
 
                 <div class="settings-card">
 
 
-                    <div class="card-title">
+                    <div class="card-header">
+
+
+                        <div>
+
+
+                            <h4>
+                                Work Schedule
+                            </h4>
+
+
+                            <p>
+                                Set the normal opening and closing time of the store.
+                            </p>
+
+
+                        </div>
+
 
                         <span class="material-icons">
                             business
                         </span>
 
-                        <div>
-
-                            <h3>
-                                Basic Information
-                            </h3>
-
-                            <p>
-                                General information displayed
-                                throughout the system.
-                            </p>
-
-                        </div>
 
                     </div>
 
@@ -483,343 +420,424 @@
                     <div class="form-grid">
 
 
-                        <!-- COMPANY NAME -->
-
-                        <div class="form-group full">
-
-                            <label for="companyName">
-
-                                Company Name
-
-                            </label>
-
-                            <input
-                                type="text"
-                                id="companyName"
-                                placeholder="Enter company name">
-
-                        </div>
-
-
-                        <!-- ADDRESS -->
-
-                        <div class="form-group full">
-
-                            <label for="companyAddress">
-
-                                Company Address
-
-                            </label>
-
-                            <textarea
-                                id="companyAddress"
-                                rows="3"
-                                placeholder="Enter company address"></textarea>
-
-                        </div>
-
-
-                        <!-- CONTACT -->
+                        <!-- OPENING -->
 
                         <div class="form-group">
-
-                            <label for="contactNumber">
-
-                                Contact Number
-
-                            </label>
-
-                            <input
-                                type="text"
-                                id="contactNumber"
-                                placeholder="Enter contact number">
-
-                        </div>
-
-
-                        <!-- EMAIL -->
-
-                        <div class="form-group">
-
-                            <label for="companyEmail">
-
-                                Email Address
-
-                            </label>
-
-                            <input
-                                type="email"
-                                id="companyEmail"
-                                placeholder="Enter company email">
-
-                        </div>
-
-
-                    </div>
-
-                </div>
-
-
-                <!-- ==============================
-                     REGIONAL SETTINGS
-                =============================== -->
-
-                <div class="settings-card">
-
-
-                    <div class="card-title">
-
-                        <span class="material-icons">
-                            language
-                        </span>
-
-                        <div>
-
-                            <h3>
-                                Regional Settings
-                            </h3>
-
-                            <p>
-                                Configure currency, timezone,
-                                and date display.
-                            </p>
-
-                        </div>
-
-                    </div>
-
-
-                    <div class="form-grid">
-
-
-                        <!-- CURRENCY -->
-
-                        <div class="form-group">
-
-                            <label for="currency">
-
-                                Currency
-
-                            </label>
-
-                            <select id="currency">
-
-                                <option value="QAR">
-                                    QAR - Qatari Riyal
-                                </option>
-
-                                <option value="PHP">
-                                    PHP - Philippine Peso
-                                </option>
-
-                                <option value="USD">
-                                    USD - US Dollar
-                                </option>
-
-                                <option value="AED">
-                                    AED - UAE Dirham
-                                </option>
-
-                                <option value="SAR">
-                                    SAR - Saudi Riyal
-                                </option>
-
-                            </select>
-
-                        </div>
-
-
-                        <!-- TIMEZONE -->
-
-                        <div class="form-group">
-
-                            <label for="timezone">
-
-                                Timezone
-
-                            </label>
-
-                            <select id="timezone">
-
-                                <option value="Asia/Qatar">
-
-                                    Asia/Qatar
-
-                                </option>
-
-                                <option value="Asia/Manila">
-
-                                    Asia/Manila
-
-                                </option>
-
-                                <option value="Asia/Dubai">
-
-                                    Asia/Dubai
-
-                                </option>
-
-                                <option value="UTC">
-
-                                    UTC
-
-                                </option>
-
-                            </select>
-
-                        </div>
-
-
-                        <!-- DATE FORMAT -->
-
-                        <div class="form-group">
-
-                            <label for="dateFormat">
-
-                                Date Format
-
-                            </label>
-
-                            <select id="dateFormat">
-
-                                <option value="DD/MM/YYYY">
-
-                                    DD/MM/YYYY
-
-                                </option>
-
-                                <option value="MM/DD/YYYY">
-
-                                    MM/DD/YYYY
-
-                                </option>
-
-                                <option value="YYYY-MM-DD">
-
-                                    YYYY-MM-DD
-
-                                </option>
-
-                            </select>
-
-                        </div>
-
-
-                    </div>
-
-                </div>
-
-
-                <!-- ==============================
-                     COMPANY LOGO
-                =============================== -->
-
-                <div class="settings-card">
-
-
-                    <div class="card-title">
-
-                        <span class="material-icons">
-                            image
-                        </span>
-
-                        <div>
-
-                            <h3>
-                                Company Logo
-                            </h3>
-
-                            <p>
-                                Upload the logo used by the
-                                HRIS system.
-                            </p>
-
-                        </div>
-
-                    </div>
-
-
-                    <div class="logo-settings">
-
-
-                        <div class="logo-preview">
-
-                            <img
-                                id="companyLogoPreview"
-                                src="../assets/images/logo.png"
-                                alt="Company Logo">
-
-                        </div>
-
-
-                        <div class="logo-upload">
 
 
                             <label
-                                for="companyLogo"
-                                class="upload-btn">
+                                for="openingTime">
 
-                                <span class="material-icons">
-                                    upload
-                                </span>
-
-                                CHOOSE LOGO
+                                Store Opening Time
 
                             </label>
 
 
-                            <input
-                                type="file"
-                                id="companyLogo"
-                                accept="image/png,image/jpeg,image/webp">
+                            <div class="input-icon">
+
+
+                                <span class="material-icons">
+                                    login
+                                </span>
+
+
+                                <input
+                                    type="time"
+                                    id="openingTime"
+                                    value="08:00">
+
+
+                            </div>
 
 
                             <small>
-
-                                Recommended:
-                                PNG or JPG
-
+                                Official start of the work schedule.
                             </small>
+
 
                         </div>
 
+
+                        <!-- CLOSING -->
+
+                        <div class="form-group">
+
+
+                            <label
+                                for="closingTime">
+
+                                Store Closing Time
+
+                            </label>
+
+
+                            <div class="input-icon">
+
+
+                                <span class="material-icons">
+                                    logout
+                                </span>
+
+
+                                <input
+                                    type="time"
+                                    id="closingTime"
+                                    value="17:00">
+
+
+                            </div>
+
+
+                            <small>
+                                Official end of the work schedule.
+                            </small>
+
+
+                        </div>
+
+
                     </div>
+
 
                 </div>
 
 
-                <!-- ==============================
-                     SAVE
-                =============================== -->
+                <!-- ==================================
+                     BREAK SCHEDULE
+                =================================== -->
 
-                <div class="save-bar">
+                <div class="settings-card">
 
 
-                    <div>
+                    <div class="card-header">
+
+
+                        <div>
+
+
+                            <h4>
+                                Break Schedule
+                            </h4>
+
+
+                            <p>
+                                Configure the regular break period.
+                            </p>
+
+
+                        </div>
+
+
+                        <span class="material-icons">
+                            free_breakfast
+                        </span>
+
+
+                    </div>
+
+
+                    <div class="form-grid">
+
+
+                        <!-- BREAK START -->
+
+                        <div class="form-group">
+
+
+                            <label
+                                for="breakStart">
+
+                                Break Start
+
+                            </label>
+
+
+                            <div class="input-icon">
+
+
+                                <span class="material-icons">
+                                    pause
+                                </span>
+
+
+                                <input
+                                    type="time"
+                                    id="breakStart"
+                                    value="12:00">
+
+
+                            </div>
+
+
+                        </div>
+
+
+                        <!-- BREAK END -->
+
+                        <div class="form-group">
+
+
+                            <label
+                                for="breakEnd">
+
+                                Break End
+
+                            </label>
+
+
+                            <div class="input-icon">
+
+
+                                <span class="material-icons">
+                                    play_arrow
+                                </span>
+
+
+                                <input
+                                    type="time"
+                                    id="breakEnd"
+                                    value="13:00">
+
+
+                            </div>
+
+
+                        </div>
+
+
+                    </div>
+
+
+                </div>
+
+
+                <!-- ==================================
+                     ATTENDANCE RULES
+                =================================== -->
+
+                <div class="settings-card">
+
+
+                    <div class="card-header">
+
+
+                        <div>
+
+
+                            <h4>
+                                Attendance Rules
+                            </h4>
+
+
+                            <p>
+                                Control how late and undertime attendance is calculated.
+                            </p>
+
+
+                        </div>
+
+
+                        <span class="material-icons">
+                            rule
+                        </span>
+
+
+                    </div>
+
+
+                    <div class="form-grid">
+
+
+                        <!-- GRACE PERIOD -->
+
+                        <div class="form-group">
+
+
+                            <label
+                                for="gracePeriod">
+
+                                Grace Period
+
+                            </label>
+
+
+                            <div class="number-input">
+
+
+                                <input
+                                    type="number"
+                                    id="gracePeriod"
+                                    min="0"
+                                    max="120"
+                                    value="15">
+
+
+                                <span>
+                                    minutes
+                                </span>
+
+
+                            </div>
+
+
+                            <small>
+                                Minutes allowed after opening time before late status.
+                            </small>
+
+
+                        </div>
+
+
+                        <!-- LATE THRESHOLD -->
+
+                        <div class="form-group">
+
+
+                            <label
+                                for="lateThreshold">
+
+                                Late Threshold
+
+                            </label>
+
+
+                            <div class="number-input">
+
+
+                                <input
+                                    type="number"
+                                    id="lateThreshold"
+                                    min="0"
+                                    max="240"
+                                    value="15">
+
+
+                                <span>
+                                    minutes
+                                </span>
+
+
+                            </div>
+
+
+                            <small>
+                                Minimum late minutes to classify attendance as late.
+                            </small>
+
+
+                        </div>
+
+
+                        <!-- UNDERTIME -->
+
+                        <div class="form-group">
+
+
+                            <label
+                                for="undertimeThreshold">
+
+                                Undertime Threshold
+
+                            </label>
+
+
+                            <div class="number-input">
+
+
+                                <input
+                                    type="number"
+                                    id="undertimeThreshold"
+                                    min="0"
+                                    max="240"
+                                    value="15">
+
+
+                                <span>
+                                    minutes
+                                </span>
+
+
+                            </div>
+
+
+                            <small>
+                                Minimum missing minutes to classify undertime.
+                            </small>
+
+
+                        </div>
+
+
+                    </div>
+
+
+                </div>
+
+
+                <!-- ==================================
+                     SAVE AREA
+                =================================== -->
+
+                <div class="save-area">
+
+
+                    <div class="save-info">
+
 
                         <span class="material-icons">
                             info
                         </span>
 
-                        <span>
-                            Changes will be saved to
-                            the HRIS system.
+
+                        <span id="lastSavedText">
+
+                            No settings saved yet.
+
                         </span>
+
 
                     </div>
 
 
-                    <button
-                        id="saveGeneralBtn"
-                        class="save-btn">
+                    <div class="save-actions">
 
-                        <span class="material-icons">
-                            save
-                        </span>
 
-                        SAVE SETTINGS
+                        <button
+                            type="button"
+                            class="btn secondary-btn"
+                            onclick="loadAttendanceSettings()">
 
-                    </button>
+
+                            <span class="material-icons">
+                                refresh
+                            </span>
+
+
+                            RESET
+
+
+                        </button>
+
+
+                        <button
+                            type="button"
+                            class="btn primary-btn"
+                            onclick="saveAttendanceSettings()">
+
+
+                            <span class="material-icons">
+                                save
+                            </span>
+
+
+                            SAVE SETTINGS
+
+
+                        </button>
+
+
+                    </div>
+
 
                 </div>
 
@@ -828,5464 +846,100 @@
 
 
             <!-- ==================================
-                 PLACEHOLDER SECTIONS
+                 GENERAL PLACEHOLDER
             =================================== -->
 
-           <!-- ==================================
-     COMPANY SETTINGS
-=================================== -->
+            <section
+                id="generalSettings"
+                class="settings-section">
 
-<section
-    id="companySection"
-    class="settings-section">
 
+                <div class="empty-section">
 
-    <div class="section-title">
 
-        <div>
-
-            <h2>
-                Company Settings
-            </h2>
-
-            <p>
-                Manage company registration,
-                contact and authorized personnel information.
-            </p>
-
-        </div>
-
-    </div>
-
-
-    <!-- ==================================
-         COMPANY INFORMATION
-    =================================== -->
-
-    <div class="settings-card">
-
-        <div class="card-title">
-
-            <span class="material-icons">
-                business
-            </span>
-
-            <div>
-
-                <h3>
-                    Company Information
-                </h3>
-
-                <p>
-                    Official company information
-                    used throughout the HRIS.
-                </p>
-
-            </div>
-
-        </div>
-
-
-        <div class="form-grid">
-
-
-            <div class="form-group full">
-
-                <label for="legalName">
-                    Legal / Registered Name
-                </label>
-
-                <input
-                    type="text"
-                    id="legalName"
-                    placeholder="Enter legal company name">
-
-            </div>
-
-
-            <div class="form-group">
-
-                <label for="tradeName">
-                    Trade Name
-                </label>
-
-                <input
-                    type="text"
-                    id="tradeName"
-                    placeholder="Enter trade name">
-
-            </div>
-
-
-            <div class="form-group">
-
-                <label for="branch">
-                    Branch
-                </label>
-
-                <input
-                    type="text"
-                    id="branch"
-                    placeholder="Enter branch">
-
-            </div>
-
-
-            <div class="form-group">
-
-                <label for="registrationNumber">
-                    Registration Number
-                </label>
-
-                <input
-                    type="text"
-                    id="registrationNumber"
-                    placeholder="Enter registration number">
-
-            </div>
-
-
-            <div class="form-group">
-
-                <label for="taxNumber">
-                    Tax / VAT Number
-                </label>
-
-                <input
-                    type="text"
-                    id="taxNumber"
-                    placeholder="Enter tax or VAT number">
-
-            </div>
-
-
-        </div>
-
-    </div>
-
-
-    <!-- ==================================
-         HR CONTACT
-    =================================== -->
-
-    <div class="settings-card">
-
-        <div class="card-title">
-
-            <span class="material-icons">
-                support_agent
-            </span>
-
-            <div>
-
-                <h3>
-                    HR Contact
-                </h3>
-
-                <p>
-                    Contact information for the
-                    Human Resources department.
-                </p>
-
-            </div>
-
-        </div>
-
-
-        <div class="form-grid">
-
-
-            <div class="form-group">
-
-                <label for="hrContactPerson">
-                    HR Contact Person
-                </label>
-
-                <input
-                    type="text"
-                    id="hrContactPerson"
-                    placeholder="Enter HR contact person">
-
-            </div>
-
-
-            <div class="form-group">
-
-                <label for="hrContactNumber">
-                    HR Contact Number
-                </label>
-
-                <input
-                    type="text"
-                    id="hrContactNumber"
-                    placeholder="Enter HR contact number">
-
-            </div>
-
-
-            <div class="form-group full">
-
-                <label for="hrEmail">
-                    HR Email Address
-                </label>
-
-                <input
-                    type="email"
-                    id="hrEmail"
-                    placeholder="Enter HR email address">
-
-            </div>
-
-
-        </div>
-
-    </div>
-
-
-    <!-- ==================================
-         PAYROLL CONTACT
-    =================================== -->
-
-    <div class="settings-card">
-
-        <div class="card-title">
-
-            <span class="material-icons">
-                account_balance_wallet
-            </span>
-
-            <div>
-
-                <h3>
-                    Payroll Contact
-                </h3>
-
-                <p>
-                    Person responsible for payroll
-                    related matters.
-                </p>
-
-            </div>
-
-        </div>
-
-
-        <div class="form-grid">
-
-
-            <div class="form-group full">
-
-                <label for="payrollContact">
-                    Payroll Contact Person
-                </label>
-
-                <input
-                    type="text"
-                    id="payrollContact"
-                    placeholder="Enter payroll contact">
-
-            </div>
-
-
-        </div>
-
-    </div>
-
-
-    <!-- ==================================
-         AUTHORIZED SIGNATORY
-    =================================== -->
-
-    <div class="settings-card">
-
-        <div class="card-title">
-
-            <span class="material-icons">
-                draw
-            </span>
-
-            <div>
-
-                <h3>
-                    Authorized Signatory
-                </h3>
-
-                <p>
-                    Person authorized to sign HR
-                    and payroll documents.
-                </p>
-
-            </div>
-
-        </div>
-
-
-        <div class="form-grid">
-
-
-            <div class="form-group">
-
-                <label for="authorizedSignatory">
-                    Authorized Signatory
-                </label>
-
-                <input
-                    type="text"
-                    id="authorizedSignatory"
-                    placeholder="Enter authorized signatory">
-
-            </div>
-
-
-            <div class="form-group">
-
-                <label for="signatoryPosition">
-                    Position
-                </label>
-
-                <input
-                    type="text"
-                    id="signatoryPosition"
-                    placeholder="Enter position">
-
-            </div>
-
-
-        </div>
-
-    </div>
-
-
-    <!-- ==================================
-         SAVE COMPANY SETTINGS
-    =================================== -->
-
-    <div class="save-bar">
-
-        <div>
-
-            <span class="material-icons">
-                info
-            </span>
-
-            <span>
-                Company information will be used
-                by HRIS documents and reports.
-            </span>
-
-        </div>
-
-
-        <button
-            id="saveCompanyBtn"
-            class="save-btn">
-
-            <span class="material-icons">
-                save
-            </span>
-
-            SAVE COMPANY SETTINGS
-
-        </button>
-
-    </div>
-
-
-</section>
-
-        
-
-
-           <!-- ==================================
-     EMPLOYEE SETTINGS
-=================================== -->
-
-<section
-    id="employeesSection"
-    class="settings-section">
-
-
-    <!-- ==================================
-         SECTION TITLE
-    =================================== -->
-
-    <div class="section-title">
-
-        <div>
-
-            <h2>
-                Employee Settings
-            </h2>
-
-            <p>
-                Configure employee IDs, employment
-                status, employment types and portal access.
-            </p>
-
-        </div>
-
-    </div>
-
-
-    <!-- ==================================
-         EMPLOYEE ID SETTINGS
-    =================================== -->
-
-    <div class="settings-card">
-
-        <div class="card-title">
-
-            <span class="material-icons">
-                badge
-            </span>
-
-            <div>
-
-                <h3>
-                    Employee ID Settings
-                </h3>
-
-                <p>
-                    Configure how employee IDs are
-                    automatically generated.
-                </p>
-
-            </div>
-
-        </div>
-
-
-        <div class="form-grid">
-
-
-            <!-- AUTO GENERATE -->
-
-            <div class="form-group full">
-
-                <label class="toggle-row">
-
-                    <span>
-
-                        <strong>
-                            Auto Generate Employee ID
-                        </strong>
-
-                        <small>
-                            Automatically create an employee
-                            ID when adding a new employee.
-                        </small>
-
+                    <span class="material-icons">
+                        tune
                     </span>
 
 
-                    <input
-                        type="checkbox"
-                        id="autoGenerateId"
-                        class="toggle-input">
-
-                    <span class="toggle-switch"></span>
-
-                </label>
-
-            </div>
+                    <h3>
+                        General Settings
+                    </h3>
 
 
-            <!-- PREFIX -->
+                    <p>
+                        General system settings will be added here.
+                    </p>
 
-            <div class="form-group">
-
-                <label for="idPrefix">
-
-                    Employee ID Prefix
-
-                </label>
-
-                <input
-                    type="text"
-                    id="idPrefix"
-                    placeholder="EMP-"
-                    maxlength="10">
-
-                <small class="field-help">
-
-                    Example:
-                    EMP-0001
-
-                </small>
-
-            </div>
-
-
-            <!-- STARTING NUMBER -->
-
-            <div class="form-group">
-
-                <label for="startingNumber">
-
-                    Starting Number
-
-                </label>
-
-                <input
-                    type="number"
-                    id="startingNumber"
-                    min="1"
-                    value="1">
-
-                <small class="field-help">
-
-                    Example:
-                    1
-
-                </small>
-
-            </div>
-
-
-            <!-- DIGITS -->
-
-            <div class="form-group">
-
-                <label for="idDigits">
-
-                    Number of Digits
-
-                </label>
-
-                <select id="idDigits">
-
-                    <option value="3">
-                        3 Digits — 001
-                    </option>
-
-                    <option
-                        value="4"
-                        selected>
-                        4 Digits — 0001
-                    </option>
-
-                    <option value="5">
-                        5 Digits — 00001
-                    </option>
-
-                    <option value="6">
-                        6 Digits — 000001
-                    </option>
-
-                </select>
-
-            </div>
-
-
-            <!-- PREVIEW -->
-
-            <div class="form-group">
-
-                <label>
-
-                    Employee ID Preview
-
-                </label>
-
-                <div
-                    id="employeeIdPreview"
-                    class="id-preview">
-
-                    EMP-0001
 
                 </div>
 
-            </div>
 
+            </section>
 
-        </div>
 
-    </div>
+            <!-- ==================================
+                 PAYROLL PLACEHOLDER
+            =================================== -->
 
+            <section
+                id="payrollSettings"
+                class="settings-section">
 
-    <!-- ==================================
-         EMPLOYMENT STATUS
-    =================================== -->
 
-    <div class="settings-card">
+                <div class="empty-section">
 
-        <div class="card-title">
-
-            <span class="material-icons">
-                work_history
-            </span>
-
-            <div>
-
-                <h3>
-                    Employment Status
-                </h3>
-
-                <p>
-                    Status options available when
-                    creating or updating employees.
-                </p>
-
-            </div>
-
-        </div>
-
-
-        <div class="status-list">
-
-
-            <div class="status-item">
-
-                <span class="status-dot active"></span>
-
-                <span>
-                    Active
-                </span>
-
-            </div>
-
-
-            <div class="status-item">
-
-                <span class="status-dot probationary"></span>
-
-                <span>
-                    Probationary
-                </span>
-
-            </div>
-
-
-            <div class="status-item">
-
-                <span class="status-dot regular"></span>
-
-                <span>
-                    Regular
-                </span>
-
-            </div>
-
-
-            <div class="status-item">
-
-                <span class="status-dot leave"></span>
-
-                <span>
-                    On Leave
-                </span>
-
-            </div>
-
-
-            <div class="status-item">
-
-                <span class="status-dot resigned"></span>
-
-                <span>
-                    Resigned
-                </span>
-
-            </div>
-
-
-            <div class="status-item">
-
-                <span class="status-dot terminated"></span>
-
-                <span>
-                    Terminated
-                </span>
-
-            </div>
-
-
-            <div class="status-item">
-
-                <span class="status-dot inactive"></span>
-
-                <span>
-                    Inactive
-                </span>
-
-            </div>
-
-
-        </div>
-
-    </div>
-
-
-    <!-- ==================================
-         EMPLOYMENT TYPE
-    =================================== -->
-
-    <div class="settings-card">
-
-        <div class="card-title">
-
-            <span class="material-icons">
-                assignment_ind
-            </span>
-
-            <div>
-
-                <h3>
-                    Employment Type
-                </h3>
-
-                <p>
-                    Default employment classification
-                    for new employees.
-                </p>
-
-            </div>
-
-        </div>
-
-
-        <div class="form-grid">
-
-
-            <div class="form-group">
-
-                <label for="defaultEmploymentType">
-
-                    Default Employment Type
-
-                </label>
-
-                <select
-                    id="defaultEmploymentType">
-
-                    <option value="Full Time">
-                        Full Time
-                    </option>
-
-                    <option value="Part Time">
-                        Part Time
-                    </option>
-
-                    <option value="Contract">
-                        Contract
-                    </option>
-
-                    <option value="Temporary">
-                        Temporary
-                    </option>
-
-                    <option value="Casual">
-                        Casual
-                    </option>
-
-                </select>
-
-            </div>
-
-
-            <div class="form-group">
-
-                <label for="defaultStatus">
-
-                    Default Employee Status
-
-                </label>
-
-                <select
-                    id="defaultStatus">
-
-                    <option value="Active">
-                        Active
-                    </option>
-
-                    <option value="Probationary">
-                        Probationary
-                    </option>
-
-                    <option value="Regular">
-                        Regular
-                    </option>
-
-                </select>
-
-            </div>
-
-
-        </div>
-
-    </div>
-
-
-    <!-- ==================================
-         DEFAULT EMPLOYEE INFORMATION
-    =================================== -->
-
-    <div class="settings-card">
-
-        <div class="card-title">
-
-            <span class="material-icons">
-                account_tree
-            </span>
-
-            <div>
-
-                <h3>
-                    Employee Defaults
-                </h3>
-
-                <p>
-                    Default department and position
-                    for newly created employees.
-                </p>
-
-            </div>
-
-        </div>
-
-
-        <div class="form-grid">
-
-
-            <div class="form-group">
-
-                <label for="defaultDepartment">
-
-                    Default Department
-
-                </label>
-
-                <input
-                    type="text"
-                    id="defaultDepartment"
-                    placeholder="Example: Administration">
-
-            </div>
-
-
-            <div class="form-group">
-
-                <label for="defaultPosition">
-
-                    Default Position
-
-                </label>
-
-                <input
-                    type="text"
-                    id="defaultPosition"
-                    placeholder="Example: Staff">
-
-            </div>
-
-
-        </div>
-
-    </div>
-
-
-    <!-- ==================================
-         EMPLOYEE PORTAL
-    =================================== -->
-
-    <div class="settings-card">
-
-        <div class="card-title">
-
-            <span class="material-icons">
-                manage_accounts
-            </span>
-
-            <div>
-
-                <h3>
-                    Employee Portal Access
-                </h3>
-
-                <p>
-                    Control which functions employees
-                    can access from their portal.
-                </p>
-
-            </div>
-
-        </div>
-
-
-        <div class="portal-options">
-
-
-            <!-- EMPLOYEE LOGIN -->
-
-            <label class="toggle-row">
-
-                <span>
-
-                    <strong>
-                        Allow Employee Login
-                    </strong>
-
-                    <small>
-                        Allow employees to access
-                        their employee portal.
-                    </small>
-
-                </span>
-
-
-                <input
-                    type="checkbox"
-                    id="allowEmployeeLogin"
-                    class="toggle-input"
-                    checked>
-
-                <span class="toggle-switch"></span>
-
-            </label>
-
-
-            <!-- LEAVE REQUEST -->
-
-            <label class="toggle-row">
-
-                <span>
-
-                    <strong>
-                        Allow Leave Requests
-                    </strong>
-
-                    <small>
-                        Employees can submit leave
-                        requests from their portal.
-                    </small>
-
-                </span>
-
-
-                <input
-                    type="checkbox"
-                    id="allowLeaveRequest"
-                    class="toggle-input"
-                    checked>
-
-                <span class="toggle-switch"></span>
-
-            </label>
-
-
-            <!-- ATTENDANCE VIEW -->
-
-            <label class="toggle-row">
-
-                <span>
-
-                    <strong>
-                        Allow Attendance Viewing
-                    </strong>
-
-                    <small>
-                        Employees can view their
-                        attendance records.
-                    </small>
-
-                </span>
-
-
-                <input
-                    type="checkbox"
-                    id="allowAttendanceView"
-                    class="toggle-input"
-                    checked>
-
-                <span class="toggle-switch"></span>
-
-            </label>
-
-
-            <!-- PAYSLIP VIEW -->
-
-            <label class="toggle-row">
-
-                <span>
-
-                    <strong>
-                        Allow Payslip Viewing
-                    </strong>
-
-                    <small>
-                        Employees can view their
-                        payslips from the portal.
-                    </small>
-
-                </span>
-
-
-                <input
-                    type="checkbox"
-                    id="allowPayslipView"
-                    class="toggle-input"
-                    checked>
-
-                <span class="toggle-switch"></span>
-
-            </label>
-
-
-        </div>
-
-    </div>
-
-
-    <!-- ==================================
-         SAVE EMPLOYEE SETTINGS
-    =================================== -->
-
-    <div class="save-bar">
-
-        <div>
-
-            <span class="material-icons">
-                info
-            </span>
-
-            <span>
-                These settings will be used when
-                creating employee accounts.
-            </span>
-
-        </div>
-
-
-        <button
-            id="saveEmployeeBtn"
-            class="save-btn">
-
-            <span class="material-icons">
-                save
-            </span>
-
-            SAVE EMPLOYEE SETTINGS
-
-        </button>
-
-    </div>
-
-
-</section>
-
-              
-
-
-
-          <!-- ==================================
-     ATTENDANCE SETTINGS
-=================================== -->
-
-<section
-    id="attendanceSection"
-    class="settings-section">
-
-
-    <!-- ==================================
-         SECTION TITLE
-    =================================== -->
-
-    <div class="section-title">
-
-        <div>
-
-            <h2>
-                Attendance Settings
-            </h2>
-
-            <p>
-                Configure working hours, breaks, grace
-                period, late, undertime and overtime rules.
-            </p>
-
-        </div>
-
-    </div>
-
-
-    <!-- ==================================
-         WORK SCHEDULE
-    =================================== -->
-
-    <div class="settings-card">
-
-        <div class="card-title">
-
-            <span class="material-icons">
-                schedule
-            </span>
-
-            <div>
-
-                <h3>
-                    Regular Work Schedule
-                </h3>
-
-                <p>
-                    Set the standard working schedule
-                    used for attendance computation.
-                </p>
-
-            </div>
-
-        </div>
-
-
-        <div class="form-grid">
-
-
-            <!-- REGULAR HOURS -->
-
-            <div class="form-group">
-
-                <label for="regularHours">
-
-                    Regular Working Hours
-
-                </label>
-
-                <input
-                    type="number"
-                    id="regularHours"
-                    min="1"
-                    max="24"
-                    step="0.5"
-                    value="8">
-
-                <small class="field-help">
-
-                    Example: 8 hours
-
-                </small>
-
-            </div>
-
-
-            <!-- START -->
-
-            <div class="form-group">
-
-                <label for="workStartTime">
-
-                    Work Start Time
-
-                </label>
-
-                <input
-                    type="time"
-                    id="workStartTime"
-                    value="08:00">
-
-            </div>
-
-
-            <!-- END -->
-
-            <div class="form-group">
-
-                <label for="workEndTime">
-
-                    Work End Time
-
-                </label>
-
-                <input
-                    type="time"
-                    id="workEndTime"
-                    value="17:00">
-
-            </div>
-
-
-            <!-- WORK DAYS -->
-
-            <div class="form-group">
-
-                <label for="workDays">
-
-                    Work Days
-
-                </label>
-
-                <select
-                    id="workDays">
-
-                    <option value="5">
-                        5 Days / Week
-                    </option>
-
-                    <option value="6">
-                        6 Days / Week
-                    </option>
-
-                    <option value="7">
-                        7 Days / Week
-                    </option>
-
-                </select>
-
-            </div>
-
-
-        </div>
-
-    </div>
-
-
-    <!-- ==================================
-         BREAK SETTINGS
-    =================================== -->
-
-    <div class="settings-card">
-
-        <div class="card-title">
-
-            <span class="material-icons">
-                free_breakfast
-            </span>
-
-            <div>
-
-                <h3>
-                    Break Settings
-                </h3>
-
-                <p>
-                    Configure employee break schedule
-                    and break deduction.
-                </p>
-
-            </div>
-
-        </div>
-
-
-        <div class="form-grid">
-
-
-            <!-- ENABLE BREAK -->
-
-            <div class="form-group full">
-
-                <label class="toggle-row">
-
-                    <span>
-
-                        <strong>
-                            Enable Break
-                        </strong>
-
-                        <small>
-                            Enable break-out and break-in
-                            attendance records.
-                        </small>
-
-                    </span>
-
-
-                    <input
-                        type="checkbox"
-                        id="enableBreak"
-                        class="toggle-input"
-                        checked>
-
-                    <span class="toggle-switch"></span>
-
-                </label>
-
-            </div>
-
-
-            <!-- BREAK START -->
-
-            <div class="form-group">
-
-                <label for="breakStartTime">
-
-                    Break Start Time
-
-                </label>
-
-                <input
-                    type="time"
-                    id="breakStartTime"
-                    value="12:00">
-
-            </div>
-
-
-            <!-- BREAK END -->
-
-            <div class="form-group">
-
-                <label for="breakEndTime">
-
-                    Break End Time
-
-                </label>
-
-                <input
-                    type="time"
-                    id="breakEndTime"
-                    value="13:00">
-
-            </div>
-
-
-            <!-- BREAK HOURS -->
-
-            <div class="form-group">
-
-                <label for="breakHours">
-
-                    Break Duration
-
-                </label>
-
-                <input
-                    type="number"
-                    id="breakHours"
-                    min="0"
-                    max="8"
-                    step="0.5"
-                    value="1">
-
-                <small class="field-help">
-
-                    Example: 1 hour
-
-                </small>
-
-            </div>
-
-
-            <!-- DEDUCT BREAK -->
-
-            <div class="form-group">
-
-                <label class="toggle-row">
-
-                    <span>
-
-                        <strong>
-                            Deduct Break from Hours
-                        </strong>
-
-                        <small>
-                            Exclude the break duration
-                            from regular working hours.
-                        </small>
-
-                    </span>
-
-
-                    <input
-                        type="checkbox"
-                        id="deductBreak"
-                        class="toggle-input"
-                        checked>
-
-                    <span class="toggle-switch"></span>
-
-                </label>
-
-            </div>
-
-
-        </div>
-
-    </div>
-
-
-    <!-- ==================================
-         LATE SETTINGS
-    =================================== -->
-
-    <div class="settings-card">
-
-        <div class="card-title">
-
-            <span class="material-icons">
-                alarm
-            </span>
-
-            <div>
-
-                <h3>
-                    Late & Grace Period
-                </h3>
-
-                <p>
-                    Configure how late attendance
-                    is identified.
-                </p>
-
-            </div>
-
-        </div>
-
-
-        <div class="form-grid">
-
-
-            <!-- GRACE PERIOD -->
-
-            <div class="form-group">
-
-                <label for="gracePeriod">
-
-                    Grace Period
-
-                </label>
-
-                <input
-                    type="number"
-                    id="gracePeriod"
-                    min="0"
-                    max="120"
-                    value="15">
-
-                <small class="field-help">
-
-                    Minutes before an employee
-                    is considered late.
-
-                </small>
-
-            </div>
-
-
-            <!-- LATE AFTER GRACE -->
-
-            <div class="form-group">
-
-                <label class="toggle-row">
-
-                    <span>
-
-                        <strong>
-                            Mark Late After Grace Period
-                        </strong>
-
-                        <small>
-                            Automatically mark employees
-                            late after the grace period.
-                        </small>
-
-                    </span>
-
-
-                    <input
-                        type="checkbox"
-                        id="markLate"
-                        class="toggle-input"
-                        checked>
-
-                    <span class="toggle-switch"></span>
-
-                </label>
-
-            </div>
-
-
-            <!-- LATE DEDUCTION -->
-
-            <div class="form-group">
-
-                <label for="lateCalculation">
-
-                    Late Calculation
-
-                </label>
-
-                <select
-                    id="lateCalculation">
-
-                    <option value="minutes">
-                        Actual Minutes
-                    </option>
-
-                    <option value="rounded">
-                        Rounded Minutes
-                    </option>
-
-                </select>
-
-            </div>
-
-
-            <!-- ROUNDING -->
-
-            <div class="form-group">
-
-                <label for="lateRounding">
-
-                    Late Rounding
-
-                </label>
-
-                <select
-                    id="lateRounding">
-
-                    <option value="1">
-                        1 Minute
-                    </option>
-
-                    <option value="5">
-                        5 Minutes
-                    </option>
-
-                    <option value="10">
-                        10 Minutes
-                    </option>
-
-                    <option value="15">
-                        15 Minutes
-                    </option>
-
-                </select>
-
-            </div>
-
-
-        </div>
-
-    </div>
-
-
-    <!-- ==================================
-         UNDERTIME SETTINGS
-    =================================== -->
-
-    <div class="settings-card">
-
-        <div class="card-title">
-
-            <span class="material-icons">
-                timer_off
-            </span>
-
-            <div>
-
-                <h3>
-                    Undertime Settings
-                </h3>
-
-                <p>
-                    Configure how insufficient working
-                    time is calculated.
-                </p>
-
-            </div>
-
-        </div>
-
-
-        <div class="form-grid">
-
-
-            <!-- ENABLE -->
-
-            <div class="form-group full">
-
-                <label class="toggle-row">
-
-                    <span>
-
-                        <strong>
-                            Enable Undertime Calculation
-                        </strong>
-
-                        <small>
-                            Automatically calculate missing
-                            working time.
-                        </small>
-
-                    </span>
-
-
-                    <input
-                        type="checkbox"
-                        id="enableUndertime"
-                        class="toggle-input"
-                        checked>
-
-                    <span class="toggle-switch"></span>
-
-                </label>
-
-            </div>
-
-
-            <!-- CALCULATION -->
-
-            <div class="form-group">
-
-                <label for="undertimeCalculation">
-
-                    Undertime Calculation
-
-                </label>
-
-                <select
-                    id="undertimeCalculation">
-
-                    <option value="minutes">
-                        Actual Minutes
-                    </option>
-
-                    <option value="rounded">
-                        Rounded Minutes
-                    </option>
-
-                </select>
-
-            </div>
-
-
-            <!-- ROUNDING -->
-
-            <div class="form-group">
-
-                <label for="undertimeRounding">
-
-                    Undertime Rounding
-
-                </label>
-
-                <select
-                    id="undertimeRounding">
-
-                    <option value="1">
-                        1 Minute
-                    </option>
-
-                    <option value="5">
-                        5 Minutes
-                    </option>
-
-                    <option value="10">
-                        10 Minutes
-                    </option>
-
-                    <option value="15">
-                        15 Minutes
-                    </option>
-
-                </select>
-
-            </div>
-
-
-        </div>
-
-    </div>
-
-
-    <!-- ==================================
-         OVERTIME SETTINGS
-    =================================== -->
-
-    <div class="settings-card">
-
-        <div class="card-title">
-
-            <span class="material-icons">
-                more_time
-            </span>
-
-            <div>
-
-                <h3>
-                    Overtime Settings
-                </h3>
-
-                <p>
-                    Configure automatic overtime
-                    computation.
-                </p>
-
-            </div>
-
-        </div>
-
-
-        <div class="form-grid">
-
-
-            <!-- ENABLE OT -->
-
-            <div class="form-group full">
-
-                <label class="toggle-row">
-
-                    <span>
-
-                        <strong>
-                            Enable Overtime Calculation
-                        </strong>
-
-                        <small>
-                            Automatically calculate overtime
-                            based on actual worked hours.
-                        </small>
-
-                    </span>
-
-
-                    <input
-                        type="checkbox"
-                        id="enableOvertime"
-                        class="toggle-input"
-                        checked>
-
-                    <span class="toggle-switch"></span>
-
-                </label>
-
-            </div>
-
-
-            <!-- MINIMUM OT -->
-
-            <div class="form-group">
-
-                <label for="minimumOtMinutes">
-
-                    Minimum OT Minutes
-
-                </label>
-
-                <input
-                    type="number"
-                    id="minimumOtMinutes"
-                    min="0"
-                    max="480"
-                    value="30">
-
-                <small class="field-help">
-
-                    Example: 30 minutes
-
-                </small>
-
-            </div>
-
-
-            <!-- ROUNDING -->
-
-            <div class="form-group">
-
-                <label for="otRounding">
-
-                    OT Rounding
-
-                </label>
-
-                <select
-                    id="otRounding">
-
-                    <option value="1">
-                        1 Minute
-                    </option>
-
-                    <option value="5">
-                        5 Minutes
-                    </option>
-
-                    <option value="10">
-                        10 Minutes
-                    </option>
-
-                    <option value="15">
-                        15 Minutes
-                    </option>
-
-                    <option value="30">
-                        30 Minutes
-                    </option>
-
-                </select>
-
-            </div>
-
-
-            <!-- AUTO COMPUTE -->
-
-            <div class="form-group full">
-
-                <label class="toggle-row">
-
-                    <span>
-
-                        <strong>
-                            Auto Compute Regular Hours
-                        </strong>
-
-                        <small>
-                            Automatically calculate regular
-                            hours from Time In, Break and Time Out.
-                        </small>
-
-                    </span>
-
-
-                    <input
-                        type="checkbox"
-                        id="autoComputeRegularHours"
-                        class="toggle-input"
-                        checked>
-
-                    <span class="toggle-switch"></span>
-
-                </label>
-
-            </div>
-
-
-        </div>
-
-    </div>
-
-
-    <!-- ==================================
-         ATTENDANCE STATUS
-    =================================== -->
-
-    <div class="settings-card">
-
-        <div class="card-title">
-
-            <span class="material-icons">
-                fact_check
-            </span>
-
-            <div>
-
-                <h3>
-                    Attendance Status
-                </h3>
-
-                <p>
-                    Status values used by the attendance
-                    module.
-                </p>
-
-            </div>
-
-        </div>
-
-
-        <div class="status-list">
-
-
-            <div class="status-item">
-
-                <span class="status-dot active"></span>
-
-                <span>
-                    Present
-                </span>
-
-            </div>
-
-
-            <div class="status-item">
-
-                <span class="status-dot regular"></span>
-
-                <span>
-                    Late
-                </span>
-
-            </div>
-
-
-            <div class="status-item">
-
-                <span class="status-dot leave"></span>
-
-                <span>
-                    On Leave
-                </span>
-
-            </div>
-
-
-            <div class="status-item">
-
-                <span class="status-dot inactive"></span>
-
-                <span>
-                    Absent
-                </span>
-
-            </div>
-
-
-            <div class="status-item">
-
-                <span class="status-dot probationary"></span>
-
-                <span>
-                    Rest Day
-                </span>
-
-            </div>
-
-
-            <div class="status-item">
-
-                <span class="status-dot resigned"></span>
-
-                <span>
-                    Holiday
-                </span>
-
-            </div>
-
-
-        </div>
-
-    </div>
-
-
-    <!-- ==================================
-         SAVE ATTENDANCE SETTINGS
-    =================================== -->
-
-    <div class="save-bar">
-
-        <div>
-
-            <span class="material-icons">
-                info
-            </span>
-
-            <span>
-                These settings will be used by
-                Attendance and Payroll calculations.
-            </span>
-
-        </div>
-
-
-        <button
-            id="saveAttendanceBtn"
-            class="save-btn">
-
-            <span class="material-icons">
-                save
-            </span>
-
-            SAVE ATTENDANCE SETTINGS
-
-        </button>
-
-    </div>
-
-
-</section>
-
-              
-
-
-
-           <!-- ==================================
-     PAYROLL SETTINGS
-=================================== -->
-
-<section
-    id="payrollSection"
-    class="settings-section">
-
-
-    <!-- ==================================
-         SECTION TITLE
-    =================================== -->
-
-    <div class="section-title">
-
-        <div>
-
-            <h2>
-                Payroll Settings
-            </h2>
-
-            <p>
-                Configure payroll periods, salary
-                calculation, overtime and deductions.
-            </p>
-
-        </div>
-
-    </div>
-
-
-    <!-- ==================================
-         PAY FREQUENCY
-    =================================== -->
-
-    <div class="settings-card">
-
-        <div class="card-title">
-
-            <span class="material-icons">
-                payments
-            </span>
-
-            <div>
-
-                <h3>
-                    Payroll Schedule
-                </h3>
-
-                <p>
-                    Configure the payroll frequency
-                    and cut-off periods.
-                </p>
-
-            </div>
-
-        </div>
-
-
-        <div class="form-grid">
-
-
-            <div class="form-group">
-
-                <label for="payFrequency">
-
-                    Pay Frequency
-
-                </label>
-
-                <select id="payFrequency">
-
-                    <option value="monthly">
-                        Monthly
-                    </option>
-
-                    <option
-                        value="semi-monthly"
-                        selected>
-                        Semi-Monthly
-                    </option>
-
-                    <option value="weekly">
-                        Weekly
-                    </option>
-
-                    <option value="bi-weekly">
-                        Bi-Weekly
-                    </option>
-
-                </select>
-
-            </div>
-
-
-            <div class="form-group">
-
-                <label for="payDay">
-
-                    Default Pay Day
-
-                </label>
-
-                <input
-                    type="number"
-                    id="payDay"
-                    min="1"
-                    max="31"
-                    value="15">
-
-            </div>
-
-
-            <div class="form-group">
-
-                <label for="firstCutoffStart">
-
-                    First Cut-Off Start
-
-                </label>
-
-                <select
-                    id="firstCutoffStart">
-
-                    <option value="1">
-                        1
-                    </option>
-
-                </select>
-
-            </div>
-
-
-            <div class="form-group">
-
-                <label for="firstCutoffEnd">
-
-                    First Cut-Off End
-
-                </label>
-
-                <select
-                    id="firstCutoffEnd">
-
-                    <option value="15">
-                        15
-                    </option>
-
-                </select>
-
-            </div>
-
-
-            <div class="form-group">
-
-                <label for="secondCutoffStart">
-
-                    Second Cut-Off Start
-
-                </label>
-
-                <select
-                    id="secondCutoffStart">
-
-                    <option value="16">
-                        16
-                    </option>
-
-                </select>
-
-            </div>
-
-
-            <div class="form-group">
-
-                <label for="secondCutoffEnd">
-
-                    Second Cut-Off End
-
-                </label>
-
-                <select
-                    id="secondCutoffEnd">
-
-                    <option value="last-day">
-                        Last Day of Month
-                    </option>
-
-                    <option value="30">
-                        30
-                    </option>
-
-                    <option value="31">
-                        31
-                    </option>
-
-                </select>
-
-            </div>
-
-
-        </div>
-
-    </div>
-
-
-    <!-- ==================================
-         SALARY SETTINGS
-    =================================== -->
-
-    <div class="settings-card">
-
-        <div class="card-title">
-
-            <span class="material-icons">
-                account_balance
-            </span>
-
-            <div>
-
-                <h3>
-                    Salary Calculation
-                </h3>
-
-                <p>
-                    Configure the basic salary and
-                    hourly rate calculation.
-                </p>
-
-            </div>
-
-        </div>
-
-
-        <div class="form-grid">
-
-
-            <div class="form-group">
-
-                <label for="salaryBasis">
-
-                    Salary Basis
-
-                </label>
-
-                <select id="salaryBasis">
-
-                    <option value="monthly">
-                        Monthly Salary
-                    </option>
-
-                    <option value="daily">
-                        Daily Rate
-                    </option>
-
-                    <option value="hourly">
-                        Hourly Rate
-                    </option>
-
-                </select>
-
-            </div>
-
-
-            <div class="form-group">
-
-                <label for="workingDaysPerMonth">
-
-                    Working Days Per Month
-
-                </label>
-
-                <input
-                    type="number"
-                    id="workingDaysPerMonth"
-                    min="1"
-                    max="31"
-                    value="26">
-
-            </div>
-
-
-            <div class="form-group">
-
-                <label for="hoursPerDay">
-
-                    Regular Hours Per Day
-
-                </label>
-
-                <input
-                    type="number"
-                    id="hoursPerDay"
-                    min="1"
-                    max="24"
-                    step="0.5"
-                    value="8">
-
-            </div>
-
-
-            <div class="form-group">
-
-                <label for="hourlyRateMethod">
-
-                    Hourly Rate Method
-
-                </label>
-
-                <select
-                    id="hourlyRateMethod">
-
-                    <option value="monthly-divide-days">
-                        Monthly ÷ Working Days ÷ Hours
-                    </option>
-
-                    <option value="daily-divide-hours">
-                        Daily Rate ÷ Hours
-                    </option>
-
-                    <option value="manual">
-                        Manual Hourly Rate
-                    </option>
-
-                </select>
-
-            </div>
-
-
-        </div>
-
-    </div>
-
-
-    <!-- ==================================
-         OVERTIME PAY
-    =================================== -->
-
-    <div class="settings-card">
-
-        <div class="card-title">
-
-            <span class="material-icons">
-                more_time
-            </span>
-
-            <div>
-
-                <h3>
-                    Overtime Pay
-                </h3>
-
-                <p>
-                    Configure how overtime is included
-                    in payroll.
-                </p>
-
-            </div>
-
-        </div>
-
-
-        <div class="form-grid">
-
-
-            <div class="form-group full">
-
-                <label class="toggle-row">
-
-                    <span>
-
-                        <strong>
-                            Include Overtime in Payroll
-                        </strong>
-
-                        <small>
-                            Add approved overtime earnings
-                            to employee payroll.
-                        </small>
-
-                    </span>
-
-
-                    <input
-                        type="checkbox"
-                        id="includeOvertimePay"
-                        class="toggle-input"
-                        checked>
-
-                    <span class="toggle-switch"></span>
-
-                </label>
-
-            </div>
-
-
-            <div class="form-group">
-
-                <label for="regularOtRate">
-
-                    Regular Day OT Rate
-
-                </label>
-
-                <input
-                    type="number"
-                    id="regularOtRate"
-                    min="0"
-                    step="0.01"
-                    value="1.25">
-
-                <small class="field-help">
-
-                    Example: 1.25 = 125%
-
-                </small>
-
-            </div>
-
-
-            <div class="form-group">
-
-                <label for="restDayOtRate">
-
-                    Rest Day OT Rate
-
-                </label>
-
-                <input
-                    type="number"
-                    id="restDayOtRate"
-                    min="0"
-                    step="0.01"
-                    value="1.30">
-
-            </div>
-
-
-            <div class="form-group">
-
-                <label for="holidayOtRate">
-
-                    Holiday OT Rate
-
-                </label>
-
-                <input
-                    type="number"
-                    id="holidayOtRate"
-                    min="0"
-                    step="0.01"
-                    value="2.00">
-
-            </div>
-
-
-        </div>
-
-    </div>
-
-
-    <!-- ==================================
-         LATE & UNDERTIME DEDUCTIONS
-    =================================== -->
-
-    <div class="settings-card">
-
-        <div class="card-title">
-
-            <span class="material-icons">
-                remove_circle
-            </span>
-
-            <div>
-
-                <h3>
-                    Time-Based Deductions
-                </h3>
-
-                <p>
-                    Configure late and undertime
-                    deductions in payroll.
-                </p>
-
-            </div>
-
-        </div>
-
-
-        <div class="form-grid">
-
-
-            <div class="form-group full">
-
-                <label class="toggle-row">
-
-                    <span>
-
-                        <strong>
-                            Deduct Late
-                        </strong>
-
-                        <small>
-                            Automatically deduct late
-                            minutes from payroll.
-                        </small>
-
-                    </span>
-
-
-                    <input
-                        type="checkbox"
-                        id="deductLate"
-                        class="toggle-input"
-                        checked>
-
-                    <span class="toggle-switch"></span>
-
-                </label>
-
-            </div>
-
-
-            <div class="form-group full">
-
-                <label class="toggle-row">
-
-                    <span>
-
-                        <strong>
-                            Deduct Undertime
-                        </strong>
-
-                        <small>
-                            Automatically deduct insufficient
-                            working time from payroll.
-                        </small>
-
-                    </span>
-
-
-                    <input
-                        type="checkbox"
-                        id="deductUndertime"
-                        class="toggle-input"
-                        checked>
-
-                    <span class="toggle-switch"></span>
-
-                </label>
-
-            </div>
-
-
-            <div class="form-group">
-
-                <label for="deductionRounding">
-
-                    Deduction Rounding
-
-                </label>
-
-                <select
-                    id="deductionRounding">
-
-                    <option value="1">
-                        1 Minute
-                    </option>
-
-                    <option value="5">
-                        5 Minutes
-                    </option>
-
-                    <option value="10">
-                        10 Minutes
-                    </option>
-
-                    <option value="15">
-                        15 Minutes
-                    </option>
-
-                </select>
-
-            </div>
-
-
-        </div>
-
-    </div>
-
-
-    <!-- ==================================
-         PAYROLL DEDUCTIONS
-    =================================== -->
-
-    <div class="settings-card">
-
-        <div class="card-title">
-
-            <span class="material-icons">
-                receipt_long
-            </span>
-
-            <div>
-
-                <h3>
-                    Payroll Deductions
-                </h3>
-
-                <p>
-                    Configure common deductions that
-                    may appear on employee payroll.
-                </p>
-
-            </div>
-
-        </div>
-
-
-        <div class="form-grid">
-
-
-            <div class="form-group full">
-
-                <label class="toggle-row">
-
-                    <span>
-
-                        <strong>
-                            Enable Government Deductions
-                        </strong>
-
-                        <small>
-                            Enable applicable government
-                            contribution deductions.
-                        </small>
-
-                    </span>
-
-
-                    <input
-                        type="checkbox"
-                        id="enableGovernmentDeductions"
-                        class="toggle-input"
-                        checked>
-
-                    <span class="toggle-switch"></span>
-
-                </label>
-
-            </div>
-
-
-            <div class="form-group">
-
-                <label class="toggle-row">
-
-                    <span>
-
-                        <strong>
-                            SSS
-                        </strong>
-
-                    </span>
-
-
-                    <input
-                        type="checkbox"
-                        id="enableSSS"
-                        class="toggle-input"
-                        checked>
-
-                    <span class="toggle-switch"></span>
-
-                </label>
-
-            </div>
-
-
-            <div class="form-group">
-
-                <label class="toggle-row">
-
-                    <span>
-
-                        <strong>
-                            PhilHealth
-                        </strong>
-
-                    </span>
-
-
-                    <input
-                        type="checkbox"
-                        id="enablePhilHealth"
-                        class="toggle-input"
-                        checked>
-
-                    <span class="toggle-switch"></span>
-
-                </label>
-
-            </div>
-
-
-            <div class="form-group">
-
-                <label class="toggle-row">
-
-                    <span>
-
-                        <strong>
-                            Pag-IBIG
-                        </strong>
-
-                    </span>
-
-
-                    <input
-                        type="checkbox"
-                        id="enablePagIBIG"
-                        class="toggle-input"
-                        checked>
-
-                    <span class="toggle-switch"></span>
-
-                </label>
-
-            </div>
-
-
-            <div class="form-group">
-
-                <label class="toggle-row">
-
-                    <span>
-
-                        <strong>
-                            Tax
-                        </strong>
-
-                    </span>
-
-
-                    <input
-                        type="checkbox"
-                        id="enableTax"
-                        class="toggle-input"
-                        checked>
-
-                    <span class="toggle-switch"></span>
-
-                </label>
-
-            </div>
-
-
-            <div class="form-group">
-
-                <label class="toggle-row">
-
-                    <span>
-
-                        <strong>
-                            Health Card
-                        </strong>
-
-                    </span>
-
-
-                    <input
-                        type="checkbox"
-                        id="enableHealthCard"
-                        class="toggle-input"
-                        checked>
-
-                    <span class="toggle-switch"></span>
-
-                </label>
-
-            </div>
-
-
-            <div class="form-group">
-
-                <label class="toggle-row">
-
-                    <span>
-
-                        <strong>
-                            Other Deductions
-                        </strong>
-
-                    </span>
-
-
-                    <input
-                        type="checkbox"
-                        id="enableOtherDeductions"
-                        class="toggle-input"
-                        checked>
-
-                    <span class="toggle-switch"></span>
-
-                </label>
-
-            </div>
-
-
-        </div>
-
-    </div>
-
-
-    <!-- ==================================
-         PAYROLL ROUNDING
-    =================================== -->
-
-    <div class="settings-card">
-
-        <div class="card-title">
-
-            <span class="material-icons">
-                calculate
-            </span>
-
-            <div>
-
-                <h3>
-                    Payroll Calculation
-                </h3>
-
-                <p>
-                    Configure rounding and automatic
-                    payroll calculations.
-                </p>
-
-            </div>
-
-        </div>
-
-
-        <div class="form-grid">
-
-
-            <div class="form-group">
-
-                <label for="payrollRounding">
-
-                    Payroll Rounding
-
-                </label>
-
-                <select
-                    id="payrollRounding">
-
-                    <option value="0.01">
-                        0.01
-                    </option>
-
-                    <option value="0.05">
-                        0.05
-                    </option>
-
-                    <option value="0.10">
-                        0.10
-                    </option>
-
-                    <option value="1">
-                        1.00
-                    </option>
-
-                </select>
-
-            </div>
-
-
-            <div class="form-group">
-
-                <label class="toggle-row">
-
-                    <span>
-
-                        <strong>
-                            Auto Compute Payroll
-                        </strong>
-
-                        <small>
-                            Automatically calculate payroll
-                            based on attendance data.
-                        </small>
-
-                    </span>
-
-
-                    <input
-                        type="checkbox"
-                        id="autoComputePayroll"
-                        class="toggle-input"
-                        checked>
-
-                    <span class="toggle-switch"></span>
-
-                </label>
-
-            </div>
-
-
-        </div>
-
-    </div>
-
-
-    <!-- ==================================
-         SAVE PAYROLL SETTINGS
-    =================================== -->
-
-    <div class="save-bar">
-
-        <div>
-
-            <span class="material-icons">
-                info
-            </span>
-
-            <span>
-                Payroll settings will be used for
-                future payroll calculations.
-            </span>
-
-        </div>
-
-
-        <button
-            id="savePayrollBtn"
-            class="save-btn">
-
-            <span class="material-icons">
-                save
-            </span>
-
-            SAVE PAYROLL SETTINGS
-
-        </button>
-
-    </div>
-
-
-
-                <div class="coming-soon">
 
                     <span class="material-icons">
                         payments
                     </span>
 
-                    <h2>
+
+                    <h3>
                         Payroll Settings
-                    </h2>
+                    </h3>
+
 
                     <p>
-                        This section will be configured
-                        next.
+                        Payroll configuration will be added here.
                     </p>
 
-                </div>
-
-            </section>
-
-
-           <!-- ==================================
-     LEAVE SETTINGS
-=================================== -->
-
-<section
-    id="leavesSection"
-    class="settings-section">
-
-
-    <!-- ==================================
-         SECTION TITLE
-    =================================== -->
-
-    <div class="section-title">
-
-        <div>
-
-            <h2>
-                Leave Settings
-            </h2>
-
-            <p>
-                Configure leave types, request rules,
-                approval workflow and employee leave access.
-            </p>
-
-        </div>
-
-    </div>
-
-
-    <!-- ==================================
-         LEAVE REQUEST SETTINGS
-    =================================== -->
-
-    <div class="settings-card">
-
-        <div class="card-title">
-
-            <span class="material-icons">
-                event_available
-            </span>
-
-            <div>
-
-                <h3>
-                    Leave Request Settings
-                </h3>
-
-                <p>
-                    Configure how employees submit
-                    and manage leave requests.
-                </p>
-
-            </div>
-
-        </div>
-
-
-        <div class="form-grid">
-
-
-            <!-- ENABLE LEAVE REQUEST -->
-
-            <div class="form-group full">
-
-                <label class="toggle-row">
-
-                    <span>
-
-                        <strong>
-                            Enable Employee Leave Requests
-                        </strong>
-
-                        <small>
-                            Allow employees to submit leave
-                            requests through the Employee Portal.
-                        </small>
-
-                    </span>
-
-
-                    <input
-                        type="checkbox"
-                        id="enableLeaveRequest"
-                        class="toggle-input"
-                        checked>
-
-                    <span class="toggle-switch"></span>
-
-                </label>
-
-            </div>
-
-
-            <!-- ADVANCE DAYS -->
-
-            <div class="form-group">
-
-                <label for="leaveAdvanceDays">
-
-                    Minimum Advance Request
-
-                </label>
-
-                <input
-                    type="number"
-                    id="leaveAdvanceDays"
-                    min="0"
-                    max="365"
-                    value="1">
-
-                <small class="field-help">
-
-                    Number of days before the leave date
-                    that a request should normally be submitted.
-
-                </small>
-
-            </div>
-
-
-            <!-- MAX DAYS -->
-
-            <div class="form-group">
-
-                <label for="maxLeaveDaysPerRequest">
-
-                    Maximum Days Per Request
-
-                </label>
-
-                <input
-                    type="number"
-                    id="maxLeaveDaysPerRequest"
-                    min="1"
-                    max="365"
-                    value="30">
-
-            </div>
-
-
-            <!-- HALF DAY -->
-
-            <div class="form-group full">
-
-                <label class="toggle-row">
-
-                    <span>
-
-                        <strong>
-                            Allow Half-Day Leave
-                        </strong>
-
-                        <small>
-                            Employees can request a half-day
-                            leave when applicable.
-                        </small>
-
-                    </span>
-
-
-                    <input
-                        type="checkbox"
-                        id="allowHalfDayLeave"
-                        class="toggle-input"
-                        checked>
-
-                    <span class="toggle-switch"></span>
-
-                </label>
-
-            </div>
-
-
-            <!-- BACKDATED -->
-
-            <div class="form-group full">
-
-                <label class="toggle-row">
-
-                    <span>
-
-                        <strong>
-                            Allow Backdated Leave Requests
-                        </strong>
-
-                        <small>
-                            Allow employees to submit requests
-                            for previous dates.
-                        </small>
-
-                    </span>
-
-
-                    <input
-                        type="checkbox"
-                        id="allowBackdatedLeave"
-                        class="toggle-input">
-
-                    <span class="toggle-switch"></span>
-
-                </label>
-
-            </div>
-
-
-        </div>
-
-    </div>
-
-
-    <!-- ==================================
-         LEAVE TYPES
-    =================================== -->
-
-    <div class="settings-card">
-
-        <div class="card-title">
-
-            <span class="material-icons">
-                category
-            </span>
-
-            <div>
-
-                <h3>
-                    Leave Types
-                </h3>
-
-                <p>
-                    Leave categories available to employees.
-                </p>
-
-            </div>
-
-        </div>
-
-
-        <div class="leave-type-list">
-
-
-            <!-- ANNUAL -->
-
-            <div class="leave-type-item">
-
-                <div class="leave-type-icon">
-
-                    <span class="material-icons">
-                        beach_access
-                    </span>
 
                 </div>
 
-
-                <div class="leave-type-info">
-
-                    <strong>
-                        Annual Leave
-                    </strong>
-
-                    <small>
-                        Regular vacation / annual leave.
-                    </small>
-
-                </div>
-
-
-                <label class="mini-toggle">
-
-                    <input
-                        type="checkbox"
-                        id="leaveAnnual"
-                        checked>
-
-                    <span></span>
-
-                </label>
-
-            </div>
-
-
-            <!-- SICK -->
-
-            <div class="leave-type-item">
-
-                <div class="leave-type-icon">
-
-                    <span class="material-icons">
-                        medical_services
-                    </span>
-
-                </div>
-
-
-                <div class="leave-type-info">
-
-                    <strong>
-                        Sick Leave
-                    </strong>
-
-                    <small>
-                        Leave due to illness or medical reasons.
-                    </small>
-
-                </div>
-
-
-                <label class="mini-toggle">
-
-                    <input
-                        type="checkbox"
-                        id="leaveSick"
-                        checked>
-
-                    <span></span>
-
-                </label>
-
-            </div>
-
-
-            <!-- EMERGENCY -->
-
-            <div class="leave-type-item">
-
-                <div class="leave-type-icon">
-
-                    <span class="material-icons">
-                        emergency
-                    </span>
-
-                </div>
-
-
-                <div class="leave-type-info">
-
-                    <strong>
-                        Emergency Leave
-                    </strong>
-
-                    <small>
-                        Leave for urgent personal circumstances.
-                    </small>
-
-                </div>
-
-
-                <label class="mini-toggle">
-
-                    <input
-                        type="checkbox"
-                        id="leaveEmergency"
-                        checked>
-
-                    <span></span>
-
-                </label>
-
-            </div>
-
-
-            <!-- UNPAID -->
-
-            <div class="leave-type-item">
-
-                <div class="leave-type-icon">
-
-                    <span class="material-icons">
-                        money_off
-                    </span>
-
-                </div>
-
-
-                <div class="leave-type-info">
-
-                    <strong>
-                        Unpaid Leave
-                    </strong>
-
-                    <small>
-                        Leave without salary payment.
-                    </small>
-
-                </div>
-
-
-                <label class="mini-toggle">
-
-                    <input
-                        type="checkbox"
-                        id="leaveUnpaid"
-                        checked>
-
-                    <span></span>
-
-                </label>
-
-            </div>
-
-
-            <!-- OTHER -->
-
-            <div class="leave-type-item">
-
-                <div class="leave-type-icon">
-
-                    <span class="material-icons">
-                        more_horiz
-                    </span>
-
-                </div>
-
-
-                <div class="leave-type-info">
-
-                    <strong>
-                        Other Leave
-                    </strong>
-
-                    <small>
-                        Other company-approved leave categories.
-                    </small>
-
-                </div>
-
-
-                <label class="mini-toggle">
-
-                    <input
-                        type="checkbox"
-                        id="leaveOther"
-                        checked>
-
-                    <span></span>
-
-                </label>
-
-            </div>
-
-
-        </div>
-
-    </div>
-
-
-    <!-- ==================================
-         LEAVE APPROVAL
-    =================================== -->
-
-    <div class="settings-card">
-
-        <div class="card-title">
-
-            <span class="material-icons">
-                approval
-            </span>
-
-            <div>
-
-                <h3>
-                    Leave Approval Workflow
-                </h3>
-
-                <p>
-                    Configure how submitted leave requests
-                    move through the approval process.
-                </p>
-
-            </div>
-
-        </div>
-
-
-        <div class="form-grid">
-
-
-            <!-- REQUIRE APPROVAL -->
-
-            <div class="form-group full">
-
-                <label class="toggle-row">
-
-                    <span>
-
-                        <strong>
-                            Require Approval
-                        </strong>
-
-                        <small>
-                            Leave requests must be approved
-                            before becoming official.
-                        </small>
-
-                    </span>
-
-
-                    <input
-                        type="checkbox"
-                        id="requireLeaveApproval"
-                        class="toggle-input"
-                        checked>
-
-                    <span class="toggle-switch"></span>
-
-                </label>
-
-            </div>
-
-
-            <!-- APPROVAL LEVEL -->
-
-            <div class="form-group">
-
-                <label for="leaveApprovalLevel">
-
-                    Approval Level
-
-                </label>
-
-                <select
-                    id="leaveApprovalLevel">
-
-                    <option value="hr">
-                        HR Approval
-                    </option>
-
-                    <option value="manager">
-                        Manager Approval
-                    </option>
-
-                    <option value="manager-hr">
-                        Manager + HR
-                    </option>
-
-                </select>
-
-            </div>
-
-
-            <!-- AUTO REJECT -->
-
-            <div class="form-group">
-
-                <label class="toggle-row">
-
-                    <span>
-
-                        <strong>
-                            Auto Reject Invalid Requests
-                        </strong>
-
-                        <small>
-                            Automatically reject requests that
-                            fail configured validation rules.
-                        </small>
-
-                    </span>
-
-
-                    <input
-                        type="checkbox"
-                        id="autoRejectInvalidLeave"
-                        class="toggle-input">
-
-                    <span class="toggle-switch"></span>
-
-                </label>
-
-            </div>
-
-
-        </div>
-
-    </div>
-
-
-    <!-- ==================================
-         LEAVE BALANCE
-    =================================== -->
-
-    <div class="settings-card">
-
-        <div class="card-title">
-
-            <span class="material-icons">
-                account_balance_wallet
-            </span>
-
-            <div>
-
-                <h3>
-                    Leave Balance
-                </h3>
-
-                <p>
-                    Configure how employee leave balances
-                    are managed.
-                </p>
-
-            </div>
-
-        </div>
-
-
-        <div class="form-grid">
-
-
-            <!-- BALANCE TRACKING -->
-
-            <div class="form-group full">
-
-                <label class="toggle-row">
-
-                    <span>
-
-                        <strong>
-                            Enable Leave Balance Tracking
-                        </strong>
-
-                        <small>
-                            Track available, used and remaining
-                            leave balances for employees.
-                        </small>
-
-                    </span>
-
-
-                    <input
-                        type="checkbox"
-                        id="enableLeaveBalance"
-                        class="toggle-input"
-                        checked>
-
-                    <span class="toggle-switch"></span>
-
-                </label>
-
-            </div>
-
-
-            <!-- DEFAULT ANNUAL -->
-
-            <div class="form-group">
-
-                <label for="defaultAnnualLeave">
-
-                    Default Annual Leave
-
-                </label>
-
-                <input
-                    type="number"
-                    id="defaultAnnualLeave"
-                    min="0"
-                    max="365"
-                    step="0.5"
-                    value="30">
-
-                <small class="field-help">
-
-                    Default annual leave allocation.
-
-                </small>
-
-            </div>
-
-
-            <!-- DEFAULT SICK -->
-
-            <div class="form-group">
-
-                <label for="defaultSickLeave">
-
-                    Default Sick Leave
-
-                </label>
-
-                <input
-                    type="number"
-                    id="defaultSickLeave"
-                    min="0"
-                    max="365"
-                    step="0.5"
-                    value="15">
-
-            </div>
-
-
-            <!-- CARRY FORWARD -->
-
-            <div class="form-group full">
-
-                <label class="toggle-row">
-
-                    <span>
-
-                        <strong>
-                            Allow Leave Carry Forward
-                        </strong>
-
-                        <small>
-                            Allow unused leave balance to be
-                            carried to the next leave period.
-                        </small>
-
-                    </span>
-
-
-                    <input
-                        type="checkbox"
-                        id="allowLeaveCarryForward"
-                        class="toggle-input">
-
-                    <span class="toggle-switch"></span>
-
-                </label>
-
-            </div>
-
-
-        </div>
-
-    </div>
-
-
-    <!-- ==================================
-         EMPLOYEE PORTAL LEAVE ACCESS
-    =================================== -->
-
-    <div class="settings-card">
-
-        <div class="card-title">
-
-            <span class="material-icons">
-                person
-            </span>
-
-            <div>
-
-                <h3>
-                    Employee Portal
-                </h3>
-
-                <p>
-                    Configure what employees can do
-                    with their leave records.
-                </p>
-
-            </div>
-
-        </div>
-
-
-        <div class="portal-options">
-
-
-            <!-- REQUEST -->
-
-            <label class="toggle-row">
-
-                <span>
-
-                    <strong>
-                        Submit Leave Request
-                    </strong>
-
-                    <small>
-                        Employees can submit new
-                        leave requests.
-                    </small>
-
-                </span>
-
-
-                <input
-                    type="checkbox"
-                    id="portalLeaveRequest"
-                    class="toggle-input"
-                    checked>
-
-                <span class="toggle-switch"></span>
-
-            </label>
-
-
-            <!-- VIEW -->
-
-            <label class="toggle-row">
-
-                <span>
-
-                    <strong>
-                        View Leave History
-                    </strong>
-
-                    <small>
-                        Employees can view their
-                        previous leave requests.
-                    </small>
-
-                </span>
-
-
-                <input
-                    type="checkbox"
-                    id="portalLeaveHistory"
-                    class="toggle-input"
-                    checked>
-
-                <span class="toggle-switch"></span>
-
-            </label>
-
-
-            <!-- BALANCE -->
-
-            <label class="toggle-row">
-
-                <span>
-
-                    <strong>
-                        View Leave Balance
-                    </strong>
-
-                    <small>
-                        Employees can see their available,
-                        used and remaining leave.
-                    </small>
-
-                </span>
-
-
-                <input
-                    type="checkbox"
-                    id="portalLeaveBalance"
-                    class="toggle-input"
-                    checked>
-
-                <span class="toggle-switch"></span>
-
-            </label>
-
-
-            <!-- CANCEL -->
-
-            <label class="toggle-row">
-
-                <span>
-
-                    <strong>
-                        Allow Cancel Request
-                    </strong>
-
-                    <small>
-                        Employees can request cancellation
-                        of pending leave requests.
-                    </small>
-
-                </span>
-
-
-                <input
-                    type="checkbox"
-                    id="portalLeaveCancel"
-                    class="toggle-input"
-                    checked>
-
-                <span class="toggle-switch"></span>
-
-            </label>
-
-
-        </div>
-
-    </div>
-
-
-    <!-- ==================================
-         SAVE LEAVE SETTINGS
-    =================================== -->
-
-    <div class="save-bar">
-
-        <div>
-
-            <span class="material-icons">
-                info
-            </span>
-
-            <span>
-                These settings control the Leave module
-                and Employee Portal leave requests.
-            </span>
-
-        </div>
-
-
-        <button
-            id="saveLeaveBtn"
-            class="save-btn">
-
-            <span class="material-icons">
-                save
-            </span>
-
-            SAVE LEAVE SETTINGS
-
-        </button>
-
-    </div>
-
-
-</section>
-
-              
-
-
-
-            <section
-                id="approvalsSection"
-                class="settings-section">
-
-                <div class="coming-soon">
-
-                    <span class="material-icons">
-                        fact_check
-                    </span>
-
-                    <h2>
-                        Approval Settings
-                    </h2>
-
-                    <p>
-                        This section will be configured
-                        next.
-                    </p>
-
-                </div>
-
-            </section>
-
-
-            <section
-                id="departmentsSection"
-                class="settings-section">
-
-                <div class="coming-soon">
-
-                    <span class="material-icons">
-                        account_tree
-                    </span>
-
-                    <h2>
-                        Departments & Positions
-                    </h2>
-
-                    <p>
-                        This section will be configured
-                        next.
-                    </p>
-
-                </div>
-
-            </section>
-
-
-          <!-- ==================================
-     HOLIDAY SETTINGS
-=================================== -->
-
-<section
-    id="holidaysSection"
-    class="settings-section">
-
-
-    <!-- ==================================
-         SECTION TITLE
-    =================================== -->
-
-    <div class="section-title">
-
-        <div>
-
-            <h2>
-                Holiday Settings
-            </h2>
-
-            <p>
-                Configure holidays used by Attendance,
-                Payroll and employee leave calculations.
-            </p>
-
-        </div>
-
-    </div>
-
-
-    <!-- ==================================
-         HOLIDAY CALCULATION
-    =================================== -->
-
-    <div class="settings-card">
-
-        <div class="card-title">
-
-            <span class="material-icons">
-                event
-            </span>
-
-            <div>
-
-                <h3>
-                    Holiday Calculation
-                </h3>
-
-                <p>
-                    Configure how holidays are recognized
-                    by the HRIS.
-                </p>
-
-            </div>
-
-        </div>
-
-
-        <div class="form-grid">
-
-
-            <!-- ENABLE HOLIDAYS -->
-
-            <div class="form-group full">
-
-                <label class="toggle-row">
-
-                    <span>
-
-                        <strong>
-                            Enable Holiday Calendar
-                        </strong>
-
-                        <small>
-                            Enable holiday dates for Attendance
-                            and Payroll calculations.
-                        </small>
-
-                    </span>
-
-
-                    <input
-                        type="checkbox"
-                        id="enableHolidayCalendar"
-                        class="toggle-input"
-                        checked>
-
-                    <span class="toggle-switch"></span>
-
-                </label>
-
-            </div>
-
-
-            <!-- INCLUDE REST DAY -->
-
-            <div class="form-group full">
-
-                <label class="toggle-row">
-
-                    <span>
-
-                        <strong>
-                            Recognize Holiday on Rest Day
-                        </strong>
-
-                        <small>
-                            Allow the system to identify holidays
-                            even when the date is a scheduled rest day.
-                        </small>
-
-                    </span>
-
-
-                    <input
-                        type="checkbox"
-                        id="recognizeHolidayRestDay"
-                        class="toggle-input"
-                        checked>
-
-                    <span class="toggle-switch"></span>
-
-                </label>
-
-            </div>
-
-
-            <!-- AUTO PAYROLL -->
-
-            <div class="form-group full">
-
-                <label class="toggle-row">
-
-                    <span>
-
-                        <strong>
-                            Include Holiday in Payroll
-                        </strong>
-
-                        <small>
-                            Allow configured holiday rules to be
-                            considered during payroll calculation.
-                        </small>
-
-                    </span>
-
-
-                    <input
-                        type="checkbox"
-                        id="includeHolidayPayroll"
-                        class="toggle-input"
-                        checked>
-
-                    <span class="toggle-switch"></span>
-
-                </label>
-
-            </div>
-
-
-        </div>
-
-    </div>
-
-
-    <!-- ==================================
-         REGULAR HOLIDAY
-    =================================== -->
-
-    <div class="settings-card">
-
-        <div class="card-title">
-
-            <span class="material-icons">
-                calendar_month
-            </span>
-
-            <div>
-
-                <h3>
-                    Regular Holiday
-                </h3>
-
-                <p>
-                    Configure the default treatment of
-                    regular holidays.
-                </p>
-
-            </div>
-
-        </div>
-
-
-        <div class="form-grid">
-
-
-            <div class="form-group">
-
-                <label for="regularHolidayRate">
-
-                    Regular Holiday Rate
-
-                </label>
-
-                <input
-                    type="number"
-                    id="regularHolidayRate"
-                    min="0"
-                    step="0.01"
-                    value="2.00">
-
-                <small class="field-help">
-
-                    Example: 2.00 = 200%
-
-                </small>
-
-            </div>
-
-
-            <div class="form-group">
-
-                <label for="regularHolidayOtRate">
-
-                    Regular Holiday OT Rate
-
-                </label>
-
-                <input
-                    type="number"
-                    id="regularHolidayOtRate"
-                    min="0"
-                    step="0.01"
-                    value="2.60">
-
-                <small class="field-help">
-
-                    Configuration value only.
-
-                </small>
-
-            </div>
-
-
-            <div class="form-group full">
-
-                <label class="toggle-row">
-
-                    <span>
-
-                        <strong>
-                            Enable Regular Holiday Pay
-                        </strong>
-
-                        <small>
-                            Allow regular holiday rules to be
-                            included in payroll.
-                        </small>
-
-                    </span>
-
-
-                    <input
-                        type="checkbox"
-                        id="enableRegularHolidayPay"
-                        class="toggle-input"
-                        checked>
-
-                    <span class="toggle-switch"></span>
-
-                </label>
-
-            </div>
-
-
-        </div>
-
-    </div>
-
-
-    <!-- ==================================
-         SPECIAL HOLIDAY
-    =================================== -->
-
-    <div class="settings-card">
-
-        <div class="card-title">
-
-            <span class="material-icons">
-                celebration
-            </span>
-
-            <div>
-
-                <h3>
-                    Special Holiday
-                </h3>
-
-                <p>
-                    Configure the default treatment of
-                    special holidays.
-                </p>
-
-            </div>
-
-        </div>
-
-
-        <div class="form-grid">
-
-
-            <div class="form-group">
-
-                <label for="specialHolidayRate">
-
-                    Special Holiday Rate
-
-                </label>
-
-                <input
-                    type="number"
-                    id="specialHolidayRate"
-                    min="0"
-                    step="0.01"
-                    value="1.30">
-
-                <small class="field-help">
-
-                    Example: 1.30 = 130%
-
-                </small>
-
-            </div>
-
-
-            <div class="form-group">
-
-                <label for="specialHolidayOtRate">
-
-                    Special Holiday OT Rate
-
-                </label>
-
-                <input
-                    type="number"
-                    id="specialHolidayOtRate"
-                    min="0"
-                    step="0.01"
-                    value="1.69">
-
-            </div>
-
-
-            <div class="form-group full">
-
-                <label class="toggle-row">
-
-                    <span>
-
-                        <strong>
-                            Enable Special Holiday Pay
-                        </strong>
-
-                        <small>
-                            Allow special holiday rules to be
-                            included in payroll.
-                        </small>
-
-                    </span>
-
-
-                    <input
-                        type="checkbox"
-                        id="enableSpecialHolidayPay"
-                        class="toggle-input"
-                        checked>
-
-                    <span class="toggle-switch"></span>
-
-                </label>
-
-            </div>
-
-
-        </div>
-
-    </div>
-
-
-    <!-- ==================================
-         HOLIDAY TYPES
-    =================================== -->
-
-    <div class="settings-card">
-
-        <div class="card-title">
-
-            <span class="material-icons">
-                category
-            </span>
-
-            <div>
-
-                <h3>
-                    Holiday Types
-                </h3>
-
-                <p>
-                    Holiday classifications available
-                    in the HRIS calendar.
-                </p>
-
-            </div>
-
-        </div>
-
-
-        <div class="status-list">
-
-
-            <div class="status-item">
-
-                <span
-                    class="status-dot active">
-                </span>
-
-                <span>
-                    Regular Holiday
-                </span>
-
-            </div>
-
-
-            <div class="status-item">
-
-                <span
-                    class="status-dot regular">
-                </span>
-
-                <span>
-                    Special Non-Working Holiday
-                </span>
-
-            </div>
-
-
-            <div class="status-item">
-
-                <span
-                    class="status-dot leave">
-                </span>
-
-                <span>
-                    Company Holiday
-                </span>
-
-            </div>
-
-
-            <div class="status-item">
-
-                <span
-                    class="status-dot probationary">
-                </span>
-
-                <span>
-                    Special Working Holiday
-                </span>
-
-            </div>
-
-
-        </div>
-
-    </div>
-
-
-    <!-- ==================================
-         HOLIDAY CALENDAR
-    =================================== -->
-
-    <div class="settings-card">
-
-        <div class="card-title">
-
-            <span class="material-icons">
-                date_range
-            </span>
-
-            <div>
-
-                <h3>
-                    Holiday Calendar
-                </h3>
-
-                <p>
-                    Configure the default calendar year
-                    used when managing holidays.
-                </p>
-
-            </div>
-
-        </div>
-
-
-        <div class="form-grid">
-
-
-            <div class="form-group">
-
-                <label for="holidayYear">
-
-                    Calendar Year
-
-                </label>
-
-                <select
-                    id="holidayYear">
-
-                    <option value="2026">
-                        2026
-                    </option>
-
-                    <option value="2027">
-                        2027
-                    </option>
-
-                    <option value="2028">
-                        2028
-                    </option>
-
-                    <option value="2029">
-                        2029
-                    </option>
-
-                    <option value="2030">
-                        2030
-                    </option>
-
-                </select>
-
-            </div>
-
-
-            <div class="form-group">
-
-                <label class="toggle-row">
-
-                    <span>
-
-                        <strong>
-                            Use Holiday Calendar
-                        </strong>
-
-                        <small>
-                            Use the configured holiday calendar
-                            for attendance and payroll.
-                        </small>
-
-                    </span>
-
-
-                    <input
-                        type="checkbox"
-                        id="useHolidayCalendar"
-                        class="toggle-input"
-                        checked>
-
-                    <span class="toggle-switch"></span>
-
-                </label>
-
-            </div>
-
-
-        </div>
-
-    </div>
-
-
-    <!-- ==================================
-         SAVE
-    =================================== -->
-
-    <div class="save-bar">
-
-        <div>
-
-            <span class="material-icons">
-                info
-            </span>
-
-            <span>
-                Holiday settings will be used by
-                Attendance and Payroll.
-            </span>
-
-        </div>
-
-
-        <button
-            id="saveHolidayBtn"
-            class="save-btn">
-
-            <span class="material-icons">
-                save
-            </span>
-
-            SAVE HOLIDAY SETTINGS
-
-        </button>
-
-    </div>
-
-
-</section>
-
-                
-
-
-            <section
-                id="notificationsSection"
-                class="settings-section">
-
-                <div class="coming-soon">
-
-                    <span class="material-icons">
-                        notifications
-                    </span>
-
-                    <h2>
-                        Notification Settings
-                    </h2>
-
-                    <p>
-                        This section will be configured
-                        next.
-                    </p>
-
-                </div>
 
             </section>
 
 
             <!-- ==================================
-     USERS & ROLES
-================================== -->
-
-<section
-    id="usersSection"
-    class="settings-section">
-
-
-    <!-- SECTION TITLE -->
-
-    <div class="section-title">
-
-        <div>
-
-            <h2>
-                Users & Roles
-            </h2>
-
-            <p>
-                Manage HRIS user access, roles,
-                permissions and employee portal accounts.
-            </p>
-
-        </div>
-
-    </div>
-
-
-    <!-- ==================================
-         USER ACCESS
-    ================================== -->
-
-    <div class="settings-card">
-
-        <div class="card-title">
-
-            <span class="material-icons">
-                admin_panel_settings
-            </span>
-
-            <div>
-
-                <h3>
-                    User Access
-                </h3>
-
-                <p>
-                    Configure which account types
-                    can access the HRIS.
-                </p>
-
-            </div>
-
-        </div>
-
-
-        <div class="form-grid">
-
-
-            <!-- ADMIN -->
-
-            <div class="form-group full">
-
-                <label class="toggle-row">
-
-                    <span>
-
-                        <strong>
-                            Administrator Access
-                        </strong>
-
-                        <small>
-                            Administrators have full
-                            access to the HRIS.
-                        </small>
-
-                    </span>
-
-                    <input
-                        type="checkbox"
-                        id="allowAdminAccess"
-                        class="toggle-input"
-                        checked
-                        disabled>
-
-                    <span class="toggle-switch"></span>
-
-                </label>
-
-            </div>
-
-
-            <!-- HR -->
-
-            <div class="form-group full">
-
-                <label class="toggle-row">
-
-                    <span>
-
-                        <strong>
-                            HR Access
-                        </strong>
-
-                        <small>
-                            HR users can manage employees,
-                            attendance, leaves and payroll.
-                        </small>
-
-                    </span>
-
-                    <input
-                        type="checkbox"
-                        id="allowHrAccess"
-                        class="toggle-input"
-                        checked>
-
-                    <span class="toggle-switch"></span>
-
-                </label>
-
-            </div>
-
-
-            <!-- MANAGER -->
-
-            <div class="form-group full">
-
-                <label class="toggle-row">
-
-                    <span>
-
-                        <strong>
-                            Manager Access
-                        </strong>
-
-                        <small>
-                            Managers can view assigned
-                            employees and approve requests.
-                        </small>
-
-                    </span>
-
-                    <input
-                        type="checkbox"
-                        id="allowManagerAccess"
-                        class="toggle-input"
-                        checked>
-
-                    <span class="toggle-switch"></span>
-
-                </label>
-
-            </div>
-
-
-            <!-- EMPLOYEE -->
-
-            <div class="form-group full">
-
-                <label class="toggle-row">
-
-                    <span>
-
-                        <strong>
-                            Employee Portal Access
-                        </strong>
-
-                        <small>
-                            Employees can access their
-                            personal HR portal.
-                        </small>
-
-                    </span>
-
-                    <input
-                        type="checkbox"
-                        id="allowEmployeePortal"
-                        class="toggle-input"
-                        checked>
-
-                    <span class="toggle-switch"></span>
-
-                </label>
-
-            </div>
-
-        </div>
-
-    </div>
-
-
-    <!-- ==================================
-         ROLE PERMISSIONS
-    ================================== -->
-
-    <div class="settings-card">
-
-        <div class="card-title">
-
-            <span class="material-icons">
-                security
-            </span>
-
-            <div>
-
-                <h3>
-                    Role Permissions
-                </h3>
-
-                <p>
-                    Set the default permission level
-                    for each role.
-                </p>
-
-            </div>
-
-        </div>
-
-
-        <div class="form-grid">
-
-
-            <!-- HR -->
-
-            <div class="form-group">
-
-                <label for="hrPermissionLevel">
-
-                    HR Permission
-
-                </label>
-
-                <select
-                    id="hrPermissionLevel">
-
-                    <option value="full">
-                        Full HR Access
-                    </option>
-
-                    <option
-                        value="standard"
-                        selected>
-                        Standard HR Access
-                    </option>
-
-                    <option value="limited">
-                        Limited HR Access
-                    </option>
-
-                </select>
-
-            </div>
-
-
-            <!-- MANAGER -->
-
-            <div class="form-group">
-
-                <label for="managerPermissionLevel">
-
-                    Manager Permission
-
-                </label>
-
-                <select
-                    id="managerPermissionLevel">
-
-                    <option value="full">
-                        Full Manager Access
-                    </option>
-
-                    <option
-                        value="standard"
-                        selected>
-                        Standard Manager Access
-                    </option>
-
-                    <option value="limited">
-                        Limited Manager Access
-                    </option>
-
-                </select>
-
-            </div>
-
-
-            <!-- EMPLOYEE -->
-
-            <div class="form-group">
-
-                <label for="employeePermissionLevel">
-
-                    Employee Permission
-
-                </label>
-
-                <select
-                    id="employeePermissionLevel">
-
-                    <option
-                        value="standard"
-                        selected>
-                        Standard Employee Access
-                    </option>
-
-                    <option value="limited">
-                        Limited Employee Access
-                    </option>
-
-                </select>
-
-            </div>
-
-
-        </div>
-
-    </div>
-
-
-    <!-- ==================================
-         EMPLOYEE PORTAL
-    ================================== -->
-
-    <div class="settings-card">
-
-        <div class="card-title">
-
-            <span class="material-icons">
-                person
-            </span>
-
-            <div>
-
-                <h3>
-                    Employee Portal
-                </h3>
-
-                <p>
-                    Control the modules available
-                    to employee accounts.
-                </p>
-
-            </div>
-
-        </div>
-
-
-        <div class="portal-options">
-
-
-            <!-- PROFILE -->
-
-            <label class="toggle-row">
-
-                <span>
-
-                    <strong>
-                        View Own Profile
-                    </strong>
-
-                    <small>
-                        Employees can view their
-                        personal information.
-                    </small>
-
-                </span>
-
-                <input
-                    type="checkbox"
-                    id="portalProfile"
-                    class="toggle-input"
-                    checked>
-
-                <span class="toggle-switch"></span>
-
-            </label>
-
-
-            <!-- ATTENDANCE -->
-
-            <label class="toggle-row">
-
-                <span>
-
-                    <strong>
-                        View Own Attendance
-                    </strong>
-
-                    <small>
-                        Employees can view their
-                        attendance records.
-                    </small>
-
-                </span>
-
-                <input
-                    type="checkbox"
-                    id="portalAttendance"
-                    class="toggle-input"
-                    checked>
-
-                <span class="toggle-switch"></span>
-
-            </label>
-
-
-            <!-- LEAVES -->
-
-            <label class="toggle-row">
-
-                <span>
-
-                    <strong>
-                        Leave Management
-                    </strong>
-
-                    <small>
-                        Employees can submit and
-                        track leave requests.
-                    </small>
-
-                </span>
-
-                <input
-                    type="checkbox"
-                    id="portalLeaves"
-                    class="toggle-input"
-                    checked>
-
-                <span class="toggle-switch"></span>
-
-            </label>
-
-
-            <!-- PAYSLIP -->
-
-            <label class="toggle-row">
-
-                <span>
-
-                    <strong>
-                        View Payslips
-                    </strong>
-
-                    <small>
-                        Employees can view their
-                        published payslips.
-                    </small>
-
-                </span>
-
-                <input
-                    type="checkbox"
-                    id="portalPayslip"
-                    class="toggle-input"
-                    checked>
-
-                <span class="toggle-switch"></span>
-
-            </label>
-
-
-        </div>
-
-    </div>
-
-
-    <!-- ==================================
-         SESSION SECURITY
-    ================================== -->
-
-    <div class="settings-card">
-
-        <div class="card-title">
-
-            <span class="material-icons">
-                lock_clock
-            </span>
-
-            <div>
-
-                <h3>
-                    Session Security
-                </h3>
-
-                <p>
-                    Configure automatic session
-                    expiration.
-                </p>
-
-            </div>
-
-        </div>
-
-
-        <div class="form-grid">
-
-
-            <div class="form-group">
-
-                <label for="sessionTimeout">
-
-                    Session Timeout
-
-                </label>
-
-                <select
-                    id="sessionTimeout">
-
-                    <option value="15">
-                        15 Minutes
-                    </option>
-
-                    <option
-                        value="30"
-                        selected>
-                        30 Minutes
-                    </option>
-
-                    <option value="60">
-                        1 Hour
-                    </option>
-
-                    <option value="120">
-                        2 Hours
-                    </option>
-
-                    <option value="240">
-                        4 Hours
-                    </option>
-
-                    <option value="0">
-                        No Automatic Timeout
-                    </option>
-
-                </select>
-
-            </div>
-
-
-            <div class="form-group">
-
-                <label class="toggle-row">
-
-                    <span>
-
-                        <strong>
-                            Allow Multiple Sessions
-                        </strong>
-
-                        <small>
-                            Allow the same account to remain
-                            logged in on multiple devices.
-                        </small>
-
-                    </span>
-
-                    <input
-                        type="checkbox"
-                        id="allowMultipleSessions"
-                        class="toggle-input"
-                        checked>
-
-                    <span class="toggle-switch"></span>
-
-                </label>
-
-            </div>
-
-
-        </div>
-
-    </div>
-
-
-    <!-- ==================================
-         PASSWORD SECURITY
-    ================================== -->
-
-    <div class="settings-card">
-
-        <div class="card-title">
-
-            <span class="material-icons">
-                password
-            </span>
-
-            <div>
-
-                <h3>
-                    Password Security
-                </h3>
-
-                <p>
-                    Configure basic password
-                    requirements.
-                </p>
-
-            </div>
-
-        </div>
-
-
-        <div class="form-grid">
-
-
-            <div class="form-group">
-
-                <label for="minimumPasswordLength">
-
-                    Minimum Password Length
-
-                </label>
-
-                <input
-                    type="number"
-                    id="minimumPasswordLength"
-                    min="6"
-                    max="32"
-                    value="8">
-
-            </div>
-
-
-            <div class="form-group">
-
-                <label class="toggle-row">
-
-                    <span>
-
-                        <strong>
-                            Require Uppercase
-                        </strong>
-
-                    </span>
-
-                    <input
-                        type="checkbox"
-                        id="requireUppercase"
-                        class="toggle-input"
-                        checked>
-
-                    <span class="toggle-switch"></span>
-
-                </label>
-
-            </div>
-
-
-            <div class="form-group">
-
-                <label class="toggle-row">
-
-                    <span>
-
-                        <strong>
-                            Require Number
-                        </strong>
-
-                    </span>
-
-                    <input
-                        type="checkbox"
-                        id="requireNumber"
-                        class="toggle-input"
-                        checked>
-
-                    <span class="toggle-switch"></span>
-
-                </label>
-
-            </div>
-
-
-            <div class="form-group">
-
-                <label class="toggle-row">
-
-                    <span>
-
-                        <strong>
-                            Require Special Character
-                        </strong>
-
-                    </span>
-
-                    <input
-                        type="checkbox"
-                        id="requireSpecialCharacter"
-                        class="toggle-input"
-                        checked>
-
-                    <span class="toggle-switch"></span>
-
-                </label>
-
-            </div>
-
-
-        </div>
-
-    </div>
-
-
-    <!-- ==================================
-         LOGIN SECURITY
-    ================================== -->
-
-    <div class="settings-card">
-
-        <div class="card-title">
-
-            <span class="material-icons">
-                shield
-            </span>
-
-            <div>
-
-                <h3>
-                    Login Security
-                </h3>
-
-                <p>
-                    Configure protection for
-                    HRIS login accounts.
-                </p>
-
-            </div>
-
-        </div>
-
-
-        <div class="form-grid">
-
-
-            <div class="form-group">
-
-                <label for="maxLoginAttempts">
-
-                    Maximum Login Attempts
-
-                </label>
-
-                <input
-                    type="number"
-                    id="maxLoginAttempts"
-                    min="3"
-                    max="20"
-                    value="5">
-
-            </div>
-
-
-            <div class="form-group">
-
-                <label for="lockoutMinutes">
-
-                    Lockout Duration
-
-                </label>
-
-                <select
-                    id="lockoutMinutes">
-
-                    <option value="5">
-                        5 Minutes
-                    </option>
-
-                    <option
-                        value="10"
-                        selected>
-                        10 Minutes
-                    </option>
-
-                    <option value="15">
-                        15 Minutes
-                    </option>
-
-                    <option value="30">
-                        30 Minutes
-                    </option>
-
-                </select>
-
-            </div>
-
-
-            <div class="form-group full">
-
-                <label class="toggle-row">
-
-                    <span>
-
-                        <strong>
-                            Remember Login Session
-                        </strong>
-
-                        <small>
-                            Keep the authenticated session
-                            according to browser settings.
-                        </small>
-
-                    </span>
-
-                    <input
-                        type="checkbox"
-                        id="rememberLogin"
-                        class="toggle-input"
-                        checked>
-
-                    <span class="toggle-switch"></span>
-
-                </label>
-
-            </div>
-
-
-        </div>
-
-    </div>
-
-
-    <!-- ==================================
-         SAVE
-    ================================== -->
-
-    <div class="save-bar">
-
-        <div>
-
-            <span class="material-icons">
-                info
-            </span>
-
-            <span>
-                Security settings affect user
-                access and account behavior.
-            </span>
-
-        </div>
-
-
-        <button
-            id="saveSecurityBtn"
-            class="save-btn">
-
-            <span class="material-icons">
-                save
-            </span>
-
-            SAVE SECURITY SETTINGS
-
-        </button>
-
-    </div>
-
-
-</section>
-
-        
-
+                 SYSTEM PLACEHOLDER
+            =================================== -->
 
             <section
-                id="payslipSection"
+                id="systemSettings"
                 class="settings-section">
 
-                <div class="coming-soon">
+
+                <div class="empty-section">
+
 
                     <span class="material-icons">
-                        receipt_long
+                        admin_panel_settings
                     </span>
 
-                    <h2>
-                        Payslip Settings
-                    </h2>
 
-                    <p>
-                        This section will be configured
-                        next.
-                    </p>
-
-                </div>
-
-            </section>
-
-
-            <section
-                id="systemSection"
-                class="settings-section">
-
-                <div class="coming-soon">
-
-                    <span class="material-icons">
-                        storage
-                    </span>
-
-                    <h2>
+                    <h3>
                         System Settings
-                    </h2>
+                    </h3>
+
 
                     <p>
-                        This section will be configured
-                        next.
+                        System administration settings will be added here.
                     </p>
 
+
                 </div>
+
 
             </section>
 
@@ -6295,27 +949,32 @@
     </section>
 
 
+    <!-- ==========================================
+         FOOTER
+    =========================================== -->
+
+    <footer class="settings-footer">
+
+
+        <span>
+            © 2026 PAPPRITO HRIS
+        </span>
+
+
+        <span>
+            System Settings
+        </span>
+
+
+    </footer>
+
+
 </main>
 
 
 <!-- ==========================================
-     OVERLAY
+     SETTINGS JS
 ========================================== -->
-
-<div
-    id="overlay"
-    class="overlay">
-</div>
-
-
-<!-- ==========================================
-     SCRIPTS
-========================================== -->
-
-<script
-    type="module"
-    src="../js/components.js">
-</script>
 
 <script
     type="module"
