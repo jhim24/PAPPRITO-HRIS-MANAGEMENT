@@ -1,7 +1,7 @@
 /* =========================================================
    PAPPRITO HRIS
    EMPLOYEE ATTENDANCE CSS
-   COMPLETE VERSION
+   SETTINGS-INTEGRATED COMPLETE VERSION
 ========================================================= */
 
 
@@ -67,6 +67,9 @@ body {
 
     --purple: #7b3fc6;
     --purple-dark: #612fa0;
+
+    --orange: #d97706;
+    --orange-dark: #b45309;
 
     --black: #111111;
 
@@ -732,7 +735,6 @@ body {
 
     border-color:
         #e6c532;
-
 }
 
 
@@ -747,6 +749,178 @@ body {
 
     border-color:
         #e5b4b7;
+}
+
+
+/* =========================================================
+   ATTENDANCE SCHEDULE PANEL
+   OPTIONAL - USED BY NEW ATTENDANCE HTML
+========================================================= */
+
+.attendance-schedule {
+
+    width: 100%;
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(5, minmax(0, 1fr));
+
+    gap: 10px;
+
+    margin-top: 16px;
+
+    padding: 14px;
+
+    background:
+        #ffffff;
+
+    border:
+        1px solid
+        var(--border);
+
+    border-radius:
+        var(--radius);
+
+    box-shadow:
+        var(--shadow);
+}
+
+
+/* =========================================================
+   SCHEDULE ITEM
+========================================================= */
+
+.schedule-item {
+
+    min-width: 0;
+
+    min-height: 68px;
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 9px;
+
+    padding:
+        11px
+        13px;
+
+    background:
+        #fafafa;
+
+    border:
+        1px solid
+        var(--border);
+
+    border-radius:
+        10px;
+}
+
+
+/* =========================================================
+   SCHEDULE ICON
+========================================================= */
+
+.schedule-item > .material-icons {
+
+    width: 38px;
+
+    height: 38px;
+
+    min-width: 38px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    border-radius: 9px;
+
+    background:
+        #fff8d9;
+
+    color:
+        #a27c00;
+
+    font-size: 20px;
+}
+
+
+/* =========================================================
+   SCHEDULE CONTENT
+========================================================= */
+
+.schedule-item-content {
+
+    min-width: 0;
+
+    display: flex;
+
+    flex-direction: column;
+}
+
+
+.schedule-item-content small {
+
+    color:
+        #555555;
+
+    font-size:
+        8px;
+
+    font-weight:
+        1000;
+
+    letter-spacing:
+        .6px;
+}
+
+
+.schedule-item-content strong {
+
+    margin-top: 3px;
+
+    color:
+        #111111;
+
+    font-size:
+        14px;
+
+    font-weight:
+        1000;
+
+    white-space:
+        nowrap;
+
+    overflow:
+        hidden;
+
+    text-overflow:
+        ellipsis;
+}
+
+
+/* =========================================================
+   SCHEDULE STATUS
+========================================================= */
+
+#scheduleStatus {
+
+    color:
+        var(--green);
+
+    font-weight:
+        1000;
+}
+
+
+#scheduleStatus.inactive {
+
+    color:
+        var(--red);
 }
 
 
@@ -1439,120 +1613,56 @@ body {
 }
 
 
-/* DATE */
-
 #attendanceTable thead th:nth-child(1) {
-
-    background:
-        #fff4bf;
+    background: #fff4bf;
 }
-
-
-/* EMPLOYEE ID */
 
 #attendanceTable thead th:nth-child(2) {
-
-    background:
-        #eaf3fb;
+    background: #eaf3fb;
 }
-
-
-/* EMPLOYEE NAME */
 
 #attendanceTable thead th:nth-child(3) {
-
-    background:
-        #e9f7ef;
+    background: #e9f7ef;
 }
-
-
-/* TIME IN */
 
 #attendanceTable thead th:nth-child(4) {
-
-    background:
-        #dff4e7;
+    background: #dff4e7;
 }
-
-
-/* BREAK OUT */
 
 #attendanceTable thead th:nth-child(5) {
-
-    background:
-        #fff4bf;
+    background: #fff4bf;
 }
-
-
-/* BREAK IN */
 
 #attendanceTable thead th:nth-child(6) {
-
-    background:
-        #eaf3fb;
+    background: #eaf3fb;
 }
-
-
-/* TIME OUT */
 
 #attendanceTable thead th:nth-child(7) {
-
-    background:
-        #ffe5e5;
+    background: #ffe5e5;
 }
-
-
-/* BREAK */
 
 #attendanceTable thead th:nth-child(8) {
-
-    background:
-        #f0e7ff;
+    background: #f0e7ff;
 }
-
-
-/* REGULAR */
 
 #attendanceTable thead th:nth-child(9) {
-
-    background:
-        #e9f7ef;
+    background: #e9f7ef;
 }
-
-
-/* OT */
 
 #attendanceTable thead th:nth-child(10) {
-
-    background:
-        #fff0d6;
+    background: #fff0d6;
 }
-
-
-/* LATE */
 
 #attendanceTable thead th:nth-child(11) {
-
-    background:
-        #ffe5e5;
+    background: #ffe5e5;
 }
-
-
-/* STATUS */
 
 #attendanceTable thead th:nth-child(12) {
-
-    background:
-        #eaf3fb;
+    background: #eaf3fb;
 }
 
-
-/* ACTION */
-
 #attendanceTable thead th:nth-child(13) {
-
-    background:
-        #eeeeee;
+    background: #eeeeee;
 }
 
 
@@ -1644,9 +1754,6 @@ body {
 
     color:
         #16803c;
-
-    font-weight:
-        1000;
 }
 
 
@@ -1657,9 +1764,6 @@ body {
 
     color:
         #a45d00;
-
-    font-weight:
-        1000;
 }
 
 
@@ -1670,9 +1774,6 @@ body {
 
     color:
         #d71920;
-
-    font-weight:
-        1000;
 }
 
 
@@ -1683,9 +1784,6 @@ body {
 
     color:
         #1769aa;
-
-    font-weight:
-        1000;
 }
 
 
@@ -1961,6 +2059,12 @@ body {
             repeat(2, minmax(0, 1fr));
     }
 
+    .attendance-schedule {
+
+        grid-template-columns:
+            repeat(3, minmax(0, 1fr));
+    }
+
 }
 
 
@@ -2073,6 +2177,54 @@ body {
 
         min-height:
             62px;
+
+        font-size:
+            11px;
+    }
+
+    .attendance-schedule {
+
+        grid-template-columns:
+            repeat(2, minmax(0, 1fr));
+
+        gap:
+            8px;
+
+        padding:
+            10px;
+    }
+
+    .schedule-item {
+
+        min-height:
+            58px;
+
+        padding:
+            8px;
+    }
+
+    .schedule-item > .material-icons {
+
+        width:
+            34px;
+
+        height:
+            34px;
+
+        min-width:
+            34px;
+
+        font-size:
+            17px;
+    }
+
+    .schedule-item-content small {
+
+        font-size:
+            7px;
+    }
+
+    .schedule-item-content strong {
 
         font-size:
             11px;
@@ -2266,6 +2418,60 @@ body {
 
         margin-left:
             4px;
+    }
+
+    .attendance-schedule {
+
+        grid-template-columns:
+            repeat(2, minmax(0, 1fr));
+
+        gap:
+            5px;
+
+        padding:
+            7px;
+
+        margin-top:
+            8px;
+    }
+
+    .schedule-item {
+
+        min-height:
+            48px;
+
+        gap:
+            5px;
+
+        padding:
+            6px;
+    }
+
+    .schedule-item > .material-icons {
+
+        width:
+            28px;
+
+        height:
+            28px;
+
+        min-width:
+            28px;
+
+        font-size:
+            14px;
+    }
+
+    .schedule-item-content small {
+
+        font-size:
+            5px;
+    }
+
+    .schedule-item-content strong {
+
+        font-size:
+            8px;
     }
 
     .clock-area {
@@ -2521,16 +2727,10 @@ body {
 
 
 /* =========================================================
-   PRINT AREA ONLY
-   ATTENDANCE RECORDS
+   PRINT
 ========================================================= */
 
 @media print {
-
-
-    /* ---------------------------------------------
-       PAGE
-    --------------------------------------------- */
 
     @page {
 
@@ -2541,10 +2741,6 @@ body {
             8mm;
     }
 
-
-    /* ---------------------------------------------
-       BODY
-    --------------------------------------------- */
 
     html,
     body {
@@ -2569,20 +2765,12 @@ body {
     }
 
 
-    /* ---------------------------------------------
-       HIDE EVERYTHING
-    --------------------------------------------- */
-
     body * {
 
         visibility:
             hidden !important;
     }
 
-
-    /* ---------------------------------------------
-       SHOW ATTENDANCE RECORDS ONLY
-    --------------------------------------------- */
 
     #attendanceRecords,
     #attendanceRecords * {
@@ -2591,10 +2779,6 @@ body {
             visible !important;
     }
 
-
-    /* ---------------------------------------------
-       PRINT AREA
-    --------------------------------------------- */
 
     #attendanceRecords {
 
@@ -2636,21 +2820,12 @@ body {
     }
 
 
-    /* ---------------------------------------------
-       HIDE SECTION HEADING
-       Print records table only
-    --------------------------------------------- */
-
     #attendanceRecords .section-heading {
 
         display:
             none !important;
     }
 
-
-    /* ---------------------------------------------
-       TABLE WRAPPER
-    --------------------------------------------- */
 
     #attendanceRecords .table-wrapper {
 
@@ -2673,10 +2848,6 @@ body {
             #ffffff !important;
     }
 
-
-    /* ---------------------------------------------
-       TABLE
-    --------------------------------------------- */
 
     #attendanceRecords table,
     #attendanceTable {
@@ -2703,10 +2874,6 @@ body {
             8pt !important;
     }
 
-
-    /* ---------------------------------------------
-       TABLE CELLS
-    --------------------------------------------- */
 
     #attendanceRecords th,
     #attendanceRecords td {
@@ -2745,10 +2912,6 @@ body {
     }
 
 
-    /* ---------------------------------------------
-       TABLE HEADER
-    --------------------------------------------- */
-
     #attendanceRecords thead th {
 
         background:
@@ -2761,10 +2924,6 @@ body {
             900 !important;
     }
 
-
-    /* ---------------------------------------------
-       REMOVE COLORED STATUS
-    --------------------------------------------- */
 
     #attendanceRecords .status-badge {
 
@@ -2779,10 +2938,6 @@ body {
     }
 
 
-    /* ---------------------------------------------
-       HIDE ACTION COLUMN
-    --------------------------------------------- */
-
     #attendanceTable th:last-child,
     #attendanceTable td:last-child {
 
@@ -2791,20 +2946,12 @@ body {
     }
 
 
-    /* ---------------------------------------------
-       HIDE BUTTONS
-    --------------------------------------------- */
-
     #attendanceRecords button {
 
         display:
             none !important;
     }
 
-
-    /* ---------------------------------------------
-       EMPTY ROW
-    --------------------------------------------- */
 
     #attendanceRecords .empty-row {
 
@@ -2816,10 +2963,6 @@ body {
     }
 
 
-    /* ---------------------------------------------
-       ROW BREAK
-    --------------------------------------------- */
-
     #attendanceRecords tr {
 
         page-break-inside:
@@ -2829,10 +2972,6 @@ body {
             avoid !important;
     }
 
-
-    /* ---------------------------------------------
-       TABLE HEAD REPEAT
-    --------------------------------------------- */
 
     #attendanceRecords thead {
 
@@ -2847,10 +2986,6 @@ body {
             table-row-group !important;
     }
 
-
-    /* ---------------------------------------------
-       FOOTER HIDDEN
-    --------------------------------------------- */
 
     .attendance-footer {
 
