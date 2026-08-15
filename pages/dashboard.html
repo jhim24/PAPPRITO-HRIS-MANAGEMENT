@@ -9,7 +9,9 @@
     name="viewport"
     content="width=device-width, initial-scale=1.0">
 
-<title>PAPPRITO HRIS - Dashboard</title>
+<title>
+PAPPRITO HRIS - Dashboard
+</title>
 
 
 <!-- ==========================================
@@ -79,33 +81,57 @@
 
 
 <style>
+
 /* ==========================================
    PWA INSTALL BUTTON
 ========================================== */
 
 .install-app-btn{
+
     background:#ffcc00 !important;
+
     color:#111111 !important;
+
     border-color:#d9a900 !important;
-    box-shadow:0 4px 12px rgba(255,204,0,.25);
+
+    box-shadow:
+        0 4px 12px
+        rgba(255,204,0,.25);
+
 }
+
 
 .install-app-btn:hover{
+
     background:#ffd633 !important;
-    transform:translateY(-1px);
+
+    transform:
+        translateY(-1px);
+
 }
+
 
 .install-app-btn.show{
+
     display:flex !important;
+
 }
 
+
 @media(max-width:600px){
+
     .install-app-btn{
+
         width:37px;
+
         height:37px;
+
         min-width:37px;
+
     }
+
 }
+
 </style>
 
 </head>
@@ -127,11 +153,14 @@
          LOGO
     ======================================= -->
 
-    <div class="sidebar-logo">
+    <div
+        class="sidebar-logo">
+
 
         <img
             src="../assets/images/logo.png"
             alt="PAPPRITO">
+
 
         <div>
 
@@ -152,17 +181,27 @@
          USER
     ======================================= -->
 
-    <div class="sidebar-user">
+    <div
+        class="sidebar-user">
 
-        <span class="material-icons">
+
+        <span
+            class="material-icons">
+
             account_circle
+
         </span>
+
 
         <div>
 
-            <strong id="sidebarUser">
+            <strong
+                id="sidebarUser">
+
                 HR Administrator
+
             </strong>
+
 
             <small>
                 Administrator
@@ -177,15 +216,19 @@
          NAVIGATION
     ======================================= -->
 
-    <nav class="sidebar-nav">
+    <nav
+        class="sidebar-nav">
 
 
         <!-- ==================================
              MAIN MENU
         =================================== -->
 
-        <div class="nav-label">
+        <div
+            class="nav-label">
+
             MAIN MENU
+
         </div>
 
 
@@ -195,8 +238,11 @@
             href="dashboard.html"
             class="nav-item active">
 
-            <span class="material-icons">
+            <span
+                class="material-icons">
+
                 dashboard
+
             </span>
 
             <span>
@@ -212,8 +258,11 @@
             href="employee.html"
             class="nav-item">
 
-            <span class="material-icons">
+            <span
+                class="material-icons">
+
                 people
+
             </span>
 
             <span>
@@ -229,8 +278,11 @@
             href="attendance.html"
             class="nav-item">
 
-            <span class="material-icons">
+            <span
+                class="material-icons">
+
                 access_time
+
             </span>
 
             <span>
@@ -246,8 +298,11 @@
             href="trackleaves.html"
             class="nav-item">
 
-            <span class="material-icons">
+            <span
+                class="material-icons">
+
                 event_available
+
             </span>
 
             <span>
@@ -261,8 +316,11 @@
              PAYROLL
         =================================== -->
 
-        <div class="nav-label">
+        <div
+            class="nav-label">
+
             PAYROLL
+
         </div>
 
 
@@ -272,8 +330,11 @@
             href="autopayroll.html"
             class="nav-item">
 
-            <span class="material-icons">
+            <span
+                class="material-icons">
+
                 calculate
+
             </span>
 
             <span>
@@ -289,8 +350,11 @@
             href="payroll.html"
             class="nav-item">
 
-            <span class="material-icons">
+            <span
+                class="material-icons">
+
                 payments
+
             </span>
 
             <span>
@@ -306,8 +370,11 @@
             href="payslip.html"
             class="nav-item">
 
-            <span class="material-icons">
+            <span
+                class="material-icons">
+
                 receipt_long
+
             </span>
 
             <span>
@@ -321,8 +388,11 @@
              HR MANAGEMENT
         =================================== -->
 
-        <div class="nav-label">
+        <div
+            class="nav-label">
+
             HR MANAGEMENT
+
         </div>
 
 
@@ -332,13 +402,17 @@
             href="hrapproval.html"
             class="nav-item">
 
-            <span class="material-icons">
+            <span
+                class="material-icons">
+
                 approval
+
             </span>
 
             <span>
                 HR Approval
             </span>
+
 
             <span
                 id="notificationBadge"
@@ -351,40 +425,48 @@
         </a>
 
 
-       <!-- EMPLOYEE PORTAL -->
+        <!-- EMPLOYEE PORTAL -->
 
-<a
-    href="employeeportal.html"
-    class="nav-item">
+        <a
+            href="employeeportal.html"
+            class="nav-item">
 
-    <span class="material-icons">
-        account_circle
-    </span>
+            <span
+                class="material-icons">
 
-    <span>
-        Employee Portal
-    </span>
+                account_circle
 
-</a>
+            </span>
+
+            <span>
+                Employee Portal
+            </span>
+
+        </a>
 
 
-<!-- ==================================
-     ONBOARDING / OFFBOARDING
-================================== -->
+        <!-- ==================================
+             ONBOARDING / OFFBOARDING
+        =================================== -->
 
-<a
-    href="onboarding.html"
-    class="nav-item">
+        <a
+            href="onboarding.html"
+            class="nav-item">
 
-    <span class="material-icons">
-        how_to_reg
-    </span>
+            <span
+                class="material-icons">
 
-    <span>
-        Onboarding / Offboarding
-    </span>
+                how_to_reg
 
-</a>
+            </span>
+
+            <span>
+                Onboarding / Offboarding
+            </span>
+
+        </a>
+
+
         <!-- ==================================
              PAPPRITO WEBSITE
         =================================== -->
@@ -395,17 +477,23 @@
             target="_blank"
             rel="noopener noreferrer">
 
-            <span class="material-icons">
+            <span
+                class="material-icons">
+
                 language
+
             </span>
 
             <span>
                 PAPPRITO Website
             </span>
 
+
             <span
                 class="material-icons external-icon">
+
                 open_in_new
+
             </span>
 
         </a>
@@ -421,17 +509,23 @@
             target="_blank"
             rel="noopener noreferrer">
 
-            <span class="material-icons">
+            <span
+                class="material-icons">
+
                 business_center
+
             </span>
 
             <span>
                 PAPPRITO ERP
             </span>
 
+
             <span
                 class="material-icons external-icon">
+
                 open_in_new
+
             </span>
 
         </a>
@@ -445,8 +539,11 @@
             href="settings.html"
             class="nav-item">
 
-            <span class="material-icons">
+            <span
+                class="material-icons">
+
                 settings
+
             </span>
 
             <span>
@@ -455,6 +552,7 @@
 
         </a>
 
+
     </nav>
 
 
@@ -462,26 +560,37 @@
          LOGOUT
     ======================================= -->
 
-    <div class="sidebar-bottom">
+    <div
+        class="sidebar-bottom">
+
 
         <button
             type="button"
             id="logoutBtn"
             class="logout-btn">
 
-            <span class="material-icons">
+
+            <span
+                class="material-icons">
+
                 logout
+
             </span>
+
 
             <span>
                 Logout
             </span>
 
+
         </button>
+
 
     </div>
 
+
 </aside>
+
 
 <!-- ==========================================
      MOBILE OVERLAY
@@ -498,17 +607,20 @@
      MAIN CONTENT
 ========================================== -->
 
-<main class="main-content">
+<main
+    class="main-content">
 
 
     <!-- ======================================
          TOP BAR
     ======================================= -->
 
-    <header class="topbar">
+    <header
+        class="topbar">
 
 
-        <div class="topbar-left">
+        <div
+            class="topbar-left">
 
 
             <button
@@ -516,11 +628,15 @@
                 id="menuBtn"
                 class="icon-btn">
 
-                <span class="material-icons">
+                <span
+                    class="material-icons">
+
                     menu
+
                 </span>
 
             </button>
+
 
             <button
                 type="button"
@@ -530,22 +646,32 @@
                 aria-label="Install PAPPRITO HRIS"
                 style="display:none;">
 
-                <span class="material-icons">
+
+                <span
+                    class="material-icons">
+
                     install_mobile
+
                 </span>
+
 
             </button>
 
 
             <div>
 
-                <span class="header-label">
+                <span
+                    class="header-label">
+
                     PAPPRITO HRIS
+
                 </span>
+
 
                 <h1>
                     HRIS Dashboard
                 </h1>
+
 
                 <p>
                     Human Resource Information System
@@ -553,10 +679,12 @@
 
             </div>
 
+
         </div>
 
 
-        <div class="topbar-right">
+        <div
+            class="topbar-right">
 
 
             <div
@@ -565,13 +693,20 @@
             </div>
 
 
-            <div class="user-info">
+            <div
+                class="user-info">
 
-                <span class="material-icons">
+
+                <span
+                    class="material-icons">
+
                     account_circle
+
                 </span>
 
+
                 <div>
+
 
                     <strong
                         id="currentUserName">
@@ -580,15 +715,20 @@
 
                     </strong>
 
+
                     <small>
                         Administrator
                     </small>
 
+
                 </div>
+
 
             </div>
 
+
         </div>
+
 
     </header>
 
@@ -598,20 +738,27 @@
          DASHBOARD CONTENT
     ======================================= -->
 
-    <section class="dashboard-content">
+    <section
+        class="dashboard-content">
 
 
         <!-- ==================================
              WELCOME
         =================================== -->
 
-        <div class="welcome-card">
+        <div
+            class="welcome-card">
 
 
-            <div class="welcome-text">
+            <div
+                class="welcome-text">
 
-                <span class="welcome-label">
+
+                <span
+                    class="welcome-label">
+
                     WELCOME BACK
+
                 </span>
 
 
@@ -635,16 +782,24 @@
 
                 </p>
 
+
             </div>
 
 
-            <div class="welcome-icon">
+            <div
+                class="welcome-icon">
 
-                <span class="material-icons">
+
+                <span
+                    class="material-icons">
+
                     business_center
+
                 </span>
 
+
             </div>
+
 
         </div>
 
@@ -654,17 +809,24 @@
              SUMMARY
         =================================== -->
 
-        <div class="summary-grid">
+        <div
+            class="summary-grid">
 
 
             <!-- EMPLOYEES -->
 
-            <div class="summary-card employees-card">
+            <div
+                class="summary-card employees-card">
 
-                <div class="summary-icon employees">
 
-                    <span class="material-icons">
+                <div
+                    class="summary-icon employees">
+
+                    <span
+                        class="material-icons">
+
                         people
+
                     </span>
 
                 </div>
@@ -676,6 +838,7 @@
                         TOTAL EMPLOYEES
                     </span>
 
+
                     <strong
                         id="totalEmployees">
 
@@ -685,17 +848,25 @@
 
                 </div>
 
+
             </div>
+
 
 
             <!-- ATTENDANCE -->
 
-            <div class="summary-card attendance-card">
+            <div
+                class="summary-card attendance-card">
 
-                <div class="summary-icon attendance">
 
-                    <span class="material-icons">
+                <div
+                    class="summary-icon attendance">
+
+                    <span
+                        class="material-icons">
+
                         access_time
+
                     </span>
 
                 </div>
@@ -707,6 +878,7 @@
                         TODAY'S ATTENDANCE
                     </span>
 
+
                     <strong
                         id="todayAttendance">
 
@@ -716,17 +888,25 @@
 
                 </div>
 
+
             </div>
+
 
 
             <!-- LEAVES -->
 
-            <div class="summary-card leaves-card">
+            <div
+                class="summary-card leaves-card">
 
-                <div class="summary-icon leaves">
 
-                    <span class="material-icons">
+                <div
+                    class="summary-icon leaves">
+
+                    <span
+                        class="material-icons">
+
                         event_available
+
                     </span>
 
                 </div>
@@ -738,6 +918,7 @@
                         PENDING LEAVES
                     </span>
 
+
                     <strong
                         id="leaveRequests">
 
@@ -747,17 +928,25 @@
 
                 </div>
 
+
             </div>
+
 
 
             <!-- PAYROLL -->
 
-            <div class="summary-card payroll-card">
+            <div
+                class="summary-card payroll-card">
 
-                <div class="summary-icon payroll">
 
-                    <span class="material-icons">
+                <div
+                    class="summary-icon payroll">
+
+                    <span
+                        class="material-icons">
+
                         payments
+
                     </span>
 
                 </div>
@@ -769,6 +958,7 @@
                         TOTAL PAYROLL
                     </span>
 
+
                     <strong
                         id="totalPayroll">
 
@@ -778,7 +968,9 @@
 
                 </div>
 
+
             </div>
+
 
         </div>
 
@@ -788,10 +980,13 @@
              QUICK ACTIONS
         =================================== -->
 
-        <section class="dashboard-section">
+        <section
+            class="dashboard-section">
 
 
-            <div class="section-title">
+            <div
+                class="section-title">
+
 
                 <div>
 
@@ -799,26 +994,36 @@
                         Quick Actions
                     </h2>
 
+
                     <p>
                         Frequently used HR functions
                     </p>
 
                 </div>
 
+
             </div>
 
 
-            <div class="quick-actions">
+            <div
+                class="quick-actions">
 
+
+                <!-- EMPLOYEE -->
 
                 <button
                     type="button"
                     class="quick-action"
                     onclick="window.location.href='employee.html'">
 
-                    <span class="material-icons">
-                        person_add
+
+                    <span
+                        class="material-icons">
+
+                        people
+
                     </span>
+
 
                     <div>
 
@@ -826,23 +1031,33 @@
                             Employee
                         </strong>
 
+
                         <small>
                             Manage employees
                         </small>
 
                     </div>
 
+
                 </button>
 
+
+
+                <!-- ATTENDANCE -->
 
                 <button
                     type="button"
                     class="quick-action"
                     onclick="window.location.href='attendance.html'">
 
-                    <span class="material-icons">
+
+                    <span
+                        class="material-icons">
+
                         access_time
+
                     </span>
+
 
                     <div>
 
@@ -850,23 +1065,33 @@
                             Attendance
                         </strong>
 
+
                         <small>
                             Track attendance
                         </small>
 
                     </div>
 
+
                 </button>
 
+
+
+                <!-- TRACK LEAVES -->
 
                 <button
                     type="button"
                     class="quick-action"
                     onclick="window.location.href='trackleaves.html'">
 
-                    <span class="material-icons">
+
+                    <span
+                        class="material-icons">
+
                         event_available
+
                     </span>
+
 
                     <div>
 
@@ -874,23 +1099,33 @@
                             Track Leaves
                         </strong>
 
+
                         <small>
                             Leave balances
                         </small>
 
                     </div>
 
+
                 </button>
 
+
+
+                <!-- AUTO PAYROLL -->
 
                 <button
                     type="button"
                     class="quick-action"
                     onclick="window.location.href='autopayroll.html'">
 
-                    <span class="material-icons">
+
+                    <span
+                        class="material-icons">
+
                         calculate
+
                     </span>
+
 
                     <div>
 
@@ -898,23 +1133,33 @@
                             Auto Payroll
                         </strong>
 
+
                         <small>
                             Hourly computation
                         </small>
 
                     </div>
 
+
                 </button>
 
+
+
+                <!-- PAYROLL -->
 
                 <button
                     type="button"
                     class="quick-action"
                     onclick="window.location.href='payroll.html'">
 
-                    <span class="material-icons">
+
+                    <span
+                        class="material-icons">
+
                         payments
+
                     </span>
+
 
                     <div>
 
@@ -922,23 +1167,33 @@
                             Payroll
                         </strong>
 
+
                         <small>
                             Manage payroll
                         </small>
 
                     </div>
 
+
                 </button>
 
+
+
+                <!-- PAYSLIP -->
 
                 <button
                     type="button"
                     class="quick-action"
                     onclick="window.location.href='payslip.html'">
 
-                    <span class="material-icons">
+
+                    <span
+                        class="material-icons">
+
                         receipt_long
+
                     </span>
+
 
                     <div>
 
@@ -946,23 +1201,33 @@
                             Payslip
                         </strong>
 
+
                         <small>
                             Employee payslips
                         </small>
 
                     </div>
 
+
                 </button>
 
+
+
+                <!-- HR APPROVAL -->
 
                 <button
                     type="button"
                     class="quick-action"
                     onclick="window.location.href='hrapproval.html'">
 
-                    <span class="material-icons">
+
+                    <span
+                        class="material-icons">
+
                         approval
+
                     </span>
+
 
                     <div>
 
@@ -970,15 +1235,55 @@
                             HR Approval
                         </strong>
 
+
                         <small>
                             Review requests
                         </small>
 
                     </div>
 
+
                 </button>
 
+
+
+                <!-- ==================================
+                     ONBOARDING
+                =================================== -->
+
+                <button
+                    type="button"
+                    class="quick-action"
+                    onclick="window.location.href='onboarding.html'">
+
+
+                    <span
+                        class="material-icons">
+
+                        how_to_reg
+
+                    </span>
+
+
+                    <div>
+
+                        <strong>
+                            Onboarding
+                        </strong>
+
+
+                        <small>
+                            New employee setup
+                        </small>
+
+                    </div>
+
+
+                </button>
+
+
             </div>
+
 
         </section>
 
@@ -988,10 +1293,13 @@
              HR MODULES
         =================================== -->
 
-        <section class="dashboard-section">
+        <section
+            class="dashboard-section">
 
 
-            <div class="section-title">
+            <div
+                class="section-title">
+
 
                 <div>
 
@@ -999,31 +1307,42 @@
                         HR Modules
                     </h2>
 
+
                     <p>
                         Access all available HR functions
                     </p>
 
                 </div>
 
+
             </div>
 
 
-            <div class="module-grid">
+            <div
+                class="module-grid">
 
+
+                <!-- EMPLOYEE -->
 
                 <a
                     href="employee.html"
                     class="module-item">
 
-                    <span class="material-icons">
+
+                    <span
+                        class="material-icons">
+
                         people
+
                     </span>
+
 
                     <div>
 
                         <strong>
                             Employee Masterlist
                         </strong>
+
 
                         <small>
                             Employee information
@@ -1032,16 +1351,25 @@
 
                     </div>
 
+
                 </a>
 
+
+
+                <!-- ATTENDANCE -->
 
                 <a
                     href="attendance.html"
                     class="module-item">
 
-                    <span class="material-icons">
+
+                    <span
+                        class="material-icons">
+
                         access_time
+
                     </span>
+
 
                     <div>
 
@@ -1049,23 +1377,33 @@
                             Attendance
                         </strong>
 
+
                         <small>
-                            Time and attendance
-                            records
+                            Employee attendance
+                            and time records
                         </small>
 
                     </div>
 
+
                 </a>
 
+
+
+                <!-- TRACK LEAVES -->
 
                 <a
                     href="trackleaves.html"
                     class="module-item">
 
-                    <span class="material-icons">
+
+                    <span
+                        class="material-icons">
+
                         event_available
+
                     </span>
+
 
                     <div>
 
@@ -1073,23 +1411,33 @@
                             Track Leaves
                         </strong>
 
+
                         <small>
-                            Vacation, sick and
-                            birthday leave
+                            Leave balances
+                            and requests
                         </small>
 
                     </div>
 
+
                 </a>
 
+
+
+                <!-- AUTO PAYROLL -->
 
                 <a
                     href="autopayroll.html"
                     class="module-item">
 
-                    <span class="material-icons">
+
+                    <span
+                        class="material-icons">
+
                         calculate
+
                     </span>
+
 
                     <div>
 
@@ -1097,23 +1445,33 @@
                             Auto Payroll
                         </strong>
 
+
                         <small>
-                            Hourly payroll
+                            Automated payroll
                             computation
                         </small>
 
                     </div>
 
+
                 </a>
 
+
+
+                <!-- PAYROLL -->
 
                 <a
                     href="payroll.html"
                     class="module-item">
 
-                    <span class="material-icons">
+
+                    <span
+                        class="material-icons">
+
                         payments
+
                     </span>
+
 
                     <div>
 
@@ -1121,23 +1479,33 @@
                             Payroll
                         </strong>
 
+
                         <small>
-                            Payroll records
-                            and management
+                            Payroll management
+                            and records
                         </small>
 
                     </div>
 
+
                 </a>
 
+
+
+                <!-- PAYSLIP -->
 
                 <a
                     href="payslip.html"
                     class="module-item">
 
-                    <span class="material-icons">
+
+                    <span
+                        class="material-icons">
+
                         receipt_long
+
                     </span>
+
 
                     <div>
 
@@ -1145,29 +1513,39 @@
                             Payslip
                         </strong>
 
+
                         <small>
-                            View and manage
-                            employee payslips
+                            Employee payslips
                         </small>
 
                     </div>
 
+
                 </a>
 
+
+
+                <!-- HR APPROVAL -->
 
                 <a
                     href="hrapproval.html"
                     class="module-item">
 
-                    <span class="material-icons">
+
+                    <span
+                        class="material-icons">
+
                         approval
+
                     </span>
+
 
                     <div>
 
                         <strong>
                             HR Approval
                         </strong>
+
 
                         <small>
                             Review employee
@@ -1176,16 +1554,25 @@
 
                     </div>
 
+
                 </a>
 
+
+
+                <!-- EMPLOYEE PORTAL -->
 
                 <a
                     href="employeeportal.html"
                     class="module-item">
 
-                    <span class="material-icons">
+
+                    <span
+                        class="material-icons">
+
                         account_circle
+
                     </span>
+
 
                     <div>
 
@@ -1193,22 +1580,68 @@
                             Employee Portal
                         </strong>
 
+
                         <small>
                             Employee self-service
                         </small>
 
                     </div>
 
+
                 </a>
 
+
+
+                <!-- ==================================
+                     ONBOARDING / OFFBOARDING
+                =================================== -->
+
+                <a
+                    href="onboarding.html"
+                    class="module-item">
+
+
+                    <span
+                        class="material-icons">
+
+                        how_to_reg
+
+                    </span>
+
+
+                    <div>
+
+                        <strong>
+                            Onboarding / Offboarding
+                        </strong>
+
+
+                        <small>
+                            Employee onboarding
+                            and separation
+                        </small>
+
+                    </div>
+
+
+                </a>
+
+
+
+                <!-- SETTINGS -->
 
                 <a
                     href="settings.html"
                     class="module-item">
 
-                    <span class="material-icons">
+
+                    <span
+                        class="material-icons">
+
                         settings
+
                     </span>
+
 
                     <div>
 
@@ -1216,15 +1649,19 @@
                             Settings
                         </strong>
 
+
                         <small>
-                            System configuration
+                            HRIS system settings
                         </small>
 
                     </div>
 
+
                 </a>
 
+
             </div>
+
 
         </section>
 
@@ -1234,10 +1671,13 @@
              TODAY STATUS
         =================================== -->
 
-        <section class="dashboard-section">
+        <section
+            class="dashboard-section">
 
 
-            <div class="section-title">
+            <div
+                class="section-title">
+
 
                 <div>
 
@@ -1245,23 +1685,34 @@
                         Today's Status
                     </h2>
 
+
                     <p>
-                        Current employee attendance overview
+                        Current employee attendance status
                     </p>
 
                 </div>
 
+
             </div>
 
 
-            <div class="status-grid">
+            <div
+                class="status-grid">
 
 
-                <div class="status-card present">
+                <!-- PRESENT -->
 
-                    <span class="material-icons">
+                <div
+                    class="status-card present">
+
+
+                    <span
+                        class="material-icons">
+
                         check_circle
+
                     </span>
+
 
                     <div>
 
@@ -1272,20 +1723,31 @@
 
                         </strong>
 
+
                         <span>
                             PRESENT
                         </span>
 
                     </div>
 
+
                 </div>
 
 
-                <div class="status-card late">
 
-                    <span class="material-icons">
+                <!-- LATE -->
+
+                <div
+                    class="status-card late">
+
+
+                    <span
+                        class="material-icons">
+
                         schedule
+
                     </span>
+
 
                     <div>
 
@@ -1296,20 +1758,31 @@
 
                         </strong>
 
+
                         <span>
                             LATE
                         </span>
 
                     </div>
 
+
                 </div>
 
 
-                <div class="status-card leave">
 
-                    <span class="material-icons">
+                <!-- ON LEAVE -->
+
+                <div
+                    class="status-card leave">
+
+
+                    <span
+                        class="material-icons">
+
                         event
+
                     </span>
+
 
                     <div>
 
@@ -1320,20 +1793,31 @@
 
                         </strong>
 
+
                         <span>
                             ON LEAVE
                         </span>
 
                     </div>
 
+
                 </div>
 
 
-                <div class="status-card absent">
 
-                    <span class="material-icons">
+                <!-- ABSENT -->
+
+                <div
+                    class="status-card absent">
+
+
+                    <span
+                        class="material-icons">
+
                         cancel
+
                     </span>
+
 
                     <div>
 
@@ -1344,15 +1828,19 @@
 
                         </strong>
 
+
                         <span>
                             ABSENT
                         </span>
 
                     </div>
 
+
                 </div>
 
+
             </div>
+
 
         </section>
 
@@ -1362,16 +1850,20 @@
              RECENT ACTIVITY
         =================================== -->
 
-        <section class="dashboard-section">
+        <section
+            class="dashboard-section">
 
 
-            <div class="section-title">
+            <div
+                class="section-title">
+
 
                 <div>
 
                     <h2>
                         Recent Leave Activity
                     </h2>
+
 
                     <p>
                         Latest employee leave requests
@@ -1385,13 +1877,20 @@
                     class="view-button"
                     onclick="window.location.href='trackleaves.html'">
 
+
                     View All
 
-                    <span class="material-icons">
+
+                    <span
+                        class="material-icons">
+
                         arrow_forward
+
                     </span>
 
+
                 </button>
+
 
             </div>
 
@@ -1400,19 +1899,29 @@
                 id="recentActivity"
                 class="recent-activity">
 
-                <div class="empty-state">
 
-                    <span class="material-icons">
+                <div
+                    class="empty-state">
+
+
+                    <span
+                        class="material-icons">
+
                         history
+
                     </span>
+
 
                     <p>
                         Loading recent activity...
                     </p>
 
+
                 </div>
 
+
             </div>
+
 
         </section>
 
@@ -1425,15 +1934,20 @@
          FOOTER
     =========================================== -->
 
-    <footer class="dashboard-footer">
+    <footer
+        class="dashboard-footer">
+
 
         © 2026
+
 
         <strong>
             PAPPRITO HRIS
         </strong>
 
+
         — Human Resource Information System
+
 
     </footer>
 
@@ -1450,6 +1964,7 @@
     type="module"
     src="../js/dashboard.js">
 </script>
+
 
 
 <!-- ==========================================
@@ -1501,45 +2016,62 @@ if (
 
 
 <script>
+
 /* ==========================================
    PAPPRITO HRIS
    PWA REGISTRATION + INSTALL
 ========================================== */
 
-let deferredInstallPrompt = null;
+
+let deferredInstallPrompt =
+    null;
+
 
 const installAppBtn =
-    document.getElementById("installAppBtn");
+    document.getElementById(
+        "installAppBtn"
+    );
 
 
 /* ==========================================
    SERVICE WORKER
 ========================================== */
 
-if ("serviceWorker" in navigator) {
+if(
+    "serviceWorker" in navigator
+){
 
-    window.addEventListener("load", function () {
+    window.addEventListener(
+        "load",
+        function(){
 
-        navigator.serviceWorker
-            .register("../sw.js")
-            .then(function (registration) {
+            navigator.serviceWorker
+                .register(
+                    "../sw.js"
+                )
+                .then(
+                    function(registration){
 
-                console.log(
-                    "PAPPRITO HRIS Service Worker Registered:",
-                    registration.scope
+                        console.log(
+                            "PAPPRITO HRIS Service Worker Registered:",
+                            registration.scope
+                        );
+
+                    }
+                )
+                .catch(
+                    function(error){
+
+                        console.error(
+                            "PAPPRITO HRIS Service Worker Error:",
+                            error
+                        );
+
+                    }
                 );
 
-            })
-            .catch(function (error) {
-
-                console.error(
-                    "PAPPRITO HRIS Service Worker Error:",
-                    error
-                );
-
-            });
-
-    });
+        }
+    );
 
 }
 
@@ -1550,15 +2082,25 @@ if ("serviceWorker" in navigator) {
 
 window.addEventListener(
     "beforeinstallprompt",
-    function (event) {
+    function(event){
 
         event.preventDefault();
 
-        deferredInstallPrompt = event;
 
-        if (installAppBtn) {
-            installAppBtn.classList.add("show");
+        deferredInstallPrompt =
+            event;
+
+
+        if(
+            installAppBtn
+        ){
+
+            installAppBtn.classList.add(
+                "show"
+            );
+
         }
+
 
         console.log(
             "PAPPRITO HRIS can be installed."
@@ -1572,13 +2114,17 @@ window.addEventListener(
    INSTALL BUTTON
 ========================================== */
 
-if (installAppBtn) {
+if(
+    installAppBtn
+){
 
     installAppBtn.addEventListener(
         "click",
-        async function () {
+        async function(){
 
-            if (!deferredInstallPrompt) {
+            if(
+                !deferredInstallPrompt
+            ){
 
                 alert(
                     "Kung walang install prompt, gamitin ang Chrome menu (⋮) at piliin ang 'Install app' o 'Add to Home screen'."
@@ -1588,19 +2134,28 @@ if (installAppBtn) {
 
             }
 
+
             deferredInstallPrompt.prompt();
 
+
             const result =
-                await deferredInstallPrompt.userChoice;
+                await deferredInstallPrompt
+                    .userChoice;
+
 
             console.log(
                 "PWA Install Choice:",
                 result.outcome
             );
 
-            deferredInstallPrompt = null;
 
-            installAppBtn.classList.remove("show");
+            deferredInstallPrompt =
+                null;
+
+
+            installAppBtn.classList.remove(
+                "show"
+            );
 
         }
     );
@@ -1614,22 +2169,32 @@ if (installAppBtn) {
 
 window.addEventListener(
     "appinstalled",
-    function () {
+    function(){
 
         console.log(
             "PAPPRITO HRIS installed successfully."
         );
 
-        deferredInstallPrompt = null;
 
-        if (installAppBtn) {
-            installAppBtn.classList.remove("show");
+        deferredInstallPrompt =
+            null;
+
+
+        if(
+            installAppBtn
+        ){
+
+            installAppBtn.classList.remove(
+                "show"
+            );
+
         }
 
     }
 );
 
 </script>
+
 
 </body>
 
