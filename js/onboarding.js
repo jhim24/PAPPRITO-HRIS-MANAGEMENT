@@ -1,7 +1,7 @@
 /* ==========================================
    PAPPRITO HRIS
    EMPLOYEE ONBOARDING JS
-   VERSION 2
+   COMPLETE VERSION
 ========================================== */
 
 import {
@@ -13,6 +13,7 @@ import {
     getDocs,
     addDoc,
     updateDoc,
+    deleteDoc,
     doc,
     serverTimestamp
 } from "https://www.gstatic.com/firebasejs/12.13.0/firebase-firestore.js";
@@ -27,6 +28,8 @@ let onboardingRecords = [];
 let currentOnboardingId = null;
 
 let employees = [];
+
+let editMode = false;
 
 
 /* ==========================================
@@ -151,10 +154,6 @@ const onboardingFormSection =
         "onboardingFormSection"
     );
 
-
-/*
- * NEW EMPLOYEE DROPDOWN
- */
 
 const onboardingEmployeeSelect =
     document.getElementById(
@@ -326,11 +325,6 @@ function getFullName(
     employee
 ){
 
-    /*
-     * Support several possible
-     * employee field naming styles.
-     */
-
     const firstName =
         text(
             employee.firstname ||
@@ -354,12 +348,6 @@ function getFullName(
             employee.last_name
         );
 
-
-    /*
-     * If the employee collection
-     * already has a complete name,
-     * use it as fallback.
-     */
 
     const completeName =
         text(
@@ -499,29 +487,17 @@ function formatDateForInput(
     }
 
 
-    /*
-     * Firestore Timestamp
-     */
-
     if(
         typeof value === "object" &&
         typeof value.toDate === "function"
     ){
 
-        const date =
-            value.toDate();
-
-
         return toInputDate(
-            date
+            value.toDate()
         );
 
     }
 
-
-    /*
-     * JavaScript Date
-     */
 
     if(
         value instanceof Date
@@ -533,10 +509,6 @@ function formatDateForInput(
 
     }
 
-
-    /*
-     * String date
-     */
 
     const stringValue =
         text(value);
@@ -667,26 +639,18 @@ async function loadEmployees(){
         snapshot.forEach(
             docSnap => {
 
-                const employee =
-                    docSnap.data();
-
-
                 employees.push({
 
                     firestoreId:
                         docSnap.id,
 
-                    ...employee
+                    ...docSnap.data()
 
                 });
 
             }
         );
 
-
-        /*
-         * Sort employees alphabetically.
-         */
 
         employees.sort(
             (
@@ -741,7 +705,7 @@ async function loadEmployees(){
             onboardingEmployeeSelect.innerHTML = `
 
 <option value="">
-Unable to load employees
+UNABLE TO LOAD EMPLOYEES
 </option>
 
 `;
@@ -762,10 +726,6 @@ function populateEmployeeDropdown(){
     if(
         !onboardingEmployeeSelect
     ){
-
-        console.error(
-            "Employee dropdown not found."
-        );
 
         return;
 
@@ -825,22 +785,6 @@ SELECT EMPLOYEE
                 );
 
 
-            const position =
-                getPosition(
-                    employee
-                );
-
-
-            const department =
-                getDepartment(
-                    employee
-                );
-
-
-            /*
-             * Don't add empty names.
-             */
-
             if(
                 !employeeName &&
                 !employeeId
@@ -856,11 +800,6 @@ SELECT EMPLOYEE
                     "option"
                 );
 
-
-            /*
-             * Use Firestore document ID
-             * as the dropdown value.
-             */
 
             option.value =
                 employee.firestoreId;
@@ -881,29 +820,6 @@ SELECT EMPLOYEE
                 );
 
 
-            /*
-             * Store useful information
-             * directly on option.
-             */
-
-            option.dataset.employeeId =
-                employeeId;
-
-
-            option.dataset.position =
-                position;
-
-
-            option.dataset.department =
-                department;
-
-
-            option.dataset.dateHired =
-                getDateHired(
-                    employee
-                );
-
-
             onboardingEmployeeSelect.appendChild(
                 option
             );
@@ -915,7 +831,7 @@ SELECT EMPLOYEE
 
 
 /* ==========================================
-   EMPLOYEE SELECTED
+   HANDLE EMPLOYEE SELECTION
 ========================================== */
 
 function handleEmployeeSelection(){
@@ -932,11 +848,6 @@ function handleEmployeeSelection(){
     const firestoreId =
         onboardingEmployeeSelect.value;
 
-
-    /*
-     * Clear fields when no employee
-     * is selected.
-     */
 
     if(
         !firestoreId
@@ -1025,13 +936,6 @@ function fillEmployeeFields(
     }
 
 
-    /*
-     * The HTML has no visible
-     * employee name input anymore,
-     * but keep compatibility if it
-     * exists.
-     */
-
     if(
         onboardingEmployeeName
     ){
@@ -1071,17 +975,11 @@ function fillEmployeeFields(
 
     }
 
-
-    console.log(
-        "Selected employee:",
-        employeeName
-    );
-
 }
 
 
 /* ==========================================
-   CLEAR SELECTED EMPLOYEE
+   CLEAR EMPLOYEE FIELDS
 ========================================== */
 
 function clearSelectedEmployeeFields(){
@@ -1144,6 +1042,15 @@ function clearSelectedEmployeeFields(){
 
 function populateDepartments(){
 
+    if(
+        !onboardingDepartmentFilter
+    ){
+
+        return;
+
+    }
+
+
     const departments = [];
 
 
@@ -1184,35 +1091,7 @@ function populateDepartments(){
     );
 
 
-    /*
-     * Form department
-     */
-
-    if(
-        onboardingDepartment
-    ){
-
-        /*
-         * Department is disabled
-         * because it is automatically
-         * populated from employee.
-         *
-         * Don't overwrite selected
-         * employee's department here.
-         */
-
-    }
-
-
-    /*
-     * Filter department
-     */
-
-    if(
-        onboardingDepartmentFilter
-    ){
-
-        onboardingDepartmentFilter.innerHTML = `
+    onboardingDepartmentFilter.innerHTML = `
 
 <option value="">
 ALL DEPARTMENTS
@@ -1221,31 +1100,29 @@ ALL DEPARTMENTS
 `;
 
 
-        departments.forEach(
-            department => {
+    departments.forEach(
+        department => {
 
-                const option =
-                    document.createElement(
-                        "option"
-                    );
-
-
-                option.value =
-                    department;
-
-
-                option.textContent =
-                    department;
-
-
-                onboardingDepartmentFilter.appendChild(
-                    option
+            const option =
+                document.createElement(
+                    "option"
                 );
 
-            }
-        );
 
-    }
+            option.value =
+                department;
+
+
+            option.textContent =
+                department;
+
+
+            onboardingDepartmentFilter.appendChild(
+                option
+            );
+
+        }
+    );
 
 }
 
@@ -1363,11 +1240,11 @@ function calculateProgress(
 
         return {
 
-            completed:0,
+            completed: 0,
 
             total,
 
-            percent:0
+            percent: 0
 
         };
 
@@ -1447,7 +1324,7 @@ function getStatus(
 
 
 /* ==========================================
-   LOAD ONBOARDING
+   LOAD ONBOARDING RECORDS
 ========================================== */
 
 async function loadOnboarding(){
@@ -1464,7 +1341,7 @@ async function loadOnboarding(){
     colspan="8"
     class="empty-message">
 
-    Loading onboarding records...
+    LOADING ONBOARDING RECORDS...
 
 </td>
 
@@ -1529,7 +1406,7 @@ async function loadOnboarding(){
     colspan="8"
     class="empty-message">
 
-    Failed to load onboarding records.
+    FAILED TO LOAD ONBOARDING RECORDS.
 
 </td>
 
@@ -1545,7 +1422,7 @@ async function loadOnboarding(){
 
 
 /* ==========================================
-   RENDER TABLE
+   RENDER ONBOARDING TABLE
 ========================================== */
 
 function renderOnboarding(){
@@ -1686,8 +1563,7 @@ function renderOnboarding(){
         );
 
 
-    onboardingBody.innerHTML =
-        "";
+    onboardingBody.innerHTML = "";
 
 
     if(
@@ -1861,23 +1737,61 @@ ${escapeHTML(
 
 <td>
 
-<button
-    type="button"
-    class="btn primary-btn"
-    onclick="viewOnboarding('${record.id}')">
+<div class="action-buttons">
 
 
-<span
-    class="material-icons">
+    <!-- VIEW -->
 
-visibility
+    <button
+        type="button"
+        class="btn primary-btn"
+        onclick="viewOnboarding('${record.id}')"
+        title="View">
 
-</span>
+        <span class="material-icons">
+            visibility
+        </span>
+
+        VIEW
+
+    </button>
 
 
-VIEW
+    <!-- EDIT -->
 
-</button>
+    <button
+        type="button"
+        class="btn edit-btn"
+        onclick="editOnboarding('${record.id}')"
+        title="Edit">
+
+        <span class="material-icons">
+            edit
+        </span>
+
+        EDIT
+
+    </button>
+
+
+    <!-- DELETE -->
+
+    <button
+        type="button"
+        class="btn delete-btn"
+        onclick="deleteOnboarding('${record.id}')"
+        title="Delete">
+
+        <span class="material-icons">
+            delete
+        </span>
+
+        DELETE
+
+    </button>
+
+
+</div>
 
 </td>
 
@@ -1895,7 +1809,7 @@ VIEW
 
 
 /* ==========================================
-   SUMMARY
+   UPDATE SUMMARY
 ========================================== */
 
 function updateSummary(){
@@ -1910,9 +1824,23 @@ function updateSummary(){
     onboardingRecords.forEach(
         record => {
 
+            const checklist =
+                Array.isArray(
+                    record.checklist
+                )
+                ?
+                record.checklist
+                :
+                [];
+
+
             const status =
                 text(
                     record.status
+                    ||
+                    getStatus(
+                        checklist
+                    )
                 )
                 .toUpperCase();
 
@@ -1991,11 +1919,19 @@ function updateSummary(){
 
 
 /* ==========================================
-   OPEN FORM
+   OPEN NEW ONBOARDING FORM
 ========================================== */
 
 window.openOnboardingForm =
 function(){
+
+    editMode = false;
+
+    currentOnboardingId = null;
+
+
+    resetFormButton();
+
 
     if(
         onboardingFormSection
@@ -2036,7 +1972,47 @@ function(){
 
     }
 
+
+    editMode = false;
+
+    currentOnboardingId = null;
+
+
+    resetFormButton();
+
 };
+
+
+/* ==========================================
+   RESET FORM BUTTON
+========================================== */
+
+function resetFormButton(){
+
+    const button =
+        document.querySelector(
+            "#onboardingFormSection .form-actions .primary-btn"
+        );
+
+
+    if(!button){
+
+        return;
+
+    }
+
+
+    button.innerHTML = `
+
+<span class="material-icons">
+    save
+</span>
+
+SAVE ONBOARDING
+
+`;
+
+}
 
 
 /* ==========================================
@@ -2045,6 +2021,11 @@ function(){
 
 window.clearOnboardingForm =
 function(){
+
+    editMode = false;
+
+    currentOnboardingId = null;
+
 
     if(
         onboardingEmployeeSelect
@@ -2098,20 +2079,18 @@ function(){
         }
     );
 
+
+    resetFormButton();
+
 };
 
 
 /* ==========================================
-   SAVE ONBOARDING
+   SAVE / UPDATE ONBOARDING
 ========================================== */
 
 window.saveOnboarding =
 async function(){
-
-    /*
-     * Employee must be selected
-     * from dropdown.
-     */
 
     const firestoreId =
         onboardingEmployeeSelect
@@ -2231,9 +2210,116 @@ async function(){
     }
 
 
-    /*
-     * Prevent duplicate onboarding.
-     */
+    const checklist =
+        getChecklistData();
+
+
+    const status =
+        getStatus(
+            checklist
+        );
+
+
+    const progress =
+        calculateProgress(
+            checklist
+        );
+
+
+    /* ======================================
+       EDIT EXISTING RECORD
+    ======================================= */
+
+    if(
+        editMode &&
+        currentOnboardingId
+    ){
+
+        try{
+
+            await updateDoc(
+
+                doc(
+                    db,
+                    "onboarding",
+                    currentOnboardingId
+                ),
+
+                {
+
+                    employeeFirestoreId:
+                        firestoreId,
+
+                    employeeId,
+
+                    employeeName,
+
+                    position,
+
+                    department,
+
+                    dateHired,
+
+                    startDate,
+
+                    checklist,
+
+                    status,
+
+                    progress:
+                        progress.percent,
+
+                    notes,
+
+                    updatedAt:
+                        serverTimestamp()
+
+                }
+
+            );
+
+
+            alert(
+                "Onboarding successfully updated."
+            );
+
+
+            window.clearOnboardingForm();
+
+            window.closeOnboardingForm();
+
+            await loadOnboarding();
+
+
+            return;
+
+        }catch(error){
+
+            console.error(
+                "Update Onboarding Error:",
+                error
+            );
+
+
+            alert(
+
+                "Unable to update onboarding.\n\n" +
+
+                error.message
+
+            );
+
+
+            return;
+
+        }
+
+    }
+
+
+    /* ======================================
+       CHECK DUPLICATE FOR NEW RECORD
+    ======================================= */
 
     const existing =
         onboardingRecords.find(
@@ -2285,21 +2371,9 @@ async function(){
     }
 
 
-    const checklist =
-        getChecklistData();
-
-
-    const status =
-        getStatus(
-            checklist
-        );
-
-
-    const progress =
-        calculateProgress(
-            checklist
-        );
-
+    /* ======================================
+       CREATE NEW RECORD
+    ======================================= */
 
     try{
 
@@ -2380,13 +2454,301 @@ async function(){
 
 
 /* ==========================================
+   EDIT ONBOARDING
+========================================== */
+
+window.editOnboarding =
+function(id){
+
+    const record =
+        onboardingRecords.find(
+            item =>
+                item.id ===
+                id
+        );
+
+
+    if(!record){
+
+        alert(
+            "Onboarding record not found."
+        );
+
+        return;
+
+    }
+
+
+    editMode = true;
+
+    currentOnboardingId =
+        id;
+
+
+    /*
+     * Open form
+     */
+
+    if(
+        onboardingFormSection
+    ){
+
+        onboardingFormSection.style.display =
+            "block";
+
+    }
+
+
+    /*
+     * Select employee
+     */
+
+    if(
+        onboardingEmployeeSelect
+    ){
+
+        onboardingEmployeeSelect.value =
+            record.employeeFirestoreId || "";
+
+
+        handleEmployeeSelection();
+
+    }
+
+
+    /*
+     * Fallback if old record
+     * does not have employeeFirestoreId.
+     */
+
+    if(
+        onboardingEmployeeSelect &&
+        !onboardingEmployeeSelect.value
+    ){
+
+        const employee =
+            employees.find(
+                item => {
+
+                    const idValue =
+                        getEmployeeId(
+                            item,
+                            item.firestoreId
+                        )
+                        .toUpperCase();
+
+
+                    return (
+
+                        idValue ===
+                        text(
+                            record.employeeId
+                        )
+                        .toUpperCase()
+
+                    );
+
+                }
+            );
+
+
+        if(employee){
+
+            onboardingEmployeeSelect.value =
+                employee.firestoreId;
+
+
+            handleEmployeeSelection();
+
+        }
+
+    }
+
+
+    /*
+     * Start Date
+     */
+
+    if(
+        onboardingStartDate
+    ){
+
+        onboardingStartDate.value =
+            record.startDate || "";
+
+    }
+
+
+    /*
+     * Notes
+     */
+
+    if(
+        onboardingNotes
+    ){
+
+        onboardingNotes.value =
+            record.notes || "";
+
+    }
+
+
+    /*
+     * Checklist
+     */
+
+    setChecklistData(
+        record.checklist || []
+    );
+
+
+    /*
+     * Change save button
+     */
+
+    const button =
+        document.querySelector(
+            "#onboardingFormSection .form-actions .primary-btn"
+        );
+
+
+    if(button){
+
+        button.innerHTML = `
+
+<span class="material-icons">
+    save
+</span>
+
+UPDATE ONBOARDING
+
+`;
+
+    }
+
+
+    /*
+     * Scroll to form
+     */
+
+    if(
+        onboardingFormSection
+    ){
+
+        onboardingFormSection.scrollIntoView({
+
+            behavior:
+                "smooth",
+
+            block:
+                "start"
+
+        });
+
+    }
+
+};
+
+
+/* ==========================================
+   DELETE ONBOARDING
+========================================== */
+
+window.deleteOnboarding =
+async function(id){
+
+    const record =
+        onboardingRecords.find(
+            item =>
+                item.id ===
+                id
+        );
+
+
+    if(!record){
+
+        alert(
+            "Onboarding record not found."
+        );
+
+        return;
+
+    }
+
+
+    const employeeName =
+        record.employeeName ||
+        "this employee";
+
+
+    const confirmed =
+        confirm(
+
+            "Are you sure you want to delete the onboarding record for " +
+
+            employeeName +
+
+            "?\n\n" +
+
+            "This action cannot be undone."
+
+        );
+
+
+    if(!confirmed){
+
+        return;
+
+    }
+
+
+    try{
+
+        await deleteDoc(
+
+            doc(
+                db,
+                "onboarding",
+                id
+            )
+
+        );
+
+
+        alert(
+            "Onboarding record deleted successfully."
+        );
+
+
+        await loadOnboarding();
+
+    }catch(error){
+
+        console.error(
+            "Delete Onboarding Error:",
+            error
+        );
+
+
+        alert(
+
+            "Unable to delete onboarding record.\n\n" +
+
+            error.message
+
+        );
+
+    }
+
+};
+
+
+/* ==========================================
    VIEW ONBOARDING
 ========================================== */
 
 window.viewOnboarding =
-function(
-    id
-){
+function(id){
 
     const record =
         onboardingRecords.find(
@@ -2417,9 +2779,7 @@ function(
 
         modalEmployeeName.textContent =
 
-            record.employeeName
-
-            ||
+            record.employeeName ||
 
             "Employee";
 
@@ -2680,7 +3040,7 @@ function updateModalProgressFromUI(){
 
 
 /* ==========================================
-   UPDATE ONBOARDING
+   UPDATE MODAL ONBOARDING
 ========================================== */
 
 window.updateOnboarding =
