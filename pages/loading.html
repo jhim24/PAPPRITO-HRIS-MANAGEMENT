@@ -6,22 +6,49 @@
 <meta charset="UTF-8">
 
 <meta
-name="viewport"
-content="width=device-width, initial-scale=1.0">
+    name="viewport"
+    content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 
 <title>PAPPRITO HRIS - Loading</title>
 
-<link
-rel="stylesheet"
-href="../css/loading.css">
+
+<!-- ==========================================
+     PWA
+========================================== -->
 
 <link
-rel="icon"
-href="../assets/images/logo.png">
+    rel="manifest"
+    href="../manifest.json">
 
 <meta
-name="theme-color"
-content="#ffcc00">
+    name="theme-color"
+    content="#ffcc00">
+
+<link
+    rel="icon"
+    href="../assets/images/logo.png">
+
+<link
+    rel="apple-touch-icon"
+    href="../assets/images/icon-192.png">
+
+
+<!-- ==========================================
+     MATERIAL ICONS
+========================================== -->
+
+<link
+    href="https://fonts.googleapis.com/icon?family=Material+Icons"
+    rel="stylesheet">
+
+
+<!-- ==========================================
+     LOADING CSS
+========================================== -->
+
+<link
+    rel="stylesheet"
+    href="../css/loading.css">
 
 </head>
 
@@ -30,279 +57,174 @@ content="#ffcc00">
 
 
 <!-- ==========================================
-     LOADING HUD
+     LOADING PAGE
 ========================================== -->
 
-<div class="hud-card">
+<div class="loading-page">
 
 
     <!-- ======================================
-         LOGO
+         BACKGROUND EFFECT
     ======================================= -->
 
-    <div class="logo-area">
-
-        <img
-        src="../assets/images/logo.png"
-        class="logo"
-        alt="PAPPRITO">
-
-        <h1>
-            PAPPRITO
-        </h1>
-
-        <h2>
-            HUMAN RESOURCE INFORMATION SYSTEM
-        </h2>
-
-    </div>
+    <div class="loading-background"></div>
 
 
     <!-- ======================================
-         MAIN
+         MAIN LOADING CARD
     ======================================= -->
 
-    <div class="hud-main">
+    <div class="loading-card">
 
 
-        <!-- ==================================
-             LEFT
-        =================================== -->
+        <!-- LOGO -->
 
-        <div class="hud-left">
+        <div class="logo-wrapper">
 
+            <img
+                src="../assets/images/logo.png"
+                class="loading-logo"
+                alt="PAPPRITO Logo">
 
-            <div class="hud-circle">
-
-                <svg
-                width="220"
-                height="220"
-                viewBox="0 0 220 220">
-
-                    <circle
-                    class="circle-bg"
-                    cx="110"
-                    cy="110"
-                    r="95">
-                    </circle>
-
-                    <circle
-                    id="circleProgress"
-                    class="circle-progress"
-                    cx="110"
-                    cy="110"
-                    r="95">
-                    </circle>
-
-                </svg>
+        </div>
 
 
-                <div class="circle-text">
+        <!-- BRAND -->
 
-                    <div id="percent">
-                        0%
-                    </div>
+        <div class="loading-brand">
 
-                    <span>
-                        LOADING
-                    </span>
+            <h1>
+                PAPPRITO
+            </h1>
 
-                </div>
+            <p>
+                HRIS
+            </p>
 
-            </div>
+        </div>
 
+
+        <!-- TITLE -->
+
+        <div class="loading-title">
+
+            <span class="material-icons">
+                security
+            </span>
+
+            SYSTEM INITIALIZING
+
+        </div>
+
+
+        <!-- STATUS -->
+
+        <div
+            id="authStatus"
+            class="loading-status">
+
+            Connecting...
+
+        </div>
+
+
+        <!-- PROGRESS -->
+
+        <div class="progress-wrapper">
 
             <div
-            class="loading-title"
-            id="loadingTitle">
-
-                INITIALIZING SYSTEM...
-
-            </div>
-
-
-            <div
-            class="progress-container">
-
-                <div
                 id="progressBar"
                 class="progress-bar">
-                </div>
-
             </div>
-
 
         </div>
 
 
-        <!-- ==================================
-             RIGHT PANEL
-        =================================== -->
+        <!-- PERCENT -->
 
-        <div class="hud-right">
+        <div
+            id="percent"
+            class="loading-percent">
 
-            <div class="status-box">
+            0%
 
-
-                <h3>
-                    SYSTEM STATUS
-                </h3>
+        </div>
 
 
-                <div class="status-item">
+        <!-- SYSTEM STATUS -->
 
-                    <span>
-                        Authentication
-                    </span>
-
-                    <strong
-                    class="online"
-                    id="authStatus">
-
-                        CHECKING
-
-                    </strong>
-
-                </div>
+        <div class="system-status">
 
 
-                <div class="status-item">
+            <div class="status-item">
 
-                    <span>
-                        Database
-                    </span>
+                <span
+                    id="databaseStatusIcon"
+                    class="material-icons">
 
-                    <strong
-                    class="online"
-                    id="databaseStatus">
+                    database
 
-                        CONNECTING
+                </span>
 
-                    </strong>
-
-                </div>
-
-
-                <div class="status-item">
-
-                    <span>
-                        User Role
-                    </span>
-
-                    <strong
-                    id="roleStatus">
-
-                        CHECKING
-
-                    </strong>
-
-                </div>
-
-
-                <div class="status-item">
-
-                    <span>
-                        Session
-                    </span>
-
-                    <strong
-                    class="online"
-                    id="sessionStatus">
-
-                        CHECKING
-
-                    </strong>
-
-                </div>
-
-
-                <div class="status-item">
-
-                    <span>
-                        System
-                    </span>
-
-                    <strong
-                    class="online"
-                    id="systemStatus">
-
-                        ONLINE
-
-                    </strong>
-
-                </div>
-
+                <span>
+                    DATABASE
+                </span>
 
             </div>
 
 
-            <!-- =================================
-                 MODULES
-            ================================== -->
+            <div class="status-item">
 
-            <div class="module-list">
+                <span
+                    id="authStatusIcon"
+                    class="material-icons">
 
+                    lock
 
-                <div
-                class="module-item"
-                id="moduleAuth">
+                </span>
 
-                    🔐 Authentication
+                <span>
+                    AUTHENTICATION
+                </span>
 
-                </div>
-
-
-                <div
-                class="module-item"
-                id="moduleDatabase">
-
-                    🔥 Firebase Database
-
-                </div>
+            </div>
 
 
-                <div
-                class="module-item"
-                id="moduleSession">
+            <div class="status-item">
 
-                    🛡 Secure Session
+                <span
+                    id="systemStatusIcon"
+                    class="material-icons">
 
-                </div>
+                    memory
 
+                </span>
 
-                <div
-                class="module-item"
-                id="moduleSystem">
-
-                    ⚙ HRIS System
-
-                </div>
-
+                <span>
+                    SYSTEM
+                </span>
 
             </div>
 
         </div>
 
-    </div>
 
+        <!-- FOOTER -->
 
-    <!-- ==========================================
-         FOOTER STATUS
-    =========================================== -->
+        <div class="loading-footer">
 
-    <div class="system-status">
+            PAPPRITO HRIS
 
-        <span class="status-dot">
-        </span>
+            <span>
+                •
+            </span>
 
-        <span id="footerStatus">
+            SECURE SYSTEM
 
-            SYSTEM INITIALIZING...
+        </div>
 
-        </span>
 
     </div>
-
 
 </div>
 
@@ -312,9 +234,8 @@ content="#ffcc00">
 ========================================== -->
 
 <script
-type="module"
-src="../js/loading.js">
-
+    type="module"
+    src="../js/loading.js">
 </script>
 
 
