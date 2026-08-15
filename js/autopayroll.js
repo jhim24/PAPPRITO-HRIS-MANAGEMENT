@@ -73,6 +73,22 @@ const holidayHours =
         "holidayHours"
     );
 
+
+/* ==========================================
+   NEW HOLIDAY ELEMENTS
+========================================== */
+
+const regularHolidayHours =
+    document.getElementById(
+        "regularHolidayHours"
+    );
+
+const specialHolidayHours =
+    document.getElementById(
+        "specialHolidayHours"
+    );
+
+
 const nightHours =
     document.getElementById(
         "nightHours"
@@ -108,6 +124,11 @@ const others =
         "others"
     );
 
+
+/* ==========================================
+   COMPUTATION ELEMENTS
+========================================== */
+
 const displayBasicPay =
     document.getElementById(
         "displayBasicPay"
@@ -122,6 +143,19 @@ const displayHolidayPay =
     document.getElementById(
         "displayHolidayPay"
     );
+
+
+const displayRegularHolidayPay =
+    document.getElementById(
+        "displayRegularHolidayPay"
+    );
+
+
+const displaySpecialHolidayPay =
+    document.getElementById(
+        "displaySpecialHolidayPay"
+    );
+
 
 const displayNightPay =
     document.getElementById(
@@ -142,6 +176,11 @@ const netSalary =
     document.getElementById(
         "netSalary"
     );
+
+
+/* ==========================================
+   RECORD ELEMENTS
+========================================== */
 
 const filterDate =
     document.getElementById(
@@ -406,13 +445,6 @@ Select Employee
     .filter(
         employee => {
 
-            /*
-             * Show active employees.
-             *
-             * If status is empty,
-             * still allow the employee.
-             */
-
             const status =
                 text(
                     employee.status
@@ -526,22 +558,11 @@ if(
             }
 
 
-            /*
-             * Employee ID
-             */
-
             employeeId.value =
                 employee.employeeid
                 ||
                 "";
 
-
-            /*
-             * Salary from Employee
-             *
-             * This is treated as
-             * HOURLY RATE.
-             */
 
             salaryRate.value =
                 employee.salary
@@ -617,10 +638,77 @@ function(){
         );
 
 
-    const holidayHrs =
+    /*
+     * ======================================
+     * OLD HOLIDAY HOURS
+     * ======================================
+     *
+     * Kept for compatibility with
+     * existing records / old form.
+     */
+
+    const oldHolidayHrs =
         num(
             holidayHours?.value
         );
+
+
+    /*
+     * ======================================
+     * NEW HOLIDAY HOURS
+     * ======================================
+     */
+
+    let regularHolidayHrs =
+        num(
+            regularHolidayHours?.value
+        );
+
+
+    let specialHolidayHrs =
+        num(
+            specialHolidayHours?.value
+        );
+
+
+    /*
+     * ======================================
+     * BACKWARD COMPATIBILITY
+     * ======================================
+     *
+     * If the NEW fields are empty,
+     * use the old Holiday Type +
+     * Holiday Hours fields.
+     */
+
+    if(
+        regularHolidayHrs <= 0 &&
+        specialHolidayHrs <= 0 &&
+        oldHolidayHrs > 0
+    ){
+
+        if(
+            holidayType?.value ===
+            "regular"
+        ){
+
+            regularHolidayHrs =
+                oldHolidayHrs;
+
+        }
+
+
+        else if(
+            holidayType?.value ===
+            "special"
+        ){
+
+            specialHolidayHrs =
+                oldHolidayHrs;
+
+        }
+
+    }
 
 
     const nightHrs =
@@ -635,24 +723,20 @@ function(){
         );
 
 
-    /*
-     * ======================================
-     * REGULAR PAY
-     * ======================================
-     */
+    /* ======================================
+       REGULAR PAY
+    ====================================== */
 
     const regularPay =
         rate *
         regularHours;
 
 
-    /*
-     * ======================================
-     * OVERTIME
-     *
-     * Hourly Rate × 125%
-     * ======================================
-     */
+    /* ======================================
+       OVERTIME
+       
+       Hourly Rate × 125%
+    ====================================== */
 
     const overtimePay =
         rate *
@@ -660,29 +744,44 @@ function(){
         overtime;
 
 
-    /*
-     * ======================================
-     * HOLIDAY
-     * ======================================
-     */
+    /* ======================================
+       REGULAR HOLIDAY PAY
+       
+       Hourly Rate × 200%
+       ====================================== */
 
-    const holidayMultiplier =
-        getHolidayMultiplier();
+    const regularHolidayPay =
+        rate *
+        2.00 *
+        regularHolidayHrs;
 
+
+    /* ======================================
+       SPECIAL HOLIDAY PAY
+       
+       Hourly Rate × 130%
+       ====================================== */
+
+    const specialHolidayPay =
+        rate *
+        1.30 *
+        specialHolidayHrs;
+
+
+    /* ======================================
+       TOTAL HOLIDAY PAY
+    ====================================== */
 
     const holidayPay =
-        rate *
-        holidayMultiplier *
-        holidayHrs;
+        regularHolidayPay +
+        specialHolidayPay;
 
 
-    /*
-     * ======================================
-     * NIGHT DIFFERENTIAL
-     *
-     * Hourly Rate × ND% × ND Hours
-     * ======================================
-     */
+    /* ======================================
+       NIGHT DIFFERENTIAL
+       
+       Hourly Rate × ND% × ND Hours
+    ====================================== */
 
     const nightPay =
         rate *
@@ -692,11 +791,9 @@ function(){
         nightHrs;
 
 
-    /*
-     * ======================================
-     * GROSS
-     * ======================================
-     */
+    /* ======================================
+       GROSS
+    ====================================== */
 
     const gross =
         regularPay +
@@ -705,11 +802,9 @@ function(){
         nightPay;
 
 
-    /*
-     * ======================================
-     * DEDUCTIONS
-     * ======================================
-     */
+    /* ======================================
+       DEDUCTIONS
+    ====================================== */
 
     const sssAmount =
         num(
@@ -749,22 +844,18 @@ function(){
         otherAmount;
 
 
-    /*
-     * ======================================
-     * NET PAY
-     * ======================================
-     */
+    /* ======================================
+       NET PAY
+    ====================================== */
 
     const net =
         gross -
         deductions;
 
 
-    /*
-     * ======================================
-     * DISPLAY
-     * ======================================
-     */
+    /* ======================================
+       DISPLAY BASIC
+    ====================================== */
 
     if(
         displayBasicPay
@@ -779,6 +870,10 @@ function(){
     }
 
 
+    /* ======================================
+       DISPLAY OVERTIME
+    ====================================== */
+
     if(
         displayOvertimePay
     ){
@@ -791,6 +886,44 @@ function(){
 
     }
 
+
+    /* ======================================
+       DISPLAY REGULAR HOLIDAY
+    ====================================== */
+
+    if(
+        displayRegularHolidayPay
+    ){
+
+        displayRegularHolidayPay.innerText =
+            "₱ " +
+            money(
+                regularHolidayPay
+            );
+
+    }
+
+
+    /* ======================================
+       DISPLAY SPECIAL HOLIDAY
+    ====================================== */
+
+    if(
+        displaySpecialHolidayPay
+    ){
+
+        displaySpecialHolidayPay.innerText =
+            "₱ " +
+            money(
+                specialHolidayPay
+            );
+
+    }
+
+
+    /* ======================================
+       DISPLAY TOTAL HOLIDAY
+    ====================================== */
 
     if(
         displayHolidayPay
@@ -805,6 +938,10 @@ function(){
     }
 
 
+    /* ======================================
+       DISPLAY NIGHT
+    ====================================== */
+
     if(
         displayNightPay
     ){
@@ -817,6 +954,10 @@ function(){
 
     }
 
+
+    /* ======================================
+       DISPLAY GROSS
+    ====================================== */
 
     if(
         grossSalary
@@ -831,6 +972,10 @@ function(){
     }
 
 
+    /* ======================================
+       DISPLAY DEDUCTION
+    ====================================== */
+
     if(
         totalDeduction
     ){
@@ -843,6 +988,10 @@ function(){
 
     }
 
+
+    /* ======================================
+       DISPLAY NET
+    ====================================== */
 
     if(
         netSalary
@@ -857,19 +1006,26 @@ function(){
     }
 
 
+    /* ======================================
+       RETURN COMPUTATION
+    ====================================== */
+
     return {
 
         rate:
 
             rate,
 
+
         regularHours:
 
             regularHours,
 
+
         overtimeHours:
 
             overtime,
+
 
         holidayType:
 
@@ -879,61 +1035,104 @@ function(){
             :
             "none",
 
+
+        /*
+         * OLD FIELD
+         */
+
         holidayHours:
 
-            holidayHrs,
+            oldHolidayHrs,
+
+
+        /*
+         * NEW FIELDS
+         */
+
+        regularHolidayHours:
+
+            regularHolidayHrs,
+
+
+        specialHolidayHours:
+
+            specialHolidayHrs,
+
 
         nightHours:
 
             nightHrs,
 
+
         nightRate:
 
             ndRate,
+
 
         regularPay:
 
             regularPay,
 
+
         overtimePay:
 
             overtimePay,
+
+
+        regularHolidayPay:
+
+            regularHolidayPay,
+
+
+        specialHolidayPay:
+
+            specialHolidayPay,
+
 
         holidayPay:
 
             holidayPay,
 
+
         nightPay:
 
             nightPay,
+
 
         gross:
 
             gross,
 
+
         sss:
 
             sssAmount,
+
 
         philhealth:
 
             philhealthAmount,
 
+
         pagibig:
 
             pagibigAmount,
+
 
         healthcard:
 
             healthAmount,
 
+
         others:
 
             otherAmount,
 
+
         deductions:
 
             deductions,
+
 
         net:
 
@@ -1018,11 +1217,26 @@ async function(){
         computeAutoPayroll();
 
 
+    /*
+     * ======================================
+     * CHECK WORKING HOURS
+     * ======================================
+     */
+
     if(
+
         calculation.regularHours <= 0 &&
+
         calculation.overtimeHours <= 0 &&
+
         calculation.holidayHours <= 0 &&
+
+        calculation.regularHolidayHours <= 0 &&
+
+        calculation.specialHolidayHours <= 0 &&
+
         calculation.nightHours <= 0
+
     ){
 
         alert(
@@ -1042,10 +1256,7 @@ async function(){
 
     /*
      * ======================================
-     * OWN AUTO PAYROLL RECORD
-     *
-     * IMPORTANT:
-     * This DOES NOT use payroll collection.
+     * AUTO PAYROLL DATA
      * ======================================
      */
 
@@ -1054,73 +1265,150 @@ async function(){
         employeeDocId:
             selectedEmployee.id,
 
+
         employeeId:
             selectedEmployee.employeeid
             ||
             "",
 
+
         employeeName:
             employeeFullName,
+
 
         hourlyRate:
             calculation.rate,
 
+
         date:
             date,
+
 
         regularHours:
             calculation.regularHours,
 
+
         overtimeHours:
             calculation.overtimeHours,
+
+
+        /*
+         * ==================================
+         * HOLIDAY INFORMATION
+         * ==================================
+         */
 
         holidayType:
             calculation.holidayType,
 
+
+        /*
+         * OLD FIELD
+         */
+
         holidayHours:
             calculation.holidayHours,
 
-        nightHours:
-            calculation.nightHours,
 
-        nightRate:
-            calculation.nightRate,
+        /*
+         * NEW FIELDS
+         */
+
+        regularHolidayHours:
+            calculation.regularHolidayHours,
+
+
+        specialHolidayHours:
+            calculation.specialHolidayHours,
+
+
+        /*
+         * ==================================
+         * PAYMENTS
+         * ==================================
+         */
 
         regularPay:
             calculation.regularPay,
 
+
         overtimePay:
             calculation.overtimePay,
+
+
+        regularHolidayPay:
+            calculation.regularHolidayPay,
+
+
+        specialHolidayPay:
+            calculation.specialHolidayPay,
+
 
         holidayPay:
             calculation.holidayPay,
 
+
+        nightHours:
+            calculation.nightHours,
+
+
+        nightRate:
+            calculation.nightRate,
+
+
         nightPay:
             calculation.nightPay,
+
+
+        /*
+         * ==================================
+         * GROSS
+         * ==================================
+         */
 
         gross:
             calculation.gross,
 
+
+        /*
+         * ==================================
+         * DEDUCTIONS
+         * ==================================
+         */
+
         sss:
             calculation.sss,
+
 
         philhealth:
             calculation.philhealth,
 
+
         pagibig:
             calculation.pagibig,
+
 
         healthcard:
             calculation.healthcard,
 
+
         others:
             calculation.others,
+
 
         deductions:
             calculation.deductions,
 
+
+        /*
+         * ==================================
+         * NET
+         * ==================================
+         */
+
         net:
             calculation.net,
+
 
         updatedAt:
             Date.now()
@@ -1162,6 +1450,7 @@ async function(){
                 null;
 
         }
+
 
         /*
          * ==================================
@@ -1228,14 +1517,6 @@ async function(){
 
         autoPayrollRecords = [];
 
-
-        /*
-         * IMPORTANT:
-         *
-         * Only autoPayroll.
-         *
-         * NO payroll collection.
-         */
 
         const snapshot =
             await getDocs(
@@ -1399,6 +1680,53 @@ No Auto Payroll records available.
     records.forEach(
         record => {
 
+            const regularHolidayHrs =
+                num(
+                    record.regularHolidayHours
+                );
+
+
+            const specialHolidayHrs =
+                num(
+                    record.specialHolidayHours
+                );
+
+
+            /*
+             * ==================================
+             * BACKWARD COMPATIBILITY
+             * ==================================
+             */
+
+            let oldHolidayHrs =
+                num(
+                    record.holidayHours
+                );
+
+
+            if(
+                regularHolidayHrs <= 0 &&
+                specialHolidayHrs <= 0 &&
+                oldHolidayHrs > 0
+            ){
+
+                /*
+                 * Old regular holiday record
+                 */
+
+                if(
+                    record.holidayType ===
+                    "regular"
+                ){
+
+                    oldHolidayHrs =
+                        oldHolidayHrs;
+
+                }
+
+            }
+
+
             const row =
                 document.createElement(
                     "tr"
@@ -1468,7 +1796,7 @@ ${money(
 
 ${escapeHTML(
     formatHolidayType(
-        record.holidayType
+        record
     )
 )}
 
@@ -1478,7 +1806,9 @@ ${escapeHTML(
 <td>
 
 ${money(
-    record.holidayHours
+    regularHolidayHrs +
+    specialHolidayHrs +
+    oldHolidayHrs
 )}
 
 </td>
@@ -1582,11 +1912,65 @@ delete
 ========================================== */
 
 function formatHolidayType(
-    type
+    record
 ){
 
+    /*
+     * ======================================
+     * NEW RECORD
+     * ======================================
+     */
+
+    const regular =
+        num(
+            record.regularHolidayHours
+        );
+
+
+    const special =
+        num(
+            record.specialHolidayHours
+        );
+
+
+    if(
+        regular > 0 &&
+        special > 0
+    ){
+
+        return "Regular + Special";
+
+    }
+
+
+    if(
+        regular > 0
+    ){
+
+        return "Regular Holiday";
+
+    }
+
+
+    if(
+        special > 0
+    ){
+
+        return "Special Holiday";
+
+    }
+
+
+    /*
+     * ======================================
+     * OLD RECORD
+     * ======================================
+     */
+
     switch(
-        text(type)
+        text(
+            record.holidayType
+        )
     ){
 
         case "regular":
@@ -1765,9 +2149,9 @@ function(
         id;
 
 
-    /*
-     * Employee
-     */
+    /* ======================================
+       EMPLOYEE
+    ====================================== */
 
     if(
         employeeName
@@ -1781,9 +2165,9 @@ function(
     }
 
 
-    /*
-     * Employee ID
-     */
+    /* ======================================
+       EMPLOYEE ID
+    ====================================== */
 
     if(
         employeeId
@@ -1797,9 +2181,9 @@ function(
     }
 
 
-    /*
-     * Rate
-     */
+    /* ======================================
+       RATE
+    ====================================== */
 
     if(
         salaryRate
@@ -1813,9 +2197,9 @@ function(
     }
 
 
-    /*
-     * Date
-     */
+    /* ======================================
+       DATE
+    ====================================== */
 
     if(
         payrollDate
@@ -1829,9 +2213,9 @@ function(
     }
 
 
-    /*
-     * Hours
-     */
+    /* ======================================
+       REGULAR HOURS
+    ====================================== */
 
     if(
         totalHours
@@ -1845,6 +2229,10 @@ function(
     }
 
 
+    /* ======================================
+       OVERTIME HOURS
+    ====================================== */
+
     if(
         overtimeHours
     ){
@@ -1857,9 +2245,9 @@ function(
     }
 
 
-    /*
-     * Holiday
-     */
+    /* ======================================
+       OLD HOLIDAY
+    ====================================== */
 
     if(
         holidayType
@@ -1885,9 +2273,41 @@ function(
     }
 
 
-    /*
-     * Night Differential
-     */
+    /* ======================================
+       NEW REGULAR HOLIDAY
+    ====================================== */
+
+    if(
+        regularHolidayHours
+    ){
+
+        regularHolidayHours.value =
+            record.regularHolidayHours
+            ||
+            "";
+
+    }
+
+
+    /* ======================================
+       NEW SPECIAL HOLIDAY
+    ====================================== */
+
+    if(
+        specialHolidayHours
+    ){
+
+        specialHolidayHours.value =
+            record.specialHolidayHours
+            ||
+            "";
+
+    }
+
+
+    /* ======================================
+       NIGHT DIFFERENTIAL
+    ====================================== */
 
     if(
         nightHours
@@ -1912,9 +2332,9 @@ function(
     }
 
 
-    /*
-     * Deductions
-     */
+    /* ======================================
+       DEDUCTIONS
+    ====================================== */
 
     if(
         sss
@@ -1976,16 +2396,16 @@ function(
     }
 
 
-    /*
-     * Recalculate display
-     */
+    /* ======================================
+       RECALCULATE
+    ====================================== */
 
     computeAutoPayroll();
 
 
-    /*
-     * Scroll to top
-     */
+    /* ======================================
+       SCROLL TOP
+    ====================================== */
 
     window.scrollTo({
 
@@ -2197,6 +2617,30 @@ function(){
     }
 
 
+    /* ======================================
+       NEW HOLIDAY FIELDS
+    ====================================== */
+
+    if(
+        regularHolidayHours
+    ){
+
+        regularHolidayHours.value =
+            "";
+
+    }
+
+
+    if(
+        specialHolidayHours
+    ){
+
+        specialHolidayHours.value =
+            "";
+
+    }
+
+
     if(
         nightHours
     ){
@@ -2309,6 +2753,26 @@ function resetComputationDisplay(){
 
 
     if(
+        displayRegularHolidayPay
+    ){
+
+        displayRegularHolidayPay.innerText =
+            "₱ 0.00";
+
+    }
+
+
+    if(
+        displaySpecialHolidayPay
+    ){
+
+        displaySpecialHolidayPay.innerText =
+            "₱ 0.00";
+
+    }
+
+
+    if(
         displayNightPay
     ){
 
@@ -2395,16 +2859,31 @@ function(){
 
 [
     salaryRate,
+
     totalHours,
+
     overtimeHours,
+
     holidayHours,
+
+    regularHolidayHours,
+
+    specialHolidayHours,
+
     nightHours,
+
     nightRate,
+
     sss,
+
     philhealth,
+
     pagibig,
+
     healthcard,
+
     others
+
 ]
 
 .forEach(
@@ -2430,7 +2909,7 @@ function(){
 
 
 /* ==========================================
-   HOLIDAY CHANGE
+   HOLIDAY TYPE CHANGE
 ========================================== */
 
 if(
