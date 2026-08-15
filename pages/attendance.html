@@ -28,14 +28,18 @@
 <title>PAPPRITO HRIS - Attendance</title>
 
 
-<!-- MATERIAL ICONS -->
+<!-- =====================================================
+     MATERIAL ICONS
+===================================================== -->
 
 <link
     href="https://fonts.googleapis.com/icon?family=Material+Icons"
     rel="stylesheet">
 
 
-<!-- ATTENDANCE CSS -->
+<!-- =====================================================
+     ATTENDANCE CSS
+===================================================== -->
 
 <link
     rel="stylesheet"
@@ -210,9 +214,12 @@
 <section class="employee-info">
 
 
+    <!-- EMPLOYEE ID -->
+
     <div id="employeeId">
 
         Employee ID:
+
         <strong>
             -
         </strong>
@@ -220,12 +227,147 @@
     </div>
 
 
+    <!-- EMPLOYEE NAME -->
+
     <div id="employeeName">
 
         Employee Name:
+
         <strong>
             -
         </strong>
+
+    </div>
+
+
+</section>
+
+
+
+<!-- =====================================================
+     ATTENDANCE SCHEDULE
+     READS FROM SETTINGS
+===================================================== -->
+
+<section
+    class="attendance-schedule"
+    id="attendanceSchedule">
+
+
+    <!-- OPENING -->
+
+    <div class="schedule-item">
+
+        <span class="material-icons">
+            login
+        </span>
+
+        <div class="schedule-item-content">
+
+            <small>
+                OPENING TIME
+            </small>
+
+            <strong id="scheduleOpening">
+                --
+            </strong>
+
+        </div>
+
+    </div>
+
+
+    <!-- CLOSING -->
+
+    <div class="schedule-item">
+
+        <span class="material-icons">
+            logout
+        </span>
+
+        <div class="schedule-item-content">
+
+            <small>
+                CLOSING TIME
+            </small>
+
+            <strong id="scheduleClosing">
+                --
+            </strong>
+
+        </div>
+
+    </div>
+
+
+    <!-- BREAK -->
+
+    <div class="schedule-item">
+
+        <span class="material-icons">
+            free_breakfast
+        </span>
+
+        <div class="schedule-item-content">
+
+            <small>
+                BREAK TIME
+            </small>
+
+            <strong id="scheduleBreak">
+                --
+            </strong>
+
+        </div>
+
+    </div>
+
+
+    <!-- GRACE PERIOD -->
+
+    <div class="schedule-item">
+
+        <span class="material-icons">
+            alarm
+        </span>
+
+        <div class="schedule-item-content">
+
+            <small>
+                GRACE PERIOD
+            </small>
+
+            <strong id="scheduleGrace">
+                -- min
+            </strong>
+
+        </div>
+
+    </div>
+
+
+    <!-- STATUS -->
+
+    <div class="schedule-item">
+
+        <span class="material-icons">
+            settings
+        </span>
+
+        <div class="schedule-item-content">
+
+            <small>
+                SCHEDULE STATUS
+            </small>
+
+            <strong
+                id="scheduleStatus">
+
+                LOADING
+
+            </strong>
+
+        </div>
 
     </div>
 
@@ -703,11 +845,6 @@
 
 function goBack(){
 
-    /*
-     * If there is a previous page,
-     * return to it.
-     */
-
     if(
         window.history.length > 1
     ){
@@ -718,17 +855,10 @@ function goBack(){
 
     }
 
-
-    /*
-     * Fallback:
-     * Dashboard
-     */
-
     window.location.href =
         "dashboard.html";
 
 }
-
 
 </script>
 
