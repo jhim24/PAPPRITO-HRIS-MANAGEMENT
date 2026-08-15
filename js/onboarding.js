@@ -1,7 +1,7 @@
 /* ==========================================
    PAPPRITO HRIS
    EMPLOYEE ONBOARDING JS
-   VERSION 1
+   VERSION 2
 ========================================== */
 
 import {
@@ -30,89 +30,89 @@ let employees = [];
 
 
 /* ==========================================
-   CHECKLIST
+   ONBOARDING CHECKLIST
 ========================================== */
 
 const checklistItems = [
 
     {
-        id:"checkEmployeeInfo",
-        name:"Employee Information"
+        id: "checkEmployeeInfo",
+        name: "Employee Information"
     },
 
     {
-        id:"checkContract",
-        name:"Employment Contract"
+        id: "checkContract",
+        name: "Employment Contract"
     },
 
     {
-        id:"checkGovernmentIds",
-        name:"Government IDs"
+        id: "checkGovernmentIds",
+        name: "Government IDs"
     },
 
     {
-        id:"checkBankAccount",
-        name:"Bank Account"
+        id: "checkBankAccount",
+        name: "Bank Account"
     },
 
     {
-        id:"checkCompanyId",
-        name:"Company ID"
+        id: "checkCompanyId",
+        name: "Company ID"
     },
 
     {
-        id:"checkUniform",
-        name:"Uniform"
+        id: "checkUniform",
+        name: "Uniform"
     },
 
     {
-        id:"checkSystemAccount",
-        name:"System Account"
+        id: "checkSystemAccount",
+        name: "System Account"
     },
 
     {
-        id:"checkHrOrientation",
-        name:"HR Orientation"
+        id: "checkHrOrientation",
+        name: "HR Orientation"
     },
 
     {
-        id:"checkCompanyOrientation",
-        name:"Company Orientation"
+        id: "checkCompanyOrientation",
+        name: "Company Orientation"
     },
 
     {
-        id:"checkDepartmentOrientation",
-        name:"Department Orientation"
+        id: "checkDepartmentOrientation",
+        name: "Department Orientation"
     },
 
     {
-        id:"checkAttendanceSetup",
-        name:"Attendance Setup"
+        id: "checkAttendanceSetup",
+        name: "Attendance Setup"
     },
 
     {
-        id:"checkPayrollSetup",
-        name:"Payroll Setup"
+        id: "checkPayrollSetup",
+        name: "Payroll Setup"
     },
 
     {
-        id:"checkDocuments",
-        name:"Documents Completed"
+        id: "checkDocuments",
+        name: "Documents Completed"
     },
 
     {
-        id:"checkOrientation",
-        name:"Employee Orientation"
+        id: "checkOrientation",
+        name: "Employee Orientation"
     },
 
     {
-        id:"checkSupervisor",
-        name:"Supervisor Assignment"
+        id: "checkSupervisor",
+        name: "Supervisor Assignment"
     },
 
     {
-        id:"checkWorkstation",
-        name:"Workstation / Equipment"
+        id: "checkWorkstation",
+        name: "Workstation / Equipment"
     }
 
 ];
@@ -149,6 +149,16 @@ const onboardingDepartmentFilter =
 const onboardingFormSection =
     document.getElementById(
         "onboardingFormSection"
+    );
+
+
+/*
+ * NEW EMPLOYEE DROPDOWN
+ */
+
+const onboardingEmployeeSelect =
+    document.getElementById(
+        "onboardingEmployeeSelect"
     );
 
 
@@ -272,6 +282,10 @@ function text(value){
 }
 
 
+/* ==========================================
+   ESCAPE HTML
+========================================== */
+
 function escapeHTML(value){
 
     return text(value)
@@ -305,36 +319,322 @@ function escapeHTML(value){
 
 
 /* ==========================================
-   FULL NAME
+   GET FULL NAME
 ========================================== */
 
 function getFullName(
     employee
 ){
 
-    return [
+    /*
+     * Support several possible
+     * employee field naming styles.
+     */
 
-        employee.firstname,
+    const firstName =
+        text(
+            employee.firstname ||
+            employee.firstName ||
+            employee.first_name
+        );
 
-        employee.middlename,
 
-        employee.lastname
+    const middleName =
+        text(
+            employee.middlename ||
+            employee.middleName ||
+            employee.middle_name
+        );
 
-    ]
 
-    .filter(
-        value =>
-            text(value)
-    )
+    const lastName =
+        text(
+            employee.lastname ||
+            employee.lastName ||
+            employee.last_name
+        );
 
-    .join(" ")
 
-    .replace(
-        /\s+/g,
-        " "
-    )
+    /*
+     * If the employee collection
+     * already has a complete name,
+     * use it as fallback.
+     */
 
-    .trim();
+    const completeName =
+        text(
+            employee.name ||
+            employee.fullname ||
+            employee.fullName ||
+            employee.employeeName
+        );
+
+
+    if(
+        firstName ||
+        middleName ||
+        lastName
+    ){
+
+        return [
+
+            firstName,
+
+            middleName,
+
+            lastName
+
+        ]
+
+        .filter(
+            value =>
+                value
+        )
+
+        .join(" ")
+
+        .replace(
+            /\s+/g,
+            " "
+        )
+
+        .trim();
+
+    }
+
+
+    return completeName;
+
+}
+
+
+/* ==========================================
+   GET EMPLOYEE ID
+========================================== */
+
+function getEmployeeId(
+    employee,
+    firestoreId = ""
+){
+
+    return text(
+
+        employee.employeeid ||
+
+        employee.employeeId ||
+
+        employee.employeeID ||
+
+        employee.empid ||
+
+        employee.empId ||
+
+        employee.idNumber ||
+
+        firestoreId
+
+    );
+
+}
+
+
+/* ==========================================
+   GET POSITION
+========================================== */
+
+function getPosition(
+    employee
+){
+
+    return text(
+
+        employee.position ||
+
+        employee.jobtitle ||
+
+        employee.jobTitle ||
+
+        employee.job_position ||
+
+        employee.designation
+
+    );
+
+}
+
+
+/* ==========================================
+   GET DEPARTMENT
+========================================== */
+
+function getDepartment(
+    employee
+){
+
+    return text(
+
+        employee.department ||
+
+        employee.departmentName ||
+
+        employee.dept
+
+    );
+
+}
+
+
+/* ==========================================
+   FORMAT DATE
+========================================== */
+
+function formatDateForInput(
+    value
+){
+
+    if(!value){
+
+        return "";
+
+    }
+
+
+    /*
+     * Firestore Timestamp
+     */
+
+    if(
+        typeof value === "object" &&
+        typeof value.toDate === "function"
+    ){
+
+        const date =
+            value.toDate();
+
+
+        return toInputDate(
+            date
+        );
+
+    }
+
+
+    /*
+     * JavaScript Date
+     */
+
+    if(
+        value instanceof Date
+    ){
+
+        return toInputDate(
+            value
+        );
+
+    }
+
+
+    /*
+     * String date
+     */
+
+    const stringValue =
+        text(value);
+
+
+    if(
+        /^\d{4}-\d{2}-\d{2}$/.test(
+            stringValue
+        )
+    ){
+
+        return stringValue;
+
+    }
+
+
+    const parsed =
+        new Date(
+            stringValue
+        );
+
+
+    if(
+        !Number.isNaN(
+            parsed.getTime()
+        )
+    ){
+
+        return toInputDate(
+            parsed
+        );
+
+    }
+
+
+    return "";
+
+}
+
+
+/* ==========================================
+   DATE TO INPUT
+========================================== */
+
+function toInputDate(
+    date
+){
+
+    const year =
+        date.getFullYear();
+
+
+    const month =
+        String(
+            date.getMonth() + 1
+        )
+        .padStart(
+            2,
+            "0"
+        );
+
+
+    const day =
+        String(
+            date.getDate()
+        )
+        .padStart(
+            2,
+            "0"
+        );
+
+
+    return `${year}-${month}-${day}`;
+
+}
+
+
+/* ==========================================
+   GET DATE HIRED
+========================================== */
+
+function getDateHired(
+    employee
+){
+
+    return formatDateForInput(
+
+        employee.datehired ||
+
+        employee.dateHired ||
+
+        employee.hireDate ||
+
+        employee.hiredDate ||
+
+        employee.date_hired
+
+    );
 
 }
 
@@ -346,6 +646,11 @@ function getFullName(
 async function loadEmployees(){
 
     try{
+
+        console.log(
+            "Loading employees..."
+        );
+
 
         const snapshot =
             await getDocs(
@@ -368,7 +673,7 @@ async function loadEmployees(){
 
                 employees.push({
 
-                    id:
+                    firestoreId:
                         docSnap.id,
 
                     ...employee
@@ -379,9 +684,47 @@ async function loadEmployees(){
         );
 
 
-        populateEmployeeOptions();
+        /*
+         * Sort employees alphabetically.
+         */
+
+        employees.sort(
+            (
+                a,
+                b
+            ) => {
+
+                const nameA =
+                    getFullName(
+                        a
+                    )
+                    .toLowerCase();
+
+
+                const nameB =
+                    getFullName(
+                        b
+                    )
+                    .toLowerCase();
+
+
+                return nameA.localeCompare(
+                    nameB
+                );
+
+            }
+        );
+
+
+        populateEmployeeDropdown();
 
         populateDepartments();
+
+
+        console.log(
+            "Employees loaded:",
+            employees.length
+        );
 
     }catch(error){
 
@@ -390,27 +733,407 @@ async function loadEmployees(){
             error
         );
 
+
+        if(
+            onboardingEmployeeSelect
+        ){
+
+            onboardingEmployeeSelect.innerHTML = `
+
+<option value="">
+Unable to load employees
+</option>
+
+`;
+
+        }
+
     }
 
 }
 
 
 /* ==========================================
-   POPULATE EMPLOYEE OPTIONS
+   POPULATE EMPLOYEE DROPDOWN
 ========================================== */
 
-function populateEmployeeOptions(){
+function populateEmployeeDropdown(){
+
+    if(
+        !onboardingEmployeeSelect
+    ){
+
+        console.error(
+            "Employee dropdown not found."
+        );
+
+        return;
+
+    }
+
+
+    onboardingEmployeeSelect.innerHTML = `
+
+<option value="">
+SELECT EMPLOYEE
+</option>
+
+`;
+
+
+    if(
+        employees.length === 0
+    ){
+
+        const option =
+            document.createElement(
+                "option"
+            );
+
+
+        option.value = "";
+
+        option.textContent =
+            "NO EMPLOYEES FOUND";
+
+        option.disabled = true;
+
+
+        onboardingEmployeeSelect.appendChild(
+            option
+        );
+
+
+        return;
+
+    }
+
+
+    employees.forEach(
+        employee => {
+
+            const employeeId =
+                getEmployeeId(
+                    employee,
+                    employee.firestoreId
+                );
+
+
+            const employeeName =
+                getFullName(
+                    employee
+                );
+
+
+            const position =
+                getPosition(
+                    employee
+                );
+
+
+            const department =
+                getDepartment(
+                    employee
+                );
+
+
+            /*
+             * Don't add empty names.
+             */
+
+            if(
+                !employeeName &&
+                !employeeId
+            ){
+
+                return;
+
+            }
+
+
+            const option =
+                document.createElement(
+                    "option"
+                );
+
+
+            /*
+             * Use Firestore document ID
+             * as the dropdown value.
+             */
+
+            option.value =
+                employee.firestoreId;
+
+
+            option.textContent =
+
+                employeeName
+
+                +
+
+                (
+                    employeeId
+                    ?
+                    ` — ${employeeId}`
+                    :
+                    ""
+                );
+
+
+            /*
+             * Store useful information
+             * directly on option.
+             */
+
+            option.dataset.employeeId =
+                employeeId;
+
+
+            option.dataset.position =
+                position;
+
+
+            option.dataset.department =
+                department;
+
+
+            option.dataset.dateHired =
+                getDateHired(
+                    employee
+                );
+
+
+            onboardingEmployeeSelect.appendChild(
+                option
+            );
+
+        }
+    );
+
+}
+
+
+/* ==========================================
+   EMPLOYEE SELECTED
+========================================== */
+
+function handleEmployeeSelection(){
+
+    if(
+        !onboardingEmployeeSelect
+    ){
+
+        return;
+
+    }
+
+
+    const firestoreId =
+        onboardingEmployeeSelect.value;
+
 
     /*
-     * Employee ID is an input field
-     * in the HTML.
-     *
-     * We keep it as input so HR can
-     * manually enter an employee ID.
-     *
-     * Auto-fill happens when the ID
-     * matches an employee.
+     * Clear fields when no employee
+     * is selected.
      */
+
+    if(
+        !firestoreId
+    ){
+
+        clearSelectedEmployeeFields();
+
+        return;
+
+    }
+
+
+    const employee =
+        employees.find(
+            item =>
+                item.firestoreId ===
+                firestoreId
+        );
+
+
+    if(!employee){
+
+        console.error(
+            "Selected employee not found:",
+            firestoreId
+        );
+
+        return;
+
+    }
+
+
+    fillEmployeeFields(
+        employee
+    );
+
+}
+
+
+/* ==========================================
+   FILL EMPLOYEE FIELDS
+========================================== */
+
+function fillEmployeeFields(
+    employee
+){
+
+    const employeeId =
+        getEmployeeId(
+            employee,
+            employee.firestoreId
+        );
+
+
+    const employeeName =
+        getFullName(
+            employee
+        );
+
+
+    const position =
+        getPosition(
+            employee
+        );
+
+
+    const department =
+        getDepartment(
+            employee
+        );
+
+
+    const dateHired =
+        getDateHired(
+            employee
+        );
+
+
+    if(
+        onboardingEmployeeId
+    ){
+
+        onboardingEmployeeId.value =
+            employeeId;
+
+    }
+
+
+    /*
+     * The HTML has no visible
+     * employee name input anymore,
+     * but keep compatibility if it
+     * exists.
+     */
+
+    if(
+        onboardingEmployeeName
+    ){
+
+        onboardingEmployeeName.value =
+            employeeName;
+
+    }
+
+
+    if(
+        onboardingPosition
+    ){
+
+        onboardingPosition.value =
+            position;
+
+    }
+
+
+    if(
+        onboardingDepartment
+    ){
+
+        onboardingDepartment.value =
+            department;
+
+    }
+
+
+    if(
+        onboardingDateHired
+    ){
+
+        onboardingDateHired.value =
+            dateHired;
+
+    }
+
+
+    console.log(
+        "Selected employee:",
+        employeeName
+    );
+
+}
+
+
+/* ==========================================
+   CLEAR SELECTED EMPLOYEE
+========================================== */
+
+function clearSelectedEmployeeFields(){
+
+    if(
+        onboardingEmployeeId
+    ){
+
+        onboardingEmployeeId.value =
+            "";
+
+    }
+
+
+    if(
+        onboardingEmployeeName
+    ){
+
+        onboardingEmployeeName.value =
+            "";
+
+    }
+
+
+    if(
+        onboardingPosition
+    ){
+
+        onboardingPosition.value =
+            "";
+
+    }
+
+
+    if(
+        onboardingDepartment
+    ){
+
+        onboardingDepartment.value =
+            "";
+
+    }
+
+
+    if(
+        onboardingDateHired
+    ){
+
+        onboardingDateHired.value =
+            "";
+
+    }
 
 }
 
@@ -428,8 +1151,8 @@ function populateDepartments(){
         employee => {
 
             const department =
-                text(
-                    employee.department
+                getDepartment(
+                    employee
                 );
 
 
@@ -451,49 +1174,43 @@ function populateDepartments(){
 
 
     departments.sort(
-        (a,b) =>
-            a.localeCompare(b)
+        (
+            a,
+            b
+        ) =>
+            a.localeCompare(
+                b
+            )
     );
 
 
-    if(onboardingDepartment){
+    /*
+     * Form department
+     */
 
-        onboardingDepartment.innerHTML = `
+    if(
+        onboardingDepartment
+    ){
 
-<option value="">
-SELECT DEPARTMENT
-</option>
-
-`;
-
-        departments.forEach(
-            department => {
-
-                const option =
-                    document.createElement(
-                        "option"
-                    );
-
-
-                option.value =
-                    department;
-
-
-                option.textContent =
-                    department;
-
-
-                onboardingDepartment.appendChild(
-                    option
-                );
-
-            }
-        );
+        /*
+         * Department is disabled
+         * because it is automatically
+         * populated from employee.
+         *
+         * Don't overwrite selected
+         * employee's department here.
+         */
 
     }
 
 
-    if(onboardingDepartmentFilter){
+    /*
+     * Filter department
+     */
+
+    if(
+        onboardingDepartmentFilter
+    ){
 
         onboardingDepartmentFilter.innerHTML = `
 
@@ -502,6 +1219,7 @@ ALL DEPARTMENTS
 </option>
 
 `;
+
 
         departments.forEach(
             department => {
@@ -533,118 +1251,7 @@ ALL DEPARTMENTS
 
 
 /* ==========================================
-   FIND EMPLOYEE
-========================================== */
-
-function findEmployeeById(
-    employeeId
-){
-
-    const id =
-        text(
-            employeeId
-        )
-        .toUpperCase();
-
-
-    if(!id){
-
-        return null;
-
-    }
-
-
-    return employees.find(
-        employee => {
-
-            return (
-
-                text(
-                    employee.employeeid
-                )
-                .toUpperCase()
-                ===
-                id
-
-            );
-
-        }
-    ) || null;
-
-}
-
-
-/* ==========================================
-   AUTO FILL EMPLOYEE
-========================================== */
-
-function autoFillEmployee(){
-
-    if(!onboardingEmployeeId){
-
-        return;
-
-    }
-
-
-    const employee =
-        findEmployeeById(
-            onboardingEmployeeId.value
-        );
-
-
-    if(!employee){
-
-        return;
-
-    }
-
-
-    if(onboardingEmployeeName){
-
-        onboardingEmployeeName.value =
-            getFullName(
-                employee
-            );
-
-    }
-
-
-    if(onboardingPosition){
-
-        onboardingPosition.value =
-            text(
-                employee.position
-            );
-
-    }
-
-
-    if(onboardingDepartment){
-
-        onboardingDepartment.value =
-            text(
-                employee.department
-            );
-
-    }
-
-
-    if(
-        onboardingDateHired &&
-        employee.datehired
-    ){
-
-        onboardingDateHired.value =
-            employee.datehired;
-
-    }
-
-}
-
-
-/* ==========================================
-   GET CHECKLIST DATA
+   GET CHECKLIST
 ========================================== */
 
 function getChecklistData(){
@@ -669,7 +1276,9 @@ function getChecklistData(){
                 completed:
                     element
                     ?
-                    element.checked
+                    Boolean(
+                        element.checked
+                    )
                     :
                     false
 
@@ -682,7 +1291,7 @@ function getChecklistData(){
 
 
 /* ==========================================
-   SET CHECKLIST DATA
+   SET CHECKLIST
 ========================================== */
 
 function setChecklistData(
@@ -742,18 +1351,21 @@ function calculateProgress(
     checklist
 ){
 
+    const total =
+        checklistItems.length;
+
+
     if(
         !Array.isArray(
             checklist
-        ) ||
-        checklist.length === 0
+        )
     ){
 
         return {
 
             completed:0,
 
-            total:checklistItems.length,
+            total,
 
             percent:0
 
@@ -769,11 +1381,11 @@ function calculateProgress(
         ).length;
 
 
-    const total =
-        checklist.length;
-
-
     const percent =
+        total === 0
+        ?
+        0
+        :
         Math.round(
             (
                 completed /
@@ -840,7 +1452,9 @@ function getStatus(
 
 async function loadOnboarding(){
 
-    if(onboardingBody){
+    if(
+        onboardingBody
+    ){
 
         onboardingBody.innerHTML = `
 
@@ -903,7 +1517,9 @@ async function loadOnboarding(){
         );
 
 
-        if(onboardingBody){
+        if(
+            onboardingBody
+        ){
 
             onboardingBody.innerHTML = `
 
@@ -929,12 +1545,14 @@ async function loadOnboarding(){
 
 
 /* ==========================================
-   RENDER ONBOARDING
+   RENDER TABLE
 ========================================== */
 
 function renderOnboarding(){
 
-    if(!onboardingBody){
+    if(
+        !onboardingBody
+    ){
 
         return;
 
@@ -1012,31 +1630,44 @@ function renderOnboarding(){
 
 
                 const matchesSearch =
+
                     !search
+
                     ||
+
                     employeeId.includes(
                         search
                     )
+
                     ||
+
                     employeeName.includes(
                         search
                     )
+
                     ||
+
                     position.includes(
                         search
                     );
 
 
                 const matchesStatus =
+
                     !statusFilter
+
                     ||
+
                     status ===
                     statusFilter;
 
 
                 const matchesDepartment =
+
                     !departmentFilter
+
                     ||
+
                     department ===
                     departmentFilter;
 
@@ -1044,7 +1675,9 @@ function renderOnboarding(){
                 return (
 
                     matchesSearch &&
+
                     matchesStatus &&
+
                     matchesDepartment
 
                 );
@@ -1184,11 +1817,15 @@ ${escapeHTML(
     class="progress-info">
 
 <span>
+
 ${progress.completed}/${progress.total}
+
 </span>
 
 <strong>
+
 ${progress.percent}%
+
 </strong>
 
 </div>
@@ -1229,12 +1866,14 @@ ${escapeHTML(
     class="btn primary-btn"
     onclick="viewOnboarding('${record.id}')">
 
+
 <span
     class="material-icons">
 
-    visibility
+visibility
 
 </span>
+
 
 VIEW
 
@@ -1256,14 +1895,10 @@ VIEW
 
 
 /* ==========================================
-   UPDATE SUMMARY
+   SUMMARY
 ========================================== */
 
 function updateSummary(){
-
-    const total =
-        onboardingRecords.length;
-
 
     let pending = 0;
 
@@ -1313,15 +1948,19 @@ function updateSummary(){
     );
 
 
-    if(totalNewHires){
+    if(
+        totalNewHires
+    ){
 
         totalNewHires.textContent =
-            total;
+            onboardingRecords.length;
 
     }
 
 
-    if(pendingOnboarding){
+    if(
+        pendingOnboarding
+    ){
 
         pendingOnboarding.textContent =
             pending;
@@ -1329,7 +1968,9 @@ function updateSummary(){
     }
 
 
-    if(inProgressOnboarding){
+    if(
+        inProgressOnboarding
+    ){
 
         inProgressOnboarding.textContent =
             inProgress;
@@ -1337,7 +1978,9 @@ function updateSummary(){
     }
 
 
-    if(completedOnboarding){
+    if(
+        completedOnboarding
+    ){
 
         completedOnboarding.textContent =
             completed;
@@ -1354,26 +1997,25 @@ function updateSummary(){
 window.openOnboardingForm =
 function(){
 
-    if(!onboardingFormSection){
+    if(
+        onboardingFormSection
+    ){
 
-        return;
+        onboardingFormSection.style.display =
+            "block";
+
+
+        onboardingFormSection.scrollIntoView({
+
+            behavior:
+                "smooth",
+
+            block:
+                "start"
+
+        });
 
     }
-
-
-    onboardingFormSection.style.display =
-        "block";
-
-
-    onboardingFormSection.scrollIntoView({
-
-        behavior:
-            "smooth",
-
-        block:
-            "start"
-
-    });
 
 };
 
@@ -1385,15 +2027,14 @@ function(){
 window.closeOnboardingForm =
 function(){
 
-    if(!onboardingFormSection){
+    if(
+        onboardingFormSection
+    ){
 
-        return;
+        onboardingFormSection.style.display =
+            "none";
 
     }
-
-
-    onboardingFormSection.style.display =
-        "none";
 
 };
 
@@ -1405,47 +2046,22 @@ function(){
 window.clearOnboardingForm =
 function(){
 
-    if(onboardingEmployeeId){
+    if(
+        onboardingEmployeeSelect
+    ){
 
-        onboardingEmployeeId.value =
+        onboardingEmployeeSelect.value =
             "";
 
     }
 
 
-    if(onboardingEmployeeName){
-
-        onboardingEmployeeName.value =
-            "";
-
-    }
+    clearSelectedEmployeeFields();
 
 
-    if(onboardingPosition){
-
-        onboardingPosition.value =
-            "";
-
-    }
-
-
-    if(onboardingDepartment){
-
-        onboardingDepartment.value =
-            "";
-
-    }
-
-
-    if(onboardingDateHired){
-
-        onboardingDateHired.value =
-            "";
-
-    }
-
-
-    if(onboardingStartDate){
+    if(
+        onboardingStartDate
+    ){
 
         onboardingStartDate.value =
             "";
@@ -1453,7 +2069,9 @@ function(){
     }
 
 
-    if(onboardingNotes){
+    if(
+        onboardingNotes
+    ){
 
         onboardingNotes.value =
             "";
@@ -1490,54 +2108,80 @@ function(){
 window.saveOnboarding =
 async function(){
 
+    /*
+     * Employee must be selected
+     * from dropdown.
+     */
+
+    const firestoreId =
+        onboardingEmployeeSelect
+        ?
+        onboardingEmployeeSelect.value
+        :
+        "";
+
+
+    if(
+        !firestoreId
+    ){
+
+        alert(
+            "Please select an employee."
+        );
+
+        return;
+
+    }
+
+
+    const employee =
+        employees.find(
+            item =>
+                item.firestoreId ===
+                firestoreId
+        );
+
+
+    if(!employee){
+
+        alert(
+            "Selected employee was not found."
+        );
+
+        return;
+
+    }
+
+
     const employeeId =
-        text(
-            onboardingEmployeeId
-            ?
-            onboardingEmployeeId.value
-            :
-            ""
+        getEmployeeId(
+            employee,
+            employee.firestoreId
         )
         .toUpperCase();
 
 
     const employeeName =
-        text(
-            onboardingEmployeeName
-            ?
-            onboardingEmployeeName.value
-            :
-            ""
+        getFullName(
+            employee
         );
 
 
     const position =
-        text(
-            onboardingPosition
-            ?
-            onboardingPosition.value
-            :
-            ""
+        getPosition(
+            employee
         );
 
 
     const department =
-        text(
-            onboardingDepartment
-            ?
-            onboardingDepartment.value
-            :
-            ""
+        getDepartment(
+            employee
         );
 
 
     const dateHired =
-        text(
-            onboardingDateHired
-            ?
-            onboardingDateHired.value
-            :
-            ""
+        getDateHired(
+            employee
         );
 
 
@@ -1561,10 +2205,12 @@ async function(){
         );
 
 
-    if(!employeeId){
+    if(
+        !employeeName
+    ){
 
         alert(
-            "Please enter Employee ID."
+            "Selected employee has no employee name."
         );
 
         return;
@@ -1572,51 +2218,9 @@ async function(){
     }
 
 
-    if(!employeeName){
-
-        alert(
-            "Please enter Employee Name."
-        );
-
-        return;
-
-    }
-
-
-    if(!position){
-
-        alert(
-            "Please enter Position."
-        );
-
-        return;
-
-    }
-
-
-    if(!department){
-
-        alert(
-            "Please select Department."
-        );
-
-        return;
-
-    }
-
-
-    if(!dateHired){
-
-        alert(
-            "Please select Date Hired."
-        );
-
-        return;
-
-    }
-
-
-    if(!startDate){
+    if(
+        !startDate
+    ){
 
         alert(
             "Please select Start Date."
@@ -1628,18 +2232,45 @@ async function(){
 
 
     /*
-     * Prevent duplicate onboarding
+     * Prevent duplicate onboarding.
      */
 
     const existing =
         onboardingRecords.find(
-            record =>
-                text(
-                    record.employeeId
-                )
-                .toUpperCase()
-                ===
-                employeeId
+            record => {
+
+                const existingFirestoreId =
+                    text(
+                        record.employeeFirestoreId
+                    );
+
+
+                const existingEmployeeId =
+                    text(
+                        record.employeeId
+                    )
+                    .toUpperCase();
+
+
+                return (
+
+                    (
+                        existingFirestoreId &&
+                        existingFirestoreId ===
+                        firestoreId
+                    )
+
+                    ||
+
+                    (
+                        employeeId &&
+                        existingEmployeeId ===
+                        employeeId
+                    )
+
+                );
+
+            }
         );
 
 
@@ -1681,6 +2312,9 @@ async function(){
 
             {
 
+                employeeFirestoreId:
+                    firestoreId,
+
                 employeeId,
 
                 employeeName,
@@ -1698,7 +2332,6 @@ async function(){
                 status,
 
                 progress:
-
                     progress.percent,
 
                 notes,
@@ -1719,9 +2352,9 @@ async function(){
         );
 
 
-        clearOnboardingForm();
+        window.clearOnboardingForm();
 
-        closeOnboardingForm();
+        window.closeOnboardingForm();
 
         await loadOnboarding();
 
@@ -1734,8 +2367,11 @@ async function(){
 
 
         alert(
+
             "Unable to save onboarding.\n\n" +
+
             error.message
+
         );
 
     }
@@ -1775,10 +2411,16 @@ function(
         id;
 
 
-    if(modalEmployeeName){
+    if(
+        modalEmployeeName
+    ){
 
         modalEmployeeName.textContent =
-            record.employeeName ||
+
+            record.employeeName
+
+            ||
+
             "Employee";
 
     }
@@ -1804,7 +2446,9 @@ function(
     );
 
 
-    if(onboardingModal){
+    if(
+        onboardingModal
+    ){
 
         onboardingModal.style.display =
             "flex";
@@ -1822,7 +2466,9 @@ function renderModalChecklist(
     checklist
 ){
 
-    if(!modalChecklist){
+    if(
+        !modalChecklist
+    ){
 
         return;
 
@@ -1874,7 +2520,6 @@ function renderModalChecklist(
 
 <span
     class="checkmark">
-
 </span>
 
 
@@ -1897,7 +2542,7 @@ ${escapeHTML(
 
             checkbox.addEventListener(
                 "change",
-                () => {
+                function(){
 
                     updateModalProgressFromUI();
 
@@ -1921,7 +2566,9 @@ ${escapeHTML(
 
 function getModalChecklist(){
 
-    if(!modalChecklist){
+    if(
+        !modalChecklist
+    ){
 
         return [];
 
@@ -1961,7 +2608,7 @@ function getModalChecklist(){
 
 
 /* ==========================================
-   UPDATE MODAL PROGRESS
+   MODAL PROGRESS
 ========================================== */
 
 function updateModalProgress(
@@ -1974,7 +2621,9 @@ function updateModalProgress(
         );
 
 
-    if(modalProgress){
+    if(
+        modalProgress
+    ){
 
         modalProgress.textContent =
             progress.percent +
@@ -1983,7 +2632,9 @@ function updateModalProgress(
     }
 
 
-    if(modalProgressBar){
+    if(
+        modalProgressBar
+    ){
 
         modalProgressBar.style.width =
             progress.percent +
@@ -1992,7 +2643,9 @@ function updateModalProgress(
     }
 
 
-    if(modalProgressText){
+    if(
+        modalProgressText
+    ){
 
         modalProgressText.textContent =
 
@@ -2010,7 +2663,7 @@ function updateModalProgress(
 
 
 /* ==========================================
-   UPDATE MODAL PROGRESS FROM UI
+   MODAL PROGRESS FROM UI
 ========================================== */
 
 function updateModalProgressFromUI(){
@@ -2033,7 +2686,9 @@ function updateModalProgressFromUI(){
 window.updateOnboarding =
 async function(){
 
-    if(!currentOnboardingId){
+    if(
+        !currentOnboardingId
+    ){
 
         alert(
             "No onboarding record selected."
@@ -2092,7 +2747,8 @@ async function(){
         );
 
 
-        closeOnboardingModal();
+        window.closeOnboardingModal();
+
 
         currentOnboardingId =
             null;
@@ -2109,8 +2765,11 @@ async function(){
 
 
         alert(
+
             "Unable to update onboarding.\n\n" +
+
             error.message
+
         );
 
     }
@@ -2125,7 +2784,9 @@ async function(){
 window.closeOnboardingModal =
 function(){
 
-    if(onboardingModal){
+    if(
+        onboardingModal
+    ){
 
         onboardingModal.style.display =
             "none";
@@ -2143,7 +2804,9 @@ function(){
    SEARCH
 ========================================== */
 
-if(onboardingSearch){
+if(
+    onboardingSearch
+){
 
     onboardingSearch.addEventListener(
         "input",
@@ -2157,7 +2820,9 @@ if(onboardingSearch){
    STATUS FILTER
 ========================================== */
 
-if(onboardingStatusFilter){
+if(
+    onboardingStatusFilter
+){
 
     onboardingStatusFilter.addEventListener(
         "change",
@@ -2171,7 +2836,9 @@ if(onboardingStatusFilter){
    DEPARTMENT FILTER
 ========================================== */
 
-if(onboardingDepartmentFilter){
+if(
+    onboardingDepartmentFilter
+){
 
     onboardingDepartmentFilter.addEventListener(
         "change",
@@ -2182,20 +2849,16 @@ if(onboardingDepartmentFilter){
 
 
 /* ==========================================
-   EMPLOYEE ID AUTO FILL
+   EMPLOYEE DROPDOWN
 ========================================== */
 
-if(onboardingEmployeeId){
+if(
+    onboardingEmployeeSelect
+){
 
-    onboardingEmployeeId.addEventListener(
-        "blur",
-        autoFillEmployee
-    );
-
-
-    onboardingEmployeeId.addEventListener(
+    onboardingEmployeeSelect.addEventListener(
         "change",
-        autoFillEmployee
+        handleEmployeeSelection
     );
 
 }
@@ -2205,18 +2868,20 @@ if(onboardingEmployeeId){
    MODAL OUTSIDE CLICK
 ========================================== */
 
-if(onboardingModal){
+if(
+    onboardingModal
+){
 
     onboardingModal.addEventListener(
         "click",
-        event => {
+        function(event){
 
             if(
                 event.target ===
                 onboardingModal
             ){
 
-                closeOnboardingModal();
+                window.closeOnboardingModal();
 
             }
 
