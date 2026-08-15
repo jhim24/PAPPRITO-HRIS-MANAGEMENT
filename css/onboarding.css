@@ -1797,3 +1797,150 @@ body{
     }
 
 }
+/* ==========================================
+   ONBOARDING ACTION BUTTONS
+========================================== */
+
+.action-buttons{
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    gap:6px;
+
+    flex-wrap:wrap;
+
+}
+
+
+/* ==========================================
+   ACTION BUTTON BASE
+========================================== */
+
+.action-buttons .btn{
+
+    display:inline-flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    gap:5px;
+
+    min-height:36px;
+
+    padding:8px 11px;
+
+    border-radius:8px;
+
+    font-size:10px;
+
+    font-weight:900;
+
+    white-space:nowrap;
+
+}
+
+
+.action-buttons .material-icons{
+
+    font-size:17px;
+
+}
+
+
+/* ==========================================
+   VIEW BUTTON
+========================================== */
+
+.action-buttons .primary-btn{
+
+    background:var(--primary);
+
+    color:#111;
+
+}
+
+
+.action-buttons .primary-btn:hover{
+
+    background:var(--primary-dark);
+
+}
+
+
+/* ==========================================
+   EDIT BUTTON
+========================================== */
+
+.action-buttons .edit-btn{
+
+    background:#2563eb;
+
+    color:#fff;
+
+    border:0;
+
+}
+
+
+.action-buttons .edit-btn:hover{
+
+    background:#1d4ed8;
+
+}
+
+
+/* ==========================================
+   DELETE BUTTON
+========================================== */
+
+.action-buttons .delete-btn{
+
+    background:var(--danger);
+
+    color:#fff;
+
+    border:0;
+
+}
+
+
+.action-buttons .delete-btn:hover{
+
+    background:#b91c1c;
+
+}
+
+
+/* ==========================================
+   MOBILE ACTION BUTTONS
+========================================== */
+
+@media(
+    max-width:700px
+){
+
+    .action-buttons{
+
+        flex-direction:column;
+
+        align-items:stretch;
+
+        width:100%;
+
+    }
+
+
+    .action-buttons .btn{
+
+        width:100%;
+
+        min-height:38px;
+
+    }
+
+}
