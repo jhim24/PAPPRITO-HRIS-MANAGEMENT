@@ -68,12 +68,11 @@ PAPPRITO HRIS - Employee Onboarding
 
 
 <!-- ==========================================
-     SIDEBAR CONTAINER
+     NO SIDEBAR HERE
+     
+     The main sidebar belongs to
+     dashboard.html.
 ========================================== -->
-
-<div
-    id="sidebar-container">
-</div>
 
 
 <!-- ==========================================
@@ -126,6 +125,28 @@ PAPPRITO HRIS - Employee Onboarding
 
     <div
         class="page-header-right">
+
+
+        <!-- BACK TO DASHBOARD -->
+
+        <button
+            type="button"
+            class="btn secondary-btn"
+            onclick="window.location.href='dashboard.html'">
+
+            <span
+                class="material-icons">
+
+                arrow_back
+
+            </span>
+
+            BACK TO DASHBOARD
+
+        </button>
+
+
+        <!-- NEW ONBOARDING -->
 
         <button
             type="button"
@@ -747,8 +768,6 @@ ONBOARDING CHECKLIST
     class="checklist-grid">
 
 
-<!-- EMPLOYEE INFORMATION -->
-
 <label
     class="checklist-item">
 
@@ -758,7 +777,6 @@ ONBOARDING CHECKLIST
 
 <span
     class="checkmark">
-
 </span>
 
 <span>
@@ -767,8 +785,6 @@ Employee Information
 
 </label>
 
-
-<!-- CONTRACT -->
 
 <label
     class="checklist-item">
@@ -779,7 +795,6 @@ Employee Information
 
 <span
     class="checkmark">
-
 </span>
 
 <span>
@@ -788,8 +803,6 @@ Employment Contract
 
 </label>
 
-
-<!-- GOVERNMENT IDS -->
 
 <label
     class="checklist-item">
@@ -800,7 +813,6 @@ Employment Contract
 
 <span
     class="checkmark">
-
 </span>
 
 <span>
@@ -809,8 +821,6 @@ Government IDs
 
 </label>
 
-
-<!-- BANK ACCOUNT -->
 
 <label
     class="checklist-item">
@@ -821,7 +831,6 @@ Government IDs
 
 <span
     class="checkmark">
-
 </span>
 
 <span>
@@ -830,8 +839,6 @@ Bank Account
 
 </label>
 
-
-<!-- COMPANY ID -->
 
 <label
     class="checklist-item">
@@ -842,7 +849,6 @@ Bank Account
 
 <span
     class="checkmark">
-
 </span>
 
 <span>
@@ -851,8 +857,6 @@ Company ID
 
 </label>
 
-
-<!-- UNIFORM -->
 
 <label
     class="checklist-item">
@@ -863,7 +867,6 @@ Company ID
 
 <span
     class="checkmark">
-
 </span>
 
 <span>
@@ -872,8 +875,6 @@ Uniform
 
 </label>
 
-
-<!-- SYSTEM ACCOUNT -->
 
 <label
     class="checklist-item">
@@ -884,7 +885,6 @@ Uniform
 
 <span
     class="checkmark">
-
 </span>
 
 <span>
@@ -893,8 +893,6 @@ System Account
 
 </label>
 
-
-<!-- HR ORIENTATION -->
 
 <label
     class="checklist-item">
@@ -905,7 +903,6 @@ System Account
 
 <span
     class="checkmark">
-
 </span>
 
 <span>
@@ -914,8 +911,6 @@ HR Orientation
 
 </label>
 
-
-<!-- COMPANY ORIENTATION -->
 
 <label
     class="checklist-item">
@@ -926,7 +921,6 @@ HR Orientation
 
 <span
     class="checkmark">
-
 </span>
 
 <span>
@@ -935,8 +929,6 @@ Company Orientation
 
 </label>
 
-
-<!-- DEPARTMENT ORIENTATION -->
 
 <label
     class="checklist-item">
@@ -947,7 +939,6 @@ Company Orientation
 
 <span
     class="checkmark">
-
 </span>
 
 <span>
@@ -956,8 +947,6 @@ Department Orientation
 
 </label>
 
-
-<!-- ATTENDANCE SETUP -->
 
 <label
     class="checklist-item">
@@ -968,7 +957,6 @@ Department Orientation
 
 <span
     class="checkmark">
-
 </span>
 
 <span>
@@ -977,8 +965,6 @@ Attendance Setup
 
 </label>
 
-
-<!-- PAYROLL SETUP -->
 
 <label
     class="checklist-item">
@@ -989,7 +975,6 @@ Attendance Setup
 
 <span
     class="checkmark">
-
 </span>
 
 <span>
@@ -998,8 +983,6 @@ Payroll Setup
 
 </label>
 
-
-<!-- DOCUMENTS -->
 
 <label
     class="checklist-item">
@@ -1010,7 +993,6 @@ Payroll Setup
 
 <span
     class="checkmark">
-
 </span>
 
 <span>
@@ -1019,8 +1001,6 @@ Documents Completed
 
 </label>
 
-
-<!-- ORIENTATION -->
 
 <label
     class="checklist-item">
@@ -1031,7 +1011,6 @@ Documents Completed
 
 <span
     class="checkmark">
-
 </span>
 
 <span>
@@ -1040,8 +1019,6 @@ Employee Orientation
 
 </label>
 
-
-<!-- SUPERVISOR -->
 
 <label
     class="checklist-item">
@@ -1052,7 +1029,6 @@ Employee Orientation
 
 <span
     class="checkmark">
-
 </span>
 
 <span>
@@ -1061,8 +1037,6 @@ Supervisor Assignment
 
 </label>
 
-
-<!-- WORKSTATION -->
 
 <label
     class="checklist-item">
@@ -1073,7 +1047,6 @@ Supervisor Assignment
 
 <span
     class="checkmark">
-
 </span>
 
 <span>
@@ -1207,6 +1180,7 @@ ONBOARDING DETAILS
 
 </h2>
 
+
 <p
     id="modalEmployeeName">
 
@@ -1277,6 +1251,7 @@ ONBOARDING PROGRESS
 
 </p>
 
+
 </div>
 
 
@@ -1344,7 +1319,6 @@ UPDATE ONBOARDING
 <footer
     class="portal-footer">
 
-
 <span>
 © 2026 PAPPRITO HRIS
 </span>
@@ -1354,27 +1328,19 @@ UPDATE ONBOARDING
 Employee Onboarding
 </span>
 
-
 </footer>
 
 
 <!-- ==========================================
-     COMPONENT LOADER
+     ONBOARDING JS ONLY
+     
+     NO COMPONENT LOADER
+     NO SIDEBAR LOADER
 ========================================== -->
 
 <script
-type="module"
-src="../js/components.js">
-</script>
-
-
-<!-- ==========================================
-     ONBOARDING JS
-========================================== -->
-
-<script
-type="module"
-src="../js/onboarding.js">
+    type="module"
+    src="../js/onboarding.js">
 </script>
 
 
