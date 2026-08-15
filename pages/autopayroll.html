@@ -382,6 +382,10 @@ min="0">
 
 
 
+<!-- ==========================================
+     EXISTING HOLIDAY TYPE
+========================================== -->
+
 <div class="form-group">
 
 <label>
@@ -414,6 +418,10 @@ Special Holiday
 
 
 
+<!-- ==========================================
+     EXISTING HOLIDAY HOURS
+========================================== -->
+
 <div class="form-group">
 
 <label>
@@ -424,6 +432,50 @@ Holiday Hours
 <input
 type="number"
 id="holidayHours"
+placeholder="0.00"
+step="0.01"
+min="0">
+
+</div>
+
+
+
+<!-- ==========================================
+     NEW - REGULAR HOLIDAY HOURS
+========================================== -->
+
+<div class="form-group">
+
+<label>
+Regular Holiday Hours
+</label>
+
+
+<input
+type="number"
+id="regularHolidayHours"
+placeholder="0.00"
+step="0.01"
+min="0">
+
+</div>
+
+
+
+<!-- ==========================================
+     NEW - SPECIAL HOLIDAY HOURS
+========================================== -->
+
+<div class="form-group">
+
+<label>
+Special Holiday Hours
+</label>
+
+
+<input
+type="number"
+id="specialHolidayHours"
 placeholder="0.00"
 step="0.01"
 min="0">
@@ -747,7 +799,7 @@ id="displayOvertimePay">
 
 
 
-<!-- HOLIDAY -->
+<!-- EXISTING HOLIDAY -->
 
 <div class="computation-box">
 
@@ -771,6 +823,76 @@ Based on Holiday Type
 
 <strong
 id="displayHolidayPay">
+
+₱ 0.00
+
+</strong>
+
+</div>
+
+
+
+<!-- ==========================================
+     NEW - REGULAR HOLIDAY PAY
+========================================== -->
+
+<div class="computation-box">
+
+<div class="computation-label">
+
+<span class="material-icons">
+event
+</span>
+
+Regular Holiday Pay
+
+</div>
+
+
+<div class="formula">
+
+Hourly Rate × 2.00 × Regular Holiday Hours
+
+</div>
+
+
+<strong
+id="displayRegularHolidayPay">
+
+₱ 0.00
+
+</strong>
+
+</div>
+
+
+
+<!-- ==========================================
+     NEW - SPECIAL HOLIDAY PAY
+========================================== -->
+
+<div class="computation-box">
+
+<div class="computation-label">
+
+<span class="material-icons">
+event_available
+</span>
+
+Special Holiday Pay
+
+</div>
+
+
+<div class="formula">
+
+Hourly Rate × 1.30 × Special Holiday Hours
+
+</div>
+
+
+<strong
+id="displaySpecialHolidayPay">
 
 ₱ 0.00
 
