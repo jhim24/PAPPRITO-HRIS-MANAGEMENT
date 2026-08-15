@@ -45,21 +45,13 @@ PAPPRITO HRIS - Employee Onboarding
 
 
 <!-- ==========================================
-     MAIN HRIS CSS
-========================================== -->
-
-<link
-    rel="stylesheet"
-    href="../css/style.css">
-
-
-<!-- ==========================================
      ONBOARDING CSS
 ========================================== -->
 
 <link
     rel="stylesheet"
     href="../css/onboarding.css">
+
 
 </head>
 
@@ -68,15 +60,9 @@ PAPPRITO HRIS - Employee Onboarding
 
 
 <!-- ==========================================
-     NO SIDEBAR HERE
-     
-     The main sidebar belongs to
-     dashboard.html.
-========================================== -->
-
-
-<!-- ==========================================
      MAIN CONTENT
+
+     NO SIDEBAR HERE
 ========================================== -->
 
 <main
@@ -119,6 +105,7 @@ PAPPRITO HRIS - Employee Onboarding
             </p>
 
         </div>
+
 
     </div>
 
@@ -164,6 +151,7 @@ PAPPRITO HRIS - Employee Onboarding
 
         </button>
 
+
     </div>
 
 
@@ -178,10 +166,11 @@ PAPPRITO HRIS - Employee Onboarding
     class="summary-grid">
 
 
-    <!-- TOTAL NEW HIRES -->
+    <!-- TOTAL -->
 
     <div
         class="summary-card">
+
 
         <div
             class="summary-icon">
@@ -203,6 +192,7 @@ PAPPRITO HRIS - Employee Onboarding
                 TOTAL NEW HIRES
             </span>
 
+
             <strong
                 id="totalNewHires">
 
@@ -210,15 +200,19 @@ PAPPRITO HRIS - Employee Onboarding
 
             </strong>
 
+
         </div>
 
+
     </div>
+
 
 
     <!-- PENDING -->
 
     <div
         class="summary-card">
+
 
         <div
             class="summary-icon">
@@ -240,6 +234,7 @@ PAPPRITO HRIS - Employee Onboarding
                 PENDING
             </span>
 
+
             <strong
                 id="pendingOnboarding">
 
@@ -247,15 +242,19 @@ PAPPRITO HRIS - Employee Onboarding
 
             </strong>
 
+
         </div>
 
+
     </div>
+
 
 
     <!-- IN PROGRESS -->
 
     <div
         class="summary-card">
+
 
         <div
             class="summary-icon">
@@ -277,6 +276,7 @@ PAPPRITO HRIS - Employee Onboarding
                 IN PROGRESS
             </span>
 
+
             <strong
                 id="inProgressOnboarding">
 
@@ -284,15 +284,19 @@ PAPPRITO HRIS - Employee Onboarding
 
             </strong>
 
+
         </div>
 
+
     </div>
+
 
 
     <!-- COMPLETED -->
 
     <div
         class="summary-card">
+
 
         <div
             class="summary-icon">
@@ -314,6 +318,7 @@ PAPPRITO HRIS - Employee Onboarding
                 COMPLETED
             </span>
 
+
             <strong
                 id="completedOnboarding">
 
@@ -321,7 +326,9 @@ PAPPRITO HRIS - Employee Onboarding
 
             </strong>
 
+
         </div>
+
 
     </div>
 
@@ -330,7 +337,7 @@ PAPPRITO HRIS - Employee Onboarding
 
 
 <!-- ==========================================
-     SEARCH / FILTER
+     ONBOARDING RECORDS
 ========================================== -->
 
 <section
@@ -356,15 +363,21 @@ PAPPRITO HRIS - Employee Onboarding
 
             </h2>
 
+
             <p>
                 Search and manage employee onboarding
             </p>
+
 
         </div>
 
 
     </div>
 
+
+    <!-- ======================================
+         FILTER BAR
+    ======================================= -->
 
     <div
         class="filter-bar">
@@ -389,6 +402,7 @@ PAPPRITO HRIS - Employee Onboarding
                 id="onboardingSearch"
                 placeholder="Search employee...">
 
+
         </div>
 
 
@@ -409,23 +423,29 @@ PAPPRITO HRIS - Employee Onboarding
             <select
                 id="onboardingStatusFilter">
 
+
                 <option value="">
                     ALL STATUS
                 </option>
+
 
                 <option value="PENDING">
                     PENDING
                 </option>
 
+
                 <option value="IN PROGRESS">
                     IN PROGRESS
                 </option>
+
 
                 <option value="COMPLETED">
                     COMPLETED
                 </option>
 
+
             </select>
+
 
         </div>
 
@@ -447,11 +467,14 @@ PAPPRITO HRIS - Employee Onboarding
             <select
                 id="onboardingDepartmentFilter">
 
+
                 <option value="">
                     ALL DEPARTMENTS
                 </option>
 
+
             </select>
+
 
         </div>
 
@@ -459,89 +482,90 @@ PAPPRITO HRIS - Employee Onboarding
     </div>
 
 
-<!-- ==========================================
-     TABLE
-========================================== -->
+    <!-- ======================================
+         TABLE
+    ======================================= -->
 
-<div
-    class="table-wrapper">
-
-
-<table
-    class="onboarding-table">
+    <div
+        class="table-wrapper">
 
 
-<thead>
-
-<tr>
-
-<th>
-EMPLOYEE ID
-</th>
-
-<th>
-EMPLOYEE
-</th>
-
-<th>
-POSITION
-</th>
-
-<th>
-DEPARTMENT
-</th>
-
-<th>
-DATE HIRED
-</th>
-
-<th>
-PROGRESS
-</th>
-
-<th>
-STATUS
-</th>
-
-<th>
-ACTION
-</th>
-
-</tr>
-
-</thead>
+        <table
+            class="onboarding-table">
 
 
-<tbody
-    id="onboardingBody">
+            <thead>
+
+                <tr>
+
+                    <th>
+                        EMPLOYEE ID
+                    </th>
+
+                    <th>
+                        EMPLOYEE
+                    </th>
+
+                    <th>
+                        POSITION
+                    </th>
+
+                    <th>
+                        DEPARTMENT
+                    </th>
+
+                    <th>
+                        DATE HIRED
+                    </th>
+
+                    <th>
+                        PROGRESS
+                    </th>
+
+                    <th>
+                        STATUS
+                    </th>
+
+                    <th>
+                        ACTION
+                    </th>
+
+                </tr>
+
+            </thead>
 
 
-<tr>
-
-<td
-    colspan="8"
-    class="empty-message">
-
-    NO ONBOARDING RECORDS
-
-</td>
-
-</tr>
+            <tbody
+                id="onboardingBody">
 
 
-</tbody>
+                <tr>
+
+                    <td
+                        colspan="8"
+                        class="empty-message">
+
+                        NO ONBOARDING RECORDS
+
+                    </td>
+
+                </tr>
 
 
-</table>
+            </tbody>
 
-</div>
+
+        </table>
+
+
+    </div>
 
 
 </section>
 
 
 <!-- ==========================================
-     ONBOARDING FORM
+     NEW ONBOARDING FORM
 ========================================== -->
 
 <section
@@ -550,598 +574,758 @@ ACTION
     style="display:none;">
 
 
-<div
-    class="section-header">
+    <!-- ======================================
+         FORM HEADER
+    ======================================= -->
 
+    <div
+        class="section-header">
 
-<div>
 
-<h2>
+        <div>
 
-<span
-    class="material-icons">
 
-    person_add
+            <h2>
 
-</span>
+                <span
+                    class="material-icons">
 
-NEW EMPLOYEE ONBOARDING
+                    person_add
 
-</h2>
+                </span>
 
+                NEW EMPLOYEE ONBOARDING
 
-<p>
-Create onboarding checklist for a new employee
-</p>
+            </h2>
 
 
-</div>
+            <p>
+                Create onboarding checklist for a new employee
+            </p>
 
 
-<button
-    type="button"
-    class="icon-close-btn"
-    onclick="closeOnboardingForm()"
-    title="Close">
+        </div>
 
-<span
-    class="material-icons">
 
-    close
+        <button
+            type="button"
+            class="icon-close-btn"
+            onclick="closeOnboardingForm()"
+            title="Close">
 
-</span>
 
-</button>
+            <span
+                class="material-icons">
 
+                close
 
-</div>
+            </span>
 
 
-<!-- ==========================================
-     EMPLOYEE INFORMATION
-========================================== -->
+        </button>
 
-<div
-    class="form-section-title">
 
-<span
-    class="material-icons">
+    </div>
 
-    badge
 
-</span>
+    <!-- ==========================================
+         EMPLOYEE INFORMATION
+    =========================================== -->
 
-EMPLOYEE INFORMATION
+    <div
+        class="form-section-title">
 
-</div>
 
+        <span
+            class="material-icons">
 
-<div
-    class="form-grid">
+            badge
 
+        </span>
 
-<!-- EMPLOYEE ID -->
 
-<div
-    class="form-group">
+        EMPLOYEE INFORMATION
 
-<label
-    for="onboardingEmployeeId">
 
-Employee ID
+    </div>
 
-</label>
 
-<input
-    type="text"
-    id="onboardingEmployeeId"
-    placeholder="Employee ID">
+    <div
+        class="form-grid">
 
-</div>
 
+        <!-- ======================================
+             EMPLOYEE NAME DROPDOWN
+        ======================================= -->
 
-<!-- EMPLOYEE NAME -->
+        <div
+            class="form-group">
 
-<div
-    class="form-group">
 
-<label
-    for="onboardingEmployeeName">
+            <label
+                for="onboardingEmployeeSelect">
 
-Employee Name
+                Employee Name
 
-</label>
+            </label>
 
-<input
-    type="text"
-    id="onboardingEmployeeName"
-    placeholder="Employee Name">
 
-</div>
+            <select
+                id="onboardingEmployeeSelect">
 
 
-<!-- POSITION -->
+                <option value="">
+                    SELECT EMPLOYEE
+                </option>
 
-<div
-    class="form-group">
 
-<label
-    for="onboardingPosition">
+            </select>
 
-Position
 
-</label>
+        </div>
 
-<input
-    type="text"
-    id="onboardingPosition"
-    placeholder="Position">
 
-</div>
+        <!-- ======================================
+             EMPLOYEE ID
+        ======================================= -->
 
+        <div
+            class="form-group">
 
-<!-- DEPARTMENT -->
 
-<div
-    class="form-group">
+            <label
+                for="onboardingEmployeeId">
 
-<label
-    for="onboardingDepartment">
+                Employee ID
 
-Department
+            </label>
 
-</label>
 
-<select
-    id="onboardingDepartment">
+            <input
+                type="text"
+                id="onboardingEmployeeId"
+                placeholder="Employee ID"
+                readonly>
 
-<option value="">
-SELECT DEPARTMENT
-</option>
 
-</select>
+        </div>
 
-</div>
 
+        <!-- ======================================
+             POSITION
+        ======================================= -->
 
-<!-- DATE HIRED -->
+        <div
+            class="form-group">
 
-<div
-    class="form-group">
 
-<label
-    for="onboardingDateHired">
+            <label
+                for="onboardingPosition">
 
-Date Hired
+                Position
 
-</label>
+            </label>
 
-<input
-    type="date"
-    id="onboardingDateHired">
 
-</div>
+            <input
+                type="text"
+                id="onboardingPosition"
+                placeholder="Position"
+                readonly>
 
 
-<!-- START DATE -->
+        </div>
 
-<div
-    class="form-group">
 
-<label
-    for="onboardingStartDate">
+        <!-- ======================================
+             DEPARTMENT
+        ======================================= -->
 
-Start Date
+        <div
+            class="form-group">
 
-</label>
 
-<input
-    type="date"
-    id="onboardingStartDate">
+            <label
+                for="onboardingDepartment">
 
-</div>
+                Department
 
+            </label>
 
-</div>
 
+            <select
+                id="onboardingDepartment"
+                disabled>
 
-<!-- ==========================================
-     ONBOARDING CHECKLIST
-========================================== -->
 
-<div
-    class="form-section-title checklist-title">
+                <option value="">
+                    SELECT DEPARTMENT
+                </option>
 
-<span
-    class="material-icons">
 
-    checklist
+            </select>
 
-</span>
 
-ONBOARDING CHECKLIST
+        </div>
 
-</div>
 
+        <!-- ======================================
+             DATE HIRED
+        ======================================= -->
 
-<div
-    class="checklist-grid">
+        <div
+            class="form-group">
 
 
-<label
-    class="checklist-item">
+            <label
+                for="onboardingDateHired">
 
-<input
-    type="checkbox"
-    id="checkEmployeeInfo">
+                Date Hired
 
-<span
-    class="checkmark">
-</span>
+            </label>
 
-<span>
-Employee Information
-</span>
 
-</label>
+            <input
+                type="date"
+                id="onboardingDateHired"
+                readonly>
 
 
-<label
-    class="checklist-item">
+        </div>
 
-<input
-    type="checkbox"
-    id="checkContract">
 
-<span
-    class="checkmark">
-</span>
+        <!-- ======================================
+             START DATE
+        ======================================= -->
 
-<span>
-Employment Contract
-</span>
+        <div
+            class="form-group">
 
-</label>
 
+            <label
+                for="onboardingStartDate">
 
-<label
-    class="checklist-item">
+                Start Date
 
-<input
-    type="checkbox"
-    id="checkGovernmentIds">
+            </label>
 
-<span
-    class="checkmark">
-</span>
 
-<span>
-Government IDs
-</span>
+            <input
+                type="date"
+                id="onboardingStartDate">
 
-</label>
 
+        </div>
 
-<label
-    class="checklist-item">
 
-<input
-    type="checkbox"
-    id="checkBankAccount">
+    </div>
 
-<span
-    class="checkmark">
-</span>
 
-<span>
-Bank Account
-</span>
+    <!-- ==========================================
+         ONBOARDING CHECKLIST
+    =========================================== -->
 
-</label>
+    <div
+        class="form-section-title">
 
 
-<label
-    class="checklist-item">
+        <span
+            class="material-icons">
 
-<input
-    type="checkbox"
-    id="checkCompanyId">
+            checklist
 
-<span
-    class="checkmark">
-</span>
+        </span>
 
-<span>
-Company ID
-</span>
 
-</label>
+        ONBOARDING CHECKLIST
 
 
-<label
-    class="checklist-item">
+    </div>
 
-<input
-    type="checkbox"
-    id="checkUniform">
 
-<span
-    class="checkmark">
-</span>
+    <div
+        class="checklist-grid">
 
-<span>
-Uniform
-</span>
 
-</label>
+        <!-- 1 -->
 
+        <label
+            class="checklist-item">
 
-<label
-    class="checklist-item">
 
-<input
-    type="checkbox"
-    id="checkSystemAccount">
+            <input
+                type="checkbox"
+                id="checkEmployeeInfo">
 
-<span
-    class="checkmark">
-</span>
 
-<span>
-System Account
-</span>
+            <span
+                class="checkmark">
+            </span>
 
-</label>
 
+            <span>
+                Employee Information
+            </span>
 
-<label
-    class="checklist-item">
 
-<input
-    type="checkbox"
-    id="checkHrOrientation">
+        </label>
 
-<span
-    class="checkmark">
-</span>
 
-<span>
-HR Orientation
-</span>
+        <!-- 2 -->
 
-</label>
+        <label
+            class="checklist-item">
 
 
-<label
-    class="checklist-item">
+            <input
+                type="checkbox"
+                id="checkContract">
 
-<input
-    type="checkbox"
-    id="checkCompanyOrientation">
 
-<span
-    class="checkmark">
-</span>
+            <span
+                class="checkmark">
+            </span>
 
-<span>
-Company Orientation
-</span>
 
-</label>
+            <span>
+                Employment Contract
+            </span>
 
 
-<label
-    class="checklist-item">
+        </label>
 
-<input
-    type="checkbox"
-    id="checkDepartmentOrientation">
 
-<span
-    class="checkmark">
-</span>
+        <!-- 3 -->
 
-<span>
-Department Orientation
-</span>
+        <label
+            class="checklist-item">
 
-</label>
 
+            <input
+                type="checkbox"
+                id="checkGovernmentIds">
 
-<label
-    class="checklist-item">
 
-<input
-    type="checkbox"
-    id="checkAttendanceSetup">
+            <span
+                class="checkmark">
+            </span>
 
-<span
-    class="checkmark">
-</span>
 
-<span>
-Attendance Setup
-</span>
+            <span>
+                Government IDs
+            </span>
 
-</label>
 
+        </label>
 
-<label
-    class="checklist-item">
 
-<input
-    type="checkbox"
-    id="checkPayrollSetup">
+        <!-- 4 -->
 
-<span
-    class="checkmark">
-</span>
+        <label
+            class="checklist-item">
 
-<span>
-Payroll Setup
-</span>
 
-</label>
+            <input
+                type="checkbox"
+                id="checkBankAccount">
 
 
-<label
-    class="checklist-item">
+            <span
+                class="checkmark">
+            </span>
 
-<input
-    type="checkbox"
-    id="checkDocuments">
 
-<span
-    class="checkmark">
-</span>
+            <span>
+                Bank Account
+            </span>
 
-<span>
-Documents Completed
-</span>
 
-</label>
+        </label>
 
 
-<label
-    class="checklist-item">
+        <!-- 5 -->
 
-<input
-    type="checkbox"
-    id="checkOrientation">
+        <label
+            class="checklist-item">
 
-<span
-    class="checkmark">
-</span>
 
-<span>
-Employee Orientation
-</span>
+            <input
+                type="checkbox"
+                id="checkCompanyId">
 
-</label>
 
+            <span
+                class="checkmark">
+            </span>
 
-<label
-    class="checklist-item">
 
-<input
-    type="checkbox"
-    id="checkSupervisor">
+            <span>
+                Company ID
+            </span>
 
-<span
-    class="checkmark">
-</span>
 
-<span>
-Supervisor Assignment
-</span>
+        </label>
 
-</label>
 
+        <!-- 6 -->
 
-<label
-    class="checklist-item">
+        <label
+            class="checklist-item">
 
-<input
-    type="checkbox"
-    id="checkWorkstation">
 
-<span
-    class="checkmark">
-</span>
+            <input
+                type="checkbox"
+                id="checkUniform">
 
-<span>
-Workstation / Equipment
-</span>
 
-</label>
+            <span
+                class="checkmark">
+            </span>
 
 
-</div>
+            <span>
+                Uniform
+            </span>
 
 
-<!-- ==========================================
-     NOTES
-========================================== -->
+        </label>
 
-<div
-    class="form-section-title">
 
-<span
-    class="material-icons">
+        <!-- 7 -->
 
-    notes
+        <label
+            class="checklist-item">
 
-</span>
 
-NOTES
+            <input
+                type="checkbox"
+                id="checkSystemAccount">
 
-</div>
 
+            <span
+                class="checkmark">
+            </span>
 
-<div
-    class="form-group full-width">
 
+            <span>
+                System Account
+            </span>
 
-<label
-    for="onboardingNotes">
 
-Notes
+        </label>
 
-</label>
 
+        <!-- 8 -->
 
-<textarea
-    id="onboardingNotes"
-    rows="4"
-    placeholder="Additional onboarding notes..."></textarea>
+        <label
+            class="checklist-item">
 
 
-</div>
+            <input
+                type="checkbox"
+                id="checkHrOrientation">
 
 
-<!-- ==========================================
-     FORM ACTIONS
-========================================== -->
+            <span
+                class="checkmark">
+            </span>
 
-<div
-    class="form-actions">
 
+            <span>
+                HR Orientation
+            </span>
 
-<button
-    type="button"
-    class="btn secondary-btn"
-    onclick="clearOnboardingForm()">
 
-<span
-    class="material-icons">
+        </label>
 
-    clear
 
-</span>
+        <!-- 9 -->
 
-CLEAR
+        <label
+            class="checklist-item">
 
-</button>
 
+            <input
+                type="checkbox"
+                id="checkCompanyOrientation">
 
-<button
-    type="button"
-    class="btn primary-btn"
-    onclick="saveOnboarding()">
 
-<span
-    class="material-icons">
+            <span
+                class="checkmark">
+            </span>
 
-    save
 
-</span>
+            <span>
+                Company Orientation
+            </span>
 
-SAVE ONBOARDING
 
-</button>
+        </label>
 
 
-</div>
+        <!-- 10 -->
+
+        <label
+            class="checklist-item">
+
+
+            <input
+                type="checkbox"
+                id="checkDepartmentOrientation">
+
+
+            <span
+                class="checkmark">
+            </span>
+
+
+            <span>
+                Department Orientation
+            </span>
+
+
+        </label>
+
+
+        <!-- 11 -->
+
+        <label
+            class="checklist-item">
+
+
+            <input
+                type="checkbox"
+                id="checkAttendanceSetup">
+
+
+            <span
+                class="checkmark">
+            </span>
+
+
+            <span>
+                Attendance Setup
+            </span>
+
+
+        </label>
+
+
+        <!-- 12 -->
+
+        <label
+            class="checklist-item">
+
+
+            <input
+                type="checkbox"
+                id="checkPayrollSetup">
+
+
+            <span
+                class="checkmark">
+            </span>
+
+
+            <span>
+                Payroll Setup
+            </span>
+
+
+        </label>
+
+
+        <!-- 13 -->
+
+        <label
+            class="checklist-item">
+
+
+            <input
+                type="checkbox"
+                id="checkDocuments">
+
+
+            <span
+                class="checkmark">
+            </span>
+
+
+            <span>
+                Documents Completed
+            </span>
+
+
+        </label>
+
+
+        <!-- 14 -->
+
+        <label
+            class="checklist-item">
+
+
+            <input
+                type="checkbox"
+                id="checkOrientation">
+
+
+            <span
+                class="checkmark">
+            </span>
+
+
+            <span>
+                Employee Orientation
+            </span>
+
+
+        </label>
+
+
+        <!-- 15 -->
+
+        <label
+            class="checklist-item">
+
+
+            <input
+                type="checkbox"
+                id="checkSupervisor">
+
+
+            <span
+                class="checkmark">
+            </span>
+
+
+            <span>
+                Supervisor Assignment
+            </span>
+
+
+        </label>
+
+
+        <!-- 16 -->
+
+        <label
+            class="checklist-item">
+
+
+            <input
+                type="checkbox"
+                id="checkWorkstation">
+
+
+            <span
+                class="checkmark">
+            </span>
+
+
+            <span>
+                Workstation / Equipment
+            </span>
+
+
+        </label>
+
+
+    </div>
+
+
+    <!-- ==========================================
+         NOTES
+    =========================================== -->
+
+    <div
+        class="form-section-title">
+
+
+        <span
+            class="material-icons">
+
+            notes
+
+        </span>
+
+
+        NOTES
+
+
+    </div>
+
+
+    <div
+        class="form-group full-width">
+
+
+        <label
+            for="onboardingNotes">
+
+            Notes
+
+        </label>
+
+
+        <textarea
+            id="onboardingNotes"
+            rows="4"
+            placeholder="Additional onboarding notes..."></textarea>
+
+
+    </div>
+
+
+    <!-- ==========================================
+         FORM ACTIONS
+    =========================================== -->
+
+    <div
+        class="form-actions">
+
+
+        <button
+            type="button"
+            class="btn secondary-btn"
+            onclick="clearOnboardingForm()">
+
+
+            <span
+                class="material-icons">
+
+                clear
+
+            </span>
+
+
+            CLEAR
+
+
+        </button>
+
+
+        <button
+            type="button"
+            class="btn primary-btn"
+            onclick="saveOnboarding()">
+
+
+            <span
+                class="material-icons">
+
+                save
+
+            </span>
+
+
+            SAVE ONBOARDING
+
+
+        </button>
+
+
+    </div>
 
 
 </section>
@@ -1157,157 +1341,185 @@ SAVE ONBOARDING
     style="display:none;">
 
 
-<div
-    class="modal-content">
+    <div
+        class="modal-content">
 
 
-<div
-    class="modal-header">
+        <!-- ======================================
+             MODAL HEADER
+        ======================================= -->
 
+        <div
+            class="modal-header">
 
-<div>
 
-<h2>
+            <div>
 
-<span
-    class="material-icons">
 
-    checklist
+                <h2>
 
-</span>
+                    <span
+                        class="material-icons">
 
-ONBOARDING DETAILS
+                        checklist
 
-</h2>
+                    </span>
 
 
-<p
-    id="modalEmployeeName">
+                    ONBOARDING DETAILS
 
-Employee
 
-</p>
+                </h2>
 
-</div>
 
+                <p
+                    id="modalEmployeeName">
 
-<button
-    type="button"
-    class="icon-close-btn"
-    onclick="closeOnboardingModal()">
+                    Employee
 
-<span
-    class="material-icons">
+                </p>
 
-    close
 
-</span>
+            </div>
 
-</button>
 
+            <button
+                type="button"
+                class="icon-close-btn"
+                onclick="closeOnboardingModal()">
 
-</div>
 
+                <span
+                    class="material-icons">
 
-<!-- PROGRESS -->
+                    close
 
-<div
-    class="modal-progress">
+                </span>
 
 
-<div
-    class="progress-info">
+            </button>
 
-<span>
-ONBOARDING PROGRESS
-</span>
 
-<strong
-    id="modalProgress">
+        </div>
 
-0%
 
-</strong>
+        <!-- ======================================
+             PROGRESS
+        ======================================= -->
 
-</div>
+        <div
+            class="modal-progress">
 
 
-<div
-    class="progress-track">
+            <div
+                class="progress-info">
 
-<div
-    id="modalProgressBar"
-    class="progress-fill">
 
-</div>
+                <span>
+                    ONBOARDING PROGRESS
+                </span>
 
-</div>
 
+                <strong
+                    id="modalProgress">
 
-<p
-    id="modalProgressText">
+                    0%
 
-0 / 16 COMPLETED
+                </strong>
 
-</p>
 
+            </div>
 
-</div>
 
+            <div
+                class="progress-track">
 
-<!-- CHECKLIST -->
 
-<div
-    id="modalChecklist"
-    class="modal-checklist">
+                <div
+                    id="modalProgressBar"
+                    class="progress-fill">
 
-</div>
+                </div>
 
 
-<!-- MODAL FOOTER -->
+            </div>
 
-<div
-    class="modal-footer">
 
+            <p
+                id="modalProgressText">
 
-<button
-    type="button"
-    class="btn secondary-btn"
-    onclick="closeOnboardingModal()">
+                0 / 16 COMPLETED
 
-<span
-    class="material-icons">
+            </p>
 
-    close
 
-</span>
+        </div>
 
-CLOSE
 
-</button>
+        <!-- ======================================
+             CHECKLIST
+        ======================================= -->
 
+        <div
+            id="modalChecklist"
+            class="modal-checklist">
 
-<button
-    type="button"
-    class="btn primary-btn"
-    onclick="updateOnboarding()">
+        </div>
 
-<span
-    class="material-icons">
 
-    save
+        <!-- ======================================
+             MODAL FOOTER
+        ======================================= -->
 
-</span>
+        <div
+            class="modal-footer">
 
-UPDATE ONBOARDING
 
-</button>
+            <button
+                type="button"
+                class="btn secondary-btn"
+                onclick="closeOnboardingModal()">
 
 
-</div>
+                <span
+                    class="material-icons">
 
+                    close
 
-</div>
+                </span>
+
+
+                CLOSE
+
+
+            </button>
+
+
+            <button
+                type="button"
+                class="btn primary-btn"
+                onclick="updateOnboarding()">
+
+
+                <span
+                    class="material-icons">
+
+                    save
+
+                </span>
+
+
+                UPDATE ONBOARDING
+
+
+            </button>
+
+
+        </div>
+
+
+    </div>
+
 
 </div>
 
@@ -1319,23 +1531,22 @@ UPDATE ONBOARDING
 <footer
     class="portal-footer">
 
-<span>
-© 2026 PAPPRITO HRIS
-</span>
+
+    <span>
+        © 2026 PAPPRITO HRIS
+    </span>
 
 
-<span>
-Employee Onboarding
-</span>
+    <span>
+        Employee Onboarding
+    </span>
+
 
 </footer>
 
 
 <!-- ==========================================
-     ONBOARDING JS ONLY
-     
-     NO COMPONENT LOADER
-     NO SIDEBAR LOADER
+     ONBOARDING JS
 ========================================== -->
 
 <script
