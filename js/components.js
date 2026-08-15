@@ -29,7 +29,12 @@ async function loadComponent(
     try{
 
         const response =
-            await fetch(file);
+            await fetch(
+                file,
+                {
+                    cache: "no-store"
+                }
+            );
 
 
         if(!response.ok){
@@ -83,7 +88,7 @@ async function loadSidebar(){
 
     await loadComponent(
         "sidebar-container",
-        "../components/sidebar.html"
+        "../components/sidebar.html?v=2"
     );
 
 }
