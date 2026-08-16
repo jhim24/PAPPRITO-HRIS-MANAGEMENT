@@ -4662,7 +4662,7 @@ No attendance records found for the selected cutoff.
     );
 
 
-    /*
+       /*
      * SORT EMPLOYEES
      */
 
@@ -4671,19 +4671,6 @@ No attendance records found for the selected cutoff.
             employeeSummary
         )
         .sort(
-
-    /* =====================================================
-       UPDATE TOTAL EMPLOYEE COUNT
-    ===================================================== */
-
-    if(summaryEmployeeCount){
-
-        summaryEmployeeCount.textContent =
-            String(
-                summaryList.length
-            );
-
-    }           
             (
                 a,
                 b
@@ -4698,6 +4685,22 @@ No attendance records found for the selected cutoff.
 
             }
         );
+
+
+    /* =====================================================
+       UPDATE TOTAL EMPLOYEE COUNT
+    ===================================================== */
+
+    if(
+        summaryEmployeeCount
+    ){
+
+        summaryEmployeeCount.textContent =
+            String(
+                summaryList.length
+            );
+
+    }
 
 
     /*
