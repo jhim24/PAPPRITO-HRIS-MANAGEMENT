@@ -1812,9 +1812,16 @@ async function loadAttendance(){
         );
 
 
-        renderAttendanceRecords();
+      renderAttendanceRecords();
 
-        updateTodayDisplay();
+updateTodayDisplay();
+
+/*
+ * UPDATE CUTOFF SUMMARY
+ * AFTER ATTENDANCE RECORDS
+ * HAVE FINISHED LOADING
+ */
+generateAttendanceSummary();
 
     }
 
