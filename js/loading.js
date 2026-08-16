@@ -115,7 +115,7 @@ const loadingStartTime =
 ========================================== */
 
 const MIN_LOADING_TIME =
-    5000;
+    7000;
 
 /* ==========================================
    UPDATE PROGRESS
