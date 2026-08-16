@@ -1,7 +1,8 @@
 /* =========================================================
    PAPPRITO HRIS
    EMPLOYEE ATTENDANCE CSS
-   SETTINGS-INTEGRATED COMPLETE VERSION
+   FULL UPDATED VERSION
+   MANUAL CUTOFF SUMMARY INTEGRATED
 ========================================================= */
 
 
@@ -753,8 +754,7 @@ body {
 
 
 /* =========================================================
-   ATTENDANCE SCHEDULE PANEL
-   OPTIONAL - USED BY NEW ATTENDANCE HTML
+   ATTENDANCE SCHEDULE
 ========================================================= */
 
 .attendance-schedule {
@@ -787,10 +787,6 @@ body {
 }
 
 
-/* =========================================================
-   SCHEDULE ITEM
-========================================================= */
-
 .schedule-item {
 
     min-width: 0;
@@ -819,10 +815,6 @@ body {
 }
 
 
-/* =========================================================
-   SCHEDULE ICON
-========================================================= */
-
 .schedule-item > .material-icons {
 
     width: 38px;
@@ -848,10 +840,6 @@ body {
     font-size: 20px;
 }
 
-
-/* =========================================================
-   SCHEDULE CONTENT
-========================================================= */
 
 .schedule-item-content {
 
@@ -902,10 +890,6 @@ body {
         ellipsis;
 }
 
-
-/* =========================================================
-   SCHEDULE STATUS
-========================================================= */
 
 #scheduleStatus {
 
@@ -963,10 +947,6 @@ body {
 }
 
 
-/* =========================================================
-   CLOCK LABEL
-========================================================= */
-
 .clock-label {
 
     display: flex;
@@ -997,10 +977,6 @@ body {
 }
 
 
-/* =========================================================
-   CLOCK
-========================================================= */
-
 .clock {
 
     color: #111111;
@@ -1014,10 +990,6 @@ body {
     letter-spacing: 2px;
 }
 
-
-/* =========================================================
-   DATE
-========================================================= */
 
 .today-date {
 
@@ -1052,10 +1024,6 @@ body {
     margin-top: 14px;
 }
 
-
-/* =========================================================
-   TODAY ITEM
-========================================================= */
 
 .today-item {
 
@@ -1171,10 +1139,6 @@ body {
     margin-top: 16px;
 }
 
-
-/* =========================================================
-   ACTION BUTTON
-========================================================= */
 
 .action-btn {
 
@@ -1337,7 +1301,7 @@ body {
 
 
 /* =========================================================
-   ATTENDANCE SECTION
+   ATTENDANCE RECORDS
 ========================================================= */
 
 .attendance-section {
@@ -1364,10 +1328,6 @@ body {
     overflow: hidden;
 }
 
-
-/* =========================================================
-   SECTION HEADING
-========================================================= */
 
 .section-heading {
 
@@ -1567,7 +1527,7 @@ body {
 
 
 /* =========================================================
-   TABLE
+   ATTENDANCE TABLE
 ========================================================= */
 
 #attendanceTable {
@@ -1583,10 +1543,6 @@ body {
         auto;
 }
 
-
-/* =========================================================
-   TABLE HEADER
-========================================================= */
 
 #attendanceTable thead th {
 
@@ -1665,10 +1621,6 @@ body {
     background: #eeeeee;
 }
 
-
-/* =========================================================
-   TABLE BODY
-========================================================= */
 
 #attendanceTable tbody td {
 
@@ -1787,6 +1739,16 @@ body {
 }
 
 
+.status-default {
+
+    background:
+        #eeeeee;
+
+    color:
+        #444444;
+}
+
+
 /* =========================================================
    ACTION CELL
 ========================================================= */
@@ -1802,7 +1764,7 @@ body {
 
 
 /* =========================================================
-   ACTION BUTTON
+   TABLE ACTION BUTTON
 ========================================================= */
 
 .icon-btn,
@@ -1907,6 +1869,1001 @@ body {
 
     font-size:
         13px;
+
+    font-weight:
+        900;
+}
+
+
+/* =========================================================
+   MANUAL CUTOFF SUMMARY
+========================================================= */
+
+.cutoff-summary-section {
+
+    width: 100%;
+
+    margin-top: 18px;
+
+    background:
+        #ffffff;
+
+    border:
+        1px solid
+        var(--border);
+
+    border-radius:
+        var(--radius);
+
+    box-shadow:
+        var(--shadow);
+
+    overflow: hidden;
+}
+
+
+/* =========================================================
+   CUTOFF SUMMARY HEADER
+========================================================= */
+
+.cutoff-summary-header {
+
+    width: 100%;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    gap: 15px;
+
+    padding:
+        17px
+        20px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #f5efff,
+            #ffffff
+        );
+
+    border-bottom:
+        1px solid
+        #e2d7f1;
+}
+
+
+.cutoff-summary-title {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 12px;
+
+    min-width: 0;
+}
+
+
+.cutoff-summary-title .material-icons {
+
+    width: 48px;
+
+    height: 48px;
+
+    min-width: 48px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    background:
+        #eee3ff;
+
+    color:
+        var(--purple);
+
+    border-radius: 10px;
+
+    font-size: 25px;
+}
+
+
+.cutoff-summary-title h2 {
+
+    color:
+        #111111;
+
+    font-size:
+        20px;
+
+    font-weight:
+        1000;
+}
+
+
+.cutoff-summary-title p {
+
+    margin-top:
+        4px;
+
+    color:
+        #555555;
+
+    font-size:
+        11px;
+
+    font-weight:
+        800;
+}
+
+
+/* =========================================================
+   CUTOFF PERIOD
+========================================================= */
+
+.cutoff-period {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 8px;
+
+    padding:
+        8px
+        12px;
+
+    border:
+        1px solid
+        #d7c6ef;
+
+    border-radius:
+        8px;
+
+    background:
+        #ffffff;
+
+    color:
+        var(--purple);
+
+    font-size:
+        11px;
+
+    font-weight:
+        1000;
+
+    white-space:
+        nowrap;
+}
+
+
+.cutoff-period .material-icons {
+
+    font-size:
+        18px;
+}
+
+
+/* =========================================================
+   CUTOFF FORM
+========================================================= */
+
+.cutoff-form {
+
+    width: 100%;
+
+    display: grid;
+
+    grid-template-columns:
+        minmax(180px, 1fr)
+        minmax(180px, 1fr)
+        180px
+        150px;
+
+    gap: 12px;
+
+    padding:
+        15px
+        18px;
+
+    background:
+        #ffffff;
+
+    border-bottom:
+        1px solid
+        #eeeeee;
+}
+
+
+.cutoff-field {
+
+    min-width: 0;
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 5px;
+}
+
+
+.cutoff-field label {
+
+    color:
+        #444444;
+
+    font-size:
+        10px;
+
+    font-weight:
+        1000;
+
+    letter-spacing:
+        .5px;
+}
+
+
+.cutoff-field input {
+
+    width: 100%;
+
+    height:
+        48px;
+
+    padding:
+        9px
+        12px;
+
+    border:
+        2px solid
+        var(--border-dark);
+
+    border-radius:
+        9px;
+
+    background:
+        #ffffff;
+
+    color:
+        #111111;
+
+    outline:
+        none;
+
+    font-family:
+        inherit;
+
+    font-size:
+        13px;
+
+    font-weight:
+        900;
+}
+
+
+.cutoff-field input:focus {
+
+    border-color:
+        var(--purple);
+
+    box-shadow:
+        0 0 0 3px
+        rgba(123, 63, 198, .14);
+}
+
+
+/* =========================================================
+   CUTOFF BUTTONS
+========================================================= */
+
+.cutoff-generate-btn,
+.cutoff-print-btn {
+
+    min-height:
+        48px;
+
+    align-self:
+        end;
+
+    display:
+        inline-flex;
+
+    align-items:
+        center;
+
+    justify-content:
+        center;
+
+    gap:
+        7px;
+
+    padding:
+        10px
+        15px;
+
+    border:
+        1px solid;
+
+    border-radius:
+        9px;
+
+    font-family:
+        inherit;
+
+    font-size:
+        12px;
+
+    font-weight:
+        1000;
+
+    cursor:
+        pointer;
+
+    transition:
+        .2s ease;
+}
+
+
+.cutoff-generate-btn {
+
+    background:
+        var(--purple);
+
+    color:
+        #ffffff;
+
+    border-color:
+        var(--purple);
+}
+
+
+.cutoff-generate-btn:hover {
+
+    background:
+        var(--purple-dark);
+
+    border-color:
+        var(--purple-dark);
+
+    transform:
+        translateY(-2px);
+
+    box-shadow:
+        var(--shadow-hover);
+}
+
+
+.cutoff-print-btn {
+
+    background:
+        var(--red);
+
+    color:
+        #ffffff;
+
+    border-color:
+        var(--red);
+}
+
+
+.cutoff-print-btn:hover {
+
+    background:
+        var(--red-dark);
+
+    border-color:
+        var(--red-dark);
+
+    transform:
+        translateY(-2px);
+
+    box-shadow:
+        var(--shadow-hover);
+}
+
+
+.cutoff-generate-btn:disabled,
+.cutoff-print-btn:disabled {
+
+    opacity:
+        .45;
+
+    cursor:
+        not-allowed;
+
+    transform:
+        none;
+}
+
+
+.cutoff-generate-btn .material-icons,
+.cutoff-print-btn .material-icons {
+
+    font-size:
+        19px;
+}
+
+
+/* =========================================================
+   CUTOFF RESULT
+========================================================= */
+
+.cutoff-result {
+
+    width:
+        100%;
+
+    overflow:
+        hidden;
+}
+
+
+/* =========================================================
+   CUTOFF RESULT INFO
+========================================================= */
+
+.cutoff-result-info {
+
+    width:
+        100%;
+
+    display:
+        flex;
+
+    align-items:
+        center;
+
+    justify-content:
+        space-between;
+
+    gap:
+        12px;
+
+    padding:
+        13px
+        18px;
+
+    background:
+        #fafafa;
+
+    border-bottom:
+        1px solid
+        #e5e5e5;
+}
+
+
+.cutoff-result-info strong {
+
+    color:
+        #111111;
+
+    font-size:
+        13px;
+
+    font-weight:
+        1000;
+}
+
+
+.cutoff-result-info span {
+
+    color:
+        #555555;
+
+    font-size:
+        11px;
+
+    font-weight:
+        900;
+}
+
+
+/* =========================================================
+   CUTOFF TABLE WRAPPER
+========================================================= */
+
+.cutoff-table-wrapper {
+
+    width:
+        100%;
+
+    overflow-x:
+        auto;
+
+    overflow-y:
+        hidden;
+
+    -webkit-overflow-scrolling:
+        touch;
+}
+
+
+.cutoff-table-wrapper::-webkit-scrollbar {
+
+    height:
+        10px;
+}
+
+
+.cutoff-table-wrapper::-webkit-scrollbar-track {
+
+    background:
+        #eeeeee;
+}
+
+
+.cutoff-table-wrapper::-webkit-scrollbar-thumb {
+
+    background:
+        #999999;
+
+    border-radius:
+        20px;
+}
+
+
+/* =========================================================
+   CUTOFF TABLE
+========================================================= */
+
+#cutoffSummaryTable {
+
+    width:
+        100%;
+
+    min-width:
+        900px;
+
+    border-collapse:
+        collapse;
+
+    table-layout:
+        auto;
+}
+
+
+#cutoffSummaryTable th {
+
+    padding:
+        13px
+        12px;
+
+    border:
+        1px solid
+        #d5d8dc;
+
+    color:
+        #111111;
+
+    font-size:
+        11px;
+
+    font-weight:
+        1000;
+
+    text-align:
+        center;
+
+    white-space:
+        nowrap;
+}
+
+
+#cutoffSummaryTable th:nth-child(1) {
+
+    background:
+        #eeeeee;
+}
+
+
+#cutoffSummaryTable th:nth-child(2) {
+
+    background:
+        #eaf3fb;
+}
+
+
+#cutoffSummaryTable th:nth-child(3) {
+
+    background:
+        #e9f7ef;
+}
+
+
+#cutoffSummaryTable th:nth-child(4) {
+
+    background:
+        #e9f7ef;
+}
+
+
+#cutoffSummaryTable th:nth-child(5) {
+
+    background:
+        #fff0d6;
+}
+
+
+#cutoffSummaryTable th:nth-child(6) {
+
+    background:
+        #ffe5e5;
+}
+
+
+#cutoffSummaryTable th:nth-child(7) {
+
+    background:
+        #f0e7ff;
+}
+
+
+#cutoffSummaryTable td {
+
+    padding:
+        13px
+        12px;
+
+    border:
+        1px solid
+        #d8dce0;
+
+    background:
+        #ffffff;
+
+    color:
+        #111111;
+
+    font-size:
+        12px;
+
+    font-weight:
+        900;
+
+    text-align:
+        center;
+
+    white-space:
+        nowrap;
+}
+
+
+#cutoffSummaryTable tbody tr:nth-child(even) td {
+
+    background:
+        #fafafa;
+}
+
+
+#cutoffSummaryTable tbody tr:hover td {
+
+    background:
+        #fffbea;
+}
+
+
+/* =========================================================
+   TOTAL HOURS EMPHASIS
+========================================================= */
+
+#cutoffSummaryTable td.total-hours-cell {
+
+    background:
+        #f0e7ff !important;
+
+    color:
+        var(--purple);
+
+    font-weight:
+        1000;
+
+    font-size:
+        13px;
+}
+
+
+/* =========================================================
+   OT CELL
+========================================================= */
+
+#cutoffSummaryTable td.ot-hours-cell {
+
+    color:
+        var(--orange);
+
+    font-weight:
+        1000;
+}
+
+
+/* =========================================================
+   LATE CELL
+========================================================= */
+
+#cutoffSummaryTable td.late-minutes-cell {
+
+    color:
+        var(--red);
+
+    font-weight:
+        1000;
+}
+
+
+/* =========================================================
+   CUTOFF GRAND TOTAL
+========================================================= */
+
+.cutoff-grand-total {
+
+    width:
+        100%;
+
+    display:
+        grid;
+
+    grid-template-columns:
+        repeat(4, minmax(0, 1fr));
+
+    gap:
+        10px;
+
+    padding:
+        15px
+        18px;
+
+    background:
+        #ffffff;
+
+    border-top:
+        1px solid
+        #dddddd;
+}
+
+
+.cutoff-total-card {
+
+    min-width:
+        0;
+
+    min-height:
+        72px;
+
+    display:
+        flex;
+
+    align-items:
+        center;
+
+    gap:
+        10px;
+
+    padding:
+        12px
+        14px;
+
+    border:
+        1px solid
+        var(--border);
+
+    border-radius:
+        10px;
+
+    background:
+        #fafafa;
+}
+
+
+.cutoff-total-card .material-icons {
+
+    width:
+        40px;
+
+    height:
+        40px;
+
+    min-width:
+        40px;
+
+    display:
+        flex;
+
+    align-items:
+        center;
+
+    justify-content:
+        center;
+
+    border-radius:
+        9px;
+
+    font-size:
+        20px;
+}
+
+
+.cutoff-total-card div {
+
+    min-width:
+        0;
+
+    display:
+        flex;
+
+    flex-direction:
+        column;
+}
+
+
+.cutoff-total-card small {
+
+    color:
+        #555555;
+
+    font-size:
+        8px;
+
+    font-weight:
+        1000;
+
+    letter-spacing:
+        .5px;
+}
+
+
+.cutoff-total-card strong {
+
+    margin-top:
+        3px;
+
+    color:
+        #111111;
+
+    font-size:
+        18px;
+
+    font-weight:
+        1000;
+
+    white-space:
+        nowrap;
+}
+
+
+/* =========================================================
+   GRAND TOTAL COLORS
+========================================================= */
+
+.cutoff-total-card.regular {
+
+    background:
+        #effaf3;
+
+    border-color:
+        #b9ddc7;
+}
+
+
+.cutoff-total-card.regular .material-icons {
+
+    background:
+        #dff4e7;
+
+    color:
+        var(--green);
+}
+
+
+.cutoff-total-card.ot {
+
+    background:
+        #fff7e8;
+
+    border-color:
+        #efd5a8;
+}
+
+
+.cutoff-total-card.ot .material-icons {
+
+    background:
+        #ffe8bd;
+
+    color:
+        var(--orange);
+}
+
+
+.cutoff-total-card.late {
+
+    background:
+        #fff0f0;
+
+    border-color:
+        #efc1c4;
+}
+
+
+.cutoff-total-card.late .material-icons {
+
+    background:
+        #ffe0e2;
+
+    color:
+        var(--red);
+}
+
+
+.cutoff-total-card.total {
+
+    background:
+        #f4edff;
+
+    border-color:
+        #d7c4ef;
+}
+
+
+.cutoff-total-card.total .material-icons {
+
+    background:
+        #e9dcff;
+
+    color:
+        var(--purple);
+}
+
+
+.cutoff-empty {
+
+    min-height:
+        150px;
+
+    display:
+        flex;
+
+    align-items:
+        center;
+
+    justify-content:
+        center;
+
+    flex-direction:
+        column;
+
+    gap:
+        7px;
+
+    padding:
+        25px;
+
+    color:
+        #666666;
+
+    text-align:
+        center;
+}
+
+
+.cutoff-empty .material-icons {
+
+    font-size:
+        38px;
+
+    color:
+        #999999;
+}
+
+
+.cutoff-empty p {
+
+    font-size:
+        12px;
 
     font-weight:
         900;
@@ -2032,6 +2989,26 @@ body {
             13px;
     }
 
+    #cutoffSummaryTable th {
+
+        font-size:
+            12px;
+
+        padding:
+            15px
+            13px;
+    }
+
+    #cutoffSummaryTable td {
+
+        font-size:
+            13px;
+
+        padding:
+            15px
+            13px;
+    }
+
 }
 
 
@@ -2063,6 +3040,18 @@ body {
 
         grid-template-columns:
             repeat(3, minmax(0, 1fr));
+    }
+
+    .cutoff-form {
+
+        grid-template-columns:
+            repeat(2, minmax(0, 1fr));
+    }
+
+    .cutoff-grand-total {
+
+        grid-template-columns:
+            repeat(2, minmax(0, 1fr));
     }
 
 }
@@ -2273,6 +3262,50 @@ body {
 
         min-width:
             1350px;
+    }
+
+
+    /* -----------------------------------------
+       CUTOFF SUMMARY TABLET
+    ----------------------------------------- */
+
+    .cutoff-summary-header {
+
+        align-items:
+            flex-start;
+
+        flex-direction:
+            column;
+    }
+
+    .cutoff-period {
+
+        width:
+            100%;
+
+        justify-content:
+            center;
+    }
+
+    .cutoff-form {
+
+        grid-template-columns:
+            repeat(2, minmax(0, 1fr));
+
+        gap:
+            9px;
+
+        padding:
+            12px;
+    }
+
+    .cutoff-grand-total {
+
+        grid-template-columns:
+            repeat(2, minmax(0, 1fr));
+
+        padding:
+            12px;
     }
 
 }
@@ -2669,6 +3702,220 @@ body {
             15px;
     }
 
+
+    /* -----------------------------------------
+       CUTOFF SUMMARY MOBILE
+    ----------------------------------------- */
+
+    .cutoff-summary-header {
+
+        padding:
+            10px;
+    }
+
+    .cutoff-summary-title {
+
+        gap:
+            7px;
+    }
+
+    .cutoff-summary-title .material-icons {
+
+        width:
+            36px;
+
+        height:
+            36px;
+
+        min-width:
+            36px;
+
+        font-size:
+            18px;
+    }
+
+    .cutoff-summary-title h2 {
+
+        font-size:
+            11px;
+    }
+
+    .cutoff-summary-title p {
+
+        font-size:
+            7px;
+    }
+
+    .cutoff-period {
+
+        padding:
+            7px;
+
+        font-size:
+            8px;
+    }
+
+    .cutoff-form {
+
+        grid-template-columns:
+            repeat(2, minmax(0, 1fr));
+
+        gap:
+            6px;
+
+        padding:
+            8px;
+    }
+
+    .cutoff-field {
+
+        gap:
+            3px;
+    }
+
+    .cutoff-field label {
+
+        font-size:
+            7px;
+    }
+
+    .cutoff-field input {
+
+        height:
+            39px;
+
+        padding:
+            7px
+            8px;
+
+        font-size:
+            9px;
+    }
+
+    .cutoff-generate-btn,
+    .cutoff-print-btn {
+
+        min-height:
+            39px;
+
+        padding:
+            7px;
+
+        font-size:
+            8px;
+    }
+
+    .cutoff-generate-btn .material-icons,
+    .cutoff-print-btn .material-icons {
+
+        font-size:
+            16px;
+    }
+
+    .cutoff-result-info {
+
+        padding:
+            9px;
+
+        flex-direction:
+            column;
+
+        align-items:
+            flex-start;
+
+        gap:
+            3px;
+    }
+
+    .cutoff-result-info strong {
+
+        font-size:
+            9px;
+    }
+
+    .cutoff-result-info span {
+
+        font-size:
+            7px;
+    }
+
+    #cutoffSummaryTable {
+
+        min-width:
+            900px;
+    }
+
+    #cutoffSummaryTable th {
+
+        padding:
+            9px
+            7px;
+
+        font-size:
+            7px;
+    }
+
+    #cutoffSummaryTable td {
+
+        padding:
+            9px
+            7px;
+
+        font-size:
+            8px;
+    }
+
+    .cutoff-grand-total {
+
+        grid-template-columns:
+            repeat(2, minmax(0, 1fr));
+
+        gap:
+            6px;
+
+        padding:
+            8px;
+    }
+
+    .cutoff-total-card {
+
+        min-height:
+            52px;
+
+        gap:
+            6px;
+
+        padding:
+            7px;
+    }
+
+    .cutoff-total-card .material-icons {
+
+        width:
+            29px;
+
+        height:
+            29px;
+
+        min-width:
+            29px;
+
+        font-size:
+            15px;
+    }
+
+    .cutoff-total-card small {
+
+        font-size:
+            5px;
+    }
+
+    .cutoff-total-card strong {
+
+        font-size:
+            10px;
+    }
+
 }
 
 
@@ -2718,6 +3965,40 @@ body {
 
         min-height:
             45px;
+
+        font-size:
+            7px;
+    }
+
+    .cutoff-summary-title h2 {
+
+        font-size:
+            9px;
+    }
+
+    .cutoff-form {
+
+        gap:
+            5px;
+
+        padding:
+            6px;
+    }
+
+    .cutoff-field input {
+
+        height:
+            36px;
+
+        font-size:
+            8px;
+    }
+
+    .cutoff-generate-btn,
+    .cutoff-print-btn {
+
+        min-height:
+            36px;
 
         font-size:
             7px;
@@ -2988,6 +4269,281 @@ body {
 
 
     .attendance-footer {
+
+        display:
+            none !important;
+    }
+
+
+    /* =====================================================
+       CUTOFF SUMMARY PRINT
+    ===================================================== */
+
+    #cutoffSummarySection,
+    #cutoffSummarySection * {
+
+        visibility:
+            visible !important;
+    }
+
+
+    #cutoffSummarySection {
+
+        position:
+            absolute !important;
+
+        left:
+            0 !important;
+
+        top:
+            0 !important;
+
+        width:
+            100% !important;
+
+        margin:
+            0 !important;
+
+        padding:
+            0 !important;
+
+        background:
+            #ffffff !important;
+
+        border:
+            none !important;
+
+        border-radius:
+            0 !important;
+
+        box-shadow:
+            none !important;
+
+        overflow:
+            visible !important;
+    }
+
+
+    #cutoffSummarySection .cutoff-form {
+
+        display:
+            none !important;
+    }
+
+
+    #cutoffSummarySection .cutoff-summary-header {
+
+        display:
+            flex !important;
+
+        padding:
+            0 0 10px !important;
+
+        background:
+            #ffffff !important;
+
+        border:
+            none !important;
+    }
+
+
+    #cutoffSummarySection .cutoff-summary-title .material-icons {
+
+        display:
+            none !important;
+    }
+
+
+    #cutoffSummarySection .cutoff-summary-title h2 {
+
+        font-size:
+            16pt !important;
+    }
+
+
+    #cutoffSummarySection .cutoff-summary-title p {
+
+        font-size:
+            9pt !important;
+    }
+
+
+    #cutoffSummarySection .cutoff-period {
+
+        border:
+            none !important;
+
+        padding:
+            0 !important;
+
+        font-size:
+            9pt !important;
+
+        color:
+            #000000 !important;
+    }
+
+
+    #cutoffSummarySection .cutoff-result-info {
+
+        padding:
+            6px 0 !important;
+
+        background:
+            #ffffff !important;
+
+        border:
+            none !important;
+    }
+
+
+    #cutoffSummarySection .cutoff-table-wrapper {
+
+        overflow:
+            visible !important;
+
+        width:
+            100% !important;
+    }
+
+
+    #cutoffSummaryTable {
+
+        width:
+            100% !important;
+
+        min-width:
+            0 !important;
+
+        table-layout:
+            auto !important;
+
+        border-collapse:
+            collapse !important;
+
+        font-size:
+            8pt !important;
+    }
+
+
+    #cutoffSummaryTable th,
+    #cutoffSummaryTable td {
+
+        border:
+            1px solid
+            #000000 !important;
+
+        padding:
+            5px 4px !important;
+
+        color:
+            #000000 !important;
+
+        background:
+            #ffffff !important;
+
+        font-family:
+            Arial,
+            sans-serif !important;
+
+        font-size:
+            8pt !important;
+
+        font-weight:
+            700 !important;
+
+        text-align:
+            center !important;
+
+        white-space:
+            nowrap !important;
+    }
+
+
+    #cutoffSummaryTable th {
+
+        background:
+            #eeeeee !important;
+
+        font-weight:
+            900 !important;
+    }
+
+
+    #cutoffSummaryTable tr {
+
+        page-break-inside:
+            avoid !important;
+
+        break-inside:
+            avoid !important;
+    }
+
+
+    #cutoffSummarySection .cutoff-grand-total {
+
+        display:
+            grid !important;
+
+        grid-template-columns:
+            repeat(4, 1fr) !important;
+
+        padding:
+            10px 0 !important;
+
+        gap:
+            5px !important;
+
+        border:
+            none !important;
+    }
+
+
+    #cutoffSummarySection .cutoff-total-card {
+
+        min-height:
+            auto !important;
+
+        padding:
+            7px !important;
+
+        background:
+            #ffffff !important;
+
+        border:
+            1px solid
+            #000000 !important;
+    }
+
+
+    #cutoffSummarySection .cutoff-total-card .material-icons {
+
+        display:
+            none !important;
+    }
+
+
+    #cutoffSummarySection .cutoff-total-card small {
+
+        color:
+            #000000 !important;
+
+        font-size:
+            7pt !important;
+    }
+
+
+    #cutoffSummarySection .cutoff-total-card strong {
+
+        color:
+            #000000 !important;
+
+        font-size:
+            10pt !important;
+    }
+
+
+    #cutoffSummarySection button {
 
         display:
             none !important;
