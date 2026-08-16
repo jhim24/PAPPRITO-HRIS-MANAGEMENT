@@ -674,56 +674,40 @@
                 <tr>
 
 
-                    <!-- 1 -->
-
                     <th>
                         DATE
                     </th>
 
-
-                    <!-- 2 -->
 
                     <th>
                         EMPLOYEE ID
                     </th>
 
 
-                    <!-- 3 -->
-
                     <th>
                         EMPLOYEE NAME
                     </th>
 
-
-                    <!-- 4 -->
 
                     <th>
                         TIME IN
                     </th>
 
 
-                    <!-- 5 -->
-
                     <th>
                         BREAK OUT
                     </th>
 
-
-                    <!-- 6 -->
 
                     <th>
                         BREAK IN
                     </th>
 
 
-                    <!-- 7 -->
-
                     <th>
                         TIME OUT
                     </th>
 
-
-                    <!-- 8 -->
 
                     <th>
                         BREAK
@@ -732,8 +716,6 @@
                     </th>
 
 
-                    <!-- 9 -->
-
                     <th>
                         REGULAR
                         <br>
@@ -741,14 +723,10 @@
                     </th>
 
 
-                    <!-- 10 -->
-
                     <th>
                         OT
                     </th>
 
-
-                    <!-- 11 -->
 
                     <th>
                         LATE
@@ -757,14 +735,10 @@
                     </th>
 
 
-                    <!-- 12 -->
-
                     <th>
                         STATUS
                     </th>
 
-
-                    <!-- 13 -->
 
                     <th>
                         ACTION
@@ -797,6 +771,383 @@
                 </tr>
 
             </tbody>
+
+
+        </table>
+
+
+    </div>
+
+
+</section>
+
+
+
+<!-- =====================================================
+     MANUAL CUTOFF SUMMARY
+===================================================== -->
+
+<section
+    id="cutoffSummary"
+    class="cutoff-summary-section">
+
+
+    <!-- =================================================
+         SUMMARY HEADER
+    ================================================= -->
+
+    <div class="section-heading">
+
+
+        <div class="section-heading-left">
+
+
+            <span class="material-icons">
+                summarize
+            </span>
+
+
+            <div>
+
+                <h2>
+                    Cutoff Attendance Summary
+                </h2>
+
+                <p>
+                    Manual cutoff summary by employee
+                </p>
+
+            </div>
+
+
+        </div>
+
+
+    </div>
+
+
+
+    <!-- =================================================
+         MANUAL CUTOFF FILTER
+    ================================================= -->
+
+    <div class="cutoff-filter">
+
+
+        <!-- FROM DATE -->
+
+        <div class="cutoff-field">
+
+            <label
+                for="cutoffFromDate">
+
+                CUTOFF FROM
+
+            </label>
+
+            <input
+                type="date"
+                id="cutoffFromDate">
+
+        </div>
+
+
+        <!-- TO DATE -->
+
+        <div class="cutoff-field">
+
+            <label
+                for="cutoffToDate">
+
+                CUTOFF TO
+
+            </label>
+
+            <input
+                type="date"
+                id="cutoffToDate">
+
+        </div>
+
+
+        <!-- GENERATE -->
+
+        <button
+            type="button"
+            id="generateCutoffBtn"
+            class="cutoff-btn generate">
+
+            <span class="material-icons">
+                analytics
+            </span>
+
+            GENERATE SUMMARY
+
+        </button>
+
+
+        <!-- PRINT -->
+
+        <button
+            type="button"
+            id="printCutoffBtn"
+            class="cutoff-btn print">
+
+            <span class="material-icons">
+                print
+            </span>
+
+            PRINT SUMMARY
+
+        </button>
+
+
+        <!-- CLEAR -->
+
+        <button
+            type="button"
+            id="clearCutoffBtn"
+            class="cutoff-btn clear">
+
+            <span class="material-icons">
+                clear
+            </span>
+
+            CLEAR
+
+        </button>
+
+
+    </div>
+
+
+
+    <!-- =================================================
+         CUTOFF INFORMATION
+    ================================================= -->
+
+    <div
+        class="cutoff-info"
+        id="cutoffInfo">
+
+
+        <div class="cutoff-info-item">
+
+            <small>
+                CUTOFF PERIOD
+            </small>
+
+            <strong id="cutoffPeriod">
+                -
+            </strong>
+
+        </div>
+
+
+        <div class="cutoff-info-item">
+
+            <small>
+                EMPLOYEES
+            </small>
+
+            <strong id="cutoffEmployeeCount">
+                0
+            </strong>
+
+        </div>
+
+
+        <div class="cutoff-info-item">
+
+            <small>
+                TOTAL REGULAR HOURS
+            </small>
+
+            <strong id="cutoffRegularTotal">
+                0.00
+            </strong>
+
+        </div>
+
+
+        <div class="cutoff-info-item">
+
+            <small>
+                TOTAL OT HOURS
+            </small>
+
+            <strong id="cutoffOtTotal">
+                0.00
+            </strong>
+
+        </div>
+
+
+        <div class="cutoff-info-item">
+
+            <small>
+                TOTAL HOURS
+            </small>
+
+            <strong id="cutoffTotalHours">
+                0.00
+            </strong>
+
+        </div>
+
+
+        <div class="cutoff-info-item">
+
+            <small>
+                TOTAL LATE MINUTES
+            </small>
+
+            <strong id="cutoffLateTotal">
+                0
+            </strong>
+
+        </div>
+
+
+    </div>
+
+
+
+    <!-- =================================================
+         CUTOFF SUMMARY TABLE
+    ================================================= -->
+
+    <div
+        class="table-wrapper cutoff-table-wrapper"
+        id="cutoffTableWrapper">
+
+
+        <table
+            id="cutoffSummaryTable">
+
+
+            <thead>
+
+                <tr>
+
+
+                    <th>
+                        #
+                    </th>
+
+
+                    <th>
+                        EMPLOYEE ID
+                    </th>
+
+
+                    <th>
+                        EMPLOYEE NAME
+                    </th>
+
+
+                    <th>
+                        REGULAR
+                        <br>
+                        HOURS
+                    </th>
+
+
+                    <th>
+                        OT
+                        <br>
+                        HOURS
+                    </th>
+
+
+                    <th>
+                        LATE
+                        <br>
+                        MINUTES
+                    </th>
+
+
+                    <th>
+                        TOTAL
+                        <br>
+                        HOURS
+                    </th>
+
+
+                </tr>
+
+            </thead>
+
+
+            <tbody>
+
+                <tr>
+
+                    <td
+                        colspan="7"
+                        class="empty-row">
+
+                        <span class="material-icons">
+                            date_range
+                        </span>
+
+                        <p>
+                            Select a cutoff period and generate the summary.
+                        </p>
+
+                    </td>
+
+                </tr>
+
+            </tbody>
+
+
+            <tfoot>
+
+                <tr>
+
+                    <th
+                        colspan="3">
+
+                        GRAND TOTAL
+
+                    </th>
+
+
+                    <th
+                        id="cutoffFooterRegular">
+
+                        0.00
+
+                    </th>
+
+
+                    <th
+                        id="cutoffFooterOT">
+
+                        0.00
+
+                    </th>
+
+
+                    <th
+                        id="cutoffFooterLate">
+
+                        0
+
+                    </th>
+
+
+                    <th
+                        id="cutoffFooterTotal">
+
+                        0.00
+
+                    </th>
+
+                </tr>
+
+            </tfoot>
 
 
         </table>
