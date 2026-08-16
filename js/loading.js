@@ -1,13 +1,19 @@
 /* ==========================================
    PAPPRITO HRIS
-   LOADING SYSTEM V4
+   LOADING SYSTEM V5
    STABLE LOGIN LOADING
+========================================== */
+
+
+/* ==========================================
+   FIREBASE
 ========================================== */
 
 import {
     auth,
     db
 } from "./firebase.js";
+
 
 import {
     onAuthStateChanged
@@ -19,71 +25,106 @@ import {
 ========================================== */
 
 const percent =
-    document.getElementById("percent");
+    document.getElementById(
+        "percent"
+    );
+
 
 const progressBar =
-    document.getElementById("progressBar");
+    document.getElementById(
+        "progressBar"
+    );
 
-const circleProgress =
-    document.getElementById("circleProgress");
 
 const loadingTitle =
-    document.getElementById("loadingTitle");
+    document.getElementById(
+        "loadingTitle"
+    );
+
 
 const authStatus =
-    document.getElementById("authStatus");
+    document.getElementById(
+        "authStatus"
+    );
+
 
 const databaseStatus =
-    document.getElementById("databaseStatus");
+    document.getElementById(
+        "databaseStatus"
+    );
+
 
 const roleStatus =
-    document.getElementById("roleStatus");
+    document.getElementById(
+        "roleStatus"
+    );
+
 
 const sessionStatus =
-    document.getElementById("sessionStatus");
+    document.getElementById(
+        "sessionStatus"
+    );
+
 
 const systemStatus =
-    document.getElementById("systemStatus");
+    document.getElementById(
+        "systemStatus"
+    );
+
 
 const footerStatus =
-    document.getElementById("footerStatus");
+    document.getElementById(
+        "footerStatus"
+    );
+
 
 const moduleAuth =
-    document.getElementById("moduleAuth");
+    document.getElementById(
+        "moduleAuth"
+    );
+
 
 const moduleDatabase =
-    document.getElementById("moduleDatabase");
+    document.getElementById(
+        "moduleDatabase"
+    );
+
 
 const moduleSession =
-    document.getElementById("moduleSession");
+    document.getElementById(
+        "moduleSession"
+    );
+
 
 const moduleSystem =
-    document.getElementById("moduleSystem");
+    document.getElementById(
+        "moduleSystem"
+    );
 
 
 /* ==========================================
-   PROGRESS
+   START TIME
 ========================================== */
 
-const CIRCLE_LENGTH = 597;
+const loadingStartTime =
+    Date.now();
 
 
-if(circleProgress){
+/* ==========================================
+   MINIMUM LOADING TIME
+========================================== */
 
-    circleProgress.style.strokeDasharray =
-        CIRCLE_LENGTH;
-
-    circleProgress.style.strokeDashoffset =
-        CIRCLE_LENGTH;
-
-}
+const MIN_LOADING_TIME =
+    2500;
 
 
 /* ==========================================
    UPDATE PROGRESS
 ========================================== */
 
-function updateProgress(value){
+function updateProgress(
+    value
+){
 
     value =
         Math.max(
@@ -98,7 +139,10 @@ function updateProgress(value){
     if(percent){
 
         percent.textContent =
-            Math.round(value) + "%";
+            Math.round(
+                value
+            ) +
+            "%";
 
     }
 
@@ -106,24 +150,8 @@ function updateProgress(value){
     if(progressBar){
 
         progressBar.style.width =
-            value + "%";
-
-    }
-
-
-    if(circleProgress){
-
-        const offset =
-            CIRCLE_LENGTH -
-            (
-                CIRCLE_LENGTH *
-                value /
-                100
-            );
-
-
-        circleProgress.style.strokeDashoffset =
-            offset;
+            value +
+            "%";
 
     }
 
@@ -131,12 +159,16 @@ function updateProgress(value){
 
 
 /* ==========================================
-   STATUS
+   UPDATE TITLE
 ========================================== */
 
-function setTitle(text){
+function setTitle(
+    text
+){
 
-    if(loadingTitle){
+    if(
+        loadingTitle
+    ){
 
         loadingTitle.textContent =
             text;
@@ -146,9 +178,17 @@ function setTitle(text){
 }
 
 
-function setFooter(text){
+/* ==========================================
+   UPDATE FOOTER
+========================================== */
 
-    if(footerStatus){
+function setFooter(
+    text
+){
+
+    if(
+        footerStatus
+    ){
 
         footerStatus.textContent =
             text;
@@ -159,15 +199,159 @@ function setFooter(text){
 
 
 /* ==========================================
+   STATUS ONLINE
+========================================== */
+
+function setOnline(
+    element
+){
+
+    if(!element){
+
+        return;
+
+    }
+
+
+    element.textContent =
+        "ONLINE";
+
+
+    element.classList.add(
+        "online"
+    );
+
+}
+
+
+/* ==========================================
    MODULE DONE
 ========================================== */
 
-function moduleDone(element){
+function moduleDone(
+    element
+){
 
-    if(element){
+    if(!element){
 
-        element.classList.add(
-            "done"
+        return;
+
+    }
+
+
+    element.classList.add(
+        "done"
+    );
+
+
+    element.classList.remove(
+        "active"
+    );
+
+
+    element.classList.remove(
+        "error"
+    );
+
+}
+
+
+/* ==========================================
+   MODULE ACTIVE
+========================================== */
+
+function moduleActive(
+    element
+){
+
+    if(!element){
+
+        return;
+
+    }
+
+
+    element.classList.add(
+        "active"
+    );
+
+}
+
+
+/* ==========================================
+   MODULE ERROR
+========================================== */
+
+function moduleError(
+    element
+){
+
+    if(!element){
+
+        return;
+
+    }
+
+
+    element.classList.add(
+        "error"
+    );
+
+
+    element.classList.remove(
+        "active"
+    );
+
+}
+
+
+/* ==========================================
+   DELAY
+========================================== */
+
+function delay(
+    milliseconds
+){
+
+    return new Promise(
+        resolve => {
+
+            setTimeout(
+                resolve,
+                milliseconds
+            );
+
+        }
+    );
+
+}
+
+
+/* ==========================================
+   WAIT MINIMUM LOADING TIME
+========================================== */
+
+async function waitMinimumLoadingTime(){
+
+    const elapsed =
+        Date.now() -
+        loadingStartTime;
+
+
+    const remaining =
+        Math.max(
+            0,
+            MIN_LOADING_TIME -
+            elapsed
+        );
+
+
+    if(
+        remaining > 0
+    ){
+
+        await delay(
+            remaining
         );
 
     }
@@ -184,24 +368,29 @@ function checkAuthentication(){
     return new Promise(
         resolve => {
 
-            let resolved =
+            let finished =
                 false;
+
 
             let unsubscribe =
                 null;
 
 
             const finish =
-            user => {
+            async function(
+                user
+            ){
 
-                if(resolved){
+                if(
+                    finished
+                ){
 
                     return;
 
                 }
 
 
-                resolved =
+                finished =
                     true;
 
 
@@ -222,11 +411,6 @@ function checkAuthentication(){
                         authStatus.textContent =
                             "ONLINE";
 
-                    }
-
-
-                    if(authStatus){
-
                         authStatus.classList.add(
                             "online"
                         );
@@ -239,9 +423,18 @@ function checkAuthentication(){
                     );
 
 
-                    resolve(user);
+                    updateProgress(
+                        25
+                    );
 
-                }else{
+
+                    resolve(
+                        user
+                    );
+
+                }
+
+                else{
 
                     if(authStatus){
 
@@ -255,37 +448,51 @@ function checkAuthentication(){
                     }
 
 
-                    resolve(null);
+                    moduleError(
+                        moduleAuth
+                    );
+
+
+                    resolve(
+                        null
+                    );
 
                 }
 
             };
 
 
+            moduleActive(
+                moduleAuth
+            );
+
+
             unsubscribe =
                 onAuthStateChanged(
+
                     auth,
-                    user => {
+
+                    function(user){
 
                         finish(
                             user
                         );
 
                     }
+
                 );
 
 
             /*
              * SAFETY TIMEOUT
-             *
-             * Prevents loading screen
-             * from staying forever.
              */
 
             setTimeout(
-                () => {
+                function(){
 
-                    if(!resolved){
+                    if(
+                        !finished
+                    ){
 
                         console.error(
                             "Authentication check timeout."
@@ -316,16 +523,19 @@ function getUserRole(){
 
     const role =
         String(
+
             localStorage.getItem(
                 "userRole"
             ) || ""
+
         )
         .trim()
         .toLowerCase();
 
 
     if(
-        role === "admin" ||
+        role === "admin"
+        ||
         role === "employee"
     ){
 
@@ -343,24 +553,39 @@ function getUserRole(){
    SESSION CHECK
 ========================================== */
 
-function checkSession(user){
+function checkSession(
+    user
+){
 
     if(!user){
+
+        if(sessionStatus){
+
+            sessionStatus.textContent =
+                "FAILED";
+
+        }
+
+
+        moduleError(
+            moduleSession
+        );
+
 
         return false;
 
     }
 
 
+    moduleActive(
+        moduleSession
+    );
+
+
     if(sessionStatus){
 
         sessionStatus.textContent =
             "ACTIVE";
-
-    }
-
-
-    if(sessionStatus){
 
         sessionStatus.classList.add(
             "online"
@@ -374,68 +599,87 @@ function checkSession(user){
     );
 
 
+    updateProgress(
+        45
+    );
+
+
     return true;
 
 }
 
 
 /* ==========================================
-   DATABASE STATUS
+   DATABASE CHECK
 ========================================== */
 
 function checkDatabase(){
 
     return new Promise(
-        resolve => {
+        async resolve => {
+
+            moduleActive(
+                moduleDatabase
+            );
+
 
             try{
 
-                if(db){
+                /*
+                 * Firebase db object
+                 * must exist.
+                 */
 
-                    if(databaseStatus){
+                if(!db){
 
-                        databaseStatus.textContent =
-                            "READY";
-
-                    }
-
-
-                    if(databaseStatus){
-
-                        databaseStatus.classList.add(
-                            "online"
-                        );
-
-                    }
-
-
-                    moduleDone(
-                        moduleDatabase
+                    throw new Error(
+                        "Firebase database is unavailable."
                     );
 
-
-                    resolve(true);
-
-                    return;
-
                 }
+
+
+                /*
+                 * Small delay so the
+                 * database status is
+                 * visually noticeable.
+                 */
+
+                await delay(
+                    350
+                );
 
 
                 if(databaseStatus){
 
                     databaseStatus.textContent =
-                        "FAILED";
+                        "READY";
 
-                    databaseStatus.classList.remove(
+                    databaseStatus.classList.add(
                         "online"
                     );
 
                 }
 
 
-                resolve(false);
+                moduleDone(
+                    moduleDatabase
+                );
 
-            }catch(error){
+
+                updateProgress(
+                    65
+                );
+
+
+                resolve(
+                    true
+                );
+
+
+            }
+
+            catch(error){
 
                 console.error(
                     "Database Check Error:",
@@ -455,216 +699,18 @@ function checkDatabase(){
                 }
 
 
-                resolve(false);
+                moduleError(
+                    moduleDatabase
+                );
+
+
+                resolve(
+                    false
+                );
 
             }
 
         }
-    );
-
-}
-
-
-/* ==========================================
-   ROUTE USER
-========================================== */
-
-function routeUser(role){
-
-    /*
-     * ======================================
-     * ADMIN
-     * ======================================
-     */
-
-    if(
-        role ===
-        "admin"
-    ){
-
-        if(roleStatus){
-
-            roleStatus.textContent =
-                "ADMIN";
-
-        }
-
-
-        setTitle(
-            "LOADING ADMIN DASHBOARD..."
-        );
-
-
-        setFooter(
-            "ADMIN SESSION READY"
-        );
-
-
-        if(systemStatus){
-
-            systemStatus.textContent =
-                "ONLINE";
-
-        }
-
-
-        moduleDone(
-            moduleSystem
-        );
-
-
-        updateProgress(
-            100
-        );
-
-
-        setTimeout(
-            () => {
-
-                window.location.replace(
-                    "dashboard.html"
-                );
-
-            },
-            500
-        );
-
-
-        return;
-
-    }
-
-
-    /*
-     * ======================================
-     * EMPLOYEE
-     * ======================================
-     */
-
-    if(
-        role ===
-        "employee"
-    ){
-
-        if(roleStatus){
-
-            roleStatus.textContent =
-                "EMPLOYEE";
-
-        }
-
-
-        setTitle(
-            "LOADING EMPLOYEE PORTAL..."
-        );
-
-
-        setFooter(
-            "EMPLOYEE SESSION READY"
-        );
-
-
-        if(systemStatus){
-
-            systemStatus.textContent =
-                "ONLINE";
-
-        }
-
-
-        moduleDone(
-            moduleSystem
-        );
-
-
-        updateProgress(
-            100
-        );
-
-
-        setTimeout(
-            () => {
-
-                window.location.replace(
-                    "employeeportal.html"
-                );
-
-            },
-            500
-        );
-
-
-        return;
-
-    }
-
-
-    /*
-     * ======================================
-     * INVALID ROLE
-     * ======================================
-     */
-
-    if(roleStatus){
-
-        roleStatus.textContent =
-            "UNKNOWN";
-
-    }
-
-
-    if(systemStatus){
-
-        systemStatus.textContent =
-            "OFFLINE";
-
-        systemStatus.classList.remove(
-            "online"
-        );
-
-    }
-
-
-    setTitle(
-        "INVALID USER SESSION"
-    );
-
-
-    setFooter(
-        "PLEASE LOGIN AGAIN"
-    );
-
-
-    setTimeout(
-        () => {
-
-            localStorage.removeItem(
-                "userRole"
-            );
-
-            localStorage.removeItem(
-                "loggedInUser"
-            );
-
-            localStorage.removeItem(
-                "employeeDocId"
-            );
-
-            localStorage.removeItem(
-                "employeeId"
-            );
-
-            localStorage.removeItem(
-                "employeeName"
-            );
-
-
-            window.location.replace(
-                "login.html"
-            );
-
-        },
-        1000
     );
 
 }
@@ -677,7 +723,7 @@ function routeUser(role){
 async function waitForRole(){
 
     /*
-     * First check immediately.
+     * Immediate check.
      */
 
     let role =
@@ -692,25 +738,18 @@ async function waitForRole(){
 
 
     /*
-     * Sometimes login script writes
-     * localStorage just after Firebase
-     * authentication completes.
-     *
-     * Give it a short time to appear.
+     * Wait for login.js
+     * localStorage update.
      */
 
     for(
         let i = 0;
-        i < 20;
+        i < 30;
         i++
     ){
 
-        await new Promise(
-            resolve =>
-                setTimeout(
-                    resolve,
-                    100
-                )
+        await delay(
+            100
         );
 
 
@@ -733,6 +772,321 @@ async function waitForRole(){
 
 
 /* ==========================================
+   ROLE STATUS
+========================================== */
+
+function setRoleStatus(
+    role
+){
+
+    if(!roleStatus){
+
+        return;
+
+    }
+
+
+    if(
+        role ===
+        "admin"
+    ){
+
+        roleStatus.textContent =
+            "ADMIN";
+
+        roleStatus.classList.add(
+            "online"
+        );
+
+        return;
+
+    }
+
+
+    if(
+        role ===
+        "employee"
+    ){
+
+        roleStatus.textContent =
+            "EMPLOYEE";
+
+        roleStatus.classList.add(
+            "online"
+        );
+
+        return;
+
+    }
+
+
+    roleStatus.textContent =
+        "UNKNOWN";
+
+    roleStatus.classList.remove(
+        "online"
+    );
+
+}
+
+
+/* ==========================================
+   ROUTE USER
+========================================== */
+
+async function routeUser(
+    role
+){
+
+    /*
+     * ======================================
+     * INVALID ROLE
+     * ======================================
+     */
+
+    if(
+        role !== "admin"
+        &&
+        role !== "employee"
+    ){
+
+        setRoleStatus(
+            null
+        );
+
+
+        if(systemStatus){
+
+            systemStatus.textContent =
+                "OFFLINE";
+
+            systemStatus.classList.remove(
+                "online"
+            );
+
+        }
+
+
+        moduleError(
+            moduleSystem
+        );
+
+
+        setTitle(
+            "INVALID USER SESSION"
+        );
+
+
+        setFooter(
+            "PLEASE LOGIN AGAIN"
+        );
+
+
+        updateProgress(
+            0
+        );
+
+
+        await delay(
+            1000
+        );
+
+
+        localStorage.removeItem(
+            "userRole"
+        );
+
+
+        localStorage.removeItem(
+            "loggedInUser"
+        );
+
+
+        localStorage.removeItem(
+            "employeeDocId"
+        );
+
+
+        localStorage.removeItem(
+            "employeeId"
+        );
+
+
+        localStorage.removeItem(
+            "employeeName"
+        );
+
+
+        window.location.replace(
+            "login.html"
+        );
+
+
+        return;
+
+    }
+
+
+    /*
+     * ======================================
+     * ROLE
+     * ======================================
+     */
+
+    setRoleStatus(
+        role
+    );
+
+
+    updateProgress(
+        85
+    );
+
+
+    /*
+     * ======================================
+     * SYSTEM
+     * ======================================
+     */
+
+    moduleActive(
+        moduleSystem
+    );
+
+
+    setTitle(
+        "INITIALIZING SYSTEM..."
+    );
+
+
+    setFooter(
+        "STARTING PAPPRITO HRIS..."
+    );
+
+
+    if(systemStatus){
+
+        systemStatus.textContent =
+            "STARTING";
+
+    }
+
+
+    await delay(
+        500
+    );
+
+
+    if(systemStatus){
+
+        systemStatus.textContent =
+            "ONLINE";
+
+        systemStatus.classList.add(
+            "online"
+        );
+
+    }
+
+
+    moduleDone(
+        moduleSystem
+    );
+
+
+    updateProgress(
+        100
+    );
+
+
+    /*
+     * ======================================
+     * FINAL MESSAGE
+     * ======================================
+     */
+
+    if(
+        role ===
+        "admin"
+    ){
+
+        setTitle(
+            "LOADING ADMIN DASHBOARD..."
+        );
+
+
+        setFooter(
+            "ADMIN SESSION READY"
+        );
+
+    }
+
+
+    if(
+        role ===
+        "employee"
+    ){
+
+        setTitle(
+            "LOADING EMPLOYEE PORTAL..."
+        );
+
+
+        setFooter(
+            "EMPLOYEE SESSION READY"
+        );
+
+    }
+
+
+    /*
+     * ======================================
+     * KEEP 100% VISIBLE
+     * ======================================
+     */
+
+    await delay(
+        900
+    );
+
+
+    /*
+     * ======================================
+     * REDIRECT
+     * ======================================
+     */
+
+    if(
+        role ===
+        "admin"
+    ){
+
+        window.location.replace(
+            "dashboard.html"
+        );
+
+        return;
+
+    }
+
+
+    if(
+        role ===
+        "employee"
+    ){
+
+        window.location.replace(
+            "employeeportal.html"
+        );
+
+        return;
+
+    }
+
+}
+
+
+/* ==========================================
    MAIN LOADING PROCESS
 ========================================== */
 
@@ -741,7 +1095,9 @@ async function startLoading(){
     try{
 
         /*
-         * START
+         * ==================================
+         * RESET
+         * ==================================
          */
 
         updateProgress(
@@ -759,9 +1115,11 @@ async function startLoading(){
         );
 
 
-        /* ==================================
-           AUTHENTICATION
-        ================================== */
+        /*
+         * ==================================
+         * AUTHENTICATION
+         * ==================================
+         */
 
         const user =
             await checkAuthentication();
@@ -784,15 +1142,13 @@ async function startLoading(){
             );
 
 
-            setTimeout(
-                () => {
-
-                    window.location.replace(
-                        "login.html"
-                    );
-
-                },
+            await delay(
                 1000
+            );
+
+
+            window.location.replace(
+                "login.html"
             );
 
 
@@ -801,17 +1157,19 @@ async function startLoading(){
         }
 
 
-        updateProgress(
-            30
-        );
-
-
-        /* ==================================
-           SESSION
-        ================================== */
+        /*
+         * ==================================
+         * SESSION
+         * ==================================
+         */
 
         setTitle(
             "VERIFYING SESSION..."
+        );
+
+
+        setFooter(
+            "VERIFYING ACTIVE SESSION..."
         );
 
 
@@ -833,15 +1191,18 @@ async function startLoading(){
             );
 
 
-            setTimeout(
-                () => {
+            updateProgress(
+                0
+            );
 
-                    window.location.replace(
-                        "login.html"
-                    );
 
-                },
-                800
+            await delay(
+                900
+            );
+
+
+            window.location.replace(
+                "login.html"
             );
 
 
@@ -850,14 +1211,11 @@ async function startLoading(){
         }
 
 
-        updateProgress(
-            50
-        );
-
-
-        /* ==================================
-           DATABASE
-        ================================== */
+        /*
+         * ==================================
+         * DATABASE
+         * ==================================
+         */
 
         setTitle(
             "CONNECTING TO DATABASE..."
@@ -869,17 +1227,41 @@ async function startLoading(){
         );
 
 
-        await checkDatabase();
+        const databaseReady =
+            await checkDatabase();
 
 
-        updateProgress(
-            70
-        );
+        if(!databaseReady){
+
+            /*
+             * We don't immediately
+             * destroy the session.
+             *
+             * Show the error first.
+             */
+
+            setTitle(
+                "DATABASE CONNECTION WARNING"
+            );
 
 
-        /* ==================================
-           ROLE
-        ================================== */
+            setFooter(
+                "CONTINUING WITH LIMITED CONNECTION..."
+            );
+
+
+            await delay(
+                700
+            );
+
+        }
+
+
+        /*
+         * ==================================
+         * ROLE
+         * ==================================
+         */
 
         setTitle(
             "VERIFYING USER ROLE..."
@@ -887,7 +1269,7 @@ async function startLoading(){
 
 
         setFooter(
-            "VERIFYING ACCESS..."
+            "VERIFYING ACCESS PERMISSIONS..."
         );
 
 
@@ -897,7 +1279,7 @@ async function startLoading(){
 
         if(!role){
 
-            routeUser(
+            await routeUser(
                 null
             );
 
@@ -906,59 +1288,36 @@ async function startLoading(){
         }
 
 
-        updateProgress(
-            90
-        );
-
-
-        /* ==================================
-           FINAL
-        ================================== */
-
-        setTitle(
-            "SYSTEM READY..."
-        );
-
-
-        setFooter(
-            "PAPPRITO HRIS READY"
+        setRoleStatus(
+            role
         );
 
 
         updateProgress(
-            100
+            85
         );
 
 
         /*
-         * Small delay so user can
-         * actually see 100%.
+         * ==================================
+         * FINAL SYSTEM
+         * ==================================
          */
 
-        setTimeout(
-            () => {
-
-                routeUser(
-                    role
-                );
-
-            },
-            300
+        await routeUser(
+            role
         );
 
 
-    }catch(error){
+    }
+
+    catch(error){
 
         console.error(
             "Loading System Error:",
             error
         );
 
-
-        /*
-         * Never leave the user
-         * stuck on the loading screen.
-         */
 
         setTitle(
             "LOADING ERROR"
@@ -975,15 +1334,13 @@ async function startLoading(){
         );
 
 
-        setTimeout(
-            () => {
-
-                window.location.replace(
-                    "login.html"
-                );
-
-            },
+        await delay(
             1200
+        );
+
+
+        window.location.replace(
+            "login.html"
         );
 
     }
@@ -997,7 +1354,17 @@ async function startLoading(){
 
 window.addEventListener(
     "load",
-    () => {
+    function(){
+
+        /*
+         * Make sure the loading
+         * screen is actually visible
+         * before starting the process.
+         */
+
+        document.body.style.visibility =
+            "visible";
+
 
         startLoading();
 
