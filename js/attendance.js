@@ -2,6 +2,7 @@
    PAPPRITO HRIS
    ATTENDANCE SYSTEM JS
    SETTINGS-INTEGRATED VERSION
+   MANUAL CUTOFF SUMMARY
 ========================================================= */
 
 
@@ -306,6 +307,74 @@ const scheduleGrace =
 const scheduleStatus =
     getElement(
         "scheduleStatus"
+    );
+
+
+/* =========================================================
+   ATTENDANCE SUMMARY ELEMENTS
+========================================================= */
+
+const attendanceSummary =
+    getElement(
+        "attendanceSummary",
+        "summarySection",
+        "cutoffSummary"
+    );
+
+
+const summaryFromDate =
+    getElement(
+        "summaryFromDate",
+        "cutoffFromDate"
+    );
+
+
+const summaryToDate =
+    getElement(
+        "summaryToDate",
+        "cutoffToDate"
+    );
+
+
+const summaryTableBody =
+    getElement(
+        "summaryTableBody",
+        "attendanceSummaryBody"
+    );
+
+
+const summaryTotalRegular =
+    getElement(
+        "summaryTotalRegular",
+        "totalRegularHours"
+    );
+
+
+const summaryTotalOT =
+    getElement(
+        "summaryTotalOT",
+        "totalOvertimeHours"
+    );
+
+
+const summaryTotalLate =
+    getElement(
+        "summaryTotalLate",
+        "totalLateMinutes"
+    );
+
+
+const summaryGrandTotal =
+    getElement(
+        "summaryGrandTotal",
+        "grandTotalHours"
+    );
+
+
+const summaryTotalEmployees =
+    getElement(
+        "summaryTotalEmployees",
+        "totalEmployees"
     );
 
 
@@ -1165,11 +1234,6 @@ async function loadAttendanceSettings(){
         );
 
 
-        /*
-         * Keep safe defaults if Firebase
-         * settings cannot be loaded.
-         */
-
         attendanceSettings = {
 
             enabled:true,
@@ -1332,11 +1396,6 @@ function calculateLateMinutes(
     }
 
 
-    /*
-     * Grace period is removed from
-     * the official late calculation.
-     */
-
     const late =
         Math.max(
 
@@ -1352,12 +1411,6 @@ function calculateLateMinutes(
 
         );
 
-
-    /*
-     * If the result is below the
-     * configured late threshold,
-     * don't classify it as late.
-     */
 
     if(
         late <
@@ -1936,6 +1989,9 @@ async function getOrCreateTodayRecord(){
             0,
 
         late:
+            0,
+
+        undertimeMinutes:
             0,
 
         status:
@@ -2562,16 +2618,6 @@ async function(){
                 "PRESENT";
 
 
-        /*
-         * Undertime
-         *
-         * If actual worked hours are
-         * below scheduled hours and
-         * the missing time reaches the
-         * configured undertime threshold,
-         * classify as UNDERTIME.
-         */
-
         const scheduledHours =
             getScheduledWorkHours();
 
@@ -2841,10 +2887,6 @@ function updateTodayDisplay(){
 
         );
 
-
-    /*
-     * LIVE HOURS
-     */
 
     if(
         timeIn &&
@@ -3483,6 +3525,22 @@ function(){
     }
 
 
+    if(summaryFromDate){
+
+        summaryFromDate.value =
+            "";
+
+    }
+
+
+    if(summaryToDate){
+
+        summaryToDate.value =
+            "";
+
+    }
+
+
     selectedEmployee =
         null;
 
@@ -3492,6 +3550,15 @@ function(){
     updateTodayDisplay();
 
     renderAttendanceRecords();
+
+
+    if(attendanceSummary){
+
+        attendanceSummary.classList.remove(
+            "active"
+        );
+
+    }
 
 };
 
@@ -3559,6 +3626,23 @@ async function deleteAttendance(id){
         updateTodayDisplay();
 
 
+        /*
+         * Refresh cutoff summary
+         * if it is currently visible.
+         */
+
+        if(
+            attendanceSummary &&
+            attendanceSummary.classList.contains(
+                "active"
+            )
+        ){
+
+            generateCutoffSummary();
+
+        }
+
+
         alert(
             "Attendance record deleted successfully."
         );
@@ -3598,11 +3682,64 @@ function(id){
 
 
 /* =========================================================
-   SUMMARY
+   GET CUTOFF DATES
 ========================================================= */
 
-window.showSummary =
-function(){
+function getCutoffDates(){
+
+    const from =
+        summaryFromDate &&
+        summaryFromDate.value
+            ?
+            summaryFromDate.value
+            :
+            (
+                startDate &&
+                startDate.value
+                    ?
+                    startDate.value
+                    :
+                    ""
+            );
+
+
+    const to =
+        summaryToDate &&
+        summaryToDate.value
+            ?
+            summaryToDate.value
+            :
+            (
+                endDate &&
+                endDate.value
+                    ?
+                    endDate.value
+                    :
+                    ""
+            );
+
+
+    return {
+
+        from:
+            from,
+
+        to:
+            to
+
+    };
+
+}
+
+
+/* =========================================================
+   FILTER RECORDS FOR CUTOFF
+========================================================= */
+
+function getCutoffRecords(
+    from,
+    to
+){
 
     let records =
         [
@@ -3610,40 +3747,19 @@ function(){
         ];
 
 
-    const from =
-        startDate
-            ?
-            startDate.value
-            :
-            "";
-
-
-    const to =
-        endDate
-            ?
-            endDate.value
-            :
-            "";
-
-
-    const employeeId =
-        selectedEmployee
-            ?
-            getEmployeeId(
-                selectedEmployee
-            )
-            :
-            "";
-
-
     if(from){
 
         records =
             records.filter(
-                record =>
-                    getRecordDate(
-                        record
-                    ) >= from
+                record => {
+
+                    return (
+                        getRecordDate(
+                            record
+                        ) >= from
+                    );
+
+                }
             );
 
     }
@@ -3653,23 +3769,675 @@ function(){
 
         records =
             records.filter(
-                record =>
-                    getRecordDate(
-                        record
-                    ) <= to
+                record => {
+
+                    return (
+                        getRecordDate(
+                            record
+                        ) <= to
+                    );
+
+                }
             );
 
     }
 
 
-    if(employeeId){
+    /*
+     * If a specific employee is selected,
+     * summary may show that employee only.
+     *
+     * If no employee is selected,
+     * summary shows ALL employees.
+     */
+
+    if(
+        selectedEmployee
+    ){
+
+        const employeeId =
+            getEmployeeId(
+                selectedEmployee
+            );
+
+
+        records =
+            records.filter(
+                record => {
+
+                    return (
+
+                        getRecordEmployeeId(
+                            record
+                        ) === employeeId
+
+                    );
+
+                }
+            );
+
+    }
+
+
+    return records;
+
+}
+
+
+/* =========================================================
+   BUILD EMPLOYEE SUMMARY
+========================================================= */
+
+function buildEmployeeSummary(
+    employee,
+    records
+){
+
+    const employeeId =
+        getEmployeeId(
+            employee
+        );
+
+
+    const employeeName =
+        getEmployeeName(
+            employee
+        );
+
+
+    const employeeRecords =
+        records.filter(
+            record => {
+
+                return (
+
+                    getRecordEmployeeId(
+                        record
+                    ) === employeeId
+
+                );
+
+            }
+        );
+
+
+    let regular =
+        0;
+
+
+    let ot =
+        0;
+
+
+    let late =
+        0;
+
+
+    let totalHours =
+        0;
+
+
+    let days =
+        0;
+
+
+    employeeRecords.forEach(
+        record => {
+
+            const regularHoursValue =
+                number(
+
+                    record.regularHours ??
+                    record.regHours
+
+                );
+
+
+            const overtimeValue =
+                number(
+
+                    record.overtime ??
+                    record.ot
+
+                );
+
+
+            const lateValue =
+                number(
+
+                    record.lateMinutes ??
+                    record.late
+
+                );
+
+
+            regular +=
+                regularHoursValue;
+
+
+            ot +=
+                overtimeValue;
+
+
+            late +=
+                lateValue;
+
+
+            totalHours +=
+                regularHoursValue +
+                overtimeValue;
+
+
+            days++;
+
+        }
+    );
+
+
+    return {
+
+        employeeId:
+            employeeId,
+
+        employeeName:
+            employeeName,
+
+        days:
+            days,
+
+        regularHours:
+            Number(
+                regular.toFixed(2)
+            ),
+
+        overtime:
+            Number(
+                ot.toFixed(2)
+            ),
+
+        lateMinutes:
+            Math.round(
+                late
+            ),
+
+        totalHours:
+            Number(
+                totalHours.toFixed(2)
+            )
+
+    };
+
+}
+
+
+/* =========================================================
+   GET ALL EMPLOYEE SUMMARIES
+========================================================= */
+
+function getEmployeeSummaries(
+    records
+){
+
+    let employeeList =
+        [
+            ...employees
+        ];
+
+
+    /*
+     * If an employee is selected,
+     * only show that employee.
+     */
+
+    if(
+        selectedEmployee
+    ){
+
+        employeeList =
+            [
+                selectedEmployee
+            ];
+
+    }
+
+
+    return employeeList.map(
+        employee => {
+
+            return buildEmployeeSummary(
+                employee,
+                records
+            );
+
+        }
+    );
+
+}
+
+
+/* =========================================================
+   RENDER SUMMARY
+========================================================= */
+
+function renderCutoffSummary(
+    summaries,
+    from,
+    to
+){
+
+    /*
+     * Find summary table body again
+     * in case the DOM was loaded later.
+     */
+
+    const tbody =
+        summaryTableBody
+        ||
+        document.querySelector(
+            "#attendanceSummary table tbody"
+        )
+        ||
+        document.querySelector(
+            "#summaryTable tbody"
+        );
+
+
+    /*
+     * Summary section
+     */
+
+    const summarySection =
+        attendanceSummary
+        ||
+        document.getElementById(
+            "attendanceSummary"
+        );
+
+
+    if(
+        summarySection
+    ){
+
+        summarySection.classList.add(
+            "active"
+        );
+
+    }
+
+
+    /*
+     * Date labels
+     */
+
+    const fromLabel =
+        document.getElementById(
+            "summaryDisplayFrom"
+        );
+
+
+    const toLabel =
+        document.getElementById(
+            "summaryDisplayTo"
+        );
+
+
+    if(fromLabel){
+
+        fromLabel.textContent =
+            from || "All";
+
+    }
+
+
+    if(toLabel){
+
+        toLabel.textContent =
+            to || "All";
+
+    }
+
+
+    /*
+     * Totals
+     */
+
+    let totalRegular =
+        0;
+
+
+    let totalOT =
+        0;
+
+
+    let totalLate =
+        0;
+
+
+    let totalHours =
+        0;
+
+
+    summaries.forEach(
+        summary => {
+
+            totalRegular +=
+                summary.regularHours;
+
+            totalOT +=
+                summary.overtime;
+
+            totalLate +=
+                summary.lateMinutes;
+
+            totalHours +=
+                summary.totalHours;
+
+        }
+    );
+
+
+    if(summaryTotalEmployees){
+
+        summaryTotalEmployees.textContent =
+            String(
+                summaries.length
+            );
+
+    }
+
+
+    if(summaryTotalRegular){
+
+        summaryTotalRegular.textContent =
+            formatHours(
+                totalRegular
+            );
+
+    }
+
+
+    if(summaryTotalOT){
+
+        summaryTotalOT.textContent =
+            formatHours(
+                totalOT
+            );
+
+    }
+
+
+    if(summaryTotalLate){
+
+        summaryTotalLate.textContent =
+            String(
+                totalLate
+            );
+
+    }
+
+
+    if(summaryGrandTotal){
+
+        summaryGrandTotal.textContent =
+            formatHours(
+                totalHours
+            );
+
+    }
+
+
+    /*
+     * No table body.
+     */
+
+    if(!tbody){
+
+        console.warn(
+            "Attendance summary table body not found."
+        );
+
+        return;
+
+    }
+
+
+    tbody.innerHTML =
+        "";
+
+
+    if(
+        summaries.length === 0
+    ){
+
+        tbody.innerHTML = `
+
+<tr class="empty-row">
+
+<td colspan="7">
+
+<span class="material-icons">
+summarize
+</span>
+
+<p>
+No attendance summary found for this cutoff.
+</p>
+
+</td>
+
+</tr>
+
+`;
+
+        return;
+
+    }
+
+
+    summaries.forEach(
+        summary => {
+
+            /*
+             * Keep employee in summary
+             * even when they have zero records.
+             */
+
+            const row =
+                document.createElement(
+                    "tr"
+                );
+
+
+            row.innerHTML = `
+
+<td>
+${escapeHTML(
+    summary.employeeId || "-"
+)}
+</td>
+
+<td>
+${escapeHTML(
+    summary.employeeName || "-"
+)}
+</td>
+
+<td>
+${summary.days}
+</td>
+
+<td>
+${summary.regularHours.toFixed(2)}
+</td>
+
+<td>
+${summary.overtime.toFixed(2)}
+</td>
+
+<td>
+${summary.lateMinutes}
+</td>
+
+<td class="summary-total-hours">
+${summary.totalHours.toFixed(2)}
+</td>
+
+`;
+
+
+            tbody.appendChild(
+                row
+            );
+
+        }
+    );
+
+}
+
+
+/* =========================================================
+   GENERATE CUTOFF SUMMARY
+========================================================= */
+
+function generateCutoffSummary(){
+
+    const dates =
+        getCutoffDates();
+
+
+    const from =
+        dates.from;
+
+
+    const to =
+        dates.to;
+
+
+    /*
+     * Validate cutoff.
+     */
+
+    if(
+        from &&
+        to &&
+        from > to
+    ){
+
+        alert(
+            "Cutoff From Date cannot be later than To Date."
+        );
+
+        return;
+
+    }
+
+
+    const records =
+        getCutoffRecords(
+            from,
+            to
+        );
+
+
+    const summaries =
+        getEmployeeSummaries(
+            records
+        );
+
+
+    renderCutoffSummary(
+        summaries,
+        from,
+        to
+    );
+
+
+    /*
+     * Also display the filtered
+     * attendance records.
+     */
+
+    renderAttendanceRecords(
+        records
+    );
+
+}
+
+
+/* =========================================================
+   GLOBAL GENERATE SUMMARY
+========================================================= */
+
+window.generateCutoffSummary =
+function(){
+
+    generateCutoffSummary();
+
+};
+
+
+/* =========================================================
+   SUMMARY
+========================================================= */
+
+window.showSummary =
+function(){
+
+    generateCutoffSummary();
+
+};
+
+
+/* =========================================================
+   SUMMARY ALIAS
+========================================================= */
+
+window.generateSummary =
+function(){
+
+    generateCutoffSummary();
+
+};
+
+
+/* =========================================================
+   LEGACY SUMMARY
+========================================================= */
+
+window.showLegacySummary =
+function(){
+
+    let records =
+        [
+            ...attendanceRecords
+        ];
+
+
+    const dates =
+        getCutoffDates();
+
+
+    if(dates.from){
 
         records =
             records.filter(
                 record =>
-                    getRecordEmployeeId(
+                    getRecordDate(
                         record
-                    ) === employeeId
+                    ) >= dates.from
+            );
+
+    }
+
+
+    if(dates.to){
+
+        records =
+            records.filter(
+                record =>
+                    getRecordDate(
+                        record
+                    ) <= dates.to
             );
 
     }
@@ -3700,30 +4468,6 @@ function(){
                     record.late
 
                 ) > 0
-        ).length;
-
-
-    const absent =
-        records.filter(
-            record =>
-                text(
-                    record.status
-                )
-                .toUpperCase()
-                ===
-                "ABSENT"
-        ).length;
-
-
-    const leave =
-        records.filter(
-            record =>
-                text(
-                    record.status
-                )
-                .toUpperCase()
-                ===
-                "LEAVE"
         ).length;
 
 
@@ -3792,14 +4536,6 @@ function(){
 
         "Late: " +
         late +
-        "\n" +
-
-        "Absent: " +
-        absent +
-        "\n" +
-
-        "Leave: " +
-        leave +
         "\n\n" +
 
         "Regular Hours: " +
@@ -3807,7 +4543,14 @@ function(){
         "\n" +
 
         "Overtime Hours: " +
-        overtimeTotal.toFixed(2)
+        overtimeTotal.toFixed(2) +
+        "\n" +
+
+        "Total Hours: " +
+        (
+            regularTotal +
+            overtimeTotal
+        ).toFixed(2)
 
     );
 
@@ -4100,7 +4843,61 @@ if(summaryButton){
 
             event.preventDefault();
 
-            showSummary();
+            generateCutoffSummary();
+
+        }
+    );
+
+}
+
+
+/* =========================================================
+   SUMMARY CUTOFF DATE EVENTS
+========================================================= */
+
+if(summaryFromDate){
+
+    summaryFromDate.addEventListener(
+        "change",
+        function(){
+
+            /*
+             * Copy summary dates to the
+             * normal filter dates when
+             * those fields exist.
+             */
+
+            if(
+                startDate &&
+                summaryFromDate.value
+            ){
+
+                startDate.value =
+                    summaryFromDate.value;
+
+            }
+
+        }
+    );
+
+}
+
+
+if(summaryToDate){
+
+    summaryToDate.addEventListener(
+        "change",
+        function(){
+
+            if(
+                endDate &&
+                summaryToDate.value
+            ){
+
+                endDate.value =
+                    summaryToDate.value;
+
+            }
 
         }
     );
@@ -4210,7 +5007,6 @@ async function initAttendance(){
 
 
         /*
-         * IMPORTANT:
          * Load settings BEFORE loading
          * attendance calculations.
          */
