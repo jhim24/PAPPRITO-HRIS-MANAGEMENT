@@ -1,12 +1,18 @@
 /* ==========================================
    PAPPRITO HRIS
    EMPLOYEE MASTERLIST JS
-   ORIGINAL USER LOGIN SYSTEM
+   UPDATED
+   EXISTING FUNCTIONS RETAINED
+   + COMPENSATION
+   + PAYROLL
+   + ATTENDANCE
 ========================================== */
+
 
 import {
     db
-} from "./firebase.js";
+}
+from "./firebase.js";
 
 
 import {
@@ -83,6 +89,92 @@ function text(value){
     return String(
         value ?? ""
     ).trim();
+
+}
+
+
+/* ==========================================
+   NUMBER HELPER
+========================================== */
+
+function numberValue(value, fallback = 0){
+
+    const number =
+        Number(value);
+
+    return Number.isFinite(number)
+        ? number
+        : fallback;
+
+}
+
+
+/* ==========================================
+   GET FIELD BY TAB
+========================================== */
+
+function getTabFields(tabId){
+
+    const tab =
+        document.getElementById(
+            tabId
+        );
+
+    if(!tab){
+
+        return [];
+
+    }
+
+    return Array.from(
+        tab.querySelectorAll(
+            ".emp-field"
+        )
+    );
+
+}
+
+
+/* ==========================================
+   GET FIELD VALUE BY POSITION
+   ONLY WITHIN A SPECIFIC TAB
+========================================== */
+
+function tabValue(
+    tabId,
+    index
+){
+
+    const fields =
+        getTabFields(
+            tabId
+        );
+
+    return fields[index]
+        ?
+        fields[index].value
+        :
+        "";
+
+}
+
+
+/* ==========================================
+   GET FIELD BY ID
+========================================== */
+
+function idValue(id){
+
+    const field =
+        document.getElementById(
+            id
+        );
+
+    return field
+        ?
+        field.value
+        :
+        "";
 
 }
 
@@ -371,202 +463,552 @@ function(){
 
 function getEmployeeFormData(){
 
-    const fields =
-        document.querySelectorAll(
-            "#employeeModal .emp-field"
+    /*
+     * ======================================
+     * PERSONAL TAB
+     * ======================================
+     *
+     * 0 First Name
+     * 1 Middle Name
+     * 2 Last Name
+     * 3 Birthdate
+     * 4 Age
+     * 5 Gender
+     */
+
+    const personalFields =
+        getTabFields(
+            "personal"
         );
 
 
     /*
-     * Original field order:
+     * ======================================
+     * CONTACT TAB
+     * ======================================
      *
-     * 0  First Name
-     * 1  Middle Name
-     * 2  Last Name
-     * 3  Birthdate
-     * 4  Age
-     * 5  Gender
-     *
-     * 6  SSS
-     * 7  PhilHealth
-     * 8  Pag-IBIG
-     * 9  Health Card
-     * 10 Bank
-     * 11 Bank Account
-     * 12 ID Type
-     * 13 ID Number
-     *
-     * 14 Mobile
-     * 15 Email
-     * 16 Current Address
-     * 17 Permanent Address
-     *
-     * 18 Employee ID
-     * 19 Position
-     * 20 Department
-     * 21 Employment
-     * 22 Status
-     * 23 Salary
-     *
-     * 24 Vacation Leave
-     * 25 Sick Leave
-     * 26 Birthday Leave
+     * 0 Mobile
+     * 1 Email
+     * 2 Current Address
+     * 3 Permanent Address
      */
 
+    const contactFields =
+        getTabFields(
+            "contact"
+        );
 
-    const value =
-        index =>
-            fields[index]
-            ?
-            fields[index].value
-            :
-            "";
+
+    /*
+     * ======================================
+     * EMPLOYMENT TAB
+     * ======================================
+     *
+     * 0 Employee ID
+     * 1 Position
+     * 2 Department
+     * 3 Employment
+     * 4 Status
+     * 5 Existing Salary
+     * 6 Vacation Leave
+     * 7 Sick Leave
+     * 8 Birthday Leave
+     */
+
+    const employmentFields =
+        getTabFields(
+            "employment"
+        );
+
+
+    /*
+     * ======================================
+     * GOVERNMENT TAB
+     * ======================================
+     *
+     * 0 SSS
+     * 1 PhilHealth
+     * 2 Pag-IBIG
+     * 3 Health Card
+     * 4 Bank Name
+     * 5 Bank Account
+     * 6 ID Type
+     * 7 ID Number
+     */
+
+    const governmentFields =
+        getTabFields(
+            "government"
+        );
+
+
+    /*
+     * ======================================
+     * COMPENSATION
+     * ======================================
+     */
+
+    const compensationSalary =
+        text(
+            idValue(
+                "compensationSalary"
+            )
+        );
+
+
+    const payType =
+        text(
+            idValue(
+                "payType"
+            )
+        );
+
+
+    const payFrequency =
+        text(
+            idValue(
+                "payFrequency"
+            )
+        );
+
+
+    const allowances =
+        text(
+            idValue(
+                "allowances"
+            )
+        );
+
+
+    /*
+     * ======================================
+     * PAYROLL
+     * ======================================
+     */
+
+    const payrollGroup =
+        text(
+            idValue(
+                "payrollGroup"
+            )
+        );
+
+
+    const payrollBank =
+        text(
+            idValue(
+                "payrollBank"
+            )
+        );
+
+
+    const payrollBankAccount =
+        text(
+            idValue(
+                "payrollBankAccount"
+            )
+        );
+
+
+    const deductions =
+        text(
+            idValue(
+                "deductions"
+            )
+        );
+
+
+    /*
+     * ======================================
+     * ATTENDANCE
+     * ======================================
+     */
+
+    const schedule =
+        text(
+            idValue(
+                "schedule"
+            )
+        );
+
+
+    const shift =
+        text(
+            idValue(
+                "shift"
+            )
+        );
+
+
+    const restDay =
+        text(
+            idValue(
+                "restDay"
+            )
+        );
+
+
+    const attendanceGroup =
+        text(
+            idValue(
+                "attendanceGroup"
+            )
+        );
+
+
+    /*
+     * ======================================
+     * SALARY COMPATIBILITY
+     * ======================================
+     *
+     * Existing salary field remains.
+     *
+     * If Compensation Salary is filled,
+     * use it as the main salary value.
+     *
+     * Otherwise retain existing salary.
+     */
+
+    const existingSalary =
+        text(
+            employmentFields[5]
+                ?
+                employmentFields[5].value
+                :
+                ""
+        );
+
+
+    const finalSalary =
+        compensationSalary
+        ||
+        existingSalary;
 
 
     return {
 
+        /* ==================================
+           PERSONAL
+        ================================== */
+
         firstname:
             text(
-                value(0)
+                personalFields[0]
+                ?
+                personalFields[0].value
+                :
+                ""
             ),
 
         middlename:
             text(
-                value(1)
+                personalFields[1]
+                ?
+                personalFields[1].value
+                :
+                ""
             ),
 
         lastname:
             text(
-                value(2)
+                personalFields[2]
+                ?
+                personalFields[2].value
+                :
+                ""
             ),
 
         birthdate:
             text(
-                value(3)
+                personalFields[3]
+                ?
+                personalFields[3].value
+                :
+                ""
             ),
 
         age:
             text(
-                value(4)
+                personalFields[4]
+                ?
+                personalFields[4].value
+                :
+                ""
             ),
 
         gender:
             text(
-                value(5)
+                personalFields[5]
+                ?
+                personalFields[5].value
+                :
+                ""
             ),
 
 
+        /* ==================================
+           GOVERNMENT
+        ================================== */
+
         sss:
             text(
-                value(6)
+                governmentFields[0]
+                ?
+                governmentFields[0].value
+                :
+                ""
             ),
 
         philhealth:
             text(
-                value(7)
+                governmentFields[1]
+                ?
+                governmentFields[1].value
+                :
+                ""
             ),
 
         pagibig:
             text(
-                value(8)
+                governmentFields[2]
+                ?
+                governmentFields[2].value
+                :
+                ""
             ),
 
         healthcard:
             text(
-                value(9)
+                governmentFields[3]
+                ?
+                governmentFields[3].value
+                :
+                ""
             ),
 
         bankname:
             text(
-                value(10)
+                governmentFields[4]
+                ?
+                governmentFields[4].value
+                :
+                ""
             ),
 
         bankaccount:
             text(
-                value(11)
+                governmentFields[5]
+                ?
+                governmentFields[5].value
+                :
+                ""
             ),
 
         idtype:
             text(
-                value(12)
+                governmentFields[6]
+                ?
+                governmentFields[6].value
+                :
+                ""
             ),
 
         idnumber:
             text(
-                value(13)
+                governmentFields[7]
+                ?
+                governmentFields[7].value
+                :
+                ""
             ),
 
 
+        /* ==================================
+           CONTACT
+        ================================== */
+
         mobile:
             text(
-                value(14)
+                contactFields[0]
+                ?
+                contactFields[0].value
+                :
+                ""
             ),
 
         email:
             text(
-                value(15)
+                contactFields[1]
+                ?
+                contactFields[1].value
+                :
+                ""
             ),
 
         currentaddress:
             text(
-                value(16)
+                contactFields[2]
+                ?
+                contactFields[2].value
+                :
+                ""
             ),
 
         permanentaddress:
             text(
-                value(17)
+                contactFields[3]
+                ?
+                contactFields[3].value
+                :
+                ""
             ),
 
 
+        /* ==================================
+           EMPLOYMENT
+        ================================== */
+
         employeeid:
             text(
-                value(18)
+                employmentFields[0]
+                ?
+                employmentFields[0].value
+                :
+                ""
             )
             .toUpperCase(),
 
-
         position:
             text(
-                value(19)
+                employmentFields[1]
+                ?
+                employmentFields[1].value
+                :
+                ""
             ),
 
         department:
             text(
-                value(20)
+                employmentFields[2]
+                ?
+                employmentFields[2].value
+                :
+                ""
             ),
 
         employment:
             text(
-                value(21)
+                employmentFields[3]
+                ?
+                employmentFields[3].value
+                :
+                ""
             ),
 
         status:
             text(
-                value(22)
+                employmentFields[4]
+                ?
+                employmentFields[4].value
+                :
+                ""
             )
             ||
             "Active",
 
-        salary:
-            text(
-                value(23)
-            ),
 
+        /* ==================================
+           SALARY
+        ================================== */
+
+        salary:
+            finalSalary,
+
+
+        /* ==================================
+           LEAVE BALANCES
+        ================================== */
 
         vacationleave:
-            Number(
-                value(24) || 10
+            numberValue(
+                employmentFields[6]
+                ?
+                employmentFields[6].value
+                :
+                "",
+                10
             ),
 
         sickleave:
-            Number(
-                value(25) || 7
+            numberValue(
+                employmentFields[7]
+                ?
+                employmentFields[7].value
+                :
+                "",
+                7
             ),
 
         birthdayleave:
-            Number(
-                value(26) || 1
-            )
+            numberValue(
+                employmentFields[8]
+                ?
+                employmentFields[8].value
+                :
+                "",
+                1
+            ),
+
+
+        /* ==================================
+           NEW COMPENSATION
+        ================================== */
+
+        compensationSalary:
+            compensationSalary,
+
+        paytype:
+            payType,
+
+        payfrequency:
+            payFrequency,
+
+        allowances:
+            allowances,
+
+
+        /* ==================================
+           NEW PAYROLL
+        ================================== */
+
+        payrollgroup:
+            payrollGroup,
+
+        payrollbank:
+            payrollBank,
+
+        payrollbankaccount:
+            payrollBankAccount,
+
+        deductions:
+            deductions,
+
+
+        /* ==================================
+           NEW ATTENDANCE
+        ================================== */
+
+        schedule:
+            schedule,
+
+        shift:
+            shift,
+
+        restday:
+            restDay,
+
+        attendancegroup:
+            attendanceGroup
 
     };
 
@@ -641,8 +1083,7 @@ async function(){
                     &&
                     text(
                         employee.employeeid
-                    )
-                    .toUpperCase()
+                    ).toUpperCase()
                     ===
                     employeeData.employeeid
                     &&
@@ -1647,8 +2088,7 @@ async function(){
 
                     text(
                         employee.username
-                    )
-                    .toUpperCase()
+                    ).toUpperCase()
                     ===
                     username
 
@@ -1774,7 +2214,17 @@ function(id){
     openModal();
 
 
-    const values = [
+    /* ======================================
+       PERSONAL
+    ====================================== */
+
+    const personalFields =
+        getTabFields(
+            "personal"
+        );
+
+
+    const personalValues = [
 
         employee.firstname,
 
@@ -1786,8 +2236,126 @@ function(id){
 
         employee.age,
 
-        employee.gender,
+        employee.gender
 
+    ];
+
+
+    personalFields.forEach(
+        (
+            field,
+            index
+        ) => {
+
+            field.value =
+                personalValues[index]
+                ??
+                "";
+
+        }
+    );
+
+
+    /* ======================================
+       CONTACT
+    ====================================== */
+
+    const contactFields =
+        getTabFields(
+            "contact"
+        );
+
+
+    const contactValues = [
+
+        employee.mobile,
+
+        employee.email,
+
+        employee.currentaddress,
+
+        employee.permanentaddress
+
+    ];
+
+
+    contactFields.forEach(
+        (
+            field,
+            index
+        ) => {
+
+            field.value =
+                contactValues[index]
+                ??
+                "";
+
+        }
+    );
+
+
+    /* ======================================
+       EMPLOYMENT
+    ====================================== */
+
+    const employmentFields =
+        getTabFields(
+            "employment"
+        );
+
+
+    const employmentValues = [
+
+        employee.employeeid,
+
+        employee.position,
+
+        employee.department,
+
+        employee.employment,
+
+        employee.status,
+
+        employee.salary,
+
+        employee.vacationleave ??
+            10,
+
+        employee.sickleave ??
+            7,
+
+        employee.birthdayleave ??
+            1
+
+    ];
+
+
+    employmentFields.forEach(
+        (
+            field,
+            index
+        ) => {
+
+            field.value =
+                employmentValues[index]
+                ??
+                "";
+
+        }
+    );
+
+
+    /* ======================================
+       GOVERNMENT
+    ====================================== */
+
+    const governmentFields =
+        getTabFields(
+            "government"
+        );
+
+
+    const governmentValues = [
 
         employee.sss,
 
@@ -1803,59 +2371,259 @@ function(id){
 
         employee.idtype,
 
-        employee.idnumber,
-
-
-        employee.mobile,
-
-        employee.email,
-
-        employee.currentaddress,
-
-        employee.permanentaddress,
-
-
-        employee.employeeid,
-
-        employee.position,
-
-        employee.department,
-
-        employee.employment,
-
-        employee.status,
-
-        employee.salary,
-
-
-        employee.vacationleave ??
-            10,
-
-        employee.sickleave ??
-            7,
-
-        employee.birthdayleave ??
-            1
+        employee.idnumber
 
     ];
 
 
-    document
-        .querySelectorAll(
-            "#employeeModal .emp-field"
-        )
-        .forEach(
-            (
-                field,
-                index
-            ) => {
+    governmentFields.forEach(
+        (
+            field,
+            index
+        ) => {
 
-                field.value =
-                    values[index] ??
-                    "";
+            field.value =
+                governmentValues[index]
+                ??
+                "";
 
-            }
+        }
+    );
+
+
+    /* ======================================
+       COMPENSATION
+    ====================================== */
+
+    const compensationSalary =
+        document.getElementById(
+            "compensationSalary"
         );
+
+
+    const payType =
+        document.getElementById(
+            "payType"
+        );
+
+
+    const payFrequency =
+        document.getElementById(
+            "payFrequency"
+        );
+
+
+    const allowances =
+        document.getElementById(
+            "allowances"
+        );
+
+
+    if(
+        compensationSalary
+    ){
+
+        compensationSalary.value =
+
+            employee.compensationSalary
+            ??
+            employee.salary
+            ??
+            "";
+
+    }
+
+
+    if(
+        payType
+    ){
+
+        payType.value =
+            employee.paytype
+            ??
+            "";
+
+    }
+
+
+    if(
+        payFrequency
+    ){
+
+        payFrequency.value =
+            employee.payfrequency
+            ??
+            "";
+
+    }
+
+
+    if(
+        allowances
+    ){
+
+        allowances.value =
+            employee.allowances
+            ??
+            "";
+
+    }
+
+
+    /* ======================================
+       PAYROLL
+    ====================================== */
+
+    const payrollGroup =
+        document.getElementById(
+            "payrollGroup"
+        );
+
+
+    const payrollBank =
+        document.getElementById(
+            "payrollBank"
+        );
+
+
+    const payrollBankAccount =
+        document.getElementById(
+            "payrollBankAccount"
+        );
+
+
+    const deductions =
+        document.getElementById(
+            "deductions"
+        );
+
+
+    if(
+        payrollGroup
+    ){
+
+        payrollGroup.value =
+            employee.payrollgroup
+            ??
+            "";
+
+    }
+
+
+    if(
+        payrollBank
+    ){
+
+        payrollBank.value =
+            employee.payrollbank
+            ??
+            employee.bankname
+            ??
+            "";
+
+    }
+
+
+    if(
+        payrollBankAccount
+    ){
+
+        payrollBankAccount.value =
+            employee.payrollbankaccount
+            ??
+            employee.bankaccount
+            ??
+            "";
+
+    }
+
+
+    if(
+        deductions
+    ){
+
+        deductions.value =
+            employee.deductions
+            ??
+            "";
+
+    }
+
+
+    /* ======================================
+       ATTENDANCE
+    ====================================== */
+
+    const schedule =
+        document.getElementById(
+            "schedule"
+        );
+
+
+    const shift =
+        document.getElementById(
+            "shift"
+        );
+
+
+    const restDay =
+        document.getElementById(
+            "restDay"
+        );
+
+
+    const attendanceGroup =
+        document.getElementById(
+            "attendanceGroup"
+        );
+
+
+    if(
+        schedule
+    ){
+
+        schedule.value =
+            employee.schedule
+            ??
+            "";
+
+    }
+
+
+    if(
+        shift
+    ){
+
+        shift.value =
+            employee.shift
+            ??
+            "";
+
+    }
+
+
+    if(
+        restDay
+    ){
+
+        restDay.value =
+            employee.restday
+            ??
+            "";
+
+    }
+
+
+    if(
+        attendanceGroup
+    ){
+
+        attendanceGroup.value =
+            employee.attendancegroup
+            ??
+            "";
+
+    }
 
 
     /*
@@ -1870,6 +2638,61 @@ function(id){
         calcAge();
 
     }
+
+
+    /*
+     * Always return to Personal tab
+     */
+
+    document
+        .querySelectorAll(
+            "#employeeModal .tab-content"
+        )
+        .forEach(
+            tab => {
+
+                tab.classList.remove(
+                    "active"
+                );
+
+            }
+        );
+
+
+    const personal =
+        document.getElementById(
+            "personal"
+        );
+
+
+    if(
+        personal
+    ){
+
+        personal.classList.add(
+            "active"
+        );
+
+    }
+
+
+    document
+        .querySelectorAll(
+            "#employeeModal .tab-btn"
+        )
+        .forEach(
+            (
+                button,
+                index
+            ) => {
+
+                button.classList.toggle(
+                    "active",
+                    index === 0
+                );
+
+            }
+        );
 
 };
 
@@ -2312,6 +3135,10 @@ function clearForm(){
         null;
 
 
+    /*
+     * Clear ALL employee fields
+     */
+
     document
         .querySelectorAll(
             "#employeeModal .emp-field"
@@ -2326,63 +3153,63 @@ function clearForm(){
         );
 
 
-    /*
-     * Default leave balances
-     */
+    /* ======================================
+       DEFAULT LEAVE BALANCES
+    ====================================== */
 
-    const fields =
-        document.querySelectorAll(
-            "#employeeModal .emp-field"
+    const employmentFields =
+        getTabFields(
+            "employment"
         );
 
 
     if(
-        fields[24]
+        employmentFields[6]
     ){
 
-        fields[24].value =
+        employmentFields[6].value =
             "10";
 
     }
 
 
     if(
-        fields[25]
+        employmentFields[7]
     ){
 
-        fields[25].value =
+        employmentFields[7].value =
             "7";
 
     }
 
 
     if(
-        fields[26]
+        employmentFields[8]
     ){
 
-        fields[26].value =
+        employmentFields[8].value =
             "1";
 
     }
 
 
-    /*
-     * Default status
-     */
+    /* ======================================
+       DEFAULT STATUS
+    ====================================== */
 
     if(
-        fields[22]
+        employmentFields[4]
     ){
 
-        fields[22].value =
+        employmentFields[4].value =
             "Active";
 
     }
 
 
-    /*
-     * Return to Personal tab
-     */
+    /* ======================================
+       RETURN TO PERSONAL TAB
+    ====================================== */
 
     document
         .querySelectorAll(
