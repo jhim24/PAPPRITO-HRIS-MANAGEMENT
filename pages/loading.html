@@ -9,7 +9,9 @@
     name="viewport"
     content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 
-<title>PAPPRITO HRIS - Loading</title>
+<title>
+    PAPPRITO HRIS - Loading
+</title>
 
 
 <!-- ==========================================
@@ -64,10 +66,11 @@
 
 
     <!-- ======================================
-         BACKGROUND EFFECT
+         BACKGROUND
     ======================================= -->
 
-    <div class="loading-background"></div>
+    <div class="loading-background">
+    </div>
 
 
     <!-- ======================================
@@ -77,7 +80,9 @@
     <div class="loading-card">
 
 
-        <!-- LOGO -->
+        <!-- ==================================
+             LOGO
+        ================================== -->
 
         <div class="logo-wrapper">
 
@@ -89,7 +94,9 @@
         </div>
 
 
-        <!-- BRAND -->
+        <!-- ==================================
+             BRAND
+        ================================== -->
 
         <div class="loading-brand">
 
@@ -104,43 +111,60 @@
         </div>
 
 
-        <!-- TITLE -->
+        <!-- ==================================
+             TITLE
+        ================================== -->
 
         <div class="loading-title">
+
 
             <span class="material-icons">
                 security
             </span>
 
-            SYSTEM INITIALIZING
+
+            <span id="loadingTitle">
+
+                SYSTEM INITIALIZING
+
+            </span>
+
 
         </div>
 
 
-        <!-- STATUS -->
+        <!-- ==================================
+             MAIN STATUS
+        ================================== -->
 
         <div
             id="authStatus"
             class="loading-status">
 
-            Connecting...
+            CONNECTING...
 
         </div>
 
 
-        <!-- PROGRESS -->
+        <!-- ==================================
+             PROGRESS BAR
+        ================================== -->
 
         <div class="progress-wrapper">
+
 
             <div
                 id="progressBar"
                 class="progress-bar">
             </div>
 
+
         </div>
 
 
-        <!-- PERCENT -->
+        <!-- ==================================
+             PERCENT
+        ================================== -->
 
         <div
             id="percent"
@@ -151,74 +175,196 @@
         </div>
 
 
-        <!-- SYSTEM STATUS -->
+        <!-- ==================================
+             SYSTEM STATUS
+        ================================== -->
 
         <div class="system-status">
 
 
-            <div class="status-item">
+            <!-- ==============================
+                 AUTHENTICATION
+            =============================== -->
 
-                <span
-                    id="databaseStatusIcon"
-                    class="material-icons">
-
-                    database
-
-                </span>
-
-                <span>
-                    DATABASE
-                </span>
-
-            </div>
+            <div
+                id="moduleAuth"
+                class="status-item">
 
 
-            <div class="status-item">
-
-                <span
-                    id="authStatusIcon"
-                    class="material-icons">
-
+                <span class="material-icons">
                     lock
-
                 </span>
 
-                <span>
-                    AUTHENTICATION
-                </span>
+
+                <div>
+
+                    <span>
+                        AUTHENTICATION
+                    </span>
+
+
+                    <strong
+                        id="authStatus">
+
+                        CHECKING
+
+                    </strong>
+
+                </div>
+
 
             </div>
 
+
+            <!-- ==============================
+                 DATABASE
+            =============================== -->
+
+            <div
+                id="moduleDatabase"
+                class="status-item">
+
+
+                <span class="material-icons">
+                    database
+                </span>
+
+
+                <div>
+
+                    <span>
+                        DATABASE
+                    </span>
+
+
+                    <strong
+                        id="databaseStatus">
+
+                        CHECKING
+
+                    </strong>
+
+                </div>
+
+
+            </div>
+
+
+            <!-- ==============================
+                 SESSION
+            =============================== -->
+
+            <div
+                id="moduleSession"
+                class="status-item">
+
+
+                <span class="material-icons">
+                    verified_user
+                </span>
+
+
+                <div>
+
+                    <span>
+                        SESSION
+                    </span>
+
+
+                    <strong
+                        id="sessionStatus">
+
+                        CHECKING
+
+                    </strong>
+
+                </div>
+
+
+            </div>
+
+
+            <!-- ==============================
+                 SYSTEM
+            =============================== -->
+
+            <div
+                id="moduleSystem"
+                class="status-item">
+
+
+                <span class="material-icons">
+                    memory
+                </span>
+
+
+                <div>
+
+                    <span>
+                        SYSTEM
+                    </span>
+
+
+                    <strong
+                        id="systemStatus">
+
+                        CHECKING
+
+                    </strong>
+
+                </div>
+
+
+            </div>
+
+
+            <!-- ==============================
+                 USER ROLE
+            =============================== -->
 
             <div class="status-item">
 
-                <span
-                    id="systemStatusIcon"
-                    class="material-icons">
 
-                    memory
-
+                <span class="material-icons">
+                    badge
                 </span>
 
-                <span>
-                    SYSTEM
-                </span>
+
+                <div>
+
+                    <span>
+                        USER ROLE
+                    </span>
+
+
+                    <strong
+                        id="roleStatus">
+
+                        CHECKING
+
+                    </strong>
+
+                </div>
+
 
             </div>
+
 
         </div>
 
 
-        <!-- FOOTER -->
+        <!-- ==================================
+             FOOTER STATUS
+        ================================== -->
 
-        <div class="loading-footer">
+        <div
+            id="footerStatus"
+            class="loading-footer">
 
             PAPPRITO HRIS
-
             <span>
                 •
             </span>
-
             SECURE SYSTEM
 
         </div>
@@ -226,11 +372,13 @@
 
     </div>
 
+
 </div>
 
 
+
 <!-- ==========================================
-     JAVASCRIPT
+     LOADING JAVASCRIPT
 ========================================== -->
 
 <script
