@@ -1,22 +1,7 @@
 /* =========================================================
    PAPPRITO HRIS
-   ATTENDANCE SYSTEM JS
-   FULL UPDATED VERSION
-   PART 1 / 3
-
-   FEATURES:
-   - Firebase Employees
-   - Firebase Attendance
-   - Attendance Settings
-   - Live Clock
-   - Employee Selection
-   - Time In
-   - Break Out
-   - Break In
-   - Time Out
-   - Attendance Calculation
-   - Manual Cutoff Support
-   - Employee Cutoff Summary
+   EMPLOYEE ATTENDANCE SYSTEM
+   FINAL VERSION
 ========================================================= */
 
 
@@ -63,37 +48,21 @@ let attendanceSettings = {
 
     enabled: true,
 
-    openingTime:
-        "08:00",
+    openingTime: "08:00",
 
-    closingTime:
-        "17:00",
+    closingTime: "17:00",
 
-    breakStart:
-        "12:00",
+    breakStart: "12:00",
 
-    breakEnd:
-        "13:00",
+    breakEnd: "13:00",
 
-    gracePeriod:
-        15,
+    gracePeriod: 15,
 
-    lateThreshold:
-        15,
+    lateThreshold: 15,
 
-    undertimeThreshold:
-        15
+    undertimeThreshold: 15
 
 };
-
-
-/* =========================================================
-   MANUAL CUTOFF
-========================================================= */
-
-let cutoffStartDate = "";
-
-let cutoffEndDate = "";
 
 
 /* =========================================================
@@ -312,7 +281,7 @@ const lateMinutes =
 
 
 /* =========================================================
-   OPTIONAL SCHEDULE DISPLAY ELEMENTS
+   CURRENT SCHEDULE ELEMENTS
 ========================================================= */
 
 const scheduleOpening =
@@ -448,10 +417,8 @@ function getToday(){
     const date =
         new Date();
 
-
     const year =
         date.getFullYear();
-
 
     const month =
         String(
@@ -462,7 +429,6 @@ function getToday(){
             "0"
         );
 
-
     const day =
         String(
             date.getDate()
@@ -472,15 +438,12 @@ function getToday(){
             "0"
         );
 
-
     return (
-
         year +
         "-" +
         month +
         "-" +
         day
-
     );
 
 }
@@ -495,7 +458,6 @@ function getCurrentTime(){
     const date =
         new Date();
 
-
     const hours =
         String(
             date.getHours()
@@ -504,7 +466,6 @@ function getCurrentTime(){
             2,
             "0"
         );
-
 
     const minutes =
         String(
@@ -515,7 +476,6 @@ function getCurrentTime(){
             "0"
         );
 
-
     const seconds =
         String(
             date.getSeconds()
@@ -525,15 +485,12 @@ function getCurrentTime(){
             "0"
         );
 
-
     return (
-
         hours +
         ":" +
         minutes +
         ":" +
         seconds
-
     );
 
 }
@@ -673,10 +630,8 @@ function timeToMinutes(value){
 
 
     return (
-
         hours * 60 +
         minutes
-
     );
 
 }
@@ -919,22 +874,16 @@ function getScheduledWorkHours(){
 
     const breakMinutes =
         minutesBetween(
-
             attendanceSettings.breakStart,
-
             attendanceSettings.breakEnd
-
         );
 
 
     totalMinutes =
         Math.max(
-
             0,
-
             totalMinutes -
             breakMinutes
-
         );
 
 
@@ -961,8 +910,6 @@ function getEmployeeId(employee){
 
         employee.empID ||
 
-        employee.idNumber ||
-
         ""
 
     )
@@ -972,58 +919,17 @@ function getEmployeeId(employee){
 
 
 /* =========================================================
-   GET EMPLOYEE NAME
+   EMPLOYEE NAME
 ========================================================= */
 
 function getEmployeeName(employee){
 
-    /*
-     * First check if the employee
-     * already has a complete name.
-     */
-
-    const directName =
-        text(
-
-            employee.employeeName ||
-
-            employee.employeename ||
-
-            employee.name ||
-
-            ""
-
-        );
-
-
-    if(directName){
-
-        return directName;
-
-    }
-
-
-    /*
-     * Otherwise build the name
-     * from first/middle/last name.
-     */
-
     return text(
 
         [
-
             employee.firstname,
-
-            employee.firstName,
-
             employee.middlename,
-
-            employee.middleName,
-
-            employee.lastname,
-
-            employee.lastName
-
+            employee.lastname
         ]
 
         .filter(
@@ -1237,6 +1143,7 @@ async function loadAttendanceSettings(){
 
         }
 
+
         else{
 
             console.warn(
@@ -1248,12 +1155,6 @@ async function loadAttendanceSettings(){
 
         updateScheduleDisplay();
 
-
-        console.log(
-            "Attendance Settings:",
-            attendanceSettings
-        );
-
     }
 
     catch(error){
@@ -1262,35 +1163,6 @@ async function loadAttendanceSettings(){
             "Load Attendance Settings Error:",
             error
         );
-
-
-        attendanceSettings = {
-
-            enabled:
-                true,
-
-            openingTime:
-                "08:00",
-
-            closingTime:
-                "17:00",
-
-            breakStart:
-                "12:00",
-
-            breakEnd:
-                "13:00",
-
-            gracePeriod:
-                15,
-
-            lateThreshold:
-                15,
-
-            undertimeThreshold:
-                15
-
-        };
 
 
         updateScheduleDisplay();
@@ -1374,31 +1246,18 @@ function updateScheduleDisplay(){
         scheduleStatus
     ){
 
-        if(
+        scheduleStatus.textContent =
             attendanceSettings.enabled
-        ){
-
-            scheduleStatus.textContent =
-                "ACTIVE";
-
-
-            scheduleStatus.classList.remove(
-                "inactive"
-            );
-
-        }
-
-        else{
-
-            scheduleStatus.textContent =
+                ?
+                "ACTIVE"
+                :
                 "DISABLED";
 
 
-            scheduleStatus.classList.add(
-                "inactive"
-            );
-
-        }
+        scheduleStatus.classList.toggle(
+            "inactive",
+            !attendanceSettings.enabled
+        );
 
     }
 
@@ -1436,16 +1295,6 @@ function calculateLateMinutes(
     }
 
 
-    /*
-     * Grace period is applied first.
-     */
-
-    const grace =
-        number(
-            attendanceSettings.gracePeriod
-        );
-
-
     const late =
         Math.max(
 
@@ -1454,24 +1303,19 @@ function calculateLateMinutes(
             actual -
             (
                 opening +
-                grace
+                number(
+                    attendanceSettings.gracePeriod
+                )
             )
 
         );
 
 
-    /*
-     * Late threshold.
-     */
-
-    const threshold =
+    if(
+        late <
         number(
             attendanceSettings.lateThreshold
-        );
-
-
-    if(
-        late < threshold
+        )
     ){
 
         return 0;
@@ -1489,15 +1333,10 @@ function calculateLateMinutes(
 ========================================================= */
 
 function calculateAttendanceHours(
-
     timeIn,
-
     timeOut,
-
     breakOut,
-
     breakIn
-
 ){
 
     if(
@@ -1508,20 +1347,13 @@ function calculateAttendanceHours(
 
         return {
 
-            breakHours:
-                0,
+            breakHours:0,
 
-            workedHours:
-                0,
+            workedHours:0,
 
-            regularHours:
-                0,
+            regularHours:0,
 
-            overtime:
-                0,
-
-            totalHours:
-                0
+            overtime:0
 
         };
 
@@ -1530,11 +1362,8 @@ function calculateAttendanceHours(
 
     let totalHours =
         hoursBetween(
-
             timeIn,
-
             timeOut
-
         );
 
 
@@ -1549,11 +1378,8 @@ function calculateAttendanceHours(
 
         breakHours =
             hoursBetween(
-
                 breakOut,
-
                 breakIn
-
             );
 
     }
@@ -1576,22 +1402,16 @@ function calculateAttendanceHours(
 
     const regular =
         Math.min(
-
             scheduledHours,
-
             totalHours
-
         );
 
 
     const ot =
         Math.max(
-
             0,
-
             totalHours -
             scheduledHours
-
         );
 
 
@@ -1615,18 +1435,11 @@ function calculateAttendanceHours(
         overtime:
             Number(
                 ot.toFixed(2)
-            ),
-
-        totalHours:
-            Number(
-                totalHours.toFixed(2)
             )
 
     };
 
 }
-
-
 /* =========================================================
    LOAD EMPLOYEES
 ========================================================= */
@@ -1661,24 +1474,19 @@ async function loadEmployees(){
 
 
         employees.sort(
-
             (
                 a,
                 b
-
             ) => {
 
                 return getEmployeeName(a)
                     .toLowerCase()
                     .localeCompare(
-
                         getEmployeeName(b)
                             .toLowerCase()
-
                     );
 
             }
-
         );
 
 
@@ -1695,10 +1503,8 @@ async function loadEmployees(){
 
 
         alert(
-
             "Failed to load employees.\n\n" +
             error.message
-
         );
 
     }
@@ -1766,17 +1572,12 @@ function populateEmployeeDropdown(){
 
 
             option.textContent =
-
                 id
-
                     ?
-
                     id +
                     " - " +
                     name
-
                     :
-
                     name;
 
 
@@ -1806,19 +1607,14 @@ function handleEmployeeChange(){
 
     selectedEmployee =
         employees.find(
-
             employee =>
                 employee.id === id
-
         )
-
         ||
-
         null;
 
 
     displaySelectedEmployee();
-
 
     updateTodayDisplay();
 
@@ -1865,13 +1661,10 @@ function displaySelectedEmployee(){
     ){
 
         employeeIdDisplay.textContent =
-
             getEmployeeId(
                 selectedEmployee
             )
-
             ||
-
             "-";
 
     }
@@ -1882,13 +1675,10 @@ function displaySelectedEmployee(){
     ){
 
         employeeNameDisplay.textContent =
-
             getEmployeeName(
                 selectedEmployee
             )
-
             ||
-
             "-";
 
     }
@@ -1930,11 +1720,9 @@ async function loadAttendance(){
 
 
         attendanceRecords.sort(
-
             (
                 a,
                 b
-
             ) => {
 
                 const dateA =
@@ -1971,12 +1759,10 @@ async function loadAttendance(){
                 );
 
             }
-
         );
 
 
         renderAttendanceRecords();
-
 
         updateTodayDisplay();
 
@@ -1992,9 +1778,7 @@ async function loadAttendance(){
 
         attendanceRecords = [];
 
-
         renderAttendanceRecords();
-
 
         updateTodayDisplay();
 
@@ -2098,9 +1882,6 @@ async function getOrCreateTodayRecord(){
         ot:
             0,
 
-        totalHours:
-            0,
-
         lateMinutes:
             0,
 
@@ -2121,11 +1902,8 @@ async function getOrCreateTodayRecord(){
 
     const reference =
         await addDoc(
-
             attendanceCollection,
-
             data
-
         );
 
 
@@ -2154,23 +1932,16 @@ async function getOrCreateTodayRecord(){
 ========================================================= */
 
 async function updateAttendanceRecord(
-
     recordId,
-
     data
-
 ){
 
     await updateDoc(
 
         doc(
-
             db,
-
             "attendance",
-
             recordId
-
         ),
 
         data
@@ -2180,11 +1951,9 @@ async function updateAttendanceRecord(
 
     const index =
         attendanceRecords.findIndex(
-
             record =>
                 record.id ===
                 recordId
-
         );
 
 
@@ -2221,27 +1990,13 @@ function checkAttendanceEnabled(){
 
 
     alert(
-
         "Attendance Time Rules are currently disabled in Settings."
-
     );
 
 
     return false;
 
 }
-
-
-/* =========================================================
-   PART 1 END
-========================================================= */
-
-/* =========================================================
-   PART 2 / 3
-   ATTENDANCE ACTIONS
-   FILTERING
-   CUTOFF SUMMARY
-========================================================= */
 
 
 /* =========================================================
@@ -2354,38 +2109,26 @@ async function(){
         alert(
 
             "Time In recorded at " +
-
-            formatTime12Hour(
-                time
-            )
+            formatTime12Hour(time)
 
             +
 
-            "\n\n"
-
-            +
+            "\n\n" +
 
             (
-
                 late > 0
-
                     ?
-
                     "Late: " +
                     late +
                     " minutes"
-
                     :
-
                     "Status: PRESENT"
-
             )
 
         );
 
 
         updateTodayDisplay();
-
 
         renderAttendanceRecords();
 
@@ -2400,10 +2143,8 @@ async function(){
 
 
         alert(
-
             "Failed to record Time In.\n\n" +
             error.message
-
         );
 
     }
@@ -2504,16 +2245,12 @@ async function(){
         alert(
 
             "Break Out recorded at " +
-
-            formatTime12Hour(
-                time
-            )
+            formatTime12Hour(time)
 
         );
 
 
         updateTodayDisplay();
-
 
         renderAttendanceRecords();
 
@@ -2528,10 +2265,8 @@ async function(){
 
 
         alert(
-
             "Failed to record Break Out.\n\n" +
             error.message
-
         );
 
     }
@@ -2632,16 +2367,12 @@ async function(){
         alert(
 
             "Break In recorded at " +
-
-            formatTime12Hour(
-                time
-            )
+            formatTime12Hour(time)
 
         );
 
 
         updateTodayDisplay();
-
 
         renderAttendanceRecords();
 
@@ -2656,10 +2387,8 @@ async function(){
 
 
         alert(
-
             "Failed to record Break In.\n\n" +
             error.message
-
         );
 
     }
@@ -2786,9 +2515,9 @@ async function(){
                 "PRESENT";
 
 
-        /* ---------------------------------------------
+        /* =================================================
            UNDERTIME
-        --------------------------------------------- */
+        ================================================= */
 
         const scheduledHours =
             getScheduledWorkHours();
@@ -2812,12 +2541,9 @@ async function(){
 
 
         if(
-
             undertimeMinutes >=
-
             number(
-                attendanceSettings
-                    .undertimeThreshold
+                attendanceSettings.undertimeThreshold
             )
 
             &&
@@ -2828,15 +2554,10 @@ async function(){
         ){
 
             status =
-
                 late > 0
-
                     ?
-
                     "LATE / UNDERTIME"
-
                     :
-
                     "UNDERTIME";
 
         }
@@ -2869,9 +2590,6 @@ async function(){
                 ot:
                     calculations.overtime,
 
-                totalHours:
-                    calculations.workedHours,
-
                 lateMinutes:
                     late,
 
@@ -2892,88 +2610,49 @@ async function(){
         alert(
 
             "Time Out recorded at " +
-
-            formatTime12Hour(
-                time
-            )
+            formatTime12Hour(time)
 
             +
 
-            "\n\n"
-
-            +
+            "\n\n" +
 
             "Regular Hours: " +
-
-            calculations
-                .regularHours
-                .toFixed(2)
+            calculations.regularHours.toFixed(2)
 
             +
 
-            "\n"
-
-            +
+            "\n" +
 
             "Overtime: " +
-
-            calculations
-                .overtime
-                .toFixed(2)
+            calculations.overtime.toFixed(2)
 
             +
 
-            "\n"
-
-            +
-
-            "Total Hours: " +
-
-            calculations
-                .workedHours
-                .toFixed(2)
-
-            +
-
-            "\n"
-
-            +
+            "\n" +
 
             "Break Hours: " +
-
-            calculations
-                .breakHours
-                .toFixed(2)
+            calculations.breakHours.toFixed(2)
 
             +
 
-            "\n"
-
-            +
+            "\n" +
 
             "Late: " +
-
             late +
-
             " minutes"
 
             +
 
-            "\n"
-
-            +
+            "\n" +
 
             "Undertime: " +
-
             undertimeMinutes +
-
             " minutes"
 
         );
 
 
         updateTodayDisplay();
-
 
         renderAttendanceRecords();
 
@@ -2988,10 +2667,8 @@ async function(){
 
 
         alert(
-
             "Failed to record Time Out.\n\n" +
             error.message
-
         );
 
     }
@@ -3082,21 +2759,14 @@ function updateTodayDisplay(){
 
             record.lateMinutes ??
             record.late ??
-
             (
-
                 timeIn
-
                     ?
-
                     calculateLateMinutes(
                         timeIn
                     )
-
                     :
-
                     0
-
             )
 
         );
@@ -3158,13 +2828,10 @@ function updateTodayDisplay(){
     if(todayStatus){
 
         todayStatus.textContent =
-
             text(
                 record.status
             )
-
             ||
-
             "PRESENT";
 
     }
@@ -3173,7 +2840,6 @@ function updateTodayDisplay(){
     if(regularHours){
 
         regularHours.textContent =
-
             formatHours(
                 regular
             );
@@ -3184,7 +2850,6 @@ function updateTodayDisplay(){
     if(overtime){
 
         overtime.textContent =
-
             formatHours(
                 ot
             );
@@ -3195,7 +2860,6 @@ function updateTodayDisplay(){
     if(lateMinutes){
 
         lateMinutes.textContent =
-
             String(
                 late
             );
@@ -3220,14 +2884,10 @@ function updateButtons(record){
         !!(
 
             record
-
             &&
-
             (
-
                 record.timeIn ||
                 record.timein
-
             )
 
         );
@@ -3237,14 +2897,10 @@ function updateButtons(record){
         !!(
 
             record
-
             &&
-
             (
-
                 record.breakOut ||
                 record.breakout
-
             )
 
         );
@@ -3254,14 +2910,10 @@ function updateButtons(record){
         !!(
 
             record
-
             &&
-
             (
-
                 record.breakIn ||
                 record.breakin
-
             )
 
         );
@@ -3271,14 +2923,10 @@ function updateButtons(record){
         !!(
 
             record
-
             &&
-
             (
-
                 record.timeOut ||
                 record.timeout
-
             )
 
         );
@@ -3295,7 +2943,6 @@ function updateButtons(record){
     if(breakOutButton){
 
         breakOutButton.disabled =
-
             !hasTimeIn ||
             hasBreakOut;
 
@@ -3305,7 +2952,6 @@ function updateButtons(record){
     if(breakInButton){
 
         breakInButton.disabled =
-
             !hasBreakOut ||
             hasBreakIn;
 
@@ -3315,7 +2961,6 @@ function updateButtons(record){
     if(timeOutButton){
 
         timeOutButton.disabled =
-
             !hasTimeIn ||
             hasTimeOut;
 
@@ -3366,15 +3011,11 @@ function getStatusClass(status){
 
 
     if(
-
         value ===
         "LEAVE"
-
         ||
-
         value ===
         "ON LEAVE"
-
     ){
 
         return "status-leave";
@@ -3403,10 +3044,8 @@ function getStatusClass(status){
 ========================================================= */
 
 function renderAttendanceRecords(
-
     records =
         attendanceRecords
-
 ){
 
     const tbody =
@@ -3429,11 +3068,8 @@ function renderAttendanceRecords(
 
 
     if(
-
         !records ||
-
         records.length === 0
-
     ){
 
         tbody.innerHTML = `
@@ -3516,8 +3152,7 @@ No attendance records found.
                 number(
 
                     record.regularHours ??
-                    record.regHours ??
-                    0
+                    record.regHours
 
                 );
 
@@ -3526,23 +3161,7 @@ No attendance records found.
                 number(
 
                     record.overtime ??
-                    record.ot ??
-                    0
-
-                );
-
-
-            const totalHours =
-                number(
-
-                    record.totalHours ??
-
-                    (
-
-                        regHours +
-                        ot
-
-                    )
+                    record.ot
 
                 );
 
@@ -3551,8 +3170,7 @@ No attendance records found.
                 number(
 
                     record.lateMinutes ??
-                    record.late ??
-                    0
+                    record.late
 
                 );
 
@@ -3664,9 +3282,7 @@ delete
             ){
 
                 deleteButton.addEventListener(
-
                     "click",
-
                     function(){
 
                         deleteAttendance(
@@ -3674,7 +3290,6 @@ delete
                         );
 
                     }
-
                 );
 
             }
@@ -3685,14 +3300,138 @@ delete
             );
 
         }
-
     );
 
 }
+/* =========================================================
+   FILTER ATTENDANCE
+========================================================= */
+
+window.filterAttendance =
+function(){
+
+    const from =
+        startDate
+            ?
+            startDate.value
+            :
+            "";
+
+
+    const to =
+        endDate
+            ?
+            endDate.value
+            :
+            "";
+
+
+    const employeeId =
+        selectedEmployee
+            ?
+            getEmployeeId(
+                selectedEmployee
+            )
+            :
+            "";
+
+
+    let filtered =
+        [
+            ...attendanceRecords
+        ];
+
+
+    /* -----------------------------------------
+       FROM DATE
+    ----------------------------------------- */
+
+    if(from){
+
+        filtered =
+            filtered.filter(
+                record => {
+
+                    return (
+                        getRecordDate(
+                            record
+                        ) >= from
+                    );
+
+                }
+            );
+
+    }
+
+
+    /* -----------------------------------------
+       TO DATE
+    ----------------------------------------- */
+
+    if(to){
+
+        filtered =
+            filtered.filter(
+                record => {
+
+                    return (
+                        getRecordDate(
+                            record
+                        ) <= to
+                    );
+
+                }
+            );
+
+    }
+
+
+    /* -----------------------------------------
+       EMPLOYEE
+    ----------------------------------------- */
+
+    if(employeeId){
+
+        filtered =
+            filtered.filter(
+                record => {
+
+                    return (
+
+                        getRecordEmployeeId(
+                            record
+                        ) === employeeId
+
+                    );
+
+                }
+            );
+
+    }
+
+
+    renderAttendanceRecords(
+        filtered
+    );
+
+};
+
+
+/* =========================================================
+   APPLY FILTER ALIAS
+========================================================= */
+
+window.applyFilter =
+function(){
+
+    filterAttendance();
+
+};
 
 
 /* =========================================================
    GET FILTERED RECORDS
+   USED BY SUMMARY
 ========================================================= */
 
 function getFilteredAttendanceRecords(){
@@ -3715,68 +3454,83 @@ function getFilteredAttendanceRecords(){
 
     const employeeId =
         selectedEmployee
-
             ?
-
             getEmployeeId(
                 selectedEmployee
             )
-
             :
-
             "";
 
 
-    let records = [
+    let records =
+        [
+            ...attendanceRecords
+        ];
 
-        ...attendanceRecords
 
-    ];
-
+    /* -----------------------------------------
+       FROM
+    ----------------------------------------- */
 
     if(from){
 
         records =
             records.filter(
+                record => {
 
-                record =>
+                    return (
+                        getRecordDate(
+                            record
+                        ) >= from
+                    );
 
-                    getRecordDate(
-                        record
-                    ) >= from
-
+                }
             );
 
     }
 
+
+    /* -----------------------------------------
+       TO
+    ----------------------------------------- */
 
     if(to){
 
         records =
             records.filter(
+                record => {
 
-                record =>
+                    return (
+                        getRecordDate(
+                            record
+                        ) <= to
+                    );
 
-                    getRecordDate(
-                        record
-                    ) <= to
-
+                }
             );
 
     }
 
 
+    /* -----------------------------------------
+       EMPLOYEE
+    ----------------------------------------- */
+
     if(employeeId){
 
         records =
             records.filter(
+                record => {
 
-                record =>
+                    return (
 
-                    getRecordEmployeeId(
-                        record
-                    ) === employeeId
+                        getRecordEmployeeId(
+                            record
+                        ) === employeeId
 
+                    );
+
+                }
             );
 
     }
@@ -3788,31 +3542,913 @@ function getFilteredAttendanceRecords(){
 
 
 /* =========================================================
-   FILTER
+   FORMAT CUTOFF DATE
 ========================================================= */
 
-window.filterAttendance =
-function(){
+function formatCutoffDate(
+    value
+){
 
-    const filtered =
+    if(!value){
+
+        return "-";
+
+    }
+
+
+    const parts =
+        value.split("-");
+
+
+    if(
+        parts.length !== 3
+    ){
+
+        return value;
+
+    }
+
+
+    return (
+
+        parts[1] +
+        "/" +
+        parts[2] +
+        "/" +
+        parts[0]
+
+    );
+
+}
+
+
+/* =========================================================
+   CREATE CUTOFF SUMMARY
+========================================================= */
+
+function createCutoffSummary(
+    records
+){
+
+    const summaryMap =
+        new Map();
+
+
+    records.forEach(
+        record => {
+
+            const employeeId =
+                getRecordEmployeeId(
+                    record
+                )
+                ||
+                "NO-ID";
+
+
+            const employeeName =
+                getRecordEmployeeName(
+                    record
+                )
+                ||
+                "Unknown Employee";
+
+
+            const key =
+                employeeId +
+                "|" +
+                employeeName;
+
+
+            if(
+                !summaryMap.has(
+                    key
+                )
+            ){
+
+                summaryMap.set(
+
+                    key,
+
+                    {
+
+                        employeeId:
+                            employeeId,
+
+                        employeeName:
+                            employeeName,
+
+                        regularHours:
+                            0,
+
+                        overtime:
+                            0,
+
+                        lateMinutes:
+                            0,
+
+                        totalHours:
+                            0,
+
+                        records:
+                            0
+
+                    }
+
+                );
+
+            }
+
+
+            const employeeSummary =
+                summaryMap.get(
+                    key
+                );
+
+
+            employeeSummary.regularHours +=
+
+                number(
+
+                    record.regularHours ??
+                    record.regHours ??
+                    0
+
+                );
+
+
+            employeeSummary.overtime +=
+
+                number(
+
+                    record.overtime ??
+                    record.ot ??
+                    0
+
+                );
+
+
+            employeeSummary.lateMinutes +=
+
+                number(
+
+                    record.lateMinutes ??
+                    record.late ??
+                    0
+
+                );
+
+
+            employeeSummary.records +=
+                1;
+
+        }
+    );
+
+
+    /*
+     * TOTAL HOURS
+     *
+     * Regular Hours + OT
+     */
+
+    summaryMap.forEach(
+        employeeSummary => {
+
+            employeeSummary.totalHours =
+
+                employeeSummary.regularHours +
+
+                employeeSummary.overtime;
+
+        }
+    );
+
+
+    const result =
+        Array.from(
+            summaryMap.values()
+        );
+
+
+    /*
+     * SORT BY EMPLOYEE NAME
+     */
+
+    result.sort(
+        (
+            a,
+            b
+        ) => {
+
+            return a.employeeName
+                .toLowerCase()
+                .localeCompare(
+                    b.employeeName
+                        .toLowerCase()
+                );
+
+        }
+    );
+
+
+    return result;
+
+}
+
+
+/* =========================================================
+   SUMMARY CONTAINER
+========================================================= */
+
+function getSummaryContainer(){
+
+    let container =
+        document.getElementById(
+            "attendanceCutoffSummary"
+        );
+
+
+    if(
+        container
+    ){
+
+        return container;
+
+    }
+
+
+    /*
+     * Create summary section
+     * automatically.
+     */
+
+    container =
+        document.createElement(
+            "section"
+        );
+
+
+    container.id =
+        "attendanceCutoffSummary";
+
+
+    container.className =
+        "attendance-cutoff-summary";
+
+
+    const attendanceRecords =
+        document.getElementById(
+            "attendanceRecords"
+        );
+
+
+    if(
+        attendanceRecords
+        &&
+        attendanceRecords.parentElement
+    ){
+
+        attendanceRecords.parentElement
+            .appendChild(
+                container
+            );
+
+    }
+
+    else{
+
+        document
+            .querySelector(
+                ".container"
+            )
+            ?.appendChild(
+                container
+            );
+
+    }
+
+
+    return container;
+
+}
+
+
+/* =========================================================
+   RENDER CUTOFF SUMMARY
+========================================================= */
+
+function renderCutoffSummary(){
+
+    const records =
         getFilteredAttendanceRecords();
 
 
-    renderAttendanceRecords(
-        filtered
-    );
+    const summary =
+        createCutoffSummary(
+            records
+        );
+
+
+    const from =
+        startDate
+            ?
+            startDate.value
+            :
+            "";
+
+
+    const to =
+        endDate
+            ?
+            endDate.value
+            :
+            "";
+
+
+    const container =
+        getSummaryContainer();
+
+
+    if(!container){
+
+        return;
+
+    }
+
+
+    /*
+     * HEADER
+     */
+
+    let html = `
+
+<div class="cutoff-summary-header">
+
+    <div>
+
+        <h2>
+            Attendance Cutoff Summary
+        </h2>
+
+        <p>
+            Manual cutoff employee summary
+        </p>
+
+    </div>
+
+
+    <div class="cutoff-summary-actions">
+
+        <button
+            type="button"
+            id="printSummaryBtn"
+            class="summary-print-btn">
+
+            <span class="material-icons">
+                print
+            </span>
+
+            PRINT SUMMARY
+
+        </button>
+
+    </div>
+
+</div>
+
+
+<div class="cutoff-summary-period">
+
+    <div>
+
+        <span>
+            CUTOFF FROM
+        </span>
+
+        <strong>
+            ${escapeHTML(
+                formatCutoffDate(
+                    from
+                )
+            )}
+        </strong>
+
+    </div>
+
+
+    <div>
+
+        <span>
+            CUTOFF TO
+        </span>
+
+        <strong>
+            ${escapeHTML(
+                formatCutoffDate(
+                    to
+                )
+            )}
+        </strong>
+
+    </div>
+
+
+    <div>
+
+        <span>
+            EMPLOYEES
+        </span>
+
+        <strong>
+            ${summary.length}
+        </strong>
+
+    </div>
+
+
+    <div>
+
+        <span>
+            RECORDS
+        </span>
+
+        <strong>
+            ${records.length}
+        </strong>
+
+    </div>
+
+</div>
+
+
+<div class="cutoff-summary-table-wrapper">
+
+<table
+    id="cutoffSummaryTable"
+    class="cutoff-summary-table">
+
+<thead>
+
+<tr>
+
+    <th>
+        #
+    </th>
+
+    <th>
+        EMPLOYEE ID
+    </th>
+
+    <th>
+        EMPLOYEE NAME
+    </th>
+
+    <th>
+        REGULAR HOURS
+    </th>
+
+    <th>
+        OT HOURS
+    </th>
+
+    <th>
+        TOTAL HOURS
+    </th>
+
+    <th>
+        LATE MINUTES
+    </th>
+
+    <th>
+        RECORDS
+    </th>
+
+</tr>
+
+</thead>
+
+<tbody>
+`;
+
+
+    if(
+        summary.length === 0
+    ){
+
+        html += `
+
+<tr>
+
+<td
+    colspan="8"
+    class="cutoff-summary-empty">
+
+<span class="material-icons">
+    event_busy
+</span>
+
+<p>
+    No attendance records found for this cutoff.
+</p>
+
+</td>
+
+</tr>
+
+`;
+
+    }
+
+    else{
+
+        summary.forEach(
+            (
+                employee,
+                index
+            ) => {
+
+                html += `
+
+<tr>
+
+<td>
+    ${index + 1}
+</td>
+
+<td>
+    ${escapeHTML(
+        employee.employeeId
+    )}
+</td>
+
+<td class="summary-employee-name">
+    ${escapeHTML(
+        employee.employeeName
+    )}
+</td>
+
+<td>
+    ${employee.regularHours.toFixed(2)}
+</td>
+
+<td>
+    ${employee.overtime.toFixed(2)}
+</td>
+
+<td class="summary-total-hours">
+    ${employee.totalHours.toFixed(2)}
+</td>
+
+<td>
+    ${employee.lateMinutes}
+</td>
+
+<td>
+    ${employee.records}
+</td>
+
+</tr>
+
+`;
+
+            }
+        );
+
+    }
+
+
+    /*
+     * GRAND TOTAL
+     */
+
+    const grandRegular =
+        summary.reduce(
+            (
+                total,
+                employee
+            ) => {
+
+                return (
+                    total +
+                    employee.regularHours
+                );
+
+            },
+            0
+        );
+
+
+    const grandOT =
+        summary.reduce(
+            (
+                total,
+                employee
+            ) => {
+
+                return (
+                    total +
+                    employee.overtime
+                );
+
+            },
+            0
+        );
+
+
+    const grandTotal =
+        summary.reduce(
+            (
+                total,
+                employee
+            ) => {
+
+                return (
+                    total +
+                    employee.totalHours
+                );
+
+            },
+            0
+        );
+
+
+    const grandLate =
+        summary.reduce(
+            (
+                total,
+                employee
+            ) => {
+
+                return (
+                    total +
+                    employee.lateMinutes
+                );
+
+            },
+            0
+        );
+
+
+    const grandRecords =
+        summary.reduce(
+            (
+                total,
+                employee
+            ) => {
+
+                return (
+                    total +
+                    employee.records
+                );
+
+            },
+            0
+        );
+
+
+    html += `
+
+</tbody>
+
+
+<tfoot>
+
+<tr>
+
+<td
+    colspan="3">
+
+    GRAND TOTAL
+
+</td>
+
+<td>
+
+    ${grandRegular.toFixed(2)}
+
+</td>
+
+<td>
+
+    ${grandOT.toFixed(2)}
+
+</td>
+
+<td>
+
+    ${grandTotal.toFixed(2)}
+
+</td>
+
+<td>
+
+    ${grandLate}
+
+</td>
+
+<td>
+
+    ${grandRecords}
+
+</td>
+
+</tr>
+
+</tfoot>
+
+</table>
+
+</div>
+
+`;
+
+
+    container.innerHTML =
+        html;
+
+
+    container.style.display =
+        "block";
+
+
+    /*
+     * PRINT SUMMARY BUTTON
+     */
+
+    const printSummaryButton =
+        document.getElementById(
+            "printSummaryBtn"
+        );
+
+
+    if(
+        printSummaryButton
+    ){
+
+        printSummaryButton.onclick =
+            function(){
+
+                printCutoffSummary();
+
+            };
+
+    }
+
+}
+
+
+/* =========================================================
+   SUMMARY ALIAS
+========================================================= */
+
+window.showCutoffSummary =
+function(){
+
+    renderCutoffSummary();
 
 };
 
 
 /* =========================================================
-   FILTER ALIAS
+   SUMMARY BUTTON
 ========================================================= */
 
-window.applyFilter =
-function(){
+if(
+    summaryButton
+){
 
-    filterAttendance();
+    summaryButton.addEventListener(
+        "click",
+        function(event){
+
+            event.preventDefault();
+
+            renderCutoffSummary();
+
+        }
+    );
+
+}
+
+
+/* =========================================================
+   DELETE ATTENDANCE
+========================================================= */
+
+async function deleteAttendance(
+    id
+){
+
+    if(!id){
+
+        return;
+
+    }
+
+
+    const confirmed =
+        confirm(
+            "Delete this attendance record?"
+        );
+
+
+    if(!confirmed){
+
+        return;
+
+    }
+
+
+    try{
+
+        await deleteDoc(
+
+            doc(
+                db,
+                "attendance",
+                id
+            )
+
+        );
+
+
+        attendanceRecords =
+            attendanceRecords.filter(
+                record => {
+
+                    return (
+                        record.id !== id
+                    );
+
+                }
+            );
+
+
+        renderAttendanceRecords();
+
+
+        updateTodayDisplay();
+
+
+        /*
+         * Refresh cutoff summary
+         * if it is already visible.
+         */
+
+        const summaryContainer =
+            document.getElementById(
+                "attendanceCutoffSummary"
+            );
+
+
+        if(
+            summaryContainer
+        ){
+
+            renderCutoffSummary();
+
+        }
+
+
+        alert(
+            "Attendance record deleted successfully."
+        );
+
+    }
+
+    catch(error){
+
+        console.error(
+            "Delete Attendance Error:",
+            error
+        );
+
+
+        alert(
+
+            "Failed to delete attendance.\n\n" +
+
+            error.message
+
+        );
+
+    }
+
+}
+
+
+/* =========================================================
+   GLOBAL DELETE
+========================================================= */
+
+window.deleteAttendance =
+function(
+    id
+){
+
+    return deleteAttendance(
+        id
+    );
 
 };
 
@@ -3852,14 +4488,6 @@ function(){
         null;
 
 
-    cutoffStartDate =
-        "";
-
-
-    cutoffEndDate =
-        "";
-
-
     displaySelectedEmployee();
 
 
@@ -3867,6 +4495,26 @@ function(){
 
 
     renderAttendanceRecords();
+
+
+    /*
+     * Hide cutoff summary.
+     */
+
+    const summaryContainer =
+        document.getElementById(
+            "attendanceCutoffSummary"
+        );
+
+
+    if(
+        summaryContainer
+    ){
+
+        summaryContainer.style.display =
+            "none";
+
+    }
 
 };
 
@@ -3884,1809 +4532,49 @@ function(){
 
 
 /* =========================================================
-   DELETE ATTENDANCE
-========================================================= */
-
-async function deleteAttendance(
-    id
-){
-
-    if(!id){
-
-        return;
-
-    }
-
-
-    const confirmed =
-        confirm(
-
-            "Delete this attendance record?"
-
-        );
-
-
-    if(!confirmed){
-
-        return;
-
-    }
-
-
-    try{
-
-        await deleteDoc(
-
-            doc(
-
-                db,
-
-                "attendance",
-
-                id
-
-            )
-
-        );
-
-
-        attendanceRecords =
-
-            attendanceRecords.filter(
-
-                record =>
-
-                    record.id !== id
-
-            );
-
-
-        renderAttendanceRecords();
-
-
-        updateTodayDisplay();
-
-
-        alert(
-
-            "Attendance record deleted successfully."
-
-        );
-
-    }
-
-    catch(error){
-
-        console.error(
-
-            "Delete Attendance Error:",
-
-            error
-
-        );
-
-
-        alert(
-
-            "Failed to delete attendance.\n\n" +
-            error.message
-
-        );
-
-    }
-
-}
-
-
-/* =========================================================
-   GLOBAL DELETE
-========================================================= */
-
-window.deleteAttendance =
-function(id){
-
-    return deleteAttendance(
-        id
-    );
-
-};
-
-
-/* =========================================================
-   CUTOFF DATE VALIDATION
-========================================================= */
-
-function validateCutoffDates(){
-
-    const from =
-        startDate
-            ?
-            startDate.value
-            :
-            "";
-
-
-    const to =
-        endDate
-            ?
-            endDate.value
-            :
-            "";
-
-
-    if(!from){
-
-        alert(
-            "Please select the Cutoff From date."
-        );
-
-        return false;
-
-    }
-
-
-    if(!to){
-
-        alert(
-            "Please select the Cutoff To date."
-        );
-
-        return false;
-
-    }
-
-
-    if(from > to){
-
-        alert(
-            "Cutoff From date cannot be later than Cutoff To date."
-        );
-
-        return false;
-
-    }
-
-
-    cutoffStartDate =
-        from;
-
-
-    cutoffEndDate =
-        to;
-
-
-    return true;
-
-}
-
-
-/* =========================================================
-   GET CUTOFF RECORDS
-========================================================= */
-
-function getCutoffRecords(){
-
-    const from =
-        cutoffStartDate;
-
-
-    const to =
-        cutoffEndDate;
-
-
-    if(
-        !from ||
-        !to
-    ){
-
-        return [];
-
-    }
-
-
-    return attendanceRecords.filter(
-
-        record => {
-
-            const date =
-                getRecordDate(
-                    record
-                );
-
-
-            return (
-
-                date >= from
-                &&
-                date <= to
-
-            );
-
-        }
-
-    );
-
-}
-
-
-/* =========================================================
-   CALCULATE EMPLOYEE CUTOFF SUMMARY
-========================================================= */
-
-function calculateEmployeeCutoffSummary(
-
-    employee,
-
-    records
-
-){
-
-    const employeeId =
-        getEmployeeId(
-            employee
-        );
-
-
-    const employeeName =
-        getEmployeeName(
-            employee
-        );
-
-
-    const employeeRecords =
-        records.filter(
-
-            record =>
-
-                getRecordEmployeeId(
-                    record
-                ) === employeeId
-
-        );
-
-
-    let regularHours =
-        0;
-
-
-    let overtimeHours =
-        0;
-
-
-    let totalHours =
-        0;
-
-
-    let lateMinutesTotal =
-        0;
-
-
-    let lateDays =
-        0;
-
-
-    let presentDays =
-        0;
-
-
-    let absentDays =
-        0;
-
-
-    let leaveDays =
-        0;
-
-
-    employeeRecords.forEach(
-
-        record => {
-
-            const timeIn =
-                record.timeIn ||
-                record.timein ||
-                "";
-
-
-            const timeOut =
-                record.timeOut ||
-                record.timeout ||
-                "";
-
-
-            const breakOut =
-                record.breakOut ||
-                record.breakout ||
-                "";
-
-
-            const breakIn =
-                record.breakIn ||
-                record.breakin ||
-                "";
-
-
-            let regular =
-                number(
-
-                    record.regularHours ??
-                    record.regHours ??
-                    0
-
-                );
-
-
-            let ot =
-                number(
-
-                    record.overtime ??
-                    record.ot ??
-                    0
-
-                );
-
-
-            let total =
-                number(
-
-                    record.totalHours ??
-                    0
-
-                );
-
-
-            /*
-             * If old records don't have
-             * totalHours, calculate it.
-             */
-
-            if(
-
-                total <= 0 &&
-
-                timeIn &&
-
-                timeOut
-
-            ){
-
-                const calculation =
-                    calculateAttendanceHours(
-
-                        timeIn,
-
-                        timeOut,
-
-                        breakOut,
-
-                        breakIn
-
-                    );
-
-
-                regular =
-                    calculation.regularHours;
-
-
-                ot =
-                    calculation.overtime;
-
-
-                total =
-                    calculation.workedHours;
-
-            }
-
-
-            /*
-             * If total is still empty,
-             * calculate from regular + OT.
-             */
-
-            if(
-                total <= 0
-            ){
-
-                total =
-                    regular +
-                    ot;
-
-            }
-
-
-            regularHours +=
-                regular;
-
-
-            overtimeHours +=
-                ot;
-
-
-            totalHours +=
-                total;
-
-
-            const late =
-                number(
-
-                    record.lateMinutes ??
-                    record.late ??
-                    0
-
-                );
-
-
-            lateMinutesTotal +=
-                late;
-
-
-            if(
-                late > 0
-            ){
-
-                lateDays++;
-
-            }
-
-
-            const status =
-                text(
-                    record.status
-                )
-                .toUpperCase();
-
-
-            if(
-                status.includes(
-                    "PRESENT"
-                )
-                ||
-                status.includes(
-                    "LATE"
-                )
-                ||
-                status.includes(
-                    "UNDERTIME"
-                )
-            ){
-
-                presentDays++;
-
-            }
-
-
-            if(
-                status ===
-                "ABSENT"
-            ){
-
-                absentDays++;
-
-            }
-
-
-            if(
-                status ===
-                "LEAVE"
-                ||
-                status ===
-                "ON LEAVE"
-            ){
-
-                leaveDays++;
-
-            }
-
-        }
-
-    );
-
-
-    return {
-
-        employeeId:
-            employeeId,
-
-        employeeName:
-            employeeName,
-
-        records:
-            employeeRecords,
-
-        regularHours:
-            Number(
-                regularHours.toFixed(2)
-            ),
-
-        overtimeHours:
-            Number(
-                overtimeHours.toFixed(2)
-            ),
-
-        totalHours:
-            Number(
-                totalHours.toFixed(2)
-            ),
-
-        lateMinutes:
-            lateMinutesTotal,
-
-        lateDays:
-            lateDays,
-
-        presentDays:
-            presentDays,
-
-        absentDays:
-            absentDays,
-
-        leaveDays:
-            leaveDays
-
-    };
-
-}
-
-
-/* =========================================================
-   BUILD CUTOFF SUMMARIES
-========================================================= */
-
-function buildCutoffSummaries(){
-
-    const records =
-        getCutoffRecords();
-
-
-    /*
-     * Important:
-     * Every employee gets a summary,
-     * even if they have zero records.
-     */
-
-    return employees.map(
-
-        employee =>
-
-            calculateEmployeeCutoffSummary(
-
-                employee,
-
-                records
-
-            )
-
-    );
-
-}
-
-
-/* =========================================================
-   SUMMARY TOTALS
-========================================================= */
-
-function calculateCutoffGrandTotals(
-    summaries
-){
-
-    return summaries.reduce(
-
-        (
-            totals,
-            summary
-        ) => {
-
-            totals.regularHours +=
-                number(
-                    summary.regularHours
-                );
-
-
-            totals.overtimeHours +=
-                number(
-                    summary.overtimeHours
-                );
-
-
-            totals.totalHours +=
-                number(
-                    summary.totalHours
-                );
-
-
-            totals.lateMinutes +=
-                number(
-                    summary.lateMinutes
-                );
-
-
-            totals.lateDays +=
-                number(
-                    summary.lateDays
-                );
-
-
-            totals.presentDays +=
-                number(
-                    summary.presentDays
-                );
-
-
-            totals.absentDays +=
-                number(
-                    summary.absentDays
-                );
-
-
-            totals.leaveDays +=
-                number(
-                    summary.leaveDays
-                );
-
-
-            return totals;
-
-        },
-
-        {
-
-            regularHours:
-                0,
-
-            overtimeHours:
-                0,
-
-            totalHours:
-                0,
-
-            lateMinutes:
-                0,
-
-            lateDays:
-                0,
-
-            presentDays:
-                0,
-
-            absentDays:
-                0,
-
-            leaveDays:
-                0
-
-        }
-
-    );
-
-}
-
-
-/* =========================================================
-   SUMMARY ALERT
-========================================================= */
-
-window.showSummary =
-function(){
-
-    if(
-        !validateCutoffDates()
-    ){
-
-        return;
-
-    }
-
-
-    const summaries =
-        buildCutoffSummaries();
-
-
-    const totals =
-        calculateCutoffGrandTotals(
-            summaries
-        );
-
-
-    const employeeCount =
-        summaries.length;
-
-
-    const employeesWithRecords =
-        summaries.filter(
-
-            summary =>
-                summary.records.length > 0
-
-        ).length;
-
-
-    alert(
-
-        "PAPPRITO HRIS\n" +
-
-        "MANUAL CUTOFF SUMMARY\n\n" +
-
-        "Cutoff: " +
-
-        cutoffStartDate +
-
-        " to " +
-
-        cutoffEndDate +
-
-        "\n\n" +
-
-        "Employees: " +
-
-        employeeCount +
-
-        "\n" +
-
-        "Employees with Records: " +
-
-        employeesWithRecords +
-
-        "\n\n" +
-
-        "REGULAR HOURS: " +
-
-        totals.regularHours
-            .toFixed(2) +
-
-        "\n" +
-
-        "OT HOURS: " +
-
-        totals.overtimeHours
-            .toFixed(2) +
-
-        "\n" +
-
-        "TOTAL HOURS: " +
-
-        totals.totalHours
-            .toFixed(2) +
-
-        "\n\n" +
-
-        "LATE MINUTES: " +
-
-        totals.lateMinutes +
-
-        "\n" +
-
-        "LATE DAYS: " +
-
-        totals.lateDays
-
-    );
-
-};
-
-
-/* =========================================================
-   PART 2 END
-========================================================= */
-
-/* =========================================================
-   PART 3 / 3
-   CUTOFF SUMMARY DISPLAY
-   PRINT CUTOFF SUMMARY ONLY
-   EVENTS
-   INITIALIZATION
-========================================================= */
-
-
-/* =========================================================
-   FIND / CREATE CUTOFF SUMMARY AREA
-========================================================= */
-
-function getCutoffSummaryArea(){
-
-    let area =
-        document.getElementById(
-            "cutoffSummary"
-        );
-
-
-    /*
-     * If the HTML already has a
-     * cutoff summary section,
-     * use it.
-     */
-
-    if(area){
-
-        return area;
-
-    }
-
-
-    /*
-     * Create the summary area
-     * dynamically.
-     *
-     * This means the existing
-     * attendance table remains
-     * untouched.
-     */
-
-    area =
-        document.createElement(
-            "section"
-        );
-
-
-    area.id =
-        "cutoffSummary";
-
-
-    area.className =
-        "cutoff-summary-section";
-
-
-    const attendanceRecords =
-        document.getElementById(
-            "attendanceRecords"
-        );
-
-
-    if(
-        attendanceRecords &&
-        attendanceRecords.parentNode
-    ){
-
-        attendanceRecords
-            .parentNode
-            .insertBefore(
-
-                area,
-
-                attendanceRecords.nextSibling
-
-            );
-
-    }
-
-    else{
-
-        const container =
-            document.querySelector(
-                ".container"
-            );
-
-
-        if(container){
-
-            container.appendChild(
-                area
-            );
-
-        }
-
-    }
-
-
-    return area;
-
-}
-
-
-/* =========================================================
-   RENDER CUTOFF SUMMARY
-========================================================= */
-
-function renderCutoffSummary(){
-
-    if(
-        !cutoffStartDate ||
-        !cutoffEndDate
-    ){
-
-        return;
-
-    }
-
-
-    const area =
-        getCutoffSummaryArea();
-
-
-    if(!area){
-
-        return;
-
-    }
-
-
-    const summaries =
-        buildCutoffSummaries();
-
-
-    const totals =
-        calculateCutoffGrandTotals(
-            summaries
-        );
-
-
-    /*
-     * Count employees with
-     * actual attendance records.
-     */
-
-    const employeesWithRecords =
-        summaries.filter(
-
-            summary =>
-                summary.records.length > 0
-
-        ).length;
-
-
-    /*
-     * Build employee rows.
-     */
-
-    let rows = "";
-
-
-    summaries.forEach(
-
-        (
-            summary,
-            index
-        ) => {
-
-            rows += `
-
-<tr>
-
-<td>
-${index + 1}
-</td>
-
-<td>
-${escapeHTML(
-    summary.employeeId || "-"
-)}
-</td>
-
-<td class="summary-employee-name">
-${escapeHTML(
-    summary.employeeName || "-"
-)}
-</td>
-
-<td>
-${summary.presentDays}
-</td>
-
-<td>
-${summary.absentDays}
-</td>
-
-<td>
-${summary.leaveDays}
-</td>
-
-<td>
-${summary.regularHours.toFixed(2)}
-</td>
-
-<td>
-${summary.overtimeHours.toFixed(2)}
-</td>
-
-<td class="summary-total-hours">
-${summary.totalHours.toFixed(2)}
-</td>
-
-<td>
-${summary.lateMinutes}
-</td>
-
-<td>
-${summary.lateDays}
-</td>
-
-</tr>
-
-`;
-
-        }
-
-    );
-
-
-    /*
-     * Summary section.
-     */
-
-    area.innerHTML = `
-
-<div class="cutoff-summary-header">
-
-    <div class="cutoff-summary-title">
-
-        <span class="material-icons">
-            assessment
-        </span>
-
-        <div>
-
-            <h2>
-                Cutoff Attendance Summary
-            </h2>
-
-            <p>
-                ${escapeHTML(
-                    cutoffStartDate
-                )}
-                to
-                ${escapeHTML(
-                    cutoffEndDate
-                )}
-            </p>
-
-        </div>
-
-    </div>
-
-
-    <div class="cutoff-summary-actions">
-
-        <button
-            type="button"
-            id="printCutoffSummaryBtn"
-            class="cutoff-print-btn">
-
-            <span class="material-icons">
-                print
-            </span>
-
-            PRINT CUTOFF
-
-        </button>
-
-    </div>
-
-</div>
-
-
-<div class="cutoff-summary-info">
-
-    <div class="cutoff-summary-card">
-
-        <small>
-            EMPLOYEES
-        </small>
-
-        <strong>
-            ${summaries.length}
-        </strong>
-
-    </div>
-
-
-    <div class="cutoff-summary-card">
-
-        <small>
-            WITH RECORDS
-        </small>
-
-        <strong>
-            ${employeesWithRecords}
-        </strong>
-
-    </div>
-
-
-    <div class="cutoff-summary-card">
-
-        <small>
-            REGULAR HOURS
-        </small>
-
-        <strong>
-            ${totals.regularHours.toFixed(2)}
-        </strong>
-
-    </div>
-
-
-    <div class="cutoff-summary-card">
-
-        <small>
-            OT HOURS
-        </small>
-
-        <strong>
-            ${totals.overtimeHours.toFixed(2)}
-        </strong>
-
-    </div>
-
-
-    <div class="cutoff-summary-card cutoff-total-card">
-
-        <small>
-            TOTAL HOURS
-        </small>
-
-        <strong>
-            ${totals.totalHours.toFixed(2)}
-        </strong>
-
-    </div>
-
-
-    <div class="cutoff-summary-card">
-
-        <small>
-            LATE MINUTES
-        </small>
-
-        <strong>
-            ${totals.lateMinutes}
-        </strong>
-
-    </div>
-
-</div>
-
-
-<div class="cutoff-summary-table-wrapper">
-
-<table
-    id="cutoffSummaryTable"
-    class="cutoff-summary-table">
-
-<thead>
-
-<tr>
-
-<th>
-#
-</th>
-
-<th>
-EMPLOYEE ID
-</th>
-
-<th>
-EMPLOYEE NAME
-</th>
-
-<th>
-PRESENT
-</th>
-
-<th>
-ABSENT
-</th>
-
-<th>
-LEAVE
-</th>
-
-<th>
-REGULAR
-<br>
-HOURS
-</th>
-
-<th>
-OT
-<br>
-HOURS
-</th>
-
-<th>
-TOTAL
-<br>
-HOURS
-</th>
-
-<th>
-LATE
-<br>
-MINUTES
-</th>
-
-<th>
-LATE
-<br>
-DAYS
-</th>
-
-</tr>
-
-</thead>
-
-
-<tbody>
-
-${rows}
-
-</tbody>
-
-
-<tfoot>
-
-<tr>
-
-<td
-    colspan="6"
-    class="summary-grand-total-label">
-
-    GRAND TOTAL
-
-</td>
-
-<td>
-
-    ${totals.regularHours.toFixed(2)}
-
-</td>
-
-<td>
-
-    ${totals.overtimeHours.toFixed(2)}
-
-</td>
-
-<td class="summary-total-hours">
-
-    ${totals.totalHours.toFixed(2)}
-
-</td>
-
-<td>
-
-    ${totals.lateMinutes}
-
-</td>
-
-<td>
-
-    ${totals.lateDays}
-
-</td>
-
-</tr>
-
-</tfoot>
-
-</table>
-
-</div>
-
-`;
-
-
-    /*
-     * Print button.
-     */
-
-    const printCutoffButton =
-        document.getElementById(
-            "printCutoffSummaryBtn"
-        );
-
-
-    if(
-        printCutoffButton
-    ){
-
-        printCutoffButton.addEventListener(
-
-            "click",
-
-            function(){
-
-                printCutoffSummary();
-
-            }
-
-        );
-
-    }
-
-}
-
-
-/* =========================================================
-   PRINT CUTOFF SUMMARY ONLY
-========================================================= */
-
-window.printCutoffSummary =
-function(){
-
-    /*
-     * Make sure a cutoff has
-     * actually been selected.
-     */
-
-    if(
-        !cutoffStartDate ||
-        !cutoffEndDate
-    ){
-
-        alert(
-
-            "Please select a Cutoff From and Cutoff To date first."
-
-        );
-
-        return;
-
-    }
-
-
-    /*
-     * Always rebuild the summary
-     * immediately before printing.
-     *
-     * This prevents stale data.
-     */
-
-    renderCutoffSummary();
-
-
-    const summary =
-        document.getElementById(
-            "cutoffSummary"
-        );
-
-
-    if(!summary){
-
-        alert(
-            "Cutoff Summary area not found."
-        );
-
-        return;
-
-    }
-
-
-    /*
-     * Temporarily mark the area
-     * that should be printed.
-     */
-
-    document.body.classList.add(
-        "printing-cutoff-summary"
-    );
-
-
-    summary.classList.add(
-        "print-cutoff-only"
-    );
-
-
-    /*
-     * Print.
-     */
-
-    setTimeout(
-
-        function(){
-
-            window.print();
-
-        },
-
-        100
-
-    );
-
-
-    /*
-     * Restore the normal screen
-     * after printing.
-     */
-
-    const restorePrint =
-        function(){
-
-            document.body.classList.remove(
-                "printing-cutoff-summary"
-            );
-
-
-            summary.classList.remove(
-                "print-cutoff-only"
-            );
-
-        };
-
-
-    if(
-        "onafterprint"
-        in
-        window
-    ){
-
-        window.addEventListener(
-
-            "afterprint",
-
-            restorePrint,
-
-            {
-                once:
-                    true
-            }
-
-        );
-
-    }
-
-    else{
-
-        setTimeout(
-
-            restorePrint,
-
-            1500
-
-        );
-
-    }
-
-};
-
-
-/* =========================================================
-   SUMMARY BUTTON
-========================================================= */
-
-function handleSummaryButton(){
-
-    if(
-        !validateCutoffDates()
-    ){
-
-        return;
-
-    }
-
-
-    /*
-     * Save the manual cutoff.
-     */
-
-    cutoffStartDate =
-        startDate.value;
-
-
-    cutoffEndDate =
-        endDate.value;
-
-
-    /*
-     * Render the full employee
-     * cutoff summary.
-     */
-
-    renderCutoffSummary();
-
-
-    /*
-     * Scroll to summary.
-     */
-
-    const summary =
-        document.getElementById(
-            "cutoffSummary"
-        );
-
-
-    if(summary){
-
-        setTimeout(
-
-            function(){
-
-                summary.scrollIntoView({
-
-                    behavior:
-                        "smooth",
-
-                    block:
-                        "start"
-
-                });
-
-            },
-
-            50
-
-        );
-
-    }
-
-}
-
-
-/* =========================================================
-   SUMMARY BUTTON EVENT
-========================================================= */
-
-if(
-    summaryButton
-){
-
-    summaryButton.addEventListener(
-
-        "click",
-
-        function(event){
-
-            event.preventDefault();
-
-            handleSummaryButton();
-
-        }
-
-    );
-
-}
-
-
-/* =========================================================
-   FILTER BUTTON EVENT
-========================================================= */
-
-if(
-    filterButton
-){
-
-    filterButton.addEventListener(
-
-        "click",
-
-        function(event){
-
-            event.preventDefault();
-
-            filterAttendance();
-
-        }
-
-    );
-
-}
-
-
-/* =========================================================
-   CLEAR BUTTON EVENT
-========================================================= */
-
-if(
-    clearButton
-){
-
-    clearButton.addEventListener(
-
-        "click",
-
-        function(event){
-
-            event.preventDefault();
-
-            clearAttendance();
-
-
-            /*
-             * Also remove cutoff summary.
-             */
-
-            const summary =
-                document.getElementById(
-                    "cutoffSummary"
-                );
-
-
-            if(summary){
-
-                summary.remove();
-
-            }
-
-        }
-
-    );
-
-}
-
-
-/* =========================================================
-   EMPLOYEE EVENT
-========================================================= */
-
-if(
-    employeeSelect
-){
-
-    employeeSelect.addEventListener(
-
-        "change",
-
-        handleEmployeeChange
-
-    );
-
-}
-
-
-/* =========================================================
-   TIME IN EVENT
-========================================================= */
-
-if(
-    timeInButton
-){
-
-    timeInButton.addEventListener(
-
-        "click",
-
-        window.timeIn
-
-    );
-
-}
-
-
-/* =========================================================
-   BREAK OUT EVENT
-========================================================= */
-
-if(
-    breakOutButton
-){
-
-    breakOutButton.addEventListener(
-
-        "click",
-
-        window.breakOut
-
-    );
-
-}
-
-
-/* =========================================================
-   BREAK IN EVENT
-========================================================= */
-
-if(
-    breakInButton
-){
-
-    breakInButton.addEventListener(
-
-        "click",
-
-        window.breakIn
-
-    );
-
-}
-
-
-/* =========================================================
-   TIME OUT EVENT
-========================================================= */
-
-if(
-    timeOutButton
-){
-
-    timeOutButton.addEventListener(
-
-        "click",
-
-        window.timeOut
-
-    );
-
-}
-
-
-/* =========================================================
-   PRINT BUTTON
-========================================================= */
-
-if(
-    printButton
-){
-
-    printButton.addEventListener(
-
-        "click",
-
-        function(event){
-
-            event.preventDefault();
-
-
-            /*
-             * IMPORTANT:
-             *
-             * The normal PRINT button
-             * prints the overall
-             * attendance table.
-             *
-             * The CUTOFF PRINT button
-             * prints ONLY the cutoff
-             * summary.
-             */
-
-            printAttendanceRecords();
-
-        }
-
-    );
-
-}
-
-
-/* =========================================================
    PRINT OVERALL ATTENDANCE
 ========================================================= */
 
 window.printAttendance =
 function(){
 
-    printAttendanceRecords();
-
-};
-
-
-window.printDTR =
-function(){
-
-    printAttendanceRecords();
+    printOverallAttendance();
 
 };
 
 
 /* =========================================================
-   PRINT OVERALL ATTENDANCE FUNCTION
+   PRINT DTR ALIAS
 ========================================================= */
 
-function printAttendanceRecords(){
+window.printDTR =
+function(){
 
-    const table =
-        document.getElementById(
-            "attendanceTable"
-        );
+    printOverallAttendance();
 
-
-    if(!table){
-
-        alert(
-            "Attendance table not found."
-        );
-
-        return;
-
-    }
+};
 
 
-    const printArea =
+/* =========================================================
+   PRINT OVERALL ATTENDANCE
+   IMPORTANT:
+   ONLY attendance records
+========================================================= */
+
+function printOverallAttendance(){
+
+    const attendanceSection =
         document.getElementById(
             "attendanceRecords"
         );
 
 
-    if(!printArea){
+    if(
+        !attendanceSection
+    ){
 
         alert(
-            "Attendance print area not found."
+            "Attendance records section not found."
         );
 
         return;
@@ -5695,107 +4583,172 @@ function printAttendanceRecords(){
 
 
     /*
-     * Explicitly make sure we are
-     * printing the overall records.
+     * Make sure cutoff summary
+     * is NOT included.
      */
-
-    document.body.classList.remove(
-        "printing-cutoff-summary"
-    );
-
 
     const summary =
         document.getElementById(
-            "cutoffSummary"
+            "attendanceCutoffSummary"
         );
 
 
     if(summary){
 
-        summary.classList.remove(
-            "print-cutoff-only"
+        summary.classList.add(
+            "print-hidden"
         );
 
     }
 
 
-    const originalId =
-        printArea.id;
+    /*
+     * Mark overall attendance
+     * as print target.
+     */
 
-
-    printArea.classList.add(
-        "print-overall-attendance"
+    attendanceSection.classList.add(
+        "print-attendance-only"
     );
+
+
+    window.print();
 
 
     setTimeout(
-
         function(){
 
-            window.print();
-
-        },
-
-        100
-
-    );
-
-
-    const restore =
-        function(){
-
-            printArea.classList.remove(
-                "print-overall-attendance"
+            attendanceSection.classList.remove(
+                "print-attendance-only"
             );
 
 
-            if(
-                summary
-            ){
+            if(summary){
 
                 summary.classList.remove(
-                    "print-cutoff-only"
+                    "print-hidden"
                 );
 
             }
 
-        };
+        },
+        1000
+    );
+
+}
+
+
+/* =========================================================
+   PRINT CUTOFF SUMMARY
+   IMPORTANT:
+   ONLY SUMMARY
+========================================================= */
+
+function printCutoffSummary(){
+
+    const summary =
+        document.getElementById(
+            "attendanceCutoffSummary"
+        );
 
 
     if(
-        "onafterprint"
-        in
-        window
+        !summary
     ){
 
-        window.addEventListener(
+        alert(
+            "Cutoff Summary not found."
+        );
 
-            "afterprint",
+        return;
 
-            restore,
+    }
 
-            {
-                once:
-                    true
+
+    /*
+     * Make sure summary exists.
+     */
+
+    if(
+        summary.style.display ===
+        "none"
+    ){
+
+        renderCutoffSummary();
+
+    }
+
+
+    /*
+     * Hide overall attendance
+     * during summary printing.
+     */
+
+    const attendanceSection =
+        document.getElementById(
+            "attendanceRecords"
+        );
+
+
+    if(
+        attendanceSection
+    ){
+
+        attendanceSection.classList.add(
+            "print-hidden"
+        );
+
+    }
+
+
+    /*
+     * Mark summary as
+     * print target.
+     */
+
+    summary.classList.add(
+        "print-summary-only"
+    );
+
+
+    window.print();
+
+
+    setTimeout(
+        function(){
+
+            summary.classList.remove(
+                "print-summary-only"
+            );
+
+
+            if(
+                attendanceSection
+            ){
+
+                attendanceSection.classList.remove(
+                    "print-hidden"
+                );
+
             }
 
-        );
-
-    }
-
-    else{
-
-        setTimeout(
-
-            restore,
-
-            1500
-
-        );
-
-    }
+        },
+        1000
+    );
 
 }
+
+
+/* =========================================================
+   GLOBAL PRINT SUMMARY
+========================================================= */
+
+window.printCutoffSummary =
+function(){
+
+    printCutoffSummary();
+
+};
 
 
 /* =========================================================
@@ -5843,7 +4796,7 @@ function(){
 
 
 /* =========================================================
-   BACK BUTTON EVENT
+   BACK BUTTON
 ========================================================= */
 
 if(
@@ -5851,9 +4804,7 @@ if(
 ){
 
     backButton.addEventListener(
-
         "click",
-
         function(event){
 
             event.preventDefault();
@@ -5861,26 +4812,168 @@ if(
             goBack();
 
         }
-
     );
 
 }
 
 
 /* =========================================================
-   LIVE HOURS
+   EMPLOYEE CHANGE
+========================================================= */
+
+if(
+    employeeSelect
+){
+
+    employeeSelect.addEventListener(
+        "change",
+        handleEmployeeChange
+    );
+
+}
+
+
+/* =========================================================
+   FILTER BUTTON
+========================================================= */
+
+if(
+    filterButton
+){
+
+    filterButton.addEventListener(
+        "click",
+        function(event){
+
+            event.preventDefault();
+
+            filterAttendance();
+
+        }
+    );
+
+}
+
+
+/* =========================================================
+   CLEAR BUTTON
+========================================================= */
+
+if(
+    clearButton
+){
+
+    clearButton.addEventListener(
+        "click",
+        function(event){
+
+            event.preventDefault();
+
+            clearAttendance();
+
+        }
+    );
+
+}
+
+
+/* =========================================================
+   TIME IN BUTTON
+========================================================= */
+
+if(
+    timeInButton
+){
+
+    timeInButton.addEventListener(
+        "click",
+        window.timeIn
+    );
+
+}
+
+
+/* =========================================================
+   BREAK OUT BUTTON
+========================================================= */
+
+if(
+    breakOutButton
+){
+
+    breakOutButton.addEventListener(
+        "click",
+        window.breakOut
+    );
+
+}
+
+
+/* =========================================================
+   BREAK IN BUTTON
+========================================================= */
+
+if(
+    breakInButton
+){
+
+    breakInButton.addEventListener(
+        "click",
+        window.breakIn
+    );
+
+}
+
+
+/* =========================================================
+   TIME OUT BUTTON
+========================================================= */
+
+if(
+    timeOutButton
+){
+
+    timeOutButton.addEventListener(
+        "click",
+        window.timeOut
+    );
+
+}
+
+
+/* =========================================================
+   PRINT BUTTON
+========================================================= */
+
+if(
+    printButton
+){
+
+    printButton.addEventListener(
+        "click",
+        function(event){
+
+            event.preventDefault();
+
+            printOverallAttendance();
+
+        }
+    );
+
+}
+
+
+/* =========================================================
+   LIVE UPDATE
 ========================================================= */
 
 setInterval(
-
     function(){
 
         updateTodayDisplay();
 
     },
-
     1000
-
 );
 
 
@@ -5893,22 +4986,19 @@ async function initAttendance(){
     try{
 
         /*
-         * Start live clock.
+         * Start clock first.
          */
 
         startClock();
 
 
         /*
-         * Load settings FIRST.
+         * Settings must load
+         * before attendance calculations.
          */
 
         await loadAttendanceSettings();
 
-
-        /*
-         * Reset today's display.
-         */
 
         updateTodayDisplay();
 
@@ -5927,10 +5017,6 @@ async function initAttendance(){
         await loadAttendance();
 
 
-        /*
-         * Final display update.
-         */
-
         updateTodayDisplay();
 
 
@@ -5943,11 +5029,8 @@ async function initAttendance(){
     catch(error){
 
         console.error(
-
             "Attendance Initialization Error:",
-
             error
-
         );
 
     }
@@ -5960,8 +5043,3 @@ async function initAttendance(){
 ========================================================= */
 
 initAttendance();
-
-
-/* =========================================================
-   PART 3 END
-========================================================= */
