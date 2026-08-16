@@ -1,8 +1,10 @@
 /* =========================================================
    PAPPRITO HRIS
    EMPLOYEE ATTENDANCE CSS
-   FULL UPDATED VERSION
-   MANUAL CUTOFF SUMMARY INTEGRATED
+   FULL FINAL VERSION
+   MANUAL CUTOFF SUMMARY
+   MOBILE RESPONSIVE
+   PRINT CUTOFF SUMMARY ONLY
 ========================================================= */
 
 
@@ -16,11 +18,13 @@
     box-sizing: border-box;
 }
 
+
 html {
     width: 100%;
     min-height: 100%;
     overflow-x: hidden;
 }
+
 
 body {
     width: 100%;
@@ -233,13 +237,17 @@ body {
 
 .logo-text {
 
-    color: var(--red);
+    color:
+        var(--red);
 
-    font-size: 27px;
+    font-size:
+        27px;
 
-    font-weight: 1000;
+    font-weight:
+        1000;
 
-    letter-spacing: .5px;
+    letter-spacing:
+        .5px;
 }
 
 
@@ -249,13 +257,17 @@ body {
 
 .title {
 
-    color: #111111;
+    color:
+        #111111;
 
-    font-size: 22px;
+    font-size:
+        22px;
 
-    font-weight: 1000;
+    font-weight:
+        1000;
 
-    padding-left: 18px;
+    padding-left:
+        18px;
 
     border-left:
         2px solid
@@ -269,15 +281,20 @@ body {
 
 .top-btn {
 
-    min-height: 48px;
+    min-height:
+        48px;
 
-    display: inline-flex;
+    display:
+        inline-flex;
 
-    align-items: center;
+    align-items:
+        center;
 
-    justify-content: center;
+    justify-content:
+        center;
 
-    gap: 7px;
+    gap:
+        7px;
 
     padding:
         10px
@@ -287,21 +304,29 @@ body {
         1px solid
         var(--border-dark);
 
-    border-radius: 9px;
+    border-radius:
+        9px;
 
-    background: #ffffff;
+    background:
+        #ffffff;
 
-    color: #111111;
+    color:
+        #111111;
 
-    font-family: inherit;
+    font-family:
+        inherit;
 
-    font-size: 13px;
+    font-size:
+        13px;
 
-    font-weight: 1000;
+    font-weight:
+        1000;
 
-    cursor: pointer;
+    cursor:
+        pointer;
 
-    transition: .2s ease;
+    transition:
+        .2s ease;
 }
 
 
@@ -324,19 +349,22 @@ body {
 
 .top-btn .material-icons {
 
-    font-size: 22px;
+    font-size:
+        22px;
 }
 
 
 /* =========================================================
-   BACK BUTTON
+   BACK
 ========================================================= */
 
 #backBtn {
 
-    background: #111111 !important;
+    background:
+        #111111 !important;
 
-    color: #ffffff !important;
+    color:
+        #ffffff !important;
 
     border-color:
         #111111 !important;
@@ -345,7 +373,8 @@ body {
 
 #backBtn:hover {
 
-    background: #333333 !important;
+    background:
+        #333333 !important;
 
     border-color:
         #333333 !important;
@@ -353,7 +382,7 @@ body {
 
 
 /* =========================================================
-   PRINT BUTTON
+   PRINT
 ========================================================= */
 
 #printBtn {
@@ -385,9 +414,11 @@ body {
 
 .filter-section {
 
-    width: 100%;
+    width:
+        100%;
 
-    display: grid;
+    display:
+        grid;
 
     grid-template-columns:
         minmax(260px, 1.5fr)
@@ -396,13 +427,17 @@ body {
         150px
         150px;
 
-    gap: 12px;
+    gap:
+        12px;
 
-    margin-top: 18px;
+    margin-top:
+        18px;
 
-    padding: 17px;
+    padding:
+        17px;
 
-    background: #ffffff;
+    background:
+        #ffffff;
 
     border:
         1px solid
@@ -423,11 +458,14 @@ body {
 .filter-section select,
 .filter-section input {
 
-    width: 100%;
+    width:
+        100%;
 
-    height: 50px;
+    height:
+        50px;
 
-    min-width: 0;
+    min-width:
+        0;
 
     padding:
         10px
@@ -437,25 +475,28 @@ body {
         2px solid
         var(--border-dark);
 
-    border-radius: 9px;
+    border-radius:
+        9px;
 
-    background: #ffffff;
+    background:
+        #ffffff;
 
-    color: #111111;
+    color:
+        #111111;
 
-    outline: none;
+    outline:
+        none;
 
-    font-family: inherit;
+    font-family:
+        inherit;
 
-    font-size: 14px;
+    font-size:
+        14px;
 
-    font-weight: 900;
+    font-weight:
+        900;
 }
 
-
-/* =========================================================
-   EMPLOYEE SELECT
-========================================================= */
 
 #employeeSelect {
 
@@ -464,18 +505,8 @@ body {
 
     background:
         #eef7ff !important;
-
-    color:
-        #111111 !important;
-
-    font-weight:
-        900 !important;
 }
 
-
-/* =========================================================
-   FROM DATE
-========================================================= */
 
 #fromDate {
 
@@ -484,18 +515,8 @@ body {
 
     background:
         #effaf3 !important;
-
-    color:
-        #111111 !important;
-
-    font-weight:
-        900 !important;
 }
 
-
-/* =========================================================
-   TO DATE
-========================================================= */
 
 #toDate {
 
@@ -504,23 +525,11 @@ body {
 
     background:
         #fffbea !important;
-
-    color:
-        #111111 !important;
-
-    font-weight:
-        900 !important;
 }
 
 
-/* =========================================================
-   FOCUS
-========================================================= */
-
 .filter-section select:focus,
 .filter-section input:focus {
-
-    outline: none;
 
     box-shadow:
         0 0 0 3px
@@ -534,15 +543,20 @@ body {
 
 #filterBtn {
 
-    min-height: 50px;
+    min-height:
+        50px;
 
-    display: inline-flex;
+    display:
+        inline-flex;
 
-    align-items: center;
+    align-items:
+        center;
 
-    justify-content: center;
+    justify-content:
+        center;
 
-    gap: 7px;
+    gap:
+        7px;
 
     padding:
         10px
@@ -552,7 +566,8 @@ body {
         1px solid
         var(--blue);
 
-    border-radius: 9px;
+    border-radius:
+        9px;
 
     background:
         var(--blue);
@@ -560,15 +575,20 @@ body {
     color:
         #ffffff;
 
-    font-family: inherit;
+    font-family:
+        inherit;
 
-    font-size: 13px;
+    font-size:
+        13px;
 
-    font-weight: 1000;
+    font-weight:
+        1000;
 
-    cursor: pointer;
+    cursor:
+        pointer;
 
-    transition: .2s ease;
+    transition:
+        .2s ease;
 }
 
 
@@ -594,15 +614,20 @@ body {
 
 #summaryBtn {
 
-    min-height: 50px;
+    min-height:
+        50px;
 
-    display: inline-flex;
+    display:
+        inline-flex;
 
-    align-items: center;
+    align-items:
+        center;
 
-    justify-content: center;
+    justify-content:
+        center;
 
-    gap: 7px;
+    gap:
+        7px;
 
     padding:
         10px
@@ -612,7 +637,8 @@ body {
         1px solid
         var(--purple);
 
-    border-radius: 9px;
+    border-radius:
+        9px;
 
     background:
         var(--purple);
@@ -620,15 +646,20 @@ body {
     color:
         #ffffff;
 
-    font-family: inherit;
+    font-family:
+        inherit;
 
-    font-size: 13px;
+    font-size:
+        13px;
 
-    font-weight: 1000;
+    font-weight:
+        1000;
 
-    cursor: pointer;
+    cursor:
+        pointer;
 
-    transition: .2s ease;
+    transition:
+        .2s ease;
 }
 
 
@@ -649,50 +680,49 @@ body {
 
 
 /* =========================================================
-   BUTTON ICON
-========================================================= */
-
-.filter-section .material-icons {
-
-    font-size: 20px;
-}
-
-
-/* =========================================================
-   EMPLOYEE INFO
+   EMPLOYEE INFORMATION
 ========================================================= */
 
 .employee-info {
 
-    width: 100%;
+    width:
+        100%;
 
-    display: grid;
+    display:
+        grid;
 
     grid-template-columns:
         minmax(300px, 1fr)
         minmax(400px, 2fr);
 
-    gap: 12px;
+    gap:
+        12px;
 
-    margin-top: 16px;
+    margin-top:
+        16px;
 }
 
 
 .employee-info > div {
 
-    min-width: 0;
+    min-width:
+        0;
 
-    min-height: 70px;
+    min-height:
+        70px;
 
-    display: flex;
+    display:
+        flex;
 
-    align-items: center;
+    align-items:
+        center;
 
     padding:
         14px
         18px;
 
-    background: #ffffff;
+    background:
+        #ffffff;
 
     border:
         1px solid
@@ -702,13 +732,17 @@ body {
         6px solid
         var(--yellow);
 
-    border-radius: 11px;
+    border-radius:
+        11px;
 
-    color: #111111;
+    color:
+        #111111;
 
-    font-size: 14px;
+    font-size:
+        14px;
 
-    font-weight: 1000;
+    font-weight:
+        1000;
 
     box-shadow:
         var(--shadow);
@@ -717,17 +751,13 @@ body {
 
 .employee-info strong {
 
-    margin-left: 7px;
+    margin-left:
+        7px;
 
-    color: #111111;
-
-    font-weight: 1000;
+    font-weight:
+        1000;
 }
 
-
-/* =========================================================
-   EMPLOYEE ID
-========================================================= */
 
 #employeeId {
 
@@ -738,10 +768,6 @@ body {
         #e6c532;
 }
 
-
-/* =========================================================
-   EMPLOYEE NAME
-========================================================= */
 
 #employeeName {
 
@@ -754,179 +780,31 @@ body {
 
 
 /* =========================================================
-   ATTENDANCE SCHEDULE
-========================================================= */
-
-.attendance-schedule {
-
-    width: 100%;
-
-    display: grid;
-
-    grid-template-columns:
-        repeat(5, minmax(0, 1fr));
-
-    gap: 10px;
-
-    margin-top: 16px;
-
-    padding: 14px;
-
-    background:
-        #ffffff;
-
-    border:
-        1px solid
-        var(--border);
-
-    border-radius:
-        var(--radius);
-
-    box-shadow:
-        var(--shadow);
-}
-
-
-.schedule-item {
-
-    min-width: 0;
-
-    min-height: 68px;
-
-    display: flex;
-
-    align-items: center;
-
-    gap: 9px;
-
-    padding:
-        11px
-        13px;
-
-    background:
-        #fafafa;
-
-    border:
-        1px solid
-        var(--border);
-
-    border-radius:
-        10px;
-}
-
-
-.schedule-item > .material-icons {
-
-    width: 38px;
-
-    height: 38px;
-
-    min-width: 38px;
-
-    display: flex;
-
-    align-items: center;
-
-    justify-content: center;
-
-    border-radius: 9px;
-
-    background:
-        #fff8d9;
-
-    color:
-        #a27c00;
-
-    font-size: 20px;
-}
-
-
-.schedule-item-content {
-
-    min-width: 0;
-
-    display: flex;
-
-    flex-direction: column;
-}
-
-
-.schedule-item-content small {
-
-    color:
-        #555555;
-
-    font-size:
-        8px;
-
-    font-weight:
-        1000;
-
-    letter-spacing:
-        .6px;
-}
-
-
-.schedule-item-content strong {
-
-    margin-top: 3px;
-
-    color:
-        #111111;
-
-    font-size:
-        14px;
-
-    font-weight:
-        1000;
-
-    white-space:
-        nowrap;
-
-    overflow:
-        hidden;
-
-    text-overflow:
-        ellipsis;
-}
-
-
-#scheduleStatus {
-
-    color:
-        var(--green);
-
-    font-weight:
-        1000;
-}
-
-
-#scheduleStatus.inactive {
-
-    color:
-        var(--red);
-}
-
-
-/* =========================================================
-   CLOCK AREA
+   CLOCK
 ========================================================= */
 
 .clock-area {
 
-    width: 100%;
+    width:
+        100%;
 
-    display: flex;
+    display:
+        flex;
 
-    align-items: center;
+    align-items:
+        center;
 
-    justify-content: center;
+    justify-content:
+        center;
 
-    flex-direction: column;
+    flex-direction:
+        column;
 
-    margin-top: 16px;
+    margin-top:
+        16px;
 
-    padding: 23px;
+    padding:
+        23px;
 
     background:
         linear-gradient(
@@ -949,60 +827,71 @@ body {
 
 .clock-label {
 
-    display: flex;
+    display:
+        flex;
 
-    align-items: center;
+    align-items:
+        center;
 
-    justify-content: center;
-
-    gap: 7px;
+    gap:
+        7px;
 
     color:
         var(--blue);
 
-    font-size: 12px;
+    font-size:
+        12px;
 
-    font-weight: 1000;
+    font-weight:
+        1000;
 
     letter-spacing:
         1.2px;
 
-    margin-bottom: 8px;
+    margin-bottom:
+        8px;
 }
 
 
 .clock-label .material-icons {
 
-    font-size: 20px;
+    font-size:
+        20px;
 }
 
 
 .clock {
 
-    color: #111111;
+    color:
+        #111111;
 
-    font-size: 54px;
+    font-size:
+        54px;
 
-    line-height: 1;
+    line-height:
+        1;
 
-    font-weight: 1000;
+    font-weight:
+        1000;
 
-    letter-spacing: 2px;
+    letter-spacing:
+        2px;
 }
 
 
 .today-date {
 
-    margin-top: 10px;
+    margin-top:
+        10px;
 
     color:
         var(--blue);
 
-    font-size: 13px;
+    font-size:
+        13px;
 
-    font-weight: 1000;
-
-    letter-spacing: .5px;
+    font-weight:
+        1000;
 }
 
 
@@ -1012,32 +901,42 @@ body {
 
 .today-panel {
 
-    width: 100%;
+    width:
+        100%;
 
-    display: grid;
+    display:
+        grid;
 
     grid-template-columns:
         repeat(4, minmax(0, 1fr));
 
-    gap: 12px;
+    gap:
+        12px;
 
-    margin-top: 14px;
+    margin-top:
+        14px;
 }
 
 
 .today-item {
 
-    min-width: 0;
+    min-width:
+        0;
 
-    min-height: 76px;
+    min-height:
+        76px;
 
-    display: flex;
+    display:
+        flex;
 
-    align-items: center;
+    align-items:
+        center;
 
-    gap: 11px;
+    gap:
+        11px;
 
-    padding: 13px;
+    padding:
+        13px;
 
     background:
         #ffffff;
@@ -1046,7 +945,8 @@ body {
         1px solid
         var(--border);
 
-    border-radius: 11px;
+    border-radius:
+        11px;
 
     box-shadow:
         var(--shadow);
@@ -1055,17 +955,23 @@ body {
 
 .today-item > .material-icons {
 
-    width: 43px;
+    width:
+        43px;
 
-    height: 43px;
+    height:
+        43px;
 
-    min-width: 43px;
+    min-width:
+        43px;
 
-    display: flex;
+    display:
+        flex;
 
-    align-items: center;
+    align-items:
+        center;
 
-    justify-content: center;
+    justify-content:
+        center;
 
     background:
         #fff8d9;
@@ -1073,19 +979,24 @@ body {
     color:
         #a27c00;
 
-    border-radius: 10px;
+    border-radius:
+        10px;
 
-    font-size: 23px;
+    font-size:
+        23px;
 }
 
 
 .today-item div {
 
-    min-width: 0;
+    min-width:
+        0;
 
-    display: flex;
+    display:
+        flex;
 
-    flex-direction: column;
+    flex-direction:
+        column;
 }
 
 
@@ -1094,77 +1005,90 @@ body {
     color:
         #555555;
 
-    font-size: 9px;
+    font-size:
+        9px;
 
-    font-weight: 1000;
-
-    letter-spacing: .7px;
+    font-weight:
+        1000;
 }
 
 
 .today-item strong {
 
-    margin-top: 3px;
+    margin-top:
+        3px;
 
     color:
         #111111;
 
-    font-size: 18px;
+    font-size:
+        18px;
 
-    font-weight: 1000;
-
-    white-space: nowrap;
-
-    overflow: hidden;
-
-    text-overflow: ellipsis;
+    font-weight:
+        1000;
 }
 
 
 /* =========================================================
-   BUTTON GROUP
+   ACTION BUTTONS
 ========================================================= */
 
 .button-group {
 
-    width: 100%;
+    width:
+        100%;
 
-    display: grid;
+    display:
+        grid;
 
     grid-template-columns:
         repeat(4, minmax(0, 1fr));
 
-    gap: 12px;
+    gap:
+        12px;
 
-    margin-top: 16px;
+    margin-top:
+        16px;
 }
 
 
 .action-btn {
 
-    width: 100%;
+    width:
+        100%;
 
-    min-height: 65px;
+    min-height:
+        65px;
 
-    display: flex;
+    display:
+        flex;
 
-    align-items: center;
+    align-items:
+        center;
 
-    justify-content: center;
+    justify-content:
+        center;
 
-    gap: 9px;
+    gap:
+        9px;
 
-    border-radius: 10px;
+    border-radius:
+        10px;
 
-    font-family: inherit;
+    font-family:
+        inherit;
 
-    font-size: 14px;
+    font-size:
+        14px;
 
-    font-weight: 1000;
+    font-weight:
+        1000;
 
-    cursor: pointer;
+    cursor:
+        pointer;
 
-    transition: .2s ease;
+    transition:
+        .2s ease;
 }
 
 
@@ -1178,139 +1102,83 @@ body {
 }
 
 
-.action-btn:active:not(:disabled) {
-
-    transform:
-        translateY(0);
-}
-
-
 .action-btn:disabled {
 
-    opacity: .45;
+    opacity:
+        .45;
 
     cursor:
         not-allowed;
 }
 
 
-.action-btn .material-icons {
-
-    font-size: 24px;
-}
-
-
-/* =========================================================
-   TIME IN
-========================================================= */
-
 .action-btn.timein {
 
     background:
-        #16803c;
+        var(--green);
 
     color:
         #ffffff;
 
     border:
         2px solid
-        #16803c;
+        var(--green);
 }
 
-
-.action-btn.timein:hover:not(:disabled) {
-
-    background:
-        #116630;
-}
-
-
-/* =========================================================
-   BREAK OUT
-========================================================= */
 
 .action-btn.breakout {
 
     background:
-        #ffcc00;
+        var(--yellow);
 
     color:
         #111111;
 
     border:
         2px solid
-        #ffcc00;
+        var(--yellow);
 }
 
-
-.action-btn.breakout:hover:not(:disabled) {
-
-    background:
-        #e6b800;
-}
-
-
-/* =========================================================
-   BREAK IN
-========================================================= */
 
 .action-btn.breakin {
 
     background:
-        #1769aa;
+        var(--blue);
 
     color:
         #ffffff;
 
     border:
         2px solid
-        #1769aa;
+        var(--blue);
 }
 
-
-.action-btn.breakin:hover:not(:disabled) {
-
-    background:
-        #125586;
-}
-
-
-/* =========================================================
-   TIME OUT
-========================================================= */
 
 .action-btn.timeout {
 
     background:
-        #d71920;
+        var(--red);
 
     color:
         #ffffff;
 
     border:
         2px solid
-        #d71920;
-}
-
-
-.action-btn.timeout:hover:not(:disabled) {
-
-    background:
-        #b51218;
+        var(--red);
 }
 
 
 /* =========================================================
-   ATTENDANCE RECORDS
+   ATTENDANCE SECTION
 ========================================================= */
 
 .attendance-section {
 
-    width: 100%;
+    width:
+        100%;
 
-    min-width: 0;
-
-    margin-top: 18px;
+    margin-top:
+        18px;
 
     background:
         #ffffff;
@@ -1325,23 +1193,30 @@ body {
     box-shadow:
         var(--shadow);
 
-    overflow: hidden;
+    overflow:
+        hidden;
 }
 
 
 .section-heading {
 
-    width: 100%;
+    width:
+        100%;
 
-    min-height: 80px;
+    min-height:
+        80px;
 
-    display: flex;
+    display:
+        flex;
 
-    align-items: center;
+    align-items:
+        center;
 
-    justify-content: space-between;
+    justify-content:
+        space-between;
 
-    gap: 15px;
+    gap:
+        15px;
 
     padding:
         15px
@@ -1355,27 +1230,33 @@ body {
 
 .section-heading-left {
 
-    display: flex;
+    display:
+        flex;
 
-    align-items: center;
+    align-items:
+        center;
 
-    gap: 12px;
+    gap:
+        12px;
 }
 
 
 .section-heading-left > .material-icons {
 
-    width: 48px;
+    width:
+        48px;
 
-    height: 48px;
+    height:
+        48px;
 
-    min-width: 48px;
+    display:
+        flex;
 
-    display: flex;
+    align-items:
+        center;
 
-    align-items: center;
-
-    justify-content: center;
+    justify-content:
+        center;
 
     background:
         #fff8d9;
@@ -1383,20 +1264,18 @@ body {
     color:
         #a07800;
 
-    border-radius: 10px;
-
-    font-size: 25px;
+    border-radius:
+        10px;
 }
 
 
 .section-heading h2 {
 
-    color:
-        #111111;
+    font-size:
+        20px;
 
-    font-size: 20px;
-
-    font-weight: 1000;
+    font-weight:
+        1000;
 }
 
 
@@ -1405,11 +1284,11 @@ body {
     color:
         #444444;
 
-    font-size: 11px;
+    font-size:
+        11px;
 
-    font-weight: 800;
-
-    margin-top: 4px;
+    margin-top:
+        4px;
 }
 
 
@@ -1419,15 +1298,20 @@ body {
 
 .clear-filter-btn {
 
-    min-height: 42px;
+    min-height:
+        42px;
 
-    display: inline-flex;
+    display:
+        inline-flex;
 
-    align-items: center;
+    align-items:
+        center;
 
-    justify-content: center;
+    justify-content:
+        center;
 
-    gap: 5px;
+    gap:
+        5px;
 
     padding:
         8px
@@ -1437,7 +1321,8 @@ body {
         1px solid
         var(--border-dark);
 
-    border-radius: 8px;
+    border-radius:
+        8px;
 
     background:
         #ffffff;
@@ -1445,15 +1330,17 @@ body {
     color:
         #222222;
 
-    font-family: inherit;
+    font-family:
+        inherit;
 
-    font-size: 11px;
+    font-size:
+        11px;
 
-    font-weight: 1000;
+    font-weight:
+        1000;
 
-    cursor: pointer;
-
-    transition: .2s ease;
+    cursor:
+        pointer;
 }
 
 
@@ -1470,77 +1357,36 @@ body {
 }
 
 
-.clear-filter-btn .material-icons {
-
-    font-size: 18px;
-}
-
-
 /* =========================================================
-   TABLE WRAPPER
+   ATTENDANCE TABLE
 ========================================================= */
 
 .table-wrapper {
 
-    width: 100%;
+    width:
+        100%;
 
-    overflow-x: auto;
+    overflow-x:
+        auto;
 
-    overflow-y: hidden;
-
-    background:
-        #ffffff;
+    overflow-y:
+        hidden;
 
     -webkit-overflow-scrolling:
         touch;
 }
 
 
-.table-wrapper::-webkit-scrollbar {
-
-    height: 10px;
-}
-
-
-.table-wrapper::-webkit-scrollbar-track {
-
-    background:
-        #eeeeee;
-}
-
-
-.table-wrapper::-webkit-scrollbar-thumb {
-
-    background:
-        #999999;
-
-    border-radius:
-        20px;
-}
-
-
-.table-wrapper::-webkit-scrollbar-thumb:hover {
-
-    background:
-        #666666;
-}
-
-
-/* =========================================================
-   ATTENDANCE TABLE
-========================================================= */
-
 #attendanceTable {
 
-    width: 100%;
+    width:
+        100%;
 
-    min-width: 1350px;
+    min-width:
+        1350px;
 
     border-collapse:
         collapse;
-
-    table-layout:
-        auto;
 }
 
 
@@ -1550,16 +1396,18 @@ body {
         15px
         12px;
 
-    color:
-        #111111;
-
     border:
         1px solid
         #d5d8dc;
 
-    font-size: 12px;
+    color:
+        #111111;
 
-    font-weight: 1000;
+    font-size:
+        12px;
+
+    font-weight:
+        1000;
 
     text-align:
         center;
@@ -1628,15 +1476,12 @@ body {
         14px
         12px;
 
-    background:
-        #ffffff;
-
-    color:
-        #111111;
-
     border:
         1px solid
         #d8dce0;
+
+    color:
+        #111111;
 
     font-size:
         12px;
@@ -1656,13 +1501,6 @@ body {
 
     background:
         #fafafa;
-}
-
-
-#attendanceTable tbody tr:hover td {
-
-    background:
-        #fffbea;
 }
 
 
@@ -1705,7 +1543,7 @@ body {
         #e9f7ef;
 
     color:
-        #16803c;
+        var(--green);
 }
 
 
@@ -1725,7 +1563,7 @@ body {
         #fff0f0;
 
     color:
-        #d71920;
+        var(--red);
 }
 
 
@@ -1735,7 +1573,7 @@ body {
         #eaf3fb;
 
     color:
-        #1769aa;
+        var(--blue);
 }
 
 
@@ -1763,11 +1601,6 @@ body {
 }
 
 
-/* =========================================================
-   TABLE ACTION BUTTON
-========================================================= */
-
-.icon-btn,
 .table-icon-btn {
 
     width:
@@ -1785,9 +1618,6 @@ body {
     justify-content:
         center;
 
-    margin:
-        2px;
-
     border:
         1px solid
         #efafb3;
@@ -1799,38 +1629,15 @@ body {
         #fff0f1;
 
     color:
-        #d71920;
+        var(--red);
 
     cursor:
         pointer;
-
-    transition:
-        .18s ease;
-}
-
-
-.icon-btn:hover,
-.table-icon-btn:hover {
-
-    transform:
-        translateY(-2px);
-
-    box-shadow:
-        0 4px 10px
-        rgba(0, 0, 0, .12);
-}
-
-
-.icon-btn .material-icons,
-.table-icon-btn .material-icons {
-
-    font-size:
-        20px;
 }
 
 
 /* =========================================================
-   EMPTY ROW
+   EMPTY
 ========================================================= */
 
 .empty-row {
@@ -1840,9 +1647,6 @@ body {
 
     text-align:
         center !important;
-
-    color:
-        #444444 !important;
 }
 
 
@@ -1862,28 +1666,19 @@ body {
 }
 
 
-.empty-row p {
-
-    color:
-        #444444;
-
-    font-size:
-        13px;
-
-    font-weight:
-        900;
-}
-
-
 /* =========================================================
+   =========================================================
    MANUAL CUTOFF SUMMARY
+   =========================================================
 ========================================================= */
 
-.cutoff-summary-section {
+#cutoffSummary {
 
-    width: 100%;
+    width:
+        100%;
 
-    margin-top: 18px;
+    margin-top:
+        18px;
 
     background:
         #ffffff;
@@ -1898,25 +1693,31 @@ body {
     box-shadow:
         var(--shadow);
 
-    overflow: hidden;
+    overflow:
+        hidden;
 }
 
 
 /* =========================================================
-   CUTOFF SUMMARY HEADER
+   CUTOFF HEADER
 ========================================================= */
 
-.cutoff-summary-header {
+#cutoffSummary .cutoff-summary-header {
 
-    width: 100%;
+    width:
+        100%;
 
-    display: flex;
+    display:
+        flex;
 
-    align-items: center;
+    align-items:
+        center;
 
-    justify-content: space-between;
+    justify-content:
+        space-between;
 
-    gap: 15px;
+    gap:
+        15px;
 
     padding:
         17px
@@ -1935,31 +1736,41 @@ body {
 }
 
 
-.cutoff-summary-title {
+#cutoffSummary .cutoff-summary-title {
 
-    display: flex;
+    display:
+        flex;
 
-    align-items: center;
+    align-items:
+        center;
 
-    gap: 12px;
+    gap:
+        12px;
 
-    min-width: 0;
+    min-width:
+        0;
 }
 
 
-.cutoff-summary-title .material-icons {
+#cutoffSummary .cutoff-summary-title .material-icons {
 
-    width: 48px;
+    width:
+        48px;
 
-    height: 48px;
+    height:
+        48px;
 
-    min-width: 48px;
+    min-width:
+        48px;
 
-    display: flex;
+    display:
+        flex;
 
-    align-items: center;
+    align-items:
+        center;
 
-    justify-content: center;
+    justify-content:
+        center;
 
     background:
         #eee3ff;
@@ -1967,13 +1778,15 @@ body {
     color:
         var(--purple);
 
-    border-radius: 10px;
+    border-radius:
+        10px;
 
-    font-size: 25px;
+    font-size:
+        25px;
 }
 
 
-.cutoff-summary-title h2 {
+#cutoffSummary .cutoff-summary-title h2 {
 
     color:
         #111111;
@@ -1986,7 +1799,7 @@ body {
 }
 
 
-.cutoff-summary-title p {
+#cutoffSummary .cutoff-summary-title p {
 
     margin-top:
         4px;
@@ -2006,13 +1819,16 @@ body {
    CUTOFF PERIOD
 ========================================================= */
 
-.cutoff-period {
+#cutoffSummary .cutoff-period {
 
-    display: flex;
+    display:
+        flex;
 
-    align-items: center;
+    align-items:
+        center;
 
-    gap: 8px;
+    gap:
+        8px;
 
     padding:
         8px
@@ -2042,22 +1858,17 @@ body {
 }
 
 
-.cutoff-period .material-icons {
-
-    font-size:
-        18px;
-}
-
-
 /* =========================================================
    CUTOFF FORM
 ========================================================= */
 
-.cutoff-form {
+#cutoffSummary .cutoff-form {
 
-    width: 100%;
+    width:
+        100%;
 
-    display: grid;
+    display:
+        grid;
 
     grid-template-columns:
         minmax(180px, 1fr)
@@ -2065,7 +1876,8 @@ body {
         180px
         150px;
 
-    gap: 12px;
+    gap:
+        12px;
 
     padding:
         15px
@@ -2080,19 +1892,23 @@ body {
 }
 
 
-.cutoff-field {
+#cutoffSummary .cutoff-field {
 
-    min-width: 0;
+    min-width:
+        0;
 
-    display: flex;
+    display:
+        flex;
 
-    flex-direction: column;
+    flex-direction:
+        column;
 
-    gap: 5px;
+    gap:
+        5px;
 }
 
 
-.cutoff-field label {
+#cutoffSummary .cutoff-field label {
 
     color:
         #444444;
@@ -2102,15 +1918,13 @@ body {
 
     font-weight:
         1000;
-
-    letter-spacing:
-        .5px;
 }
 
 
-.cutoff-field input {
+#cutoffSummary .cutoff-field input {
 
-    width: 100%;
+    width:
+        100%;
 
     height:
         48px;
@@ -2146,7 +1960,7 @@ body {
 }
 
 
-.cutoff-field input:focus {
+#cutoffSummary .cutoff-field input:focus {
 
     border-color:
         var(--purple);
@@ -2161,8 +1975,8 @@ body {
    CUTOFF BUTTONS
 ========================================================= */
 
-.cutoff-generate-btn,
-.cutoff-print-btn {
+#cutoffSummary .cutoff-generate-btn,
+#cutoffSummary .cutoff-print-btn {
 
     min-height:
         48px;
@@ -2209,7 +2023,7 @@ body {
 }
 
 
-.cutoff-generate-btn {
+#cutoffSummary .cutoff-generate-btn {
 
     background:
         var(--purple);
@@ -2222,23 +2036,7 @@ body {
 }
 
 
-.cutoff-generate-btn:hover {
-
-    background:
-        var(--purple-dark);
-
-    border-color:
-        var(--purple-dark);
-
-    transform:
-        translateY(-2px);
-
-    box-shadow:
-        var(--shadow-hover);
-}
-
-
-.cutoff-print-btn {
+#cutoffSummary .cutoff-print-btn {
 
     background:
         var(--red);
@@ -2251,41 +2049,23 @@ body {
 }
 
 
-.cutoff-print-btn:hover {
+#cutoffSummary .cutoff-generate-btn:hover {
+
+    background:
+        var(--purple-dark);
+
+    transform:
+        translateY(-2px);
+}
+
+
+#cutoffSummary .cutoff-print-btn:hover {
 
     background:
         var(--red-dark);
 
-    border-color:
-        var(--red-dark);
-
     transform:
         translateY(-2px);
-
-    box-shadow:
-        var(--shadow-hover);
-}
-
-
-.cutoff-generate-btn:disabled,
-.cutoff-print-btn:disabled {
-
-    opacity:
-        .45;
-
-    cursor:
-        not-allowed;
-
-    transform:
-        none;
-}
-
-
-.cutoff-generate-btn .material-icons,
-.cutoff-print-btn .material-icons {
-
-    font-size:
-        19px;
 }
 
 
@@ -2293,7 +2073,7 @@ body {
    CUTOFF RESULT
 ========================================================= */
 
-.cutoff-result {
+#cutoffSummary .cutoff-result {
 
     width:
         100%;
@@ -2303,11 +2083,7 @@ body {
 }
 
 
-/* =========================================================
-   CUTOFF RESULT INFO
-========================================================= */
-
-.cutoff-result-info {
+#cutoffSummary .cutoff-summary-info {
 
     width:
         100%;
@@ -2337,7 +2113,7 @@ body {
 }
 
 
-.cutoff-result-info strong {
+#cutoffSummary .cutoff-summary-info strong {
 
     color:
         #111111;
@@ -2350,7 +2126,7 @@ body {
 }
 
 
-.cutoff-result-info span {
+#cutoffSummary .cutoff-summary-info span {
 
     color:
         #555555;
@@ -2365,9 +2141,12 @@ body {
 
 /* =========================================================
    CUTOFF TABLE WRAPPER
+   IMPORTANT:
+   This prevents the page from collapsing when there
+   are many employees.
 ========================================================= */
 
-.cutoff-table-wrapper {
+#cutoffSummary .cutoff-summary-table-wrapper {
 
     width:
         100%;
@@ -2383,21 +2162,21 @@ body {
 }
 
 
-.cutoff-table-wrapper::-webkit-scrollbar {
+#cutoffSummary .cutoff-summary-table-wrapper::-webkit-scrollbar {
 
     height:
         10px;
 }
 
 
-.cutoff-table-wrapper::-webkit-scrollbar-track {
+#cutoffSummary .cutoff-summary-table-wrapper::-webkit-scrollbar-track {
 
     background:
         #eeeeee;
 }
 
 
-.cutoff-table-wrapper::-webkit-scrollbar-thumb {
+#cutoffSummary .cutoff-summary-table-wrapper::-webkit-scrollbar-thumb {
 
     background:
         #999999;
@@ -2406,10 +2185,6 @@ body {
         20px;
 }
 
-
-/* =========================================================
-   CUTOFF TABLE
-========================================================= */
 
 #cutoffSummaryTable {
 
@@ -2455,51 +2230,31 @@ body {
 
 
 #cutoffSummaryTable th:nth-child(1) {
-
-    background:
-        #eeeeee;
+    background: #eeeeee;
 }
-
 
 #cutoffSummaryTable th:nth-child(2) {
-
-    background:
-        #eaf3fb;
+    background: #eaf3fb;
 }
-
 
 #cutoffSummaryTable th:nth-child(3) {
-
-    background:
-        #e9f7ef;
+    background: #e9f7ef;
 }
-
 
 #cutoffSummaryTable th:nth-child(4) {
-
-    background:
-        #e9f7ef;
+    background: #e9f7ef;
 }
-
 
 #cutoffSummaryTable th:nth-child(5) {
-
-    background:
-        #fff0d6;
+    background: #fff0d6;
 }
-
 
 #cutoffSummaryTable th:nth-child(6) {
-
-    background:
-        #ffe5e5;
+    background: #ffe5e5;
 }
 
-
 #cutoffSummaryTable th:nth-child(7) {
-
-    background:
-        #f0e7ff;
+    background: #f0e7ff;
 }
 
 
@@ -2548,7 +2303,7 @@ body {
 
 
 /* =========================================================
-   TOTAL HOURS EMPHASIS
+   CUTOFF IMPORTANT CELLS
 ========================================================= */
 
 #cutoffSummaryTable td.total-hours-cell {
@@ -2567,10 +2322,6 @@ body {
 }
 
 
-/* =========================================================
-   OT CELL
-========================================================= */
-
 #cutoffSummaryTable td.ot-hours-cell {
 
     color:
@@ -2580,10 +2331,6 @@ body {
         1000;
 }
 
-
-/* =========================================================
-   LATE CELL
-========================================================= */
 
 #cutoffSummaryTable td.late-minutes-cell {
 
@@ -2599,7 +2346,7 @@ body {
    CUTOFF GRAND TOTAL
 ========================================================= */
 
-.cutoff-grand-total {
+#cutoffSummary .cutoff-grand-total {
 
     width:
         100%;
@@ -2626,7 +2373,7 @@ body {
 }
 
 
-.cutoff-total-card {
+#cutoffSummary .cutoff-total-card {
 
     min-width:
         0;
@@ -2659,7 +2406,7 @@ body {
 }
 
 
-.cutoff-total-card .material-icons {
+#cutoffSummary .cutoff-total-card .material-icons {
 
     width:
         40px;
@@ -2687,7 +2434,7 @@ body {
 }
 
 
-.cutoff-total-card div {
+#cutoffSummary .cutoff-total-card div {
 
     min-width:
         0;
@@ -2700,7 +2447,7 @@ body {
 }
 
 
-.cutoff-total-card small {
+#cutoffSummary .cutoff-total-card small {
 
     color:
         #555555;
@@ -2710,13 +2457,10 @@ body {
 
     font-weight:
         1000;
-
-    letter-spacing:
-        .5px;
 }
 
 
-.cutoff-total-card strong {
+#cutoffSummary .cutoff-total-card strong {
 
     margin-top:
         3px;
@@ -2735,11 +2479,7 @@ body {
 }
 
 
-/* =========================================================
-   GRAND TOTAL COLORS
-========================================================= */
-
-.cutoff-total-card.regular {
+#cutoffSummary .cutoff-total-card.regular {
 
     background:
         #effaf3;
@@ -2749,7 +2489,7 @@ body {
 }
 
 
-.cutoff-total-card.regular .material-icons {
+#cutoffSummary .cutoff-total-card.regular .material-icons {
 
     background:
         #dff4e7;
@@ -2759,7 +2499,7 @@ body {
 }
 
 
-.cutoff-total-card.ot {
+#cutoffSummary .cutoff-total-card.ot {
 
     background:
         #fff7e8;
@@ -2769,7 +2509,7 @@ body {
 }
 
 
-.cutoff-total-card.ot .material-icons {
+#cutoffSummary .cutoff-total-card.ot .material-icons {
 
     background:
         #ffe8bd;
@@ -2779,7 +2519,7 @@ body {
 }
 
 
-.cutoff-total-card.late {
+#cutoffSummary .cutoff-total-card.late {
 
     background:
         #fff0f0;
@@ -2789,7 +2529,7 @@ body {
 }
 
 
-.cutoff-total-card.late .material-icons {
+#cutoffSummary .cutoff-total-card.late .material-icons {
 
     background:
         #ffe0e2;
@@ -2799,7 +2539,7 @@ body {
 }
 
 
-.cutoff-total-card.total {
+#cutoffSummary .cutoff-total-card.total {
 
     background:
         #f4edff;
@@ -2809,7 +2549,7 @@ body {
 }
 
 
-.cutoff-total-card.total .material-icons {
+#cutoffSummary .cutoff-total-card.total .material-icons {
 
     background:
         #e9dcff;
@@ -2819,7 +2559,11 @@ body {
 }
 
 
-.cutoff-empty {
+/* =========================================================
+   CUTOFF EMPTY
+========================================================= */
+
+#cutoffSummary .cutoff-empty {
 
     min-height:
         150px;
@@ -2850,7 +2594,7 @@ body {
 }
 
 
-.cutoff-empty .material-icons {
+#cutoffSummary .cutoff-empty .material-icons {
 
     font-size:
         38px;
@@ -2860,7 +2604,7 @@ body {
 }
 
 
-.cutoff-empty p {
+#cutoffSummary .cutoff-empty p {
 
     font-size:
         12px;
@@ -2909,16 +2653,6 @@ body {
 }
 
 
-.attendance-footer span:first-child {
-
-    color:
-        #111111;
-
-    font-weight:
-        1000;
-}
-
-
 /* =========================================================
    LARGE DESKTOP
 ========================================================= */
@@ -2931,12 +2665,6 @@ body {
             25px
             32px
             40px;
-    }
-
-    .header {
-
-        min-height:
-            105px;
     }
 
     .logo {
@@ -2969,46 +2697,6 @@ body {
             60px;
     }
 
-    #attendanceTable thead th {
-
-        font-size:
-            13px;
-
-        padding:
-            16px
-            13px;
-    }
-
-    #attendanceTable tbody td {
-
-        font-size:
-            13px;
-
-        padding:
-            15px
-            13px;
-    }
-
-    #cutoffSummaryTable th {
-
-        font-size:
-            12px;
-
-        padding:
-            15px
-            13px;
-    }
-
-    #cutoffSummaryTable td {
-
-        font-size:
-            13px;
-
-        padding:
-            15px
-            13px;
-    }
-
 }
 
 
@@ -3036,19 +2724,13 @@ body {
             repeat(2, minmax(0, 1fr));
     }
 
-    .attendance-schedule {
-
-        grid-template-columns:
-            repeat(3, minmax(0, 1fr));
-    }
-
-    .cutoff-form {
+    #cutoffSummary .cutoff-form {
 
         grid-template-columns:
             repeat(2, minmax(0, 1fr));
     }
 
-    .cutoff-grand-total {
+    #cutoffSummary .cutoff-grand-total {
 
         grid-template-columns:
             repeat(2, minmax(0, 1fr));
@@ -3162,63 +2844,6 @@ body {
             repeat(2, minmax(0, 1fr));
     }
 
-    .employee-info > div {
-
-        min-height:
-            62px;
-
-        font-size:
-            11px;
-    }
-
-    .attendance-schedule {
-
-        grid-template-columns:
-            repeat(2, minmax(0, 1fr));
-
-        gap:
-            8px;
-
-        padding:
-            10px;
-    }
-
-    .schedule-item {
-
-        min-height:
-            58px;
-
-        padding:
-            8px;
-    }
-
-    .schedule-item > .material-icons {
-
-        width:
-            34px;
-
-        height:
-            34px;
-
-        min-width:
-            34px;
-
-        font-size:
-            17px;
-    }
-
-    .schedule-item-content small {
-
-        font-size:
-            7px;
-    }
-
-    .schedule-item-content strong {
-
-        font-size:
-            11px;
-    }
-
     .clock {
 
         font-size:
@@ -3229,12 +2854,6 @@ body {
 
         grid-template-columns:
             repeat(2, minmax(0, 1fr));
-    }
-
-    .today-item strong {
-
-        font-size:
-            15px;
     }
 
     .button-group {
@@ -3252,12 +2871,6 @@ body {
             11px;
     }
 
-    .section-heading h2 {
-
-        font-size:
-            16px;
-    }
-
     #attendanceTable {
 
         min-width:
@@ -3265,11 +2878,7 @@ body {
     }
 
 
-    /* -----------------------------------------
-       CUTOFF SUMMARY TABLET
-    ----------------------------------------- */
-
-    .cutoff-summary-header {
+    #cutoffSummary .cutoff-summary-header {
 
         align-items:
             flex-start;
@@ -3278,7 +2887,8 @@ body {
             column;
     }
 
-    .cutoff-period {
+
+    #cutoffSummary .cutoff-period {
 
         width:
             100%;
@@ -3287,7 +2897,8 @@ body {
             center;
     }
 
-    .cutoff-form {
+
+    #cutoffSummary .cutoff-form {
 
         grid-template-columns:
             repeat(2, minmax(0, 1fr));
@@ -3299,7 +2910,8 @@ body {
             12px;
     }
 
-    .cutoff-grand-total {
+
+    #cutoffSummary .cutoff-grand-total {
 
         grid-template-columns:
             repeat(2, minmax(0, 1fr));
@@ -3359,9 +2971,7 @@ body {
             100%;
 
         padding:
-            7px
-            0
-            0;
+            7px 0 0;
 
         border-left:
             none;
@@ -3380,8 +2990,7 @@ body {
             37px;
 
         padding:
-            7px
-            9px;
+            7px 9px;
 
         font-size:
             8px;
@@ -3406,8 +3015,7 @@ body {
             39px;
 
         padding:
-            7px
-            8px;
+            7px 8px;
 
         font-size:
             9px;
@@ -3447,77 +3055,10 @@ body {
             8px;
     }
 
-    .employee-info strong {
-
-        margin-left:
-            4px;
-    }
-
-    .attendance-schedule {
-
-        grid-template-columns:
-            repeat(2, minmax(0, 1fr));
-
-        gap:
-            5px;
-
-        padding:
-            7px;
-
-        margin-top:
-            8px;
-    }
-
-    .schedule-item {
-
-        min-height:
-            48px;
-
-        gap:
-            5px;
-
-        padding:
-            6px;
-    }
-
-    .schedule-item > .material-icons {
-
-        width:
-            28px;
-
-        height:
-            28px;
-
-        min-width:
-            28px;
-
-        font-size:
-            14px;
-    }
-
-    .schedule-item-content small {
-
-        font-size:
-            5px;
-    }
-
-    .schedule-item-content strong {
-
-        font-size:
-            8px;
-    }
-
     .clock-area {
 
         padding:
-            16px
-            8px;
-    }
-
-    .clock-label {
-
-        font-size:
-            8px;
+            16px 8px;
     }
 
     .clock {
@@ -3613,27 +3154,6 @@ body {
             10px;
     }
 
-    .section-heading-left {
-
-        gap:
-            7px;
-    }
-
-    .section-heading-left > .material-icons {
-
-        width:
-            36px;
-
-        height:
-            36px;
-
-        min-width:
-            36px;
-
-        font-size:
-            18px;
-    }
-
     .section-heading h2 {
 
         font-size:
@@ -3641,19 +3161,6 @@ body {
     }
 
     .section-heading p {
-
-        font-size:
-            7px;
-    }
-
-    .clear-filter-btn {
-
-        min-height:
-            32px;
-
-        padding:
-            5px
-            7px;
 
         font-size:
             7px;
@@ -3668,8 +3175,7 @@ body {
     #attendanceTable thead th {
 
         padding:
-            10px
-            8px;
+            10px 8px;
 
         font-size:
             8px;
@@ -3678,48 +3184,32 @@ body {
     #attendanceTable tbody td {
 
         padding:
-            9px
-            8px;
+            9px 8px;
 
         font-size:
             8px;
     }
 
-    .icon-btn,
-    .table-icon-btn {
 
-        width:
-            29px;
+    /* =====================================================
+       CUTOFF MOBILE
+    ===================================================== */
 
-        height:
-            29px;
-    }
-
-    .icon-btn .material-icons,
-    .table-icon-btn .material-icons {
-
-        font-size:
-            15px;
-    }
-
-
-    /* -----------------------------------------
-       CUTOFF SUMMARY MOBILE
-    ----------------------------------------- */
-
-    .cutoff-summary-header {
+    #cutoffSummary .cutoff-summary-header {
 
         padding:
             10px;
     }
 
-    .cutoff-summary-title {
+
+    #cutoffSummary .cutoff-summary-title {
 
         gap:
             7px;
     }
 
-    .cutoff-summary-title .material-icons {
+
+    #cutoffSummary .cutoff-summary-title .material-icons {
 
         width:
             36px;
@@ -3734,19 +3224,22 @@ body {
             18px;
     }
 
-    .cutoff-summary-title h2 {
+
+    #cutoffSummary .cutoff-summary-title h2 {
 
         font-size:
             11px;
     }
 
-    .cutoff-summary-title p {
+
+    #cutoffSummary .cutoff-summary-title p {
 
         font-size:
             7px;
     }
 
-    .cutoff-period {
+
+    #cutoffSummary .cutoff-period {
 
         padding:
             7px;
@@ -3755,7 +3248,8 @@ body {
             8px;
     }
 
-    .cutoff-form {
+
+    #cutoffSummary .cutoff-form {
 
         grid-template-columns:
             repeat(2, minmax(0, 1fr));
@@ -3767,33 +3261,29 @@ body {
             8px;
     }
 
-    .cutoff-field {
 
-        gap:
-            3px;
-    }
-
-    .cutoff-field label {
+    #cutoffSummary .cutoff-field label {
 
         font-size:
             7px;
     }
 
-    .cutoff-field input {
+
+    #cutoffSummary .cutoff-field input {
 
         height:
             39px;
 
         padding:
-            7px
-            8px;
+            7px 8px;
 
         font-size:
             9px;
     }
 
-    .cutoff-generate-btn,
-    .cutoff-print-btn {
+
+    #cutoffSummary .cutoff-generate-btn,
+    #cutoffSummary .cutoff-print-btn {
 
         min-height:
             39px;
@@ -3805,14 +3295,8 @@ body {
             8px;
     }
 
-    .cutoff-generate-btn .material-icons,
-    .cutoff-print-btn .material-icons {
 
-        font-size:
-            16px;
-    }
-
-    .cutoff-result-info {
+    #cutoffSummary .cutoff-summary-info {
 
         padding:
             9px;
@@ -3827,17 +3311,20 @@ body {
             3px;
     }
 
-    .cutoff-result-info strong {
+
+    #cutoffSummary .cutoff-summary-info strong {
 
         font-size:
             9px;
     }
 
-    .cutoff-result-info span {
+
+    #cutoffSummary .cutoff-summary-info span {
 
         font-size:
             7px;
     }
+
 
     #cutoffSummaryTable {
 
@@ -3845,27 +3332,28 @@ body {
             900px;
     }
 
+
     #cutoffSummaryTable th {
 
         padding:
-            9px
-            7px;
+            9px 7px;
 
         font-size:
             7px;
     }
 
+
     #cutoffSummaryTable td {
 
         padding:
-            9px
-            7px;
+            9px 7px;
 
         font-size:
             8px;
     }
 
-    .cutoff-grand-total {
+
+    #cutoffSummary .cutoff-grand-total {
 
         grid-template-columns:
             repeat(2, minmax(0, 1fr));
@@ -3877,7 +3365,8 @@ body {
             8px;
     }
 
-    .cutoff-total-card {
+
+    #cutoffSummary .cutoff-total-card {
 
         min-height:
             52px;
@@ -3889,7 +3378,8 @@ body {
             7px;
     }
 
-    .cutoff-total-card .material-icons {
+
+    #cutoffSummary .cutoff-total-card .material-icons {
 
         width:
             29px;
@@ -3904,13 +3394,15 @@ body {
             15px;
     }
 
-    .cutoff-total-card small {
+
+    #cutoffSummary .cutoff-total-card small {
 
         font-size:
             5px;
     }
 
-    .cutoff-total-card strong {
+
+    #cutoffSummary .cutoff-total-card strong {
 
         font-size:
             10px;
@@ -3970,13 +3462,13 @@ body {
             7px;
     }
 
-    .cutoff-summary-title h2 {
+    #cutoffSummary .cutoff-summary-title h2 {
 
         font-size:
             9px;
     }
 
-    .cutoff-form {
+    #cutoffSummary .cutoff-form {
 
         gap:
             5px;
@@ -3985,7 +3477,7 @@ body {
             6px;
     }
 
-    .cutoff-field input {
+    #cutoffSummary .cutoff-field input {
 
         height:
             36px;
@@ -3994,8 +3486,8 @@ body {
             8px;
     }
 
-    .cutoff-generate-btn,
-    .cutoff-print-btn {
+    #cutoffSummary .cutoff-generate-btn,
+    #cutoffSummary .cutoff-print-btn {
 
         min-height:
             36px;
@@ -4009,6 +3501,9 @@ body {
 
 /* =========================================================
    PRINT
+   IMPORTANT:
+   PRINT ONLY THE CUTOFF SUMMARY
+   OVERALL ATTENDANCE TABLE WILL NOT PRINT
 ========================================================= */
 
 @media print {
@@ -4046,6 +3541,10 @@ body {
     }
 
 
+    /*
+     * Hide EVERYTHING first.
+     */
+
     body * {
 
         visibility:
@@ -4053,15 +3552,24 @@ body {
     }
 
 
-    #attendanceRecords,
-    #attendanceRecords * {
+    /*
+     * Show ONLY cutoff summary.
+     */
+
+    #cutoffSummary,
+    #cutoffSummary * {
 
         visibility:
             visible !important;
     }
 
 
-    #attendanceRecords {
+    /*
+     * Position cutoff summary
+     * at the top of the printed page.
+     */
+
+    #cutoffSummary {
 
         position:
             absolute !important;
@@ -4101,240 +3609,28 @@ body {
     }
 
 
-    #attendanceRecords .section-heading {
+    /*
+     * Hide cutoff controls.
+     */
+
+    #cutoffSummary .cutoff-form {
 
         display:
             none !important;
     }
 
 
-    #attendanceRecords .table-wrapper {
-
-        width:
-            100% !important;
-
-        max-width:
-            none !important;
-
-        height:
-            auto !important;
-
-        max-height:
-            none !important;
-
-        overflow:
-            visible !important;
-
-        background:
-            #ffffff !important;
-    }
-
-
-    #attendanceRecords table,
-    #attendanceTable {
-
-        width:
-            100% !important;
-
-        min-width:
-            0 !important;
-
-        max-width:
-            none !important;
-
-        border-collapse:
-            collapse !important;
-
-        table-layout:
-            auto !important;
-
-        background:
-            #ffffff !important;
-
-        font-size:
-            8pt !important;
-    }
-
-
-    #attendanceRecords th,
-    #attendanceRecords td {
-
-        border:
-            1px solid
-            #000000 !important;
-
-        padding:
-            5px 4px !important;
-
-        color:
-            #000000 !important;
-
-        background:
-            #ffffff !important;
-
-        font-family:
-            Arial,
-            sans-serif !important;
-
-        font-size:
-            8pt !important;
-
-        font-weight:
-            700 !important;
-
-        text-align:
-            center !important;
-
-        vertical-align:
-            middle !important;
-
-        white-space:
-            nowrap !important;
-    }
-
-
-    #attendanceRecords thead th {
-
-        background:
-            #eeeeee !important;
-
-        color:
-            #000000 !important;
-
-        font-weight:
-            900 !important;
-    }
-
-
-    #attendanceRecords .status-badge {
-
-        background:
-            #ffffff !important;
-
-        color:
-            #000000 !important;
-
-        border:
-            none !important;
-    }
-
-
-    #attendanceTable th:last-child,
-    #attendanceTable td:last-child {
-
-        display:
-            none !important;
-    }
-
-
-    #attendanceRecords button {
-
-        display:
-            none !important;
-    }
-
-
-    #attendanceRecords .empty-row {
-
-        height:
-            auto !important;
-
-        padding:
-            20px !important;
-    }
-
-
-    #attendanceRecords tr {
-
-        page-break-inside:
-            avoid !important;
-
-        break-inside:
-            avoid !important;
-    }
-
-
-    #attendanceRecords thead {
-
-        display:
-            table-header-group !important;
-    }
-
-
-    #attendanceRecords tbody {
-
-        display:
-            table-row-group !important;
-    }
-
-
-    .attendance-footer {
-
-        display:
-            none !important;
-    }
-
-
-    /* =====================================================
-       CUTOFF SUMMARY PRINT
-    ===================================================== */
-
-    #cutoffSummarySection,
-    #cutoffSummarySection * {
-
-        visibility:
-            visible !important;
-    }
-
-
-    #cutoffSummarySection {
-
-        position:
-            absolute !important;
-
-        left:
-            0 !important;
-
-        top:
-            0 !important;
-
-        width:
-            100% !important;
-
-        margin:
-            0 !important;
-
-        padding:
-            0 !important;
-
-        background:
-            #ffffff !important;
-
-        border:
-            none !important;
-
-        border-radius:
-            0 !important;
-
-        box-shadow:
-            none !important;
-
-        overflow:
-            visible !important;
-    }
-
-
-    #cutoffSummarySection .cutoff-form {
-
-        display:
-            none !important;
-    }
-
-
-    #cutoffSummarySection .cutoff-summary-header {
+    /*
+     * Header.
+     */
+
+    #cutoffSummary .cutoff-summary-header {
 
         display:
             flex !important;
+
+        width:
+            100% !important;
 
         padding:
             0 0 10px !important;
@@ -4347,28 +3643,51 @@ body {
     }
 
 
-    #cutoffSummarySection .cutoff-summary-title .material-icons {
+    #cutoffSummary .cutoff-summary-title {
+
+        display:
+            flex !important;
+
+        align-items:
+            center !important;
+    }
+
+
+    #cutoffSummary .cutoff-summary-title .material-icons {
 
         display:
             none !important;
     }
 
 
-    #cutoffSummarySection .cutoff-summary-title h2 {
+    #cutoffSummary .cutoff-summary-title h2 {
+
+        color:
+            #000000 !important;
+
+        font-family:
+            Arial,
+            sans-serif !important;
 
         font-size:
             16pt !important;
+
+        font-weight:
+            900 !important;
     }
 
 
-    #cutoffSummarySection .cutoff-summary-title p {
+    #cutoffSummary .cutoff-summary-title p {
+
+        color:
+            #000000 !important;
 
         font-size:
             9pt !important;
     }
 
 
-    #cutoffSummarySection .cutoff-period {
+    #cutoffSummary .cutoff-period {
 
         border:
             none !important;
@@ -4376,18 +3695,31 @@ body {
         padding:
             0 !important;
 
-        font-size:
-            9pt !important;
+        background:
+            #ffffff !important;
 
         color:
             #000000 !important;
+
+        font-size:
+            9pt !important;
     }
 
 
-    #cutoffSummarySection .cutoff-result-info {
+    /*
+     * Result information.
+     */
+
+    #cutoffSummary .cutoff-summary-info {
+
+        display:
+            flex !important;
+
+        width:
+            100% !important;
 
         padding:
-            6px 0 !important;
+            5px 0 !important;
 
         background:
             #ffffff !important;
@@ -4397,13 +3729,30 @@ body {
     }
 
 
-    #cutoffSummarySection .cutoff-table-wrapper {
+    #cutoffSummary .cutoff-summary-info strong,
+    #cutoffSummary .cutoff-summary-info span {
 
-        overflow:
-            visible !important;
+        color:
+            #000000 !important;
+
+        font-size:
+            8pt !important;
+    }
+
+
+    /*
+     * Table wrapper.
+     *
+     * Important for multiple pages.
+     */
+
+    #cutoffSummary .cutoff-summary-table-wrapper {
 
         width:
             100% !important;
+
+        overflow:
+            visible !important;
     }
 
 
@@ -4415,11 +3764,18 @@ body {
         min-width:
             0 !important;
 
-        table-layout:
-            auto !important;
+        max-width:
+            none !important;
 
         border-collapse:
             collapse !important;
+
+        table-layout:
+            auto !important;
+
+        font-family:
+            Arial,
+            sans-serif !important;
 
         font-size:
             8pt !important;
@@ -4455,6 +3811,9 @@ body {
         text-align:
             center !important;
 
+        vertical-align:
+            middle !important;
+
         white-space:
             nowrap !important;
     }
@@ -4470,6 +3829,28 @@ body {
     }
 
 
+    /*
+     * Keep table header on every printed page.
+     */
+
+    #cutoffSummaryTable thead {
+
+        display:
+            table-header-group !important;
+    }
+
+
+    #cutoffSummaryTable tbody {
+
+        display:
+            table-row-group !important;
+    }
+
+
+    /*
+     * Prevent an employee row from being split.
+     */
+
     #cutoffSummaryTable tr {
 
         page-break-inside:
@@ -4480,7 +3861,48 @@ body {
     }
 
 
-    #cutoffSummarySection .cutoff-grand-total {
+    /*
+     * Total Hours emphasis.
+     */
+
+    #cutoffSummaryTable td.total-hours-cell {
+
+        background:
+            #ffffff !important;
+
+        color:
+            #000000 !important;
+
+        font-weight:
+            900 !important;
+    }
+
+
+    #cutoffSummaryTable td.ot-hours-cell {
+
+        color:
+            #000000 !important;
+
+        font-weight:
+            900 !important;
+    }
+
+
+    #cutoffSummaryTable td.late-minutes-cell {
+
+        color:
+            #000000 !important;
+
+        font-weight:
+            900 !important;
+    }
+
+
+    /*
+     * Grand totals.
+     */
+
+    #cutoffSummary .cutoff-grand-total {
 
         display:
             grid !important;
@@ -4488,18 +3910,24 @@ body {
         grid-template-columns:
             repeat(4, 1fr) !important;
 
-        padding:
-            10px 0 !important;
+        width:
+            100% !important;
 
         gap:
             5px !important;
+
+        padding:
+            10px 0 !important;
+
+        background:
+            #ffffff !important;
 
         border:
             none !important;
     }
 
 
-    #cutoffSummarySection .cutoff-total-card {
+    #cutoffSummary .cutoff-total-card {
 
         min-height:
             auto !important;
@@ -4513,37 +3941,61 @@ body {
         border:
             1px solid
             #000000 !important;
+
+        border-radius:
+            0 !important;
     }
 
 
-    #cutoffSummarySection .cutoff-total-card .material-icons {
+    #cutoffSummary .cutoff-total-card .material-icons {
 
         display:
             none !important;
     }
 
 
-    #cutoffSummarySection .cutoff-total-card small {
+    #cutoffSummary .cutoff-total-card small {
 
         color:
             #000000 !important;
 
         font-size:
             7pt !important;
+
+        font-weight:
+            700 !important;
     }
 
 
-    #cutoffSummarySection .cutoff-total-card strong {
+    #cutoffSummary .cutoff-total-card strong {
 
         color:
             #000000 !important;
 
         font-size:
             10pt !important;
+
+        font-weight:
+            900 !important;
     }
 
 
-    #cutoffSummarySection button {
+    /*
+     * Hide all buttons.
+     */
+
+    #cutoffSummary button {
+
+        display:
+            none !important;
+    }
+
+
+    /*
+     * Footer stays hidden.
+     */
+
+    .attendance-footer {
 
         display:
             none !important;
