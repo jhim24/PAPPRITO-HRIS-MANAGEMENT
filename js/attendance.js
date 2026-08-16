@@ -4414,7 +4414,92 @@ function generateAttendanceSummary(){
     const records =
         getCutoffSummaryRecords();
 
+    /* =====================================================
+       UPDATE SUMMARY INFORMATION
+    ===================================================== */
 
+    const summaryCutoff =
+        document.getElementById(
+            "summaryCutoff"
+        );
+
+
+    const summaryEmployeeCount =
+        document.getElementById(
+            "summaryEmployeeCount"
+        );
+
+
+    const from =
+        startDate
+            ?
+            startDate.value
+            :
+            "";
+
+
+    const to =
+        endDate
+            ?
+            endDate.value
+            :
+            "";
+
+
+    /* =====================================================
+       CUTOFF DISPLAY
+    ===================================================== */
+
+    if(summaryCutoff){
+
+        if(
+            from &&
+            to
+        ){
+
+            summaryCutoff.textContent =
+
+                formatCutoffDate(from)
+
+                +
+
+                " - "
+
+                +
+
+                formatCutoffDate(to);
+
+        }
+
+        else if(from){
+
+            summaryCutoff.textContent =
+
+                "From " +
+
+                formatCutoffDate(from);
+
+        }
+
+        else if(to){
+
+            summaryCutoff.textContent =
+
+                "Until " +
+
+                formatCutoffDate(to);
+
+        }
+
+        else{
+
+            summaryCutoff.textContent =
+                "All Attendance Records";
+
+        }
+
+    }
+   
     /*
      * NO RECORDS
      */
@@ -4922,3 +5007,4 @@ generateAttendanceSummary();
 console.log(
     "PAPPRITO HRIS Attendance Cutoff Summary Ready"
 );
+
