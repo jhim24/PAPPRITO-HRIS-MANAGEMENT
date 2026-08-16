@@ -2,12 +2,23 @@
    PAPPRITO HRIS
    EMPLOYEE MASTERLIST JS
    FULL UPDATED
-   EXISTING FUNCTIONS RETAINED
 
+   FEATURES:
+   + PERSONAL
+   + CONTACT
+   + EMPLOYMENT
+   + GOVERNMENT & BENEFITS
    + COMPENSATION
    + PAYROLL
    + ATTENDANCE
-   + EMPLOYEE SUMMARY TABLE
+   + COMPLETE MASTERLIST TABLE
+   + EMPLOYEE SUMMARY
+   + SEARCH
+   + STATUS FILTER
+   + QR
+   + CREATE USER
+   + EDIT
+   + DELETE
 ========================================== */
 
 
@@ -426,6 +437,17 @@ function(){
         );
 
 
+    if(
+        Number.isNaN(
+            birth.getTime()
+        )
+    ){
+
+        return;
+
+    }
+
+
     const today =
         new Date();
 
@@ -473,7 +495,7 @@ function getEmployeeFormData(){
 
 
     /* ======================================
-       PERSONAL TAB
+       PERSONAL
     ====================================== */
 
     const personalFields =
@@ -483,7 +505,7 @@ function getEmployeeFormData(){
 
 
     /* ======================================
-       CONTACT TAB
+       CONTACT
     ====================================== */
 
     const contactFields =
@@ -493,7 +515,7 @@ function getEmployeeFormData(){
 
 
     /* ======================================
-       EMPLOYMENT TAB
+       EMPLOYMENT
     ====================================== */
 
     const employmentFields =
@@ -503,7 +525,7 @@ function getEmployeeFormData(){
 
 
     /* ======================================
-       GOVERNMENT TAB
+       GOVERNMENT
     ====================================== */
 
     const governmentFields =
@@ -627,10 +649,10 @@ function getEmployeeFormData(){
     const existingSalary =
         text(
             employmentFields[5]
-                ?
-                employmentFields[5].value
-                :
-                ""
+            ?
+            employmentFields[5].value
+            :
+            ""
         );
 
 
@@ -639,6 +661,10 @@ function getEmployeeFormData(){
         ||
         existingSalary;
 
+
+    /* ======================================
+       RETURN COMPLETE EMPLOYEE DATA
+    ====================================== */
 
     return {
 
@@ -708,7 +734,51 @@ function getEmployeeFormData(){
 
 
         /* ==================================
-           GOVERNMENT
+           CONTACT
+        ================================== */
+
+        mobile:
+            text(
+                contactFields[0]
+                ?
+                contactFields[0].value
+                :
+                ""
+            ),
+
+
+        email:
+            text(
+                contactFields[1]
+                ?
+                contactFields[1].value
+                :
+                ""
+            ),
+
+
+        currentaddress:
+            text(
+                contactFields[2]
+                ?
+                contactFields[2].value
+                :
+                ""
+            ),
+
+
+        permanentaddress:
+            text(
+                contactFields[3]
+                ?
+                contactFields[3].value
+                :
+                ""
+            ),
+
+
+        /* ==================================
+           GOVERNMENT & BENEFITS
         ================================== */
 
         sss:
@@ -792,50 +862,6 @@ function getEmployeeFormData(){
 
 
         /* ==================================
-           CONTACT
-        ================================== */
-
-        mobile:
-            text(
-                contactFields[0]
-                ?
-                contactFields[0].value
-                :
-                ""
-            ),
-
-
-        email:
-            text(
-                contactFields[1]
-                ?
-                contactFields[1].value
-                :
-                ""
-            ),
-
-
-        currentaddress:
-            text(
-                contactFields[2]
-                ?
-                contactFields[2].value
-                :
-                ""
-            ),
-
-
-        permanentaddress:
-            text(
-                contactFields[3]
-                ?
-                contactFields[3].value
-                :
-                ""
-            ),
-
-
-        /* ==================================
            EMPLOYMENT
         ================================== */
 
@@ -895,10 +921,6 @@ function getEmployeeFormData(){
         salary:
             finalSalary,
 
-
-        /* ==================================
-           LEAVE BALANCES
-        ================================== */
 
         vacationleave:
             numberValue(
@@ -1055,7 +1077,7 @@ async function(){
 
 
         /* ==================================
-           CHECK DUPLICATE EMPLOYEE ID
+           DUPLICATE EMPLOYEE ID
         ================================== */
 
         const duplicate =
@@ -1070,7 +1092,9 @@ async function(){
                     .toUpperCase()
                     ===
                     employeeData.employeeid
+
                     &&
+
                     employee.id !==
                     editId
             );
@@ -1090,7 +1114,7 @@ async function(){
 
 
         /* ==================================
-           UPDATE
+           UPDATE EXISTING
         ================================== */
 
         if(
@@ -1118,7 +1142,7 @@ async function(){
 
 
         /* ==================================
-           NEW EMPLOYEE
+           ADD NEW
         ================================== */
 
         else{
@@ -1141,6 +1165,10 @@ async function(){
 
         }
 
+
+        /* ==================================
+           CLOSE + RELOAD
+        ================================== */
 
         closeModal();
 
@@ -1218,7 +1246,11 @@ async function loadEmployees(){
 
 
         alert(
-            "Failed to load employees."
+
+            "Failed to load employees.\n\n" +
+
+            error.message
+
         );
 
     }
@@ -1227,7 +1259,54 @@ async function loadEmployees(){
 
 
 /* ==========================================
-   RENDER TABLE
+   GET STATUS CLASS
+========================================== */
+
+function getStatusClass(status){
+
+    const value =
+        text(
+            status
+        );
+
+
+    if(
+        value ===
+        "Active"
+    ){
+
+        return "status-active";
+
+    }
+
+
+    if(
+        value ===
+        "AWOL"
+    ){
+
+        return "status-awol";
+
+    }
+
+
+    if(
+        value ===
+        "Resigned"
+    ){
+
+        return "status-resigned";
+
+    }
+
+
+    return "status-other";
+
+}
+
+
+/* ==========================================
+   RENDER MAIN TABLE
 ========================================== */
 
 function renderTable(){
@@ -1249,6 +1328,10 @@ function renderTable(){
 
     table.innerHTML =
         "";
+
+
+    let visibleCount =
+        0;
 
 
     employees.forEach(
@@ -1299,6 +1382,9 @@ function renderTable(){
             }
 
 
+            visibleCount++;
+
+
             /* =================================
                USER STATUS
             ================================= */
@@ -1308,7 +1394,9 @@ function renderTable(){
                 text(
                     employee.username
                 ) !== ""
+
                 &&
+
                 text(
                     employee.password
                 ) !== "";
@@ -1358,52 +1446,30 @@ person_add
 
 
             /* =================================
-               STATUS CLASS
+               STATUS
             ================================= */
 
-            let statusClass =
-                "status-other";
-
-
-            if(
-                employee.status ===
-                "Active"
-            ){
-
-                statusClass =
-                    "status-active";
-
-            }
-
-            else if(
-                employee.status ===
-                "AWOL"
-            ){
-
-                statusClass =
-                    "status-awol";
-
-            }
-
-            else if(
-                employee.status ===
-                "Resigned"
-            ){
-
-                statusClass =
-                    "status-resigned";
-
-            }
+            const statusClass =
+                getStatusClass(
+                    employee.status
+                );
 
 
             /* =================================
                TABLE ROW
+               
+               IMPORTANT:
+               ORDER MUST MATCH HTML HEADER
             ================================= */
 
             table.innerHTML += `
 
 <tr>
 
+
+<!-- ==============================
+     QR
+============================== -->
 
 <td>
 
@@ -1427,6 +1493,10 @@ qr_code_2
 
 </td>
 
+
+<!-- ==============================
+     PERSONAL
+============================== -->
 
 <td>
 ${escapeHTML(
@@ -1469,6 +1539,42 @@ ${escapeHTML(
 )}
 </td>
 
+
+<!-- ==============================
+     CONTACT
+============================== -->
+
+<td>
+${escapeHTML(
+    employee.mobile
+)}
+</td>
+
+
+<td>
+${escapeHTML(
+    employee.email
+)}
+</td>
+
+
+<td>
+${escapeHTML(
+    employee.currentaddress
+)}
+</td>
+
+
+<td>
+${escapeHTML(
+    employee.permanentaddress
+)}
+</td>
+
+
+<!-- ==============================
+     GOVERNMENT
+============================== -->
 
 <td>
 ${escapeHTML(
@@ -1526,33 +1632,9 @@ ${escapeHTML(
 </td>
 
 
-<td>
-${escapeHTML(
-    employee.mobile
-)}
-</td>
-
-
-<td>
-${escapeHTML(
-    employee.email
-)}
-</td>
-
-
-<td>
-${escapeHTML(
-    employee.currentaddress
-)}
-</td>
-
-
-<td>
-${escapeHTML(
-    employee.permanentaddress
-)}
-</td>
-
+<!-- ==============================
+     EMPLOYMENT
+============================== -->
 
 <td>
 ${escapeHTML(
@@ -1624,12 +1706,116 @@ ${escapeHTML(
 </td>
 
 
+<!-- ==============================
+     COMPENSATION
+============================== -->
+
+<td>
+${escapeHTML(
+    employee.compensationSalary
+)}
+</td>
+
+
+<td>
+${escapeHTML(
+    employee.paytype
+)}
+</td>
+
+
+<td>
+${escapeHTML(
+    employee.payfrequency
+)}
+</td>
+
+
+<td>
+${escapeHTML(
+    employee.allowances
+)}
+</td>
+
+
+<!-- ==============================
+     PAYROLL
+============================== -->
+
+<td>
+${escapeHTML(
+    employee.payrollgroup
+)}
+</td>
+
+
+<td>
+${escapeHTML(
+    employee.payrollbank
+)}
+</td>
+
+
+<td>
+${escapeHTML(
+    employee.payrollbankaccount
+)}
+</td>
+
+
+<td>
+${escapeHTML(
+    employee.deductions
+)}
+</td>
+
+
+<!-- ==============================
+     ATTENDANCE
+============================== -->
+
+<td>
+${escapeHTML(
+    employee.schedule
+)}
+</td>
+
+
+<td>
+${escapeHTML(
+    employee.shift
+)}
+</td>
+
+
+<td>
+${escapeHTML(
+    employee.restday
+)}
+</td>
+
+
+<td>
+${escapeHTML(
+    employee.attendancegroup
+)}
+</td>
+
+
+<!-- ==============================
+     USER
+============================== -->
+
 <td>
 
 ${userButton}
 
 </td>
 
+
+<!-- ==============================
+     ACTION
+============================== -->
 
 <td>
 
@@ -1681,13 +1867,61 @@ delete
     );
 
 
-    updateTotal();
+    /*
+     * ======================================
+     * EMPTY RESULT
+     * ======================================
+     */
+
+    if(
+        visibleCount ===
+        0
+    ){
+
+        table.innerHTML = `
+
+<tr>
+
+<td
+colspan="42"
+style="
+padding:25px;
+text-align:center;
+color:#777;
+font-weight:800;
+">
+
+No employee records found.
+
+</td>
+
+</tr>
+
+`;
+
+    }
 
 
     /*
      * ======================================
-     * ADD-ON
-     * EMPLOYEE SUMMARY TABLE
+     * UPDATE TOTAL
+     * ======================================
+     */
+
+    if(
+        total
+    ){
+
+        total.innerText =
+            "Total : " +
+            visibleCount;
+
+    }
+
+
+    /*
+     * ======================================
+     * UPDATE SUMMARY
      * ======================================
      */
 
@@ -1697,104 +1931,32 @@ delete
 
 
 /* ==========================================
-   EMPLOYEE SUMMARY TABLE
-   ADD-ON ONLY
+   EMPLOYEE SUMMARY
 ========================================== */
 
 function renderEmployeeSummary(){
 
-    /*
-     * Find existing table box
-     */
+    const summaryBody =
+        document.getElementById(
+            "employeeSummaryBody"
+        );
 
-    const mainTableBox =
-        document.querySelector(
-            ".table-box"
+
+    const summaryTable =
+        document.getElementById(
+            "employeeSummaryTable"
         );
 
 
     if(
-        !mainTableBox
+        !summaryBody ||
+        !summaryTable
     ){
 
         return;
 
     }
 
-
-    /*
-     * Find existing summary section
-     */
-
-    let summarySection =
-        document.getElementById(
-            "employeeSummarySection"
-        );
-
-
-    /*
-     * Create summary section
-     * automatically if missing
-     */
-
-    if(
-        !summarySection
-    ){
-
-        summarySection =
-            document.createElement(
-                "section"
-            );
-
-
-        summarySection.id =
-            "employeeSummarySection";
-
-
-        summarySection.style.width =
-            "calc(100% - 36px)";
-
-
-        summarySection.style.margin =
-            "0 18px 25px";
-
-
-        summarySection.style.background =
-            "#ffffff";
-
-
-        summarySection.style.border =
-            "1px solid #d8dce1";
-
-
-        summarySection.style.borderRadius =
-            "10px";
-
-
-        summarySection.style.boxShadow =
-            "0 4px 18px rgba(0,0,0,.08)";
-
-
-        summarySection.style.overflow =
-            "hidden";
-
-
-        /*
-         * Insert directly after
-         * main employee table
-         */
-
-        mainTableBox.insertAdjacentElement(
-            "afterend",
-            summarySection
-        );
-
-    }
-
-
-    /*
-     * Search value
-     */
 
     const searchValue =
         search
@@ -1806,18 +1968,14 @@ function renderEmployeeSummary(){
         "";
 
 
-    /*
-     * Filter employees
-     */
-
     const filteredEmployees =
         employees.filter(
             employee => {
 
 
-                /*
-                 * STATUS FILTER
-                 */
+                /* ==========================
+                   STATUS FILTER
+                ========================== */
 
                 if(
                     currentStatusFilter ===
@@ -1859,9 +2017,9 @@ function renderEmployeeSummary(){
                 }
 
 
-                /*
-                 * SEARCH FILTER
-                 */
+                /* ==========================
+                   SEARCH FILTER
+                ========================== */
 
                 if(
                     searchValue
@@ -1887,7 +2045,25 @@ function renderEmployeeSummary(){
 
                         employee.mobile,
 
-                        employee.email
+                        employee.email,
+
+                        employee.compensationSalary,
+
+                        employee.paytype,
+
+                        employee.payfrequency,
+
+                        employee.payrollgroup,
+
+                        employee.payrollbank,
+
+                        employee.schedule,
+
+                        employee.shift,
+
+                        employee.restday,
+
+                        employee.attendancegroup
 
                     ]
 
@@ -1920,31 +2096,30 @@ function renderEmployeeSummary(){
         );
 
 
-    /*
-     * Build rows
-     */
-
-    let rows = "";
+    summaryBody.innerHTML =
+        "";
 
 
     if(
-        filteredEmployees.length === 0
+        filteredEmployees.length ===
+        0
     ){
 
-        rows = `
+        summaryBody.innerHTML = `
 
 <tr>
 
 <td
-colspan="11"
-style="
-padding:25px;
-text-align:center;
-color:#777;
-font-weight:700;
-">
+colspan="10"
+class="employee-summary-empty">
 
-No employee summary records found.
+<span class="material-icons">
+assessment
+</span>
+
+<p>
+No employee summary available.
+</p>
 
 </td>
 
@@ -1954,55 +2129,19 @@ No employee summary records found.
 
     }
 
-
     else{
 
         filteredEmployees.forEach(
             employee => {
 
 
-                let statusClass =
-                    "";
-
-
-                if(
-                    text(
+                const statusClass =
+                    getStatusClass(
                         employee.status
-                    ) ===
-                    "Active"
-                ){
-
-                    statusClass =
-                        "status-active";
-
-                }
-
-                else if(
-                    text(
-                        employee.status
-                    ) ===
-                    "AWOL"
-                ){
-
-                    statusClass =
-                        "status-awol";
-
-                }
-
-                else if(
-                    text(
-                        employee.status
-                    ) ===
-                    "Resigned"
-                ){
-
-                    statusClass =
-                        "status-resigned";
-
-                }
+                    );
 
 
-                rows += `
+                summaryBody.innerHTML += `
 
 <tr>
 
@@ -2086,40 +2225,6 @@ ${escapeHTML(
 </td>
 
 
-<td>
-
-${
-    text(
-        employee.username
-    )
-    &&
-    text(
-        employee.password
-    )
-    ?
-
-    `<span
-    style="
-    color:#16803c;
-    font-weight:900;
-    ">
-    CREATED
-    </span>`
-
-    :
-
-    `<span
-    style="
-    color:#d71920;
-    font-weight:900;
-    ">
-    NOT CREATED
-    </span>`
-}
-
-</td>
-
-
 </tr>
 
 `;
@@ -2131,344 +2236,96 @@ ${
 
 
     /*
-     * Summary section HTML
+     * ======================================
+     * SUMMARY TOTALS
+     * ======================================
      */
 
-    summarySection.innerHTML = `
-
-<div
-style="
-padding:16px 18px;
-background:#ffffff;
-border-bottom:1px solid #d8dce1;
-">
-
-<div
-style="
-display:flex;
-align-items:center;
-justify-content:space-between;
-gap:15px;
-flex-wrap:wrap;
-">
-
-<div>
-
-<h3
-style="
-margin:0;
-font-size:18px;
-font-weight:900;
-color:#222222;
-">
-
-Employee Summary
-
-</h3>
-
-
-<p
-style="
-margin:4px 0 0;
-font-size:12px;
-font-weight:600;
-color:#777777;
-">
-
-Employee overview based on the current list and filter.
-
-</p>
-
-</div>
-
-
-<div
-style="
-display:flex;
-gap:8px;
-align-items:center;
-flex-wrap:wrap;
-">
-
-<span
-style="
-padding:7px 11px;
-border-radius:7px;
-background:#f3f5f7;
-border:1px solid #d8dce1;
-font-size:11px;
-font-weight:900;
-color:#333333;
-">
-
-TOTAL:
-${filteredEmployees.length}
-
-</span>
-
-
-<span
-style="
-padding:7px 11px;
-border-radius:7px;
-background:#fff9df;
-border:1px solid #ead47b;
-font-size:11px;
-font-weight:900;
-color:#765000;
-">
-
-FILTER:
-${escapeHTML(
-    currentStatusFilter
-)}
-
-</span>
-
-</div>
-
-</div>
-
-</div>
-
-
-<div
-style="
-width:100%;
-overflow:auto;
--webkit-overflow-scrolling:touch;
-">
-
-<table
-id="employeeSummaryTable"
-style="
-width:100%;
-min-width:1100px;
-border-collapse:separate;
-border-spacing:0;
-background:#ffffff;
-">
-
-
-<thead>
-
-<tr>
-
-<th
-style="
-position:sticky;
-top:0;
-padding:11px 10px;
-background:#ffcc00;
-color:#111111;
-border-right:1px solid rgba(0,0,0,.15);
-border-bottom:2px solid #c49e00;
-font-size:11px;
-font-weight:900;
-text-align:center;
-white-space:nowrap;
-">
-
-EMPLOYEE ID
-
-</th>
-
-
-<th
-style="
-padding:11px 10px;
-background:#ffcc00;
-color:#111111;
-border-right:1px solid rgba(0,0,0,.15);
-border-bottom:2px solid #c49e00;
-font-size:11px;
-font-weight:900;
-text-align:center;
-white-space:nowrap;
-">
-
-EMPLOYEE NAME
-
-</th>
-
-
-<th
-style="
-padding:11px 10px;
-background:#ffcc00;
-color:#111111;
-border-right:1px solid rgba(0,0,0,.15);
-border-bottom:2px solid #c49e00;
-font-size:11px;
-font-weight:900;
-text-align:center;
-white-space:nowrap;
-">
-
-POSITION
-
-</th>
-
-
-<th
-style="
-padding:11px 10px;
-background:#ffcc00;
-color:#111111;
-border-right:1px solid rgba(0,0,0,.15);
-border-bottom:2px solid #c49e00;
-font-size:11px;
-font-weight:900;
-text-align:center;
-white-space:nowrap;
-">
-
-DEPARTMENT
-
-</th>
-
-
-<th
-style="
-padding:11px 10px;
-background:#ffcc00;
-color:#111111;
-border-right:1px solid rgba(0,0,0,.15);
-border-bottom:2px solid #c49e00;
-font-size:11px;
-font-weight:900;
-text-align:center;
-white-space:nowrap;
-">
-
-EMPLOYMENT
-
-</th>
-
-
-<th
-style="
-padding:11px 10px;
-background:#ffcc00;
-color:#111111;
-border-right:1px solid rgba(0,0,0,.15);
-border-bottom:2px solid #c49e00;
-font-size:11px;
-font-weight:900;
-text-align:center;
-white-space:nowrap;
-">
-
-STATUS
-
-</th>
-
-
-<th
-style="
-padding:11px 10px;
-background:#ffcc00;
-color:#111111;
-border-right:1px solid rgba(0,0,0,.15);
-border-bottom:2px solid #c49e00;
-font-size:11px;
-font-weight:900;
-text-align:center;
-white-space:nowrap;
-">
-
-SALARY RATE
-
-</th>
-
-
-<th
-style="
-padding:11px 10px;
-background:#ffcc00;
-color:#111111;
-border-right:1px solid rgba(0,0,0,.15);
-border-bottom:2px solid #c49e00;
-font-size:11px;
-font-weight:900;
-text-align:center;
-white-space:nowrap;
-">
-
-VACATION LEAVE
-
-</th>
-
-
-<th
-style="
-padding:11px 10px;
-background:#ffcc00;
-color:#111111;
-border-right:1px solid rgba(0,0,0,.15);
-border-bottom:2px solid #c49e00;
-font-size:11px;
-font-weight:900;
-text-align:center;
-white-space:nowrap;
-">
-
-SICK LEAVE
-
-</th>
-
-
-<th
-style="
-padding:11px 10px;
-background:#ffcc00;
-color:#111111;
-border-right:1px solid rgba(0,0,0,.15);
-border-bottom:2px solid #c49e00;
-font-size:11px;
-font-weight:900;
-text-align:center;
-white-space:nowrap;
-">
-
-BIRTHDAY LEAVE
-
-</th>
-
-
-<th
-style="
-padding:11px 10px;
-background:#ffcc00;
-color:#111111;
-border-bottom:2px solid #c49e00;
-font-size:11px;
-font-weight:900;
-text-align:center;
-white-space:nowrap;
-">
-
-USER
-
-</th>
-
-</tr>
-
-</thead>
-
-
-<tbody>
-
-${rows}
-
-</tbody>
-
-
-</table>
-
-</div>
-
-`;
+    let vacationTotal =
+        0;
+
+
+    let sickTotal =
+        0;
+
+
+    let birthdayTotal =
+        0;
+
+
+    filteredEmployees.forEach(
+        employee => {
+
+            vacationTotal +=
+                numberValue(
+                    employee.vacationleave,
+                    0
+                );
+
+
+            sickTotal +=
+                numberValue(
+                    employee.sickleave,
+                    0
+                );
+
+
+            birthdayTotal +=
+                numberValue(
+                    employee.birthdayleave,
+                    0
+                );
+
+        }
+    );
+
+
+    const vacationElement =
+        document.getElementById(
+            "summaryVacationTotal"
+        );
+
+
+    const sickElement =
+        document.getElementById(
+            "summarySickTotal"
+        );
+
+
+    const birthdayElement =
+        document.getElementById(
+            "summaryBirthdayTotal"
+        );
+
+
+    if(
+        vacationElement
+    ){
+
+        vacationElement.textContent =
+            vacationTotal;
+
+    }
+
+
+    if(
+        sickElement
+    ){
+
+        sickElement.textContent =
+            sickTotal;
+
+    }
+
+
+    if(
+        birthdayElement
+    ){
+
+        birthdayElement.textContent =
+            birthdayTotal;
+
+    }
 
 }
 
@@ -2713,7 +2570,7 @@ function(){
 
 
 /* ==========================================
-   CREATE USER
+   CREATE EMPLOYEE USER
 ========================================== */
 
 window.createEmployeeUser =
@@ -2838,7 +2695,7 @@ async function(){
 
 
         /* ==================================
-           CHECK DUPLICATE USERNAME
+           DUPLICATE USERNAME
         ================================== */
 
         const duplicate =
@@ -2962,6 +2819,10 @@ function(id){
         !employee
     ){
 
+        alert(
+            "Employee not found."
+        );
+
         return;
 
     }
@@ -3074,7 +2935,9 @@ function(id){
 
         employee.employment,
 
-        employee.status,
+        employee.status ||
+
+        "Active",
 
         employee.salary,
 
@@ -3401,7 +3264,7 @@ function(id){
 
 
     /* ======================================
-       RETURN TO PERSONAL TAB
+       PERSONAL TAB
     ====================================== */
 
     document
@@ -3530,7 +3393,6 @@ function(status){
 
     renderTable();
 
-
 };
 
 
@@ -3541,84 +3403,18 @@ function(status){
 window.searchEmp =
 function(){
 
-    const value =
-        search
-        ?
-        search.value
-            .toLowerCase()
-        :
-        "";
-
-
-    const rows =
-        document.querySelectorAll(
-            "#empTable tbody tr"
-        );
-
-
-    let visible =
-        0;
-
-
-    rows.forEach(
-        row => {
-
-            const show =
-                row.innerText
-                    .toLowerCase()
-                    .includes(
-                        value
-                    );
-
-
-            row.style.display =
-                show
-                ?
-                ""
-                :
-                "none";
-
-
-            if(
-                show
-            ){
-
-                visible++;
-
-            }
-
-        }
-    );
-
-
-    if(
-        total
-    ){
-
-        total.innerText =
-            "Showing : " +
-            visible;
-
-    }
-
-
     /*
-     * ======================================
-     * ADD-ON:
-     * UPDATE SUMMARY TABLE TOO
-     * ======================================
+     * Instead of hiding existing rows,
+     * rebuild the table based on search.
      */
 
-    renderEmployeeSummary();
+    renderTable();
 
 };
 
 
 /* ==========================================
-   SEARCH LISTENER
-   ADD-ON
-   MAKES SEARCH WORK EVEN IF HTML HAS:
-   onkeyup="searchEmp"
+   SEARCH EVENT
 ========================================== */
 
 if(
@@ -3629,7 +3425,7 @@ if(
         "input",
         function(){
 
-            window.searchEmp();
+            renderTable();
 
         }
     );
@@ -3666,6 +3462,34 @@ function(
         return;
 
     }
+
+
+    const safeEmployeeId =
+        String(
+            employeeid ?? ""
+        )
+        .replace(
+            /\\/g,
+            "\\\\"
+        )
+        .replace(
+            /"/g,
+            '\\"'
+        );
+
+
+    const safeName =
+        String(
+            name ?? ""
+        )
+        .replace(
+            /\\/g,
+            "\\\\"
+        )
+        .replace(
+            /"/g,
+            '\\"'
+        );
 
 
     qrWindow.document.write(`
@@ -3848,30 +3672,10 @@ document.createElement(
 JSON.stringify({
 
 employeeid:
-"${String(
-    employeeid
-)
-.replace(
-    /\\/g,
-    "\\\\"
-)
-.replace(
-    /"/g,
-    '\\"'
-)}",
+"${safeEmployeeId}",
 
 name:
-"${String(
-    name
-)
-.replace(
-    /\\/g,
-    "\\\\"
-)
-.replace(
-    /"/g,
-    '\\"'
-)}"
+"${safeName}"
 
 }),
 
@@ -3930,7 +3734,7 @@ function clearForm(){
 
 
     /*
-     * Clear ALL employee fields
+     * Clear all employee fields
      */
 
     document
