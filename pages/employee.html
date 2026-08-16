@@ -90,8 +90,7 @@ Employee Masterlist
 </h2>
 
 
-<div
-class="top-actions">
+<div class="top-actions">
 
 
 <!-- SEARCH -->
@@ -102,7 +101,7 @@ class="top-actions">
 type="text"
 id="search"
 placeholder="Search..."
-onkeyup="searchEmp">
+onkeyup="searchEmp()">
 
 </div>
 
@@ -154,6 +153,7 @@ person_off
 </div>
 
 
+
 <!-- ==========================================
      TOTAL
 ========================================== -->
@@ -163,6 +163,7 @@ person_off
 Total : 0
 
 </h3>
+
 
 
 <!-- ==========================================
@@ -205,9 +206,12 @@ INACTIVE
 </div>
 
 
-<!-- ==========================================
-     EMPLOYEE TABLE
-========================================== -->
+
+<!-- =====================================================
+     COMPLETE EMPLOYEE MASTERLIST
+     
+     ALL INFORMATION FROM ALL 7 TABS
+===================================================== -->
 
 <div class="table-box">
 
@@ -220,150 +224,213 @@ INACTIVE
 <tr>
 
 
+<!-- ======================================
+     SYSTEM
+====================================== -->
+
 <th>
 QR
 </th>
 
 
+<!-- ======================================
+     PERSONAL INFORMATION
+====================================== -->
+
 <th>
 First Name
 </th>
-
 
 <th>
 Middle Name
 </th>
 
-
 <th>
 Last Name
 </th>
-
 
 <th>
 Birthdate
 </th>
 
-
 <th>
 Age
 </th>
-
 
 <th>
 Gender
 </th>
 
 
-<th>
-SSS Number
-</th>
-
-
-<th>
-PhilHealth Number
-</th>
-
-
-<th>
-Pag-IBIG Number
-</th>
-
-
-<th>
-Health Card Number
-</th>
-
-
-<th>
-Bank Name
-</th>
-
-
-<th>
-Bank Account Number
-</th>
-
-
-<th>
-ID Type
-</th>
-
-
-<th>
-ID Number
-</th>
-
+<!-- ======================================
+     CONTACT INFORMATION
+====================================== -->
 
 <th>
 Mobile
 </th>
 
-
 <th>
 Email
 </th>
 
-
 <th>
 Current Address
 </th>
-
 
 <th>
 Permanent Address
 </th>
 
 
+<!-- ======================================
+     GOVERNMENT & BENEFITS
+====================================== -->
+
+<th>
+SSS Number
+</th>
+
+<th>
+PhilHealth Number
+</th>
+
+<th>
+Pag-IBIG Number
+</th>
+
+<th>
+Health Card Number
+</th>
+
+<th>
+Government Bank
+</th>
+
+<th>
+Government Bank Account
+</th>
+
+<th>
+ID Type
+</th>
+
+<th>
+ID Number
+</th>
+
+
+<!-- ======================================
+     EMPLOYMENT INFORMATION
+====================================== -->
+
 <th>
 Employee ID
 </th>
-
 
 <th>
 Position
 </th>
 
-
 <th>
 Department
 </th>
-
 
 <th>
 Employment
 </th>
 
-
 <th>
 Status
 </th>
-
 
 <th>
 Salary Rate
 </th>
 
-
 <th>
 Vacation Leave
 </th>
 
-
 <th>
 Sick Leave
 </th>
-
 
 <th>
 Birthday Leave
 </th>
 
 
+<!-- ======================================
+     COMPENSATION
+====================================== -->
+
+<th>
+Compensation Salary
+</th>
+
+<th>
+Pay Type
+</th>
+
+<th>
+Pay Frequency
+</th>
+
+<th>
+Allowances
+</th>
+
+
+<!-- ======================================
+     PAYROLL
+====================================== -->
+
+<th>
+Payroll Group
+</th>
+
+<th>
+Payroll Bank
+</th>
+
+<th>
+Payroll Bank Account
+</th>
+
+<th>
+Deductions
+</th>
+
+
+<!-- ======================================
+     ATTENDANCE
+====================================== -->
+
+<th>
+Schedule
+</th>
+
+<th>
+Shift
+</th>
+
+<th>
+Rest Day
+</th>
+
+<th>
+Attendance Group
+</th>
+
+
+<!-- ======================================
+     USER / ACTION
+====================================== -->
+
 <th>
 USER
 </th>
-
 
 <th>
 ACTION
@@ -387,20 +454,15 @@ ACTION
 
 
 <!-- =====================================================
-     ADD-ON ONLY
-     EMPLOYEE SUMMARY TABLE
+     EMPLOYEE SUMMARY
      
-     EXISTING MASTERLIST ABOVE IS UNTOUCHED
+     RETAINED AS ADD-ON
 ===================================================== -->
 
 <section
 class="employee-summary-section"
 id="employeeSummarySection">
 
-
-<!-- ==========================================
-     SUMMARY HEADER
-========================================== -->
 
 <div class="employee-summary-header">
 
@@ -434,10 +496,6 @@ Employment and HR information summary
 
 
 
-<!-- ==========================================
-     SUMMARY TABLE
-========================================== -->
-
 <div class="employee-summary-table-box">
 
 
@@ -449,63 +507,52 @@ id="employeeSummaryTable">
 
 <tr>
 
-
 <th>
 Employee ID
 </th>
-
 
 <th>
 Employee Name
 </th>
 
-
 <th>
 Position
 </th>
-
 
 <th>
 Department
 </th>
 
-
 <th>
 Employment
 </th>
-
 
 <th>
 Status
 </th>
 
-
 <th>
 Salary Rate
 </th>
-
 
 <th>
 Vacation Leave
 </th>
 
-
 <th>
 Sick Leave
 </th>
 
-
 <th>
 Birthday Leave
 </th>
-
 
 </tr>
 
 </thead>
 
 
-<tbody>
+<tbody id="employeeSummaryBody">
 
 <tr>
 
@@ -532,38 +579,23 @@ No employee summary available.
 
 <tr>
 
-
-<td
-colspan="7">
+<td colspan="7">
 
 TOTAL / SUMMARY
 
 </td>
 
-
-<td
-id="summaryVacationTotal">
-
+<td id="summaryVacationTotal">
 0
-
 </td>
 
-
-<td
-id="summarySickTotal">
-
+<td id="summarySickTotal">
 0
-
 </td>
 
-
-<td
-id="summaryBirthdayTotal">
-
+<td id="summaryBirthdayTotal">
 0
-
 </td>
-
 
 </tr>
 
@@ -572,9 +604,7 @@ id="summaryBirthdayTotal">
 
 </table>
 
-
 </div>
-
 
 </section>
 
@@ -615,25 +645,13 @@ Employee Information
 </h3>
 
 
+
 <!-- ======================================
      TABS
-
-     LEFT TO RIGHT:
-     1 PERSONAL
-     2 CONTACT
-     3 EMPLOYMENT
-     4 COMPENSATION
-     5 GOVERNMENT & BENEFITS
-     6 PAYROLL
-     7 ATTENDANCE
 ====================================== -->
 
 <div class="classic-tabs">
 
-
-<!-- ======================================
-     1. PERSONAL INFO
-====================================== -->
 
 <button
 type="button"
@@ -645,10 +663,6 @@ Personal Info
 </button>
 
 
-<!-- ======================================
-     2. CONTACT INFO
-====================================== -->
-
 <button
 type="button"
 class="tab-btn"
@@ -658,10 +672,6 @@ Contact Info
 
 </button>
 
-
-<!-- ======================================
-     3. EMPLOYMENT INFO
-====================================== -->
 
 <button
 type="button"
@@ -673,10 +683,6 @@ Employment Info
 </button>
 
 
-<!-- ======================================
-     4. COMPENSATION
-====================================== -->
-
 <button
 type="button"
 class="tab-btn"
@@ -686,10 +692,6 @@ Compensation
 
 </button>
 
-
-<!-- ======================================
-     5. GOVERNMENT & BENEFITS
-====================================== -->
 
 <button
 type="button"
@@ -701,10 +703,6 @@ Government & Benefits
 </button>
 
 
-<!-- ======================================
-     6. PAYROLL
-====================================== -->
-
 <button
 type="button"
 class="tab-btn"
@@ -714,10 +712,6 @@ Payroll
 
 </button>
 
-
-<!-- ======================================
-     7. ATTENDANCE
-====================================== -->
 
 <button
 type="button"
@@ -916,19 +910,12 @@ On Leave
 </select>
 
 
-<!-- CURRENT SALARY FIELD
-     RETAINED FOR EXISTING JS -->
-
 <input
 class="emp-field"
 type="number"
 step="0.01"
 placeholder="Hourly Salary Rate">
 
-
-<!-- ======================================
-     LEAVE BALANCES
-====================================== -->
 
 <div class="leave-field">
 
@@ -988,7 +975,7 @@ placeholder="Birthday Leave">
 
 
 <!-- ======================================
-     COMPENSATION INFORMATION
+     COMPENSATION
 ====================================== -->
 
 <div
@@ -998,8 +985,6 @@ class="tab-content">
 
 <div class="form-grid">
 
-
-<!-- SALARY / RATE -->
 
 <div class="leave-field">
 
@@ -1016,8 +1001,6 @@ placeholder="Salary / Rate">
 
 </div>
 
-
-<!-- PAY TYPE -->
 
 <div class="leave-field">
 
@@ -1049,8 +1032,6 @@ Monthly
 
 </div>
 
-
-<!-- PAY FREQUENCY -->
 
 <div class="leave-field">
 
@@ -1087,8 +1068,6 @@ Monthly
 </div>
 
 
-<!-- ALLOWANCES -->
-
 <div class="leave-field">
 
 <label>
@@ -1123,35 +1102,25 @@ class="tab-content">
 <div class="form-grid">
 
 
-<!-- SSS -->
-
 <input
 class="emp-field"
 placeholder="SSS Number">
 
-
-<!-- PHILHEALTH -->
 
 <input
 class="emp-field"
 placeholder="PhilHealth Number">
 
 
-<!-- PAG-IBIG -->
-
 <input
 class="emp-field"
 placeholder="Pag-IBIG Number">
 
 
-<!-- HEALTH CARD -->
-
 <input
 class="emp-field"
 placeholder="Health Card Number">
 
-
-<!-- BANK NAME -->
 
 <select
 class="emp-field">
@@ -1203,14 +1172,10 @@ EastWest
 </select>
 
 
-<!-- BANK ACCOUNT -->
-
 <input
 class="emp-field"
 placeholder="Bank Account Number">
 
-
-<!-- ID TYPE -->
 
 <select
 class="emp-field">
@@ -1258,8 +1223,6 @@ PRC ID
 </select>
 
 
-<!-- ID NUMBER -->
-
 <input
 class="emp-field"
 placeholder="ID Number">
@@ -1272,7 +1235,7 @@ placeholder="ID Number">
 
 
 <!-- ======================================
-     PAYROLL INFORMATION
+     PAYROLL
 ====================================== -->
 
 <div
@@ -1282,8 +1245,6 @@ class="tab-content">
 
 <div class="form-grid">
 
-
-<!-- PAYROLL GROUP -->
 
 <div class="leave-field">
 
@@ -1319,8 +1280,6 @@ Monthly
 
 </div>
 
-
-<!-- BANK -->
 
 <div class="leave-field">
 
@@ -1381,8 +1340,6 @@ EastWest
 </div>
 
 
-<!-- BANK ACCOUNT -->
-
 <div class="leave-field">
 
 <label>
@@ -1396,8 +1353,6 @@ placeholder="Bank Account Number">
 
 </div>
 
-
-<!-- DEDUCTIONS -->
 
 <div class="leave-field">
 
@@ -1422,7 +1377,7 @@ placeholder="Deductions">
 
 
 <!-- ======================================
-     ATTENDANCE INFORMATION
+     ATTENDANCE
 ====================================== -->
 
 <div
@@ -1432,8 +1387,6 @@ class="tab-content">
 
 <div class="form-grid">
 
-
-<!-- SCHEDULE -->
 
 <div class="leave-field">
 
@@ -1461,8 +1414,6 @@ Flexible Schedule
 
 </div>
 
-
-<!-- SHIFT -->
 
 <div class="leave-field">
 
@@ -1494,8 +1445,6 @@ Night
 
 </div>
 
-
-<!-- REST DAY -->
 
 <div class="leave-field">
 
@@ -1543,8 +1492,6 @@ Saturday
 
 </div>
 
-
-<!-- ATTENDANCE GROUP -->
 
 <div class="leave-field">
 
@@ -1626,8 +1573,6 @@ id="userModal">
 class="modal-box user-modal-box">
 
 
-<!-- CLOSE -->
-
 <button
 class="close-btn"
 title="Close"
@@ -1650,10 +1595,6 @@ Create Employee User
 
 </h3>
 
-
-<!-- ======================================
-     SELECTED EMPLOYEE
-====================================== -->
 
 <div class="user-employee-info">
 
@@ -1692,10 +1633,6 @@ id="userEmployeeId">
 </div>
 
 
-
-<!-- ======================================
-     USER FORM
-====================================== -->
 
 <div class="user-form">
 
@@ -1769,10 +1706,6 @@ autocomplete="new-password">
 
 
 
-<!-- ======================================
-     NOTE
-====================================== -->
-
 <div class="user-note">
 
 <span class="material-icons">
@@ -1795,10 +1728,6 @@ to access the Employee Portal.
 </div>
 
 
-
-<!-- ======================================
-     USER ACTIONS
-====================================== -->
 
 <div class="user-actions">
 
