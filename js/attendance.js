@@ -4671,6 +4671,19 @@ No attendance records found for the selected cutoff.
             employeeSummary
         )
         .sort(
+
+    /* =====================================================
+       UPDATE TOTAL EMPLOYEE COUNT
+    ===================================================== */
+
+    if(summaryEmployeeCount){
+
+        summaryEmployeeCount.textContent =
+            String(
+                summaryList.length
+            );
+
+    }           
             (
                 a,
                 b
