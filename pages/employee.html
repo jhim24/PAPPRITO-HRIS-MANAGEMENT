@@ -6,8 +6,8 @@
 <meta charset="UTF-8">
 
 <meta
-name="viewport"
-content="width=device-width, initial-scale=1.0">
+    name="viewport"
+    content="width=device-width, initial-scale=1.0">
 
 <title>PAPPRITO HRIS - Employee Masterlist</title>
 
@@ -17,8 +17,8 @@ content="width=device-width, initial-scale=1.0">
 ========================================== -->
 
 <link
-rel="manifest"
-href="../manifest.json">
+    rel="manifest"
+    href="../manifest.json">
 
 
 <!-- ==========================================
@@ -26,8 +26,8 @@ href="../manifest.json">
 ========================================== -->
 
 <meta
-name="theme-color"
-content="#ffcc00">
+    name="theme-color"
+    content="#ffcc00">
 
 
 <!-- ==========================================
@@ -35,12 +35,12 @@ content="#ffcc00">
 ========================================== -->
 
 <link
-rel="apple-touch-icon"
-href="../assets/images/icon-192.png">
+    rel="apple-touch-icon"
+    href="../assets/images/icon-192.png">
 
 <link
-rel="icon"
-href="../assets/images/logo.png">
+    rel="icon"
+    href="../assets/images/logo.png">
 
 
 <!-- ==========================================
@@ -48,8 +48,8 @@ href="../assets/images/logo.png">
 ========================================== -->
 
 <link
-rel="stylesheet"
-href="../css/employee.css">
+    rel="stylesheet"
+    href="../css/employee.css">
 
 
 <!-- ==========================================
@@ -57,8 +57,8 @@ href="../css/employee.css">
 ========================================== -->
 
 <link
-rel="stylesheet"
-href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    rel="stylesheet"
+    href="https://fonts.googleapis.com/icon?family=Material+Icons">
 
 </head>
 
@@ -102,7 +102,7 @@ class="top-actions">
 type="text"
 id="search"
 placeholder="Search..."
-onkeyup="searchEmp()">
+onkeyup="searchEmp">
 
 </div>
 
@@ -410,18 +410,38 @@ close
 
 
 <h3>
+
+<span class="material-icons">
+badge
+</span>
+
 Employee Information
+
 </h3>
 
 
 <!-- ======================================
      TABS
+     
+     LEFT TO RIGHT:
+     1 PERSONAL
+     2 CONTACT
+     3 EMPLOYMENT
+     4 COMPENSATION
+     5 GOVERNMENT & BENEFITS
+     6 PAYROLL
+     7 ATTENDANCE
 ====================================== -->
 
 <div class="classic-tabs">
 
 
+<!-- ======================================
+     1. PERSONAL INFO
+====================================== -->
+
 <button
+type="button"
 class="tab-btn active"
 onclick="openTab(event,'personal')">
 
@@ -430,16 +450,12 @@ Personal Info
 </button>
 
 
-<button
-class="tab-btn"
-onclick="openTab(event,'government')">
-
-Government Info
-
-</button>
-
+<!-- ======================================
+     2. CONTACT INFO
+====================================== -->
 
 <button
+type="button"
 class="tab-btn"
 onclick="openTab(event,'contact')">
 
@@ -448,7 +464,12 @@ Contact Info
 </button>
 
 
+<!-- ======================================
+     3. EMPLOYMENT INFO
+====================================== -->
+
 <button
+type="button"
 class="tab-btn"
 onclick="openTab(event,'employment')">
 
@@ -457,11 +478,67 @@ Employment Info
 </button>
 
 
+<!-- ======================================
+     4. COMPENSATION
+====================================== -->
+
+<button
+type="button"
+class="tab-btn"
+onclick="openTab(event,'compensation')">
+
+Compensation
+
+</button>
+
+
+<!-- ======================================
+     5. GOVERNMENT & BENEFITS
+====================================== -->
+
+<button
+type="button"
+class="tab-btn"
+onclick="openTab(event,'government')">
+
+Government & Benefits
+
+</button>
+
+
+<!-- ======================================
+     6. PAYROLL
+====================================== -->
+
+<button
+type="button"
+class="tab-btn"
+onclick="openTab(event,'payroll')">
+
+Payroll
+
+</button>
+
+
+<!-- ======================================
+     7. ATTENDANCE
+====================================== -->
+
+<button
+type="button"
+class="tab-btn"
+onclick="openTab(event,'attendance')">
+
+Attendance
+
+</button>
+
+
 </div>
 
 
 <!-- ======================================
-     PERSONAL
+     PERSONAL INFORMATION
 ====================================== -->
 
 <div
@@ -525,150 +602,7 @@ Female
 
 
 <!-- ======================================
-     GOVERNMENT
-====================================== -->
-
-<div
-id="government"
-class="tab-content">
-
-
-<div class="form-grid">
-
-
-<input
-class="emp-field"
-placeholder="SSS Number">
-
-
-<input
-class="emp-field"
-placeholder="PhilHealth Number">
-
-
-<input
-class="emp-field"
-placeholder="Pag-IBIG Number">
-
-
-<input
-class="emp-field"
-placeholder="Health Card Number">
-
-
-<select
-class="emp-field">
-
-<option value="">
-Select Bank
-</option>
-
-<option>
-BDO Unibank
-</option>
-
-<option>
-BPI
-</option>
-
-<option>
-Metrobank
-</option>
-
-<option>
-Landbank
-</option>
-
-<option>
-PNB
-</option>
-
-<option>
-Security Bank
-</option>
-
-<option>
-China Bank
-</option>
-
-<option>
-RCBC
-</option>
-
-<option>
-UnionBank
-</option>
-
-<option>
-EastWest
-</option>
-
-</select>
-
-
-<input
-class="emp-field"
-placeholder="Bank Account Number">
-
-
-<select
-class="emp-field">
-
-<option value="">
-Select ID
-</option>
-
-<option>
-National ID
-</option>
-
-<option>
-Passport
-</option>
-
-<option>
-Driver's License
-</option>
-
-<option>
-UMID
-</option>
-
-<option>
-SSS ID
-</option>
-
-<option>
-PhilHealth ID
-</option>
-
-<option>
-Pag-IBIG ID
-</option>
-
-<option>
-Postal ID
-</option>
-
-<option>
-PRC ID
-</option>
-
-</select>
-
-
-<input
-class="emp-field"
-placeholder="ID Number">
-
-
-</div>
-
-</div>
-
-
-<!-- ======================================
-     CONTACT
+     CONTACT INFORMATION
 ====================================== -->
 
 <div
@@ -706,7 +640,7 @@ placeholder="Permanent Address">
 
 
 <!-- ======================================
-     EMPLOYMENT
+     EMPLOYMENT INFORMATION
 ====================================== -->
 
 <div
@@ -784,6 +718,9 @@ On Leave
 </select>
 
 
+<!-- CURRENT SALARY FIELD
+     RETAINED FOR EXISTING JS -->
+
 <input
 class="emp-field"
 type="number"
@@ -842,6 +779,602 @@ min="0"
 step="0.01"
 value="1"
 placeholder="Birthday Leave">
+
+</div>
+
+
+</div>
+
+</div>
+
+
+<!-- ======================================
+     COMPENSATION INFORMATION
+====================================== -->
+
+<div
+id="compensation"
+class="tab-content">
+
+
+<div class="form-grid">
+
+
+<!-- SALARY / RATE -->
+
+<div class="leave-field">
+
+<label>
+Salary / Rate
+</label>
+
+<input
+class="emp-field"
+type="number"
+step="0.01"
+id="compensationSalary"
+placeholder="Salary / Rate">
+
+</div>
+
+
+<!-- PAY TYPE -->
+
+<div class="leave-field">
+
+<label>
+Pay Type
+</label>
+
+<select
+class="emp-field"
+id="payType">
+
+<option value="">
+Select Pay Type
+</option>
+
+<option value="Hourly">
+Hourly
+</option>
+
+<option value="Daily">
+Daily
+</option>
+
+<option value="Monthly">
+Monthly
+</option>
+
+</select>
+
+</div>
+
+
+<!-- PAY FREQUENCY -->
+
+<div class="leave-field">
+
+<label>
+Pay Frequency
+</label>
+
+<select
+class="emp-field"
+id="payFrequency">
+
+<option value="">
+Select Pay Frequency
+</option>
+
+<option value="Weekly">
+Weekly
+</option>
+
+<option value="Bi-Weekly">
+Bi-Weekly
+</option>
+
+<option value="Semi-Monthly">
+Semi-Monthly
+</option>
+
+<option value="Monthly">
+Monthly
+</option>
+
+</select>
+
+</div>
+
+
+<!-- ALLOWANCES -->
+
+<div class="leave-field">
+
+<label>
+Allowances
+</label>
+
+<input
+class="emp-field"
+type="number"
+step="0.01"
+id="allowances"
+placeholder="Allowances">
+
+</div>
+
+
+</div>
+
+</div>
+
+
+<!-- ======================================
+     GOVERNMENT & BENEFITS
+====================================== -->
+
+<div
+id="government"
+class="tab-content">
+
+
+<div class="form-grid">
+
+
+<!-- SSS -->
+
+<input
+class="emp-field"
+placeholder="SSS Number">
+
+
+<!-- PHILHEALTH -->
+
+<input
+class="emp-field"
+placeholder="PhilHealth Number">
+
+
+<!-- PAG-IBIG -->
+
+<input
+class="emp-field"
+placeholder="Pag-IBIG Number">
+
+
+<!-- HEALTH CARD -->
+
+<input
+class="emp-field"
+placeholder="Health Card Number">
+
+
+<!-- BANK NAME -->
+
+<select
+class="emp-field">
+
+<option value="">
+Select Bank
+</option>
+
+<option>
+BDO Unibank
+</option>
+
+<option>
+BPI
+</option>
+
+<option>
+Metrobank
+</option>
+
+<option>
+Landbank
+</option>
+
+<option>
+PNB
+</option>
+
+<option>
+Security Bank
+</option>
+
+<option>
+China Bank
+</option>
+
+<option>
+RCBC
+</option>
+
+<option>
+UnionBank
+</option>
+
+<option>
+EastWest
+</option>
+
+</select>
+
+
+<!-- BANK ACCOUNT -->
+
+<input
+class="emp-field"
+placeholder="Bank Account Number">
+
+
+<!-- ID TYPE -->
+
+<select
+class="emp-field">
+
+<option value="">
+Select ID
+</option>
+
+<option>
+National ID
+</option>
+
+<option>
+Passport
+</option>
+
+<option>
+Driver's License
+</option>
+
+<option>
+UMID
+</option>
+
+<option>
+SSS ID
+</option>
+
+<option>
+PhilHealth ID
+</option>
+
+<option>
+Pag-IBIG ID
+</option>
+
+<option>
+Postal ID
+</option>
+
+<option>
+PRC ID
+</option>
+
+</select>
+
+
+<!-- ID NUMBER -->
+
+<input
+class="emp-field"
+placeholder="ID Number">
+
+
+</div>
+
+</div>
+
+
+<!-- ======================================
+     PAYROLL INFORMATION
+====================================== -->
+
+<div
+id="payroll"
+class="tab-content">
+
+
+<div class="form-grid">
+
+
+<!-- PAYROLL GROUP -->
+
+<div class="leave-field">
+
+<label>
+Payroll Group
+</label>
+
+<select
+class="emp-field"
+id="payrollGroup">
+
+<option value="">
+Select Payroll Group
+</option>
+
+<option value="Regular">
+Regular
+</option>
+
+<option value="Management">
+Management
+</option>
+
+<option value="Daily">
+Daily
+</option>
+
+<option value="Monthly">
+Monthly
+</option>
+
+</select>
+
+</div>
+
+
+<!-- BANK -->
+
+<div class="leave-field">
+
+<label>
+Bank
+</label>
+
+<select
+class="emp-field"
+id="payrollBank">
+
+<option value="">
+Select Bank
+</option>
+
+<option>
+BDO Unibank
+</option>
+
+<option>
+BPI
+</option>
+
+<option>
+Metrobank
+</option>
+
+<option>
+Landbank
+</option>
+
+<option>
+PNB
+</option>
+
+<option>
+Security Bank
+</option>
+
+<option>
+China Bank
+</option>
+
+<option>
+RCBC
+</option>
+
+<option>
+UnionBank
+</option>
+
+<option>
+EastWest
+</option>
+
+</select>
+
+</div>
+
+
+<!-- BANK ACCOUNT -->
+
+<div class="leave-field">
+
+<label>
+Bank Account Number
+</label>
+
+<input
+class="emp-field"
+id="payrollBankAccount"
+placeholder="Bank Account Number">
+
+</div>
+
+
+<!-- DEDUCTIONS -->
+
+<div class="leave-field">
+
+<label>
+Deductions
+</label>
+
+<input
+class="emp-field"
+type="number"
+step="0.01"
+id="deductions"
+placeholder="Deductions">
+
+</div>
+
+
+</div>
+
+</div>
+
+
+<!-- ======================================
+     ATTENDANCE INFORMATION
+====================================== -->
+
+<div
+id="attendance"
+class="tab-content">
+
+
+<div class="form-grid">
+
+
+<!-- SCHEDULE -->
+
+<div class="leave-field">
+
+<label>
+Schedule
+</label>
+
+<select
+class="emp-field"
+id="schedule">
+
+<option value="">
+Select Schedule
+</option>
+
+<option value="Regular Schedule">
+Regular Schedule
+</option>
+
+<option value="Flexible Schedule">
+Flexible Schedule
+</option>
+
+</select>
+
+</div>
+
+
+<!-- SHIFT -->
+
+<div class="leave-field">
+
+<label>
+Shift
+</label>
+
+<select
+class="emp-field"
+id="shift">
+
+<option value="">
+Select Shift
+</option>
+
+<option value="Morning">
+Morning
+</option>
+
+<option value="Afternoon">
+Afternoon
+</option>
+
+<option value="Night">
+Night
+</option>
+
+</select>
+
+</div>
+
+
+<!-- REST DAY -->
+
+<div class="leave-field">
+
+<label>
+Rest Day
+</label>
+
+<select
+class="emp-field"
+id="restDay">
+
+<option value="">
+Select Rest Day
+</option>
+
+<option value="Sunday">
+Sunday
+</option>
+
+<option value="Monday">
+Monday
+</option>
+
+<option value="Tuesday">
+Tuesday
+</option>
+
+<option value="Wednesday">
+Wednesday
+</option>
+
+<option value="Thursday">
+Thursday
+</option>
+
+<option value="Friday">
+Friday
+</option>
+
+<option value="Saturday">
+Saturday
+</option>
+
+</select>
+
+</div>
+
+
+<!-- ATTENDANCE GROUP -->
+
+<div class="leave-field">
+
+<label>
+Attendance Group
+</label>
+
+<select
+class="emp-field"
+id="attendanceGroup">
+
+<option value="">
+Select Attendance Group
+</option>
+
+<option value="Regular">
+Regular
+</option>
+
+<option value="Office">
+Office
+</option>
+
+<option value="Staff">
+Staff
+</option>
+
+<option value="Management">
+Management
+</option>
+
+</select>
 
 </div>
 
