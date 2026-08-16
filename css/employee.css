@@ -1207,11 +1207,6 @@ select.emp-field option{
 }
 
 
-/*
- * These headings are generated only
- * when the new tabs exist.
- */
-
 #compensation::before,
 #payroll::before,
 #attendance::before{
@@ -1592,7 +1587,338 @@ select.emp-field option{
 
 
 /* ==========================================
-   SCROLLBAR
+   EMPLOYEE SUMMARY SECTION
+========================================== */
+
+.employee-summary-section{
+
+    width:
+        calc(
+            100% - 36px
+        );
+
+    margin:
+        0 18px 25px;
+
+    background:
+        var(--card);
+
+    border:
+        1px solid
+        var(--border);
+
+    border-radius:10px;
+
+    box-shadow:
+        var(--shadow);
+
+    overflow:hidden;
+
+}
+
+
+/* ==========================================
+   SUMMARY HEADER
+========================================== */
+
+.employee-summary-header{
+
+    width:100%;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:space-between;
+
+    padding:
+        15px 18px;
+
+    background:#ffffff;
+
+    border-bottom:
+        1px solid
+        var(--border);
+
+}
+
+
+.employee-summary-title{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:10px;
+
+}
+
+
+.employee-summary-title > .material-icons{
+
+    width:40px;
+
+    height:40px;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    border-radius:8px;
+
+    background:
+        var(--primary);
+
+    color:#111111;
+
+    font-size:22px;
+
+}
+
+
+.employee-summary-title h3{
+
+    color:#222222;
+
+    font-size:17px;
+
+    font-weight:900;
+
+    margin:0;
+
+}
+
+
+.employee-summary-title p{
+
+    margin-top:3px;
+
+    color:#777777;
+
+    font-size:11px;
+
+    font-weight:600;
+
+}
+
+
+/* ==========================================
+   SUMMARY TABLE BOX
+========================================== */
+
+.employee-summary-table-box{
+
+    width:100%;
+
+    overflow-x:auto;
+
+    overflow-y:hidden;
+
+    -webkit-overflow-scrolling:touch;
+
+}
+
+
+/* ==========================================
+   SUMMARY TABLE
+========================================== */
+
+#employeeSummaryTable{
+
+    width:100%;
+
+    min-width:1100px;
+
+    border-collapse:separate;
+
+    border-spacing:0;
+
+    background:#ffffff;
+
+}
+
+
+/* ==========================================
+   SUMMARY TABLE HEADER
+========================================== */
+
+#employeeSummaryTable th{
+
+    padding:
+        11px 10px;
+
+    background:
+        var(--primary);
+
+    color:#111111;
+
+    border-right:
+        1px solid
+        rgba(0,0,0,.15);
+
+    border-bottom:
+        2px solid
+        #c49e00;
+
+    font-size:11px;
+
+    font-weight:900;
+
+    text-align:center;
+
+    white-space:nowrap;
+
+}
+
+
+/* ==========================================
+   SUMMARY TABLE DATA
+========================================== */
+
+#employeeSummaryTable td{
+
+    padding:
+        9px 10px;
+
+    background:#ffffff;
+
+    color:#222222;
+
+    border-right:
+        1px solid
+        var(--border);
+
+    border-bottom:
+        1px solid
+        var(--border);
+
+    font-size:11px;
+
+    font-weight:600;
+
+    text-align:center;
+
+    white-space:nowrap;
+
+}
+
+
+/* ==========================================
+   SUMMARY HOVER
+========================================== */
+
+#employeeSummaryTable tbody tr:hover td{
+
+    background:#fffbea;
+
+}
+
+
+/* ==========================================
+   SUMMARY EMPTY
+========================================== */
+
+.employee-summary-empty{
+
+    height:110px;
+
+    text-align:center !important;
+
+    color:#888888 !important;
+
+}
+
+
+.employee-summary-empty .material-icons{
+
+    display:block;
+
+    margin-bottom:5px;
+
+    color:#bbbbbb;
+
+    font-size:30px;
+
+}
+
+
+.employee-summary-empty p{
+
+    margin:0;
+
+    font-size:11px;
+
+    font-weight:700;
+
+}
+
+
+/* ==========================================
+   SUMMARY FOOTER
+========================================== */
+
+#employeeSummaryTable tfoot td{
+
+    padding:
+        10px;
+
+    background:#f5f5f5;
+
+    color:#222222;
+
+    border-top:
+        2px solid
+        var(--border-dark);
+
+    font-size:11px;
+
+    font-weight:900;
+
+    text-align:center;
+
+}
+
+
+/* ==========================================
+   SUMMARY SCROLLBAR
+========================================== */
+
+.employee-summary-table-box::-webkit-scrollbar{
+
+    width:9px;
+
+    height:9px;
+
+}
+
+
+.employee-summary-table-box::-webkit-scrollbar-track{
+
+    background:#eeeeee;
+
+}
+
+
+.employee-summary-table-box::-webkit-scrollbar-thumb{
+
+    background:#bbbbbb;
+
+    border-radius:10px;
+
+}
+
+
+.employee-summary-table-box::-webkit-scrollbar-thumb:hover{
+
+    background:#999999;
+
+}
+
+
+/* ==========================================
+   GENERAL SCROLLBAR
 ========================================== */
 
 .table-box::-webkit-scrollbar,
@@ -2100,6 +2426,10 @@ select.emp-field option{
     }
 
 
+    /* ======================================
+       USER MODAL
+    ====================================== */
+
     .user-employee-info{
 
         width:100%;
@@ -2132,6 +2462,105 @@ select.emp-field option{
         width:100%;
 
         min-height:42px;
+
+    }
+
+
+    /* ======================================
+       EMPLOYEE SUMMARY
+    ====================================== */
+
+    .employee-summary-section{
+
+        width:
+            calc(
+                100% - 20px
+            );
+
+        max-width:
+            calc(
+                100% - 20px
+            );
+
+        margin:
+            0 10px 20px;
+
+        border-radius:10px;
+
+    }
+
+
+    .employee-summary-header{
+
+        padding:
+            12px;
+
+    }
+
+
+    .employee-summary-title{
+
+        gap:8px;
+
+    }
+
+
+    .employee-summary-title > .material-icons{
+
+        width:36px;
+
+        height:36px;
+
+        font-size:20px;
+
+    }
+
+
+    .employee-summary-title h3{
+
+        font-size:15px;
+
+    }
+
+
+    .employee-summary-title p{
+
+        font-size:10px;
+
+    }
+
+
+    .employee-summary-table-box{
+
+        overflow-x:auto;
+
+        -webkit-overflow-scrolling:touch;
+
+    }
+
+
+    #employeeSummaryTable{
+
+        min-width:1100px;
+
+    }
+
+
+    #employeeSummaryTable th{
+
+        padding:
+            10px 9px;
+
+        font-size:10px;
+
+    }
+
+
+    #employeeSummaryTable td{
+
+        padding:9px;
+
+        font-size:10px;
 
     }
 
@@ -2329,6 +2758,80 @@ select.emp-field option{
             8px 11px;
 
         font-size:10px;
+
+    }
+
+
+    /* ======================================
+       SUMMARY - SMALL MOBILE
+    ====================================== */
+
+    .employee-summary-section{
+
+        width:
+            calc(
+                100% - 18px
+            );
+
+        max-width:
+            calc(
+                100% - 18px
+            );
+
+        margin-left:9px;
+
+        margin-right:9px;
+
+    }
+
+
+    .employee-summary-header{
+
+        padding:11px;
+
+    }
+
+
+    .employee-summary-title h3{
+
+        font-size:14px;
+
+    }
+
+
+    .employee-summary-title p{
+
+        font-size:9px;
+
+    }
+
+
+    .employee-summary-title > .material-icons{
+
+        width:34px;
+
+        height:34px;
+
+        font-size:18px;
+
+    }
+
+
+    #employeeSummaryTable th{
+
+        padding:
+            9px 8px;
+
+        font-size:9px;
+
+    }
+
+
+    #employeeSummaryTable td{
+
+        padding:8px;
+
+        font-size:9px;
 
     }
 
@@ -2547,6 +3050,87 @@ select.emp-field option{
 
     }
 
+
+    /* ======================================
+       SUMMARY - VERY SMALL PHONE
+    ====================================== */
+
+    .employee-summary-section{
+
+        width:
+            calc(
+                100% - 12px
+            );
+
+        max-width:
+            calc(
+                100% - 12px
+            );
+
+        margin-left:6px;
+
+        margin-right:6px;
+
+    }
+
+
+    .employee-summary-header{
+
+        padding:9px;
+
+    }
+
+
+    .employee-summary-title{
+
+        gap:6px;
+
+    }
+
+
+    .employee-summary-title > .material-icons{
+
+        width:32px;
+
+        height:32px;
+
+        font-size:17px;
+
+    }
+
+
+    .employee-summary-title h3{
+
+        font-size:13px;
+
+    }
+
+
+    .employee-summary-title p{
+
+        font-size:8px;
+
+    }
+
+
+    #employeeSummaryTable th{
+
+        padding:
+            8px 7px;
+
+        font-size:8px;
+
+    }
+
+
+    #employeeSummaryTable td{
+
+        padding:7px;
+
+        font-size:8px;
+
+    }
+
 }
 
 
@@ -2657,6 +3241,97 @@ select.emp-field option{
     .modal{
 
         display:none !important;
+
+    }
+
+
+    /* ======================================
+       SUMMARY PRINT
+    ====================================== */
+
+    .employee-summary-section{
+
+        width:100%;
+
+        margin:15px 0 0;
+
+        border:none;
+
+        box-shadow:none;
+
+    }
+
+
+    .employee-summary-header{
+
+        padding:
+            8px 0;
+
+        border-bottom:
+            1px solid
+            #000000;
+
+    }
+
+
+    .employee-summary-title > .material-icons{
+
+        display:none;
+
+    }
+
+
+    .employee-summary-title h3{
+
+        font-size:14px;
+
+        color:#000000;
+
+    }
+
+
+    .employee-summary-title p{
+
+        font-size:9px;
+
+        color:#000000;
+
+    }
+
+
+    .employee-summary-table-box{
+
+        overflow:visible;
+
+    }
+
+
+    #employeeSummaryTable{
+
+        width:100%;
+
+        min-width:0;
+
+    }
+
+
+    #employeeSummaryTable th,
+    #employeeSummaryTable td{
+
+        font-size:7px;
+
+        padding:4px;
+
+        color:#000000;
+
+    }
+
+
+    #employeeSummaryTable th{
+
+        background:#dddddd !important;
+
+        color:#000000 !important;
 
     }
 
