@@ -2,23 +2,8 @@
    PAPPRITO HRIS
    EMPLOYEE MASTERLIST JS
    FULL UPDATED
-
-   FEATURES:
-   + PERSONAL
-   + CONTACT
-   + EMPLOYMENT
-   + GOVERNMENT & BENEFITS
-   + COMPENSATION
-   + PAYROLL
-   + ATTENDANCE
-   + COMPLETE MASTERLIST TABLE
+   ALL 7 TABS CONNECTED TO TABLE
    + EMPLOYEE SUMMARY
-   + SEARCH
-   + STATUS FILTER
-   + QR
-   + CREATE USER
-   + EDIT
-   + DELETE
 ========================================== */
 
 
@@ -126,7 +111,7 @@ function numberValue(
 
 
 /* ==========================================
-   GET FIELD BY TAB
+   GET TAB FIELDS
 ========================================== */
 
 function getTabFields(tabId){
@@ -136,13 +121,11 @@ function getTabFields(tabId){
             tabId
         );
 
-
     if(!tab){
 
         return [];
 
     }
-
 
     return Array.from(
         tab.querySelectorAll(
@@ -154,31 +137,7 @@ function getTabFields(tabId){
 
 
 /* ==========================================
-   GET FIELD VALUE BY POSITION
-========================================== */
-
-function tabValue(
-    tabId,
-    index
-){
-
-    const fields =
-        getTabFields(
-            tabId
-        );
-
-
-    return fields[index]
-        ?
-        fields[index].value
-        :
-        "";
-
-}
-
-
-/* ==========================================
-   GET FIELD BY ID
+   GET ID VALUE
 ========================================== */
 
 function idValue(id){
@@ -187,7 +146,6 @@ function idValue(id){
         document.getElementById(
             id
         );
-
 
     return field
         ?
@@ -286,7 +244,8 @@ function getFullName(employee){
     ]
 
     .filter(
-        Boolean
+        value =>
+            text(value) !== ""
     )
 
     .join(" ")
@@ -302,15 +261,13 @@ function getFullName(employee){
 
 
 /* ==========================================
-   OPEN EMPLOYEE MODAL
+   OPEN MODAL
 ========================================== */
 
 window.openModal =
 function(){
 
-    if(
-        employeeModal
-    ){
+    if(employeeModal){
 
         employeeModal.style.display =
             "flex";
@@ -321,21 +278,18 @@ function(){
 
 
 /* ==========================================
-   CLOSE EMPLOYEE MODAL
+   CLOSE MODAL
 ========================================== */
 
 window.closeModal =
 function(){
 
-    if(
-        employeeModal
-    ){
+    if(employeeModal){
 
         employeeModal.style.display =
             "none";
 
     }
-
 
     clearForm();
 
@@ -354,7 +308,7 @@ function(
 
     document
         .querySelectorAll(
-            ".tab-content"
+            "#employeeModal .tab-content"
         )
         .forEach(
             tab => {
@@ -373,9 +327,7 @@ function(
         );
 
 
-    if(
-        selectedTab
-    ){
+    if(selectedTab){
 
         selectedTab.classList.add(
             "active"
@@ -386,7 +338,7 @@ function(
 
     document
         .querySelectorAll(
-            ".tab-btn"
+            "#employeeModal .tab-btn"
         )
         .forEach(
             button => {
@@ -493,20 +445,11 @@ function(){
 
 function getEmployeeFormData(){
 
-
-    /* ======================================
-       PERSONAL
-    ====================================== */
-
     const personalFields =
         getTabFields(
             "personal"
         );
 
-
-    /* ======================================
-       CONTACT
-    ====================================== */
 
     const contactFields =
         getTabFields(
@@ -514,19 +457,11 @@ function getEmployeeFormData(){
         );
 
 
-    /* ======================================
-       EMPLOYMENT
-    ====================================== */
-
     const employmentFields =
         getTabFields(
             "employment"
         );
 
-
-    /* ======================================
-       GOVERNMENT
-    ====================================== */
 
     const governmentFields =
         getTabFields(
@@ -643,16 +578,17 @@ function getEmployeeFormData(){
 
 
     /* ======================================
-       EXISTING SALARY
+       OLD SALARY FIELD
+       RETAINED
     ====================================== */
 
     const existingSalary =
         text(
             employmentFields[5]
-            ?
-            employmentFields[5].value
-            :
-            ""
+                ?
+                employmentFields[5].value
+                :
+                ""
         );
 
 
@@ -662,12 +598,7 @@ function getEmployeeFormData(){
         existingSalary;
 
 
-    /* ======================================
-       RETURN COMPLETE EMPLOYEE DATA
-    ====================================== */
-
     return {
-
 
         /* ==================================
            PERSONAL
@@ -682,7 +613,6 @@ function getEmployeeFormData(){
                 ""
             ),
 
-
         middlename:
             text(
                 personalFields[1]
@@ -691,7 +621,6 @@ function getEmployeeFormData(){
                 :
                 ""
             ),
-
 
         lastname:
             text(
@@ -702,7 +631,6 @@ function getEmployeeFormData(){
                 ""
             ),
 
-
         birthdate:
             text(
                 personalFields[3]
@@ -712,7 +640,6 @@ function getEmployeeFormData(){
                 ""
             ),
 
-
         age:
             text(
                 personalFields[4]
@@ -721,7 +648,6 @@ function getEmployeeFormData(){
                 :
                 ""
             ),
-
 
         gender:
             text(
@@ -746,7 +672,6 @@ function getEmployeeFormData(){
                 ""
             ),
 
-
         email:
             text(
                 contactFields[1]
@@ -756,7 +681,6 @@ function getEmployeeFormData(){
                 ""
             ),
 
-
         currentaddress:
             text(
                 contactFields[2]
@@ -765,7 +689,6 @@ function getEmployeeFormData(){
                 :
                 ""
             ),
-
 
         permanentaddress:
             text(
@@ -778,7 +701,7 @@ function getEmployeeFormData(){
 
 
         /* ==================================
-           GOVERNMENT & BENEFITS
+           GOVERNMENT
         ================================== */
 
         sss:
@@ -790,7 +713,6 @@ function getEmployeeFormData(){
                 ""
             ),
 
-
         philhealth:
             text(
                 governmentFields[1]
@@ -799,7 +721,6 @@ function getEmployeeFormData(){
                 :
                 ""
             ),
-
 
         pagibig:
             text(
@@ -810,7 +731,6 @@ function getEmployeeFormData(){
                 ""
             ),
 
-
         healthcard:
             text(
                 governmentFields[3]
@@ -819,7 +739,6 @@ function getEmployeeFormData(){
                 :
                 ""
             ),
-
 
         bankname:
             text(
@@ -830,7 +749,6 @@ function getEmployeeFormData(){
                 ""
             ),
 
-
         bankaccount:
             text(
                 governmentFields[5]
@@ -840,7 +758,6 @@ function getEmployeeFormData(){
                 ""
             ),
 
-
         idtype:
             text(
                 governmentFields[6]
@@ -849,7 +766,6 @@ function getEmployeeFormData(){
                 :
                 ""
             ),
-
 
         idnumber:
             text(
@@ -875,7 +791,6 @@ function getEmployeeFormData(){
             )
             .toUpperCase(),
 
-
         position:
             text(
                 employmentFields[1]
@@ -884,7 +799,6 @@ function getEmployeeFormData(){
                 :
                 ""
             ),
-
 
         department:
             text(
@@ -895,7 +809,6 @@ function getEmployeeFormData(){
                 ""
             ),
 
-
         employment:
             text(
                 employmentFields[3]
@@ -904,7 +817,6 @@ function getEmployeeFormData(){
                 :
                 ""
             ),
-
 
         status:
             text(
@@ -918,39 +830,45 @@ function getEmployeeFormData(){
             "Active",
 
 
+        /* ==================================
+           SALARY
+        ================================== */
+
         salary:
             finalSalary,
 
 
+        /* ==================================
+           LEAVES
+        ================================== */
+
         vacationleave:
             numberValue(
                 employmentFields[6]
-                ?
-                employmentFields[6].value
-                :
-                "",
+                    ?
+                    employmentFields[6].value
+                    :
+                    "",
                 10
             ),
-
 
         sickleave:
             numberValue(
                 employmentFields[7]
-                ?
-                employmentFields[7].value
-                :
-                "",
+                    ?
+                    employmentFields[7].value
+                    :
+                    "",
                 7
             ),
-
 
         birthdayleave:
             numberValue(
                 employmentFields[8]
-                ?
-                employmentFields[8].value
-                :
-                "",
+                    ?
+                    employmentFields[8].value
+                    :
+                    "",
                 1
             ),
 
@@ -962,14 +880,11 @@ function getEmployeeFormData(){
         compensationSalary:
             compensationSalary,
 
-
         paytype:
             payType,
 
-
         payfrequency:
             payFrequency,
-
 
         allowances:
             allowances,
@@ -982,14 +897,11 @@ function getEmployeeFormData(){
         payrollgroup:
             payrollGroup,
 
-
         payrollbank:
             payrollBank,
 
-
         payrollbankaccount:
             payrollBankAccount,
-
 
         deductions:
             deductions,
@@ -1002,14 +914,11 @@ function getEmployeeFormData(){
         schedule:
             schedule,
 
-
         shift:
             shift,
 
-
         restday:
             restDay,
-
 
         attendancegroup:
             attendanceGroup
@@ -1029,10 +938,6 @@ async function(){
     const employeeData =
         getEmployeeFormData();
 
-
-    /* ======================================
-       VALIDATION
-    ====================================== */
 
     if(
         !employeeData.firstname
@@ -1075,34 +980,22 @@ async function(){
 
     try{
 
-
-        /* ==================================
-           DUPLICATE EMPLOYEE ID
-        ================================== */
-
         const duplicate =
             employees.find(
                 employee =>
 
-                    employee.employeeid
-                    &&
                     text(
                         employee.employeeid
-                    )
-                    .toUpperCase()
+                    ).toUpperCase()
                     ===
                     employeeData.employeeid
-
                     &&
-
                     employee.id !==
                     editId
             );
 
 
-        if(
-            duplicate
-        ){
+        if(duplicate){
 
             alert(
                 "Employee ID already exists."
@@ -1113,13 +1006,7 @@ async function(){
         }
 
 
-        /* ==================================
-           UPDATE EXISTING
-        ================================== */
-
-        if(
-            editId
-        ){
+        if(editId){
 
             await updateDoc(
 
@@ -1139,11 +1026,6 @@ async function(){
             );
 
         }
-
-
-        /* ==================================
-           ADD NEW
-        ================================== */
 
         else{
 
@@ -1166,16 +1048,14 @@ async function(){
         }
 
 
-        /* ==================================
-           CLOSE + RELOAD
-        ================================== */
-
         closeModal();
 
         await loadEmployees();
 
 
-    }catch(error){
+    }
+
+    catch(error){
 
         console.error(
             "Save Employee Error:",
@@ -1184,11 +1064,8 @@ async function(){
 
 
         alert(
-
             "Save Employee Error\n\n" +
-
             error.message
-
         );
 
     }
@@ -1236,8 +1113,12 @@ async function loadEmployees(){
 
         renderTable();
 
+        renderEmployeeSummary();
 
-    }catch(error){
+
+    }
+
+    catch(error){
 
         console.error(
             "Load Employees Error:",
@@ -1246,61 +1127,11 @@ async function loadEmployees(){
 
 
         alert(
-
             "Failed to load employees.\n\n" +
-
             error.message
-
         );
 
     }
-
-}
-
-
-/* ==========================================
-   GET STATUS CLASS
-========================================== */
-
-function getStatusClass(status){
-
-    const value =
-        text(
-            status
-        );
-
-
-    if(
-        value ===
-        "Active"
-    ){
-
-        return "status-active";
-
-    }
-
-
-    if(
-        value ===
-        "AWOL"
-    ){
-
-        return "status-awol";
-
-    }
-
-
-    if(
-        value ===
-        "Resigned"
-    ){
-
-        return "status-resigned";
-
-    }
-
-
-    return "status-other";
 
 }
 
@@ -1317,9 +1148,7 @@ function renderTable(){
         );
 
 
-    if(
-        !table
-    ){
+    if(!table){
 
         return;
 
@@ -1330,17 +1159,12 @@ function renderTable(){
         "";
 
 
-    let visibleCount =
-        0;
-
-
     employees.forEach(
         employee => {
 
-
-            /* =================================
+            /* ==============================
                STATUS FILTER
-            ================================= */
+            ============================== */
 
             if(
                 currentStatusFilter ===
@@ -1350,8 +1174,7 @@ function renderTable(){
                 if(
                     text(
                         employee.status
-                    )
-                    !==
+                    ) !==
                     "Active"
                 ){
 
@@ -1370,8 +1193,7 @@ function renderTable(){
                 if(
                     text(
                         employee.status
-                    )
-                    ===
+                    ) ===
                     "Active"
                 ){
 
@@ -1382,21 +1204,16 @@ function renderTable(){
             }
 
 
-            visibleCount++;
-
-
-            /* =================================
+            /* ==============================
                USER STATUS
-            ================================= */
+            ============================== */
 
             const hasUser =
 
                 text(
                     employee.username
                 ) !== ""
-
                 &&
-
                 text(
                     employee.password
                 ) !== "";
@@ -1445,379 +1262,50 @@ person_add
 `;
 
 
-            /* =================================
-               STATUS
-            ================================= */
+            /* ==============================
+               STATUS CLASS
+            ============================== */
 
-            const statusClass =
-                getStatusClass(
-                    employee.status
-                );
+            let statusClass =
+                "status-other";
 
 
-            /* =================================
-               TABLE ROW
-               
-               IMPORTANT:
-               ORDER MUST MATCH HTML HEADER
-            ================================= */
+            if(
+                employee.status ===
+                "Active"
+            ){
 
-            table.innerHTML += `
+                statusClass =
+                    "status-active";
 
-<tr>
+            }
 
+            else if(
+                employee.status ===
+                "AWOL"
+            ){
 
-<!-- ==============================
-     QR
-============================== -->
+                statusClass =
+                    "status-awol";
 
-<td>
+            }
 
-<button
-class="icon-btn qr-btn"
-title="View QR Code"
-onclick="viewQR(
-'${escapeAttribute(
-    employee.employeeid
-)}',
-'${escapeAttribute(
-    getFullName(employee)
-)}'
-)">
+            else if(
+                employee.status ===
+                "Resigned"
+            ){
 
-<span class="material-icons">
-qr_code_2
-</span>
+                statusClass =
+                    "status-resigned";
 
-</button>
+            }
 
-</td>
 
+            /* ==============================
+               ACTIONS
+            ============================== */
 
-<!-- ==============================
-     PERSONAL
-============================== -->
-
-<td>
-${escapeHTML(
-    employee.firstname
-)}
-</td>
-
-
-<td>
-${escapeHTML(
-    employee.middlename
-)}
-</td>
-
-
-<td>
-${escapeHTML(
-    employee.lastname
-)}
-</td>
-
-
-<td>
-${escapeHTML(
-    employee.birthdate
-)}
-</td>
-
-
-<td>
-${escapeHTML(
-    employee.age
-)}
-</td>
-
-
-<td>
-${escapeHTML(
-    employee.gender
-)}
-</td>
-
-
-<!-- ==============================
-     CONTACT
-============================== -->
-
-<td>
-${escapeHTML(
-    employee.mobile
-)}
-</td>
-
-
-<td>
-${escapeHTML(
-    employee.email
-)}
-</td>
-
-
-<td>
-${escapeHTML(
-    employee.currentaddress
-)}
-</td>
-
-
-<td>
-${escapeHTML(
-    employee.permanentaddress
-)}
-</td>
-
-
-<!-- ==============================
-     GOVERNMENT
-============================== -->
-
-<td>
-${escapeHTML(
-    employee.sss
-)}
-</td>
-
-
-<td>
-${escapeHTML(
-    employee.philhealth
-)}
-</td>
-
-
-<td>
-${escapeHTML(
-    employee.pagibig
-)}
-</td>
-
-
-<td>
-${escapeHTML(
-    employee.healthcard
-)}
-</td>
-
-
-<td>
-${escapeHTML(
-    employee.bankname
-)}
-</td>
-
-
-<td>
-${escapeHTML(
-    employee.bankaccount
-)}
-</td>
-
-
-<td>
-${escapeHTML(
-    employee.idtype
-)}
-</td>
-
-
-<td>
-${escapeHTML(
-    employee.idnumber
-)}
-</td>
-
-
-<!-- ==============================
-     EMPLOYMENT
-============================== -->
-
-<td>
-${escapeHTML(
-    employee.employeeid
-)}
-</td>
-
-
-<td>
-${escapeHTML(
-    employee.position
-)}
-</td>
-
-
-<td>
-${escapeHTML(
-    employee.department
-)}
-</td>
-
-
-<td>
-${escapeHTML(
-    employee.employment
-)}
-</td>
-
-
-<td
-class="${statusClass}">
-
-${escapeHTML(
-    employee.status ||
-    "Active"
-)}
-
-</td>
-
-
-<td>
-${escapeHTML(
-    employee.salary
-)}
-</td>
-
-
-<td>
-${escapeHTML(
-    employee.vacationleave ??
-    0
-)}
-</td>
-
-
-<td>
-${escapeHTML(
-    employee.sickleave ??
-    0
-)}
-</td>
-
-
-<td>
-${escapeHTML(
-    employee.birthdayleave ??
-    0
-)}
-</td>
-
-
-<!-- ==============================
-     COMPENSATION
-============================== -->
-
-<td>
-${escapeHTML(
-    employee.compensationSalary
-)}
-</td>
-
-
-<td>
-${escapeHTML(
-    employee.paytype
-)}
-</td>
-
-
-<td>
-${escapeHTML(
-    employee.payfrequency
-)}
-</td>
-
-
-<td>
-${escapeHTML(
-    employee.allowances
-)}
-</td>
-
-
-<!-- ==============================
-     PAYROLL
-============================== -->
-
-<td>
-${escapeHTML(
-    employee.payrollgroup
-)}
-</td>
-
-
-<td>
-${escapeHTML(
-    employee.payrollbank
-)}
-</td>
-
-
-<td>
-${escapeHTML(
-    employee.payrollbankaccount
-)}
-</td>
-
-
-<td>
-${escapeHTML(
-    employee.deductions
-)}
-</td>
-
-
-<!-- ==============================
-     ATTENDANCE
-============================== -->
-
-<td>
-${escapeHTML(
-    employee.schedule
-)}
-</td>
-
-
-<td>
-${escapeHTML(
-    employee.shift
-)}
-</td>
-
-
-<td>
-${escapeHTML(
-    employee.restday
-)}
-</td>
-
-
-<td>
-${escapeHTML(
-    employee.attendancegroup
-)}
-</td>
-
-
-<!-- ==============================
-     USER
-============================== -->
-
-<td>
-
-${userButton}
-
-</td>
-
-
-<!-- ==============================
-     ACTION
-============================== -->
-
-<td>
+            const actionButtons = `
 
 <div class="action-icons">
 
@@ -1856,6 +1344,420 @@ delete
 
 </div>
 
+`;
+
+
+            /* ==============================
+               MAIN TABLE ROW
+               
+               EXACT SAME ORDER AS HTML
+            ============================== */
+
+            table.innerHTML += `
+
+<tr>
+
+
+<!-- 1 QR -->
+
+<td>
+
+<button
+class="icon-btn qr-btn"
+title="View QR Code"
+onclick="viewQR(
+'${escapeAttribute(
+    employee.employeeid
+)}',
+'${escapeAttribute(
+    getFullName(employee)
+)}'
+)">
+
+<span class="material-icons">
+qr_code_2
+</span>
+
+</button>
+
+</td>
+
+
+<!-- 2 FIRST NAME -->
+
+<td>
+${escapeHTML(
+    employee.firstname
+)}
+</td>
+
+
+<!-- 3 MIDDLE NAME -->
+
+<td>
+${escapeHTML(
+    employee.middlename
+)}
+</td>
+
+
+<!-- 4 LAST NAME -->
+
+<td>
+${escapeHTML(
+    employee.lastname
+)}
+</td>
+
+
+<!-- 5 BIRTHDATE -->
+
+<td>
+${escapeHTML(
+    employee.birthdate
+)}
+</td>
+
+
+<!-- 6 AGE -->
+
+<td>
+${escapeHTML(
+    employee.age
+)}
+</td>
+
+
+<!-- 7 GENDER -->
+
+<td>
+${escapeHTML(
+    employee.gender
+)}
+</td>
+
+
+<!-- 8 MOBILE -->
+
+<td>
+${escapeHTML(
+    employee.mobile
+)}
+</td>
+
+
+<!-- 9 EMAIL -->
+
+<td>
+${escapeHTML(
+    employee.email
+)}
+</td>
+
+
+<!-- 10 CURRENT ADDRESS -->
+
+<td>
+${escapeHTML(
+    employee.currentaddress
+)}
+</td>
+
+
+<!-- 11 PERMANENT ADDRESS -->
+
+<td>
+${escapeHTML(
+    employee.permanentaddress
+)}
+</td>
+
+
+<!-- 12 SSS -->
+
+<td>
+${escapeHTML(
+    employee.sss
+)}
+</td>
+
+
+<!-- 13 PHILHEALTH -->
+
+<td>
+${escapeHTML(
+    employee.philhealth
+)}
+</td>
+
+
+<!-- 14 PAG-IBIG -->
+
+<td>
+${escapeHTML(
+    employee.pagibig
+)}
+</td>
+
+
+<!-- 15 HEALTH CARD -->
+
+<td>
+${escapeHTML(
+    employee.healthcard
+)}
+</td>
+
+
+<!-- 16 GOVERNMENT BANK -->
+
+<td>
+${escapeHTML(
+    employee.bankname
+)}
+</td>
+
+
+<!-- 17 GOVERNMENT BANK ACCOUNT -->
+
+<td>
+${escapeHTML(
+    employee.bankaccount
+)}
+</td>
+
+
+<!-- 18 ID TYPE -->
+
+<td>
+${escapeHTML(
+    employee.idtype
+)}
+</td>
+
+
+<!-- 19 ID NUMBER -->
+
+<td>
+${escapeHTML(
+    employee.idnumber
+)}
+</td>
+
+
+<!-- 20 EMPLOYEE ID -->
+
+<td>
+${escapeHTML(
+    employee.employeeid
+)}
+</td>
+
+
+<!-- 21 POSITION -->
+
+<td>
+${escapeHTML(
+    employee.position
+)}
+</td>
+
+
+<!-- 22 DEPARTMENT -->
+
+<td>
+${escapeHTML(
+    employee.department
+)}
+</td>
+
+
+<!-- 23 EMPLOYMENT -->
+
+<td>
+${escapeHTML(
+    employee.employment
+)}
+</td>
+
+
+<!-- 24 STATUS -->
+
+<td
+class="${statusClass}">
+
+${escapeHTML(
+    employee.status ||
+    "Active"
+)}
+
+</td>
+
+
+<!-- 25 SALARY RATE -->
+
+<td>
+${escapeHTML(
+    employee.salary
+)}
+</td>
+
+
+<!-- 26 VACATION LEAVE -->
+
+<td>
+${escapeHTML(
+    employee.vacationleave ??
+    0
+)}
+</td>
+
+
+<!-- 27 SICK LEAVE -->
+
+<td>
+${escapeHTML(
+    employee.sickleave ??
+    0
+)}
+</td>
+
+
+<!-- 28 BIRTHDAY LEAVE -->
+
+<td>
+${escapeHTML(
+    employee.birthdayleave ??
+    0
+)}
+</td>
+
+
+<!-- 29 COMPENSATION SALARY -->
+
+<td>
+${escapeHTML(
+    employee.compensationSalary ??
+    employee.salary ??
+    ""
+)}
+</td>
+
+
+<!-- 30 PAY TYPE -->
+
+<td>
+${escapeHTML(
+    employee.paytype
+)}
+</td>
+
+
+<!-- 31 PAY FREQUENCY -->
+
+<td>
+${escapeHTML(
+    employee.payfrequency
+)}
+</td>
+
+
+<!-- 32 ALLOWANCES -->
+
+<td>
+${escapeHTML(
+    employee.allowances
+)}
+</td>
+
+
+<!-- 33 PAYROLL GROUP -->
+
+<td>
+${escapeHTML(
+    employee.payrollgroup
+)}
+</td>
+
+
+<!-- 34 PAYROLL BANK -->
+
+<td>
+${escapeHTML(
+    employee.payrollbank
+)}
+</td>
+
+
+<!-- 35 PAYROLL BANK ACCOUNT -->
+
+<td>
+${escapeHTML(
+    employee.payrollbankaccount
+)}
+</td>
+
+
+<!-- 36 DEDUCTIONS -->
+
+<td>
+${escapeHTML(
+    employee.deductions
+)}
+</td>
+
+
+<!-- 37 SCHEDULE -->
+
+<td>
+${escapeHTML(
+    employee.schedule
+)}
+</td>
+
+
+<!-- 38 SHIFT -->
+
+<td>
+${escapeHTML(
+    employee.shift
+)}
+</td>
+
+
+<!-- 39 REST DAY -->
+
+<td>
+${escapeHTML(
+    employee.restday
+)}
+</td>
+
+
+<!-- 40 ATTENDANCE GROUP -->
+
+<td>
+${escapeHTML(
+    employee.attendancegroup
+)}
+</td>
+
+
+<!-- 41 USER -->
+
+<td>
+
+${userButton}
+
+</td>
+
+
+<!-- 42 ACTION -->
+
+<td>
+
+${actionButtons}
+
 </td>
 
 
@@ -1867,65 +1769,7 @@ delete
     );
 
 
-    /*
-     * ======================================
-     * EMPTY RESULT
-     * ======================================
-     */
-
-    if(
-        visibleCount ===
-        0
-    ){
-
-        table.innerHTML = `
-
-<tr>
-
-<td
-colspan="42"
-style="
-padding:25px;
-text-align:center;
-color:#777;
-font-weight:800;
-">
-
-No employee records found.
-
-</td>
-
-</tr>
-
-`;
-
-    }
-
-
-    /*
-     * ======================================
-     * UPDATE TOTAL
-     * ======================================
-     */
-
-    if(
-        total
-    ){
-
-        total.innerText =
-            "Total : " +
-            visibleCount;
-
-    }
-
-
-    /*
-     * ======================================
-     * UPDATE SUMMARY
-     * ======================================
-     */
-
-    renderEmployeeSummary();
+    updateTotal();
 
 }
 
@@ -1942,166 +1786,255 @@ function renderEmployeeSummary(){
         );
 
 
-    const summaryTable =
-        document.getElementById(
-            "employeeSummaryTable"
-        );
-
-
-    if(
-        !summaryBody ||
-        !summaryTable
-    ){
+    if(!summaryBody){
 
         return;
 
     }
 
 
-    const searchValue =
-        search
-        ?
-        text(
-            search.value
-        ).toLowerCase()
-        :
-        "";
-
-
-    const filteredEmployees =
-        employees.filter(
-            employee => {
-
-
-                /* ==========================
-                   STATUS FILTER
-                ========================== */
-
-                if(
-                    currentStatusFilter ===
-                    "Active"
-                ){
-
-                    if(
-                        text(
-                            employee.status
-                        )
-                        !==
-                        "Active"
-                    ){
-
-                        return false;
-
-                    }
-
-                }
-
-
-                if(
-                    currentStatusFilter ===
-                    "INACTIVE"
-                ){
-
-                    if(
-                        text(
-                            employee.status
-                        )
-                        ===
-                        "Active"
-                    ){
-
-                        return false;
-
-                    }
-
-                }
-
-
-                /* ==========================
-                   SEARCH FILTER
-                ========================== */
-
-                if(
-                    searchValue
-                ){
-
-                    const searchable = [
-
-                        employee.firstname,
-
-                        employee.middlename,
-
-                        employee.lastname,
-
-                        employee.employeeid,
-
-                        employee.position,
-
-                        employee.department,
-
-                        employee.employment,
-
-                        employee.status,
-
-                        employee.mobile,
-
-                        employee.email,
-
-                        employee.compensationSalary,
-
-                        employee.paytype,
-
-                        employee.payfrequency,
-
-                        employee.payrollgroup,
-
-                        employee.payrollbank,
-
-                        employee.schedule,
-
-                        employee.shift,
-
-                        employee.restday,
-
-                        employee.attendancegroup
-
-                    ]
-
-                    .map(
-                        value =>
-                            text(
-                                value
-                            ).toLowerCase()
-                    )
-
-                    .join(" ");
-
-
-                    if(
-                        !searchable.includes(
-                            searchValue
-                        )
-                    ){
-
-                        return false;
-
-                    }
-
-                }
-
-
-                return true;
-
-            }
-        );
-
-
     summaryBody.innerHTML =
         "";
 
 
+    let vacationTotal =
+        0;
+
+
+    let sickTotal =
+        0;
+
+
+    let birthdayTotal =
+        0;
+
+
+    let visibleEmployees = 0;
+
+
+    employees.forEach(
+        employee => {
+
+            /* ==============================
+               SAME FILTER AS MAIN TABLE
+            ============================== */
+
+            if(
+                currentStatusFilter ===
+                "Active"
+            ){
+
+                if(
+                    text(
+                        employee.status
+                    ) !==
+                    "Active"
+                ){
+
+                    return;
+
+                }
+
+            }
+
+
+            if(
+                currentStatusFilter ===
+                "INACTIVE"
+            ){
+
+                if(
+                    text(
+                        employee.status
+                    ) ===
+                    "Active"
+                ){
+
+                    return;
+
+                }
+
+            }
+
+
+            visibleEmployees++;
+
+
+            const vacation =
+                numberValue(
+                    employee.vacationleave,
+                    0
+                );
+
+
+            const sick =
+                numberValue(
+                    employee.sickleave,
+                    0
+                );
+
+
+            const birthday =
+                numberValue(
+                    employee.birthdayleave,
+                    0
+                );
+
+
+            vacationTotal +=
+                vacation;
+
+
+            sickTotal +=
+                sick;
+
+
+            birthdayTotal +=
+                birthday;
+
+
+            let statusClass =
+                "status-other";
+
+
+            if(
+                employee.status ===
+                "Active"
+            ){
+
+                statusClass =
+                    "status-active";
+
+            }
+
+            else if(
+                employee.status ===
+                "AWOL"
+            ){
+
+                statusClass =
+                    "status-awol";
+
+            }
+
+            else if(
+                employee.status ===
+                "Resigned"
+            ){
+
+                statusClass =
+                    "status-resigned";
+
+            }
+
+
+            const hasUser =
+
+                text(
+                    employee.username
+                ) !== ""
+                &&
+                text(
+                    employee.password
+                ) !== "";
+
+
+            const userStatus =
+
+                hasUser
+                ?
+                "CREATED"
+                :
+                "NOT CREATED";
+
+
+            summaryBody.innerHTML += `
+
+<tr>
+
+
+<td>
+${escapeHTML(
+    employee.employeeid
+)}
+</td>
+
+
+<td>
+${escapeHTML(
+    getFullName(employee)
+)}
+</td>
+
+
+<td>
+${escapeHTML(
+    employee.position
+)}
+</td>
+
+
+<td>
+${escapeHTML(
+    employee.department
+)}
+</td>
+
+
+<td>
+${escapeHTML(
+    employee.employment
+)}
+</td>
+
+
+<td class="${statusClass}">
+${escapeHTML(
+    employee.status ||
+    "Active"
+)}
+</td>
+
+
+<td>
+${escapeHTML(
+    employee.salary ??
+    ""
+)}
+</td>
+
+
+<td>
+${escapeHTML(
+    vacation
+)}
+</td>
+
+
+<td>
+${escapeHTML(
+    sick
+)}
+</td>
+
+
+<td>
+${escapeHTML(
+    birthday
+)}
+</td>
+
+
+</tr>
+
+`;
+
+        }
+    );
+
+
     if(
-        filteredEmployees.length ===
+        visibleEmployees ===
         0
     ){
 
@@ -2128,156 +2061,6 @@ No employee summary available.
 `;
 
     }
-
-    else{
-
-        filteredEmployees.forEach(
-            employee => {
-
-
-                const statusClass =
-                    getStatusClass(
-                        employee.status
-                    );
-
-
-                summaryBody.innerHTML += `
-
-<tr>
-
-
-<td>
-${escapeHTML(
-    employee.employeeid
-)}
-</td>
-
-
-<td>
-${escapeHTML(
-    getFullName(
-        employee
-    )
-)}
-</td>
-
-
-<td>
-${escapeHTML(
-    employee.position
-)}
-</td>
-
-
-<td>
-${escapeHTML(
-    employee.department
-)}
-</td>
-
-
-<td>
-${escapeHTML(
-    employee.employment
-)}
-</td>
-
-
-<td
-class="${statusClass}">
-
-${escapeHTML(
-    employee.status ||
-    "Active"
-)}
-
-</td>
-
-
-<td>
-${escapeHTML(
-    employee.salary
-)}
-</td>
-
-
-<td>
-${escapeHTML(
-    employee.vacationleave ??
-    0
-)}
-</td>
-
-
-<td>
-${escapeHTML(
-    employee.sickleave ??
-    0
-)}
-</td>
-
-
-<td>
-${escapeHTML(
-    employee.birthdayleave ??
-    0
-)}
-</td>
-
-
-</tr>
-
-`;
-
-            }
-        );
-
-    }
-
-
-    /*
-     * ======================================
-     * SUMMARY TOTALS
-     * ======================================
-     */
-
-    let vacationTotal =
-        0;
-
-
-    let sickTotal =
-        0;
-
-
-    let birthdayTotal =
-        0;
-
-
-    filteredEmployees.forEach(
-        employee => {
-
-            vacationTotal +=
-                numberValue(
-                    employee.vacationleave,
-                    0
-                );
-
-
-            sickTotal +=
-                numberValue(
-                    employee.sickleave,
-                    0
-                );
-
-
-            birthdayTotal +=
-                numberValue(
-                    employee.birthdayleave,
-                    0
-                );
-
-        }
-    );
 
 
     const vacationElement =
@@ -2327,6 +2110,22 @@ ${escapeHTML(
 
     }
 
+
+    const summarySection =
+        document.getElementById(
+            "employeeSummarySection"
+        );
+
+
+    if(
+        summarySection
+    ){
+
+        summarySection.dataset.total =
+            visibleEmployees;
+
+    }
+
 }
 
 
@@ -2345,9 +2144,7 @@ function(id){
         );
 
 
-    if(
-        !employee
-    ){
+    if(!employee){
 
         alert(
             "Employee not found."
@@ -2411,9 +2208,7 @@ function(id){
         );
 
 
-    if(
-        name
-    ){
+    if(name){
 
         name.textContent =
             getFullName(
@@ -2423,9 +2218,7 @@ function(id){
     }
 
 
-    if(
-        employeeId
-    ){
+    if(employeeId){
 
         employeeId.textContent =
             employee.employeeid ||
@@ -2434,9 +2227,7 @@ function(id){
     }
 
 
-    if(
-        username
-    ){
+    if(username){
 
         username.value =
             employee.username ||
@@ -2446,9 +2237,7 @@ function(id){
     }
 
 
-    if(
-        password
-    ){
+    if(password){
 
         password.value =
             "";
@@ -2456,9 +2245,7 @@ function(id){
     }
 
 
-    if(
-        confirmPassword
-    ){
+    if(confirmPassword){
 
         confirmPassword.value =
             "";
@@ -2466,9 +2253,7 @@ function(id){
     }
 
 
-    if(
-        userModal
-    ){
+    if(userModal){
 
         userModal.style.display =
             "flex";
@@ -2479,15 +2264,13 @@ function(id){
 
 
 /* ==========================================
-   CLOSE CREATE USER
+   CLOSE USER MODAL
 ========================================== */
 
 window.closeUserModal =
 function(){
 
-    if(
-        userModal
-    ){
+    if(userModal){
 
         userModal.style.display =
             "none";
@@ -2502,7 +2285,7 @@ function(){
 
 
 /* ==========================================
-   TOGGLE USER PASSWORD
+   TOGGLE PASSWORD
 ========================================== */
 
 window.toggleUserPassword =
@@ -2520,9 +2303,7 @@ function(){
         );
 
 
-    if(
-        !password
-    ){
+    if(!password){
 
         return;
 
@@ -2538,9 +2319,7 @@ function(){
             "text";
 
 
-        if(
-            icon
-        ){
+        if(icon){
 
             icon.textContent =
                 "visibility_off";
@@ -2555,9 +2334,7 @@ function(){
             "password";
 
 
-        if(
-            icon
-        ){
+        if(icon){
 
             icon.textContent =
                 "visibility";
@@ -2570,7 +2347,7 @@ function(){
 
 
 /* ==========================================
-   CREATE EMPLOYEE USER
+   CREATE USER
 ========================================== */
 
 window.createEmployeeUser =
@@ -2633,13 +2410,7 @@ async function(){
         "";
 
 
-    /* ======================================
-       VALIDATION
-    ====================================== */
-
-    if(
-        !username
-    ){
+    if(!username){
 
         alert(
             "Please enter a username."
@@ -2650,9 +2421,7 @@ async function(){
     }
 
 
-    if(
-        !password
-    ){
+    if(!password){
 
         alert(
             "Please enter a password."
@@ -2693,11 +2462,6 @@ async function(){
 
     try{
 
-
-        /* ==================================
-           DUPLICATE USERNAME
-        ================================== */
-
         const duplicate =
             employees.find(
                 employee =>
@@ -2716,9 +2480,7 @@ async function(){
             );
 
 
-        if(
-            duplicate
-        ){
+        if(duplicate){
 
             alert(
                 "Username already exists."
@@ -2728,10 +2490,6 @@ async function(){
 
         }
 
-
-        /* ==================================
-           SAVE USER
-        ================================== */
 
         await updateDoc(
 
@@ -2775,11 +2533,12 @@ async function(){
 
         closeUserModal();
 
-
         await loadEmployees();
 
 
-    }catch(error){
+    }
+
+    catch(error){
 
         console.error(
             "Create User Error:",
@@ -2788,11 +2547,8 @@ async function(){
 
 
         alert(
-
             "Failed to create user.\n\n" +
-
             error.message
-
         );
 
     }
@@ -2815,9 +2571,7 @@ function(id){
         );
 
 
-    if(
-        !employee
-    ){
+    if(!employee){
 
         alert(
             "Employee not found."
@@ -2936,8 +2690,7 @@ function(id){
         employee.employment,
 
         employee.status ||
-
-        "Active",
+            "Active",
 
         employee.salary,
 
@@ -3042,12 +2795,9 @@ function(id){
         );
 
 
-    if(
-        compensationSalary
-    ){
+    if(compensationSalary){
 
         compensationSalary.value =
-
             employee.compensationSalary
             ??
             employee.salary
@@ -3057,9 +2807,7 @@ function(id){
     }
 
 
-    if(
-        payType
-    ){
+    if(payType){
 
         payType.value =
             employee.paytype
@@ -3069,9 +2817,7 @@ function(id){
     }
 
 
-    if(
-        payFrequency
-    ){
+    if(payFrequency){
 
         payFrequency.value =
             employee.payfrequency
@@ -3081,9 +2827,7 @@ function(id){
     }
 
 
-    if(
-        allowances
-    ){
+    if(allowances){
 
         allowances.value =
             employee.allowances
@@ -3121,9 +2865,7 @@ function(id){
         );
 
 
-    if(
-        payrollGroup
-    ){
+    if(payrollGroup){
 
         payrollGroup.value =
             employee.payrollgroup
@@ -3133,9 +2875,7 @@ function(id){
     }
 
 
-    if(
-        payrollBank
-    ){
+    if(payrollBank){
 
         payrollBank.value =
             employee.payrollbank
@@ -3147,9 +2887,7 @@ function(id){
     }
 
 
-    if(
-        payrollBankAccount
-    ){
+    if(payrollBankAccount){
 
         payrollBankAccount.value =
             employee.payrollbankaccount
@@ -3161,9 +2899,7 @@ function(id){
     }
 
 
-    if(
-        deductions
-    ){
+    if(deductions){
 
         deductions.value =
             employee.deductions
@@ -3201,9 +2937,7 @@ function(id){
         );
 
 
-    if(
-        schedule
-    ){
+    if(schedule){
 
         schedule.value =
             employee.schedule
@@ -3213,9 +2947,7 @@ function(id){
     }
 
 
-    if(
-        shift
-    ){
+    if(shift){
 
         shift.value =
             employee.shift
@@ -3225,9 +2957,7 @@ function(id){
     }
 
 
-    if(
-        restDay
-    ){
+    if(restDay){
 
         restDay.value =
             employee.restday
@@ -3237,9 +2967,7 @@ function(id){
     }
 
 
-    if(
-        attendanceGroup
-    ){
+    if(attendanceGroup){
 
         attendanceGroup.value =
             employee.attendancegroup
@@ -3248,10 +2976,6 @@ function(id){
 
     }
 
-
-    /* ======================================
-       RECALCULATE AGE
-    ====================================== */
 
     if(
         birthdate &&
@@ -3264,7 +2988,7 @@ function(id){
 
 
     /* ======================================
-       PERSONAL TAB
+       PERSONAL TAB FIRST
     ====================================== */
 
     document
@@ -3288,9 +3012,7 @@ function(id){
         );
 
 
-    if(
-        personal
-    ){
+    if(personal){
 
         personal.classList.add(
             "active"
@@ -3358,8 +3080,9 @@ async function(id){
             "Employee deleted successfully."
         );
 
+    }
 
-    }catch(error){
+    catch(error){
 
         console.error(
             "Delete Employee Error:",
@@ -3368,11 +3091,8 @@ async function(id){
 
 
         alert(
-
             "Delete Error\n\n" +
-
             error.message
-
         );
 
     }
@@ -3393,6 +3113,8 @@ function(status){
 
     renderTable();
 
+    renderEmployeeSummary();
+
 };
 
 
@@ -3403,34 +3125,95 @@ function(status){
 window.searchEmp =
 function(){
 
-    /*
-     * Instead of hiding existing rows,
-     * rebuild the table based on search.
-     */
+    const value =
+        search
+        ?
+        search.value
+            .toLowerCase()
+        :
+        "";
 
-    renderTable();
 
-};
+    const rows =
+        document.querySelectorAll(
+            "#empTable tbody tr"
+        );
 
 
-/* ==========================================
-   SEARCH EVENT
-========================================== */
+    let visible =
+        0;
 
-if(
-    search
-){
 
-    search.addEventListener(
-        "input",
-        function(){
+    rows.forEach(
+        row => {
 
-            renderTable();
+            const show =
+                row.innerText
+                    .toLowerCase()
+                    .includes(
+                        value
+                    );
+
+
+            row.style.display =
+                show
+                ?
+                ""
+                :
+                "none";
+
+
+            if(show){
+
+                visible++;
+
+            }
 
         }
     );
 
-}
+
+    if(total){
+
+        total.innerText =
+            "Showing : " +
+            visible;
+
+    }
+
+
+    /* ======================================
+       SEARCH SUMMARY TOO
+    ====================================== */
+
+    const summaryRows =
+        document.querySelectorAll(
+            "#employeeSummaryBody tr"
+        );
+
+
+    summaryRows.forEach(
+        row => {
+
+            const show =
+                row.innerText
+                    .toLowerCase()
+                    .includes(
+                        value
+                    );
+
+
+            row.style.display =
+                show
+                ?
+                ""
+                :
+                "none";
+
+        }
+    );
+
+};
 
 
 /* ==========================================
@@ -3451,9 +3234,7 @@ function(
         );
 
 
-    if(
-        !qrWindow
-    ){
+    if(!qrWindow){
 
         alert(
             "Please allow pop-ups to view QR."
@@ -3506,15 +3287,11 @@ function(
 PAPPRITO Employee QR
 </title>
 
-
 <style>
 
 *{
-
 box-sizing:border-box;
-
 }
-
 
 body{
 
@@ -3532,7 +3309,6 @@ color:#111111;
 
 }
 
-
 .logo{
 
 width:70px;
@@ -3543,41 +3319,43 @@ object-fit:cover;
 
 border-radius:50%;
 
-border:3px solid #ffcc00;
+border:
+3px solid
+#ffcc00;
 
 }
-
 
 h2{
 
 color:#d71920;
 
-margin:8px 0;
+margin:
+8px 0;
 
 }
 
-
 .info{
 
-margin:15px 0;
+margin:
+15px 0;
 
 font-size:13px;
 
 }
 
-
 #qrcode{
 
-margin:20px auto;
+margin:
+20px auto;
 
 }
-
 
 button{
 
 margin-top:15px;
 
-padding:10px 20px;
+padding:
+10px 20px;
 
 border:none;
 
@@ -3597,25 +3375,20 @@ cursor:pointer;
 
 </head>
 
-
 <body>
-
 
 <img
 src="../assets/images/logo.png"
 class="logo"
 alt="PAPPRITO">
 
-
 <h2>
 PAPPRITO
 </h2>
 
-
 <h3>
 EMPLOYEE QR CODE
 </h3>
-
 
 <div class="info">
 
@@ -3625,9 +3398,7 @@ Employee ID:
 
 <br>
 
-${escapeHTML(
-    employeeid
-)}
+${escapeHTML(employeeid)}
 
 <br><br>
 
@@ -3637,16 +3408,11 @@ Employee:
 
 <br>
 
-${escapeHTML(
-    name
-)}
+${escapeHTML(name)}
 
 </div>
 
-
-<div id="qrcode">
-</div>
-
+<div id="qrcode"></div>
 
 <button
 onclick="window.print()">
@@ -3655,19 +3421,15 @@ PRINT QR
 
 </button>
 
-
 <script
 src="https://cdn.jsdelivr.net/npm/qrcode/build/qrcode.min.js">
 <\/script>
-
 
 <script>
 
 QRCode.toCanvas(
 
-document.createElement(
-"canvas"
-),
+document.createElement("canvas"),
 
 JSON.stringify({
 
@@ -3685,22 +3447,13 @@ width:220
 
 },
 
-function(
-error,
-canvas
-){
+function(error,canvas){
 
-if(
-!error
-){
+if(!error){
 
 document
-.getElementById(
-"qrcode"
-)
-.appendChild(
-canvas
-);
+.getElementById("qrcode")
+.appendChild(canvas);
 
 }
 
@@ -3709,7 +3462,6 @@ canvas
 );
 
 <\/script>
-
 
 </body>
 
@@ -3724,7 +3476,7 @@ canvas
 
 
 /* ==========================================
-   CLEAR EMPLOYEE FORM
+   CLEAR FORM
 ========================================== */
 
 function clearForm(){
@@ -3732,10 +3484,6 @@ function clearForm(){
     editId =
         null;
 
-
-    /*
-     * Clear all employee fields
-     */
 
     document
         .querySelectorAll(
@@ -3750,10 +3498,6 @@ function clearForm(){
             }
         );
 
-
-    /* ======================================
-       DEFAULT LEAVE BALANCES
-    ====================================== */
 
     const employmentFields =
         getTabFields(
@@ -3791,10 +3535,6 @@ function clearForm(){
     }
 
 
-    /* ======================================
-       DEFAULT STATUS
-    ====================================== */
-
     if(
         employmentFields[4]
     ){
@@ -3804,10 +3544,6 @@ function clearForm(){
 
     }
 
-
-    /* ======================================
-       RETURN TO PERSONAL TAB
-    ====================================== */
 
     document
         .querySelectorAll(
@@ -3830,9 +3566,7 @@ function clearForm(){
         );
 
 
-    if(
-        personal
-    ){
+    if(personal){
 
         personal.classList.add(
             "active"
@@ -3894,9 +3628,7 @@ function updateTotal(){
     );
 
 
-    if(
-        total
-    ){
+    if(total){
 
         total.innerText =
             "Total : " +
@@ -3908,7 +3640,7 @@ function updateTotal(){
 
 
 /* ==========================================
-   CLOSE MODAL WHEN CLICKING OUTSIDE
+   CLOSE MODALS OUTSIDE
 ========================================== */
 
 window.addEventListener(
