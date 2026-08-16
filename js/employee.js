@@ -1,11 +1,13 @@
 /* ==========================================
    PAPPRITO HRIS
    EMPLOYEE MASTERLIST JS
-   UPDATED
+   FULL UPDATED
    EXISTING FUNCTIONS RETAINED
+
    + COMPENSATION
    + PAYROLL
    + ATTENDANCE
+   + EMPLOYEE SUMMARY TABLE
 ========================================== */
 
 
@@ -97,7 +99,10 @@ function text(value){
    NUMBER HELPER
 ========================================== */
 
-function numberValue(value, fallback = 0){
+function numberValue(
+    value,
+    fallback = 0
+){
 
     const number =
         Number(value);
@@ -120,11 +125,13 @@ function getTabFields(tabId){
             tabId
         );
 
+
     if(!tab){
 
         return [];
 
     }
+
 
     return Array.from(
         tab.querySelectorAll(
@@ -137,7 +144,6 @@ function getTabFields(tabId){
 
 /* ==========================================
    GET FIELD VALUE BY POSITION
-   ONLY WITHIN A SPECIFIC TAB
 ========================================== */
 
 function tabValue(
@@ -149,6 +155,7 @@ function tabValue(
         getTabFields(
             tabId
         );
+
 
     return fields[index]
         ?
@@ -169,6 +176,7 @@ function idValue(id){
         document.getElementById(
             id
         );
+
 
     return field
         ?
@@ -463,18 +471,10 @@ function(){
 
 function getEmployeeFormData(){
 
-    /*
-     * ======================================
-     * PERSONAL TAB
-     * ======================================
-     *
-     * 0 First Name
-     * 1 Middle Name
-     * 2 Last Name
-     * 3 Birthdate
-     * 4 Age
-     * 5 Gender
-     */
+
+    /* ======================================
+       PERSONAL TAB
+    ====================================== */
 
     const personalFields =
         getTabFields(
@@ -482,16 +482,9 @@ function getEmployeeFormData(){
         );
 
 
-    /*
-     * ======================================
-     * CONTACT TAB
-     * ======================================
-     *
-     * 0 Mobile
-     * 1 Email
-     * 2 Current Address
-     * 3 Permanent Address
-     */
+    /* ======================================
+       CONTACT TAB
+    ====================================== */
 
     const contactFields =
         getTabFields(
@@ -499,21 +492,9 @@ function getEmployeeFormData(){
         );
 
 
-    /*
-     * ======================================
-     * EMPLOYMENT TAB
-     * ======================================
-     *
-     * 0 Employee ID
-     * 1 Position
-     * 2 Department
-     * 3 Employment
-     * 4 Status
-     * 5 Existing Salary
-     * 6 Vacation Leave
-     * 7 Sick Leave
-     * 8 Birthday Leave
-     */
+    /* ======================================
+       EMPLOYMENT TAB
+    ====================================== */
 
     const employmentFields =
         getTabFields(
@@ -521,20 +502,9 @@ function getEmployeeFormData(){
         );
 
 
-    /*
-     * ======================================
-     * GOVERNMENT TAB
-     * ======================================
-     *
-     * 0 SSS
-     * 1 PhilHealth
-     * 2 Pag-IBIG
-     * 3 Health Card
-     * 4 Bank Name
-     * 5 Bank Account
-     * 6 ID Type
-     * 7 ID Number
-     */
+    /* ======================================
+       GOVERNMENT TAB
+    ====================================== */
 
     const governmentFields =
         getTabFields(
@@ -542,11 +512,9 @@ function getEmployeeFormData(){
         );
 
 
-    /*
-     * ======================================
-     * COMPENSATION
-     * ======================================
-     */
+    /* ======================================
+       COMPENSATION
+    ====================================== */
 
     const compensationSalary =
         text(
@@ -580,11 +548,9 @@ function getEmployeeFormData(){
         );
 
 
-    /*
-     * ======================================
-     * PAYROLL
-     * ======================================
-     */
+    /* ======================================
+       PAYROLL
+    ====================================== */
 
     const payrollGroup =
         text(
@@ -618,11 +584,9 @@ function getEmployeeFormData(){
         );
 
 
-    /*
-     * ======================================
-     * ATTENDANCE
-     * ======================================
-     */
+    /* ======================================
+       ATTENDANCE
+    ====================================== */
 
     const schedule =
         text(
@@ -656,18 +620,9 @@ function getEmployeeFormData(){
         );
 
 
-    /*
-     * ======================================
-     * SALARY COMPATIBILITY
-     * ======================================
-     *
-     * Existing salary field remains.
-     *
-     * If Compensation Salary is filled,
-     * use it as the main salary value.
-     *
-     * Otherwise retain existing salary.
-     */
+    /* ======================================
+       EXISTING SALARY
+    ====================================== */
 
     const existingSalary =
         text(
@@ -687,6 +642,7 @@ function getEmployeeFormData(){
 
     return {
 
+
         /* ==================================
            PERSONAL
         ================================== */
@@ -700,6 +656,7 @@ function getEmployeeFormData(){
                 ""
             ),
 
+
         middlename:
             text(
                 personalFields[1]
@@ -708,6 +665,7 @@ function getEmployeeFormData(){
                 :
                 ""
             ),
+
 
         lastname:
             text(
@@ -718,6 +676,7 @@ function getEmployeeFormData(){
                 ""
             ),
 
+
         birthdate:
             text(
                 personalFields[3]
@@ -727,6 +686,7 @@ function getEmployeeFormData(){
                 ""
             ),
 
+
         age:
             text(
                 personalFields[4]
@@ -735,6 +695,7 @@ function getEmployeeFormData(){
                 :
                 ""
             ),
+
 
         gender:
             text(
@@ -759,6 +720,7 @@ function getEmployeeFormData(){
                 ""
             ),
 
+
         philhealth:
             text(
                 governmentFields[1]
@@ -767,6 +729,7 @@ function getEmployeeFormData(){
                 :
                 ""
             ),
+
 
         pagibig:
             text(
@@ -777,6 +740,7 @@ function getEmployeeFormData(){
                 ""
             ),
 
+
         healthcard:
             text(
                 governmentFields[3]
@@ -785,6 +749,7 @@ function getEmployeeFormData(){
                 :
                 ""
             ),
+
 
         bankname:
             text(
@@ -795,6 +760,7 @@ function getEmployeeFormData(){
                 ""
             ),
 
+
         bankaccount:
             text(
                 governmentFields[5]
@@ -804,6 +770,7 @@ function getEmployeeFormData(){
                 ""
             ),
 
+
         idtype:
             text(
                 governmentFields[6]
@@ -812,6 +779,7 @@ function getEmployeeFormData(){
                 :
                 ""
             ),
+
 
         idnumber:
             text(
@@ -836,6 +804,7 @@ function getEmployeeFormData(){
                 ""
             ),
 
+
         email:
             text(
                 contactFields[1]
@@ -845,6 +814,7 @@ function getEmployeeFormData(){
                 ""
             ),
 
+
         currentaddress:
             text(
                 contactFields[2]
@@ -853,6 +823,7 @@ function getEmployeeFormData(){
                 :
                 ""
             ),
+
 
         permanentaddress:
             text(
@@ -878,6 +849,7 @@ function getEmployeeFormData(){
             )
             .toUpperCase(),
 
+
         position:
             text(
                 employmentFields[1]
@@ -886,6 +858,7 @@ function getEmployeeFormData(){
                 :
                 ""
             ),
+
 
         department:
             text(
@@ -896,6 +869,7 @@ function getEmployeeFormData(){
                 ""
             ),
 
+
         employment:
             text(
                 employmentFields[3]
@@ -904,6 +878,7 @@ function getEmployeeFormData(){
                 :
                 ""
             ),
+
 
         status:
             text(
@@ -916,10 +891,6 @@ function getEmployeeFormData(){
             ||
             "Active",
 
-
-        /* ==================================
-           SALARY
-        ================================== */
 
         salary:
             finalSalary,
@@ -939,6 +910,7 @@ function getEmployeeFormData(){
                 10
             ),
 
+
         sickleave:
             numberValue(
                 employmentFields[7]
@@ -948,6 +920,7 @@ function getEmployeeFormData(){
                 "",
                 7
             ),
+
 
         birthdayleave:
             numberValue(
@@ -961,51 +934,60 @@ function getEmployeeFormData(){
 
 
         /* ==================================
-           NEW COMPENSATION
+           COMPENSATION
         ================================== */
 
         compensationSalary:
             compensationSalary,
 
+
         paytype:
             payType,
 
+
         payfrequency:
             payFrequency,
+
 
         allowances:
             allowances,
 
 
         /* ==================================
-           NEW PAYROLL
+           PAYROLL
         ================================== */
 
         payrollgroup:
             payrollGroup,
 
+
         payrollbank:
             payrollBank,
 
+
         payrollbankaccount:
             payrollBankAccount,
+
 
         deductions:
             deductions,
 
 
         /* ==================================
-           NEW ATTENDANCE
+           ATTENDANCE
         ================================== */
 
         schedule:
             schedule,
 
+
         shift:
             shift,
 
+
         restday:
             restDay,
+
 
         attendancegroup:
             attendanceGroup
@@ -1071,6 +1053,7 @@ async function(){
 
     try{
 
+
         /* ==================================
            CHECK DUPLICATE EMPLOYEE ID
         ================================== */
@@ -1083,7 +1066,8 @@ async function(){
                     &&
                     text(
                         employee.employeeid
-                    ).toUpperCase()
+                    )
+                    .toUpperCase()
                     ===
                     employeeData.employeeid
                     &&
@@ -1640,16 +1624,12 @@ ${escapeHTML(
 </td>
 
 
-<!-- USER -->
-
 <td>
 
 ${userButton}
 
 </td>
 
-
-<!-- ACTION -->
 
 <td>
 
@@ -1703,6 +1683,793 @@ delete
 
     updateTotal();
 
+
+    /*
+     * ======================================
+     * ADD-ON
+     * EMPLOYEE SUMMARY TABLE
+     * ======================================
+     */
+
+    renderEmployeeSummary();
+
+}
+
+
+/* ==========================================
+   EMPLOYEE SUMMARY TABLE
+   ADD-ON ONLY
+========================================== */
+
+function renderEmployeeSummary(){
+
+    /*
+     * Find existing table box
+     */
+
+    const mainTableBox =
+        document.querySelector(
+            ".table-box"
+        );
+
+
+    if(
+        !mainTableBox
+    ){
+
+        return;
+
+    }
+
+
+    /*
+     * Find existing summary section
+     */
+
+    let summarySection =
+        document.getElementById(
+            "employeeSummarySection"
+        );
+
+
+    /*
+     * Create summary section
+     * automatically if missing
+     */
+
+    if(
+        !summarySection
+    ){
+
+        summarySection =
+            document.createElement(
+                "section"
+            );
+
+
+        summarySection.id =
+            "employeeSummarySection";
+
+
+        summarySection.style.width =
+            "calc(100% - 36px)";
+
+
+        summarySection.style.margin =
+            "0 18px 25px";
+
+
+        summarySection.style.background =
+            "#ffffff";
+
+
+        summarySection.style.border =
+            "1px solid #d8dce1";
+
+
+        summarySection.style.borderRadius =
+            "10px";
+
+
+        summarySection.style.boxShadow =
+            "0 4px 18px rgba(0,0,0,.08)";
+
+
+        summarySection.style.overflow =
+            "hidden";
+
+
+        /*
+         * Insert directly after
+         * main employee table
+         */
+
+        mainTableBox.insertAdjacentElement(
+            "afterend",
+            summarySection
+        );
+
+    }
+
+
+    /*
+     * Search value
+     */
+
+    const searchValue =
+        search
+        ?
+        text(
+            search.value
+        ).toLowerCase()
+        :
+        "";
+
+
+    /*
+     * Filter employees
+     */
+
+    const filteredEmployees =
+        employees.filter(
+            employee => {
+
+
+                /*
+                 * STATUS FILTER
+                 */
+
+                if(
+                    currentStatusFilter ===
+                    "Active"
+                ){
+
+                    if(
+                        text(
+                            employee.status
+                        )
+                        !==
+                        "Active"
+                    ){
+
+                        return false;
+
+                    }
+
+                }
+
+
+                if(
+                    currentStatusFilter ===
+                    "INACTIVE"
+                ){
+
+                    if(
+                        text(
+                            employee.status
+                        )
+                        ===
+                        "Active"
+                    ){
+
+                        return false;
+
+                    }
+
+                }
+
+
+                /*
+                 * SEARCH FILTER
+                 */
+
+                if(
+                    searchValue
+                ){
+
+                    const searchable = [
+
+                        employee.firstname,
+
+                        employee.middlename,
+
+                        employee.lastname,
+
+                        employee.employeeid,
+
+                        employee.position,
+
+                        employee.department,
+
+                        employee.employment,
+
+                        employee.status,
+
+                        employee.mobile,
+
+                        employee.email
+
+                    ]
+
+                    .map(
+                        value =>
+                            text(
+                                value
+                            ).toLowerCase()
+                    )
+
+                    .join(" ");
+
+
+                    if(
+                        !searchable.includes(
+                            searchValue
+                        )
+                    ){
+
+                        return false;
+
+                    }
+
+                }
+
+
+                return true;
+
+            }
+        );
+
+
+    /*
+     * Build rows
+     */
+
+    let rows = "";
+
+
+    if(
+        filteredEmployees.length === 0
+    ){
+
+        rows = `
+
+<tr>
+
+<td
+colspan="11"
+style="
+padding:25px;
+text-align:center;
+color:#777;
+font-weight:700;
+">
+
+No employee summary records found.
+
+</td>
+
+</tr>
+
+`;
+
+    }
+
+
+    else{
+
+        filteredEmployees.forEach(
+            employee => {
+
+
+                let statusClass =
+                    "";
+
+
+                if(
+                    text(
+                        employee.status
+                    ) ===
+                    "Active"
+                ){
+
+                    statusClass =
+                        "status-active";
+
+                }
+
+                else if(
+                    text(
+                        employee.status
+                    ) ===
+                    "AWOL"
+                ){
+
+                    statusClass =
+                        "status-awol";
+
+                }
+
+                else if(
+                    text(
+                        employee.status
+                    ) ===
+                    "Resigned"
+                ){
+
+                    statusClass =
+                        "status-resigned";
+
+                }
+
+
+                rows += `
+
+<tr>
+
+
+<td>
+${escapeHTML(
+    employee.employeeid
+)}
+</td>
+
+
+<td>
+${escapeHTML(
+    getFullName(
+        employee
+    )
+)}
+</td>
+
+
+<td>
+${escapeHTML(
+    employee.position
+)}
+</td>
+
+
+<td>
+${escapeHTML(
+    employee.department
+)}
+</td>
+
+
+<td>
+${escapeHTML(
+    employee.employment
+)}
+</td>
+
+
+<td
+class="${statusClass}">
+
+${escapeHTML(
+    employee.status ||
+    "Active"
+)}
+
+</td>
+
+
+<td>
+${escapeHTML(
+    employee.salary
+)}
+</td>
+
+
+<td>
+${escapeHTML(
+    employee.vacationleave ??
+    0
+)}
+</td>
+
+
+<td>
+${escapeHTML(
+    employee.sickleave ??
+    0
+)}
+</td>
+
+
+<td>
+${escapeHTML(
+    employee.birthdayleave ??
+    0
+)}
+</td>
+
+
+<td>
+
+${
+    text(
+        employee.username
+    )
+    &&
+    text(
+        employee.password
+    )
+    ?
+
+    `<span
+    style="
+    color:#16803c;
+    font-weight:900;
+    ">
+    CREATED
+    </span>`
+
+    :
+
+    `<span
+    style="
+    color:#d71920;
+    font-weight:900;
+    ">
+    NOT CREATED
+    </span>`
+}
+
+</td>
+
+
+</tr>
+
+`;
+
+            }
+        );
+
+    }
+
+
+    /*
+     * Summary section HTML
+     */
+
+    summarySection.innerHTML = `
+
+<div
+style="
+padding:16px 18px;
+background:#ffffff;
+border-bottom:1px solid #d8dce1;
+">
+
+<div
+style="
+display:flex;
+align-items:center;
+justify-content:space-between;
+gap:15px;
+flex-wrap:wrap;
+">
+
+<div>
+
+<h3
+style="
+margin:0;
+font-size:18px;
+font-weight:900;
+color:#222222;
+">
+
+Employee Summary
+
+</h3>
+
+
+<p
+style="
+margin:4px 0 0;
+font-size:12px;
+font-weight:600;
+color:#777777;
+">
+
+Employee overview based on the current list and filter.
+
+</p>
+
+</div>
+
+
+<div
+style="
+display:flex;
+gap:8px;
+align-items:center;
+flex-wrap:wrap;
+">
+
+<span
+style="
+padding:7px 11px;
+border-radius:7px;
+background:#f3f5f7;
+border:1px solid #d8dce1;
+font-size:11px;
+font-weight:900;
+color:#333333;
+">
+
+TOTAL:
+${filteredEmployees.length}
+
+</span>
+
+
+<span
+style="
+padding:7px 11px;
+border-radius:7px;
+background:#fff9df;
+border:1px solid #ead47b;
+font-size:11px;
+font-weight:900;
+color:#765000;
+">
+
+FILTER:
+${escapeHTML(
+    currentStatusFilter
+)}
+
+</span>
+
+</div>
+
+</div>
+
+</div>
+
+
+<div
+style="
+width:100%;
+overflow:auto;
+-webkit-overflow-scrolling:touch;
+">
+
+<table
+id="employeeSummaryTable"
+style="
+width:100%;
+min-width:1100px;
+border-collapse:separate;
+border-spacing:0;
+background:#ffffff;
+">
+
+
+<thead>
+
+<tr>
+
+<th
+style="
+position:sticky;
+top:0;
+padding:11px 10px;
+background:#ffcc00;
+color:#111111;
+border-right:1px solid rgba(0,0,0,.15);
+border-bottom:2px solid #c49e00;
+font-size:11px;
+font-weight:900;
+text-align:center;
+white-space:nowrap;
+">
+
+EMPLOYEE ID
+
+</th>
+
+
+<th
+style="
+padding:11px 10px;
+background:#ffcc00;
+color:#111111;
+border-right:1px solid rgba(0,0,0,.15);
+border-bottom:2px solid #c49e00;
+font-size:11px;
+font-weight:900;
+text-align:center;
+white-space:nowrap;
+">
+
+EMPLOYEE NAME
+
+</th>
+
+
+<th
+style="
+padding:11px 10px;
+background:#ffcc00;
+color:#111111;
+border-right:1px solid rgba(0,0,0,.15);
+border-bottom:2px solid #c49e00;
+font-size:11px;
+font-weight:900;
+text-align:center;
+white-space:nowrap;
+">
+
+POSITION
+
+</th>
+
+
+<th
+style="
+padding:11px 10px;
+background:#ffcc00;
+color:#111111;
+border-right:1px solid rgba(0,0,0,.15);
+border-bottom:2px solid #c49e00;
+font-size:11px;
+font-weight:900;
+text-align:center;
+white-space:nowrap;
+">
+
+DEPARTMENT
+
+</th>
+
+
+<th
+style="
+padding:11px 10px;
+background:#ffcc00;
+color:#111111;
+border-right:1px solid rgba(0,0,0,.15);
+border-bottom:2px solid #c49e00;
+font-size:11px;
+font-weight:900;
+text-align:center;
+white-space:nowrap;
+">
+
+EMPLOYMENT
+
+</th>
+
+
+<th
+style="
+padding:11px 10px;
+background:#ffcc00;
+color:#111111;
+border-right:1px solid rgba(0,0,0,.15);
+border-bottom:2px solid #c49e00;
+font-size:11px;
+font-weight:900;
+text-align:center;
+white-space:nowrap;
+">
+
+STATUS
+
+</th>
+
+
+<th
+style="
+padding:11px 10px;
+background:#ffcc00;
+color:#111111;
+border-right:1px solid rgba(0,0,0,.15);
+border-bottom:2px solid #c49e00;
+font-size:11px;
+font-weight:900;
+text-align:center;
+white-space:nowrap;
+">
+
+SALARY RATE
+
+</th>
+
+
+<th
+style="
+padding:11px 10px;
+background:#ffcc00;
+color:#111111;
+border-right:1px solid rgba(0,0,0,.15);
+border-bottom:2px solid #c49e00;
+font-size:11px;
+font-weight:900;
+text-align:center;
+white-space:nowrap;
+">
+
+VACATION LEAVE
+
+</th>
+
+
+<th
+style="
+padding:11px 10px;
+background:#ffcc00;
+color:#111111;
+border-right:1px solid rgba(0,0,0,.15);
+border-bottom:2px solid #c49e00;
+font-size:11px;
+font-weight:900;
+text-align:center;
+white-space:nowrap;
+">
+
+SICK LEAVE
+
+</th>
+
+
+<th
+style="
+padding:11px 10px;
+background:#ffcc00;
+color:#111111;
+border-right:1px solid rgba(0,0,0,.15);
+border-bottom:2px solid #c49e00;
+font-size:11px;
+font-weight:900;
+text-align:center;
+white-space:nowrap;
+">
+
+BIRTHDAY LEAVE
+
+</th>
+
+
+<th
+style="
+padding:11px 10px;
+background:#ffcc00;
+color:#111111;
+border-bottom:2px solid #c49e00;
+font-size:11px;
+font-weight:900;
+text-align:center;
+white-space:nowrap;
+">
+
+USER
+
+</th>
+
+</tr>
+
+</thead>
+
+
+<tbody>
+
+${rows}
+
+</tbody>
+
+
+</table>
+
+</div>
+
+`;
+
 }
 
 
@@ -1733,10 +2500,6 @@ function(id){
 
     }
 
-
-    /* ======================================
-       CHECK EXISTING USER
-    ====================================== */
 
     if(
         text(
@@ -1813,11 +2576,6 @@ function(id){
 
     }
 
-
-    /*
-     * Default username:
-     * Employee ID
-     */
 
     if(
         username
@@ -2078,6 +2836,7 @@ async function(){
 
     try{
 
+
         /* ==================================
            CHECK DUPLICATE USERNAME
         ================================== */
@@ -2088,7 +2847,8 @@ async function(){
 
                     text(
                         employee.username
-                    ).toUpperCase()
+                    )
+                    .toUpperCase()
                     ===
                     username
 
@@ -2626,9 +3386,9 @@ function(id){
     }
 
 
-    /*
-     * Recalculate age if needed
-     */
+    /* ======================================
+       RECALCULATE AGE
+    ====================================== */
 
     if(
         birthdate &&
@@ -2640,9 +3400,9 @@ function(id){
     }
 
 
-    /*
-     * Always return to Personal tab
-     */
+    /* ======================================
+       RETURN TO PERSONAL TAB
+    ====================================== */
 
     document
         .querySelectorAll(
@@ -2770,6 +3530,7 @@ function(status){
 
     renderTable();
 
+
 };
 
 
@@ -2840,7 +3601,40 @@ function(){
 
     }
 
+
+    /*
+     * ======================================
+     * ADD-ON:
+     * UPDATE SUMMARY TABLE TOO
+     * ======================================
+     */
+
+    renderEmployeeSummary();
+
 };
+
+
+/* ==========================================
+   SEARCH LISTENER
+   ADD-ON
+   MAKES SEARCH WORK EVEN IF HTML HAS:
+   onkeyup="searchEmp"
+========================================== */
+
+if(
+    search
+){
+
+    search.addEventListener(
+        "input",
+        function(){
+
+            window.searchEmp();
+
+        }
+    );
+
+}
 
 
 /* ==========================================
