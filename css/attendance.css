@@ -2994,3 +2994,737 @@ body {
     }
 
 }
+/* =========================================================
+   ATTENDANCE CUTOFF SUMMARY
+   ADD-ON ONLY
+========================================================= */
+
+
+/* =========================================================
+   SUMMARY TABLE
+========================================================= */
+
+#attendanceSummary {
+
+    margin-top: 18px;
+
+}
+
+
+/* =========================================================
+   SUMMARY TABLE HEADER
+========================================================= */
+
+#attendanceSummaryTable {
+
+    width: 100%;
+
+    min-width: 850px;
+
+    border-collapse: collapse;
+
+    table-layout: auto;
+
+}
+
+
+/* =========================================================
+   SUMMARY HEADER CELLS
+========================================================= */
+
+#attendanceSummaryTable thead th {
+
+    padding:
+        15px
+        12px;
+
+    color:
+        #111111;
+
+    border:
+        1px solid
+        #d5d8dc;
+
+    font-size:
+        12px;
+
+    font-weight:
+        1000;
+
+    text-align:
+        center;
+
+    white-space:
+        nowrap;
+
+}
+
+
+/* EMPLOYEE ID */
+
+#attendanceSummaryTable thead th:nth-child(1) {
+
+    background:
+        #eaf3fb;
+
+}
+
+
+/* EMPLOYEE NAME */
+
+#attendanceSummaryTable thead th:nth-child(2) {
+
+    background:
+        #e9f7ef;
+
+}
+
+
+/* REGULAR */
+
+#attendanceSummaryTable thead th:nth-child(3) {
+
+    background:
+        #dff4e7;
+
+}
+
+
+/* OT */
+
+#attendanceSummaryTable thead th:nth-child(4) {
+
+    background:
+        #fff0d6;
+
+}
+
+
+/* LATE */
+
+#attendanceSummaryTable thead th:nth-child(5) {
+
+    background:
+        #ffe5e5;
+
+}
+
+
+/* TOTAL */
+
+#attendanceSummaryTable thead th:nth-child(6) {
+
+    background:
+        #fff4bf;
+
+}
+
+
+/* =========================================================
+   SUMMARY BODY
+========================================================= */
+
+#attendanceSummaryTable tbody td {
+
+    padding:
+        14px
+        12px;
+
+    background:
+        #ffffff;
+
+    color:
+        #111111;
+
+    border:
+        1px solid
+        #d8dce0;
+
+    font-size:
+        12px;
+
+    font-weight:
+        900;
+
+    text-align:
+        center;
+
+    white-space:
+        nowrap;
+
+}
+
+
+/* =========================================================
+   ALTERNATE ROW
+========================================================= */
+
+#attendanceSummaryTable tbody tr:nth-child(even) td {
+
+    background:
+        #fafafa;
+
+}
+
+
+/* =========================================================
+   HOVER
+========================================================= */
+
+#attendanceSummaryTable tbody tr:hover td {
+
+    background:
+        #fffbea;
+
+}
+
+
+/* =========================================================
+   GRAND TOTAL
+========================================================= */
+
+#attendanceSummaryTable tfoot td {
+
+    padding:
+        14px
+        12px;
+
+    background:
+        #111111;
+
+    color:
+        #ffffff;
+
+    border:
+        1px solid
+        #111111;
+
+    font-size:
+        12px;
+
+    font-weight:
+        1000;
+
+    text-align:
+        center;
+
+    white-space:
+        nowrap;
+
+}
+
+
+/* =========================================================
+   GRAND TOTAL LABEL
+========================================================= */
+
+#attendanceSummaryTable tfoot td:first-child {
+
+    text-align:
+        right;
+
+}
+
+
+/* =========================================================
+   SUMMARY PRINT BUTTON
+========================================================= */
+
+#printSummaryBtn {
+
+    background:
+        #7b3fc6;
+
+    color:
+        #ffffff;
+
+    border-color:
+        #7b3fc6;
+
+}
+
+
+#printSummaryBtn:hover {
+
+    background:
+        #612fa0;
+
+    border-color:
+        #612fa0;
+
+}
+
+
+/* =========================================================
+   SUMMARY EMPTY ROW
+========================================================= */
+
+#attendanceSummaryTable .empty-row {
+
+    height:
+        150px;
+
+    text-align:
+        center !important;
+
+    color:
+        #444444 !important;
+
+}
+
+
+#attendanceSummaryTable .empty-row .material-icons {
+
+    display:
+        block;
+
+    margin-bottom:
+        8px;
+
+    font-size:
+        36px;
+
+    color:
+        #888888;
+
+}
+
+
+#attendanceSummaryTable .empty-row p {
+
+    color:
+        #444444;
+
+    font-size:
+        13px;
+
+    font-weight:
+        900;
+
+}
+
+
+/* =========================================================
+   LARGE DESKTOP
+========================================================= */
+
+@media (min-width: 1200px) {
+
+    #attendanceSummaryTable thead th {
+
+        font-size:
+            13px;
+
+        padding:
+            16px
+            13px;
+
+    }
+
+
+    #attendanceSummaryTable tbody td {
+
+        font-size:
+            13px;
+
+        padding:
+            15px
+            13px;
+
+    }
+
+
+    #attendanceSummaryTable tfoot td {
+
+        font-size:
+            13px;
+
+    }
+
+}
+
+
+/* =========================================================
+   TABLET
+========================================================= */
+
+@media (max-width: 768px) {
+
+    #attendanceSummaryTable {
+
+        min-width:
+            850px;
+
+    }
+
+
+    #attendanceSummaryTable thead th {
+
+        padding:
+            12px
+            9px;
+
+        font-size:
+            10px;
+
+    }
+
+
+    #attendanceSummaryTable tbody td {
+
+        padding:
+            11px
+            9px;
+
+        font-size:
+            10px;
+
+    }
+
+
+    #attendanceSummaryTable tfoot td {
+
+        padding:
+            11px
+            9px;
+
+        font-size:
+            10px;
+
+    }
+
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 480px) {
+
+    #attendanceSummary {
+
+        margin-top:
+            12px;
+
+    }
+
+
+    #attendanceSummaryTable {
+
+        min-width:
+            850px;
+
+    }
+
+
+    #attendanceSummaryTable thead th {
+
+        padding:
+            10px
+            8px;
+
+        font-size:
+            8px;
+
+    }
+
+
+    #attendanceSummaryTable tbody td {
+
+        padding:
+            9px
+            8px;
+
+        font-size:
+            8px;
+
+    }
+
+
+    #attendanceSummaryTable tfoot td {
+
+        padding:
+            9px
+            8px;
+
+        font-size:
+            8px;
+
+    }
+
+
+    #attendanceSummaryTable .empty-row {
+
+        height:
+            130px;
+
+    }
+
+
+    #attendanceSummaryTable .empty-row p {
+
+        font-size:
+            10px;
+
+    }
+
+}
+
+
+/* =========================================================
+   SUMMARY PRINT
+   SUMMARY TABLE ONLY
+========================================================= */
+
+@media print {
+
+    body.summary-printing * {
+
+        visibility:
+            hidden !important;
+
+    }
+
+
+    body.summary-printing
+    #attendanceSummary,
+
+    body.summary-printing
+    #attendanceSummary * {
+
+        visibility:
+            visible !important;
+
+    }
+
+
+    body.summary-printing
+    #attendanceSummary {
+
+        position:
+            absolute !important;
+
+        left:
+            0 !important;
+
+        top:
+            0 !important;
+
+        width:
+            100% !important;
+
+        margin:
+            0 !important;
+
+        padding:
+            0 !important;
+
+        background:
+            #ffffff !important;
+
+        border:
+            none !important;
+
+        box-shadow:
+            none !important;
+
+    }
+
+
+    body.summary-printing
+    #attendanceSummary
+    .section-heading {
+
+        display:
+            none !important;
+
+    }
+
+
+    body.summary-printing
+    #attendanceSummary
+    .table-wrapper {
+
+        width:
+            100% !important;
+
+        overflow:
+            visible !important;
+
+    }
+
+
+    body.summary-printing
+    #attendanceSummaryTable {
+
+        width:
+            100% !important;
+
+        min-width:
+            0 !important;
+
+        border-collapse:
+            collapse !important;
+
+        font-size:
+            9pt !important;
+
+    }
+
+
+    body.summary-printing
+    #attendanceSummaryTable th,
+
+    body.summary-printing
+    #attendanceSummaryTable td {
+
+        border:
+            1px solid
+            #000000 !important;
+
+        padding:
+            6px 5px !important;
+
+        background:
+            #ffffff !important;
+
+        color:
+            #000000 !important;
+
+        font-family:
+            Arial,
+            sans-serif !important;
+
+        font-size:
+            9pt !important;
+
+        font-weight:
+            700 !important;
+
+        text-align:
+            center !important;
+
+    }
+
+
+    body.summary-printing
+    #attendanceSummaryTable thead th {
+
+        background:
+            #eeeeee !important;
+
+        font-weight:
+            900 !important;
+
+    }
+
+
+    body.summary-printing
+    #attendanceSummaryTable tfoot td {
+
+        background:
+            #eeeeee !important;
+
+        color:
+            #000000 !important;
+
+        border:
+            1px solid
+            #000000 !important;
+
+        font-weight:
+            900 !important;
+
+    }
+
+
+    body.summary-printing
+    #attendanceSummaryTable .empty-row {
+
+        height:
+            auto !important;
+
+    }
+
+
+    body.summary-printing
+    #attendanceSummaryTable tr {
+
+        page-break-inside:
+            avoid !important;
+
+        break-inside:
+            avoid !important;
+
+    }
+
+
+    body.summary-printing
+    #attendanceSummaryTable thead {
+
+        display:
+            table-header-group !important;
+
+    }
+
+
+    body.summary-printing
+    #attendanceSummaryTable tbody {
+
+        display:
+            table-row-group !important;
+
+    }
+
+
+    body.summary-printing
+    #attendanceSummary
+    button {
+
+        display:
+            none !important;
+
+    }
+
+}
+
+
+/* =========================================================
+   VERY SMALL MOBILE
+========================================================= */
+
+@media (max-width: 360px) {
+
+    #attendanceSummaryTable {
+
+        min-width:
+            850px;
+
+    }
+
+
+    #attendanceSummaryTable thead th {
+
+        font-size:
+            7px;
+
+    }
+
+
+    #attendanceSummaryTable tbody td {
+
+        font-size:
+            7px;
+
+    }
+
+
+    #attendanceSummaryTable tfoot td {
+
+        font-size:
+            7px;
+
+    }
+
+}
