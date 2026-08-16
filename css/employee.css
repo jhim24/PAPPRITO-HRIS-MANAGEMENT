@@ -1,6 +1,7 @@
 /* ==========================================
    PAPPRITO HRIS
    EMPLOYEE MASTERLIST CSS
+   FULL UPDATED
 ========================================== */
 
 
@@ -903,16 +904,27 @@ button{
 
 
 /* ==========================================
-   TABS
+   CLASSIC TABS
+   LEFT TO RIGHT
 ========================================== */
 
 .classic-tabs{
 
+    width:100%;
+
     display:flex;
+
+    flex-direction:row;
+
+    align-items:stretch;
+
+    justify-content:flex-start;
 
     gap:4px;
 
     overflow-x:auto;
+
+    overflow-y:hidden;
 
     margin-bottom:18px;
 
@@ -922,10 +934,19 @@ button{
         2px solid
         var(--border);
 
+    scrollbar-width:thin;
+
 }
 
 
+/* ==========================================
+   TAB BUTTON
+========================================== */
+
 .tab-btn{
+
+    flex:
+        0 0 auto;
 
     border:none;
 
@@ -935,6 +956,8 @@ button{
 
     padding:
         11px 15px;
+
+    min-height:42px;
 
     border-radius:
         7px 7px 0 0;
@@ -947,15 +970,30 @@ button{
 
     white-space:nowrap;
 
+    text-align:center;
+
+    transition:
+        .18s ease;
+
 }
 
+
+/* ==========================================
+   TAB HOVER
+========================================== */
 
 .tab-btn:hover{
 
     background:#e3e3e3;
 
+    color:#222222;
+
 }
 
+
+/* ==========================================
+   ACTIVE TAB
+========================================== */
 
 .tab-btn.active{
 
@@ -963,6 +1001,10 @@ button{
         var(--primary);
 
     color:#111111;
+
+    box-shadow:
+        inset 0 -3px 0
+        #b58e00;
 
 }
 
@@ -974,6 +1016,8 @@ button{
 .tab-content{
 
     display:none;
+
+    width:100%;
 
 }
 
@@ -1115,6 +1159,147 @@ select.emp-field option{
     min-height:46px;
 
     font-size:13px;
+
+}
+
+
+/* ==========================================
+   NEW TABS
+   COMPENSATION
+   PAYROLL
+   ATTENDANCE
+========================================== */
+
+#compensation,
+#payroll,
+#attendance{
+
+    width:100%;
+
+}
+
+
+/* ==========================================
+   NEW SECTION HEADINGS
+========================================== */
+
+#compensation::before{
+
+    content:
+        "COMPENSATION INFORMATION";
+
+}
+
+
+#payroll::before{
+
+    content:
+        "PAYROLL INFORMATION";
+
+}
+
+
+#attendance::before{
+
+    content:
+        "ATTENDANCE INFORMATION";
+
+}
+
+
+/*
+ * These headings are generated only
+ * when the new tabs exist.
+ */
+
+#compensation::before,
+#payroll::before,
+#attendance::before{
+
+    display:block;
+
+    margin-bottom:14px;
+
+    padding-bottom:8px;
+
+    border-bottom:
+        2px solid
+        var(--border);
+
+    color:#222222;
+
+    font-size:14px;
+
+    font-weight:900;
+
+    letter-spacing:.4px;
+
+}
+
+
+/* ==========================================
+   COMPENSATION FIELDS
+========================================== */
+
+#compensation .form-grid{
+
+    grid-template-columns:
+        repeat(
+            2,
+            minmax(0,1fr)
+        );
+
+}
+
+
+/* ==========================================
+   PAYROLL FIELDS
+========================================== */
+
+#payroll .form-grid{
+
+    grid-template-columns:
+        repeat(
+            2,
+            minmax(0,1fr)
+        );
+
+}
+
+
+/* ==========================================
+   ATTENDANCE FIELDS
+========================================== */
+
+#attendance .form-grid{
+
+    grid-template-columns:
+        repeat(
+            2,
+            minmax(0,1fr)
+        );
+
+}
+
+
+/* ==========================================
+   NEW FIELD IDS
+========================================== */
+
+#compensationSalary,
+#payType,
+#payFrequency,
+#allowances,
+#payrollGroup,
+#payrollBank,
+#payrollBankAccount,
+#deductions,
+#schedule,
+#shift,
+#restDay,
+#attendanceGroup{
+
+    width:100%;
 
 }
 
@@ -1411,7 +1596,8 @@ select.emp-field option{
 ========================================== */
 
 .table-box::-webkit-scrollbar,
-.modal-box::-webkit-scrollbar{
+.modal-box::-webkit-scrollbar,
+.classic-tabs::-webkit-scrollbar{
 
     width:9px;
 
@@ -1421,7 +1607,8 @@ select.emp-field option{
 
 
 .table-box::-webkit-scrollbar-track,
-.modal-box::-webkit-scrollbar-track{
+.modal-box::-webkit-scrollbar-track,
+.classic-tabs::-webkit-scrollbar-track{
 
     background:#eeeeee;
 
@@ -1429,7 +1616,8 @@ select.emp-field option{
 
 
 .table-box::-webkit-scrollbar-thumb,
-.modal-box::-webkit-scrollbar-thumb{
+.modal-box::-webkit-scrollbar-thumb,
+.classic-tabs::-webkit-scrollbar-thumb{
 
     background:#bbbbbb;
 
@@ -1439,7 +1627,8 @@ select.emp-field option{
 
 
 .table-box::-webkit-scrollbar-thumb:hover,
-.modal-box::-webkit-scrollbar-thumb:hover{
+.modal-box::-webkit-scrollbar-thumb:hover,
+.classic-tabs::-webkit-scrollbar-thumb:hover{
 
     background:#999999;
 
@@ -1449,232 +1638,503 @@ select.emp-field option{
 /* ==========================================
    MOBILE
    EMPLOYEE MASTERLIST
-   RESPONSIVE / BOLD
 ========================================== */
 
 @media(max-width:900px){
 
     html,
     body{
+
         width:100%;
+
         max-width:100%;
+
         overflow-x:hidden;
+
     }
+
 
     .top-bar{
+
         width:100%;
+
         display:grid;
-        grid-template-columns:42px minmax(0,1fr);
+
+        grid-template-columns:
+            42px
+            minmax(0,1fr);
+
         align-items:center;
+
         gap:8px;
+
         padding:10px;
+
     }
+
 
     .top-bar h2{
+
         min-width:0;
+
         font-size:20px;
+
         font-weight:1000;
+
         line-height:1.2;
+
         white-space:nowrap;
+
         overflow:hidden;
+
         text-overflow:ellipsis;
+
     }
+
 
     .top-actions{
+
         width:100%;
-        grid-column:1 / -1;
+
+        grid-column:
+            1 / -1;
+
         display:grid;
-        grid-template-columns:minmax(0,1fr) 42px 42px 42px;
+
+        grid-template-columns:
+            minmax(0,1fr)
+            42px
+            42px
+            42px;
+
         gap:7px;
+
         align-items:center;
+
     }
+
 
     .search-box{
+
         width:100%;
+
         min-width:0;
+
     }
+
 
     .search-box input{
+
         width:100%;
+
         height:43px;
-        padding:0 12px;
+
+        padding:
+            0 12px;
+
         font-size:14px;
+
         font-weight:800;
+
     }
+
 
     .top-actions > button{
+
         width:42px;
+
         min-width:42px;
+
         height:42px;
+
         min-height:42px;
+
         padding:0;
+
     }
+
 
     .top-actions .material-icons{
+
         font-size:21px;
+
     }
+
 
     #total{
+
         width:100%;
-        margin:12px 0 9px;
-        padding:0 10px;
+
+        margin:
+            12px 0 9px;
+
+        padding:
+            0 10px;
+
         font-size:17px;
+
         font-weight:1000;
+
     }
+
 
     .filter-box{
+
         width:100%;
+
         display:grid;
-        grid-template-columns:repeat(3,minmax(0,1fr));
+
+        grid-template-columns:
+            repeat(
+                3,
+                minmax(0,1fr)
+            );
+
         gap:7px;
-        padding:0 10px 10px;
+
+        padding:
+            0 10px 10px;
+
     }
+
 
     .filter-box button{
+
         width:100%;
+
         min-width:0;
+
         min-height:42px;
-        padding:7px 5px;
+
+        padding:
+            7px 5px;
+
         font-size:11px;
+
         font-weight:1000;
+
     }
 
-    /* TABLE: keep all columns, enable horizontal swipe */
+
+    /* ======================================
+       TABLE
+    ====================================== */
 
     .table-box{
-        width:calc(100% - 20px);
-        max-width:calc(100% - 20px);
-        margin:0 10px 20px;
+
+        width:
+            calc(
+                100% - 20px
+            );
+
+        max-width:
+            calc(
+                100% - 20px
+            );
+
+        margin:
+            0 10px 20px;
+
         overflow-x:auto;
+
         overflow-y:auto;
+
         -webkit-overflow-scrolling:touch;
+
         overscroll-behavior-x:contain;
+
         border-radius:10px;
+
     }
+
 
     #empTable{
+
         width:max-content;
+
         min-width:2450px;
+
     }
+
 
     #empTable th{
+
         position:sticky;
+
         top:0;
+
         z-index:5;
-        padding:11px 10px;
+
+        padding:
+            11px 10px;
+
         font-size:11px;
+
         font-weight:1000;
+
         white-space:nowrap;
+
     }
+
 
     #empTable td{
+
         padding:10px;
+
         font-size:11px;
+
         font-weight:800;
+
         white-space:nowrap;
+
     }
+
 
     .action-icons{
+
         display:flex;
+
         align-items:center;
+
         justify-content:center;
+
         gap:5px;
+
         white-space:nowrap;
+
     }
+
 
     .icon-btn{
+
         width:36px;
+
         height:36px;
+
         min-width:36px;
+
         padding:0;
+
         border-radius:7px;
+
     }
+
 
     .icon-btn .material-icons{
+
         font-size:19px;
+
     }
 
-    /* MODAL */
+
+    /* ======================================
+       MODAL
+    ====================================== */
 
     .modal{
+
         position:fixed;
+
         inset:0;
+
         width:100%;
+
         height:100%;
+
         padding:8px;
+
         align-items:flex-start;
+
         overflow-y:auto;
+
         -webkit-overflow-scrolling:touch;
+
     }
+
 
     .modal-box{
+
         width:100%;
+
         max-width:100%;
-        max-height:calc(100vh - 16px);
-        margin:0 auto;
+
+        max-height:
+            calc(
+                100vh - 16px
+            );
+
+        margin:
+            0 auto;
+
         padding:16px;
+
         border-radius:11px;
+
         overflow-x:hidden;
+
         overflow-y:auto;
+
         -webkit-overflow-scrolling:touch;
+
     }
+
 
     .modal-box > h3{
+
         font-size:20px;
+
         font-weight:1000;
+
         line-height:1.2;
+
     }
+
+
+    /* ======================================
+       TABS
+       LEFT TO RIGHT
+    ====================================== */
 
     .classic-tabs{
+
         width:100%;
+
         display:flex;
+
+        flex-direction:row;
+
+        align-items:stretch;
+
+        justify-content:flex-start;
+
         gap:5px;
+
         overflow-x:auto;
+
         overflow-y:hidden;
+
         padding-bottom:6px;
+
         -webkit-overflow-scrolling:touch;
+
+        scrollbar-width:none;
+
     }
+
+
+    .classic-tabs::-webkit-scrollbar{
+
+        display:none;
+
+    }
+
 
     .tab-btn{
-        flex:0 0 auto;
+
+        flex:
+            0 0 auto;
+
         min-height:42px;
-        padding:9px 13px;
+
+        padding:
+            9px 13px;
+
         font-size:11px;
+
         font-weight:1000;
+
         white-space:nowrap;
+
     }
+
 
     .form-grid{
+
         width:100%;
-        grid-template-columns:1fr;
+
+        grid-template-columns:
+            1fr;
+
         gap:10px;
+
     }
+
 
     .emp-field{
+
         width:100%;
+
         min-width:0;
+
         min-height:44px;
+
         font-size:13px;
+
         font-weight:800;
+
     }
+
+
+    /* ======================================
+       NEW TAB CONTENT
+    ====================================== */
+
+    #compensation .form-grid,
+    #payroll .form-grid,
+    #attendance .form-grid{
+
+        grid-template-columns:
+            1fr;
+
+    }
+
+
+    #compensation::before,
+    #payroll::before,
+    #attendance::before{
+
+        font-size:13px;
+
+        margin-bottom:12px;
+
+    }
+
 
     .user-employee-info{
+
         width:100%;
-        grid-template-columns:1fr;
+
+        grid-template-columns:
+            1fr;
+
         gap:8px;
+
     }
+
 
     .user-actions{
+
         width:100%;
+
         display:grid;
-        grid-template-columns:42px minmax(0,1fr);
+
+        grid-template-columns:
+            42px
+            minmax(0,1fr);
+
         gap:8px;
+
     }
 
+
     .user-actions button{
+
         width:100%;
+
         min-height:42px;
+
     }
+
 }
 
 
@@ -1685,97 +2145,193 @@ select.emp-field option{
 @media(max-width:650px){
 
     .top-bar{
+
         padding:9px;
+
         gap:7px;
+
     }
+
 
     .top-bar h2{
+
         font-size:18px;
+
     }
+
 
     .top-actions{
-        grid-template-columns:minmax(0,1fr) 40px 40px 40px;
+
+        grid-template-columns:
+            minmax(0,1fr)
+            40px
+            40px
+            40px;
+
         gap:6px;
+
     }
+
 
     .top-actions > button{
+
         width:40px;
+
         min-width:40px;
+
         height:40px;
+
         min-height:40px;
+
     }
+
 
     .search-box input{
+
         height:40px;
+
         font-size:13px;
+
     }
+
 
     #total{
+
         margin-top:10px;
-        padding:0 9px;
+
+        padding:
+            0 9px;
+
         font-size:16px;
+
     }
+
 
     .filter-box{
-        grid-template-columns:repeat(3,minmax(0,1fr));
+
+        grid-template-columns:
+            repeat(
+                3,
+                minmax(0,1fr)
+            );
+
         gap:6px;
-        padding:0 9px 9px;
+
+        padding:
+            0 9px 9px;
+
     }
+
 
     .filter-box button{
+
         min-height:40px;
+
         font-size:10px;
+
     }
+
 
     .table-box{
-        width:calc(100% - 18px);
-        max-width:calc(100% - 18px);
+
+        width:
+            calc(
+                100% - 18px
+            );
+
+        max-width:
+            calc(
+                100% - 18px
+            );
+
         margin-left:9px;
+
         margin-right:9px;
+
     }
+
 
     #empTable{
+
         min-width:2450px;
+
     }
+
 
     #empTable th{
-        padding:10px 9px;
+
+        padding:
+            10px 9px;
+
         font-size:10px;
+
     }
+
 
     #empTable td{
+
         padding:9px;
+
         font-size:10px;
+
     }
+
 
     .icon-btn{
+
         width:35px;
+
         height:35px;
+
         min-width:35px;
+
     }
+
 
     .icon-btn .material-icons{
+
         font-size:18px;
+
     }
+
 
     .modal{
+
         padding:6px;
+
     }
+
 
     .modal-box{
-        max-height:calc(100vh - 12px);
+
+        max-height:
+            calc(
+                100vh - 12px
+            );
+
         padding:14px;
+
     }
+
 
     .modal-box > h3{
+
         font-size:18px;
+
     }
 
+
     .tab-btn{
+
         min-height:40px;
-        padding:8px 11px;
+
+        padding:
+            8px 11px;
+
         font-size:10px;
+
     }
+
 }
 
 
@@ -1786,108 +2342,211 @@ select.emp-field option{
 @media(max-width:420px){
 
     .top-bar{
-        grid-template-columns:38px minmax(0,1fr);
+
+        grid-template-columns:
+            38px
+            minmax(0,1fr);
+
         padding:8px;
+
         gap:6px;
+
     }
+
 
     .back-btn{
+
         width:38px;
+
         min-width:38px;
+
         height:38px;
+
     }
+
 
     .top-bar h2{
+
         font-size:16px;
+
     }
+
 
     .top-actions{
-        grid-template-columns:minmax(0,1fr) 38px 38px 38px;
+
+        grid-template-columns:
+            minmax(0,1fr)
+            38px
+            38px
+            38px;
+
         gap:5px;
+
     }
+
 
     .top-actions > button{
+
         width:38px;
+
         min-width:38px;
+
         height:38px;
+
         min-height:38px;
+
     }
+
 
     .search-box input{
+
         height:38px;
+
         font-size:12px;
+
     }
+
 
     #total{
-        padding:0 8px;
+
+        padding:
+            0 8px;
+
         font-size:15px;
+
     }
+
 
     .filter-box{
+
         gap:5px;
-        padding:0 8px 8px;
+
+        padding:
+            0 8px 8px;
+
     }
+
 
     .filter-box button{
+
         min-height:38px;
-        padding:6px 3px;
+
+        padding:
+            6px 3px;
+
         font-size:9px;
+
     }
+
 
     .table-box{
-        width:calc(100% - 12px);
-        max-width:calc(100% - 12px);
+
+        width:
+            calc(
+                100% - 12px
+            );
+
+        max-width:
+            calc(
+                100% - 12px
+            );
+
         margin-left:6px;
+
         margin-right:6px;
+
     }
+
 
     #empTable{
+
         min-width:2450px;
+
     }
+
 
     #empTable th{
-        padding:9px 8px;
+
+        padding:
+            9px 8px;
+
         font-size:9px;
+
     }
+
 
     #empTable td{
+
         padding:8px;
+
         font-size:9px;
+
     }
+
 
     .icon-btn{
+
         width:34px;
+
         height:34px;
+
         min-width:34px;
+
     }
+
 
     .icon-btn .material-icons{
+
         font-size:17px;
+
     }
+
 
     .modal{
+
         padding:4px;
+
     }
+
 
     .modal-box{
+
         padding:11px;
+
         border-radius:9px;
+
     }
+
 
     .modal-box > h3{
+
         font-size:17px;
+
     }
+
 
     .tab-btn{
+
         min-height:38px;
-        padding:8px 9px;
+
+        padding:
+            8px 9px;
+
         font-size:9px;
+
     }
 
+
     .user-actions{
-        grid-template-columns:40px minmax(0,1fr);
+
+        grid-template-columns:
+            40px
+            minmax(0,1fr);
+
         gap:6px;
+
     }
+
 }
 
 
