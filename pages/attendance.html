@@ -807,7 +807,190 @@
 
 </section>
 
+<!-- =====================================================
+     ATTENDANCE CUTOFF SUMMARY
+     ADD-ON ONLY
+===================================================== -->
 
+<section
+    id="attendanceSummary"
+    class="attendance-section">
+
+
+    <!-- SUMMARY HEADER -->
+
+    <div class="section-heading">
+
+        <div class="section-heading-left">
+
+            <span class="material-icons">
+                assessment
+            </span>
+
+            <div>
+
+                <h2>
+                    Attendance Cutoff Summary
+                </h2>
+
+                <p>
+                    Employee attendance summary based on selected cutoff dates
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <!-- PRINT SUMMARY -->
+
+        <button
+            type="button"
+            id="printSummaryBtn"
+            class="clear-filter-btn">
+
+            <span class="material-icons">
+                print
+            </span>
+
+            PRINT SUMMARY
+
+        </button>
+
+    </div>
+
+
+
+    <!-- SUMMARY TABLE -->
+
+    <div
+        class="table-wrapper"
+        id="attendanceSummaryTableWrapper">
+
+
+        <table
+            id="attendanceSummaryTable">
+
+
+            <thead>
+
+                <tr>
+
+                    <th>
+                        EMPLOYEE ID
+                    </th>
+
+                    <th>
+                        EMPLOYEE NAME
+                    </th>
+
+                    <th>
+                        REGULAR
+                        <br>
+                        HOURS
+                    </th>
+
+                    <th>
+                        OT
+                        <br>
+                        HOURS
+                    </th>
+
+                    <th>
+                        LATE
+                        <br>
+                        MINUTES
+                    </th>
+
+                    <th>
+                        TOTAL
+                        <br>
+                        HOURS
+                    </th>
+
+                </tr>
+
+            </thead>
+
+
+            <tbody>
+
+                <tr>
+
+                    <td
+                        colspan="6"
+                        class="empty-row">
+
+                        <span class="material-icons">
+                            assessment
+                        </span>
+
+                        <p>
+                            Select a cutoff date range and click FILTER.
+                        </p>
+
+                    </td>
+
+                </tr>
+
+            </tbody>
+
+
+            <tfoot>
+
+                <tr>
+
+                    <td
+                        colspan="2">
+
+                        GRAND TOTAL
+
+                    </td>
+
+
+                    <td
+                        id="summaryTotalRegular">
+
+                        0.00
+
+                    </td>
+
+
+                    <td
+                        id="summaryTotalOT">
+
+                        0.00
+
+                    </td>
+
+
+                    <td
+                        id="summaryTotalLate">
+
+                        0
+
+                    </td>
+
+
+                    <td
+                        id="summaryTotalHours">
+
+                        0.00
+
+                    </td>
+
+                </tr>
+
+            </tfoot>
+
+
+        </table>
+
+
+    </div>
+
+
+</section>
 
 <!-- =====================================================
      FOOTER
