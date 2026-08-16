@@ -3257,3 +3257,1028 @@ body{
     }
 
 }
+/* =========================================================
+   CUTOFF SUMMARY
+   ADDITION ONLY
+========================================================= */
+
+.cutoff-summary-section {
+
+    width: 100%;
+
+    margin-top: 18px;
+
+    background: #ffffff;
+
+    border:
+        1px solid
+        var(--border);
+
+    border-radius:
+        var(--radius);
+
+    box-shadow:
+        var(--shadow);
+
+    overflow: hidden;
+
+    /*
+     * Hidden on normal attendance screen.
+     * JS will temporarily show it when
+     * printing the cutoff summary.
+     */
+
+    display: none;
+}
+
+
+/* =========================================================
+   SUMMARY HEADER
+========================================================= */
+
+.cutoff-summary-header {
+
+    width: 100%;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    gap: 20px;
+
+    padding:
+        20px 22px;
+
+    background:
+        #ffffff;
+
+    border-bottom:
+        2px solid
+        #111111;
+}
+
+
+.cutoff-summary-title {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 14px;
+
+    min-width: 0;
+}
+
+
+.cutoff-summary-logo {
+
+    width: 58px;
+
+    height: 58px;
+
+    min-width: 58px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    padding: 2px;
+
+    background: #ffffff;
+
+    border:
+        3px solid
+        var(--yellow);
+
+    border-radius: 50%;
+
+    overflow: hidden;
+}
+
+
+.cutoff-summary-logo img {
+
+    width: 100%;
+
+    height: 100%;
+
+    display: block;
+
+    object-fit: cover;
+
+    border-radius: 50%;
+}
+
+
+.cutoff-summary-title h1 {
+
+    margin: 0;
+
+    color:
+        var(--red);
+
+    font-size: 22px;
+
+    font-weight: 1000;
+
+    line-height: 1.15;
+}
+
+
+.cutoff-summary-title h2 {
+
+    margin-top: 4px;
+
+    color:
+        #111111;
+
+    font-size: 15px;
+
+    font-weight: 1000;
+
+    line-height: 1.2;
+}
+
+
+/* =========================================================
+   CUTOFF INFORMATION
+========================================================= */
+
+.cutoff-summary-info {
+
+    display: flex;
+
+    align-items: stretch;
+
+    gap: 10px;
+
+    flex-wrap: wrap;
+}
+
+
+.cutoff-summary-info > div {
+
+    min-width: 130px;
+
+    display: flex;
+
+    flex-direction: column;
+
+    justify-content: center;
+
+    padding:
+        9px 13px;
+
+    background:
+        #f7f7f7;
+
+    border:
+        1px solid
+        #d6dadd;
+
+    border-radius: 8px;
+}
+
+
+.cutoff-summary-info span {
+
+    color:
+        #666666;
+
+    font-size: 9px;
+
+    font-weight: 1000;
+
+    letter-spacing: .6px;
+}
+
+
+.cutoff-summary-info strong {
+
+    margin-top: 3px;
+
+    color:
+        #111111;
+
+    font-size: 13px;
+
+    font-weight: 1000;
+}
+
+
+/* =========================================================
+   SUMMARY TABLE WRAPPER
+========================================================= */
+
+.cutoff-summary-table-wrapper {
+
+    width: 100%;
+
+    overflow-x: auto;
+
+    overflow-y: hidden;
+
+    -webkit-overflow-scrolling:
+        touch;
+}
+
+
+/* =========================================================
+   SUMMARY TABLE
+========================================================= */
+
+#cutoffSummaryTable {
+
+    width: 100%;
+
+    min-width: 800px;
+
+    border-collapse:
+        collapse;
+
+    table-layout:
+        auto;
+}
+
+
+/* =========================================================
+   SUMMARY TABLE HEADER
+========================================================= */
+
+#cutoffSummaryTable thead th {
+
+    padding:
+        13px 11px;
+
+    color:
+        #111111;
+
+    border:
+        1px solid
+        #cfd3d7;
+
+    background:
+        #fff4bf;
+
+    font-size:
+        11px;
+
+    font-weight:
+        1000;
+
+    text-align:
+        center;
+
+    white-space:
+        nowrap;
+
+    vertical-align:
+        middle;
+}
+
+
+#cutoffSummaryTable thead th:nth-child(1) {
+
+    background:
+        #eaf3fb;
+}
+
+
+#cutoffSummaryTable thead th:nth-child(2) {
+
+    background:
+        #e9f7ef;
+}
+
+
+#cutoffSummaryTable thead th:nth-child(3) {
+
+    background:
+        #dff4e7;
+}
+
+
+#cutoffSummaryTable thead th:nth-child(4) {
+
+    background:
+        #fff0d6;
+}
+
+
+#cutoffSummaryTable thead th:nth-child(5) {
+
+    background:
+        #ffe5e5;
+}
+
+
+#cutoffSummaryTable thead th:nth-child(6) {
+
+    background:
+        #f0e7ff;
+}
+
+
+/* =========================================================
+   SUMMARY TABLE BODY
+========================================================= */
+
+#cutoffSummaryTable tbody td {
+
+    padding:
+        12px 10px;
+
+    color:
+        #111111;
+
+    background:
+        #ffffff;
+
+    border:
+        1px solid
+        #d8dce0;
+
+    font-size:
+        11px;
+
+    font-weight:
+        900;
+
+    text-align:
+        center;
+
+    white-space:
+        nowrap;
+
+    vertical-align:
+        middle;
+}
+
+
+#cutoffSummaryTable tbody tr:nth-child(even) td {
+
+    background:
+        #fafafa;
+}
+
+
+#cutoffSummaryTable tbody tr:hover td {
+
+    background:
+        #fffbea;
+}
+
+
+/* =========================================================
+   SUMMARY EMPTY ROW
+========================================================= */
+
+.summary-empty-row {
+
+    height:
+        100px;
+
+    color:
+        #555555 !important;
+
+    text-align:
+        center !important;
+
+    font-size:
+        12px !important;
+
+    font-weight:
+        900 !important;
+}
+
+
+/* =========================================================
+   SUMMARY FOOTER TOTAL
+========================================================= */
+
+#cutoffSummaryTable tfoot th {
+
+    padding:
+        13px 10px;
+
+    color:
+        #111111;
+
+    background:
+        #eeeeee;
+
+    border:
+        2px solid
+        #111111;
+
+    font-size:
+        12px;
+
+    font-weight:
+        1000;
+
+    text-align:
+        center;
+
+    white-space:
+        nowrap;
+}
+
+
+#cutoffSummaryTable tfoot th:first-child {
+
+    background:
+        #dddddd;
+}
+
+
+/* =========================================================
+   SUMMARY FOOTER
+========================================================= */
+
+.cutoff-summary-footer {
+
+    width: 100%;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    gap: 15px;
+
+    padding:
+        14px 18px;
+
+    border-top:
+        1px solid
+        #d6dadd;
+
+    color:
+        #555555;
+
+    font-size:
+        9px;
+
+    font-weight:
+        800;
+}
+
+
+.cutoff-summary-footer div:first-child {
+
+    color:
+        #111111;
+
+    font-weight:
+        1000;
+}
+
+
+/* =========================================================
+   SUMMARY RESPONSIVE
+========================================================= */
+
+@media (max-width: 768px) {
+
+    .cutoff-summary-header {
+
+        align-items:
+            flex-start;
+
+        flex-direction:
+            column;
+
+        padding:
+            14px;
+    }
+
+
+    .cutoff-summary-title {
+
+        width:
+            100%;
+    }
+
+
+    .cutoff-summary-logo {
+
+        width:
+            48px;
+
+        height:
+            48px;
+
+        min-width:
+            48px;
+    }
+
+
+    .cutoff-summary-title h1 {
+
+        font-size:
+            18px;
+    }
+
+
+    .cutoff-summary-title h2 {
+
+        font-size:
+            12px;
+    }
+
+
+    .cutoff-summary-info {
+
+        width:
+            100%;
+    }
+
+
+    .cutoff-summary-info > div {
+
+        flex:
+            1;
+
+        min-width:
+            0;
+    }
+
+
+    #cutoffSummaryTable {
+
+        min-width:
+            760px;
+    }
+
+}
+
+
+@media (max-width: 480px) {
+
+    .cutoff-summary-header {
+
+        padding:
+            10px;
+    }
+
+
+    .cutoff-summary-title {
+
+        gap:
+            9px;
+    }
+
+
+    .cutoff-summary-logo {
+
+        width:
+            40px;
+
+        height:
+            40px;
+
+        min-width:
+            40px;
+
+        border-width:
+            2px;
+    }
+
+
+    .cutoff-summary-title h1 {
+
+        font-size:
+            15px;
+    }
+
+
+    .cutoff-summary-title h2 {
+
+        font-size:
+            10px;
+    }
+
+
+    .cutoff-summary-info {
+
+        gap:
+            6px;
+    }
+
+
+    .cutoff-summary-info > div {
+
+        padding:
+            7px 8px;
+    }
+
+
+    .cutoff-summary-info span {
+
+        font-size:
+            7px;
+    }
+
+
+    .cutoff-summary-info strong {
+
+        font-size:
+            10px;
+    }
+
+
+    #cutoffSummaryTable {
+
+        min-width:
+            720px;
+    }
+
+
+    #cutoffSummaryTable thead th {
+
+        padding:
+            9px 7px;
+
+        font-size:
+            8px;
+    }
+
+
+    #cutoffSummaryTable tbody td {
+
+        padding:
+            8px 7px;
+
+        font-size:
+            8px;
+    }
+
+
+    #cutoffSummaryTable tfoot th {
+
+        padding:
+            9px 7px;
+
+        font-size:
+            8px;
+    }
+
+
+    .cutoff-summary-footer {
+
+        flex-direction:
+            column;
+
+        align-items:
+            center;
+
+        padding:
+            10px;
+
+        font-size:
+            7px;
+    }
+
+}
+
+
+/* =========================================================
+   PRINT - CUTOFF SUMMARY ONLY
+========================================================= */
+
+@media print {
+
+
+    /*
+     * Default:
+     * Summary is NOT printed unless
+     * JS adds the special print mode.
+     */
+
+    body.print-cutoff-summary * {
+
+        visibility:
+            hidden !important;
+    }
+
+
+    /*
+     * Show ONLY cutoff summary.
+     */
+
+    body.print-cutoff-summary
+    #cutoffSummaryPrintArea,
+
+    body.print-cutoff-summary
+    #cutoffSummaryPrintArea * {
+
+        visibility:
+            visible !important;
+    }
+
+
+    /*
+     * Completely remove the normal
+     * attendance print area.
+     */
+
+    body.print-cutoff-summary
+    #attendanceRecords {
+
+        display:
+            none !important;
+
+        visibility:
+            hidden !important;
+    }
+
+
+    /*
+     * Show summary.
+     */
+
+    body.print-cutoff-summary
+    #cutoffSummaryPrintArea {
+
+        display:
+            block !important;
+
+        position:
+            absolute !important;
+
+        left:
+            0 !important;
+
+        top:
+            0 !important;
+
+        width:
+            100% !important;
+
+        max-width:
+            none !important;
+
+        margin:
+            0 !important;
+
+        padding:
+            0 !important;
+
+        background:
+            #ffffff !important;
+
+        border:
+            none !important;
+
+        border-radius:
+            0 !important;
+
+        box-shadow:
+            none !important;
+
+        overflow:
+            visible !important;
+    }
+
+
+    /*
+     * SUMMARY PRINT PAGE
+     */
+
+    body.print-cutoff-summary {
+
+        background:
+            #ffffff !important;
+    }
+
+
+    /*
+     * SUMMARY HEADER
+     */
+
+    body.print-cutoff-summary
+    .cutoff-summary-header {
+
+        display:
+            flex !important;
+
+        border-bottom:
+            2px solid
+            #000000 !important;
+
+        padding:
+            10px 0 !important;
+    }
+
+
+    /*
+     * SUMMARY TABLE
+     */
+
+    body.print-cutoff-summary
+    .cutoff-summary-table-wrapper {
+
+        width:
+            100% !important;
+
+        overflow:
+            visible !important;
+    }
+
+
+    body.print-cutoff-summary
+    #cutoffSummaryTable {
+
+        width:
+            100% !important;
+
+        min-width:
+            0 !important;
+
+        max-width:
+            none !important;
+
+        border-collapse:
+            collapse !important;
+
+        table-layout:
+            auto !important;
+
+        font-size:
+            8pt !important;
+    }
+
+
+    /*
+     * SUMMARY CELLS
+     */
+
+    body.print-cutoff-summary
+    #cutoffSummaryTable th,
+
+    body.print-cutoff-summary
+    #cutoffSummaryTable td {
+
+        border:
+            1px solid
+            #000000 !important;
+
+        color:
+            #000000 !important;
+
+        background:
+            #ffffff !important;
+
+        padding:
+            5px 4px !important;
+
+        font-family:
+            Arial,
+            sans-serif !important;
+
+        font-size:
+            8pt !important;
+
+        font-weight:
+            700 !important;
+
+        text-align:
+            center !important;
+
+        vertical-align:
+            middle !important;
+
+        white-space:
+            nowrap !important;
+    }
+
+
+    /*
+     * HEADER CELLS
+     */
+
+    body.print-cutoff-summary
+    #cutoffSummaryTable thead th {
+
+        background:
+            #eeeeee !important;
+
+        color:
+            #000000 !important;
+
+        font-weight:
+            900 !important;
+    }
+
+
+    /*
+     * GRAND TOTAL
+     */
+
+    body.print-cutoff-summary
+    #cutoffSummaryTable tfoot th {
+
+        background:
+            #dddddd !important;
+
+        color:
+            #000000 !important;
+
+        border:
+            2px solid
+            #000000 !important;
+
+        font-weight:
+            900 !important;
+    }
+
+
+    /*
+     * REPEAT HEADER ON EVERY PAGE
+     */
+
+    body.print-cutoff-summary
+    #cutoffSummaryTable thead {
+
+        display:
+            table-header-group !important;
+    }
+
+
+    body.print-cutoff-summary
+    #cutoffSummaryTable tbody {
+
+        display:
+            table-row-group !important;
+    }
+
+
+    /*
+     * DON'T SPLIT EMPLOYEE ROWS
+     */
+
+    body.print-cutoff-summary
+    #cutoffSummaryTable tr {
+
+        page-break-inside:
+            avoid !important;
+
+        break-inside:
+            avoid !important;
+    }
+
+
+    /*
+     * SUMMARY FOOTER
+     */
+
+    body.print-cutoff-summary
+    .cutoff-summary-footer {
+
+        display:
+            flex !important;
+
+        border-top:
+            1px solid
+            #000000 !important;
+
+        padding:
+            8px 0 !important;
+
+        color:
+            #000000 !important;
+    }
+
+
+    /*
+     * HIDE NORMAL FOOTER
+     */
+
+    body.print-cutoff-summary
+    .attendance-footer {
+
+        display:
+            none !important;
+    }
+
+
+    /*
+     * PAGE SETUP
+     */
+
+    @page {
+
+        size:
+            landscape;
+
+        margin:
+            8mm;
+    }
+
+}
