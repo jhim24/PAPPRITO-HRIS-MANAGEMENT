@@ -3728,3 +3728,342 @@ body {
     }
 
 }
+/* =========================================================
+   ATTENDANCE SUMMARY INFORMATION
+   STEP 5 ADD-ON
+========================================================= */
+
+#summaryInfo {
+
+    width: 100%;
+
+    display: grid;
+
+    grid-template-columns:
+        minmax(0, 2fr)
+        minmax(180px, 1fr);
+
+    gap: 12px;
+
+    margin-bottom: 12px;
+
+}
+
+
+#summaryInfo > div {
+
+    min-width: 0;
+
+    min-height: 70px;
+
+    display: flex;
+
+    flex-direction: column;
+
+    justify-content: center;
+
+    padding:
+        12px
+        18px;
+
+    background:
+        #ffffff;
+
+    border:
+        1px solid
+        var(--border);
+
+    border-left:
+        5px solid
+        var(--yellow);
+
+    border-radius:
+        11px;
+
+    box-shadow:
+        var(--shadow);
+
+}
+
+
+#summaryInfo > div:first-child {
+
+    border-left-color:
+        var(--blue);
+
+    background:
+        #eef7ff;
+
+}
+
+
+#summaryInfo > div:last-child {
+
+    border-left-color:
+        var(--purple);
+
+    background:
+        #f5efff;
+
+}
+
+
+#summaryInfo small {
+
+    color:
+        #555555;
+
+    font-size:
+        9px;
+
+    font-weight:
+        1000;
+
+    letter-spacing:
+        .8px;
+
+}
+
+
+#summaryInfo strong {
+
+    margin-top:
+        4px;
+
+    color:
+        #111111;
+
+    font-size:
+        17px;
+
+    font-weight:
+        1000;
+
+}
+
+
+/* =========================================================
+   SUMMARY INFORMATION - TABLET
+========================================================= */
+
+@media (max-width: 768px) {
+
+    #summaryInfo {
+
+        grid-template-columns:
+            repeat(2, minmax(0, 1fr));
+
+        gap:
+            8px;
+
+    }
+
+
+    #summaryInfo > div {
+
+        min-height:
+            62px;
+
+        padding:
+            10px
+            13px;
+
+    }
+
+
+    #summaryInfo small {
+
+        font-size:
+            8px;
+
+    }
+
+
+    #summaryInfo strong {
+
+        font-size:
+            14px;
+
+    }
+
+}
+
+
+/* =========================================================
+   SUMMARY INFORMATION - MOBILE
+========================================================= */
+
+@media (max-width: 480px) {
+
+    #summaryInfo {
+
+        grid-template-columns:
+            repeat(2, minmax(0, 1fr));
+
+        gap:
+            6px;
+
+        margin-bottom:
+            7px;
+
+    }
+
+
+    #summaryInfo > div {
+
+        min-height:
+            52px;
+
+        padding:
+            7px
+            9px;
+
+        border-left-width:
+            4px;
+
+        border-radius:
+            8px;
+
+    }
+
+
+    #summaryInfo small {
+
+        font-size:
+            6px;
+
+        letter-spacing:
+            .5px;
+
+    }
+
+
+    #summaryInfo strong {
+
+        margin-top:
+            3px;
+
+        font-size:
+            10px;
+
+    }
+
+}
+
+
+/* =========================================================
+   SUMMARY INFORMATION - VERY SMALL
+========================================================= */
+
+@media (max-width: 360px) {
+
+    #summaryInfo {
+
+        gap:
+            5px;
+
+    }
+
+
+    #summaryInfo > div {
+
+        min-height:
+            48px;
+
+        padding:
+            6px
+            7px;
+
+    }
+
+
+    #summaryInfo small {
+
+        font-size:
+            5px;
+
+    }
+
+
+    #summaryInfo strong {
+
+        font-size:
+            8px;
+
+    }
+
+}
+
+
+/* =========================================================
+   SUMMARY PRINT INFORMATION
+========================================================= */
+
+@media print {
+
+    body.summary-printing
+    #summaryInfo {
+
+        display:
+            grid !important;
+
+        grid-template-columns:
+            2fr
+            1fr !important;
+
+        margin-bottom:
+            8px !important;
+
+    }
+
+
+    body.summary-printing
+    #summaryInfo > div {
+
+        min-height:
+            auto !important;
+
+        padding:
+            7px 9px !important;
+
+        background:
+            #ffffff !important;
+
+        border:
+            1px solid
+            #000000 !important;
+
+        border-left:
+            1px solid
+            #000000 !important;
+
+        box-shadow:
+            none !important;
+
+    }
+
+
+    body.summary-printing
+    #summaryInfo small {
+
+        color:
+            #000000 !important;
+
+        font-size:
+            7pt !important;
+
+    }
+
+
+    body.summary-printing
+    #summaryInfo strong {
+
+        color:
+            #000000 !important;
+
+        font-size:
+            9pt !important;
+
+    }
+
+}
