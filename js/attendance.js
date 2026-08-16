@@ -5202,6 +5202,18 @@ function printAttendanceRecords(){
 
 function printCutoffSummary(){
 
+    /*
+     * IMPORTANT:
+     *
+     * Do NOT use window.print() directly here.
+     *
+     * window.print() prints the whole attendance page,
+     * including the Overall Attendance Records.
+     *
+     * For CUTOFF SUMMARY, we create a temporary print
+     * window containing ONLY the cutoff summary section.
+     */
+
     const table =
         getCutoffSummaryTable();
 
@@ -5235,11 +5247,432 @@ function printCutoffSummary(){
     }
 
 
-    window.print();
+    /*
+     * Make sure the summary table
+     * actually contains generated data.
+     */
+
+    const tbody =
+        getCutoffSummaryTableBody();
+
+
+    if(
+        !tbody ||
+        tbody.children.length === 0
+    ){
+
+        alert(
+            "Please generate a cutoff summary first."
+        );
+
+        return;
+
+    }
+
+
+    /*
+     * Find the CUTOFF SUMMARY section.
+     *
+     * IMPORTANT:
+     * We are NOT selecting attendanceRecords.
+     */
+
+    const summarySection =
+        attendanceSummary
+        ||
+        document.getElementById(
+            "cutoffSummary"
+        )
+        ||
+        document.getElementById(
+            "summarySection"
+        );
+
+
+    if(!summarySection){
+
+        alert(
+            "Cutoff summary section not found."
+        );
+
+        return;
+
+    }
+
+
+    /*
+     * Clone ONLY the cutoff summary section.
+     */
+
+    const summaryClone =
+        summarySection.cloneNode(
+            true
+        );
+
+
+    /*
+     * Remove buttons from the printed copy.
+     */
+
+    summaryClone
+        .querySelectorAll(
+            "button"
+        )
+        .forEach(
+            button => {
+
+                button.remove();
+
+            }
+        );
+
+
+    /*
+     * Remove anything marked as no-print.
+     */
+
+    summaryClone
+        .querySelectorAll(
+            ".no-print, .print-hide"
+        )
+        .forEach(
+            element => {
+
+                element.remove();
+
+            }
+        );
+
+
+    /*
+     * Copy CSS files from the main page.
+     */
+
+    const stylesheetLinks =
+        Array.from(
+            document.querySelectorAll(
+                'link[rel="stylesheet"]'
+            )
+        )
+        .map(
+            link => {
+
+                const href =
+                    link.href;
+
+                return (
+                    '<link rel="stylesheet" href="' +
+                    escapeHTML(href) +
+                    '">'
+                );
+
+            }
+        )
+        .join("\n");
+
+
+    /*
+     * Copy inline styles.
+     */
+
+    const inlineStyles =
+        Array.from(
+            document.querySelectorAll(
+                "style"
+            )
+        )
+        .map(
+            style => {
+
+                return style.outerHTML;
+
+            }
+        )
+        .join("\n");
+
+
+    /*
+     * Open a separate print window.
+     */
+
+    const printWindow =
+        window.open(
+            "",
+            "_blank",
+            "width=1200,height=900"
+        );
+
+
+    if(!printWindow){
+
+        alert(
+            "Unable to open the print window. Please allow pop-ups for PAPPRITO HRIS."
+        );
+
+        return;
+
+    }
+
+
+    /*
+     * Build a CLEAN print document.
+     *
+     * ONLY the cutoff summary is inserted.
+     */
+
+    printWindow.document.open();
+
+
+    printWindow.document.write(`
+
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0">
+
+<title>
+PAPPRITO HRIS - Cutoff Summary
+</title>
+
+${stylesheetLinks}
+
+${inlineStyles}
+
+<style>
+
+html,
+body{
+
+    margin:0;
+    padding:0;
+    background:#ffffff;
 
 }
 
+body{
 
+    font-family:
+        "Segoe UI",
+        Tahoma,
+        sans-serif;
+
+    color:#111827;
+
+}
+
+#printCutoffArea{
+
+    width:100%;
+    margin:0;
+    padding:20px;
+
+    box-sizing:border-box;
+
+}
+
+#printCutoffArea table{
+
+    width:100%;
+
+    border-collapse:
+        collapse;
+
+}
+
+#printCutoffArea th,
+#printCutoffArea td{
+
+    padding:8px;
+
+    border:
+        1px solid #999;
+
+}
+
+#printCutoffArea th{
+
+    font-weight:
+        700;
+
+}
+
+.print-title{
+
+    text-align:
+        center;
+
+    margin-bottom:
+        18px;
+
+}
+
+.print-title h1{
+
+    margin:
+        0 0 5px 0;
+
+}
+
+.print-title h2{
+
+    margin:
+        0 0 5px 0;
+
+}
+
+.print-title p{
+
+    margin:
+        3px 0;
+
+}
+
+@media print{
+
+    @page{
+
+        size:auto;
+
+        margin:
+            10mm;
+
+    }
+
+
+    html,
+    body{
+
+        width:
+            100%;
+
+        background:
+            #ffffff;
+
+    }
+
+
+    #printCutoffArea{
+
+        width:
+            100%;
+
+        padding:
+            0;
+
+    }
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+
+<div id="printCutoffArea">
+
+
+    <!-- PRINT HEADER -->
+
+    <div class="print-title">
+
+        <h1>
+            PAPPRITO HRIS
+        </h1>
+
+        <h2>
+            CUTOFF ATTENDANCE SUMMARY
+        </h2>
+
+        <p>
+
+            ${escapeHTML(
+                formatCutoffPeriod(
+                    dates.from,
+                    dates.to
+                )
+            )}
+
+        </p>
+
+    </div>
+
+
+    <!-- CUTOFF SUMMARY ONLY -->
+
+    ${summaryClone.outerHTML}
+
+
+</div>
+
+
+</body>
+
+</html>
+
+`);
+
+
+    printWindow.document.close();
+
+
+    /*
+     * Wait for CSS and HTML to load.
+     */
+
+    setTimeout(
+        function(){
+
+            try{
+
+                printWindow.focus();
+
+                printWindow.print();
+
+            }
+
+            catch(error){
+
+                console.error(
+                    "Cutoff Summary Print Error:",
+                    error
+                );
+
+            }
+
+        },
+        700
+    );
+
+
+    /*
+     * Close the temporary window
+     * after printing.
+     */
+
+    printWindow.onafterprint =
+        function(){
+
+            setTimeout(
+                function(){
+
+                    printWindow.close();
+
+                },
+                100
+            );
+
+        };
+
+}
 /* =========================================================
    GLOBAL PRINT CUTOFF
 ========================================================= */
