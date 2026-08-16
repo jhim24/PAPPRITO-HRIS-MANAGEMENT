@@ -4391,6 +4391,88 @@ function getCutoffSummaryRecords(){
 
 }
 
+/* =========================================================
+   FORMAT CUTOFF DATE
+========================================================= */
+
+function formatCutoffDate(
+    value
+){
+
+    if(!value){
+
+        return "-";
+
+    }
+
+
+    const parts =
+        value.split("-");
+
+
+    if(
+        parts.length !== 3
+    ){
+
+        return value;
+
+    }
+
+
+    const year =
+        Number(
+            parts[0]
+        );
+
+
+    const month =
+        Number(
+            parts[1]
+        ) - 1;
+
+
+    const day =
+        Number(
+            parts[2]
+        );
+
+
+    const date =
+        new Date(
+            year,
+            month,
+            day
+        );
+
+
+    if(
+        Number.isNaN(
+            date.getTime()
+        )
+    ){
+
+        return value;
+
+    }
+
+
+    return date.toLocaleDateString(
+        "en-US",
+        {
+
+            month:
+                "long",
+
+            day:
+                "numeric",
+
+            year:
+                "numeric"
+
+        }
+    );
+
+}
 
 /* =========================================================
    GENERATE ATTENDANCE SUMMARY
@@ -4528,7 +4610,14 @@ No attendance records found for the selected cutoff.
 
 `;
 
+if(
+    summaryEmployeeCount
+){
 
+    summaryEmployeeCount.textContent =
+        "0";
+
+}
         updateSummaryTotals(
             0,
             0,
