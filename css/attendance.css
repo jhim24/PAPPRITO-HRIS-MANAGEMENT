@@ -1,10 +1,8 @@
 /* =========================================================
    PAPPRITO HRIS
    EMPLOYEE ATTENDANCE CSS
-   FULL FINAL VERSION
-   MANUAL CUTOFF SUMMARY
-   MOBILE RESPONSIVE
-   PRINT CUTOFF SUMMARY ONLY
+   FINAL VERSION
+   OVERALL ATTENDANCE + CUTOFF SUMMARY
 ========================================================= */
 
 
@@ -12,23 +10,24 @@
    RESET
 ========================================================= */
 
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
 }
 
 
-html {
-    width: 100%;
-    min-height: 100%;
-    overflow-x: hidden;
+html{
+    width:100%;
+    min-height:100%;
+    overflow-x:hidden;
 }
 
 
-body {
-    width: 100%;
-    min-height: 100vh;
+body{
+
+    width:100%;
+    min-height:100vh;
 
     font-family:
         "Segoe UI",
@@ -44,11 +43,11 @@ body {
             #ffffff 100%
         );
 
-    color: #111111;
+    color:#111111;
 
-    font-weight: 800;
+    font-weight:800;
 
-    overflow-x: hidden;
+    overflow-x:hidden;
 }
 
 
@@ -56,42 +55,39 @@ body {
    VARIABLES
 ========================================================= */
 
-:root {
+:root{
 
-    --yellow: #ffcc00;
-    --yellow-dark: #e0ae00;
+    --yellow:#ffcc00;
+    --yellow-dark:#e0ae00;
 
-    --red: #d71920;
-    --red-dark: #b71218;
+    --red:#d71920;
+    --red-dark:#b71218;
 
-    --green: #16803c;
-    --green-dark: #116630;
+    --green:#16803c;
+    --green-dark:#116630;
 
-    --blue: #1769aa;
-    --blue-dark: #125586;
+    --blue:#1769aa;
+    --blue-dark:#125586;
 
-    --purple: #7b3fc6;
-    --purple-dark: #612fa0;
+    --purple:#7b3fc6;
+    --purple-dark:#612fa0;
 
-    --orange: #d97706;
-    --orange-dark: #b45309;
+    --black:#111111;
 
-    --black: #111111;
+    --white:#ffffff;
 
-    --white: #ffffff;
-
-    --border: #d6dadd;
-    --border-dark: #bfc4c8;
+    --border:#d6dadd;
+    --border-dark:#bfc4c8;
 
     --shadow:
         0 4px 18px
-        rgba(0, 0, 0, .08);
+        rgba(0,0,0,.08);
 
     --shadow-hover:
         0 8px 25px
-        rgba(0, 0, 0, .13);
+        rgba(0,0,0,.13);
 
-    --radius: 14px;
+    --radius:14px;
 }
 
 
@@ -99,9 +95,11 @@ body {
    APP
 ========================================================= */
 
-#app {
-    width: 100%;
-    min-height: 100vh;
+#app{
+
+    width:100%;
+    min-height:100vh;
+
 }
 
 
@@ -109,18 +107,19 @@ body {
    CONTAINER
 ========================================================= */
 
-.container {
+.container{
 
-    width: 100%;
+    width:100%;
 
-    max-width: 1700px;
+    max-width:1700px;
 
-    margin: 0 auto;
+    margin:0 auto;
 
     padding:
         22px
         26px
         35px;
+
 }
 
 
@@ -128,25 +127,25 @@ body {
    HEADER
 ========================================================= */
 
-.header {
+.header{
 
-    position: relative;
+    position:relative;
 
-    width: 100%;
+    width:100%;
 
-    min-height: 96px;
+    min-height:96px;
 
-    display: flex;
+    display:flex;
 
-    align-items: center;
+    align-items:center;
 
-    gap: 16px;
+    gap:16px;
 
     padding:
         15px
         20px;
 
-    background: #ffffff;
+    background:#ffffff;
 
     border:
         1px solid
@@ -158,23 +157,24 @@ body {
     box-shadow:
         var(--shadow);
 
-    overflow: hidden;
+    overflow:hidden;
+
 }
 
 
-.header::before {
+.header::before{
 
-    content: "";
+    content:"";
 
-    position: absolute;
+    position:absolute;
 
-    left: 0;
+    left:0;
 
-    top: 0;
+    top:0;
 
-    bottom: 0;
+    bottom:0;
 
-    width: 6px;
+    width:6px;
 
     background:
         linear-gradient(
@@ -182,6 +182,7 @@ body {
             var(--yellow),
             var(--red)
         );
+
 }
 
 
@@ -189,45 +190,43 @@ body {
    LOGO
 ========================================================= */
 
-.logo {
+.logo{
 
-    width: 66px;
+    width:66px;
+    height:66px;
+    min-width:66px;
 
-    height: 66px;
+    display:flex;
 
-    min-width: 66px;
+    align-items:center;
+    justify-content:center;
 
-    display: flex;
+    padding:3px;
 
-    align-items: center;
-
-    justify-content: center;
-
-    padding: 3px;
-
-    background: #ffffff;
+    background:#ffffff;
 
     border:
         3px solid
         var(--yellow);
 
-    border-radius: 50%;
+    border-radius:50%;
 
-    overflow: hidden;
+    overflow:hidden;
+
 }
 
 
-.logo img {
+.logo img{
 
-    width: 100%;
+    width:100%;
+    height:100%;
 
-    height: 100%;
+    display:block;
 
-    display: block;
+    object-fit:cover;
 
-    object-fit: cover;
+    border-radius:50%;
 
-    border-radius: 50%;
 }
 
 
@@ -235,19 +234,16 @@ body {
    LOGO TEXT
 ========================================================= */
 
-.logo-text {
+.logo-text{
 
-    color:
-        var(--red);
+    color:var(--red);
 
-    font-size:
-        27px;
+    font-size:27px;
 
-    font-weight:
-        1000;
+    font-weight:1000;
 
-    letter-spacing:
-        .5px;
+    letter-spacing:.5px;
+
 }
 
 
@@ -255,23 +251,20 @@ body {
    TITLE
 ========================================================= */
 
-.title {
+.title{
 
-    color:
-        #111111;
+    color:#111111;
 
-    font-size:
-        22px;
+    font-size:22px;
 
-    font-weight:
-        1000;
+    font-weight:1000;
 
-    padding-left:
-        18px;
+    padding-left:18px;
 
     border-left:
         2px solid
         #dddddd;
+
 }
 
 
@@ -279,22 +272,16 @@ body {
    TOP BUTTON
 ========================================================= */
 
-.top-btn {
+.top-btn{
 
-    min-height:
-        48px;
+    min-height:48px;
 
-    display:
-        inline-flex;
+    display:inline-flex;
 
-    align-items:
-        center;
+    align-items:center;
+    justify-content:center;
 
-    justify-content:
-        center;
-
-    gap:
-        7px;
+    gap:7px;
 
     padding:
         10px
@@ -304,88 +291,80 @@ body {
         1px solid
         var(--border-dark);
 
-    border-radius:
-        9px;
+    border-radius:9px;
 
-    background:
-        #ffffff;
+    background:#ffffff;
 
-    color:
-        #111111;
+    color:#111111;
 
-    font-family:
-        inherit;
+    font-family:inherit;
 
-    font-size:
-        13px;
+    font-size:13px;
 
-    font-weight:
-        1000;
+    font-weight:1000;
 
-    cursor:
-        pointer;
+    cursor:pointer;
 
-    transition:
-        .2s ease;
+    transition:.2s ease;
+
 }
 
 
-.top-btn:hover {
+.top-btn:hover{
 
     transform:
         translateY(-2px);
 
     box-shadow:
         var(--shadow-hover);
+
 }
 
 
-.top-btn:active {
+.top-btn:active{
 
     transform:
         translateY(0);
+
 }
 
 
-.top-btn .material-icons {
+.top-btn .material-icons{
 
-    font-size:
-        22px;
-}
+    font-size:22px;
 
-
-/* =========================================================
-   BACK
-========================================================= */
-
-#backBtn {
-
-    background:
-        #111111 !important;
-
-    color:
-        #ffffff !important;
-
-    border-color:
-        #111111 !important;
-}
-
-
-#backBtn:hover {
-
-    background:
-        #333333 !important;
-
-    border-color:
-        #333333 !important;
 }
 
 
 /* =========================================================
-   PRINT
+   BACK BUTTON
 ========================================================= */
 
-#printBtn {
+#backBtn{
+
+    background:#111111 !important;
+
+    color:#ffffff !important;
+
+    border-color:#111111 !important;
+
+}
+
+
+#backBtn:hover{
+
+    background:#333333 !important;
+
+    border-color:#333333 !important;
+
+}
+
+
+/* =========================================================
+   PRINT BUTTON
+========================================================= */
+
+#printBtn{
 
     background:
         var(--red) !important;
@@ -395,49 +374,45 @@ body {
 
     border-color:
         var(--red) !important;
+
 }
 
 
-#printBtn:hover {
+#printBtn:hover{
 
     background:
         var(--red-dark) !important;
 
     border-color:
         var(--red-dark) !important;
+
 }
 
 
 /* =========================================================
-   FILTER SECTION
+   FILTER
 ========================================================= */
 
-.filter-section {
+.filter-section{
 
-    width:
-        100%;
+    width:100%;
 
-    display:
-        grid;
+    display:grid;
 
     grid-template-columns:
-        minmax(260px, 1.5fr)
-        minmax(180px, 1fr)
-        minmax(180px, 1fr)
+        minmax(260px,1.5fr)
+        minmax(180px,1fr)
+        minmax(180px,1fr)
         150px
         150px;
 
-    gap:
-        12px;
+    gap:12px;
 
-    margin-top:
-        18px;
+    margin-top:18px;
 
-    padding:
-        17px;
+    padding:17px;
 
-    background:
-        #ffffff;
+    background:#ffffff;
 
     border:
         1px solid
@@ -448,6 +423,7 @@ body {
 
     box-shadow:
         var(--shadow);
+
 }
 
 
@@ -456,16 +432,13 @@ body {
 ========================================================= */
 
 .filter-section select,
-.filter-section input {
+.filter-section input{
 
-    width:
-        100%;
+    width:100%;
 
-    height:
-        50px;
+    height:50px;
 
-    min-width:
-        0;
+    min-width:0;
 
     padding:
         10px
@@ -475,65 +448,69 @@ body {
         2px solid
         var(--border-dark);
 
-    border-radius:
-        9px;
+    border-radius:9px;
 
-    background:
-        #ffffff;
+    background:#ffffff;
 
-    color:
-        #111111;
+    color:#111111;
 
-    outline:
-        none;
+    outline:none;
 
-    font-family:
-        inherit;
+    font-family:inherit;
 
-    font-size:
-        14px;
+    font-size:14px;
 
-    font-weight:
-        900;
+    font-weight:900;
+
 }
 
 
-#employeeSelect {
+#employeeSelect{
 
     border-color:
         #1769aa !important;
 
     background:
         #eef7ff !important;
+
 }
 
 
-#fromDate {
+#fromDate{
 
     border-color:
         #16803c !important;
 
     background:
         #effaf3 !important;
+
 }
 
 
-#toDate {
+#toDate{
 
     border-color:
         #d9a900 !important;
 
     background:
         #fffbea !important;
+
 }
 
 
+/* =========================================================
+   FOCUS
+========================================================= */
+
 .filter-section select:focus,
-.filter-section input:focus {
+.filter-section input:focus{
+
+    outline:none;
 
     box-shadow:
         0 0 0 3px
-        rgba(255, 204, 0, .18);
+        rgba(255,204,0,.18);
+
 }
 
 
@@ -541,22 +518,16 @@ body {
    FILTER BUTTON
 ========================================================= */
 
-#filterBtn {
+#filterBtn{
 
-    min-height:
-        50px;
+    min-height:50px;
 
-    display:
-        inline-flex;
+    display:inline-flex;
 
-    align-items:
-        center;
+    align-items:center;
+    justify-content:center;
 
-    justify-content:
-        center;
-
-    gap:
-        7px;
+    gap:7px;
 
     padding:
         10px
@@ -566,33 +537,27 @@ body {
         1px solid
         var(--blue);
 
-    border-radius:
-        9px;
+    border-radius:9px;
 
     background:
         var(--blue);
 
-    color:
-        #ffffff;
+    color:#ffffff;
 
-    font-family:
-        inherit;
+    font-family:inherit;
 
-    font-size:
-        13px;
+    font-size:13px;
 
-    font-weight:
-        1000;
+    font-weight:1000;
 
-    cursor:
-        pointer;
+    cursor:pointer;
 
-    transition:
-        .2s ease;
+    transition:.2s ease;
+
 }
 
 
-#filterBtn:hover {
+#filterBtn:hover{
 
     background:
         var(--blue-dark);
@@ -605,6 +570,7 @@ body {
 
     box-shadow:
         var(--shadow-hover);
+
 }
 
 
@@ -612,22 +578,16 @@ body {
    SUMMARY BUTTON
 ========================================================= */
 
-#summaryBtn {
+#summaryBtn{
 
-    min-height:
-        50px;
+    min-height:50px;
 
-    display:
-        inline-flex;
+    display:inline-flex;
 
-    align-items:
-        center;
+    align-items:center;
+    justify-content:center;
 
-    justify-content:
-        center;
-
-    gap:
-        7px;
+    gap:7px;
 
     padding:
         10px
@@ -637,33 +597,27 @@ body {
         1px solid
         var(--purple);
 
-    border-radius:
-        9px;
+    border-radius:9px;
 
     background:
         var(--purple);
 
-    color:
-        #ffffff;
+    color:#ffffff;
 
-    font-family:
-        inherit;
+    font-family:inherit;
 
-    font-size:
-        13px;
+    font-size:13px;
 
-    font-weight:
-        1000;
+    font-weight:1000;
 
-    cursor:
-        pointer;
+    cursor:pointer;
 
-    transition:
-        .2s ease;
+    transition:.2s ease;
+
 }
 
 
-#summaryBtn:hover {
+#summaryBtn:hover{
 
     background:
         var(--purple-dark);
@@ -676,53 +630,46 @@ body {
 
     box-shadow:
         var(--shadow-hover);
+
 }
 
 
 /* =========================================================
-   EMPLOYEE INFORMATION
+   EMPLOYEE INFO
 ========================================================= */
 
-.employee-info {
+.employee-info{
 
-    width:
-        100%;
+    width:100%;
 
-    display:
-        grid;
+    display:grid;
 
     grid-template-columns:
-        minmax(300px, 1fr)
-        minmax(400px, 2fr);
+        minmax(300px,1fr)
+        minmax(400px,2fr);
 
-    gap:
-        12px;
+    gap:12px;
 
-    margin-top:
-        16px;
+    margin-top:16px;
+
 }
 
 
-.employee-info > div {
+.employee-info > div{
 
-    min-width:
-        0;
+    min-width:0;
 
-    min-height:
-        70px;
+    min-height:70px;
 
-    display:
-        flex;
+    display:flex;
 
-    align-items:
-        center;
+    align-items:center;
 
     padding:
         14px
         18px;
 
-    background:
-        #ffffff;
+    background:#ffffff;
 
     border:
         1px solid
@@ -732,50 +679,28 @@ body {
         6px solid
         var(--yellow);
 
-    border-radius:
-        11px;
+    border-radius:11px;
 
-    color:
-        #111111;
+    color:#111111;
 
-    font-size:
-        14px;
+    font-size:14px;
 
-    font-weight:
-        1000;
+    font-weight:1000;
 
     box-shadow:
         var(--shadow);
+
 }
 
 
-.employee-info strong {
+.employee-info strong{
 
-    margin-left:
-        7px;
+    margin-left:7px;
 
-    font-weight:
-        1000;
-}
+    color:#111111;
 
+    font-weight:1000;
 
-#employeeId {
-
-    background:
-        #fff8d9;
-
-    border-color:
-        #e6c532;
-}
-
-
-#employeeName {
-
-    background:
-        #fff0f0;
-
-    border-color:
-        #e5b4b7;
 }
 
 
@@ -783,28 +708,20 @@ body {
    CLOCK
 ========================================================= */
 
-.clock-area {
+.clock-area{
 
-    width:
-        100%;
+    width:100%;
 
-    display:
-        flex;
+    display:flex;
 
-    align-items:
-        center;
+    align-items:center;
+    justify-content:center;
 
-    justify-content:
-        center;
+    flex-direction:column;
 
-    flex-direction:
-        column;
+    margin-top:16px;
 
-    margin-top:
-        16px;
-
-    padding:
-        23px;
+    padding:23px;
 
     background:
         linear-gradient(
@@ -822,76 +739,59 @@ body {
 
     box-shadow:
         var(--shadow);
+
 }
 
 
-.clock-label {
+.clock-label{
 
-    display:
-        flex;
+    display:flex;
 
-    align-items:
-        center;
+    align-items:center;
+    justify-content:center;
 
-    gap:
-        7px;
+    gap:7px;
 
     color:
         var(--blue);
 
-    font-size:
-        12px;
+    font-size:12px;
 
-    font-weight:
-        1000;
+    font-weight:1000;
 
-    letter-spacing:
-        1.2px;
+    letter-spacing:1.2px;
 
-    margin-bottom:
-        8px;
+    margin-bottom:8px;
+
 }
 
 
-.clock-label .material-icons {
+.clock{
 
-    font-size:
-        20px;
+    color:#111111;
+
+    font-size:54px;
+
+    line-height:1;
+
+    font-weight:1000;
+
+    letter-spacing:2px;
+
 }
 
 
-.clock {
+.today-date{
 
-    color:
-        #111111;
-
-    font-size:
-        54px;
-
-    line-height:
-        1;
-
-    font-weight:
-        1000;
-
-    letter-spacing:
-        2px;
-}
-
-
-.today-date {
-
-    margin-top:
-        10px;
+    margin-top:10px;
 
     color:
         var(--blue);
 
-    font-size:
-        13px;
+    font-size:13px;
 
-    font-weight:
-        1000;
+    font-weight:1000;
+
 }
 
 
@@ -899,272 +799,230 @@ body {
    TODAY PANEL
 ========================================================= */
 
-.today-panel {
+.today-panel{
 
-    width:
-        100%;
+    width:100%;
 
-    display:
-        grid;
+    display:grid;
 
     grid-template-columns:
-        repeat(4, minmax(0, 1fr));
+        repeat(4,minmax(0,1fr));
 
-    gap:
-        12px;
+    gap:12px;
 
-    margin-top:
-        14px;
+    margin-top:14px;
+
 }
 
 
-.today-item {
+.today-item{
 
-    min-width:
-        0;
+    min-width:0;
 
-    min-height:
-        76px;
+    min-height:76px;
 
-    display:
-        flex;
+    display:flex;
 
-    align-items:
-        center;
+    align-items:center;
 
-    gap:
-        11px;
+    gap:11px;
 
-    padding:
-        13px;
+    padding:13px;
 
-    background:
-        #ffffff;
+    background:#ffffff;
 
     border:
         1px solid
         var(--border);
 
-    border-radius:
-        11px;
+    border-radius:11px;
 
     box-shadow:
         var(--shadow);
+
 }
 
 
-.today-item > .material-icons {
+.today-item > .material-icons{
 
-    width:
-        43px;
+    width:43px;
+    height:43px;
+    min-width:43px;
 
-    height:
-        43px;
+    display:flex;
 
-    min-width:
-        43px;
+    align-items:center;
+    justify-content:center;
 
-    display:
-        flex;
+    background:#fff8d9;
 
-    align-items:
-        center;
+    color:#a27c00;
 
-    justify-content:
-        center;
+    border-radius:10px;
 
-    background:
-        #fff8d9;
+    font-size:23px;
 
-    color:
-        #a27c00;
-
-    border-radius:
-        10px;
-
-    font-size:
-        23px;
 }
 
 
-.today-item div {
+.today-item div{
 
-    min-width:
-        0;
+    min-width:0;
 
-    display:
-        flex;
+    display:flex;
 
-    flex-direction:
-        column;
+    flex-direction:column;
+
 }
 
 
-.today-item small {
+.today-item small{
 
-    color:
-        #555555;
+    color:#555555;
 
-    font-size:
-        9px;
+    font-size:9px;
 
-    font-weight:
-        1000;
+    font-weight:1000;
+
 }
 
 
-.today-item strong {
+.today-item strong{
 
-    margin-top:
-        3px;
+    margin-top:3px;
 
-    color:
-        #111111;
+    color:#111111;
 
-    font-size:
-        18px;
+    font-size:18px;
 
-    font-weight:
-        1000;
+    font-weight:1000;
+
+    white-space:nowrap;
+
+    overflow:hidden;
+
+    text-overflow:ellipsis;
+
 }
 
 
 /* =========================================================
-   ACTION BUTTONS
+   BUTTON GROUP
 ========================================================= */
 
-.button-group {
+.button-group{
 
-    width:
-        100%;
+    width:100%;
 
-    display:
-        grid;
+    display:grid;
 
     grid-template-columns:
-        repeat(4, minmax(0, 1fr));
+        repeat(4,minmax(0,1fr));
 
-    gap:
-        12px;
+    gap:12px;
 
-    margin-top:
-        16px;
+    margin-top:16px;
+
 }
 
 
-.action-btn {
+.action-btn{
 
-    width:
-        100%;
+    width:100%;
 
-    min-height:
-        65px;
+    min-height:65px;
 
-    display:
-        flex;
+    display:flex;
 
-    align-items:
-        center;
+    align-items:center;
+    justify-content:center;
 
-    justify-content:
-        center;
+    gap:9px;
 
-    gap:
-        9px;
+    border-radius:10px;
 
-    border-radius:
-        10px;
+    font-family:inherit;
 
-    font-family:
-        inherit;
+    font-size:14px;
 
-    font-size:
-        14px;
+    font-weight:1000;
 
-    font-weight:
-        1000;
+    cursor:pointer;
 
-    cursor:
-        pointer;
+    transition:.2s ease;
 
-    transition:
-        .2s ease;
 }
 
 
-.action-btn:hover:not(:disabled) {
+.action-btn:hover:not(:disabled){
 
     transform:
         translateY(-2px);
 
     box-shadow:
         var(--shadow-hover);
+
 }
 
 
-.action-btn:disabled {
+.action-btn:disabled{
 
-    opacity:
-        .45;
+    opacity:.45;
 
-    cursor:
-        not-allowed;
+    cursor:not-allowed;
+
 }
 
 
-.action-btn.timein {
+.action-btn.timein{
 
-    background:
-        var(--green);
+    background:#16803c;
 
-    color:
-        #ffffff;
+    color:#ffffff;
 
     border:
         2px solid
-        var(--green);
+        #16803c;
+
 }
 
 
-.action-btn.breakout {
+.action-btn.breakout{
 
-    background:
-        var(--yellow);
+    background:#ffcc00;
 
-    color:
-        #111111;
+    color:#111111;
 
     border:
         2px solid
-        var(--yellow);
+        #ffcc00;
+
 }
 
 
-.action-btn.breakin {
+.action-btn.breakin{
 
-    background:
-        var(--blue);
+    background:#1769aa;
 
-    color:
-        #ffffff;
+    color:#ffffff;
 
     border:
         2px solid
-        var(--blue);
+        #1769aa;
+
 }
 
 
-.action-btn.timeout {
+.action-btn.timeout{
 
-    background:
-        var(--red);
+    background:#d71920;
 
-    color:
-        #ffffff;
+    color:#ffffff;
 
     border:
         2px solid
-        var(--red);
+        #d71920;
+
 }
 
 
@@ -1172,16 +1030,15 @@ body {
    ATTENDANCE SECTION
 ========================================================= */
 
-.attendance-section {
+.attendance-section{
 
-    width:
-        100%;
+    width:100%;
 
-    margin-top:
-        18px;
+    min-width:0;
 
-    background:
-        #ffffff;
+    margin-top:18px;
+
+    background:#ffffff;
 
     border:
         1px solid
@@ -1193,30 +1050,27 @@ body {
     box-shadow:
         var(--shadow);
 
-    overflow:
-        hidden;
+    overflow:hidden;
+
 }
 
 
-.section-heading {
+/* =========================================================
+   SECTION HEADING
+========================================================= */
 
-    width:
-        100%;
+.section-heading{
 
-    min-height:
-        80px;
+    width:100%;
 
-    display:
-        flex;
+    min-height:80px;
 
-    align-items:
-        center;
+    display:flex;
 
-    justify-content:
-        space-between;
+    align-items:center;
+    justify-content:space-between;
 
-    gap:
-        15px;
+    gap:15px;
 
     padding:
         15px
@@ -1225,93 +1079,81 @@ body {
     border-bottom:
         1px solid
         #e4e6e8;
+
 }
 
 
-.section-heading-left {
+.section-heading-left{
 
-    display:
-        flex;
+    display:flex;
 
-    align-items:
-        center;
+    align-items:center;
 
-    gap:
-        12px;
+    gap:12px;
+
 }
 
 
-.section-heading-left > .material-icons {
+.section-heading-left > .material-icons{
 
-    width:
-        48px;
+    width:48px;
+    height:48px;
+    min-width:48px;
 
-    height:
-        48px;
+    display:flex;
 
-    display:
-        flex;
+    align-items:center;
+    justify-content:center;
 
-    align-items:
-        center;
+    background:#fff8d9;
 
-    justify-content:
-        center;
+    color:#a07800;
 
-    background:
-        #fff8d9;
+    border-radius:10px;
 
-    color:
-        #a07800;
+    font-size:25px;
 
-    border-radius:
-        10px;
 }
 
 
-.section-heading h2 {
+.section-heading h2{
 
-    font-size:
-        20px;
+    color:#111111;
 
-    font-weight:
-        1000;
+    font-size:20px;
+
+    font-weight:1000;
+
 }
 
 
-.section-heading p {
+.section-heading p{
 
-    color:
-        #444444;
+    color:#444444;
 
-    font-size:
-        11px;
+    font-size:11px;
 
-    margin-top:
-        4px;
+    font-weight:800;
+
+    margin-top:4px;
+
 }
 
 
 /* =========================================================
-   CLEAR BUTTON
+   CLEAR
 ========================================================= */
 
-.clear-filter-btn {
+.clear-filter-btn{
 
-    min-height:
-        42px;
+    min-height:42px;
 
-    display:
-        inline-flex;
+    display:inline-flex;
 
-    align-items:
-        center;
+    align-items:center;
+    justify-content:center;
 
-    justify-content:
-        center;
-
-    gap:
-        5px;
+    gap:5px;
 
     padding:
         8px
@@ -1321,186 +1163,152 @@ body {
         1px solid
         var(--border-dark);
 
-    border-radius:
-        8px;
+    border-radius:8px;
 
-    background:
-        #ffffff;
+    background:#ffffff;
 
-    color:
-        #222222;
+    color:#222222;
 
-    font-family:
-        inherit;
+    font-family:inherit;
 
-    font-size:
-        11px;
+    font-size:11px;
 
-    font-weight:
-        1000;
+    font-weight:1000;
 
-    cursor:
-        pointer;
+    cursor:pointer;
+
 }
 
 
-.clear-filter-btn:hover {
+.clear-filter-btn:hover{
 
-    color:
-        var(--red);
+    color:var(--red);
 
-    border-color:
-        var(--red);
+    border-color:var(--red);
 
-    background:
-        #fff5f5;
+    background:#fff5f5;
+
 }
 
 
 /* =========================================================
-   ATTENDANCE TABLE
+   TABLE WRAPPER
 ========================================================= */
 
-.table-wrapper {
+.table-wrapper{
 
-    width:
-        100%;
+    width:100%;
 
-    overflow-x:
-        auto;
+    overflow-x:auto;
 
-    overflow-y:
-        hidden;
+    overflow-y:hidden;
 
-    -webkit-overflow-scrolling:
-        touch;
+    background:#ffffff;
+
+    -webkit-overflow-scrolling:touch;
+
 }
 
 
-#attendanceTable {
+.table-wrapper::-webkit-scrollbar{
 
-    width:
-        100%;
+    height:10px;
 
-    min-width:
-        1350px;
-
-    border-collapse:
-        collapse;
 }
 
 
-#attendanceTable thead th {
+.table-wrapper::-webkit-scrollbar-track{
+
+    background:#eeeeee;
+
+}
+
+
+.table-wrapper::-webkit-scrollbar-thumb{
+
+    background:#999999;
+
+    border-radius:20px;
+
+}
+
+
+/* =========================================================
+   OVERALL ATTENDANCE TABLE
+========================================================= */
+
+#attendanceTable{
+
+    width:100%;
+
+    min-width:1350px;
+
+    border-collapse:collapse;
+
+    table-layout:auto;
+
+}
+
+
+#attendanceTable thead th{
 
     padding:
         15px
         12px;
 
+    color:#111111;
+
     border:
         1px solid
         #d5d8dc;
 
-    color:
-        #111111;
+    font-size:12px;
 
-    font-size:
-        12px;
+    font-weight:1000;
 
-    font-weight:
-        1000;
+    text-align:center;
 
-    text-align:
-        center;
+    white-space:nowrap;
 
-    white-space:
-        nowrap;
 }
 
 
-#attendanceTable thead th:nth-child(1) {
-    background: #fff4bf;
-}
-
-#attendanceTable thead th:nth-child(2) {
-    background: #eaf3fb;
-}
-
-#attendanceTable thead th:nth-child(3) {
-    background: #e9f7ef;
-}
-
-#attendanceTable thead th:nth-child(4) {
-    background: #dff4e7;
-}
-
-#attendanceTable thead th:nth-child(5) {
-    background: #fff4bf;
-}
-
-#attendanceTable thead th:nth-child(6) {
-    background: #eaf3fb;
-}
-
-#attendanceTable thead th:nth-child(7) {
-    background: #ffe5e5;
-}
-
-#attendanceTable thead th:nth-child(8) {
-    background: #f0e7ff;
-}
-
-#attendanceTable thead th:nth-child(9) {
-    background: #e9f7ef;
-}
-
-#attendanceTable thead th:nth-child(10) {
-    background: #fff0d6;
-}
-
-#attendanceTable thead th:nth-child(11) {
-    background: #ffe5e5;
-}
-
-#attendanceTable thead th:nth-child(12) {
-    background: #eaf3fb;
-}
-
-#attendanceTable thead th:nth-child(13) {
-    background: #eeeeee;
-}
-
-
-#attendanceTable tbody td {
+#attendanceTable tbody td{
 
     padding:
         14px
         12px;
 
+    background:#ffffff;
+
+    color:#111111;
+
     border:
         1px solid
         #d8dce0;
 
-    color:
-        #111111;
+    font-size:12px;
 
-    font-size:
-        12px;
+    font-weight:900;
 
-    font-weight:
-        900;
+    text-align:center;
 
-    text-align:
-        center;
+    white-space:nowrap;
 
-    white-space:
-        nowrap;
 }
 
 
-#attendanceTable tbody tr:nth-child(even) td {
+#attendanceTable tbody tr:nth-child(even) td{
 
-    background:
-        #fafafa;
+    background:#fafafa;
+
+}
+
+
+#attendanceTable tbody tr:hover td{
+
+    background:#fffbea;
+
 }
 
 
@@ -1508,180 +1316,160 @@ body {
    STATUS
 ========================================================= */
 
-.status-badge {
+.status-badge{
 
-    display:
-        inline-flex;
+    display:inline-flex;
 
-    align-items:
-        center;
+    align-items:center;
+    justify-content:center;
 
-    justify-content:
-        center;
-
-    min-width:
-        75px;
+    min-width:75px;
 
     padding:
         6px
         11px;
 
-    border-radius:
-        20px;
+    border-radius:20px;
 
-    font-size:
-        10px;
+    font-size:10px;
 
-    font-weight:
-        1000;
+    font-weight:1000;
+
 }
 
 
-.status-present {
+.status-present{
 
-    background:
-        #e9f7ef;
+    background:#e9f7ef;
 
-    color:
-        var(--green);
+    color:#16803c;
+
 }
 
 
-.status-late {
+.status-late{
 
-    background:
-        #fff0d6;
+    background:#fff0d6;
 
-    color:
-        #a45d00;
+    color:#a45d00;
+
 }
 
 
-.status-absent {
+.status-absent{
 
-    background:
-        #fff0f0;
+    background:#fff0f0;
 
-    color:
-        var(--red);
+    color:#d71920;
+
 }
 
 
-.status-leave {
+.status-leave{
 
-    background:
-        #eaf3fb;
+    background:#eaf3fb;
 
-    color:
-        var(--blue);
-}
+    color:#1769aa;
 
-
-.status-default {
-
-    background:
-        #eeeeee;
-
-    color:
-        #444444;
 }
 
 
 /* =========================================================
-   ACTION CELL
+   ACTION
 ========================================================= */
 
-.action-cell {
+.action-cell{
 
-    min-width:
-        110px;
+    min-width:110px;
 
-    text-align:
-        center;
+    text-align:center;
+
 }
 
 
-.table-icon-btn {
+.icon-btn,
+.table-icon-btn{
 
-    width:
-        38px;
+    width:38px;
 
-    height:
-        38px;
+    height:38px;
 
-    display:
-        inline-flex;
+    display:inline-flex;
 
-    align-items:
-        center;
+    align-items:center;
+    justify-content:center;
 
-    justify-content:
-        center;
+    margin:2px;
 
     border:
         1px solid
         #efafb3;
 
-    border-radius:
-        8px;
+    border-radius:8px;
 
-    background:
-        #fff0f1;
+    background:#fff0f1;
 
-    color:
-        var(--red);
+    color:#d71920;
 
-    cursor:
-        pointer;
+    cursor:pointer;
+
+    transition:.18s ease;
+
+}
+
+
+.icon-btn:hover,
+.table-icon-btn:hover{
+
+    transform:
+        translateY(-2px);
+
+    box-shadow:
+        0 4px 10px
+        rgba(0,0,0,.12);
+
 }
 
 
 /* =========================================================
-   EMPTY
+   EMPTY ROW
 ========================================================= */
 
-.empty-row {
+.empty-row{
 
-    height:
-        180px;
+    height:180px;
 
-    text-align:
-        center !important;
+    text-align:center !important;
+
+    color:#444444 !important;
+
 }
 
 
-.empty-row .material-icons {
+.empty-row .material-icons{
 
-    display:
-        block;
+    display:block;
 
-    margin-bottom:
-        8px;
+    margin-bottom:8px;
 
-    font-size:
-        36px;
+    font-size:36px;
 
-    color:
-        #888888;
+    color:#888888;
+
 }
 
 
 /* =========================================================
-   =========================================================
-   MANUAL CUTOFF SUMMARY
-   =========================================================
+   CUTOFF SUMMARY
 ========================================================= */
 
-#cutoffSummary {
+.attendance-cutoff-summary{
 
-    width:
-        100%;
+    width:100%;
 
-    margin-top:
-        18px;
+    margin-top:18px;
 
-    background:
-        #ffffff;
+    background:#ffffff;
 
     border:
         1px solid
@@ -1693,125 +1481,123 @@ body {
     box-shadow:
         var(--shadow);
 
-    overflow:
-        hidden;
+    overflow:hidden;
+
+}
+
+
+.cutoff-summary-header{
+
+    width:100%;
+
+    min-height:82px;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:space-between;
+
+    gap:15px;
+
+    padding:
+        15px
+        18px;
+
+    border-bottom:
+        1px solid
+        #e4e6e8;
+
+}
+
+
+.cutoff-summary-header h2{
+
+    color:#111111;
+
+    font-size:20px;
+
+    font-weight:1000;
+
+}
+
+
+.cutoff-summary-header p{
+
+    margin-top:4px;
+
+    color:#555555;
+
+    font-size:11px;
+
+}
+
+
+.cutoff-summary-actions{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:8px;
+
 }
 
 
 /* =========================================================
-   CUTOFF HEADER
+   SUMMARY PRINT BUTTON
 ========================================================= */
 
-#cutoffSummary .cutoff-summary-header {
+.summary-print-btn{
 
-    width:
-        100%;
+    min-height:44px;
 
-    display:
-        flex;
+    display:inline-flex;
 
-    align-items:
-        center;
+    align-items:center;
+    justify-content:center;
 
-    justify-content:
-        space-between;
-
-    gap:
-        15px;
+    gap:7px;
 
     padding:
-        17px
-        20px;
+        9px
+        15px;
 
-    background:
-        linear-gradient(
-            135deg,
-            #f5efff,
-            #ffffff
-        );
-
-    border-bottom:
+    border:
         1px solid
-        #e2d7f1;
-}
-
-
-#cutoffSummary .cutoff-summary-title {
-
-    display:
-        flex;
-
-    align-items:
-        center;
-
-    gap:
-        12px;
-
-    min-width:
-        0;
-}
-
-
-#cutoffSummary .cutoff-summary-title .material-icons {
-
-    width:
-        48px;
-
-    height:
-        48px;
-
-    min-width:
-        48px;
-
-    display:
-        flex;
-
-    align-items:
-        center;
-
-    justify-content:
-        center;
-
-    background:
-        #eee3ff;
-
-    color:
         var(--purple);
 
-    border-radius:
-        10px;
+    border-radius:9px;
 
-    font-size:
-        25px;
+    background:
+        var(--purple);
+
+    color:#ffffff;
+
+    font-family:inherit;
+
+    font-size:11px;
+
+    font-weight:1000;
+
+    cursor:pointer;
+
+    transition:.2s ease;
+
 }
 
 
-#cutoffSummary .cutoff-summary-title h2 {
+.summary-print-btn:hover{
 
-    color:
-        #111111;
+    background:
+        var(--purple-dark);
 
-    font-size:
-        20px;
+    border-color:
+        var(--purple-dark);
 
-    font-weight:
-        1000;
-}
+    transform:
+        translateY(-2px);
 
-
-#cutoffSummary .cutoff-summary-title p {
-
-    margin-top:
-        4px;
-
-    color:
-        #555555;
-
-    font-size:
-        11px;
-
-    font-weight:
-        800;
 }
 
 
@@ -1819,798 +1605,290 @@ body {
    CUTOFF PERIOD
 ========================================================= */
 
-#cutoffSummary .cutoff-period {
+.cutoff-summary-period{
 
-    display:
-        flex;
+    width:100%;
 
-    align-items:
-        center;
+    display:grid;
 
-    gap:
-        8px;
+    grid-template-columns:
+        repeat(4,minmax(0,1fr));
+
+    gap:10px;
+
+    padding:12px;
+
+    background:#fafafa;
+
+    border-bottom:
+        1px solid
+        #e1e4e7;
+
+}
+
+
+.cutoff-summary-period > div{
+
+    min-width:0;
+
+    min-height:58px;
+
+    display:flex;
+
+    flex-direction:column;
+
+    justify-content:center;
 
     padding:
         8px
         12px;
 
-    border:
-        1px solid
-        #d7c6ef;
-
-    border-radius:
-        8px;
-
-    background:
-        #ffffff;
-
-    color:
-        var(--purple);
-
-    font-size:
-        11px;
-
-    font-weight:
-        1000;
-
-    white-space:
-        nowrap;
-}
-
-
-/* =========================================================
-   CUTOFF FORM
-========================================================= */
-
-#cutoffSummary .cutoff-form {
-
-    width:
-        100%;
-
-    display:
-        grid;
-
-    grid-template-columns:
-        minmax(180px, 1fr)
-        minmax(180px, 1fr)
-        180px
-        150px;
-
-    gap:
-        12px;
-
-    padding:
-        15px
-        18px;
-
-    background:
-        #ffffff;
-
-    border-bottom:
-        1px solid
-        #eeeeee;
-}
-
-
-#cutoffSummary .cutoff-field {
-
-    min-width:
-        0;
-
-    display:
-        flex;
-
-    flex-direction:
-        column;
-
-    gap:
-        5px;
-}
-
-
-#cutoffSummary .cutoff-field label {
-
-    color:
-        #444444;
-
-    font-size:
-        10px;
-
-    font-weight:
-        1000;
-}
-
-
-#cutoffSummary .cutoff-field input {
-
-    width:
-        100%;
-
-    height:
-        48px;
-
-    padding:
-        9px
-        12px;
-
-    border:
-        2px solid
-        var(--border-dark);
-
-    border-radius:
-        9px;
-
-    background:
-        #ffffff;
-
-    color:
-        #111111;
-
-    outline:
-        none;
-
-    font-family:
-        inherit;
-
-    font-size:
-        13px;
-
-    font-weight:
-        900;
-}
-
-
-#cutoffSummary .cutoff-field input:focus {
-
-    border-color:
-        var(--purple);
-
-    box-shadow:
-        0 0 0 3px
-        rgba(123, 63, 198, .14);
-}
-
-
-/* =========================================================
-   CUTOFF BUTTONS
-========================================================= */
-
-#cutoffSummary .cutoff-generate-btn,
-#cutoffSummary .cutoff-print-btn {
-
-    min-height:
-        48px;
-
-    align-self:
-        end;
-
-    display:
-        inline-flex;
-
-    align-items:
-        center;
-
-    justify-content:
-        center;
-
-    gap:
-        7px;
-
-    padding:
-        10px
-        15px;
-
-    border:
-        1px solid;
-
-    border-radius:
-        9px;
-
-    font-family:
-        inherit;
-
-    font-size:
-        12px;
-
-    font-weight:
-        1000;
-
-    cursor:
-        pointer;
-
-    transition:
-        .2s ease;
-}
-
-
-#cutoffSummary .cutoff-generate-btn {
-
-    background:
-        var(--purple);
-
-    color:
-        #ffffff;
-
-    border-color:
-        var(--purple);
-}
-
-
-#cutoffSummary .cutoff-print-btn {
-
-    background:
-        var(--red);
-
-    color:
-        #ffffff;
-
-    border-color:
-        var(--red);
-}
-
-
-#cutoffSummary .cutoff-generate-btn:hover {
-
-    background:
-        var(--purple-dark);
-
-    transform:
-        translateY(-2px);
-}
-
-
-#cutoffSummary .cutoff-print-btn:hover {
-
-    background:
-        var(--red-dark);
-
-    transform:
-        translateY(-2px);
-}
-
-
-/* =========================================================
-   CUTOFF RESULT
-========================================================= */
-
-#cutoffSummary .cutoff-result {
-
-    width:
-        100%;
-
-    overflow:
-        hidden;
-}
-
-
-#cutoffSummary .cutoff-summary-info {
-
-    width:
-        100%;
-
-    display:
-        flex;
-
-    align-items:
-        center;
-
-    justify-content:
-        space-between;
-
-    gap:
-        12px;
-
-    padding:
-        13px
-        18px;
-
-    background:
-        #fafafa;
-
-    border-bottom:
-        1px solid
-        #e5e5e5;
-}
-
-
-#cutoffSummary .cutoff-summary-info strong {
-
-    color:
-        #111111;
-
-    font-size:
-        13px;
-
-    font-weight:
-        1000;
-}
-
-
-#cutoffSummary .cutoff-summary-info span {
-
-    color:
-        #555555;
-
-    font-size:
-        11px;
-
-    font-weight:
-        900;
-}
-
-
-/* =========================================================
-   CUTOFF TABLE WRAPPER
-   IMPORTANT:
-   This prevents the page from collapsing when there
-   are many employees.
-========================================================= */
-
-#cutoffSummary .cutoff-summary-table-wrapper {
-
-    width:
-        100%;
-
-    overflow-x:
-        auto;
-
-    overflow-y:
-        hidden;
-
-    -webkit-overflow-scrolling:
-        touch;
-}
-
-
-#cutoffSummary .cutoff-summary-table-wrapper::-webkit-scrollbar {
-
-    height:
-        10px;
-}
-
-
-#cutoffSummary .cutoff-summary-table-wrapper::-webkit-scrollbar-track {
-
-    background:
-        #eeeeee;
-}
-
-
-#cutoffSummary .cutoff-summary-table-wrapper::-webkit-scrollbar-thumb {
-
-    background:
-        #999999;
-
-    border-radius:
-        20px;
-}
-
-
-#cutoffSummaryTable {
-
-    width:
-        100%;
-
-    min-width:
-        900px;
-
-    border-collapse:
-        collapse;
-
-    table-layout:
-        auto;
-}
-
-
-#cutoffSummaryTable th {
-
-    padding:
-        13px
-        12px;
-
-    border:
-        1px solid
-        #d5d8dc;
-
-    color:
-        #111111;
-
-    font-size:
-        11px;
-
-    font-weight:
-        1000;
-
-    text-align:
-        center;
-
-    white-space:
-        nowrap;
-}
-
-
-#cutoffSummaryTable th:nth-child(1) {
-    background: #eeeeee;
-}
-
-#cutoffSummaryTable th:nth-child(2) {
-    background: #eaf3fb;
-}
-
-#cutoffSummaryTable th:nth-child(3) {
-    background: #e9f7ef;
-}
-
-#cutoffSummaryTable th:nth-child(4) {
-    background: #e9f7ef;
-}
-
-#cutoffSummaryTable th:nth-child(5) {
-    background: #fff0d6;
-}
-
-#cutoffSummaryTable th:nth-child(6) {
-    background: #ffe5e5;
-}
-
-#cutoffSummaryTable th:nth-child(7) {
-    background: #f0e7ff;
-}
-
-
-#cutoffSummaryTable td {
-
-    padding:
-        13px
-        12px;
+    background:#ffffff;
 
     border:
         1px solid
         #d8dce0;
 
-    background:
-        #ffffff;
+    border-radius:9px;
 
-    color:
-        #111111;
-
-    font-size:
-        12px;
-
-    font-weight:
-        900;
-
-    text-align:
-        center;
-
-    white-space:
-        nowrap;
 }
 
 
-#cutoffSummaryTable tbody tr:nth-child(even) td {
+.cutoff-summary-period span{
 
-    background:
-        #fafafa;
+    color:#666666;
+
+    font-size:9px;
+
+    font-weight:1000;
+
+    letter-spacing:.7px;
+
 }
 
 
-#cutoffSummaryTable tbody tr:hover td {
+.cutoff-summary-period strong{
 
-    background:
-        #fffbea;
-}
+    margin-top:4px;
 
+    color:#111111;
 
-/* =========================================================
-   CUTOFF IMPORTANT CELLS
-========================================================= */
+    font-size:14px;
 
-#cutoffSummaryTable td.total-hours-cell {
+    font-weight:1000;
 
-    background:
-        #f0e7ff !important;
-
-    color:
-        var(--purple);
-
-    font-weight:
-        1000;
-
-    font-size:
-        13px;
-}
-
-
-#cutoffSummaryTable td.ot-hours-cell {
-
-    color:
-        var(--orange);
-
-    font-weight:
-        1000;
-}
-
-
-#cutoffSummaryTable td.late-minutes-cell {
-
-    color:
-        var(--red);
-
-    font-weight:
-        1000;
 }
 
 
 /* =========================================================
-   CUTOFF GRAND TOTAL
+   SUMMARY TABLE WRAPPER
 ========================================================= */
 
-#cutoffSummary .cutoff-grand-total {
+.cutoff-summary-table-wrapper{
 
-    width:
-        100%;
+    width:100%;
 
-    display:
-        grid;
+    overflow-x:auto;
 
-    grid-template-columns:
-        repeat(4, minmax(0, 1fr));
+    overflow-y:hidden;
 
-    gap:
-        10px;
+    -webkit-overflow-scrolling:touch;
 
-    padding:
-        15px
-        18px;
-
-    background:
-        #ffffff;
-
-    border-top:
-        1px solid
-        #dddddd;
 }
 
 
-#cutoffSummary .cutoff-total-card {
+/* =========================================================
+   SUMMARY TABLE
+========================================================= */
 
-    min-width:
-        0;
+.cutoff-summary-table{
 
-    min-height:
-        72px;
+    width:100%;
 
-    display:
-        flex;
+    min-width:900px;
 
-    align-items:
-        center;
+    border-collapse:collapse;
 
-    gap:
-        10px;
+    table-layout:auto;
+
+}
+
+
+/* =========================================================
+   SUMMARY HEADER
+========================================================= */
+
+.cutoff-summary-table thead th{
 
     padding:
-        12px
-        14px;
+        14px
+        11px;
+
+    background:#f0e7ff;
+
+    color:#111111;
 
     border:
         1px solid
-        var(--border);
+        #d4c7e8;
 
-    border-radius:
-        10px;
+    font-size:11px;
 
-    background:
-        #fafafa;
-}
+    font-weight:1000;
 
+    text-align:center;
 
-#cutoffSummary .cutoff-total-card .material-icons {
+    white-space:nowrap;
 
-    width:
-        40px;
-
-    height:
-        40px;
-
-    min-width:
-        40px;
-
-    display:
-        flex;
-
-    align-items:
-        center;
-
-    justify-content:
-        center;
-
-    border-radius:
-        9px;
-
-    font-size:
-        20px;
-}
-
-
-#cutoffSummary .cutoff-total-card div {
-
-    min-width:
-        0;
-
-    display:
-        flex;
-
-    flex-direction:
-        column;
-}
-
-
-#cutoffSummary .cutoff-total-card small {
-
-    color:
-        #555555;
-
-    font-size:
-        8px;
-
-    font-weight:
-        1000;
-}
-
-
-#cutoffSummary .cutoff-total-card strong {
-
-    margin-top:
-        3px;
-
-    color:
-        #111111;
-
-    font-size:
-        18px;
-
-    font-weight:
-        1000;
-
-    white-space:
-        nowrap;
-}
-
-
-#cutoffSummary .cutoff-total-card.regular {
-
-    background:
-        #effaf3;
-
-    border-color:
-        #b9ddc7;
-}
-
-
-#cutoffSummary .cutoff-total-card.regular .material-icons {
-
-    background:
-        #dff4e7;
-
-    color:
-        var(--green);
-}
-
-
-#cutoffSummary .cutoff-total-card.ot {
-
-    background:
-        #fff7e8;
-
-    border-color:
-        #efd5a8;
-}
-
-
-#cutoffSummary .cutoff-total-card.ot .material-icons {
-
-    background:
-        #ffe8bd;
-
-    color:
-        var(--orange);
-}
-
-
-#cutoffSummary .cutoff-total-card.late {
-
-    background:
-        #fff0f0;
-
-    border-color:
-        #efc1c4;
-}
-
-
-#cutoffSummary .cutoff-total-card.late .material-icons {
-
-    background:
-        #ffe0e2;
-
-    color:
-        var(--red);
-}
-
-
-#cutoffSummary .cutoff-total-card.total {
-
-    background:
-        #f4edff;
-
-    border-color:
-        #d7c4ef;
-}
-
-
-#cutoffSummary .cutoff-total-card.total .material-icons {
-
-    background:
-        #e9dcff;
-
-    color:
-        var(--purple);
 }
 
 
 /* =========================================================
-   CUTOFF EMPTY
+   SUMMARY BODY
 ========================================================= */
 
-#cutoffSummary .cutoff-empty {
-
-    min-height:
-        150px;
-
-    display:
-        flex;
-
-    align-items:
-        center;
-
-    justify-content:
-        center;
-
-    flex-direction:
-        column;
-
-    gap:
-        7px;
+.cutoff-summary-table tbody td{
 
     padding:
-        25px;
+        13px
+        11px;
 
-    color:
-        #666666;
+    background:#ffffff;
 
-    text-align:
-        center;
+    color:#111111;
+
+    border:
+        1px solid
+        #d8dce0;
+
+    font-size:12px;
+
+    font-weight:900;
+
+    text-align:center;
+
+    white-space:nowrap;
+
 }
 
 
-#cutoffSummary .cutoff-empty .material-icons {
+/* =========================================================
+   SUMMARY EMPLOYEE NAME
+========================================================= */
 
-    font-size:
-        38px;
+.cutoff-summary-table .summary-employee-name{
 
-    color:
-        #999999;
+    text-align:left;
+
+    min-width:230px;
+
 }
 
 
-#cutoffSummary .cutoff-empty p {
+/* =========================================================
+   TOTAL HOURS
+========================================================= */
 
-    font-size:
-        12px;
+.cutoff-summary-table .summary-total-hours{
 
-    font-weight:
-        900;
+    background:#fff8d9;
+
+    color:#111111;
+
+    font-weight:1000;
+
+}
+
+
+/* =========================================================
+   SUMMARY HOVER
+========================================================= */
+
+.cutoff-summary-table tbody tr:hover td{
+
+    background:#fffbea;
+
+}
+
+
+.cutoff-summary-table tbody tr:hover
+.summary-total-hours{
+
+    background:#fff1b8;
+
+}
+
+
+/* =========================================================
+   SUMMARY FOOTER
+========================================================= */
+
+.cutoff-summary-table tfoot td{
+
+    padding:
+        14px
+        11px;
+
+    background:#111111;
+
+    color:#ffffff;
+
+    border:
+        1px solid
+        #111111;
+
+    font-size:12px;
+
+    font-weight:1000;
+
+    text-align:center;
+
+    white-space:nowrap;
+
+}
+
+
+.cutoff-summary-table tfoot td:first-child{
+
+    text-align:right;
+
+}
+
+
+/* =========================================================
+   SUMMARY EMPTY
+========================================================= */
+
+.cutoff-summary-empty{
+
+    height:170px;
+
+    text-align:center !important;
+
+}
+
+
+.cutoff-summary-empty .material-icons{
+
+    display:block;
+
+    margin-bottom:8px;
+
+    color:#888888;
+
+    font-size:35px;
+
+}
+
+
+.cutoff-summary-empty p{
+
+    color:#555555;
+
+    font-size:12px;
+
+    font-weight:900;
+
 }
 
 
@@ -2618,38 +1896,29 @@ body {
    FOOTER
 ========================================================= */
 
-.attendance-footer {
+.attendance-footer{
 
-    width:
-        100%;
+    width:100%;
 
-    display:
-        flex;
+    display:flex;
 
-    align-items:
-        center;
+    align-items:center;
+    justify-content:center;
 
-    justify-content:
-        center;
-
-    gap:
-        8px;
+    gap:8px;
 
     padding:
         20px
         5px;
 
-    color:
-        #555555;
+    color:#555555;
 
-    font-size:
-        10px;
+    font-size:10px;
 
-    font-weight:
-        800;
+    font-weight:800;
 
-    text-align:
-        center;
+    text-align:center;
+
 }
 
 
@@ -2657,44 +1926,74 @@ body {
    LARGE DESKTOP
 ========================================================= */
 
-@media (min-width: 1200px) {
+@media (min-width:1200px){
 
-    .container {
+    .container{
 
         padding:
             25px
             32px
             40px;
+
     }
 
-    .logo {
 
-        width:
-            72px;
+    .header{
 
-        height:
-            72px;
+        min-height:105px;
 
-        min-width:
-            72px;
     }
 
-    .logo-text {
 
-        font-size:
-            30px;
+    .logo{
+
+        width:72px;
+        height:72px;
+        min-width:72px;
+
     }
 
-    .title {
 
-        font-size:
-            24px;
+    .logo-text{
+
+        font-size:30px;
+
     }
 
-    .clock {
 
-        font-size:
-            60px;
+    .title{
+
+        font-size:24px;
+
+    }
+
+
+    .clock{
+
+        font-size:60px;
+
+    }
+
+
+    #attendanceTable thead th{
+
+        font-size:13px;
+
+        padding:
+            16px
+            13px;
+
+    }
+
+
+    #attendanceTable tbody td{
+
+        font-size:13px;
+
+        padding:
+            15px
+            13px;
+
     }
 
 }
@@ -2704,36 +2003,37 @@ body {
    1100px
 ========================================================= */
 
-@media (max-width: 1100px) {
+@media (max-width:1100px){
 
-    .filter-section {
+    .filter-section{
 
         grid-template-columns:
-            repeat(2, minmax(0, 1fr));
+            repeat(2,minmax(0,1fr));
+
     }
 
-    .today-panel {
+
+    .today-panel{
 
         grid-template-columns:
-            repeat(2, minmax(0, 1fr));
+            repeat(2,minmax(0,1fr));
+
     }
 
-    .button-group {
+
+    .button-group{
 
         grid-template-columns:
-            repeat(2, minmax(0, 1fr));
+            repeat(2,minmax(0,1fr));
+
     }
 
-    #cutoffSummary .cutoff-form {
+
+    .cutoff-summary-period{
 
         grid-template-columns:
-            repeat(2, minmax(0, 1fr));
-    }
+            repeat(2,minmax(0,1fr));
 
-    #cutoffSummary .cutoff-grand-total {
-
-        grid-template-columns:
-            repeat(2, minmax(0, 1fr));
     }
 
 }
@@ -2743,181 +2043,163 @@ body {
    TABLET
 ========================================================= */
 
-@media (max-width: 768px) {
+@media (max-width:768px){
 
-    .container {
+    .container{
 
-        padding:
-            12px;
+        padding:12px;
+
     }
 
-    .header {
 
-        min-height:
-            80px;
+    .header{
 
-        padding:
-            12px;
+        min-height:80px;
 
-        gap:
-            10px;
+        padding:12px;
 
-        flex-wrap:
-            wrap;
+        gap:10px;
+
+        flex-wrap:wrap;
+
     }
 
-    .logo {
 
-        width:
-            52px;
+    .logo{
 
-        height:
-            52px;
+        width:52px;
+        height:52px;
+        min-width:52px;
 
-        min-width:
-            52px;
     }
 
-    .logo-text {
 
-        font-size:
-            21px;
+    .logo-text{
+
+        font-size:21px;
+
     }
 
-    .title {
 
-        font-size:
-            15px;
+    .title{
 
-        padding-left:
-            10px;
+        font-size:15px;
+
+        padding-left:10px;
+
     }
 
-    .top-btn {
 
-        min-height:
-            42px;
+    .top-btn{
+
+        min-height:42px;
 
         padding:
             8px
             11px;
 
-        font-size:
-            10px;
+        font-size:10px;
+
     }
 
-    .filter-section {
+
+    .filter-section{
 
         grid-template-columns:
-            repeat(2, minmax(0, 1fr));
+            repeat(2,minmax(0,1fr));
 
-        gap:
-            9px;
+        gap:9px;
 
-        padding:
-            12px;
+        padding:12px;
+
     }
+
 
     .filter-section select,
-    .filter-section input {
+    .filter-section input{
 
-        height:
-            44px;
+        height:44px;
 
-        font-size:
-            11px;
+        font-size:11px;
+
     }
+
 
     #filterBtn,
-    #summaryBtn {
+    #summaryBtn{
 
-        min-height:
-            44px;
+        min-height:44px;
 
-        font-size:
-            10px;
+        font-size:10px;
+
     }
 
-    .employee-info {
+
+    .employee-info{
 
         grid-template-columns:
-            repeat(2, minmax(0, 1fr));
-    }
+            repeat(2,minmax(0,1fr));
 
-    .clock {
-
-        font-size:
-            43px;
-    }
-
-    .today-panel {
-
-        grid-template-columns:
-            repeat(2, minmax(0, 1fr));
-    }
-
-    .button-group {
-
-        grid-template-columns:
-            repeat(2, minmax(0, 1fr));
-    }
-
-    .action-btn {
-
-        min-height:
-            55px;
-
-        font-size:
-            11px;
-    }
-
-    #attendanceTable {
-
-        min-width:
-            1350px;
     }
 
 
-    #cutoffSummary .cutoff-summary-header {
+    .employee-info > div{
 
-        align-items:
-            flex-start;
+        min-height:62px;
 
-        flex-direction:
-            column;
+        font-size:11px;
+
     }
 
 
-    #cutoffSummary .cutoff-period {
+    .clock{
 
-        width:
-            100%;
+        font-size:43px;
 
-        justify-content:
-            center;
     }
 
 
-    #cutoffSummary .cutoff-form {
+    .section-heading h2{
 
-        grid-template-columns:
-            repeat(2, minmax(0, 1fr));
+        font-size:16px;
 
-        gap:
-            9px;
-
-        padding:
-            12px;
     }
 
 
-    #cutoffSummary .cutoff-grand-total {
+    .cutoff-summary-header{
 
-        grid-template-columns:
-            repeat(2, minmax(0, 1fr));
+        align-items:flex-start;
 
-        padding:
-            12px;
+        flex-direction:column;
+
+    }
+
+
+    .cutoff-summary-actions{
+
+        width:100%;
+
+    }
+
+
+    .summary-print-btn{
+
+        width:100%;
+
+    }
+
+
+    #attendanceTable{
+
+        min-width:1350px;
+
+    }
+
+
+    .cutoff-summary-table{
+
+        min-width:900px;
+
     }
 
 }
@@ -2927,485 +2209,414 @@ body {
    MOBILE
 ========================================================= */
 
-@media (max-width: 480px) {
+@media (max-width:480px){
 
-    .container {
+    .container{
+
+        padding:7px;
+
+    }
+
+
+    .header{
+
+        min-height:72px;
+
+        padding:9px;
+
+        border-radius:11px;
+
+    }
+
+
+    .logo{
+
+        width:43px;
+        height:43px;
+        min-width:43px;
+
+    }
+
+
+    .logo-text{
+
+        font-size:17px;
+
+    }
+
+
+    .title{
+
+        width:100%;
 
         padding:
-            7px;
-    }
+            7px
+            0
+            0;
 
-    .header {
-
-        min-height:
-            72px;
-
-        padding:
-            9px;
-
-        border-radius:
-            11px;
-    }
-
-    .logo {
-
-        width:
-            43px;
-
-        height:
-            43px;
-
-        min-width:
-            43px;
-    }
-
-    .logo-text {
-
-        font-size:
-            17px;
-    }
-
-    .title {
-
-        width:
-            100%;
-
-        padding:
-            7px 0 0;
-
-        border-left:
-            none;
+        border-left:none;
 
         border-top:
             1px solid
             #dddddd;
 
-        font-size:
-            11px;
+        font-size:11px;
+
     }
 
-    .top-btn {
 
-        min-height:
-            37px;
+    .top-btn{
+
+        min-height:37px;
 
         padding:
-            7px 9px;
+            7px
+            9px;
 
-        font-size:
-            8px;
+        font-size:8px;
+
     }
 
-    .filter-section {
+
+    .filter-section{
 
         grid-template-columns:
-            repeat(2, minmax(0, 1fr));
+            repeat(2,minmax(0,1fr));
 
-        gap:
-            6px;
+        gap:6px;
 
-        padding:
-            8px;
+        padding:8px;
+
     }
+
 
     .filter-section select,
-    .filter-section input {
+    .filter-section input{
 
-        height:
-            39px;
+        height:39px;
 
         padding:
-            7px 8px;
+            7px
+            8px;
 
-        font-size:
-            9px;
+        font-size:9px;
+
     }
+
 
     #filterBtn,
-    #summaryBtn {
+    #summaryBtn{
 
-        min-height:
-            39px;
+        min-height:39px;
 
-        padding:
-            7px;
+        padding:7px;
 
-        font-size:
-            8px;
+        font-size:8px;
+
     }
 
-    .employee-info {
+
+    .employee-info{
 
         grid-template-columns:
-            repeat(2, minmax(0, 1fr));
+            repeat(2,minmax(0,1fr));
 
-        gap:
-            6px;
+        gap:6px;
+
     }
 
-    .employee-info > div {
 
-        min-height:
-            55px;
+    .employee-info > div{
+
+        min-height:55px;
+
+        padding:8px;
+
+        font-size:8px;
+
+    }
+
+
+    .clock-area{
 
         padding:
+            16px
             8px;
 
-        font-size:
-            8px;
     }
 
-    .clock-area {
 
-        padding:
-            16px 8px;
+    .clock{
+
+        font-size:30px;
+
+        letter-spacing:0;
+
     }
 
-    .clock {
 
-        font-size:
-            30px;
+    .today-date{
 
-        letter-spacing:
-            0;
+        font-size:8px;
+
     }
 
-    .today-date {
 
-        font-size:
-            8px;
-    }
-
-    .today-panel {
+    .today-panel{
 
         grid-template-columns:
-            repeat(2, minmax(0, 1fr));
+            repeat(2,minmax(0,1fr));
 
-        gap:
-            6px;
+        gap:6px;
+
     }
 
-    .today-item {
 
-        min-height:
-            55px;
+    .today-item{
 
-        padding:
-            8px;
+        min-height:55px;
+
+        padding:8px;
+
     }
 
-    .today-item > .material-icons {
 
-        width:
-            31px;
+    .today-item > .material-icons{
 
-        height:
-            31px;
+        width:31px;
+        height:31px;
+        min-width:31px;
 
-        min-width:
-            31px;
+        font-size:16px;
 
-        font-size:
-            16px;
     }
 
-    .today-item small {
 
-        font-size:
-            6px;
+    .today-item small{
+
+        font-size:6px;
+
     }
 
-    .today-item strong {
 
-        font-size:
-            10px;
+    .today-item strong{
+
+        font-size:10px;
+
     }
 
-    .button-group {
+
+    .button-group{
 
         grid-template-columns:
-            repeat(2, minmax(0, 1fr));
+            repeat(2,minmax(0,1fr));
 
-        gap:
-            7px;
+        gap:7px;
+
     }
 
-    .action-btn {
 
-        min-height:
-            48px;
+    .action-btn{
 
-        font-size:
+        min-height:48px;
+
+        font-size:8px;
+
+    }
+
+
+    .action-btn .material-icons{
+
+        font-size:17px;
+
+    }
+
+
+    .section-heading{
+
+        min-height:65px;
+
+        padding:10px;
+
+    }
+
+
+    .section-heading-left{
+
+        gap:7px;
+
+    }
+
+
+    .section-heading-left > .material-icons{
+
+        width:36px;
+        height:36px;
+        min-width:36px;
+
+        font-size:18px;
+
+    }
+
+
+    .section-heading h2{
+
+        font-size:11px;
+
+    }
+
+
+    .section-heading p{
+
+        font-size:7px;
+
+    }
+
+
+    .clear-filter-btn{
+
+        min-height:32px;
+
+        padding:
+            5px
+            7px;
+
+        font-size:7px;
+
+    }
+
+
+    #attendanceTable{
+
+        min-width:1350px;
+
+    }
+
+
+    #attendanceTable thead th{
+
+        padding:
+            10px
             8px;
+
+        font-size:8px;
+
     }
 
-    .action-btn .material-icons {
 
-        font-size:
-            17px;
-    }
-
-    .section-heading {
-
-        min-height:
-            65px;
+    #attendanceTable tbody td{
 
         padding:
-            10px;
-    }
-
-    .section-heading h2 {
-
-        font-size:
-            11px;
-    }
-
-    .section-heading p {
-
-        font-size:
-            7px;
-    }
-
-    #attendanceTable {
-
-        min-width:
-            1350px;
-    }
-
-    #attendanceTable thead th {
-
-        padding:
-            10px 8px;
-
-        font-size:
+            9px
             8px;
-    }
 
-    #attendanceTable tbody td {
+        font-size:8px;
 
-        padding:
-            9px 8px;
-
-        font-size:
-            8px;
     }
 
 
-    /* =====================================================
-       CUTOFF MOBILE
-    ===================================================== */
+    .cutoff-summary-header{
 
-    #cutoffSummary .cutoff-summary-header {
+        padding:10px;
 
-        padding:
-            10px;
     }
 
 
-    #cutoffSummary .cutoff-summary-title {
+    .cutoff-summary-header h2{
 
-        gap:
-            7px;
+        font-size:13px;
+
     }
 
 
-    #cutoffSummary .cutoff-summary-title .material-icons {
+    .cutoff-summary-header p{
 
-        width:
-            36px;
+        font-size:8px;
 
-        height:
-            36px;
-
-        min-width:
-            36px;
-
-        font-size:
-            18px;
     }
 
 
-    #cutoffSummary .cutoff-summary-title h2 {
-
-        font-size:
-            11px;
-    }
-
-
-    #cutoffSummary .cutoff-summary-title p {
-
-        font-size:
-            7px;
-    }
-
-
-    #cutoffSummary .cutoff-period {
-
-        padding:
-            7px;
-
-        font-size:
-            8px;
-    }
-
-
-    #cutoffSummary .cutoff-form {
+    .cutoff-summary-period{
 
         grid-template-columns:
-            repeat(2, minmax(0, 1fr));
+            repeat(2,minmax(0,1fr));
 
-        gap:
-            6px;
+        gap:6px;
 
-        padding:
-            8px;
+        padding:7px;
+
     }
 
 
-    #cutoffSummary .cutoff-field label {
+    .cutoff-summary-period > div{
 
-        font-size:
+        min-height:48px;
+
+        padding:6px 8px;
+
+    }
+
+
+    .cutoff-summary-period span{
+
+        font-size:6px;
+
+    }
+
+
+    .cutoff-summary-period strong{
+
+        font-size:10px;
+
+    }
+
+
+    .summary-print-btn{
+
+        min-height:36px;
+
+        font-size:8px;
+
+    }
+
+
+    .cutoff-summary-table{
+
+        min-width:900px;
+
+    }
+
+
+    .cutoff-summary-table thead th{
+
+        padding:
+            9px
             7px;
+
+        font-size:8px;
+
     }
 
 
-    #cutoffSummary .cutoff-field input {
-
-        height:
-            39px;
+    .cutoff-summary-table tbody td{
 
         padding:
-            7px 8px;
-
-        font-size:
-            9px;
-    }
-
-
-    #cutoffSummary .cutoff-generate-btn,
-    #cutoffSummary .cutoff-print-btn {
-
-        min-height:
-            39px;
-
-        padding:
+            9px
             7px;
 
-        font-size:
-            8px;
+        font-size:8px;
+
     }
 
 
-    #cutoffSummary .cutoff-summary-info {
+    .cutoff-summary-table tfoot td{
 
         padding:
-            9px;
-
-        flex-direction:
-            column;
-
-        align-items:
-            flex-start;
-
-        gap:
-            3px;
-    }
-
-
-    #cutoffSummary .cutoff-summary-info strong {
-
-        font-size:
-            9px;
-    }
-
-
-    #cutoffSummary .cutoff-summary-info span {
-
-        font-size:
+            10px
             7px;
-    }
 
+        font-size:8px;
 
-    #cutoffSummaryTable {
-
-        min-width:
-            900px;
-    }
-
-
-    #cutoffSummaryTable th {
-
-        padding:
-            9px 7px;
-
-        font-size:
-            7px;
-    }
-
-
-    #cutoffSummaryTable td {
-
-        padding:
-            9px 7px;
-
-        font-size:
-            8px;
-    }
-
-
-    #cutoffSummary .cutoff-grand-total {
-
-        grid-template-columns:
-            repeat(2, minmax(0, 1fr));
-
-        gap:
-            6px;
-
-        padding:
-            8px;
-    }
-
-
-    #cutoffSummary .cutoff-total-card {
-
-        min-height:
-            52px;
-
-        gap:
-            6px;
-
-        padding:
-            7px;
-    }
-
-
-    #cutoffSummary .cutoff-total-card .material-icons {
-
-        width:
-            29px;
-
-        height:
-            29px;
-
-        min-width:
-            29px;
-
-        font-size:
-            15px;
-    }
-
-
-    #cutoffSummary .cutoff-total-card small {
-
-        font-size:
-            5px;
-    }
-
-
-    #cutoffSummary .cutoff-total-card strong {
-
-        font-size:
-            10px;
     }
 
 }
@@ -3415,590 +2626,634 @@ body {
    VERY SMALL MOBILE
 ========================================================= */
 
-@media (max-width: 360px) {
+@media (max-width:360px){
 
-    .container {
+    .container{
 
-        padding:
-            5px;
+        padding:5px;
+
     }
 
-    .logo {
 
-        width:
-            38px;
+    .logo{
 
-        height:
-            38px;
+        width:38px;
+        height:38px;
+        min-width:38px;
 
-        min-width:
-            38px;
     }
 
-    .logo-text {
 
-        font-size:
-            14px;
+    .logo-text{
+
+        font-size:14px;
+
     }
 
-    .title {
 
-        font-size:
-            9px;
+    .title{
+
+        font-size:9px;
+
     }
 
-    .clock {
 
-        font-size:
-            26px;
+    .clock{
+
+        font-size:26px;
+
     }
 
-    .action-btn {
 
-        min-height:
-            45px;
+    .action-btn{
 
-        font-size:
-            7px;
-    }
+        min-height:45px;
 
-    #cutoffSummary .cutoff-summary-title h2 {
+        font-size:7px;
 
-        font-size:
-            9px;
-    }
-
-    #cutoffSummary .cutoff-form {
-
-        gap:
-            5px;
-
-        padding:
-            6px;
-    }
-
-    #cutoffSummary .cutoff-field input {
-
-        height:
-            36px;
-
-        font-size:
-            8px;
-    }
-
-    #cutoffSummary .cutoff-generate-btn,
-    #cutoffSummary .cutoff-print-btn {
-
-        min-height:
-            36px;
-
-        font-size:
-            7px;
     }
 
 }
 
 
 /* =========================================================
-   PRINT
-   IMPORTANT:
-   PRINT ONLY THE CUTOFF SUMMARY
-   OVERALL ATTENDANCE TABLE WILL NOT PRINT
+   =========================================================
+   PRINT SYSTEM
+   =========================================================
 ========================================================= */
 
-@media print {
+@media print{
 
-    @page {
+    @page{
 
-        size:
-            landscape;
+        size:landscape;
 
-        margin:
-            8mm;
+        margin:8mm;
+
     }
 
 
     html,
-    body {
+    body{
 
-        width:
-            100% !important;
+        width:100% !important;
 
-        min-height:
-            0 !important;
+        min-height:0 !important;
 
-        margin:
-            0 !important;
+        margin:0 !important;
+
+        padding:0 !important;
+
+        background:#ffffff !important;
+
+        overflow:visible !important;
+
+    }
+
+
+    /*
+     * Hide everything first.
+     */
+
+    body *{
+
+        visibility:hidden !important;
+
+    }
+
+
+    /*
+     * PRINT HIDDEN
+     */
+
+    .print-hidden{
+
+        display:none !important;
+
+        visibility:hidden !important;
+
+    }
+
+
+    /* =====================================================
+       OVERALL ATTENDANCE PRINT
+    ===================================================== */
+
+    body:has(
+        .print-attendance-only
+    )
+    .print-attendance-only{
+
+        display:block !important;
+
+        visibility:visible !important;
+
+        position:absolute !important;
+
+        left:0 !important;
+
+        top:0 !important;
+
+        width:100% !important;
+
+        margin:0 !important;
+
+        padding:0 !important;
+
+        background:#ffffff !important;
+
+        border:none !important;
+
+        box-shadow:none !important;
+
+        overflow:visible !important;
+
+    }
+
+
+    body:has(
+        .print-attendance-only
+    )
+    .print-attendance-only *{
+
+        visibility:visible !important;
+
+    }
+
+
+    body:has(
+        .print-attendance-only
+    )
+    .print-attendance-only
+    .section-heading{
+
+        display:none !important;
+
+    }
+
+
+    body:has(
+        .print-attendance-only
+    )
+    .print-attendance-only
+    .table-wrapper{
+
+        width:100% !important;
+
+        overflow:visible !important;
+
+    }
+
+
+    body:has(
+        .print-attendance-only
+    )
+    #attendanceTable{
+
+        width:100% !important;
+
+        min-width:0 !important;
+
+        table-layout:auto !important;
+
+        border-collapse:collapse !important;
+
+        font-size:8pt !important;
+
+    }
+
+
+    body:has(
+        .print-attendance-only
+    )
+    #attendanceTable th,
+    body:has(
+        .print-attendance-only
+    )
+    #attendanceTable td{
 
         padding:
-            0 !important;
-
-        background:
-            #ffffff !important;
-
-        overflow:
-            visible !important;
-    }
-
-
-    /*
-     * Hide EVERYTHING first.
-     */
-
-    body * {
-
-        visibility:
-            hidden !important;
-    }
-
-
-    /*
-     * Show ONLY cutoff summary.
-     */
-
-    #cutoffSummary,
-    #cutoffSummary * {
-
-        visibility:
-            visible !important;
-    }
-
-
-    /*
-     * Position cutoff summary
-     * at the top of the printed page.
-     */
-
-    #cutoffSummary {
-
-        position:
-            absolute !important;
-
-        left:
-            0 !important;
-
-        top:
-            0 !important;
-
-        width:
-            100% !important;
-
-        max-width:
-            none !important;
-
-        margin:
-            0 !important;
-
-        padding:
-            0 !important;
-
-        background:
-            #ffffff !important;
-
-        border:
-            none !important;
-
-        border-radius:
-            0 !important;
-
-        box-shadow:
-            none !important;
-
-        overflow:
-            visible !important;
-    }
-
-
-    /*
-     * Hide cutoff controls.
-     */
-
-    #cutoffSummary .cutoff-form {
-
-        display:
-            none !important;
-    }
-
-
-    /*
-     * Header.
-     */
-
-    #cutoffSummary .cutoff-summary-header {
-
-        display:
-            flex !important;
-
-        width:
-            100% !important;
-
-        padding:
-            0 0 10px !important;
-
-        background:
-            #ffffff !important;
-
-        border:
-            none !important;
-    }
-
-
-    #cutoffSummary .cutoff-summary-title {
-
-        display:
-            flex !important;
-
-        align-items:
-            center !important;
-    }
-
-
-    #cutoffSummary .cutoff-summary-title .material-icons {
-
-        display:
-            none !important;
-    }
-
-
-    #cutoffSummary .cutoff-summary-title h2 {
-
-        color:
-            #000000 !important;
-
-        font-family:
-            Arial,
-            sans-serif !important;
-
-        font-size:
-            16pt !important;
-
-        font-weight:
-            900 !important;
-    }
-
-
-    #cutoffSummary .cutoff-summary-title p {
-
-        color:
-            #000000 !important;
-
-        font-size:
-            9pt !important;
-    }
-
-
-    #cutoffSummary .cutoff-period {
-
-        border:
-            none !important;
-
-        padding:
-            0 !important;
-
-        background:
-            #ffffff !important;
-
-        color:
-            #000000 !important;
-
-        font-size:
-            9pt !important;
-    }
-
-
-    /*
-     * Result information.
-     */
-
-    #cutoffSummary .cutoff-summary-info {
-
-        display:
-            flex !important;
-
-        width:
-            100% !important;
-
-        padding:
-            5px 0 !important;
-
-        background:
-            #ffffff !important;
-
-        border:
-            none !important;
-    }
-
-
-    #cutoffSummary .cutoff-summary-info strong,
-    #cutoffSummary .cutoff-summary-info span {
-
-        color:
-            #000000 !important;
-
-        font-size:
-            8pt !important;
-    }
-
-
-    /*
-     * Table wrapper.
-     *
-     * Important for multiple pages.
-     */
-
-    #cutoffSummary .cutoff-summary-table-wrapper {
-
-        width:
-            100% !important;
-
-        overflow:
-            visible !important;
-    }
-
-
-    #cutoffSummaryTable {
-
-        width:
-            100% !important;
-
-        min-width:
-            0 !important;
-
-        max-width:
-            none !important;
-
-        border-collapse:
-            collapse !important;
-
-        table-layout:
-            auto !important;
-
-        font-family:
-            Arial,
-            sans-serif !important;
-
-        font-size:
-            8pt !important;
-    }
-
-
-    #cutoffSummaryTable th,
-    #cutoffSummaryTable td {
+            5px
+            4px !important;
 
         border:
             1px solid
             #000000 !important;
 
-        padding:
-            5px 4px !important;
+        background:#ffffff !important;
 
-        color:
-            #000000 !important;
-
-        background:
-            #ffffff !important;
+        color:#000000 !important;
 
         font-family:
             Arial,
             sans-serif !important;
 
-        font-size:
-            8pt !important;
+        font-size:8pt !important;
 
-        font-weight:
-            700 !important;
+        font-weight:700 !important;
 
-        text-align:
-            center !important;
+        text-align:center !important;
 
-        vertical-align:
-            middle !important;
+        white-space:nowrap !important;
 
-        white-space:
-            nowrap !important;
     }
 
 
-    #cutoffSummaryTable th {
+    body:has(
+        .print-attendance-only
+    )
+    #attendanceTable thead{
 
-        background:
-            #eeeeee !important;
+        display:table-header-group !important;
 
-        font-weight:
-            900 !important;
     }
 
 
-    /*
-     * Keep table header on every printed page.
-     */
+    body:has(
+        .print-attendance-only
+    )
+    #attendanceTable tbody{
 
-    #cutoffSummaryTable thead {
+        display:table-row-group !important;
 
-        display:
-            table-header-group !important;
     }
 
 
-    #cutoffSummaryTable tbody {
+    body:has(
+        .print-attendance-only
+    )
+    #attendanceTable th{
 
-        display:
-            table-row-group !important;
+        background:#eeeeee !important;
+
+        font-weight:900 !important;
+
     }
 
 
-    /*
-     * Prevent an employee row from being split.
-     */
+    body:has(
+        .print-attendance-only
+    )
+    #attendanceTable th:last-child,
+    body:has(
+        .print-attendance-only
+    )
+    #attendanceTable td:last-child{
 
-    #cutoffSummaryTable tr {
+        display:none !important;
 
-        page-break-inside:
-            avoid !important;
-
-        break-inside:
-            avoid !important;
     }
 
 
-    /*
-     * Total Hours emphasis.
-     */
+    body:has(
+        .print-attendance-only
+    )
+    #attendanceTable button{
 
-    #cutoffSummaryTable td.total-hours-cell {
+        display:none !important;
 
-        background:
-            #ffffff !important;
-
-        color:
-            #000000 !important;
-
-        font-weight:
-            900 !important;
     }
 
 
-    #cutoffSummaryTable td.ot-hours-cell {
+    body:has(
+        .print-attendance-only
+    )
+    #attendanceTable .status-badge{
 
-        color:
-            #000000 !important;
+        background:#ffffff !important;
 
-        font-weight:
-            900 !important;
+        color:#000000 !important;
+
+        border:none !important;
+
     }
 
 
-    #cutoffSummaryTable td.late-minutes-cell {
+    /* =====================================================
+       CUTOFF SUMMARY PRINT
+    ===================================================== */
 
-        color:
-            #000000 !important;
+    body:has(
+        .print-summary-only
+    )
+    .print-summary-only{
 
-        font-weight:
-            900 !important;
+        display:block !important;
+
+        visibility:visible !important;
+
+        position:absolute !important;
+
+        left:0 !important;
+
+        top:0 !important;
+
+        width:100% !important;
+
+        margin:0 !important;
+
+        padding:0 !important;
+
+        background:#ffffff !important;
+
+        border:none !important;
+
+        border-radius:0 !important;
+
+        box-shadow:none !important;
+
+        overflow:visible !important;
+
     }
 
 
-    /*
-     * Grand totals.
-     */
+    body:has(
+        .print-summary-only
+    )
+    .print-summary-only *{
 
-    #cutoffSummary .cutoff-grand-total {
+        visibility:visible !important;
 
-        display:
-            grid !important;
+    }
+
+
+    body:has(
+        .print-summary-only
+    )
+    .cutoff-summary-header{
+
+        display:flex !important;
+
+        min-height:auto !important;
+
+        padding:
+            0
+            0
+            10px !important;
+
+        border:none !important;
+
+    }
+
+
+    body:has(
+        .print-summary-only
+    )
+    .cutoff-summary-header h2{
+
+        font-size:16pt !important;
+
+        color:#000000 !important;
+
+    }
+
+
+    body:has(
+        .print-summary-only
+    )
+    .cutoff-summary-header p{
+
+        font-size:8pt !important;
+
+        color:#000000 !important;
+
+    }
+
+
+    body:has(
+        .print-summary-only
+    )
+    .summary-print-btn{
+
+        display:none !important;
+
+    }
+
+
+    body:has(
+        .print-summary-only
+    )
+    .cutoff-summary-period{
+
+        display:grid !important;
 
         grid-template-columns:
-            repeat(4, 1fr) !important;
+            repeat(4,1fr) !important;
 
-        width:
-            100% !important;
-
-        gap:
-            5px !important;
+        gap:5px !important;
 
         padding:
-            10px 0 !important;
+            0
+            0
+            8px !important;
 
-        background:
-            #ffffff !important;
+        background:#ffffff !important;
 
-        border:
-            none !important;
+        border:none !important;
+
     }
 
 
-    #cutoffSummary .cutoff-total-card {
+    body:has(
+        .print-summary-only
+    )
+    .cutoff-summary-period > div{
 
-        min-height:
-            auto !important;
+        min-height:auto !important;
 
         padding:
+            5px
             7px !important;
-
-        background:
-            #ffffff !important;
 
         border:
             1px solid
             #000000 !important;
 
-        border-radius:
-            0 !important;
+        border-radius:0 !important;
+
+        background:#ffffff !important;
+
     }
 
 
-    #cutoffSummary .cutoff-total-card .material-icons {
+    body:has(
+        .print-summary-only
+    )
+    .cutoff-summary-period span{
 
-        display:
-            none !important;
+        color:#000000 !important;
+
+        font-size:7pt !important;
+
     }
 
 
-    #cutoffSummary .cutoff-total-card small {
+    body:has(
+        .print-summary-only
+    )
+    .cutoff-summary-period strong{
 
-        color:
+        color:#000000 !important;
+
+        font-size:9pt !important;
+
+    }
+
+
+    body:has(
+        .print-summary-only
+    )
+    .cutoff-summary-table-wrapper{
+
+        width:100% !important;
+
+        overflow:visible !important;
+
+    }
+
+
+    body:has(
+        .print-summary-only
+    )
+    .cutoff-summary-table{
+
+        width:100% !important;
+
+        min-width:0 !important;
+
+        border-collapse:collapse !important;
+
+        table-layout:auto !important;
+
+        font-size:8pt !important;
+
+    }
+
+
+    body:has(
+        .print-summary-only
+    )
+    .cutoff-summary-table th,
+    body:has(
+        .print-summary-only
+    )
+    .cutoff-summary-table td{
+
+        padding:
+            6px
+            5px !important;
+
+        border:
+            1px solid
             #000000 !important;
 
-        font-size:
-            7pt !important;
+        background:#ffffff !important;
 
-        font-weight:
-            700 !important;
+        color:#000000 !important;
+
+        font-family:
+            Arial,
+            sans-serif !important;
+
+        font-size:8pt !important;
+
+        font-weight:700 !important;
+
+        text-align:center !important;
+
+        white-space:nowrap !important;
+
     }
 
 
-    #cutoffSummary .cutoff-total-card strong {
+    body:has(
+        .print-summary-only
+    )
+    .cutoff-summary-table thead{
 
-        color:
+        display:table-header-group !important;
+
+    }
+
+
+    body:has(
+        .print-summary-only
+    )
+    .cutoff-summary-table tbody{
+
+        display:table-row-group !important;
+
+    }
+
+
+    body:has(
+        .print-summary-only
+    )
+    .cutoff-summary-table thead th{
+
+        background:#eeeeee !important;
+
+        font-weight:900 !important;
+
+    }
+
+
+    body:has(
+        .print-summary-only
+    )
+    .cutoff-summary-table .summary-total-hours{
+
+        background:#ffffff !important;
+
+        color:#000000 !important;
+
+        font-weight:900 !important;
+
+    }
+
+
+    body:has(
+        .print-summary-only
+    )
+    .cutoff-summary-table tfoot td{
+
+        background:#eeeeee !important;
+
+        color:#000000 !important;
+
+        border:
+            1px solid
             #000000 !important;
 
-        font-size:
-            10pt !important;
+        font-weight:900 !important;
 
-        font-weight:
-            900 !important;
+    }
+
+
+    body:has(
+        .print-summary-only
+    )
+    .cutoff-summary-table tr{
+
+        page-break-inside:avoid !important;
+
+        break-inside:avoid !important;
+
     }
 
 
     /*
-     * Hide all buttons.
+     * Summary footer should remain
+     * visually clean when printed.
      */
 
-    #cutoffSummary button {
+    body:has(
+        .print-summary-only
+    )
+    .attendance-footer{
 
-        display:
-            none !important;
-    }
+        display:none !important;
 
-
-    /*
-     * Footer stays hidden.
-     */
-
-    .attendance-footer {
-
-        display:
-            none !important;
     }
 
 }
