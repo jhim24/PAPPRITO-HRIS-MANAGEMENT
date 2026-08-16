@@ -1,7 +1,8 @@
 /* ==========================================
    PAPPRITO HRIS
    EMPLOYEE ONBOARDING CSS
-   VERSION 1
+   VERSION 2
+   LAYOUT FIX ONLY
 ========================================== */
 
 
@@ -45,6 +46,19 @@
 
 
 /* ==========================================
+   GLOBAL BOX SIZING
+========================================== */
+
+*,
+*::before,
+*::after{
+
+    box-sizing:border-box;
+
+}
+
+
+/* ==========================================
    PAGE
 ========================================== */
 
@@ -71,6 +85,10 @@ body{
     min-height:100vh;
 
     padding:24px;
+
+    width:100%;
+
+    max-width:100%;
 
 }
 
@@ -115,6 +133,8 @@ body{
     align-items:center;
 
     gap:15px;
+
+    min-width:0;
 
 }
 
@@ -203,16 +223,14 @@ body{
 
     cursor:pointer;
 
-    transition:
-        .2s ease;
+    transition:.2s ease;
 
 }
 
 
 .btn:hover{
 
-    transform:
-        translateY(-1px);
+    transform:translateY(-1px);
 
 }
 
@@ -269,7 +287,7 @@ body{
     display:grid;
 
     grid-template-columns:
-        repeat(4,1fr);
+        repeat(4,minmax(0,1fr));
 
     gap:16px;
 
@@ -287,6 +305,8 @@ body{
     gap:14px;
 
     min-height:105px;
+
+    min-width:0;
 
     padding:18px;
 
@@ -309,8 +329,7 @@ body{
 
 .summary-card:hover{
 
-    transform:
-        translateY(-2px);
+    transform:translateY(-2px);
 
     box-shadow:
         0 8px 22px
@@ -357,6 +376,8 @@ body{
 
     gap:4px;
 
+    min-width:0;
+
 }
 
 
@@ -401,6 +422,10 @@ body{
     box-shadow:
         0 4px 15px
         rgba(0,0,0,.06);
+
+    width:100%;
+
+    max-width:100%;
 
 }
 
@@ -472,7 +497,7 @@ body{
     display:grid;
 
     grid-template-columns:
-        minmax(240px,1fr)
+        minmax(0,1fr)
         180px
         200px;
 
@@ -487,6 +512,8 @@ body{
 
     position:relative;
 
+    min-width:0;
+
 }
 
 
@@ -498,8 +525,7 @@ body{
 
     left:13px;
 
-    transform:
-        translateY(-50%);
+    transform:translateY(-50%);
 
     color:#6b7280;
 
@@ -538,8 +564,7 @@ body{
 
 .search-box input:focus{
 
-    border-color:
-        var(--primary);
+    border-color:var(--primary);
 
     background:#fff;
 
@@ -561,6 +586,8 @@ body{
     flex-direction:column;
 
     gap:5px;
+
+    min-width:0;
 
 }
 
@@ -584,8 +611,7 @@ body{
 
     height:44px;
 
-    padding:
-        0 12px;
+    padding:0 12px;
 
     border:1px solid var(--border);
 
@@ -604,18 +630,6 @@ body{
 }
 
 
-.filter-group select:focus{
-
-    border-color:
-        var(--primary);
-
-    box-shadow:
-        0 0 0 3px
-        rgba(255,204,0,.15);
-
-}
-
-
 /* ==========================================
    TABLE WRAPPER
 ========================================== */
@@ -623,6 +637,8 @@ body{
 .table-wrapper{
 
     width:100%;
+
+    max-width:100%;
 
     overflow-x:auto;
 
@@ -654,8 +670,7 @@ body{
 
     padding:13px 12px;
 
-    background:
-        #1f2937;
+    background:#1f2937;
 
     color:#fff;
 
@@ -777,6 +792,8 @@ body{
 
     justify-content:space-between;
 
+    gap:8px;
+
     margin-bottom:6px;
 
 }
@@ -880,6 +897,10 @@ body{
 }
 
 
+/* ==========================================
+   FORM SECTION TITLE
+========================================== */
+
 .form-section-title{
 
     display:flex;
@@ -888,15 +909,11 @@ body{
 
     gap:8px;
 
-    margin:
-        20px 0 14px;
+    margin:20px 0 14px;
 
-    padding:
-        10px 12px;
+    padding:10px 12px;
 
-    border-left:
-        4px solid
-        var(--primary);
+    border-left:4px solid var(--primary);
 
     background:#f5f6f8;
 
@@ -918,19 +935,41 @@ body{
 }
 
 
+/* ==========================================
+   FORM GRID
+   IMPORTANT LAYOUT FIX
+========================================== */
+
 .form-grid{
+
+    width:100%;
+
+    max-width:100%;
 
     display:grid;
 
     grid-template-columns:
-        repeat(2,1fr);
+        minmax(0,1fr)
+        minmax(0,1fr);
 
-    gap:14px;
+    gap:16px;
+
+    align-items:start;
 
 }
 
 
+/* ==========================================
+   FORM GROUP
+========================================== */
+
 .form-group{
+
+    width:100%;
+
+    min-width:0;
+
+    max-width:100%;
 
     display:flex;
 
@@ -941,14 +980,27 @@ body{
 }
 
 
+/* ==========================================
+   FULL WIDTH FORM GROUP
+========================================== */
+
 .form-group.full-width{
+
+    grid-column:
+        1 / -1;
 
     width:100%;
 
 }
 
 
+/* ==========================================
+   FORM LABEL
+========================================== */
+
 .form-group label{
+
+    width:100%;
 
     color:#374151;
 
@@ -959,11 +1011,23 @@ body{
 }
 
 
+/* ==========================================
+   FORM INPUTS
+========================================== */
+
 .form-group input,
 .form-group select,
 .form-group textarea{
 
+    display:block;
+
     width:100%;
+
+    max-width:100%;
+
+    min-width:0;
+
+    margin:0;
 
     padding:
         11px 12px;
@@ -987,6 +1051,10 @@ body{
 }
 
 
+/* ==========================================
+   INPUT / SELECT HEIGHT
+========================================== */
+
 .form-group input,
 .form-group select{
 
@@ -994,6 +1062,46 @@ body{
 
 }
 
+
+/* ==========================================
+   DATE INPUT FIX
+========================================== */
+
+.form-group input[type="date"]{
+
+    width:100%;
+
+    min-width:0;
+
+    max-width:100%;
+
+    padding-left:12px;
+
+    padding-right:12px;
+
+    appearance:auto;
+
+    -webkit-appearance:auto;
+
+}
+
+
+/* ==========================================
+   DATE INPUT CALENDAR
+========================================== */
+
+.form-group input[type="date"]::-webkit-calendar-picker-indicator{
+
+    cursor:pointer;
+
+    margin-left:auto;
+
+}
+
+
+/* ==========================================
+   TEXTAREA
+========================================== */
 
 .form-group textarea{
 
@@ -1003,6 +1111,10 @@ body{
 
 }
 
+
+/* ==========================================
+   FOCUS
+========================================== */
 
 .form-group input:focus,
 .form-group select:focus,
@@ -1021,15 +1133,34 @@ body{
 
 
 /* ==========================================
+   READONLY / DISABLED
+========================================== */
+
+.form-group input[readonly],
+.form-group select:disabled{
+
+    background:#f3f4f6;
+
+    color:#374151;
+
+    cursor:not-allowed;
+
+}
+
+
+/* ==========================================
    CHECKLIST
 ========================================== */
 
 .checklist-grid{
 
+    width:100%;
+
     display:grid;
 
     grid-template-columns:
-        repeat(2,1fr);
+        minmax(0,1fr)
+        minmax(0,1fr);
 
     gap:10px;
 
@@ -1047,6 +1178,8 @@ body{
     gap:10px;
 
     min-height:48px;
+
+    min-width:0;
 
     padding:
         11px 13px;
@@ -1067,8 +1200,7 @@ body{
 
     cursor:pointer;
 
-    transition:
-        .2s ease;
+    transition:.2s ease;
 
 }
 
@@ -1359,7 +1491,8 @@ body{
     display:grid;
 
     grid-template-columns:
-        repeat(2,1fr);
+        minmax(0,1fr)
+        minmax(0,1fr);
 
     gap:10px;
 
@@ -1427,6 +1560,109 @@ body{
 
 
 /* ==========================================
+   ACTION BUTTONS
+========================================== */
+
+.action-buttons{
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    gap:6px;
+
+    flex-wrap:wrap;
+
+}
+
+
+.action-buttons .btn{
+
+    display:inline-flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    gap:5px;
+
+    min-height:36px;
+
+    padding:8px 11px;
+
+    border-radius:8px;
+
+    font-size:10px;
+
+    font-weight:900;
+
+    white-space:nowrap;
+
+}
+
+
+.action-buttons .material-icons{
+
+    font-size:17px;
+
+}
+
+
+.action-buttons .primary-btn{
+
+    background:var(--primary);
+
+    color:#111;
+
+}
+
+
+.action-buttons .primary-btn:hover{
+
+    background:var(--primary-dark);
+
+}
+
+
+.action-buttons .edit-btn{
+
+    background:#2563eb;
+
+    color:#fff;
+
+    border:0;
+
+}
+
+
+.action-buttons .edit-btn:hover{
+
+    background:#1d4ed8;
+
+}
+
+
+.action-buttons .delete-btn{
+
+    background:var(--danger);
+
+    color:#fff;
+
+    border:0;
+
+}
+
+
+.action-buttons .delete-btn:hover{
+
+    background:#b91c1c;
+
+}
+
+
+/* ==========================================
    TABLET
 ========================================== */
 
@@ -1437,7 +1673,7 @@ body{
     .summary-grid{
 
         grid-template-columns:
-            repeat(2,1fr);
+            repeat(2,minmax(0,1fr));
 
     }
 
@@ -1445,7 +1681,8 @@ body{
     .filter-bar{
 
         grid-template-columns:
-            1fr 1fr;
+            minmax(0,1fr)
+            minmax(0,1fr);
 
     }
 
@@ -1524,7 +1761,7 @@ body{
     .summary-grid{
 
         grid-template-columns:
-            1fr 1fr;
+            repeat(2,minmax(0,1fr));
 
         gap:10px;
 
@@ -1617,21 +1854,54 @@ body{
     }
 
 
+    /* ======================================
+       FORM BECOMES ONE COLUMN
+    ====================================== */
+
     .form-grid{
 
         grid-template-columns:
-            1fr;
+            minmax(0,1fr);
+
+        gap:12px;
 
     }
 
+
+    .form-group{
+
+        grid-column:auto;
+
+        width:100%;
+
+        min-width:0;
+
+    }
+
+
+    .form-group.full-width{
+
+        grid-column:
+            1 / -1;
+
+    }
+
+
+    /* ======================================
+       CHECKLIST ONE COLUMN
+    ====================================== */
 
     .checklist-grid{
 
         grid-template-columns:
-            1fr;
+            minmax(0,1fr);
 
     }
 
+
+    /* ======================================
+       MODAL
+    ====================================== */
 
     .modal{
 
@@ -1668,7 +1938,7 @@ body{
     .modal-checklist{
 
         grid-template-columns:
-            1fr;
+            minmax(0,1fr);
 
         padding:
             0 14px 14px;
@@ -1693,6 +1963,10 @@ body{
     }
 
 
+    /* ======================================
+       FORM BUTTONS
+    ====================================== */
+
     .form-actions{
 
         flex-direction:column;
@@ -1703,6 +1977,30 @@ body{
     .form-actions .btn{
 
         width:100%;
+
+    }
+
+
+    /* ======================================
+       ACTION BUTTONS
+    ====================================== */
+
+    .action-buttons{
+
+        flex-direction:column;
+
+        align-items:stretch;
+
+        width:100%;
+
+    }
+
+
+    .action-buttons .btn{
+
+        width:100%;
+
+        min-height:38px;
 
     }
 
@@ -1775,6 +2073,22 @@ body{
 
     }
 
+
+    .form-grid{
+
+        gap:10px;
+
+    }
+
+
+    .form-group input,
+    .form-group select,
+    .form-group textarea{
+
+        font-size:13px;
+
+    }
+
 }
 
 
@@ -1793,153 +2107,6 @@ body{
         transition:none !important;
 
         animation:none !important;
-
-    }
-
-}
-/* ==========================================
-   ONBOARDING ACTION BUTTONS
-========================================== */
-
-.action-buttons{
-
-    display:flex;
-
-    align-items:center;
-
-    justify-content:center;
-
-    gap:6px;
-
-    flex-wrap:wrap;
-
-}
-
-
-/* ==========================================
-   ACTION BUTTON BASE
-========================================== */
-
-.action-buttons .btn{
-
-    display:inline-flex;
-
-    align-items:center;
-
-    justify-content:center;
-
-    gap:5px;
-
-    min-height:36px;
-
-    padding:8px 11px;
-
-    border-radius:8px;
-
-    font-size:10px;
-
-    font-weight:900;
-
-    white-space:nowrap;
-
-}
-
-
-.action-buttons .material-icons{
-
-    font-size:17px;
-
-}
-
-
-/* ==========================================
-   VIEW BUTTON
-========================================== */
-
-.action-buttons .primary-btn{
-
-    background:var(--primary);
-
-    color:#111;
-
-}
-
-
-.action-buttons .primary-btn:hover{
-
-    background:var(--primary-dark);
-
-}
-
-
-/* ==========================================
-   EDIT BUTTON
-========================================== */
-
-.action-buttons .edit-btn{
-
-    background:#2563eb;
-
-    color:#fff;
-
-    border:0;
-
-}
-
-
-.action-buttons .edit-btn:hover{
-
-    background:#1d4ed8;
-
-}
-
-
-/* ==========================================
-   DELETE BUTTON
-========================================== */
-
-.action-buttons .delete-btn{
-
-    background:var(--danger);
-
-    color:#fff;
-
-    border:0;
-
-}
-
-
-.action-buttons .delete-btn:hover{
-
-    background:#b91c1c;
-
-}
-
-
-/* ==========================================
-   MOBILE ACTION BUTTONS
-========================================== */
-
-@media(
-    max-width:700px
-){
-
-    .action-buttons{
-
-        flex-direction:column;
-
-        align-items:stretch;
-
-        width:100%;
-
-    }
-
-
-    .action-buttons .btn{
-
-        width:100%;
-
-        min-height:38px;
 
     }
 
