@@ -1983,10 +1983,16 @@ function(){
 
 /* ==========================================
    PRINT SINGLE PAYSLIP
+   FIXED - ISOLATED PRINT WINDOW
+   PRINTS PAYSLIP ONLY
 ========================================== */
 
 window.printPayslip =
 function(){
+
+    /* ======================================
+       CHECK SELECTED PAYSLIP
+    ====================================== */
 
     if(
         !selectedRecord
@@ -2001,27 +2007,1490 @@ function(){
     }
 
 
-    document.body.classList.add(
-        "printing-payslip"
-    );
+    const record =
+        selectedRecord;
 
 
-    window.print();
+    /* ======================================
+       BASIC INFORMATION
+    ====================================== */
+
+    const employeeId =
+        record.employeeId
+        ||
+        record.employeeid
+        ||
+        "-";
 
 
-    setTimeout(
-        function(){
+    const employeeName =
+        record.employeeName
+        ||
+        record.employee
+        ||
+        "-";
 
-            document.body.classList.remove(
-                "printing-payslip"
-            );
 
-        },
-        1000
-    );
+    const payrollDate =
+        record.date
+        ||
+        "-";
+
+
+    const hourlyRate =
+        num(
+            record.hourlyRate
+        );
+
+
+    /* ======================================
+       HOURS
+    ====================================== */
+
+    const regularHours =
+        num(
+            record.regularHours
+        );
+
+
+    const overtimeHours =
+        num(
+            record.overtimeHours
+        );
+
+
+    const regularHolidayHours =
+        getRegularHolidayHours(
+            record
+        );
+
+
+    const specialHolidayHours =
+        getSpecialHolidayHours(
+            record
+        );
+
+
+    const holidayHours =
+        num(
+            record.holidayHours
+        )
+        ||
+        (
+            regularHolidayHours +
+            specialHolidayHours
+        );
+
+
+    const nightHours =
+        num(
+            record.nightHours
+        );
+
+
+    const totalHours =
+        getTotalHours(
+            record
+        );
+
+
+    /* ======================================
+       HOLIDAY PAY
+    ====================================== */
+
+    const regularHolidayPay =
+        getRegularHolidayPay(
+            record
+        );
+
+
+    const specialHolidayPay =
+        getSpecialHolidayPay(
+            record
+        );
+
+
+    const totalHolidayPay =
+        getTotalHolidayPay(
+            record
+        );
+
+
+    /* ======================================
+       EARNINGS
+    ====================================== */
+
+    const regularPay =
+        num(
+            record.regularPay
+        );
+
+
+    const overtimePay =
+        num(
+            record.overtimePay
+        );
+
+
+    const nightPay =
+        getNightPay(
+            record
+        );
+
+
+    const gross =
+        num(
+            record.gross
+        );
+
+
+    /* ======================================
+       DEDUCTIONS
+    ====================================== */
+
+    const sss =
+        num(
+            record.sss
+        );
+
+
+    const philhealth =
+        num(
+            record.philhealth
+        );
+
+
+    const pagibig =
+        num(
+            record.pagibig
+        );
+
+
+    const healthcard =
+        num(
+            record.healthcard
+        );
+
+
+    const others =
+        num(
+            record.others
+        );
+
+
+    const deductions =
+        num(
+            record.deductions
+        );
+
+
+    /* ======================================
+       NET PAY
+    ====================================== */
+
+    const net =
+        num(
+            record.net
+        );
+
+
+    /* ======================================
+       HOLIDAY TYPE
+    ====================================== */
+
+    const holidayType =
+        formatHoliday(
+            record.holidayType
+        );
+
+
+    /* ======================================
+       OPEN ISOLATED PRINT WINDOW
+    ====================================== */
+
+    const printWindow =
+        window.open(
+            "",
+            "_blank",
+            "width=900,height=900"
+        );
+
+
+    if(
+        !printWindow
+    ){
+
+        alert(
+            "Please allow pop-ups to print the payslip."
+        );
+
+        return;
+
+    }
+
+
+    /* ======================================
+       PRINT HTML
+    ====================================== */
+
+    printWindow.document.open();
+
+
+    printWindow.document.write(`
+
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0">
+
+<title>
+PAPPRITO HRIS - Employee Payslip
+</title>
+
+
+<style>
+
+/* =========================================
+   RESET
+========================================= */
+
+*{
+
+    margin:0;
+
+    padding:0;
+
+    box-sizing:border-box;
+
+}
+
+
+/* =========================================
+   PAGE
+========================================= */
+
+@page{
+
+    size:A4 portrait;
+
+    margin:10mm;
+
+}
+
+
+html,
+body{
+
+    width:100%;
+
+    background:#ffffff;
+
+    color:#111111;
+
+    font-family:
+        Arial,
+        Helvetica,
+        sans-serif;
+
+}
+
+
+/* =========================================
+   PAYSLIP
+========================================= */
+
+.payslip{
+
+    width:100%;
+
+    max-width:190mm;
+
+    margin:0 auto;
+
+    background:#ffffff;
+
+}
+
+
+/* =========================================
+   HEADER
+========================================= */
+
+.header{
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:space-between;
+
+    border-bottom:
+        3px solid
+        #d71920;
+
+    padding-bottom:10px;
+
+    margin-bottom:12px;
+
+}
+
+
+.company{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:10px;
+
+}
+
+
+.company img{
+
+    width:55px;
+
+    height:55px;
+
+    object-fit:contain;
+
+}
+
+
+.company-name{
+
+    font-size:22px;
+
+    font-weight:900;
+
+    color:#d71920;
+
+}
+
+
+.company-sub{
+
+    font-size:10px;
+
+    font-weight:700;
+
+    color:#555555;
+
+    margin-top:3px;
+
+}
+
+
+.document-title{
+
+    text-align:right;
+
+}
+
+
+.document-title h1{
+
+    font-size:18px;
+
+    font-weight:900;
+
+    margin-bottom:4px;
+
+}
+
+
+.document-title p{
+
+    font-size:10px;
+
+    color:#555555;
+
+}
+
+
+/* =========================================
+   EMPLOYEE INFORMATION
+========================================= */
+
+.employee-info{
+
+    display:grid;
+
+    grid-template-columns:
+        1fr
+        1fr;
+
+    border:
+        1px solid
+        #cccccc;
+
+    margin-bottom:12px;
+
+}
+
+
+.info-box{
+
+    padding:8px 10px;
+
+    border-right:
+        1px solid
+        #cccccc;
+
+    border-bottom:
+        1px solid
+        #cccccc;
+
+}
+
+
+.info-box:nth-child(2n){
+
+    border-right:none;
+
+}
+
+
+.info-box:nth-last-child(-n+2){
+
+    border-bottom:none;
+
+}
+
+
+.info-label{
+
+    display:block;
+
+    font-size:8px;
+
+    font-weight:800;
+
+    color:#666666;
+
+    text-transform:uppercase;
+
+    margin-bottom:3px;
+
+}
+
+
+.info-value{
+
+    display:block;
+
+    font-size:11px;
+
+    font-weight:900;
+
+}
+
+
+/* =========================================
+   SECTION
+========================================= */
+
+.section-title{
+
+    background:#ffcc00;
+
+    border:
+        1px solid
+        #d5aa00;
+
+    padding:6px 8px;
+
+    font-size:10px;
+
+    font-weight:900;
+
+    text-transform:uppercase;
+
+    margin-top:10px;
+
+}
+
+
+/* =========================================
+   TABLE
+========================================= */
+
+.pay-table{
+
+    width:100%;
+
+    border-collapse:collapse;
+
+    margin-bottom:5px;
+
+}
+
+
+.pay-table th{
+
+    background:#f1f1f1;
+
+    border:
+        1px solid
+        #cccccc;
+
+    padding:6px 7px;
+
+    font-size:8px;
+
+    font-weight:900;
+
+    text-align:left;
+
+}
+
+
+.pay-table td{
+
+    border:
+        1px solid
+        #cccccc;
+
+    padding:6px 7px;
+
+    font-size:9px;
+
+}
+
+
+.pay-table td:last-child,
+.pay-table th:last-child{
+
+    text-align:right;
+
+}
+
+
+.pay-table .total-row td{
+
+    font-weight:900;
+
+    background:#fafafa;
+
+}
+
+
+/* =========================================
+   HOURS TABLE
+========================================= */
+
+.hours-table{
+
+    width:100%;
+
+    border-collapse:collapse;
+
+    margin-top:6px;
+
+}
+
+
+.hours-table th{
+
+    background:#eeeeee;
+
+    border:
+        1px solid
+        #cccccc;
+
+    padding:5px;
+
+    font-size:8px;
+
+    font-weight:900;
+
+}
+
+
+.hours-table td{
+
+    border:
+        1px solid
+        #cccccc;
+
+    padding:5px;
+
+    font-size:9px;
+
+    text-align:center;
+
+}
+
+
+/* =========================================
+   GROSS / NET
+========================================= */
+
+.summary{
+
+    display:grid;
+
+    grid-template-columns:
+        1fr
+        1fr;
+
+    gap:10px;
+
+    margin-top:10px;
+
+}
+
+
+.summary-box{
+
+    border:
+        1px solid
+        #cccccc;
+
+    padding:10px;
+
+}
+
+
+.summary-label{
+
+    display:block;
+
+    font-size:9px;
+
+    font-weight:900;
+
+    color:#555555;
+
+    text-transform:uppercase;
+
+    margin-bottom:5px;
+
+}
+
+
+.summary-value{
+
+    display:block;
+
+    font-size:18px;
+
+    font-weight:900;
+
+}
+
+
+.gross-box{
+
+    background:#f8f8f8;
+
+}
+
+
+.net-box{
+
+    background:#fff8d9;
+
+    border:
+        2px solid
+        #d5aa00;
+
+}
+
+
+.net-box .summary-value{
+
+    font-size:22px;
+
+}
+
+
+/* =========================================
+   SIGNATURES
+========================================= */
+
+.signatures{
+
+    display:grid;
+
+    grid-template-columns:
+        1fr
+        1fr;
+
+    gap:50px;
+
+    margin-top:35px;
+
+}
+
+
+.signature{
+
+    text-align:center;
+
+    font-size:9px;
+
+    font-weight:700;
+
+}
+
+
+.signature-line{
+
+    height:28px;
+
+    border-bottom:
+        1px solid
+        #222222;
+
+    margin-bottom:5px;
+
+}
+
+
+/* =========================================
+   FOOTER
+========================================= */
+
+.footer{
+
+    margin-top:20px;
+
+    padding-top:7px;
+
+    border-top:
+        1px solid
+        #cccccc;
+
+    text-align:center;
+
+    font-size:7px;
+
+    color:#777777;
+
+}
+
+
+/* =========================================
+   PRINT
+========================================= */
+
+@media print{
+
+    body{
+
+        margin:0;
+
+        background:#ffffff;
+
+    }
+
+
+    .payslip{
+
+        max-width:none;
+
+    }
+
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<div class="payslip">
+
+
+<!-- ======================================
+     HEADER
+====================================== -->
+
+<div class="header">
+
+
+<div class="company">
+
+
+<img
+    src="../assets/images/logo.png"
+    alt="PAPPRITO">
+
+
+<div>
+
+<div class="company-name">
+PAPPRITO
+</div>
+
+
+<div class="company-sub">
+HRIS - HUMAN RESOURCES INFORMATION SYSTEM
+</div>
+
+</div>
+
+</div>
+
+
+<div class="document-title">
+
+<h1>
+EMPLOYEE PAYSLIP
+</h1>
+
+
+<p>
+Official Payroll Document
+</p>
+
+</div>
+
+
+</div>
+
+
+
+<!-- ======================================
+     EMPLOYEE INFORMATION
+====================================== -->
+
+<div class="employee-info">
+
+
+<div class="info-box">
+
+<span class="info-label">
+Employee ID
+</span>
+
+<span class="info-value">
+${escapeHTML(employeeId)}
+</span>
+
+</div>
+
+
+<div class="info-box">
+
+<span class="info-label">
+Employee Name
+</span>
+
+<span class="info-value">
+${escapeHTML(employeeName)}
+</span>
+
+</div>
+
+
+<div class="info-box">
+
+<span class="info-label">
+Payroll Date
+</span>
+
+<span class="info-value">
+${escapeHTML(payrollDate)}
+</span>
+
+</div>
+
+
+<div class="info-box">
+
+<span class="info-label">
+Hourly Rate
+</span>
+
+<span class="info-value">
+₱ ${money(hourlyRate)}
+</span>
+
+</div>
+
+
+</div>
+
+
+
+<!-- ======================================
+     ATTENDANCE / HOURS
+====================================== -->
+
+<div class="section-title">
+
+ATTENDANCE / HOURS
+
+</div>
+
+
+<table class="hours-table">
+
+
+<thead>
+
+<tr>
+
+<th>
+Regular Hours
+</th>
+
+<th>
+OT Hours
+</th>
+
+<th>
+Holiday Hours
+</th>
+
+<th>
+Night Hours
+</th>
+
+<th>
+Total Hours
+</th>
+
+</tr>
+
+</thead>
+
+
+<tbody>
+
+<tr>
+
+<td>
+${regularHours.toFixed(2)}
+</td>
+
+<td>
+${overtimeHours.toFixed(2)}
+</td>
+
+<td>
+${holidayHours.toFixed(2)}
+</td>
+
+<td>
+${nightHours.toFixed(2)}
+</td>
+
+<td>
+<strong>
+${totalHours.toFixed(2)}
+</strong>
+</td>
+
+</tr>
+
+</tbody>
+
+</table>
+
+
+
+<!-- ======================================
+     HOLIDAY DETAILS
+====================================== -->
+
+<div class="section-title">
+
+HOLIDAY DETAILS
+
+</div>
+
+
+<table class="pay-table">
+
+
+<tr>
+
+<td>
+Holiday Type
+</td>
+
+<td>
+${escapeHTML(holidayType)}
+</td>
+
+</tr>
+
+
+<tr>
+
+<td>
+Regular Holiday Hours
+</td>
+
+<td>
+${regularHolidayHours.toFixed(2)}
+</td>
+
+</tr>
+
+
+<tr>
+
+<td>
+Regular Holiday Pay
+</td>
+
+<td>
+₱ ${money(regularHolidayPay)}
+</td>
+
+</tr>
+
+
+<tr>
+
+<td>
+Special Holiday Hours
+</td>
+
+<td>
+${specialHolidayHours.toFixed(2)}
+</td>
+
+</tr>
+
+
+<tr>
+
+<td>
+Special Holiday Pay
+</td>
+
+<td>
+₱ ${money(specialHolidayPay)}
+</td>
+
+</tr>
+
+
+<tr class="total-row">
+
+<td>
+TOTAL HOLIDAY PAY
+</td>
+
+<td>
+₱ ${money(totalHolidayPay)}
+</td>
+
+</tr>
+
+
+</table>
+
+
+
+<!-- ======================================
+     EARNINGS
+====================================== -->
+
+<div class="section-title">
+
+EARNINGS
+
+</div>
+
+
+<table class="pay-table">
+
+
+<tr>
+
+<td>
+Regular Pay
+</td>
+
+<td>
+₱ ${money(regularPay)}
+</td>
+
+</tr>
+
+
+<tr>
+
+<td>
+Overtime Pay
+</td>
+
+<td>
+₱ ${money(overtimePay)}
+</td>
+
+</tr>
+
+
+<tr>
+
+<td>
+Holiday Pay
+</td>
+
+<td>
+₱ ${money(totalHolidayPay)}
+</td>
+
+</tr>
+
+
+<tr>
+
+<td>
+Night Differential
+</td>
+
+<td>
+₱ ${money(nightPay)}
+</td>
+
+</tr>
+
+
+<tr>
+
+<td>
+Sick Leave Pay
+</td>
+
+<td>
+₱ ${money(0)}
+</td>
+
+</tr>
+
+
+<tr>
+
+<td>
+Vacation Leave Pay
+</td>
+
+<td>
+₱ ${money(0)}
+</td>
+
+</tr>
+
+
+<tr>
+
+<td>
+Birthday Leave Pay
+</td>
+
+<td>
+₱ ${money(0)}
+</td>
+
+</tr>
+
+
+<tr>
+
+<td>
+Maternity Pay
+</td>
+
+<td>
+₱ ${money(0)}
+</td>
+
+</tr>
+
+
+<tr>
+
+<td>
+Paternity Pay
+</td>
+
+<td>
+₱ ${money(0)}
+</td>
+
+</tr>
+
+
+<tr>
+
+<td>
+Allowance
+</td>
+
+<td>
+₱ ${money(0)}
+</td>
+
+</tr>
+
+
+<tr class="total-row">
+
+<td>
+TOTAL GROSS
+</td>
+
+<td>
+₱ ${money(gross)}
+</td>
+
+</tr>
+
+
+</table>
+
+
+
+<!-- ======================================
+     DEDUCTIONS
+====================================== -->
+
+<div class="section-title">
+
+DEDUCTIONS
+
+</div>
+
+
+<table class="pay-table">
+
+
+<tr>
+
+<td>
+SSS
+</td>
+
+<td>
+₱ ${money(sss)}
+</td>
+
+</tr>
+
+
+<tr>
+
+<td>
+PhilHealth
+</td>
+
+<td>
+₱ ${money(philhealth)}
+</td>
+
+</tr>
+
+
+<tr>
+
+<td>
+Pag-IBIG
+</td>
+
+<td>
+₱ ${money(pagibig)}
+</td>
+
+</tr>
+
+
+<tr>
+
+<td>
+Health Card
+</td>
+
+<td>
+₱ ${money(healthcard)}
+</td>
+
+</tr>
+
+
+<tr>
+
+<td>
+Other Deduction
+</td>
+
+<td>
+₱ ${money(others)}
+</td>
+
+</tr>
+
+
+<tr class="total-row">
+
+<td>
+TOTAL DEDUCTION
+</td>
+
+<td>
+₱ ${money(deductions)}
+</td>
+
+</tr>
+
+
+</table>
+
+
+
+<!-- ======================================
+     SUMMARY
+====================================== -->
+
+<div class="summary">
+
+
+<div class="summary-box gross-box">
+
+<span class="summary-label">
+Total Gross Pay
+</span>
+
+
+<span class="summary-value">
+
+₱ ${money(gross)}
+
+</span>
+
+</div>
+
+
+<div class="summary-box net-box">
+
+<span class="summary-label">
+NET PAY
+</span>
+
+
+<span class="summary-value">
+
+₱ ${money(net)}
+
+</span>
+
+</div>
+
+
+</div>
+
+
+
+<!-- ======================================
+     SIGNATURES
+====================================== -->
+
+<div class="signatures">
+
+
+<div class="signature">
+
+<div class="signature-line"></div>
+
+HR / PAYROLL OFFICER
+
+</div>
+
+
+<div class="signature">
+
+<div class="signature-line"></div>
+
+EMPLOYEE
+
+</div>
+
+
+</div>
+
+
+
+<!-- ======================================
+     FOOTER
+====================================== -->
+
+<div class="footer">
+
+This payslip is generated by PAPPRITO HRIS.
+<br>
+Please retain this document for your payroll records.
+
+</div>
+
+
+</div>
+
+
+<script>
+
+window.addEventListener(
+    "load",
+    function(){
+
+        setTimeout(
+            function(){
+
+                window.focus();
+
+                window.print();
+
+            },
+            500
+        );
+
+    }
+);
+
+window.addEventListener(
+    "afterprint",
+    function(){
+
+        setTimeout(
+            function(){
+
+                window.close();
+
+            },
+            300
+        );
+
+    }
+);
+
+<\/script>
+
+
+</body>
+
+</html>
+
+`);
+
+
+    printWindow.document.close();
 
 };
-
 
 /* ==========================================
    PRINT ALL PAYSLIPS
