@@ -1813,3 +1813,114 @@ button{
     }
 
 }
+/* ==========================================
+   PAYROLL SETTINGS
+   ADD ONLY
+========================================== */
+
+
+/* ==========================================
+   SELECT INPUT
+========================================== */
+
+.input-icon select{
+
+    width:100%;
+
+    height:43px;
+
+    padding:
+        9px
+        38px
+        9px
+        40px;
+
+    border:
+        1px solid
+        #cbd5e1;
+
+    border-radius:9px;
+
+    background:#fff;
+
+    color:var(--text);
+
+    font-size:13px;
+
+    font-weight:700;
+
+    outline:none;
+
+    cursor:pointer;
+
+    transition:.2s ease;
+
+}
+
+
+.input-icon select:focus{
+
+    border-color:
+        var(--primary);
+
+    box-shadow:
+        0 0 0 3px
+        rgba(255,204,0,.14);
+
+}
+
+
+/* ==========================================
+   PAYROLL STATUS
+========================================== */
+
+.save-status.status-success{
+
+    background:
+        #dcfce7;
+
+    color:
+        #166534;
+
+}
+
+
+.save-status.status-saving{
+
+    background:
+        #fef3c7;
+
+    color:
+        #92400e;
+
+}
+
+
+.save-status.status-error{
+
+    background:
+        #fee2e2;
+
+    color:
+        #991b1b;
+
+}
+
+
+/* ==========================================
+   PAYROLL SELECT MOBILE
+========================================== */
+
+@media(
+    max-width:700px
+){
+
+    .input-icon select{
+
+        height:43px;
+
+        font-size:12px;
+
+    }
+
+   }
