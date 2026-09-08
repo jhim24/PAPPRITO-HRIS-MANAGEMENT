@@ -13,37 +13,17 @@
         PAPPRITO HRIS - Settings
     </title>
 
-
-    <!-- ==========================================
-         THEME
-    =========================================== -->
-
     <meta
         name="theme-color"
         content="#ffcc00">
-
-
-    <!-- ==========================================
-         FAVICON
-    =========================================== -->
 
     <link
         rel="icon"
         href="../assets/images/logo.png">
 
-
-    <!-- ==========================================
-         MATERIAL ICONS
-    =========================================== -->
-
     <link
         href="https://fonts.googleapis.com/icon?family=Material+Icons"
         rel="stylesheet">
-
-
-    <!-- ==========================================
-         SETTINGS CSS
-    =========================================== -->
 
     <link
         rel="stylesheet"
@@ -55,10 +35,6 @@
 <body>
 
 
-<!-- ==========================================
-     MAIN SETTINGS APP
-========================================== -->
-
 <main class="settings-page">
 
 
@@ -68,9 +44,7 @@
 
     <header class="settings-header">
 
-
         <div class="header-left">
-
 
             <div class="header-logo">
 
@@ -79,7 +53,6 @@
                     alt="PAPPRITO Logo">
 
             </div>
-
 
             <div class="header-title">
 
@@ -93,12 +66,10 @@
 
             </div>
 
-
         </div>
 
 
         <div class="header-actions">
-
 
             <button
                 type="button"
@@ -113,9 +84,7 @@
 
             </button>
 
-
         </div>
-
 
     </header>
 
@@ -126,7 +95,6 @@
 
     <section class="page-intro">
 
-
         <div class="intro-icon">
 
             <span class="material-icons">
@@ -134,7 +102,6 @@
             </span>
 
         </div>
-
 
         <div>
 
@@ -147,7 +114,6 @@
             </p>
 
         </div>
-
 
     </section>
 
@@ -165,11 +131,8 @@
 
         <aside class="settings-nav">
 
-
             <div class="nav-title">
-
                 SETTINGS
-
             </div>
 
 
@@ -180,90 +143,69 @@
                 class="settings-nav-item active"
                 onclick="showSettingsSection('attendance')">
 
-
                 <span class="material-icons">
                     schedule
                 </span>
 
-
                 <span>
-
                     Attendance Time
-
                 </span>
-
 
             </button>
 
 
-            <!-- FUTURE -->
+            <!-- GENERAL -->
 
             <button
                 type="button"
                 class="settings-nav-item"
                 onclick="showSettingsSection('general')">
 
-
                 <span class="material-icons">
                     tune
                 </span>
 
-
                 <span>
-
                     General
-
                 </span>
-
 
             </button>
 
 
-            <!-- FUTURE -->
+            <!-- PAYROLL -->
 
             <button
                 type="button"
                 class="settings-nav-item"
                 onclick="showSettingsSection('payroll')">
 
-
                 <span class="material-icons">
                     payments
                 </span>
 
-
                 <span>
-
                     Payroll
-
                 </span>
-
 
             </button>
 
 
-            <!-- FUTURE -->
+            <!-- SYSTEM -->
 
             <button
                 type="button"
                 class="settings-nav-item"
                 onclick="showSettingsSection('system')">
 
-
                 <span class="material-icons">
                     admin_panel_settings
                 </span>
 
-
                 <span>
-
                     System
-
                 </span>
 
-
             </button>
-
 
         </aside>
 
@@ -275,30 +217,24 @@
         <div class="settings-content">
 
 
-            <!-- ==================================
-                 ATTENDANCE TIME SETTINGS
-            =================================== -->
+            <!-- =====================================================
+                 ATTENDANCE
+            ====================================================== -->
 
             <section
                 id="attendanceSettings"
                 class="settings-section active">
 
 
-                <!-- SECTION HEADER -->
-
                 <div class="section-header">
-
 
                     <div>
 
-
                         <div class="section-title">
-
 
                             <span class="material-icons">
                                 schedule
                             </span>
-
 
                             <div>
 
@@ -306,16 +242,13 @@
                                     Attendance Time Settings
                                 </h3>
 
-
                                 <p>
                                     Configure the official store working schedule used by Attendance and Auto Attendance.
                                 </p>
 
                             </div>
 
-
                         </div>
-
 
                     </div>
 
@@ -328,16 +261,12 @@
 
                     </div>
 
-
                 </div>
 
 
-                <!-- ==================================
-                     STATUS CARD
-                =================================== -->
+                <!-- STATUS -->
 
                 <div class="status-card">
-
 
                     <div class="status-card-icon">
 
@@ -347,72 +276,54 @@
 
                     </div>
 
-
                     <div class="status-card-text">
-
 
                         <strong>
                             Attendance Time Rules
                         </strong>
 
-
                         <span>
                             These settings will be used as the official attendance schedule.
                         </span>
-
 
                     </div>
 
 
                     <label class="switch">
 
-
                         <input
                             type="checkbox"
                             id="attendanceEnabled"
                             checked>
 
-
-                        <span class="slider">
-                        </span>
-
+                        <span class="slider"></span>
 
                     </label>
-
 
                 </div>
 
 
-                <!-- ==================================
-                     WORK SCHEDULE
-                =================================== -->
+                <!-- WORK SCHEDULE -->
 
                 <div class="settings-card">
 
-
                     <div class="card-header">
 
-
                         <div>
-
 
                             <h4>
                                 Work Schedule
                             </h4>
 
-
                             <p>
                                 Set the normal opening and closing time of the store.
                             </p>
 
-
                         </div>
-
 
                         <span class="material-icons">
                             business
                         </span>
-
 
                     </div>
 
@@ -420,118 +331,83 @@
                     <div class="form-grid">
 
 
-                        <!-- OPENING -->
-
                         <div class="form-group">
 
-
-                            <label
-                                for="openingTime">
-
+                            <label for="openingTime">
                                 Store Opening Time
-
                             </label>
 
-
                             <div class="input-icon">
-
 
                                 <span class="material-icons">
                                     login
                                 </span>
-
 
                                 <input
                                     type="time"
                                     id="openingTime"
                                     value="08:00">
 
-
                             </div>
-
 
                             <small>
                                 Official start of the work schedule.
                             </small>
 
-
                         </div>
 
 
-                        <!-- CLOSING -->
-
                         <div class="form-group">
 
-
-                            <label
-                                for="closingTime">
-
+                            <label for="closingTime">
                                 Store Closing Time
-
                             </label>
 
-
                             <div class="input-icon">
-
 
                                 <span class="material-icons">
                                     logout
                                 </span>
-
 
                                 <input
                                     type="time"
                                     id="closingTime"
                                     value="17:00">
 
-
                             </div>
-
 
                             <small>
                                 Official end of the work schedule.
                             </small>
 
-
                         </div>
 
-
                     </div>
-
 
                 </div>
 
 
-                <!-- ==================================
-                     BREAK SCHEDULE
-                =================================== -->
+                <!-- BREAK -->
 
                 <div class="settings-card">
 
-
                     <div class="card-header">
 
-
                         <div>
-
 
                             <h4>
                                 Break Schedule
                             </h4>
 
-
                             <p>
                                 Configure the regular break period.
                             </p>
 
-
                         </div>
-
 
                         <span class="material-icons">
                             free_breakfast
                         </span>
-
 
                     </div>
 
@@ -539,108 +415,75 @@
                     <div class="form-grid">
 
 
-                        <!-- BREAK START -->
-
                         <div class="form-group">
 
-
-                            <label
-                                for="breakStart">
-
+                            <label for="breakStart">
                                 Break Start
-
                             </label>
 
-
                             <div class="input-icon">
-
 
                                 <span class="material-icons">
                                     pause
                                 </span>
-
 
                                 <input
                                     type="time"
                                     id="breakStart"
                                     value="12:00">
 
-
                             </div>
-
 
                         </div>
 
 
-                        <!-- BREAK END -->
-
                         <div class="form-group">
 
-
-                            <label
-                                for="breakEnd">
-
+                            <label for="breakEnd">
                                 Break End
-
                             </label>
 
-
                             <div class="input-icon">
-
 
                                 <span class="material-icons">
                                     play_arrow
                                 </span>
-
 
                                 <input
                                     type="time"
                                     id="breakEnd"
                                     value="13:00">
 
-
                             </div>
-
 
                         </div>
 
-
                     </div>
-
 
                 </div>
 
 
-                <!-- ==================================
-                     ATTENDANCE RULES
-                =================================== -->
+                <!-- RULES -->
 
                 <div class="settings-card">
 
-
                     <div class="card-header">
 
-
                         <div>
-
 
                             <h4>
                                 Attendance Rules
                             </h4>
 
-
                             <p>
                                 Control how late and undertime attendance is calculated.
                             </p>
 
-
                         </div>
-
 
                         <span class="material-icons">
                             rule
                         </span>
-
 
                     </div>
 
@@ -648,21 +491,13 @@
                     <div class="form-grid">
 
 
-                        <!-- GRACE PERIOD -->
-
                         <div class="form-group">
 
-
-                            <label
-                                for="gracePeriod">
-
+                            <label for="gracePeriod">
                                 Grace Period
-
                             </label>
 
-
                             <div class="number-input">
-
 
                                 <input
                                     type="number"
@@ -671,38 +506,26 @@
                                     max="120"
                                     value="15">
 
-
                                 <span>
                                     minutes
                                 </span>
 
-
                             </div>
-
 
                             <small>
                                 Minutes allowed after opening time before late status.
                             </small>
 
-
                         </div>
 
 
-                        <!-- LATE THRESHOLD -->
-
                         <div class="form-group">
 
-
-                            <label
-                                for="lateThreshold">
-
+                            <label for="lateThreshold">
                                 Late Threshold
-
                             </label>
 
-
                             <div class="number-input">
-
 
                                 <input
                                     type="number"
@@ -711,38 +534,26 @@
                                     max="240"
                                     value="15">
 
-
                                 <span>
                                     minutes
                                 </span>
 
-
                             </div>
-
 
                             <small>
                                 Minimum late minutes to classify attendance as late.
                             </small>
 
-
                         </div>
 
 
-                        <!-- UNDERTIME -->
-
                         <div class="form-group">
 
-
-                            <label
-                                for="undertimeThreshold">
-
+                            <label for="undertimeThreshold">
                                 Undertime Threshold
-
                             </label>
 
-
                             <div class="number-input">
-
 
                                 <input
                                     type="number"
@@ -751,70 +562,52 @@
                                     max="240"
                                     value="15">
 
-
                                 <span>
                                     minutes
                                 </span>
 
-
                             </div>
-
 
                             <small>
                                 Minimum missing minutes to classify undertime.
                             </small>
 
-
                         </div>
 
-
                     </div>
-
 
                 </div>
 
 
-                <!-- ==================================
-                     SAVE AREA
-                =================================== -->
+                <!-- SAVE -->
 
                 <div class="save-area">
 
-
                     <div class="save-info">
-
 
                         <span class="material-icons">
                             info
                         </span>
 
-
                         <span id="lastSavedText">
-
                             No settings saved yet.
-
                         </span>
-
 
                     </div>
 
 
                     <div class="save-actions">
 
-
                         <button
                             type="button"
                             class="btn secondary-btn"
                             onclick="loadAttendanceSettings()">
 
-
                             <span class="material-icons">
                                 refresh
                             </span>
 
-
                             RESET
-
 
                         </button>
 
@@ -824,86 +617,1538 @@
                             class="btn primary-btn"
                             onclick="saveAttendanceSettings()">
 
-
                             <span class="material-icons">
                                 save
                             </span>
 
-
                             SAVE SETTINGS
-
 
                         </button>
 
-
                     </div>
 
-
                 </div>
-
 
             </section>
 
 
-            <!-- ==================================
-                 GENERAL PLACEHOLDER
-            =================================== -->
+            <!-- =====================================================
+                 GENERAL
+            ====================================================== -->
 
             <section
                 id="generalSettings"
                 class="settings-section">
 
-
                 <div class="empty-section">
-
 
                     <span class="material-icons">
                         tune
                     </span>
 
-
                     <h3>
                         General Settings
                     </h3>
-
 
                     <p>
                         General system settings will be added here.
                     </p>
 
-
                 </div>
-
 
             </section>
 
 
-            <!-- ==================================
-                 PAYROLL PLACEHOLDER
-            =================================== -->
+            <!-- =====================================================
+                 PAYROLL
+            ====================================================== -->
 
             <section
                 id="payrollSettings"
                 class="settings-section">
 
 
-                <div class="empty-section">
+                <div class="section-header">
+
+                    <div>
+
+                        <div class="section-title">
+
+                            <span class="material-icons">
+                                payments
+                            </span>
+
+                            <div>
+
+                                <h3>
+                                    Payroll Settings
+                                </h3>
+
+                                <p>
+                                    Configure payroll periods, salary calculations, overtime, allowances, deductions and payslip settings.
+                                </p>
+
+                            </div>
+
+                        </div>
+
+                    </div>
 
 
-                    <span class="material-icons">
-                        payments
-                    </span>
+                    <div
+                        id="payrollStatus"
+                        class="save-status">
+
+                        NOT SAVED
+
+                    </div>
+
+                </div>
 
 
-                    <h3>
-                        Payroll Settings
-                    </h3>
+                <!-- PAYROLL STATUS -->
+
+                <div class="status-card">
+
+                    <div class="status-card-icon">
+
+                        <span class="material-icons">
+                            account_balance_wallet
+                        </span>
+
+                    </div>
 
 
-                    <p>
-                        Payroll configuration will be added here.
-                    </p>
+                    <div class="status-card-text">
 
+                        <strong>
+                            Payroll Calculation
+                        </strong>
+
+                        <span>
+                            Enable payroll calculation and payroll period processing.
+                        </span>
+
+                    </div>
+
+
+                    <label class="switch">
+
+                        <input
+                            type="checkbox"
+                            id="payrollEnabled"
+                            checked>
+
+                        <span class="slider"></span>
+
+                    </label>
+
+                </div>
+
+
+                <!-- PAYROLL SCHEDULE -->
+
+                <div class="settings-card">
+
+                    <div class="card-header">
+
+                        <div>
+
+                            <h4>
+                                Payroll Schedule
+                            </h4>
+
+                            <p>
+                                Define payroll frequency, cutoff dates and payment dates.
+                            </p>
+
+                        </div>
+
+                        <span class="material-icons">
+                            date_range
+                        </span>
+
+                    </div>
+
+
+                    <div class="form-grid">
+
+
+                        <div class="form-group">
+
+                            <label for="payrollFrequency">
+                                Payroll Frequency
+                            </label>
+
+                            <div class="input-icon">
+
+                                <span class="material-icons">
+                                    repeat
+                                </span>
+
+                                <select id="payrollFrequency">
+
+                                    <option value="monthly">
+                                        Monthly
+                                    </option>
+
+                                    <option
+                                        value="semi-monthly"
+                                        selected>
+                                        Semi-Monthly
+                                    </option>
+
+                                    <option value="weekly">
+                                        Weekly
+                                    </option>
+
+                                </select>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="form-group">
+
+                            <label for="payrollYear">
+                                Payroll Year
+                            </label>
+
+                            <div class="input-icon">
+
+                                <span class="material-icons">
+                                    calendar_today
+                                </span>
+
+                                <input
+                                    type="number"
+                                    id="payrollYear"
+                                    min="2020"
+                                    max="2100"
+                                    value="2026">
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="form-group">
+
+                            <label for="firstCutoff">
+                                First Cutoff
+                            </label>
+
+                            <div class="number-input">
+
+                                <input
+                                    type="number"
+                                    id="firstCutoff"
+                                    min="1"
+                                    max="31"
+                                    value="15">
+
+                                <span>
+                                    day
+                                </span>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="form-group">
+
+                            <label for="secondCutoff">
+                                Second Cutoff
+                            </label>
+
+                            <div class="number-input">
+
+                                <input
+                                    type="number"
+                                    id="secondCutoff"
+                                    min="1"
+                                    max="31"
+                                    value="30">
+
+                                <span>
+                                    day
+                                </span>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="form-group">
+
+                            <label for="firstPayDate">
+                                First Pay Date
+                            </label>
+
+                            <div class="number-input">
+
+                                <input
+                                    type="number"
+                                    id="firstPayDate"
+                                    min="1"
+                                    max="31"
+                                    value="15">
+
+                                <span>
+                                    day
+                                </span>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="form-group">
+
+                            <label for="secondPayDate">
+                                Second Pay Date
+                            </label>
+
+                            <div class="number-input">
+
+                                <input
+                                    type="number"
+                                    id="secondPayDate"
+                                    min="1"
+                                    max="31"
+                                    value="30">
+
+                                <span>
+                                    day
+                                </span>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- SALARY CALCULATION -->
+
+                <div class="settings-card">
+
+                    <div class="card-header">
+
+                        <div>
+
+                            <h4>
+                                Salary Calculation
+                            </h4>
+
+                            <p>
+                                Configure basic salary calculation rules.
+                            </p>
+
+                        </div>
+
+                        <span class="material-icons">
+                            calculate
+                        </span>
+
+                    </div>
+
+
+                    <div class="form-grid">
+
+
+                        <div class="form-group">
+
+                            <label for="workingDaysPerMonth">
+                                Working Days Per Month
+                            </label>
+
+                            <div class="number-input">
+
+                                <input
+                                    type="number"
+                                    id="workingDaysPerMonth"
+                                    min="1"
+                                    max="31"
+                                    step="0.01"
+                                    value="26">
+
+                                <span>
+                                    days
+                                </span>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="form-group">
+
+                            <label for="workingHoursPerDay">
+                                Working Hours Per Day
+                            </label>
+
+                            <div class="number-input">
+
+                                <input
+                                    type="number"
+                                    id="workingHoursPerDay"
+                                    min="1"
+                                    max="24"
+                                    step="0.01"
+                                    value="8">
+
+                                <span>
+                                    hours
+                                </span>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="form-group">
+
+                            <label for="dailyRateDivisor">
+                                Daily Rate Divisor
+                            </label>
+
+                            <div class="number-input">
+
+                                <input
+                                    type="number"
+                                    id="dailyRateDivisor"
+                                    min="1"
+                                    step="0.01"
+                                    value="26">
+
+                                <span>
+                                    divisor
+                                </span>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="form-group">
+
+                            <label for="hourlyRateDivisor">
+                                Hourly Rate Divisor
+                            </label>
+
+                            <div class="number-input">
+
+                                <input
+                                    type="number"
+                                    id="hourlyRateDivisor"
+                                    min="1"
+                                    step="0.01"
+                                    value="8">
+
+                                <span>
+                                    hours
+                                </span>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="form-group">
+
+                            <label for="payrollRounding">
+                                Payroll Rounding
+                            </label>
+
+                            <div class="input-icon">
+
+                                <span class="material-icons">
+                                    format_round
+                                </span>
+
+                                <select id="payrollRounding">
+
+                                    <option value="none">
+                                        No Rounding
+                                    </option>
+
+                                    <option
+                                        value="2"
+                                        selected>
+                                        2 Decimal Places
+                                    </option>
+
+                                    <option value="whole">
+                                        Whole Amount
+                                    </option>
+
+                                </select>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- OVERTIME -->
+
+                <div class="settings-card">
+
+                    <div class="card-header">
+
+                        <div>
+
+                            <h4>
+                                Overtime Settings
+                            </h4>
+
+                            <p>
+                                Configure administrator-controlled overtime values.
+                            </p>
+
+                        </div>
+
+                        <span class="material-icons">
+                            more_time
+                        </span>
+
+                    </div>
+
+
+                    <div class="form-grid">
+
+
+                        <div class="form-group">
+
+                            <label for="regularOtRate">
+                                Regular Overtime Rate
+                            </label>
+
+                            <div class="number-input">
+
+                                <input
+                                    type="number"
+                                    id="regularOtRate"
+                                    min="0"
+                                    step="0.01"
+                                    value="1.25">
+
+                                <span>
+                                    × hourly
+                                </span>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="form-group">
+
+                            <label for="restDayOtRate">
+                                Rest Day Overtime Rate
+                            </label>
+
+                            <div class="number-input">
+
+                                <input
+                                    type="number"
+                                    id="restDayOtRate"
+                                    min="0"
+                                    step="0.01"
+                                    value="1.30">
+
+                                <span>
+                                    × hourly
+                                </span>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="form-group">
+
+                            <label for="specialHolidayRate">
+                                Special Holiday Rate
+                            </label>
+
+                            <div class="number-input">
+
+                                <input
+                                    type="number"
+                                    id="specialHolidayRate"
+                                    min="0"
+                                    step="0.01"
+                                    value="1.30">
+
+                                <span>
+                                    × hourly
+                                </span>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="form-group">
+
+                            <label for="regularHolidayRate">
+                                Regular Holiday Rate
+                            </label>
+
+                            <div class="number-input">
+
+                                <input
+                                    type="number"
+                                    id="regularHolidayRate"
+                                    min="0"
+                                    step="0.01"
+                                    value="2.00">
+
+                                <span>
+                                    × hourly
+                                </span>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="form-group">
+
+                            <label for="nightDifferentialRate">
+                                Night Differential
+                            </label>
+
+                            <div class="number-input">
+
+                                <input
+                                    type="number"
+                                    id="nightDifferentialRate"
+                                    min="0"
+                                    step="0.01"
+                                    value="10">
+
+                                <span>
+                                    %
+                                </span>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="form-group">
+
+                            <label for="minimumOtMinutes">
+                                Minimum OT Minutes
+                            </label>
+
+                            <div class="number-input">
+
+                                <input
+                                    type="number"
+                                    id="minimumOtMinutes"
+                                    min="0"
+                                    max="240"
+                                    value="30">
+
+                                <span>
+                                    minutes
+                                </span>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- ATTENDANCE TO PAYROLL -->
+
+                <div class="settings-card">
+
+                    <div class="card-header">
+
+                        <div>
+
+                            <h4>
+                                Attendance Payroll Rules
+                            </h4>
+
+                            <p>
+                                Configure how attendance affects payroll.
+                            </p>
+
+                        </div>
+
+                        <span class="material-icons">
+                            access_time
+                        </span>
+
+                    </div>
+
+
+                    <div class="form-grid">
+
+
+                        <div class="form-group">
+
+                            <label for="lateDeductionEnabled">
+                                Late Deduction
+                            </label>
+
+                            <div class="input-icon">
+
+                                <span class="material-icons">
+                                    schedule
+                                </span>
+
+                                <select id="lateDeductionEnabled">
+
+                                    <option
+                                        value="yes"
+                                        selected>
+                                        Enabled
+                                    </option>
+
+                                    <option value="no">
+                                        Disabled
+                                    </option>
+
+                                </select>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="form-group">
+
+                            <label for="undertimeDeductionEnabled">
+                                Undertime Deduction
+                            </label>
+
+                            <div class="input-icon">
+
+                                <span class="material-icons">
+                                    timer
+                                </span>
+
+                                <select id="undertimeDeductionEnabled">
+
+                                    <option
+                                        value="yes"
+                                        selected>
+                                        Enabled
+                                    </option>
+
+                                    <option value="no">
+                                        Disabled
+                                    </option>
+
+                                </select>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="form-group">
+
+                            <label for="absenceDeductionEnabled">
+                                Absence Deduction
+                            </label>
+
+                            <div class="input-icon">
+
+                                <span class="material-icons">
+                                    event_busy
+                                </span>
+
+                                <select id="absenceDeductionEnabled">
+
+                                    <option
+                                        value="yes"
+                                        selected>
+                                        Enabled
+                                    </option>
+
+                                    <option value="no">
+                                        Disabled
+                                    </option>
+
+                                </select>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- ALLOWANCES -->
+
+                <div class="settings-card">
+
+                    <div class="card-header">
+
+                        <div>
+
+                            <h4>
+                                Allowances & Earnings
+                            </h4>
+
+                            <p>
+                                Configure recurring employee allowances.
+                            </p>
+
+                        </div>
+
+                        <span class="material-icons">
+                            add_card
+                        </span>
+
+                    </div>
+
+
+                    <div class="form-grid">
+
+
+                        <div class="form-group">
+
+                            <label for="housingAllowanceEnabled">
+                                Housing Allowance
+                            </label>
+
+                            <div class="input-icon">
+
+                                <span class="material-icons">
+                                    home
+                                </span>
+
+                                <select id="housingAllowanceEnabled">
+
+                                    <option value="yes">
+                                        Enabled
+                                    </option>
+
+                                    <option
+                                        value="no"
+                                        selected>
+                                        Disabled
+                                    </option>
+
+                                </select>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="form-group">
+
+                            <label for="transportAllowanceEnabled">
+                                Transportation Allowance
+                            </label>
+
+                            <div class="input-icon">
+
+                                <span class="material-icons">
+                                    directions_car
+                                </span>
+
+                                <select id="transportAllowanceEnabled">
+
+                                    <option value="yes">
+                                        Enabled
+                                    </option>
+
+                                    <option
+                                        value="no"
+                                        selected>
+                                        Disabled
+                                    </option>
+
+                                </select>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="form-group">
+
+                            <label for="foodAllowanceEnabled">
+                                Food Allowance
+                            </label>
+
+                            <div class="input-icon">
+
+                                <span class="material-icons">
+                                    restaurant
+                                </span>
+
+                                <select id="foodAllowanceEnabled">
+
+                                    <option value="yes">
+                                        Enabled
+                                    </option>
+
+                                    <option
+                                        value="no"
+                                        selected>
+                                        Disabled
+                                    </option>
+
+                                </select>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="form-group">
+
+                            <label for="communicationAllowanceEnabled">
+                                Communication Allowance
+                            </label>
+
+                            <div class="input-icon">
+
+                                <span class="material-icons">
+                                    phone
+                                </span>
+
+                                <select id="communicationAllowanceEnabled">
+
+                                    <option value="yes">
+                                        Enabled
+                                    </option>
+
+                                    <option
+                                        value="no"
+                                        selected>
+                                        Disabled
+                                    </option>
+
+                                </select>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="form-group">
+
+                            <label for="otherAllowanceEnabled">
+                                Other Allowance
+                            </label>
+
+                            <div class="input-icon">
+
+                                <span class="material-icons">
+                                    more_horiz
+                                </span>
+
+                                <select id="otherAllowanceEnabled">
+
+                                    <option value="yes">
+                                        Enabled
+                                    </option>
+
+                                    <option
+                                        value="no"
+                                        selected>
+                                        Disabled
+                                    </option>
+
+                                </select>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- DEDUCTIONS -->
+
+                <div class="settings-card">
+
+                    <div class="card-header">
+
+                        <div>
+
+                            <h4>
+                                Statutory & Other Deductions
+                            </h4>
+
+                            <p>
+                                Enable deduction categories used by payroll.
+                            </p>
+
+                        </div>
+
+                        <span class="material-icons">
+                            remove_circle_outline
+                        </span>
+
+                    </div>
+
+
+                    <div class="form-grid">
+
+
+                        <div class="form-group">
+
+                            <label for="sssEnabled">
+                                SSS
+                            </label>
+
+                            <div class="input-icon">
+
+                                <span class="material-icons">
+                                    account_balance
+                                </span>
+
+                                <select id="sssEnabled">
+
+                                    <option value="yes">
+                                        Enabled
+                                    </option>
+
+                                    <option
+                                        value="no"
+                                        selected>
+                                        Disabled
+                                    </option>
+
+                                </select>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="form-group">
+
+                            <label for="philhealthEnabled">
+                                PhilHealth
+                            </label>
+
+                            <div class="input-icon">
+
+                                <span class="material-icons">
+                                    health_and_safety
+                                </span>
+
+                                <select id="philhealthEnabled">
+
+                                    <option value="yes">
+                                        Enabled
+                                    </option>
+
+                                    <option
+                                        value="no"
+                                        selected>
+                                        Disabled
+                                    </option>
+
+                                </select>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="form-group">
+
+                            <label for="pagibigEnabled">
+                                Pag-IBIG
+                            </label>
+
+                            <div class="input-icon">
+
+                                <span class="material-icons">
+                                    savings
+                                </span>
+
+                                <select id="pagibigEnabled">
+
+                                    <option value="yes">
+                                        Enabled
+                                    </option>
+
+                                    <option
+                                        value="no"
+                                        selected>
+                                        Disabled
+                                    </option>
+
+                                </select>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="form-group">
+
+                            <label for="withholdingTaxEnabled">
+                                Withholding Tax
+                            </label>
+
+                            <div class="input-icon">
+
+                                <span class="material-icons">
+                                    receipt_long
+                                </span>
+
+                                <select id="withholdingTaxEnabled">
+
+                                    <option value="yes">
+                                        Enabled
+                                    </option>
+
+                                    <option
+                                        value="no"
+                                        selected>
+                                        Disabled
+                                    </option>
+
+                                </select>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="form-group">
+
+                            <label for="loanDeductionEnabled">
+                                Loan Deduction
+                            </label>
+
+                            <div class="input-icon">
+
+                                <span class="material-icons">
+                                    request_quote
+                                </span>
+
+                                <select id="loanDeductionEnabled">
+
+                                    <option value="yes">
+                                        Enabled
+                                    </option>
+
+                                    <option
+                                        value="no"
+                                        selected>
+                                        Disabled
+                                    </option>
+
+                                </select>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="form-group">
+
+                            <label for="cashAdvanceEnabled">
+                                Cash Advance
+                            </label>
+
+                            <div class="input-icon">
+
+                                <span class="material-icons">
+                                    payments
+                                </span>
+
+                                <select id="cashAdvanceEnabled">
+
+                                    <option value="yes">
+                                        Enabled
+                                    </option>
+
+                                    <option
+                                        value="no"
+                                        selected>
+                                        Disabled
+                                    </option>
+
+                                </select>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="form-group">
+
+                            <label for="otherDeductionEnabled">
+                                Other Deduction
+                            </label>
+
+                            <div class="input-icon">
+
+                                <span class="material-icons">
+                                    remove
+                                </span>
+
+                                <select id="otherDeductionEnabled">
+
+                                    <option value="yes">
+                                        Enabled
+                                    </option>
+
+                                    <option
+                                        value="no"
+                                        selected>
+                                        Disabled
+                                    </option>
+
+                                </select>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- PAYSLIP -->
+
+                <div class="settings-card">
+
+                    <div class="card-header">
+
+                        <div>
+
+                            <h4>
+                                Payslip Settings
+                            </h4>
+
+                            <p>
+                                Configure information displayed on employee payslips.
+                            </p>
+
+                        </div>
+
+                        <span class="material-icons">
+                            description
+                        </span>
+
+                    </div>
+
+
+                    <div class="form-grid">
+
+
+                        <div class="form-group">
+
+                            <label for="payslipCompanyName">
+                                Company Name
+                            </label>
+
+                            <div class="input-icon">
+
+                                <span class="material-icons">
+                                    business
+                                </span>
+
+                                <input
+                                    type="text"
+                                    id="payslipCompanyName"
+                                    placeholder="PAPPRITO">
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="form-group">
+
+                            <label for="payslipNumberFormat">
+                                Payslip Number Format
+                            </label>
+
+                            <div class="input-icon">
+
+                                <span class="material-icons">
+                                    tag
+                                </span>
+
+                                <input
+                                    type="text"
+                                    id="payslipNumberFormat"
+                                    value="PS-{YYYY}-{####}">
+
+                            </div>
+
+                            <small>
+                                Example: PS-2026-0001
+                            </small>
+
+                        </div>
+
+
+                        <div class="form-group">
+
+                            <label for="showPayslipPhoto">
+                                Employee Photo
+                            </label>
+
+                            <div class="input-icon">
+
+                                <span class="material-icons">
+                                    photo
+                                </span>
+
+                                <select id="showPayslipPhoto">
+
+                                    <option value="yes">
+                                        Show
+                                    </option>
+
+                                    <option
+                                        value="no"
+                                        selected>
+                                        Hide
+                                    </option>
+
+                                </select>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="form-group">
+
+                            <label for="showGovernmentNumbers">
+                                Government Numbers
+                            </label>
+
+                            <div class="input-icon">
+
+                                <span class="material-icons">
+                                    badge
+                                </span>
+
+                                <select id="showGovernmentNumbers">
+
+                                    <option value="yes">
+                                        Show
+                                    </option>
+
+                                    <option
+                                        value="no"
+                                        selected>
+                                        Hide
+                                    </option>
+
+                                </select>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="form-group">
+
+                            <label for="showBankInformation">
+                                Bank Information
+                            </label>
+
+                            <div class="input-icon">
+
+                                <span class="material-icons">
+                                    account_balance
+                                </span>
+
+                                <select id="showBankInformation">
+
+                                    <option value="yes">
+                                        Show
+                                    </option>
+
+                                    <option
+                                        value="no"
+                                        selected>
+                                        Hide
+                                    </option>
+
+                                </select>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- APPROVAL -->
+
+                <div class="settings-card">
+
+                    <div class="card-header">
+
+                        <div>
+
+                            <h4>
+                                Payroll Approval
+                            </h4>
+
+                            <p>
+                                Control the payroll processing workflow.
+                            </p>
+
+                        </div>
+
+                        <span class="material-icons">
+                            verified
+                        </span>
+
+                    </div>
+
+
+                    <div class="form-grid">
+
+
+                        <div class="form-group">
+
+                            <label for="payrollReviewRequired">
+                                Review Before Approval
+                            </label>
+
+                            <div class="input-icon">
+
+                                <span class="material-icons">
+                                    fact_check
+                                </span>
+
+                                <select id="payrollReviewRequired">
+
+                                    <option
+                                        value="yes"
+                                        selected>
+                                        Required
+                                    </option>
+
+                                    <option value="no">
+                                        Not Required
+                                    </option>
+
+                                </select>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="form-group">
+
+                            <label for="lockReleasedPayroll">
+                                Lock Released Payroll
+                            </label>
+
+                            <div class="input-icon">
+
+                                <span class="material-icons">
+                                    lock
+                                </span>
+
+                                <select id="lockReleasedPayroll">
+
+                                    <option
+                                        value="yes"
+                                        selected>
+                                        Yes
+                                    </option>
+
+                                    <option value="no">
+                                        No
+                                    </option>
+
+                                </select>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- PAYROLL SAVE -->
+
+                <div class="save-area">
+
+                    <div class="save-info">
+
+                        <span class="material-icons">
+                            info
+                        </span>
+
+                        <span id="payrollLastSavedText">
+                            No payroll settings saved yet.
+                        </span>
+
+                    </div>
+
+
+                    <div class="save-actions">
+
+                        <button
+                            type="button"
+                            class="btn secondary-btn"
+                            onclick="loadPayrollSettings()">
+
+                            <span class="material-icons">
+                                refresh
+                            </span>
+
+                            RESET
+
+                        </button>
+
+
+                        <button
+                            type="button"
+                            class="btn primary-btn"
+                            onclick="savePayrollSettings()">
+
+                            <span class="material-icons">
+                                save
+                            </span>
+
+                            SAVE PAYROLL SETTINGS
+
+                        </button>
+
+                    </div>
 
                 </div>
 
@@ -911,35 +2156,29 @@
             </section>
 
 
-            <!-- ==================================
-                 SYSTEM PLACEHOLDER
-            =================================== -->
+            <!-- =====================================================
+                 SYSTEM
+            ====================================================== -->
 
             <section
                 id="systemSettings"
                 class="settings-section">
 
-
                 <div class="empty-section">
-
 
                     <span class="material-icons">
                         admin_panel_settings
                     </span>
 
-
                     <h3>
                         System Settings
                     </h3>
-
 
                     <p>
                         System administration settings will be added here.
                     </p>
 
-
                 </div>
-
 
             </section>
 
@@ -955,16 +2194,13 @@
 
     <footer class="settings-footer">
 
-
         <span>
             © 2026 PAPPRITO HRIS
         </span>
 
-
         <span>
             System Settings
         </span>
-
 
     </footer>
 
@@ -973,12 +2209,22 @@
 
 
 <!-- ==========================================
-     SETTINGS JS
+     EXISTING ATTENDANCE JS
 ========================================== -->
 
 <script
     type="module"
     src="../js/settings.js">
+</script>
+
+
+<!-- ==========================================
+     NEW PAYROLL JS
+========================================== -->
+
+<script
+    type="module"
+    src="../js/payroll-settings.js">
 </script>
 
 
