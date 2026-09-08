@@ -9,9 +9,7 @@
         name="viewport"
         content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 
-    <title>
-        PAPPRITO HRIS - Settings
-    </title>
+    <title>PAPPRITO HRIS - Settings</title>
 
     <meta
         name="theme-color"
@@ -34,13 +32,11 @@
 
 <body>
 
-
 <main class="settings-page">
 
-
-    <!-- ======================================
-         TOP HEADER
-    ======================================= -->
+    <!-- ==========================================
+         HEADER
+    =========================================== -->
 
     <header class="settings-header">
 
@@ -56,13 +52,9 @@
 
             <div class="header-title">
 
-                <h1>
-                    PAPPRITO HRIS
-                </h1>
+                <h1>PAPPRITO HRIS</h1>
 
-                <p>
-                    SYSTEM SETTINGS
-                </p>
+                <p>SYSTEM SETTINGS</p>
 
             </div>
 
@@ -74,13 +66,15 @@
             <button
                 type="button"
                 class="header-btn"
-                onclick="goBackToDashboard()">
+                id="dashboardBtn">
 
                 <span class="material-icons">
                     arrow_back
                 </span>
 
-                Dashboard
+                <span class="dashboard-text">
+                    Dashboard
+                </span>
 
             </button>
 
@@ -89,9 +83,9 @@
     </header>
 
 
-    <!-- ======================================
-         PAGE TITLE
-    ======================================= -->
+    <!-- ==========================================
+         PAGE INTRO
+    =========================================== -->
 
     <section class="page-intro">
 
@@ -105,9 +99,7 @@
 
         <div>
 
-            <h2>
-                System Settings
-            </h2>
+            <h2>System Settings</h2>
 
             <p>
                 Configure PAPPRITO HRIS system behavior.
@@ -126,7 +118,7 @@
 
 
         <!-- ======================================
-             SETTINGS NAVIGATION
+             NAVIGATION
         ======================================= -->
 
         <aside class="settings-nav">
@@ -136,12 +128,10 @@
             </div>
 
 
-            <!-- ATTENDANCE -->
-
             <button
                 type="button"
                 class="settings-nav-item active"
-                onclick="showSettingsSection('attendance')">
+                data-section="attendance">
 
                 <span class="material-icons">
                     schedule
@@ -154,12 +144,10 @@
             </button>
 
 
-            <!-- GENERAL -->
-
             <button
                 type="button"
                 class="settings-nav-item"
-                onclick="showSettingsSection('general')">
+                data-section="general">
 
                 <span class="material-icons">
                     tune
@@ -172,12 +160,10 @@
             </button>
 
 
-            <!-- PAYROLL -->
-
             <button
                 type="button"
                 class="settings-nav-item"
-                onclick="showSettingsSection('payroll')">
+                data-section="payroll">
 
                 <span class="material-icons">
                     payments
@@ -190,12 +176,10 @@
             </button>
 
 
-            <!-- SYSTEM -->
-
             <button
                 type="button"
                 class="settings-nav-item"
-                onclick="showSettingsSection('system')">
+                data-section="system">
 
                 <span class="material-icons">
                     admin_panel_settings
@@ -211,7 +195,7 @@
 
 
         <!-- ======================================
-             SETTINGS CONTENT
+             CONTENT
         ======================================= -->
 
         <div class="settings-content">
@@ -225,28 +209,23 @@
                 id="attendanceSettings"
                 class="settings-section active">
 
-
                 <div class="section-header">
 
-                    <div>
+                    <div class="section-title">
 
-                        <div class="section-title">
+                        <span class="material-icons">
+                            schedule
+                        </span>
 
-                            <span class="material-icons">
-                                schedule
-                            </span>
+                        <div>
 
-                            <div>
+                            <h3>
+                                Attendance Time Settings
+                            </h3>
 
-                                <h3>
-                                    Attendance Time Settings
-                                </h3>
-
-                                <p>
-                                    Configure the official store working schedule used by Attendance and Auto Attendance.
-                                </p>
-
-                            </div>
+                            <p>
+                                Configure the official store working schedule used by Attendance and Auto Attendance.
+                            </p>
 
                         </div>
 
@@ -311,9 +290,7 @@
 
                         <div>
 
-                            <h4>
-                                Work Schedule
-                            </h4>
+                            <h4>Work Schedule</h4>
 
                             <p>
                                 Set the normal opening and closing time of the store.
@@ -329,7 +306,6 @@
 
 
                     <div class="form-grid">
-
 
                         <div class="form-group">
 
@@ -395,9 +371,7 @@
 
                         <div>
 
-                            <h4>
-                                Break Schedule
-                            </h4>
+                            <h4>Break Schedule</h4>
 
                             <p>
                                 Configure the regular break period.
@@ -413,7 +387,6 @@
 
 
                     <div class="form-grid">
-
 
                         <div class="form-group">
 
@@ -463,7 +436,7 @@
                 </div>
 
 
-                <!-- RULES -->
+                <!-- ATTENDANCE RULES -->
 
                 <div class="settings-card">
 
@@ -471,9 +444,7 @@
 
                         <div>
 
-                            <h4>
-                                Attendance Rules
-                            </h4>
+                            <h4>Attendance Rules</h4>
 
                             <p>
                                 Control how late and undertime attendance is calculated.
@@ -490,7 +461,6 @@
 
                     <div class="form-grid">
 
-
                         <div class="form-group">
 
                             <label for="gracePeriod">
@@ -506,15 +476,9 @@
                                     max="120"
                                     value="15">
 
-                                <span>
-                                    minutes
-                                </span>
+                                <span>minutes</span>
 
                             </div>
-
-                            <small>
-                                Minutes allowed after opening time before late status.
-                            </small>
 
                         </div>
 
@@ -534,15 +498,9 @@
                                     max="240"
                                     value="15">
 
-                                <span>
-                                    minutes
-                                </span>
+                                <span>minutes</span>
 
                             </div>
-
-                            <small>
-                                Minimum late minutes to classify attendance as late.
-                            </small>
 
                         </div>
 
@@ -562,15 +520,9 @@
                                     max="240"
                                     value="15">
 
-                                <span>
-                                    minutes
-                                </span>
+                                <span>minutes</span>
 
                             </div>
-
-                            <small>
-                                Minimum missing minutes to classify undertime.
-                            </small>
 
                         </div>
 
@@ -579,7 +531,7 @@
                 </div>
 
 
-                <!-- SAVE -->
+                <!-- ATTENDANCE SAVE -->
 
                 <div class="save-area">
 
@@ -601,7 +553,7 @@
                         <button
                             type="button"
                             class="btn secondary-btn"
-                            onclick="loadAttendanceSettings()">
+                            id="attendanceResetBtn">
 
                             <span class="material-icons">
                                 refresh
@@ -615,7 +567,7 @@
                         <button
                             type="button"
                             class="btn primary-btn"
-                            onclick="saveAttendanceSettings()">
+                            id="attendanceSaveBtn">
 
                             <span class="material-icons">
                                 save
@@ -670,25 +622,21 @@
 
                 <div class="section-header">
 
-                    <div>
+                    <div class="section-title">
 
-                        <div class="section-title">
+                        <span class="material-icons">
+                            payments
+                        </span>
 
-                            <span class="material-icons">
-                                payments
-                            </span>
+                        <div>
 
-                            <div>
+                            <h3>
+                                Payroll Settings
+                            </h3>
 
-                                <h3>
-                                    Payroll Settings
-                                </h3>
-
-                                <p>
-                                    Configure payroll periods, salary calculations, overtime, allowances, deductions and payslip settings.
-                                </p>
-
-                            </div>
+                            <p>
+                                Configure payroll periods, salary calculations, overtime, allowances, deductions and payslip settings.
+                            </p>
 
                         </div>
 
@@ -717,7 +665,6 @@
                         </span>
 
                     </div>
-
 
                     <div class="status-card-text">
 
@@ -773,7 +720,6 @@
 
                     <div class="form-grid">
 
-
                         <div class="form-group">
 
                             <label for="payrollFrequency">
@@ -825,8 +771,7 @@
                                     type="number"
                                     id="payrollYear"
                                     min="2020"
-                                    max="2100"
-                                    value="2026">
+                                    max="2100">
 
                             </div>
 
@@ -848,9 +793,7 @@
                                     max="31"
                                     value="15">
 
-                                <span>
-                                    day
-                                </span>
+                                <span>day</span>
 
                             </div>
 
@@ -872,9 +815,7 @@
                                     max="31"
                                     value="30">
 
-                                <span>
-                                    day
-                                </span>
+                                <span>day</span>
 
                             </div>
 
@@ -896,9 +837,7 @@
                                     max="31"
                                     value="15">
 
-                                <span>
-                                    day
-                                </span>
+                                <span>day</span>
 
                             </div>
 
@@ -920,9 +859,7 @@
                                     max="31"
                                     value="30">
 
-                                <span>
-                                    day
-                                </span>
+                                <span>day</span>
 
                             </div>
 
@@ -933,7 +870,7 @@
                 </div>
 
 
-                <!-- SALARY CALCULATION -->
+                <!-- SALARY -->
 
                 <div class="settings-card">
 
@@ -960,7 +897,6 @@
 
                     <div class="form-grid">
 
-
                         <div class="form-group">
 
                             <label for="workingDaysPerMonth">
@@ -977,9 +913,7 @@
                                     step="0.01"
                                     value="26">
 
-                                <span>
-                                    days
-                                </span>
+                                <span>days</span>
 
                             </div>
 
@@ -1002,9 +936,7 @@
                                     step="0.01"
                                     value="8">
 
-                                <span>
-                                    hours
-                                </span>
+                                <span>hours</span>
 
                             </div>
 
@@ -1026,9 +958,7 @@
                                     step="0.01"
                                     value="26">
 
-                                <span>
-                                    divisor
-                                </span>
+                                <span>divisor</span>
 
                             </div>
 
@@ -1050,9 +980,7 @@
                                     step="0.01"
                                     value="8">
 
-                                <span>
-                                    hours
-                                </span>
+                                <span>hours</span>
 
                             </div>
 
@@ -1125,7 +1053,6 @@
 
                     <div class="form-grid">
 
-
                         <div class="form-group">
 
                             <label for="regularOtRate">
@@ -1141,9 +1068,7 @@
                                     step="0.01"
                                     value="1.25">
 
-                                <span>
-                                    × hourly
-                                </span>
+                                <span>× hourly</span>
 
                             </div>
 
@@ -1165,9 +1090,7 @@
                                     step="0.01"
                                     value="1.30">
 
-                                <span>
-                                    × hourly
-                                </span>
+                                <span>× hourly</span>
 
                             </div>
 
@@ -1189,9 +1112,7 @@
                                     step="0.01"
                                     value="1.30">
 
-                                <span>
-                                    × hourly
-                                </span>
+                                <span>× hourly</span>
 
                             </div>
 
@@ -1213,9 +1134,7 @@
                                     step="0.01"
                                     value="2.00">
 
-                                <span>
-                                    × hourly
-                                </span>
+                                <span>× hourly</span>
 
                             </div>
 
@@ -1237,9 +1156,7 @@
                                     step="0.01"
                                     value="10">
 
-                                <span>
-                                    %
-                                </span>
+                                <span>%</span>
 
                             </div>
 
@@ -1261,9 +1178,7 @@
                                     max="240"
                                     value="30">
 
-                                <span>
-                                    minutes
-                                </span>
+                                <span>minutes</span>
 
                             </div>
 
@@ -1274,7 +1189,7 @@
                 </div>
 
 
-                <!-- ATTENDANCE TO PAYROLL -->
+                <!-- ATTENDANCE PAYROLL -->
 
                 <div class="settings-card">
 
@@ -1301,7 +1216,6 @@
 
                     <div class="form-grid">
 
-
                         <div class="form-group">
 
                             <label for="lateDeductionEnabled">
@@ -1316,9 +1230,7 @@
 
                                 <select id="lateDeductionEnabled">
 
-                                    <option
-                                        value="yes"
-                                        selected>
+                                    <option value="yes">
                                         Enabled
                                     </option>
 
@@ -1347,9 +1259,7 @@
 
                                 <select id="undertimeDeductionEnabled">
 
-                                    <option
-                                        value="yes"
-                                        selected>
+                                    <option value="yes">
                                         Enabled
                                     </option>
 
@@ -1378,9 +1288,7 @@
 
                                 <select id="absenceDeductionEnabled">
 
-                                    <option
-                                        value="yes"
-                                        selected>
+                                    <option value="yes">
                                         Enabled
                                     </option>
 
@@ -1412,7 +1320,7 @@
                             </h4>
 
                             <p>
-                                Configure recurring employee allowances.
+                                Configure recurring employee allowance categories.
                             </p>
 
                         </div>
@@ -1425,7 +1333,6 @@
 
 
                     <div class="form-grid">
-
 
                         <div class="form-group">
 
@@ -1445,9 +1352,7 @@
                                         Enabled
                                     </option>
 
-                                    <option
-                                        value="no"
-                                        selected>
+                                    <option value="no">
                                         Disabled
                                     </option>
 
@@ -1476,9 +1381,7 @@
                                         Enabled
                                     </option>
 
-                                    <option
-                                        value="no"
-                                        selected>
+                                    <option value="no">
                                         Disabled
                                     </option>
 
@@ -1507,9 +1410,7 @@
                                         Enabled
                                     </option>
 
-                                    <option
-                                        value="no"
-                                        selected>
+                                    <option value="no">
                                         Disabled
                                     </option>
 
@@ -1538,9 +1439,7 @@
                                         Enabled
                                     </option>
 
-                                    <option
-                                        value="no"
-                                        selected>
+                                    <option value="no">
                                         Disabled
                                     </option>
 
@@ -1569,9 +1468,7 @@
                                         Enabled
                                     </option>
 
-                                    <option
-                                        value="no"
-                                        selected>
+                                    <option value="no">
                                         Disabled
                                     </option>
 
@@ -1613,7 +1510,6 @@
 
                     <div class="form-grid">
 
-
                         <div class="form-group">
 
                             <label for="sssEnabled">
@@ -1632,9 +1528,7 @@
                                         Enabled
                                     </option>
 
-                                    <option
-                                        value="no"
-                                        selected>
+                                    <option value="no">
                                         Disabled
                                     </option>
 
@@ -1663,9 +1557,7 @@
                                         Enabled
                                     </option>
 
-                                    <option
-                                        value="no"
-                                        selected>
+                                    <option value="no">
                                         Disabled
                                     </option>
 
@@ -1694,9 +1586,7 @@
                                         Enabled
                                     </option>
 
-                                    <option
-                                        value="no"
-                                        selected>
+                                    <option value="no">
                                         Disabled
                                     </option>
 
@@ -1725,9 +1615,7 @@
                                         Enabled
                                     </option>
 
-                                    <option
-                                        value="no"
-                                        selected>
+                                    <option value="no">
                                         Disabled
                                     </option>
 
@@ -1756,9 +1644,7 @@
                                         Enabled
                                     </option>
 
-                                    <option
-                                        value="no"
-                                        selected>
+                                    <option value="no">
                                         Disabled
                                     </option>
 
@@ -1787,9 +1673,7 @@
                                         Enabled
                                     </option>
 
-                                    <option
-                                        value="no"
-                                        selected>
+                                    <option value="no">
                                         Disabled
                                     </option>
 
@@ -1818,9 +1702,7 @@
                                         Enabled
                                     </option>
 
-                                    <option
-                                        value="no"
-                                        selected>
+                                    <option value="no">
                                         Disabled
                                     </option>
 
@@ -1843,9 +1725,7 @@
 
                         <div>
 
-                            <h4>
-                                Payslip Settings
-                            </h4>
+                            <h4>Payslip Settings</h4>
 
                             <p>
                                 Configure information displayed on employee payslips.
@@ -1861,7 +1741,6 @@
 
 
                     <div class="form-grid">
-
 
                         <div class="form-group">
 
@@ -1904,10 +1783,6 @@
 
                             </div>
 
-                            <small>
-                                Example: PS-2026-0001
-                            </small>
-
                         </div>
 
 
@@ -1929,9 +1804,7 @@
                                         Show
                                     </option>
 
-                                    <option
-                                        value="no"
-                                        selected>
+                                    <option value="no">
                                         Hide
                                     </option>
 
@@ -1960,9 +1833,7 @@
                                         Show
                                     </option>
 
-                                    <option
-                                        value="no"
-                                        selected>
+                                    <option value="no">
                                         Hide
                                     </option>
 
@@ -1991,9 +1862,7 @@
                                         Show
                                     </option>
 
-                                    <option
-                                        value="no"
-                                        selected>
+                                    <option value="no">
                                         Hide
                                     </option>
 
@@ -2016,9 +1885,7 @@
 
                         <div>
 
-                            <h4>
-                                Payroll Approval
-                            </h4>
+                            <h4>Payroll Approval</h4>
 
                             <p>
                                 Control the payroll processing workflow.
@@ -2035,7 +1902,6 @@
 
                     <div class="form-grid">
 
-
                         <div class="form-group">
 
                             <label for="payrollReviewRequired">
@@ -2050,9 +1916,7 @@
 
                                 <select id="payrollReviewRequired">
 
-                                    <option
-                                        value="yes"
-                                        selected>
+                                    <option value="yes">
                                         Required
                                     </option>
 
@@ -2081,9 +1945,7 @@
 
                                 <select id="lockReleasedPayroll">
 
-                                    <option
-                                        value="yes"
-                                        selected>
+                                    <option value="yes">
                                         Yes
                                     </option>
 
@@ -2124,7 +1986,7 @@
                         <button
                             type="button"
                             class="btn secondary-btn"
-                            onclick="loadPayrollSettings()">
+                            id="payrollResetBtn">
 
                             <span class="material-icons">
                                 refresh
@@ -2138,7 +2000,7 @@
                         <button
                             type="button"
                             class="btn primary-btn"
-                            onclick="savePayrollSettings()">
+                            id="payrollSaveBtn">
 
                             <span class="material-icons">
                                 save
@@ -2151,7 +2013,6 @@
                     </div>
 
                 </div>
-
 
             </section>
 
@@ -2182,15 +2043,10 @@
 
             </section>
 
-
         </div>
 
     </section>
 
-
-    <!-- ==========================================
-         FOOTER
-    =========================================== -->
 
     <footer class="settings-footer">
 
@@ -2204,12 +2060,11 @@
 
     </footer>
 
-
 </main>
 
 
 <!-- ==========================================
-     EXISTING ATTENDANCE JS
+     ATTENDANCE
 ========================================== -->
 
 <script
@@ -2219,7 +2074,7 @@
 
 
 <!-- ==========================================
-     NEW PAYROLL JS
+     PAYROLL
 ========================================== -->
 
 <script
