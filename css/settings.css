@@ -1,40 +1,26 @@
 /* ==========================================
    PAPPRITO HRIS
    SYSTEM SETTINGS
-   COMPLETE RESET CSS
-========================================== */
-
-
-/* ==========================================
-   ROOT
 ========================================== */
 
 :root{
 
     --primary:#ffcc00;
-
     --primary-dark:#e6b800;
-
     --primary-soft:#fff3b0;
 
     --danger:#dc2626;
-
     --success:#16a34a;
-
     --warning:#f59e0b;
-
     --info:#2563eb;
 
     --dark:#0f172a;
-
     --dark-2:#111827;
-
     --dark-3:#1e293b;
 
     --border:#e2e8f0;
 
     --text:#172033;
-
     --muted:#64748b;
 
     --white:#ffffff;
@@ -57,7 +43,6 @@
 *{
 
     margin:0;
-
     padding:0;
 
     box-sizing:border-box;
@@ -90,7 +75,7 @@ body{
 
 
 /* ==========================================
-   BUTTON RESET
+   FORM RESET
 ========================================== */
 
 button,
@@ -110,15 +95,24 @@ button{
 }
 
 
+button:disabled{
+
+    opacity:.6;
+
+    cursor:not-allowed;
+
+}
+
+
 /* ==========================================
-   MAIN PAGE
+   MAIN
 ========================================== */
 
 .settings-page{
 
-    min-height:100vh;
-
     width:100%;
+
+    min-height:100vh;
 
 }
 
@@ -129,13 +123,20 @@ button{
 
 .settings-header{
 
-    min-height:76px;
-
     width:100%;
 
+    min-height:76px;
+
     padding:
-        12px
-        24px;
+        12px 24px;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:space-between;
+
+    gap:20px;
 
     background:
         linear-gradient(
@@ -145,14 +146,6 @@ button{
         );
 
     color:#fff;
-
-    display:flex;
-
-    align-items:center;
-
-    justify-content:space-between;
-
-    gap:20px;
 
     border-bottom:
         3px solid
@@ -165,11 +158,9 @@ button{
 }
 
 
-/* ==========================================
-   HEADER LEFT
-========================================== */
-
 .header-left{
+
+    min-width:0;
 
     display:flex;
 
@@ -177,24 +168,24 @@ button{
 
     gap:14px;
 
-    min-width:0;
-
 }
 
 
 .header-logo{
 
     width:52px;
-
     height:52px;
 
-    border-radius:12px;
+    flex:0 0 52px;
 
     display:flex;
 
     align-items:center;
-
     justify-content:center;
+
+    overflow:hidden;
+
+    border-radius:12px;
 
     background:
         rgba(255,204,0,.1);
@@ -203,15 +194,12 @@ button{
         1px solid
         rgba(255,204,0,.4);
 
-    overflow:hidden;
-
 }
 
 
 .header-logo img{
 
     width:42px;
-
     height:42px;
 
     object-fit:contain;
@@ -243,10 +231,9 @@ button{
 
     margin-top:4px;
 
-    font-size:11px;
+    color:var(--primary);
 
-    color:
-        var(--primary);
+    font-size:11px;
 
     font-weight:800;
 
@@ -254,10 +241,6 @@ button{
 
 }
 
-
-/* ==========================================
-   HEADER ACTIONS
-========================================== */
 
 .header-actions{
 
@@ -272,19 +255,17 @@ button{
 
 .header-btn{
 
-    display:flex;
-
-    align-items:center;
-
-    justify-content:center;
-
-    gap:7px;
-
     min-height:40px;
 
     padding:
-        8px
-        14px;
+        8px 14px;
+
+    display:flex;
+
+    align-items:center;
+    justify-content:center;
+
+    gap:7px;
 
     border:
         1px solid
@@ -301,21 +282,18 @@ button{
 
     font-weight:800;
 
-    transition:
-        .2s ease;
+    transition:.2s ease;
 
 }
 
 
 .header-btn:hover{
 
-    background:
-        var(--primary);
+    background:var(--primary);
+
+    border-color:var(--primary);
 
     color:#111;
-
-    border-color:
-        var(--primary);
 
 }
 
@@ -328,7 +306,7 @@ button{
 
 
 /* ==========================================
-   PAGE INTRO
+   INTRO
 ========================================== */
 
 .page-intro{
@@ -340,8 +318,7 @@ button{
         );
 
     margin:
-        24px auto
-        18px;
+        24px auto 18px;
 
     display:flex;
 
@@ -355,21 +332,18 @@ button{
 .intro-icon{
 
     width:52px;
-
     height:52px;
 
     flex:0 0 52px;
 
-    border-radius:13px;
-
     display:flex;
 
     align-items:center;
-
     justify-content:center;
 
-    background:
-        var(--primary);
+    border-radius:13px;
+
+    background:var(--primary);
 
     color:#111;
 
@@ -393,8 +367,6 @@ button{
 
     font-weight:900;
 
-    letter-spacing:.2px;
-
 }
 
 
@@ -410,7 +382,7 @@ button{
 
 
 /* ==========================================
-   SETTINGS LAYOUT
+   LAYOUT
 ========================================== */
 
 .settings-layout{
@@ -422,8 +394,7 @@ button{
         );
 
     margin:
-        0 auto
-        30px;
+        0 auto 30px;
 
     display:grid;
 
@@ -439,29 +410,26 @@ button{
 
 
 /* ==========================================
-   SETTINGS NAVIGATION
+   NAV
 ========================================== */
 
 .settings-nav{
 
-    background:
-        var(--white);
+    position:sticky;
+
+    top:18px;
+
+    padding:10px;
+
+    background:var(--white);
 
     border:
         1px solid
         var(--border);
 
-    border-radius:
-        var(--radius);
+    border-radius:var(--radius);
 
-    box-shadow:
-        var(--shadow);
-
-    padding:10px;
-
-    position:sticky;
-
-    top:18px;
+    box-shadow:var(--shadow);
 
 }
 
@@ -469,17 +437,15 @@ button{
 .nav-title{
 
     padding:
-        10px
-        11px
-        8px;
+        10px 11px 8px;
+
+    color:var(--muted);
 
     font-size:10px;
 
     font-weight:900;
 
     letter-spacing:1.5px;
-
-    color:var(--muted);
 
 }
 
@@ -490,17 +456,16 @@ button{
 
     min-height:46px;
 
+    margin-bottom:4px;
+
+    padding:
+        10px 12px;
+
     display:flex;
 
     align-items:center;
 
     gap:11px;
-
-    padding:
-        10px
-        12px;
-
-    margin-bottom:4px;
 
     border:0;
 
@@ -516,8 +481,27 @@ button{
 
     font-weight:800;
 
-    transition:
-        .2s ease;
+    transition:.2s ease;
+
+}
+
+
+.settings-nav-item:hover{
+
+    background:#f8fafc;
+
+}
+
+
+.settings-nav-item.active{
+
+    background:var(--primary);
+
+    color:#111;
+
+    box-shadow:
+        0 4px 10px
+        rgba(255,204,0,.18);
 
 }
 
@@ -529,30 +513,8 @@ button{
 }
 
 
-.settings-nav-item:hover{
-
-    background:
-        #f8fafc;
-
-}
-
-
-.settings-nav-item.active{
-
-    background:
-        var(--primary);
-
-    color:#111;
-
-    box-shadow:
-        0 4px 10px
-        rgba(255,204,0,.18);
-
-}
-
-
 /* ==========================================
-   SETTINGS CONTENT
+   CONTENT
 ========================================== */
 
 .settings-content{
@@ -561,10 +523,6 @@ button{
 
 }
 
-
-/* ==========================================
-   SETTINGS SECTION
-========================================== */
 
 .settings-section{
 
@@ -586,18 +544,7 @@ button{
 
 .section-header{
 
-    background:
-        var(--white);
-
-    border:
-        1px solid
-        var(--border);
-
-    border-radius:
-        var(--radius);
-
-    box-shadow:
-        var(--shadow);
+    margin-bottom:14px;
 
     padding:
         18px 20px;
@@ -610,7 +557,15 @@ button{
 
     gap:15px;
 
-    margin-bottom:14px;
+    background:var(--white);
+
+    border:
+        1px solid
+        var(--border);
+
+    border-radius:var(--radius);
+
+    box-shadow:var(--shadow);
 
 }
 
@@ -629,22 +584,20 @@ button{
 .section-title > .material-icons{
 
     width:42px;
-
     height:42px;
+
+    flex:0 0 42px;
 
     display:flex;
 
     align-items:center;
-
     justify-content:center;
 
     border-radius:10px;
 
-    background:
-        var(--primary-soft);
+    background:var(--primary-soft);
 
-    color:
-        #9a7500;
+    color:#9a7500;
 
     font-size:23px;
 
@@ -676,8 +629,7 @@ button{
 .save-status{
 
     padding:
-        7px
-        10px;
+        7px 10px;
 
     border-radius:7px;
 
@@ -691,6 +643,35 @@ button{
 
     letter-spacing:.8px;
 
+    white-space:nowrap;
+
+}
+
+
+.save-status.status-success{
+
+    background:#dcfce7;
+
+    color:#166534;
+
+}
+
+
+.save-status.status-saving{
+
+    background:#fef3c7;
+
+    color:#92400e;
+
+}
+
+
+.save-status.status-error{
+
+    background:#fee2e2;
+
+    color:#991b1b;
+
 }
 
 
@@ -700,17 +681,7 @@ button{
 
 .status-card{
 
-    background:
-        linear-gradient(
-            135deg,
-            #111827,
-            #1e293b
-        );
-
-    color:#fff;
-
-    border-radius:
-        var(--radius);
+    margin-bottom:14px;
 
     padding:
         16px 18px;
@@ -721,7 +692,16 @@ button{
 
     gap:13px;
 
-    margin-bottom:14px;
+    color:#fff;
+
+    background:
+        linear-gradient(
+            135deg,
+            #111827,
+            #1e293b
+        );
+
+    border-radius:var(--radius);
 
     box-shadow:
         0 8px 22px
@@ -733,7 +713,6 @@ button{
 .status-card-icon{
 
     width:44px;
-
     height:44px;
 
     flex:0 0 44px;
@@ -741,7 +720,6 @@ button{
     display:flex;
 
     align-items:center;
-
     justify-content:center;
 
     border-radius:10px;
@@ -749,8 +727,7 @@ button{
     background:
         rgba(255,204,0,.14);
 
-    color:
-        var(--primary);
+    color:var(--primary);
 
 }
 
@@ -805,24 +782,22 @@ button{
 
     position:relative;
 
-    display:inline-block;
-
     width:48px;
-
     height:26px;
 
     flex:0 0 auto;
+
+    display:inline-block;
 
 }
 
 
 .switch input{
 
-    opacity:0;
-
     width:0;
-
     height:0;
+
+    opacity:0;
 
 }
 
@@ -849,12 +824,10 @@ button{
     position:absolute;
 
     width:20px;
-
     height:20px;
 
-    left:3px;
-
     top:3px;
+    left:3px;
 
     background:#fff;
 
@@ -871,8 +844,7 @@ button{
 
 .switch input:checked + .slider{
 
-    background:
-        var(--primary);
+    background:var(--primary);
 
 }
 
@@ -891,22 +863,19 @@ button{
 
 .settings-card{
 
-    background:
-        var(--white);
+    margin-bottom:14px;
+
+    overflow:hidden;
+
+    background:var(--white);
 
     border:
         1px solid
         var(--border);
 
-    border-radius:
-        var(--radius);
+    border-radius:var(--radius);
 
-    box-shadow:
-        var(--shadow);
-
-    margin-bottom:14px;
-
-    overflow:hidden;
+    box-shadow:var(--shadow);
 
 }
 
@@ -916,10 +885,6 @@ button{
     padding:
         16px 18px;
 
-    border-bottom:
-        1px solid
-        var(--border);
-
     display:flex;
 
     align-items:center;
@@ -927,6 +892,10 @@ button{
     justify-content:space-between;
 
     gap:15px;
+
+    border-bottom:
+        1px solid
+        var(--border);
 
 }
 
@@ -953,10 +922,9 @@ button{
 
 .card-header > .material-icons{
 
-    font-size:22px;
+    color:#94a3b8;
 
-    color:
-        #94a3b8;
+    font-size:22px;
 
 }
 
@@ -1038,9 +1006,10 @@ button{
 
     position:absolute;
 
+    top:50%;
     left:11px;
 
-    top:50%;
+    z-index:2;
 
     transform:
         translateY(-50%);
@@ -1054,17 +1023,15 @@ button{
 }
 
 
-.input-icon input{
+.input-icon input,
+.input-icon select{
 
     width:100%;
 
     height:43px;
 
     padding:
-        9px
-        12px
-        9px
-        40px;
+        9px 12px 9px 40px;
 
     border:
         1px solid
@@ -1082,15 +1049,26 @@ button{
 
     outline:none;
 
-    transition:.2s;
+    transition:.2s ease;
 
 }
 
 
-.input-icon input:focus{
+.input-icon select{
 
-    border-color:
-        var(--primary);
+    padding-right:38px;
+
+    cursor:pointer;
+
+    appearance:auto;
+
+}
+
+
+.input-icon input:focus,
+.input-icon select:focus{
+
+    border-color:var(--primary);
 
     box-shadow:
         0 0 0 3px
@@ -1105,9 +1083,15 @@ button{
 
 .number-input{
 
+    height:43px;
+
     display:flex;
 
     align-items:center;
+
+    overflow:hidden;
+
+    background:#fff;
 
     border:
         1px solid
@@ -1115,21 +1099,14 @@ button{
 
     border-radius:9px;
 
-    overflow:hidden;
-
-    background:#fff;
-
-    height:43px;
-
-    transition:.2s;
+    transition:.2s ease;
 
 }
 
 
 .number-input:focus-within{
 
-    border-color:
-        var(--primary);
+    border-color:var(--primary);
 
     box-shadow:
         0 0 0 3px
@@ -1146,13 +1123,14 @@ button{
 
     height:100%;
 
+    padding:
+        8px 12px;
+
     border:0;
 
     outline:none;
 
-    padding:
-        8px
-        12px;
+    background:transparent;
 
     color:var(--text);
 
@@ -1160,16 +1138,23 @@ button{
 
     font-weight:800;
 
-    background:transparent;
-
 }
 
 
 .number-input span{
 
+    height:100%;
+
     padding:
-        0
-        12px;
+        0 12px;
+
+    display:flex;
+
+    align-items:center;
+
+    border-left:
+        1px solid
+        var(--border);
 
     color:var(--muted);
 
@@ -1177,15 +1162,7 @@ button{
 
     font-weight:800;
 
-    border-left:
-        1px solid
-        var(--border);
-
-    height:100%;
-
-    display:flex;
-
-    align-items:center;
+    white-space:nowrap;
 
 }
 
@@ -1195,19 +1172,6 @@ button{
 ========================================== */
 
 .save-area{
-
-    background:
-        var(--white);
-
-    border:
-        1px solid
-        var(--border);
-
-    border-radius:
-        var(--radius);
-
-    box-shadow:
-        var(--shadow);
 
     padding:
         14px 16px;
@@ -1220,18 +1184,28 @@ button{
 
     gap:15px;
 
+    background:var(--white);
+
+    border:
+        1px solid
+        var(--border);
+
+    border-radius:var(--radius);
+
+    box-shadow:var(--shadow);
+
 }
 
 
 .save-info{
+
+    min-width:0;
 
     display:flex;
 
     align-items:center;
 
     gap:8px;
-
-    min-width:0;
 
     color:var(--muted);
 
@@ -1242,8 +1216,7 @@ button{
 
 .save-info .material-icons{
 
-    color:
-        #94a3b8;
+    color:#94a3b8;
 
     font-size:18px;
 
@@ -1274,17 +1247,17 @@ button{
     padding:
         9px 14px;
 
-    border-radius:9px;
-
-    border:1px solid transparent;
-
     display:inline-flex;
 
     align-items:center;
-
     justify-content:center;
 
     gap:7px;
+
+    border:
+        1px solid transparent;
+
+    border-radius:9px;
 
     font-size:11px;
 
@@ -1304,24 +1277,20 @@ button{
 
 .primary-btn{
 
-    background:
-        var(--primary);
+    background:var(--primary);
 
     color:#111;
 
-    border-color:
-        var(--primary);
+    border-color:var(--primary);
 
 }
 
 
 .primary-btn:hover{
 
-    background:
-        var(--primary-dark);
+    background:var(--primary-dark);
 
-    border-color:
-        var(--primary-dark);
+    border-color:var(--primary-dark);
 
 }
 
@@ -1332,8 +1301,7 @@ button{
 
     color:var(--text);
 
-    border-color:
-        #cbd5e1;
+    border-color:#cbd5e1;
 
 }
 
@@ -1342,56 +1310,50 @@ button{
 
     background:#f8fafc;
 
-    border-color:
-        #94a3b8;
+    border-color:#94a3b8;
 
 }
 
 
 /* ==========================================
-   EMPTY SECTION
+   EMPTY
 ========================================== */
 
 .empty-section{
 
     min-height:300px;
 
-    background:
-        var(--white);
-
-    border:
-        1px solid
-        var(--border);
-
-    border-radius:
-        var(--radius);
-
-    box-shadow:
-        var(--shadow);
+    padding:30px;
 
     display:flex;
 
     flex-direction:column;
 
     align-items:center;
-
     justify-content:center;
 
     text-align:center;
 
-    padding:30px;
+    background:var(--white);
+
+    border:
+        1px solid
+        var(--border);
+
+    border-radius:var(--radius);
+
+    box-shadow:var(--shadow);
 
 }
 
 
 .empty-section .material-icons{
 
-    font-size:45px;
-
-    color:
-        #cbd5e1;
-
     margin-bottom:10px;
+
+    color:#cbd5e1;
+
+    font-size:45px;
 
 }
 
@@ -1428,12 +1390,10 @@ button{
             calc(100% - 40px)
         );
 
-    margin:
-        0 auto;
+    margin:0 auto;
 
     padding:
-        18px 0
-        25px;
+        18px 0 25px;
 
     display:flex;
 
@@ -1458,14 +1418,11 @@ button{
    TABLET
 ========================================== */
 
-@media(
-    max-width:900px
-){
+@media(max-width:900px){
 
     .settings-layout{
 
-        grid-template-columns:
-            1fr;
+        grid-template-columns:1fr;
 
     }
 
@@ -1496,22 +1453,15 @@ button{
 
     .settings-nav-item{
 
+        min-height:62px;
+
         justify-content:center;
 
         flex-direction:column;
 
         gap:4px;
 
-        min-height:62px;
-
         text-align:center;
-
-    }
-
-
-    .settings-nav-item .material-icons{
-
-        font-size:21px;
 
     }
 
@@ -1522,16 +1472,14 @@ button{
    MOBILE
 ========================================== */
 
-@media(
-    max-width:700px
-){
+@media(max-width:700px){
 
     .settings-header{
 
+        min-height:68px;
+
         padding:
             10px 14px;
-
-        min-height:68px;
 
     }
 
@@ -1539,10 +1487,9 @@ button{
     .header-logo{
 
         width:43px;
-
         height:43px;
 
-        flex:0 0 43px;
+        flex-basis:43px;
 
     }
 
@@ -1550,7 +1497,6 @@ button{
     .header-logo img{
 
         width:34px;
-
         height:34px;
 
     }
@@ -1572,6 +1518,13 @@ button{
     }
 
 
+    .dashboard-text{
+
+        display:none;
+
+    }
+
+
     .header-btn{
 
         width:40px;
@@ -1579,15 +1532,6 @@ button{
         min-width:40px;
 
         padding:0;
-
-        font-size:0;
-
-    }
-
-
-    .header-btn .material-icons{
-
-        font-size:20px;
 
     }
 
@@ -1606,10 +1550,9 @@ button{
     .intro-icon{
 
         width:45px;
-
         height:45px;
 
-        flex:0 0 45px;
+        flex-basis:45px;
 
     }
 
@@ -1703,8 +1646,7 @@ button{
 
     .form-grid{
 
-        grid-template-columns:
-            1fr;
+        grid-template-columns:1fr;
 
         padding:15px;
 
@@ -1715,7 +1657,18 @@ button{
 
     .card-header{
 
-        padding:14px 15px;
+        padding:
+            14px 15px;
+
+    }
+
+
+    .input-icon input,
+    .input-icon select{
+
+        height:43px;
+
+        font-size:12px;
 
     }
 
@@ -1763,9 +1716,7 @@ button{
    SMALL MOBILE
 ========================================== */
 
-@media(
-    max-width:420px
-){
+@media(max-width:420px){
 
     .settings-nav-item{
 
@@ -1791,10 +1742,9 @@ button{
     .section-title > .material-icons{
 
         width:37px;
-
         height:37px;
 
-        flex:0 0 37px;
+        flex-basis:37px;
 
     }
 
@@ -1813,114 +1763,3 @@ button{
     }
 
 }
-/* ==========================================
-   PAYROLL SETTINGS
-   ADD ONLY
-========================================== */
-
-
-/* ==========================================
-   SELECT INPUT
-========================================== */
-
-.input-icon select{
-
-    width:100%;
-
-    height:43px;
-
-    padding:
-        9px
-        38px
-        9px
-        40px;
-
-    border:
-        1px solid
-        #cbd5e1;
-
-    border-radius:9px;
-
-    background:#fff;
-
-    color:var(--text);
-
-    font-size:13px;
-
-    font-weight:700;
-
-    outline:none;
-
-    cursor:pointer;
-
-    transition:.2s ease;
-
-}
-
-
-.input-icon select:focus{
-
-    border-color:
-        var(--primary);
-
-    box-shadow:
-        0 0 0 3px
-        rgba(255,204,0,.14);
-
-}
-
-
-/* ==========================================
-   PAYROLL STATUS
-========================================== */
-
-.save-status.status-success{
-
-    background:
-        #dcfce7;
-
-    color:
-        #166534;
-
-}
-
-
-.save-status.status-saving{
-
-    background:
-        #fef3c7;
-
-    color:
-        #92400e;
-
-}
-
-
-.save-status.status-error{
-
-    background:
-        #fee2e2;
-
-    color:
-        #991b1b;
-
-}
-
-
-/* ==========================================
-   PAYROLL SELECT MOBILE
-========================================== */
-
-@media(
-    max-width:700px
-){
-
-    .input-icon select{
-
-        height:43px;
-
-        font-size:12px;
-
-    }
-
-   }
