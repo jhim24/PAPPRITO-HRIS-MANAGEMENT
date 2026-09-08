@@ -1,18 +1,10 @@
 /* ==========================================
    PAPPRITO HRIS
-   PAYROLL SETTINGS
-   SEPARATE JAVASCRIPT MODULE
+   SYSTEM SETTINGS
+   ATTENDANCE SETTINGS
 ========================================== */
 
-
-/* ==========================================
-   FIREBASE
-========================================== */
-
-import {
-    db
-} from "./firebase.js";
-
+import { db } from "../database/firebase-config.js";
 
 import {
     doc,
@@ -23,12 +15,786 @@ import {
 
 
 /* ==========================================
-   FIRESTORE LOCATION
+   FIRESTORE
+========================================== */
+
+const SETTINGS_COLLECTION = "systemSettings";
+const ATTENDANCE_DOCUMENT = "attendance";
+
+
+/* ==========================================
+   DEFAULT SETTINGS
+========================================== */
+
+const DEFAULT_ATTENDANCE_SETTINGS = {
+
+    enabled: true,
+
+    openingTime: "08:00",
+
+    closingTime: "17:00",
+
+    breakStart: "12:00",
+
+    breakEnd: "13:00",
+
+    gracePeriod: 15,
+
+    lateThreshold: 15,
+
+    undertimeThreshold: 15
+
+};
+
+
+/* ==========================================
+   HELPERS
+========================================== */
+
+function el(id) {
+
+    return document.getElementById(id);
+
+}
+
+
+function numberValue(value, fallback) {
+
+    const number = Number(value);
+
+    return Number.isFinite(number)
+        ? number
+        : fallback;
+
+}
+
+
+function attendanceRef() {
+
+    return doc(
+        db,
+        SETTINGS_COLLECTION,
+        ATTENDANCE_DOCUMENT
+    );
+
+}
+
+
+/* ==========================================
+   ELEMENTS
+========================================== */
+
+const attendanceEnabled =
+    el("attendanceEnabled");
+
+const openingTime =
+    el("openingTime");
+
+const closingTime =
+    el("closingTime");
+
+const breakStart =
+    el("breakStart");
+
+const breakEnd =
+    el("breakEnd");
+
+const gracePeriod =
+    el("gracePeriod");
+
+const lateThreshold =
+    el("lateThreshold");
+
+const undertimeThreshold =
+    el("undertimeThreshold");
+
+const attendanceStatus =
+    el("attendanceStatus");
+
+const lastSavedText =
+    el("lastSavedText");
+
+const attendanceSaveBtn =
+    el("attendanceSaveBtn");
+
+const attendanceResetBtn =
+    el("attendanceResetBtn");
+
+const dashboardBtn =
+    el("dashboardBtn");
+
+
+/* ==========================================
+   STATUS
+========================================== */
+
+function setStatus(text, type = "") {
+
+    if (!attendanceStatus) return;
+
+    attendanceStatus.textContent = text;
+
+    attendanceStatus.classList.remove(
+        "status-success",
+        "status-saving",
+        "status-error"
+    );
+
+    if (type === "success") {
+
+        attendanceStatus.classList.add(
+            "status-success"
+        );
+
+    }
+
+    if (type === "saving") {
+
+        attendanceStatus.classList.add(
+            "status-saving"
+        );
+
+    }
+
+    if (type === "error") {
+
+        attendanceStatus.classList.add(
+            "status-error"
+        );
+
+    }
+
+}
+
+
+/* ==========================================
+   APPLY
+========================================== */
+
+function applyAttendanceSettings(settings) {
+
+    const data = {
+
+        ...DEFAULT_ATTENDANCE_SETTINGS,
+
+        ...(settings || {})
+
+    };
+
+
+    if (attendanceEnabled) {
+
+        attendanceEnabled.checked =
+            Boolean(data.enabled);
+
+    }
+
+
+    if (openingTime) {
+
+        openingTime.value =
+            data.openingTime;
+
+    }
+
+
+    if (closingTime) {
+
+        closingTime.value =
+            data.closingTime;
+
+    }
+
+
+    if (breakStart) {
+
+        breakStart.value =
+            data.breakStart;
+
+    }
+
+
+    if (breakEnd) {
+
+        breakEnd.value =
+            data.breakEnd;
+
+    }
+
+
+    if (gracePeriod) {
+
+        gracePeriod.value =
+            numberValue(
+                data.gracePeriod,
+                15
+            );
+
+    }
+
+
+    if (lateThreshold) {
+
+        lateThreshold.value =
+            numberValue(
+                data.lateThreshold,
+                15
+            );
+
+    }
+
+
+    if (undertimeThreshold) {
+
+        undertimeThreshold.value =
+            numberValue(
+                data.undertimeThreshold,
+                15
+            );
+
+    }
+
+}
+
+
+/* ==========================================
+   FORM DATA
+========================================== */
+
+function getAttendanceData() {
+
+    return {
+
+        enabled:
+            attendanceEnabled
+                ? attendanceEnabled.checked
+                : true,
+
+        openingTime:
+            openingTime?.value ||
+            "08:00",
+
+        closingTime:
+            closingTime?.value ||
+            "17:00",
+
+        breakStart:
+            breakStart?.value ||
+            "12:00",
+
+        breakEnd:
+            breakEnd?.value ||
+            "13:00",
+
+        gracePeriod:
+            numberValue(
+                gracePeriod?.value,
+                15
+            ),
+
+        lateThreshold:
+            numberValue(
+                lateThreshold?.value,
+                15
+            ),
+
+        undertimeThreshold:
+            numberValue(
+                undertimeThreshold?.value,
+                15
+            )
+
+    };
+
+}
+
+
+/* ==========================================
+   VALIDATION
+========================================== */
+
+function validateAttendance(data) {
+
+    if (
+        !data.openingTime ||
+        !data.closingTime
+    ) {
+
+        return "Opening and Closing time are required.";
+
+    }
+
+
+    if (
+        data.gracePeriod < 0 ||
+        data.lateThreshold < 0 ||
+        data.undertimeThreshold < 0
+    ) {
+
+        return "Attendance minutes cannot be negative.";
+
+    }
+
+
+    return null;
+
+}
+
+
+/* ==========================================
+   LOAD
+========================================== */
+
+async function loadAttendanceSettings() {
+
+    setStatus(
+        "LOADING...",
+        "saving"
+    );
+
+
+    try {
+
+        const snapshot =
+            await getDoc(
+                attendanceRef()
+            );
+
+
+        if (snapshot.exists()) {
+
+            const data =
+                snapshot.data();
+
+
+            applyAttendanceSettings(
+                data
+            );
+
+
+            let savedText =
+                "Attendance settings loaded.";
+
+
+            if (data.updatedAt) {
+
+                try {
+
+                    const date =
+                        data.updatedAt.toDate();
+
+                    savedText =
+                        "Last saved: " +
+                        date.toLocaleString();
+
+                } catch (error) {
+
+                    console.warn(
+                        "Unable to format saved date.",
+                        error
+                    );
+
+                }
+
+            }
+
+
+            if (lastSavedText) {
+
+                lastSavedText.textContent =
+                    savedText;
+
+            }
+
+
+            setStatus(
+                "SAVED",
+                "success"
+            );
+
+        } else {
+
+            applyAttendanceSettings(
+                DEFAULT_ATTENDANCE_SETTINGS
+            );
+
+
+            if (lastSavedText) {
+
+                lastSavedText.textContent =
+                    "No attendance settings saved yet. Default values are being used.";
+
+            }
+
+
+            setStatus(
+                "DEFAULT"
+            );
+
+        }
+
+    } catch (error) {
+
+        console.error(
+            "Attendance Settings Load Error:",
+            error
+        );
+
+
+        applyAttendanceSettings(
+            DEFAULT_ATTENDANCE_SETTINGS
+        );
+
+
+        setStatus(
+            "LOAD ERROR",
+            "error"
+        );
+
+
+        if (lastSavedText) {
+
+            lastSavedText.textContent =
+                "Firebase error: " +
+                error.message;
+
+        }
+
+    }
+
+}
+
+
+/* ==========================================
+   SAVE
+========================================== */
+
+async function saveAttendanceSettings() {
+
+    const data =
+        getAttendanceData();
+
+
+    const validation =
+        validateAttendance(data);
+
+
+    if (validation) {
+
+        alert(validation);
+
+        return;
+
+    }
+
+
+    setStatus(
+        "SAVING...",
+        "saving"
+    );
+
+
+    try {
+
+        await setDoc(
+
+            attendanceRef(),
+
+            {
+
+                ...data,
+
+                updatedAt:
+                    serverTimestamp()
+
+            },
+
+            {
+
+                merge: true
+
+            }
+
+        );
+
+
+        if (lastSavedText) {
+
+            lastSavedText.textContent =
+                "Attendance settings saved successfully.";
+
+        }
+
+
+        setStatus(
+            "SAVED",
+            "success"
+        );
+
+
+    } catch (error) {
+
+        console.error(
+            "Attendance Settings Save Error:",
+            error
+        );
+
+
+        setStatus(
+            "SAVE ERROR",
+            "error"
+        );
+
+
+        if (lastSavedText) {
+
+            lastSavedText.textContent =
+                "Unable to save Attendance Settings.";
+
+        }
+
+
+        alert(
+            "Unable to save Attendance Settings.\n\n" +
+            error.message
+        );
+
+    }
+
+}
+
+
+/* ==========================================
+   CHANGE DETECTION
+========================================== */
+
+function attendanceChanged() {
+
+    setStatus("UNSAVED");
+
+    if (lastSavedText) {
+
+        lastSavedText.textContent =
+            "You have unsaved attendance changes.";
+
+    }
+
+}
+
+
+/* ==========================================
+   NAVIGATION
+========================================== */
+
+function showSettingsSection(section) {
+
+    const sections =
+        document.querySelectorAll(
+            ".settings-section"
+        );
+
+
+    const navItems =
+        document.querySelectorAll(
+            ".settings-nav-item"
+        );
+
+
+    sections.forEach(item => {
+
+        item.classList.remove("active");
+
+    });
+
+
+    navItems.forEach(item => {
+
+        item.classList.remove("active");
+
+    });
+
+
+    const target =
+        document.getElementById(
+            section + "Settings"
+        );
+
+
+    if (target) {
+
+        target.classList.add("active");
+
+    }
+
+
+    const nav =
+        document.querySelector(
+            `.settings-nav-item[data-section="${section}"]`
+        );
+
+
+    if (nav) {
+
+        nav.classList.add("active");
+
+    }
+
+
+    /*
+     * When opening Payroll,
+     * make sure its settings are loaded.
+     */
+
+    if (
+        section === "payroll" &&
+        typeof window.loadPayrollSettings ===
+        "function"
+    ) {
+
+        window.loadPayrollSettings();
+
+    }
+
+}
+
+
+/* ==========================================
+   GLOBAL FUNCTIONS
+========================================== */
+
+window.showSettingsSection =
+    showSettingsSection;
+
+
+window.loadAttendanceSettings =
+    loadAttendanceSettings;
+
+
+window.saveAttendanceSettings =
+    saveAttendanceSettings;
+
+
+/* ==========================================
+   EVENTS
+========================================== */
+
+document
+    .querySelectorAll(".settings-nav-item")
+    .forEach(button => {
+
+        button.addEventListener(
+            "click",
+            () => {
+
+                showSettingsSection(
+                    button.dataset.section
+                );
+
+            }
+        );
+
+    });
+
+
+if (attendanceSaveBtn) {
+
+    attendanceSaveBtn.addEventListener(
+        "click",
+        saveAttendanceSettings
+    );
+
+}
+
+
+if (attendanceResetBtn) {
+
+    attendanceResetBtn.addEventListener(
+        "click",
+        loadAttendanceSettings
+    );
+
+}
+
+
+if (dashboardBtn) {
+
+    dashboardBtn.addEventListener(
+        "click",
+        () => {
+
+            window.location.href =
+                "../dashboard.html";
+
+        }
+    );
+
+}
+
+
+/* ==========================================
+   CHANGE EVENTS
+========================================== */
+
+[
+    attendanceEnabled,
+    openingTime,
+    closingTime,
+    breakStart,
+    breakEnd,
+    gracePeriod,
+    lateThreshold,
+    undertimeThreshold
+
+].forEach(input => {
+
+    if (!input) return;
+
+    input.addEventListener(
+        "change",
+        attendanceChanged
+    );
+
+    input.addEventListener(
+        "input",
+        attendanceChanged
+    );
+
+});
+
+
+/* ==========================================
+   INITIALIZE
+========================================== */
+
+document.addEventListener(
+    "DOMContentLoaded",
+    () => {
+
+        loadAttendanceSettings();
+
+    }
+);
+/* ==========================================
+   PAPPRITO HRIS
+   PAYROLL SETTINGS
+========================================== */
+
+import { db } from "../database/firebase-config.js";
+
+import {
+    doc,
+    getDoc,
+    setDoc,
+    serverTimestamp
+} from "https://www.gstatic.com/firebasejs/12.13.0/firebase-firestore.js";
+
+
+/* ==========================================
+   FIRESTORE
 ========================================== */
 
 const SETTINGS_COLLECTION =
     "systemSettings";
-
 
 const PAYROLL_DOCUMENT =
     "payroll";
@@ -163,10 +929,10 @@ const DEFAULT_PAYROLL_SETTINGS = {
 
 
 /* ==========================================
-   HELPER
+   HELPERS
 ========================================== */
 
-function el(id){
+function el(id) {
 
     return document.getElementById(id);
 
@@ -176,15 +942,25 @@ function el(id){
 function numberValue(
     value,
     fallback
-){
+) {
 
     const number =
         Number(value);
 
-
     return Number.isFinite(number)
         ? number
         : fallback;
+
+}
+
+
+function payrollRef() {
+
+    return doc(
+        db,
+        SETTINGS_COLLECTION,
+        PAYROLL_DOCUMENT
+    );
 
 }
 
@@ -319,24 +1095,11 @@ const payrollStatus =
 const payrollLastSavedText =
     el("payrollLastSavedText");
 
+const payrollSaveBtn =
+    el("payrollSaveBtn");
 
-/* ==========================================
-   FIRESTORE REFERENCE
-========================================== */
-
-function payrollRef(){
-
-    return doc(
-
-        db,
-
-        SETTINGS_COLLECTION,
-
-        PAYROLL_DOCUMENT
-
-    );
-
-}
+const payrollResetBtn =
+    el("payrollResetBtn");
 
 
 /* ==========================================
@@ -345,14 +1108,10 @@ function payrollRef(){
 
 function setStatus(
     text,
-    type = "default"
-){
+    type = ""
+) {
 
-    if(!payrollStatus){
-
-        return;
-
-    }
+    if (!payrollStatus) return;
 
 
     payrollStatus.textContent =
@@ -360,17 +1119,13 @@ function setStatus(
 
 
     payrollStatus.classList.remove(
-
         "status-success",
-
         "status-saving",
-
         "status-error"
-
     );
 
 
-    if(type === "success"){
+    if (type === "success") {
 
         payrollStatus.classList.add(
             "status-success"
@@ -379,7 +1134,7 @@ function setStatus(
     }
 
 
-    if(type === "saving"){
+    if (type === "saving") {
 
         payrollStatus.classList.add(
             "status-saving"
@@ -388,7 +1143,7 @@ function setStatus(
     }
 
 
-    if(type === "error"){
+    if (type === "error") {
 
         payrollStatus.classList.add(
             "status-error"
@@ -400,99 +1155,10 @@ function setStatus(
 
 
 /* ==========================================
-   DATE FORMAT
-========================================== */
-
-function formatDate(
-    timestamp
-){
-
-    if(!timestamp){
-
-        return "";
-
-    }
-
-
-    try{
-
-        let date;
-
-
-        if(
-            typeof timestamp.toDate ===
-            "function"
-        ){
-
-            date =
-                timestamp.toDate();
-
-        }
-
-        else{
-
-            date =
-                new Date(timestamp);
-
-        }
-
-
-        if(
-            Number.isNaN(
-                date.getTime()
-            )
-        ){
-
-            return "";
-
-        }
-
-
-        return date.toLocaleString(
-            undefined,
-            {
-
-                year:
-                    "numeric",
-
-                month:
-                    "short",
-
-                day:
-                    "numeric",
-
-                hour:
-                    "2-digit",
-
-                minute:
-                    "2-digit"
-
-            }
-        );
-
-    }
-
-    catch(error){
-
-        console.error(
-            "Payroll date error:",
-            error
-        );
-
-        return "";
-
-    }
-
-}
-
-
-/* ==========================================
    APPLY SETTINGS
 ========================================== */
 
-function applySettings(
-    settings
-){
+function applySettings(settings) {
 
     const data = {
 
@@ -503,17 +1169,17 @@ function applySettings(
     };
 
 
-    if(payrollEnabled)
+    if (payrollEnabled)
         payrollEnabled.checked =
             Boolean(data.enabled);
 
 
-    if(payrollFrequency)
+    if (payrollFrequency)
         payrollFrequency.value =
             data.payrollFrequency;
 
 
-    if(payrollYear)
+    if (payrollYear)
         payrollYear.value =
             numberValue(
                 data.payrollYear,
@@ -521,7 +1187,7 @@ function applySettings(
             );
 
 
-    if(firstCutoff)
+    if (firstCutoff)
         firstCutoff.value =
             numberValue(
                 data.firstCutoff,
@@ -529,7 +1195,7 @@ function applySettings(
             );
 
 
-    if(secondCutoff)
+    if (secondCutoff)
         secondCutoff.value =
             numberValue(
                 data.secondCutoff,
@@ -537,7 +1203,7 @@ function applySettings(
             );
 
 
-    if(firstPayDate)
+    if (firstPayDate)
         firstPayDate.value =
             numberValue(
                 data.firstPayDate,
@@ -545,7 +1211,7 @@ function applySettings(
             );
 
 
-    if(secondPayDate)
+    if (secondPayDate)
         secondPayDate.value =
             numberValue(
                 data.secondPayDate,
@@ -553,7 +1219,7 @@ function applySettings(
             );
 
 
-    if(workingDaysPerMonth)
+    if (workingDaysPerMonth)
         workingDaysPerMonth.value =
             numberValue(
                 data.workingDaysPerMonth,
@@ -561,7 +1227,7 @@ function applySettings(
             );
 
 
-    if(workingHoursPerDay)
+    if (workingHoursPerDay)
         workingHoursPerDay.value =
             numberValue(
                 data.workingHoursPerDay,
@@ -569,7 +1235,7 @@ function applySettings(
             );
 
 
-    if(dailyRateDivisor)
+    if (dailyRateDivisor)
         dailyRateDivisor.value =
             numberValue(
                 data.dailyRateDivisor,
@@ -577,7 +1243,7 @@ function applySettings(
             );
 
 
-    if(hourlyRateDivisor)
+    if (hourlyRateDivisor)
         hourlyRateDivisor.value =
             numberValue(
                 data.hourlyRateDivisor,
@@ -585,12 +1251,12 @@ function applySettings(
             );
 
 
-    if(payrollRounding)
+    if (payrollRounding)
         payrollRounding.value =
             data.payrollRounding;
 
 
-    if(regularOtRate)
+    if (regularOtRate)
         regularOtRate.value =
             numberValue(
                 data.regularOtRate,
@@ -598,7 +1264,7 @@ function applySettings(
             );
 
 
-    if(restDayOtRate)
+    if (restDayOtRate)
         restDayOtRate.value =
             numberValue(
                 data.restDayOtRate,
@@ -606,7 +1272,7 @@ function applySettings(
             );
 
 
-    if(specialHolidayRate)
+    if (specialHolidayRate)
         specialHolidayRate.value =
             numberValue(
                 data.specialHolidayRate,
@@ -614,7 +1280,7 @@ function applySettings(
             );
 
 
-    if(regularHolidayRate)
+    if (regularHolidayRate)
         regularHolidayRate.value =
             numberValue(
                 data.regularHolidayRate,
@@ -622,7 +1288,7 @@ function applySettings(
             );
 
 
-    if(nightDifferentialRate)
+    if (nightDifferentialRate)
         nightDifferentialRate.value =
             numberValue(
                 data.nightDifferentialRate,
@@ -630,7 +1296,7 @@ function applySettings(
             );
 
 
-    if(minimumOtMinutes)
+    if (minimumOtMinutes)
         minimumOtMinutes.value =
             numberValue(
                 data.minimumOtMinutes,
@@ -638,112 +1304,112 @@ function applySettings(
             );
 
 
-    if(lateDeductionEnabled)
+    if (lateDeductionEnabled)
         lateDeductionEnabled.value =
             data.lateDeductionEnabled;
 
 
-    if(undertimeDeductionEnabled)
+    if (undertimeDeductionEnabled)
         undertimeDeductionEnabled.value =
             data.undertimeDeductionEnabled;
 
 
-    if(absenceDeductionEnabled)
+    if (absenceDeductionEnabled)
         absenceDeductionEnabled.value =
             data.absenceDeductionEnabled;
 
 
-    if(housingAllowanceEnabled)
+    if (housingAllowanceEnabled)
         housingAllowanceEnabled.value =
             data.housingAllowanceEnabled;
 
 
-    if(transportAllowanceEnabled)
+    if (transportAllowanceEnabled)
         transportAllowanceEnabled.value =
             data.transportAllowanceEnabled;
 
 
-    if(foodAllowanceEnabled)
+    if (foodAllowanceEnabled)
         foodAllowanceEnabled.value =
             data.foodAllowanceEnabled;
 
 
-    if(communicationAllowanceEnabled)
+    if (communicationAllowanceEnabled)
         communicationAllowanceEnabled.value =
             data.communicationAllowanceEnabled;
 
 
-    if(otherAllowanceEnabled)
+    if (otherAllowanceEnabled)
         otherAllowanceEnabled.value =
             data.otherAllowanceEnabled;
 
 
-    if(sssEnabled)
+    if (sssEnabled)
         sssEnabled.value =
             data.sssEnabled;
 
 
-    if(philhealthEnabled)
+    if (philhealthEnabled)
         philhealthEnabled.value =
             data.philhealthEnabled;
 
 
-    if(pagibigEnabled)
+    if (pagibigEnabled)
         pagibigEnabled.value =
             data.pagibigEnabled;
 
 
-    if(withholdingTaxEnabled)
+    if (withholdingTaxEnabled)
         withholdingTaxEnabled.value =
             data.withholdingTaxEnabled;
 
 
-    if(loanDeductionEnabled)
+    if (loanDeductionEnabled)
         loanDeductionEnabled.value =
             data.loanDeductionEnabled;
 
 
-    if(cashAdvanceEnabled)
+    if (cashAdvanceEnabled)
         cashAdvanceEnabled.value =
             data.cashAdvanceEnabled;
 
 
-    if(otherDeductionEnabled)
+    if (otherDeductionEnabled)
         otherDeductionEnabled.value =
             data.otherDeductionEnabled;
 
 
-    if(payslipCompanyName)
+    if (payslipCompanyName)
         payslipCompanyName.value =
             data.payslipCompanyName || "";
 
 
-    if(payslipNumberFormat)
+    if (payslipNumberFormat)
         payslipNumberFormat.value =
             data.payslipNumberFormat;
 
 
-    if(showPayslipPhoto)
+    if (showPayslipPhoto)
         showPayslipPhoto.value =
             data.showPayslipPhoto;
 
 
-    if(showGovernmentNumbers)
+    if (showGovernmentNumbers)
         showGovernmentNumbers.value =
             data.showGovernmentNumbers;
 
 
-    if(showBankInformation)
+    if (showBankInformation)
         showBankInformation.value =
             data.showBankInformation;
 
 
-    if(payrollReviewRequired)
+    if (payrollReviewRequired)
         payrollReviewRequired.value =
             data.payrollReviewRequired;
 
 
-    if(lockReleasedPayroll)
+    if (lockReleasedPayroll)
         lockReleasedPayroll.value =
             data.lockReleasedPayroll;
 
@@ -751,19 +1417,17 @@ function applySettings(
 
 
 /* ==========================================
-   GET FORM DATA
+   FORM DATA
 ========================================== */
 
-function getFormData(){
+function getFormData() {
 
     return {
 
         enabled:
             payrollEnabled
-            ?
-            payrollEnabled.checked
-            :
-            true,
+                ? payrollEnabled.checked
+                : true,
 
         payrollFrequency:
             payrollFrequency?.value ||
@@ -960,16 +1624,15 @@ function getFormData(){
    VALIDATION
 ========================================== */
 
-function validate(
-    data
-){
+function validate(data) {
 
-    if(
+    if (
         data.payrollYear < 2020 ||
         data.payrollYear > 2100
-    ){
+    ) {
 
-        return "Payroll Year must be between 2020 and 2100.";
+        return
+            "Payroll Year must be between 2020 and 2100.";
 
     }
 
@@ -999,15 +1662,15 @@ function validate(
     ];
 
 
-    for(
+    for (
         const [value, name]
         of dayFields
-    ){
+    ) {
 
-        if(
+        if (
             value < 1 ||
             value > 31
-        ){
+        ) {
 
             return (
                 name +
@@ -1019,68 +1682,75 @@ function validate(
     }
 
 
-    if(
+    if (
         data.workingDaysPerMonth <= 0
-    ){
+    ) {
 
-        return "Working Days Per Month must be greater than zero.";
+        return
+            "Working Days Per Month must be greater than zero.";
 
     }
 
 
-    if(
+    if (
         data.workingHoursPerDay <= 0
-    ){
+    ) {
 
-        return "Working Hours Per Day must be greater than zero.";
+        return
+            "Working Hours Per Day must be greater than zero.";
 
     }
 
 
-    if(
+    if (
         data.dailyRateDivisor <= 0
-    ){
+    ) {
 
-        return "Daily Rate Divisor must be greater than zero.";
+        return
+            "Daily Rate Divisor must be greater than zero.";
 
     }
 
 
-    if(
+    if (
         data.hourlyRateDivisor <= 0
-    ){
+    ) {
 
-        return "Hourly Rate Divisor must be greater than zero.";
+        return
+            "Hourly Rate Divisor must be greater than zero.";
 
     }
 
 
-    if(
+    if (
         data.regularOtRate < 0 ||
         data.restDayOtRate < 0 ||
         data.specialHolidayRate < 0 ||
         data.regularHolidayRate < 0
-    ){
+    ) {
 
-        return "Overtime rates cannot be negative.";
+        return
+            "Overtime rates cannot be negative.";
 
     }
 
 
-    if(
+    if (
         data.nightDifferentialRate < 0
-    ){
+    ) {
 
-        return "Night Differential cannot be negative.";
+        return
+            "Night Differential cannot be negative.";
 
     }
 
 
-    if(
+    if (
         data.minimumOtMinutes < 0
-    ){
+    ) {
 
-        return "Minimum OT Minutes cannot be negative.";
+        return
+            "Minimum OT Minutes cannot be negative.";
 
     }
 
@@ -1094,8 +1764,7 @@ function validate(
    LOAD
 ========================================== */
 
-window.loadPayrollSettings =
-async function(){
+async function loadPayrollSettings() {
 
     setStatus(
         "LOADING...",
@@ -1103,7 +1772,7 @@ async function(){
     );
 
 
-    try{
+    try {
 
         const snapshot =
             await getDoc(
@@ -1111,34 +1780,46 @@ async function(){
             );
 
 
-        if(
-            snapshot.exists()
-        ){
+        if (snapshot.exists()) {
 
             const data =
                 snapshot.data();
 
 
-            applySettings(
-                data
-            );
+            applySettings(data);
 
 
-            const saved =
-                formatDate(
-                    data.updatedAt ||
-                    data.createdAt
-                );
+            let savedText =
+                "Payroll settings loaded.";
 
 
-            if(payrollLastSavedText){
+            if (data.updatedAt) {
+
+                try {
+
+                    const date =
+                        data.updatedAt.toDate();
+
+                    savedText =
+                        "Last saved: " +
+                        date.toLocaleString();
+
+                } catch (error) {
+
+                    console.warn(
+                        "Unable to format payroll date.",
+                        error
+                    );
+
+                }
+
+            }
+
+
+            if (payrollLastSavedText) {
 
                 payrollLastSavedText.textContent =
-                    saved
-                    ?
-                    "Last saved: " + saved
-                    :
-                    "Payroll settings loaded.";
+                    savedText;
 
             }
 
@@ -1148,16 +1829,14 @@ async function(){
                 "success"
             );
 
-        }
-
-        else{
+        } else {
 
             applySettings(
                 DEFAULT_PAYROLL_SETTINGS
             );
 
 
-            if(payrollLastSavedText){
+            if (payrollLastSavedText) {
 
                 payrollLastSavedText.textContent =
                     "No payroll settings saved yet. Default values are currently being used.";
@@ -1171,12 +1850,10 @@ async function(){
 
         }
 
-    }
-
-    catch(error){
+    } catch (error) {
 
         console.error(
-            "Load Payroll Settings Error:",
+            "Payroll Settings Load Error:",
             error
         );
 
@@ -1192,24 +1869,24 @@ async function(){
         );
 
 
-        if(payrollLastSavedText){
+        if (payrollLastSavedText) {
 
             payrollLastSavedText.textContent =
-                "Unable to load Payroll Settings from Firebase.";
+                "Firebase error: " +
+                error.message;
 
         }
 
     }
 
-};
+}
 
 
 /* ==========================================
    SAVE
 ========================================== */
 
-window.savePayrollSettings =
-async function(){
+async function savePayrollSettings() {
 
     const data =
         getFormData();
@@ -1219,11 +1896,9 @@ async function(){
         validate(data);
 
 
-    if(validation){
+    if (validation) {
 
-        alert(
-            validation
-        );
+        alert(validation);
 
         return;
 
@@ -1236,7 +1911,14 @@ async function(){
     );
 
 
-    try{
+    if (payrollSaveBtn) {
+
+        payrollSaveBtn.disabled = true;
+
+    }
+
+
+    try {
 
         await setDoc(
 
@@ -1253,48 +1935,20 @@ async function(){
 
             {
 
-                merge:true
+                merge: true
 
             }
 
         );
 
 
-        const snapshot =
-            await getDoc(
-                payrollRef()
-            );
+        applySettings(data);
 
 
-        if(
-            snapshot.exists()
-        ){
+        if (payrollLastSavedText) {
 
-            const savedData =
-                snapshot.data();
-
-
-            applySettings(
-                savedData
-            );
-
-
-            const saved =
-                formatDate(
-                    savedData.updatedAt
-                );
-
-
-            if(payrollLastSavedText){
-
-                payrollLastSavedText.textContent =
-                    saved
-                    ?
-                    "Last saved: " + saved
-                    :
-                    "Payroll settings saved.";
-
-            }
+            payrollLastSavedText.textContent =
+                "Payroll settings saved successfully.";
 
         }
 
@@ -1305,16 +1959,10 @@ async function(){
         );
 
 
-        alert(
-            "Payroll Settings saved successfully."
-        );
-
-    }
-
-    catch(error){
+    } catch (error) {
 
         console.error(
-            "Save Payroll Settings Error:",
+            "Payroll Settings Save Error:",
             error
         );
 
@@ -1325,28 +1973,44 @@ async function(){
         );
 
 
+        if (payrollLastSavedText) {
+
+            payrollLastSavedText.textContent =
+                "Unable to save Payroll Settings.";
+
+        }
+
+
         alert(
             "Unable to save Payroll Settings.\n\n" +
             error.message
         );
 
+    } finally {
+
+        if (payrollSaveBtn) {
+
+            payrollSaveBtn.disabled = false;
+
+        }
+
     }
 
-};
+}
 
 
 /* ==========================================
-   CHANGE DETECTION
+   CHANGE
 ========================================== */
 
-function payrollChanged(){
+function payrollChanged() {
 
     setStatus(
         "UNSAVED"
     );
 
 
-    if(payrollLastSavedText){
+    if (payrollLastSavedText) {
 
         payrollLastSavedText.textContent =
             "You have unsaved payroll changes.";
@@ -1357,133 +2021,171 @@ function payrollChanged(){
 
 
 /* ==========================================
-   INPUT LIST
+   GLOBAL
+========================================== */
+
+window.loadPayrollSettings =
+    loadPayrollSettings;
+
+
+window.savePayrollSettings =
+    savePayrollSettings;
+
+
+/*
+ * Useful for future Payroll module.
+ * Other JS files can import this module
+ * later and use the same Firestore document.
+ */
+
+export async function getPayrollSettings() {
+
+    const snapshot =
+        await getDoc(
+            payrollRef()
+        );
+
+
+    if (!snapshot.exists()) {
+
+        return {
+            ...DEFAULT_PAYROLL_SETTINGS
+        };
+
+    }
+
+
+    return {
+
+        ...DEFAULT_PAYROLL_SETTINGS,
+
+        ...snapshot.data()
+
+    };
+
+}
+
+
+/* ==========================================
+   EVENTS
 ========================================== */
 
 const payrollInputs = [
 
     payrollEnabled,
-
     payrollFrequency,
-
     payrollYear,
 
     firstCutoff,
-
     secondCutoff,
 
     firstPayDate,
-
     secondPayDate,
 
     workingDaysPerMonth,
-
     workingHoursPerDay,
 
     dailyRateDivisor,
-
     hourlyRateDivisor,
 
     payrollRounding,
 
     regularOtRate,
-
     restDayOtRate,
-
     specialHolidayRate,
-
     regularHolidayRate,
 
     nightDifferentialRate,
-
     minimumOtMinutes,
 
     lateDeductionEnabled,
-
     undertimeDeductionEnabled,
-
     absenceDeductionEnabled,
 
     housingAllowanceEnabled,
-
     transportAllowanceEnabled,
-
     foodAllowanceEnabled,
-
     communicationAllowanceEnabled,
-
     otherAllowanceEnabled,
 
     sssEnabled,
-
     philhealthEnabled,
-
     pagibigEnabled,
-
     withholdingTaxEnabled,
 
     loanDeductionEnabled,
-
     cashAdvanceEnabled,
-
     otherDeductionEnabled,
 
     payslipCompanyName,
-
     payslipNumberFormat,
 
     showPayslipPhoto,
-
     showGovernmentNumbers,
-
     showBankInformation,
 
     payrollReviewRequired,
-
     lockReleasedPayroll
 
 ];
 
 
-payrollInputs.forEach(
-    input => {
+payrollInputs.forEach(input => {
 
-        if(!input){
-
-            return;
-
-        }
+    if (!input) return;
 
 
-        input.addEventListener(
-            "change",
-            payrollChanged
-        );
+    input.addEventListener(
+        "change",
+        payrollChanged
+    );
 
 
-        input.addEventListener(
-            "input",
-            payrollChanged
-        );
+    input.addEventListener(
+        "input",
+        payrollChanged
+    );
 
-    }
-);
+});
+
+
+if (payrollSaveBtn) {
+
+    payrollSaveBtn.addEventListener(
+        "click",
+        savePayrollSettings
+    );
+
+}
+
+
+if (payrollResetBtn) {
+
+    payrollResetBtn.addEventListener(
+        "click",
+        loadPayrollSettings
+    );
+
+}
 
 
 /* ==========================================
    INITIALIZE
 ========================================== */
 
-async function initializePayroll(){
+document.addEventListener(
+    "DOMContentLoaded",
+    () => {
 
-    console.log(
-        "PAPPRITO HRIS Payroll Settings loaded."
-    );
+        if (payrollYear) {
+
+            payrollYear.value =
+                new Date().getFullYear();
+
+        }
 
 
-    await window.loadPayrollSettings();
+        loadPayrollSettings();
 
-}
-
-
-initializePayroll();
+    }
+);
